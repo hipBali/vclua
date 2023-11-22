@@ -1,0 +1,97 @@
+--- lazarus.patch/orig/lcl/comctrls.pp	2023-11-22 08:41:38.187334300 +0100
++++ lazarus.patch/lcl/comctrls.pp	2023-11-22 10:30:01.889063600 +0100
+@@ -1058,11 +1058,14 @@
+     function DisplayRectSubItem(subItem: integer;Code: TDisplayCode): TRect;
+     function EditCaption: Boolean;
+     function GetStates: TListItemStates;
+-
++// VCLUA patch
++    property Data: Pointer read FData write SetData;
++    property Position: TPoint read GetPosition write SetPosition;
++    property SubItemImages[const AIndex: Integer]: Integer read GetSubItemImages write SetSubItemImages;
++published
+     property Caption : String read GetCaption write SetCaption;
+     property Checked : Boolean read GetChecked write SetChecked;
+     property Cut: Boolean index lisCut read GetState write SetState;
+-    property Data: Pointer read FData write SetData;
+     property DropTarget: Boolean index lisDropTarget read GetState write SetState;
+     property Focused: Boolean index lisFocused read GetState write SetState;
+     property Index: Integer read GetIndex;
+@@ -1070,12 +1073,11 @@
+     property Left: Integer read GetLeft write SetLeft;
+     property ListView: TCustomListView read GetListView;
+     property Owner: TListItems read FOwner;
+-    property Position: TPoint read GetPosition write SetPosition;
+     property Selected: Boolean index lisSelected read GetState write SetState;
+     property StateIndex: TImageIndex read GetStateIndex write SetStateIndex;
+     property SubItems: TStrings read GetSubItems write SetSubItems;
+-    property SubItemImages[const AIndex: Integer]: Integer read GetSubItemImages write SetSubItemImages;
+     property Top: Integer read GetTop write SetTop;
++// VCLUA patch end
+   end;
+   TListItemClass = class of TListItem;
+ 
+@@ -1670,6 +1672,7 @@
+ 
+   TListView = class(TCustomListView)
+   published
++    property Selected;
+     property Align;
+     property AllocBy;
+     property Anchors;
+@@ -3050,6 +3053,9 @@
+     procedure Changed(ChangeReason: TTreeNodeChangeReason);
+     function GetOwner: TPersistent; override;
+   public
++    property Data: Pointer read FData write SetData;
++	property Items[ItemIndex: Integer]: TTreeNode read GetItems write SetItems; default;
++  published
+     constructor Create(AnOwner: TTreeNodes); virtual;
+     destructor Destroy; override;
+     function AlphaSort: Boolean;
+@@ -3112,7 +3118,6 @@
+     property AbsoluteIndex: Integer read GetAbsoluteIndex;
+     property Count: Integer read GetCount;
+     property Cut: Boolean read GetCut write SetCut;
+-    property Data: Pointer read FData write SetData;
+     property Deleting: Boolean read GetDeleting;
+     property DropTarget: Boolean read GetDropTarget write SetDropTarget;
+     property Expanded: Boolean read GetExpanded write SetExpanded;
+@@ -3124,7 +3129,6 @@
+     property Index: Integer read GetIndex write SetIndex;
+     property IsFullHeightVisible: Boolean read IsNodeHeightFullVisible;
+     property IsVisible: Boolean read IsNodeVisible;
+-    property Items[ItemIndex: Integer]: TTreeNode read GetItems write SetItems; default;
+     property Level: Integer read GetLevel;
+     property MultiSelected: Boolean read GetMultiSelected write SetMultiSelected;
+     property NodeEffect: TGraphicsDrawEffect read FNodeEffect write SetImageEffect;
+@@ -3254,15 +3258,17 @@
+     procedure MultiSelect(Node: TTreeNode; ClearWholeSelection: Boolean);
+     procedure SortTopLevelNodes(SortProc: TTreeNodeCompare);
+     procedure WriteDebugReport(const Prefix: string; AllNodes: boolean);
++	property Item[Index: Integer]: TTreeNode read GetNodeFromIndex; default;
++	property TopLvlCount: integer read FTopLvlCount;
++    property TopLvlItems[Index: integer]: TTreeNode
++      read GetTopLvlItems write SetTopLvlItems;
++  published
+     property Count: Integer read GetCount;
+-    property Item[Index: Integer]: TTreeNode read GetNodeFromIndex; default;
+     property KeepCollapsedNodes: boolean
+       read FKeepCollapsedNodes write FKeepCollapsedNodes;
+     property Owner: TCustomTreeView read FOwner;
+     property SelectionCount: Cardinal read GetSelectionCount;
+-    property TopLvlCount: integer read FTopLvlCount;
+-    property TopLvlItems[Index: integer]: TTreeNode
+-      read GetTopLvlItems write SetTopLvlItems;
++
+   end;
+ 
+ 
+@@ -3740,6 +3746,7 @@
+ 
+   TTreeView = class(TCustomTreeView)
+   published
++    property Selected;
+     property Align;
+     property Anchors;
+     property AutoExpand;

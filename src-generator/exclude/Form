@@ -1,0 +1,10 @@
+procedure RemoveAllHandlersOfObject
+procedure AddHandlerFirstShow
+procedure RemoveHandlerFirstShow
+procedure AddHandlerClose
+procedure RemoveHandlerClose
+procedure AddHandlerCreate
+procedure RemoveHandlerCreate
+function IsShortcut
+procedure GetChildren
+function WantChildKey

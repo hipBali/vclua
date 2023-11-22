@@ -1,0 +1,5 @@
+procedure FillDescription
+procedure GetFullRawImage
+procedure GetRawImage
+procedure RegisterResolutions
+function FindResolution
