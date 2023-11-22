@@ -5,6 +5,8 @@ Version 0.9.1
 
 **Binary releases at sourceforge**
 
+_Lua 5.1
+
 [win32](https://sourceforge.net/projects/vclua/files/vclua-v0.9.1/vcl_core_dll_win32_lua51.zip/download).
 
 [x86_64-linux](https://sourceforge.net/projects/vclua/files/vclua-v0.9.1/vcl_core_so_x86_64_linux_lua51.zip/download).
