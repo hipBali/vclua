@@ -662,9 +662,6 @@ local t_listview = vcl.ListView()
 local li = t_listview.items:Add()
 local t_statuspanels = vcl.StatusBar().panels
 
-print(t_label.classname)
-print(t_label.canvas)
-
 local exl = {
 	TextStrings = vcl.Memo().lines,
 	GridColumns = vcl.DrawGrid().columns,
