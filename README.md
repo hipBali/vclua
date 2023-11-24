@@ -54,11 +54,15 @@ lua lua_make/import.lua
 ```
 
 ### Set Lua version
-check the desired lua version at ***src/vcldef.inc*** file
+check and set the desired lua version at the ***vcl.lpi*** file
 
-```pascal
-// Lua version 
-{$Define LUA51}
+```xml
+<CustomOptions Value="-dLUA54"/>
+```
+or if you want use with LuaJit then set the compiler directive to
+```xml
+<CustomOptions Value="-dLUA51
+-dLUAJIT"/>
 ```
 ### Compile source code
 go to the vclua directory and run lazbuild 
