@@ -549,6 +549,7 @@ function LuaGetProperty(L: Plua_State): Integer; cdecl;
 var
   Comp: TComponent;
   PropName: String;
+  ClassName: String;
 begin
   Result := 1;
   Comp := TComponent(GetLuaObject(L, 1));
@@ -569,8 +570,10 @@ begin
       LUA_TSTRING:
          lua_pushstring(L,PChar(LuaRawGetTableString(L,1,lua_tostring(L, 2))));
       LUA_TTABLE: begin
-          if lowercase(lua_tostring(L,2)) = 'classname' then
-             lua_pushstring(L,TObject(Comp).ClassName)
+          if lowercase(lua_tostring(L,2)) = 'classname' then begin
+             ClassName := TObject(Comp).ClassName;
+             lua_pushstring(L,pchar(ClassName));
+          end
           else if lowercase(lua_tostring(L,2)) = 'parent' then
              lua_pushobject(L, TComponent(Comp).Owner, -1)
           else if (comp.InheritsFrom(TStrings)) then begin
