@@ -13,7 +13,7 @@ ___
 
 ***Lua 5.1-5.4***
 
-[win32]([https://sourceforge.net/projects/vclua/files/vclua-v0.9.1/]).
+[win32](https://sourceforge.net/projects/vclua/files/vclua-v0.9.1/).
 
 ***Lua 5.1***
 
