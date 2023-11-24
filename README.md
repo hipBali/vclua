@@ -85,8 +85,11 @@ lazbuild -B vcl.lpi
 ```shell
 -- linux
 sudo mkdir /usr/local/lib/lua/5.x/vcl
-sudo cp clibs/vcl/libcore.so /usr/local/lib/lua/5.x/vcl/core.so
+sudo cp libcore.so /usr/local/lib/lua/5.x/vcl/core.so
 ```
 
 
 
+### Documentation
+
+[VCLua Class reference](https://github.com/hipBali/vclua/tree/initial-v1/vclua_ref.html)
