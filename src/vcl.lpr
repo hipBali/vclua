@@ -38,7 +38,7 @@ uses
 function luaopen_vcl_core(L: Plua_State): Integer; cdecl;
 begin
   // luaL_openlib is deprecated?
-  {$IFDEF NOPENLIB}
+  {$IFNDEF LUA51}
      luaL_newlibtable(l, @vcl_lib);
      luaL_setfuncs(l, @vcl_lib, 0);
   {$ELSE}

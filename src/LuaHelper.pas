@@ -1,7 +1,5 @@
 unit LuaHelper;
 
-{$DEFINE LUA51}
-
 interface
 
 uses
@@ -55,11 +53,27 @@ procedure LuaSetMetaFunction(L: Plua_State; Index: Integer; Key: string; F: lua_
 
 function LuaStackDump(L: Plua_State):String;
 
+function luaL_optint(L : Plua_State; n, d : Integer): Integer;
+function luaL_optbool(L : Plua_State; n: Integer; d: boolean): Boolean;
+
 implementation
 
 Uses Forms;
 
 // *****************************************************************************
+
+function luaL_optint(L : Plua_State; n, d : Integer): Integer;
+begin
+  luaL_optint := luaL_optinteger(L, n, d);
+end;
+
+function luaL_optbool(L : Plua_State; n: Integer; d: boolean): Boolean;
+begin
+  if ( lua_isboolean( L, n )) then
+     result := lua_toboolean( L, n )
+  else
+     result := boolean(luaL_optint( L, n, Integer(d) ));
+end;
 
 function RunSeparate(L: Plua_State):integer;cdecl;
 var
@@ -357,7 +371,7 @@ begin
   Result := nil;
   Index := LuaAbsIndex(L, Index);
   
-{$IFDEF LUA51}
+{$IF defined(LUA51)}
   if not lua_getmetatable(L, Index) then
 {$ELSE}
   if (lua_getmetatable(L, Index) = 0) then
@@ -374,7 +388,7 @@ procedure LuaSetMetaFunction(L: Plua_State; Index: Integer; Key: string; F: lua_
 //       __eq, __lt, __le, __index, __newindex, __call
 begin
   Index := LuaAbsIndex(L, Index);
-{$IFDEF LUA51}
+{$IF defined(LUA51)}
   if not lua_getmetatable(L, Index) then
 {$ELSE}
   if (lua_getmetatable(L, Index) = 0) then

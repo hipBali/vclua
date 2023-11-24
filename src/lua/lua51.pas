@@ -18,11 +18,19 @@ type
   Plua_State = ^lua_State;
 
 const
-{$IFDEF WIN32}
-  LuaDLL = 'lua5.1.dll';
+{$IF not defined(UNIX)}
+  {$IF defined(LUAJIT)}
+    LuaDLL = 'lua51.dll';
+  {$ELSE}
+    LuaDLL = 'lua5.1.dll';
+  {$ENDIF}
 {$ELSE}
-  LuaDLL = 'lua5.1.so';
-{$endif}
+  {$IF defined(LUAJIT)}
+    LuaDLL = 'luajit-5.1.so';
+  {$ELSE}
+    LuaDLL = 'lua5.1.so';
+  {$ENDIF}
+{$ENDIF}
 
 (*****************************************************************************)
 (*                               luaconfig.h                                 *)

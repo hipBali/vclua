@@ -4,6 +4,6 @@
    {$i src/lua/lua52.pas}
 {$ELSEIF defined(LUA53)}
    {$i src/lua/lua53.pas}
-{$ELSEIF defined(LUA54)}
+{$ELSE defined(LUA54)}
    {$i src/lua/lua54.pas}
 {$ENDIF}
