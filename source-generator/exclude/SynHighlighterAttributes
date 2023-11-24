@@ -1,0 +1,5 @@
+function LoadFromBorlandRegistry
+function LoadFromRegistry
+function SaveToRegistry
+function LoadFromFile
+function SaveToFile

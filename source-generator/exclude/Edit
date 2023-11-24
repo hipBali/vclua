@@ -1,0 +1,2 @@
+procedure AddHandlerOnChange
+procedure RemoveHandlerOnChange

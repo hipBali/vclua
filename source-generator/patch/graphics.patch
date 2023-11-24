@@ -1,0 +1,20 @@
+--- lazarus.patch/orig/lcl/graphics.pp	2023-11-16 01:27:39.405907100 +0100
++++ lazarus.patch/lcl/graphics.pp	2023-11-22 10:41:09.458411000 +0100
+@@ -830,7 +830,7 @@
+     function GetResourceType: TResourceType; virtual;
+     class function GetFileExtensions: string; virtual;
+     class function IsStreamFormatSupported(Stream: TStream): Boolean; virtual;
+-  public
++  published
+     property Empty: Boolean read GetEmpty;
+     property Height: Integer read GetHeight write SetHeight;
+     property Modified: Boolean read FModified write SetModified;
+@@ -917,7 +917,7 @@
+     class procedure UnregisterGraphicClass(AClass: TGraphicClass);
+     class function FindGraphicClassWithFileExt(const Ext: string;
+       ExceptionOnNotFound: boolean = true): TGraphicClass;
+-  public
++  published
+     property Bitmap: TBitmap read GetBitmap write SetBitmap;
+     property Icon: TIcon read GetIcon write SetIcon;
+     {$IFNDEF DisableLCLJPEG}

@@ -29,7 +29,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="31"/>
+      <BuildNr Value="56"/>
       <Language Value="0809"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPreRelease="True"/>
@@ -41,6 +41,9 @@
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="vcl/core"/>
+          </Target>
           <SearchPaths>
             <IncludeFiles Value="src;src\genericsrc;$(ProjOutDir)"/>
             <OtherUnitFiles Value="src;src\genericsrc;$(LazarusDir)\components\synedit;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols"/>
@@ -160,21 +163,7 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <HostApplicationFilename Value="C:\work\development\lua\vclua-0.9.0\lua5.1.exe"/>
-        <CommandLineParams Value="lua/v.lua"/>
-        <WorkingDirectory Value="C:\work\development\lua\vclua-0.9.0"/>
-      </local>
       <FormatVersion Value="2"/>
-      <Modes Count="1">
-        <Mode0 Name="default">
-          <local>
-            <HostApplicationFilename Value="C:\work\development\lua\vclua-0.9.0\lua5.1.exe"/>
-            <CommandLineParams Value="lua/v.lua"/>
-            <WorkingDirectory Value="C:\work\development\lua\vclua-0.9.0"/>
-          </local>
-        </Mode0>
-      </Modes>
     </RunParams>
     <RequiredPackages Count="2">
       <Item1>
@@ -184,67 +173,54 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="12">
+    <Units Count="9">
       <Unit0>
         <Filename Value="src\vcl.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="src\luapropertyeditors.pas"/>
+        <Filename Value="src\LuaHelper.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="LuaPropertyEditors"/>
       </Unit1>
       <Unit2>
-        <Filename Value="src\LuaHelper.pas"/>
+        <Filename Value="src\LuaController.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="src\LuaController.pas"/>
+        <Filename Value="src\LuaProperties.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="src\LuaProperties.pas"/>
+        <Filename Value="src\LuaObject.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="src\LuaObject.pas"/>
+        <Filename Value="src\LuaProxy.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="src\LuaProxy.pas"/>
+        <Filename Value="src\LuaDialogs.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="src\LuaCompat.pas"/>
+        <Filename Value="src\LuaStream.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="src\LuaDialogs.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="src\LuaPropertyGrid.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="src\LuaStream.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit10>
-      <Unit11>
         <Filename Value="src\lua.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="Lua"/>
-      </Unit11>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="clibs\vcl\core"/>
+      <Filename Value="core"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="src;src\genericsrc;$(ProjOutDir)"/>
+      <IncludeFiles Value="src;$(ProjOutDir)"/>
       <OtherUnitFiles Value="src;src\components;$(LazarusDir)\components\synedit;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\lazutils;$(LazarusDir)\components\datetimectrls"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
@@ -267,7 +243,8 @@
     <Linking>
       <Debugging>
         <GenerateDebugInfo Value="False"/>
-        <StripSymbols Value="True"/>
+        <DebugInfoType Value="dsDwarf2Set"/>
+        <UseValgrind Value="True"/>
         <UseExternalDbgSyms Value="True"/>
       </Debugging>
       <Options>
@@ -282,6 +259,7 @@
         <ShowNotes Value="False"/>
         <ShowHints Value="False"/>
       </Verbosity>
+      <CustomOptions Value="-dFPC_TESTGENERICS"/>
     </Other>
   </CompilerOptions>
 </CONFIG>

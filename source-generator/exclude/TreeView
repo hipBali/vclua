@@ -1,0 +1,4 @@
+function GetSelectedChildAccessibleObject
+function GetChildAccessibleObjectAtPos
+function CustomSort
+function GetHitTestInfoAt
