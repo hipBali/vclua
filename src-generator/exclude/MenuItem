@@ -1,6 +1,0 @@
-function GetEnumerator
-procedure RemoveAllHandlersOfObject
-procedure AddHandlerOnDestroy
-procedure RemoveHandlerOnDestroy
-procedure AddHandler
-procedure RemoveHandler
