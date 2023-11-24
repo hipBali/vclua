@@ -17,9 +17,10 @@ local file = require "file"
 
 _logLevel = "INFO"
 
+local out_path = "../"
+
 local classTable = {}
 local stage = "scan"
-local doDoc = arg[1]=="DOC"
 
 local classDoc = {}
 local proc = {
@@ -230,9 +231,6 @@ local function processClass(def,cdef)
 				end
 			end
 		end
-	end
-	if processed and doDoc then
-		saveTextToFile(table.concat(classTable[cname],"\n"),"doc/components/"..cname..".txt")
 	end
 	return processed
 end
@@ -551,7 +549,7 @@ for n,cdef in pairs(classes) do
 	classSource = classSource:gsub("#INTFCE",table.concat(intf,"\n"))
 	classSource = classSource:gsub("#BODY",table.concat(body,"\n"))
 	classSource = classSource:gsub("#CREATE",table.concat(create,"\n"))
-	saveTextToFile(classSource,"src/components/Lua"..className..".pas")
+	saveTextToFile(classSource,out_path.."src/components/Lua"..className..".pas")
 end
 
 
@@ -602,11 +600,8 @@ end
 vclinc = vclinc:gsub("#PASCALSOURCE",table.concat(pasSrc,",\n\t"),1)
 vclinc = vclinc:gsub("#LUALIBS",table.concat(luaLibs,"\n\t\t"),1)
 vclinc = vclinc:gsub("#LIBCOUNT",libcount,1)
-saveTextToFile(HDR_INFO .. vclinc,"src/vcl.inc")
-saveTextToFile(HDR_INFO .. table.concat(luaobject_uses,",\n"),"src/luaobject_uses.inc")
-saveTextToFile(HDR_INFO .. table.concat(luaobject_push,"\n"),"src/luaobject_push.inc")
+saveTextToFile(HDR_INFO .. vclinc,out_path.."src/vcl.inc")
+saveTextToFile(HDR_INFO .. table.concat(luaobject_uses,",\n"),out_path.."src/luaobject_uses.inc")
+saveTextToFile(HDR_INFO .. table.concat(luaobject_push,"\n"),out_path.."src/luaobject_push.inc")
 
-if doDoc then 
-	file.saveJson(classDoc, "vclua_classes.json", "doc")
-end
 
