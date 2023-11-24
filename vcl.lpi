@@ -29,7 +29,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="56"/>
+      <BuildNr Value="60"/>
       <Language Value="0809"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPreRelease="True"/>
@@ -259,7 +259,7 @@
         <ShowNotes Value="False"/>
         <ShowHints Value="False"/>
       </Verbosity>
-      <CustomOptions Value="-dFPC_TESTGENERICS"/>
+      <CustomOptions Value="-dLUA51"/>
     </Other>
   </CompilerOptions>
 </CONFIG>

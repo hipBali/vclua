@@ -288,6 +288,7 @@
         <ShowNotes Value="False"/>
         <ShowHints Value="False"/>
       </Verbosity>
+      <CustomOptions Value="-dLUA51"/>
     </Other>
   </CompilerOptions>
 </CONFIG>

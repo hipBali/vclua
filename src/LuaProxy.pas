@@ -46,7 +46,7 @@ begin
      Result := true;
      pn := LowerCase(PropName);
      if (pn = 'count') then lua_pushinteger(L,Comp.Count) else
-     if (pn = 'text') then lua_pushstring(L,Comp.text) else
+     if (pn = 'text') then lua_pushstring(L,pchar(Comp.text)) else
         Result := false;
 end;
 
