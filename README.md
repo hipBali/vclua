@@ -13,11 +13,7 @@ ___
 
 ***Lua 5.1-5.4***
 
-[win32](https://sourceforge.net/projects/vclua/files/vclua-v0.9.1/).
-
-***Lua 5.1***
-
-[x86_64-linux](https://sourceforge.net/projects/vclua/files/vclua-v0.9.1/vcl_core_so_x86_64_linux_lua51.zip/download).
+[vclua binaries](https://sourceforge.net/projects/vclua/files/vclua-v0.9.1/).
 
 ___
 ## Compiling vclua library
