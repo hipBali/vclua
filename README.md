@@ -9,9 +9,9 @@ Version 0.9.1
 Made with *Lazarus version 2.2.6*
 ___
 
-**Binary releases at sourceforge**
+**Binary releases at sourceforge (win32, win64, linux)**
 
-***Lua 5.1-5.4***
+***Lua 5.1-5.4 and Luajit***
 
 [vclua binaries](https://sourceforge.net/projects/vclua/files/vclua-v0.9.1/).
 
