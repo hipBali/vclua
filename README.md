@@ -94,4 +94,6 @@ copy core.dll my_lua_libs/vcl/core.dll
 
 ## Documentation
 
+[VCLua Programming](https://github.com/hipBali/vclua/tree/initial-v1/docs/README.md)
+
 [VCLua Class reference](https://github.com/hipBali/vclua/tree/initial-v1/vclua_ref.html)
