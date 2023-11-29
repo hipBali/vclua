@@ -7,12 +7,12 @@
 -- **************************************************** --
 
 -- linux
--- local LAZPATH = "/usr/share/lazarus/2.2.6/"
--- local FPCSOURCE = "/usr/share/fpcsrc/3.2.2/"
+local LAZPATH = "/usr/share/lazarus/2.2.6/"
+local FPCSOURCE = "/usr/share/fpcsrc/3.2.2/"
 
 -- windows
-local LAZPATH = "/work/tools/lazarus/"
-local FPCSOURCE = "/work/tools/lazarus/fpc/3.2.2/source/"
+-- local LAZPATH = "/work/tools/lazarus/"
+-- local FPCSOURCE = "/work/tools/lazarus/fpc/3.2.2/source/"
 
 fpcSrc = {
 	["Default"] 	= FPCSOURCE.."rtl/objpas/classes/classesh.inc",
@@ -64,7 +64,8 @@ classes = {
 	-- { name = "Stream", src = "TStream", base=true, nocreate=true },
 	-- { name = "Strings", src = "TStrings", nocreate=true },
 	------------------------------------------------------------------
-	-- TStrings descenants
+	-- TStrings and descenants
+	{ name = "Strings", src = "TStrings",  nv=true, noparent=true },
 	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 	{ name = "StringList", src = "TStringList", classparent="TStrings", nv=true, noparent=true },
 
