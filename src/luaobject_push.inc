@@ -2,6 +2,9 @@
 Generated with Lua-fpc parser/generator
 (C) 2018-2023 Hi-Project Ltd.
 *)
+if (comp.InheritsFrom(TStrings)) then
+	StringsToTable(L,index,Comp)
+else
 if (comp.InheritsFrom(TTextStrings)) then
 	TextStringsToTable(L,index,Comp)
 else
