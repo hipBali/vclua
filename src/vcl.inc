@@ -4,6 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 	
 	// GENERATED SOURCES ***********************
+	LuaStrings in 'LuaStrings.pas',
 	LuaTextStrings in 'LuaTextStrings.pas',
 	LuaStringList in 'LuaStringList.pas',
 	LuaControl in 'LuaControl.pas',
@@ -84,7 +85,8 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..82] of lual_reg = (
+	vcl_lib : array[0..83] of lual_reg = (
+		(name:'Strings'; func:@CreateStrings),
 		(name:'TextStrings'; func:@CreateTextStrings),
 		(name:'StringList'; func:@CreateStringList),
 		(name:'Control'; func:@CreateControl),
