@@ -32,6 +32,8 @@ replace lazarus source files (graphics.pp and comctrls.pp) with patched files in
 sudo patch /usr/share/lazarus/2.2.6/lcl/graphics.pp patch/graphics.patch
 sudo patch /usr/share/lazarus/2.2.6/lcl/comctrls.pp patch/comctrls.patch
 ```
+for windows version you'll need apply the ***win32object.inc.patch*** too!
+
 ### Add your components
 If you want add new component source to the generated source codes (see src/components) you must use the source code parser/genarator tool. First configure the fpc and lazarus source directories, with editing the file ***lua_make/config.lua***
 
