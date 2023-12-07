@@ -1,0 +1,15 @@
+--- lazarus.patch/orig/lcl/interfaces/win32/win32object.inc	2023-03-04 15:51:56.566652000 +0100
++++ lazarus.patch/lcl/interfaces/win32/win32object.inc	2023-12-07 17:35:23.561814700 +0100
+@@ -136,9 +136,11 @@
+   end;
+ 
+   // Create parent of all windows, 'button on taskbar'
++  // VCLUA PATCH
++  CreateAppHandle;
+   if not IsLibrary then
+   begin
+-    CreateAppHandle;
++    // CreateAppHandle;
+     // set nice main icon
+     AIcon := Windows.LoadIcon(MainInstance, 'MAINICON');
+     AppSetIcon(AIcon, AIcon);
