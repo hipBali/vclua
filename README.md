@@ -13,7 +13,7 @@ ___
 
 ***Lua 5.1-5.4 and Luajit***
 
-[vclua binaries](https://sourceforge.net/projects/vclua/files/vclua-v0.9.1/).
+[vclua binaries](https://sourceforge.net/projects/vclua/files/).
 
 ___
 ## Compiling vclua library
