@@ -32,6 +32,7 @@ Generated with Lua-fpc parser/generator
 	LuaButton in 'LuaButton.pas',
 	LuaCheckBox in 'LuaCheckBox.pas',
 	LuaToggleBox in 'LuaToggleBox.pas',
+	LuaGroupBox in 'LuaGroupBox.pas',
 	LuaRadioButton in 'LuaRadioButton.pas',
 	LuaLabel in 'LuaLabel.pas',
 	LuaNotebook in 'LuaNotebook.pas',
@@ -85,7 +86,7 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..83] of lual_reg = (
+	vcl_lib : array[0..84] of lual_reg = (
 		(name:'Strings'; func:@CreateStrings),
 		(name:'TextStrings'; func:@CreateTextStrings),
 		(name:'StringList'; func:@CreateStringList),
@@ -109,6 +110,7 @@ Generated with Lua-fpc parser/generator
 		(name:'Button'; func:@CreateButton),
 		(name:'CheckBox'; func:@CreateCheckBox),
 		(name:'ToggleBox'; func:@CreateToggleBox),
+		(name:'GroupBox'; func:@CreateGroupBox),
 		(name:'RadioButton'; func:@CreateRadioButton),
 		(name:'Label'; func:@CreateLabel),
 		(name:'Notebook'; func:@CreateNotebook),

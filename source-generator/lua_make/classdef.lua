@@ -34,9 +34,12 @@ VCLUA_TOLUA = {
 	["tcalendarpart"] = "lua_pushlightuserdata(L,@ret);",
 	["tcalendarview"] = "lua_pushlightuserdata(L,@ret);",
 	
+	["TGENERICCLASS"] = "if ret=nil then lua_pushnil(L) else %sToTable(L,-1,ret);",
+	
 	-- treeview
 	["ttreeviewinsertmarktype"] = "lua_pushstring(L,PChar(GetEnumName(typeInfo(TTreeViewInsertMarkType), Ord(ret))));",
-	["ttreenode"] = "TreeNodeToTable(L,-1,ret);",
+	-- treeview function result is a treenode!
+	["ttreenode"] = "if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);",
 	
 	-- stringgrid
 	["tgridcolumn"] = "GridColumnToTable(L,-1,ret);",

@@ -120,6 +120,7 @@ classes = {
 	{ name = "Button", src = "TCustomButton", ref = "StdCtrls, Controls" },
 	{ name = "CheckBox", src = "TCustomCheckBox", ref = "StdCtrls, Controls" },
 	{ name = "ToggleBox", src = "TToggleBox", ref = "StdCtrls, Controls" },
+	{ name = "GroupBox", src = "TGroupBox", ref = "StdCtrls, Controls" },
 	{ name = "RadioButton", src = "TRadioButton", ref = "StdCtrls, Controls" },
 	{ name = "Label", src = "TCustomLabel", ref = "StdCtrls, Controls", canvas=true, },
 	-- ext controls
@@ -145,7 +146,7 @@ classes = {
 		classes = {
 			{ name = "StatusPanel", src = "TStatusPanel", noparent=true, nocreate=true},
 			{ name = "StatusPanels", src = "TStatusPanels", noparent=true, nocreate=true, parentclass="TStatusBar", wclass="TStatusPanel"},
-			{ name = "StatusBar", src = "TStatusBar", ref = "ComCtrls, Controls" },
+			{ name = "StatusBar", src = "TStatusBar", ref = "ComCtrls, Controls"},
 		}
 	},
 	

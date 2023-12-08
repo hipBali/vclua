@@ -406,7 +406,7 @@ function createUnitBody(cdef, ref)
 			fParams = table.concat(funcparams,",")
 		end
 		if ret then
-			local rtype = VCLUA_TOLUA[ret] or className.."ToTable(L,-1,ret);"
+			local rtype = VCLUA_TOLUA[ret] or string.format(VCLUA_TOLUA.TGENERICCLASS,className)
 			s = s:gsub("#FUNC","\n\tret := l"..className.."."..mName.."("..fParams..");",1)
 			s = s:gsub("#PUSHTOLUA","\n\t"..rtype,1)
 			s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\t\n"))
@@ -498,6 +498,7 @@ for n,cdef in pairs(classes) do
 	classTable = {}
 	classData = {}
 	local className
+	
 	if cdef.name then
 		className = cdef.name
 	-- single unit classes

@@ -98,6 +98,9 @@ else
 if (comp.InheritsFrom(TToggleBox)) then
 	ToggleBoxToTable(L,index,Comp)
 else
+if (comp.InheritsFrom(TGroupBox)) then
+	GroupBoxToTable(L,index,Comp)
+else
 if (comp.InheritsFrom(TRadioButton)) then
 	RadioButtonToTable(L,index,Comp)
 else
