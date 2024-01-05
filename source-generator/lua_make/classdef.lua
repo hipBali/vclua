@@ -7,7 +7,7 @@
 -- **************************************************** --
 
 VCLUA_TOLUA = {
-	["string"] = "lua_pushstring(L,PChar(ret));",
+	["string"] = "lua_pushStringCP(L,ret);",
 	["pchar"] = "lua_pushstring(L,PChar(ret));",
 	["integer"] = "lua_pushinteger(L,ret);",
 	["boolean"] = "lua_pushboolean(L,ret);",
@@ -34,12 +34,9 @@ VCLUA_TOLUA = {
 	["tcalendarpart"] = "lua_pushlightuserdata(L,@ret);",
 	["tcalendarview"] = "lua_pushlightuserdata(L,@ret);",
 	
-	["TGENERICCLASS"] = "if ret=nil then lua_pushnil(L) else %sToTable(L,-1,ret);",
-	
 	-- treeview
 	["ttreeviewinsertmarktype"] = "lua_pushstring(L,PChar(GetEnumName(typeInfo(TTreeViewInsertMarkType), Ord(ret))));",
-	-- treeview function result is a treenode!
-	["ttreenode"] = "if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);",
+	["ttreenode"] = "TreeNodeToTable(L,-1,ret);",
 	
 	-- stringgrid
 	["tgridcolumn"] = "GridColumnToTable(L,-1,ret);",
@@ -61,7 +58,7 @@ VCLUA_FROMLUA = {
 	["def_tshiftstate"] = "lua_toTShiftState(L,#IDX,#DEF);",
 	
 
-	["string"] = "lua_tostring(L,#);",
+	["string"] = "lua_toStringCP(L,#);",
 	["array of string"] = "lua_toStringArray(L,#);",
 	["pchar"] = "PChar(lua_tostring(L,#));",
 	["char"] = "Char(lua_tostring(L,#));",

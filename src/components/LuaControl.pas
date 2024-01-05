@@ -821,7 +821,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	AName := lua_tostring(L,2);
+	AName := lua_toStringCP(L,2);
 	ret := lControl.FindSubComponent(AName);
 	lua_pushlightuserdata(L,ret);
 	

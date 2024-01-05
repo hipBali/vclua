@@ -259,7 +259,7 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ResourceName := lua_tostring(L,2);
+	ResourceName := lua_toStringCP(L,2);
 	MaskColor := TColor(lua_tointeger(L,3));
 	ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
 	lua_pushinteger(L,ret);
@@ -278,7 +278,7 @@ begin
 	CheckArg(L, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	Instance := THandle(lua_tointeger(L,2));
-	ResourceName := lua_tostring(L,3);
+	ResourceName := lua_toStringCP(L,3);
 	MaskColor := TColor(lua_tointeger(L,4));
 	ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
 	lua_pushinteger(L,ret);

@@ -41,7 +41,7 @@ begin
 	
 	ret := lAction.DoHint(HintStr);
 	lua_pushboolean(L,ret);
-	lua_pushstring(L,PChar(HintStr));
+	lua_pushStringCP(L,HintStr);
 	Result := 2;
 end;
 
@@ -66,7 +66,7 @@ var
 begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
-	ActionName := lua_tostring(L,2);
+	ActionName := lua_toStringCP(L,2);
 	ret := lActionList.ActionByName(ActionName);
 	ActionToTable(L,-1,ret);
 	
@@ -96,7 +96,7 @@ var
 begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
-	ActionName := lua_tostring(L,2);
+	ActionName := lua_toStringCP(L,2);
 	ret := lActionList.IndexOfName(ActionName);
 	lua_pushinteger(L,ret);
 	

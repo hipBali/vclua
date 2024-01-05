@@ -32,7 +32,7 @@ var
 begin
 	CheckArg(L, 3);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	Item := lua_tostring(L,2);
+	Item := lua_toStringCP(L,2);
 	AnObject := TObject(GetLuaObject(L,3));
 	lListBox.AddItem(Item,AnObject);
 	
@@ -101,7 +101,7 @@ begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	ret := lListBox.GetSelectedText();
-	lua_pushstring(L,PChar(ret));
+	lua_pushStringCP(L,ret);
 	
 	Result := 1;
 end;

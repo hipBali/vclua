@@ -103,15 +103,6 @@ begin
        Result := lua_tostring(L,Index);
 end;
 
-function ToColor(L: Plua_State; index: Integer):TColor;
-begin
-     result := 0;
-     if lua_isstring(L,index) then
-        result := StringToColor(lua_tostring(L,index))
-     else if lua_isnumber(L,index) then
-        result := TColor(lua_tointeger(L,index));
-end;
-
 function SetTStringsProperty( L: Plua_State; Comp:TObject; PropName:String; index:Integer):boolean;
 var target: TStrings;
 begin
@@ -124,6 +115,16 @@ begin
     end;
 end;
 *)
+
+function ToColor(L: Plua_State; index: Integer):TColor;
+begin
+     result := 0;
+     if lua_isstring(L,index) then
+        result := StringToColor(lua_tostring(L,index))
+     else if lua_isnumber(L,index) then
+        result := TColor(lua_tointeger(L,index));
+end;
+
 // ****************************************************************
 
 function isVcluaObject(L: Plua_State; index: Integer):boolean;
@@ -307,11 +308,10 @@ begin
            end;
 	tkInteger:
            begin
-                  (*
-                   if (Str='TGraphicsColor') and lua_isstring(L, index) then
+
+                   if ((Str='TGraphicsColor') or (Str='TColor' )) and lua_isstring(L, index) then
                       SetOrdProp(Comp, PInfo, ToColor(L, index))
                    else
-                   *)
                    if lua_isfunction(L,index) then begin
                        top := lua_gettop(L);
                        lua_settop(L,index);
@@ -324,7 +324,7 @@ begin
            end;
 	tkChar, tkWChar:
           begin
-            Str := lua_tostring(L, index);
+            Str := lua_toStringCP(L, index);
             if length(Str)<1 then
               SetOrdProp(Comp, PInfo, 0)
             else
@@ -351,7 +351,7 @@ begin
 	      	SetFloatProp(Comp, PInfo, lua_tonumber(L, index));
 
         tkString, tkLString, tkWString:
-	      	SetStrProp(Comp, PInfo, lua_tostring(L, index));
+	      	SetStrProp(Comp, PInfo, lua_toStringCP(L, index));
 
         tkInt64: begin
 	      	SetInt64Prop(Comp, PInfo, Int64(Round(lua_tonumber(L, index))));
@@ -464,7 +464,6 @@ begin
        else
            if lowercase(PropName) = 'parent' then begin
               TWinControl(Comp).Parent := TWinControl(GetLuaObject(L, 3));
-
            end else
                    LuaError(L,'Property not found!',PropName);
        end;
@@ -523,15 +522,15 @@ begin
           tkString,
           tkLString,
           tkWString:
-            lua_pushstring(L,pchar(GetStrProp(Comp, PInfo)));
+            lua_pushStringCP(L,GetStrProp(Comp, PInfo));
           tkInt64:
             lua_pushnumber(L,GetInt64Prop(Comp, PInfo));
         else
           begin
             if (PInfo^.Proptype^.Name='TTranslateString') then begin
-              lua_pushstring(L,pchar(GetStrProp(Comp, PInfo)));
+              lua_pushStringCP(L,GetStrProp(Comp, PInfo));
             end else if (PInfo^.Proptype^.Name='AnsiString') then begin
-              lua_pushstring(L,pchar(GetStrProp(Comp, PInfo)));
+              lua_pushStringCP(L,GetStrProp(Comp, PInfo));
             end else begin
               lua_pushnil(L);
               LuaError(L,'Property not supported!', lua_tostring(L,2) + ' ' + PInfo^.Proptype^.Name);

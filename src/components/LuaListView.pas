@@ -236,7 +236,7 @@ begin
 	CheckArg(L, -1);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	StartIndex := lua_tointeger(L,2);
-	Value := lua_tostring(L,3);
+	Value := lua_toStringCP(L,3);
 	Partial := lua_toboolean(L,4);
 	Inclusive := lua_toboolean(L,5);
 	Wrap := lua_toboolean(L,6);
@@ -349,7 +349,7 @@ var
 begin
 	CheckArg(L, 3);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	Item := lua_tostring(L,2);
+	Item := lua_toStringCP(L,2);
 	AObject := TObject(GetLuaObject(L,3));
 	lListView.AddItem(Item,AObject);
 	
@@ -442,7 +442,7 @@ begin
 	CheckArg(L, -1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	StartIndex := lua_tointeger(L,2);
-	Value := lua_tostring(L,3);
+	Value := lua_toStringCP(L,3);
 	Partial := lua_toboolean(L,4);
 	Inclusive := lua_toboolean(L,5);
 	Wrap := lua_toboolean(L,6);

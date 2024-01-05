@@ -47,7 +47,7 @@ begin
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
 	AValue := lua_tonumber(L,2);
 	ret := lFloatSpinEdit.ValueToStr(AValue);
-	lua_pushstring(L,PChar(ret));
+	lua_pushStringCP(L,ret);
 	
 	Result := 1;
 end;
@@ -60,7 +60,7 @@ var
 begin
 	CheckArg(L, 2);
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
-	S := lua_tostring(L,2);
+	S := lua_toStringCP(L,2);
 	ret := lFloatSpinEdit.StrToValue(S);
 	lua_pushnumber(L,ret);
 	

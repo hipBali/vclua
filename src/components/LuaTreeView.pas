@@ -49,9 +49,9 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	SiblingNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.Add(SiblingNode,S);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -66,9 +66,9 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ParentNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.AddChild(ParentNode,S);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -83,9 +83,9 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ParentNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.AddChildFirst(ParentNode,S);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -101,10 +101,10 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ParentNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddChildObject(ParentNode,S,Data);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -120,10 +120,10 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ParentNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddChildObjectFirst(ParentNode,S,Data);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -138,9 +138,9 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	SiblingNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.AddFirst(SiblingNode,S);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -159,11 +159,11 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	Node := TTreeNode(GetLuaObject(L,2));
 	Relative := TTreeNode(GetLuaObject(L,3));
-	S := lua_tostring(L,4);
+	S := lua_toStringCP(L,4);
 	Ptr := Pointer(lua_touserdata(L,5));
 	Method := TNodeAttachMode(GetLuaObject(L,6));
 	ret := lTreeNodes.AddNode(Node,Relative,S,Ptr,Method);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -179,10 +179,10 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	SiblingNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddObject(SiblingNode,S,Data);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -198,10 +198,10 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	SiblingNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddObjectFirst(SiblingNode,S,Data);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -216,7 +216,7 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	NodeData := Pointer(lua_touserdata(L,2));
 	ret := lTreeNodes.FindNodeWithData(NodeData);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -229,9 +229,9 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	NodeText := lua_tostring(L,2);
+	NodeText := lua_toStringCP(L,2);
 	ret := lTreeNodes.FindNodeWithText(NodeText);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -244,9 +244,9 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	TextPath := lua_tostring(L,2);
+	TextPath := lua_toStringCP(L,2);
 	ret := lTreeNodes.FindNodeWithTextPath(TextPath);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -259,9 +259,9 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	NodeText := lua_tostring(L,2);
+	NodeText := lua_toStringCP(L,2);
 	ret := lTreeNodes.FindTopLvlNode(NodeText);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -287,7 +287,7 @@ begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ret := lTreeNodes.GetFirstNode();
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -300,7 +300,7 @@ begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ret := lTreeNodes.GetFirstVisibleNode();
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -313,7 +313,7 @@ begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ret := lTreeNodes.GetLastVisibleNode();
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -328,7 +328,7 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	AIndex := lua_tointeger(L,2);
 	ret := lTreeNodes.GetSelections(AIndex);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -343,9 +343,9 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	NextNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.Insert(NextNode,S);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -360,9 +360,9 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	PrevNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.InsertBehind(PrevNode,S);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -378,10 +378,10 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	NextNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.InsertObject(NextNode,S,Data);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -397,10 +397,10 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	PrevNode := TTreeNode(GetLuaObject(L,2));
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.InsertObjectBehind(PrevNode,S,Data);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -563,7 +563,7 @@ var
 begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	Prefix := lua_tostring(L,2);
+	Prefix := lua_toStringCP(L,2);
 	AllNodes := lua_toboolean(L,3);
 	lTreeNodes.WriteDebugReport(Prefix,AllNodes);
 	
@@ -636,7 +636,7 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	ret := lTreeView.GetNodeAt(X,Y);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -653,7 +653,7 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	ret := lTreeView.GetNodeWithExpandSignAt(X,Y);
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -671,7 +671,7 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	lTreeView.GetInsertMarkAt(X,Y,AnInsertMarkNode,AnInsertMarkType);
-	if AnInsertMarkNode=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,AnInsertMarkNode);
+	TreeNodeToTable(L,-1,AnInsertMarkNode);
 	lua_pushstring(L,PChar(GetEnumName(typeInfo(TTreeViewInsertMarkType), Ord(AnInsertMarkType))));
 	Result := 2;
 end;
@@ -781,7 +781,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	FileName := lua_tostring(L,2);
+	FileName := lua_toStringCP(L,2);
 	lTreeView.LoadFromFile(FileName);
 	
 	Result := 0;
@@ -807,7 +807,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	FileName := lua_tostring(L,2);
+	FileName := lua_toStringCP(L,2);
 	lTreeView.SaveToFile(FileName);
 	
 	Result := 0;
@@ -834,7 +834,7 @@ var
 begin
 	CheckArg(L, 3);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	Prefix := lua_tostring(L,2);
+	Prefix := lua_toStringCP(L,2);
 	AllNodes := lua_toboolean(L,3);
 	lTreeView.WriteDebugReport(Prefix,AllNodes);
 	
@@ -871,7 +871,7 @@ begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ret := lTreeView.GetFirstMultiSelected();
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;
@@ -884,7 +884,7 @@ begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ret := lTreeView.GetLastMultiSelected();
-	if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);
+	TreeNodeToTable(L,-1,ret);
 	
 	Result := 1;
 end;

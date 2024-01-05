@@ -15,14 +15,19 @@ type
   aofmi = array of TMenuItem;
   aoftn = array of TTreeNode;
 
+// String UTF-8 support
+function lua_toStringCP(L: Plua_State; Index: Integer):string;
+procedure lua_pushStringCP(L: Plua_State; str:string);
+function lua_toStringArray(L: Plua_State; Index: Integer):aofs;
+function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
+// --------------------
+
 function lua_toTPoint(L: Plua_State; Index: Integer):TPoint;
 procedure lua_pushTPoint(L: Plua_State; point:TPoint);
 function lua_toTRect(L: Plua_State; Index: Integer):TRect;
 procedure lua_pushTRect(L: Plua_State; rect:TRect);
 function lua_toTSize(L: Plua_State; Index: Integer):TSize;
 
-function lua_toStringArray(L: Plua_State; Index: Integer):aofs;
-function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
 function lua_toLongWordArray(L: Plua_State; Index: Integer):aoflw;
 function lua_toTPointArray(L: Plua_State; Index: Integer):aoftp;
 function lua_toTMenuItem(L: Plua_State; Index: Integer):aofmi;
@@ -38,7 +43,23 @@ function GetTStringsProperty(L: Plua_State; Comp:TStrings; PropName:String):bool
 
 implementation
 
-uses TypInfo, LuaController, LuaObject;
+uses TypInfo, LuaController, LuaObject, LazUtf8;
+
+function lua_toStringCP(L: Plua_State; Index: Integer):string;
+begin
+     if (is_vclua_utf8_cp) then
+       result := WinCPToUTF8(lua_tostring(L,Index))
+     else
+       result := lua_tostring(L,Index);
+end;
+
+procedure lua_pushStringCP(L: Plua_State; str:string);
+begin
+     if (is_vclua_utf8_cp) then
+       lua_pushstring(L,pchar(UTF8ToWinCP(str)))
+     else
+       lua_pushstring(L,pchar(str));
+end;
 
 function GetTStringsProperty(L: Plua_State; Comp:TStrings; PropName:String):boolean;
 var pn:String;
@@ -46,7 +67,7 @@ begin
      Result := true;
      pn := LowerCase(PropName);
      if (pn = 'count') then lua_pushinteger(L,Comp.Count) else
-     if (pn = 'text') then lua_pushstring(L,pchar(Comp.text)) else
+     if (pn = 'text') then lua_pushStringCP(L,Comp.text) else
         Result := false;
 end;
 
@@ -192,7 +213,7 @@ begin
     lua_pushnil(L);
     while (lua_next(L, Index) <> 0) do begin
       if (lua_isstring(L, -1)) then begin
-         s := lua_tostring(L, -1);
+         s := lua_toStringCP(L, -1);
          SetLength(arr,n+1);
          arr[n] := s;
          n := n + 1;
@@ -215,7 +236,7 @@ begin
     lua_pushnil(L);
     while (lua_next(L, n) <> 0) do begin
       if (lua_isstring(L, -1)) then begin
-         s := lua_tostring(L, -1);
+         s := lua_toStringCP(L, -1);
          Result.Add(s);
       end;
       lua_pop(L, 1);

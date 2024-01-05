@@ -73,7 +73,23 @@ begin
   ppath := pg.PropertyEditorHook.LookupRoot.GetNamePath;
   lua_pushstring(L,pchar(pname));
   lua_pushstring(L,pchar(ppath));
-  result := 2;
+  if (pg.Rows[pg.ItemIndex].Parent<>nil) then
+     lua_pushstring(L,pchar(pg.Rows[pg.ItemIndex].Parent.Name))
+  else
+     lua_pushnil(L);
+  result := 3;
+end;
+
+function GetActivePropertyParent(L: Plua_State): Integer; cdecl;
+var pg: TLuaPropertyGrid;
+begin
+  CheckArg(L, 1);
+  pg := TLuaPropertyGrid(GetLuaObject(L, 1));
+  if (pg.Rows[pg.ItemIndex].Parent<>nil) then
+     lua_pushstring(L,pchar(pg.Rows[pg.ItemIndex].Parent.Name))
+  else
+     lua_pushnil(L);
+  result := 1;
 end;
 
 function GetRow(L: Plua_State): Integer; cdecl;
@@ -93,6 +109,7 @@ procedure ToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
   SetDefaultMethods(L, Index, Sender);
   LuaSetTableFunction(L, index, 'GetActiveProperty', @GetActiveProperty);
+  LuaSetTableFunction(L, index, 'GetActivePropertyParent', @GetActivePropertyParent);
   LuaSetTableFunction(L, index, 'GetRow', @GetRow);
   LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
   LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);

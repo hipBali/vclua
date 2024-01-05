@@ -159,7 +159,7 @@ begin
 	CheckArg(L, 3);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	AStream := TStream(GetLuaObject(L,2));
-	AMimeType := lua_tostring(L,3);
+	AMimeType := lua_toStringCP(L,3);
 	lRasterImage.LoadFromMimeStream(AStream,AMimeType);
 	
 	Result := 0;

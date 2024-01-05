@@ -425,6 +425,10 @@ function GetLuaState(Sender:TObject):Plua_State;
 function GetLuaControl(Sender:TObject):TVCLuaControl;
 function CheckEvent(L:Plua_State; Sender: TObject; EFn:TLuaCFunction):Boolean;
 
+// UTF8 Codepage conversion
+function set_vclua_utf8_cp(L : Plua_State): Integer; cdecl;
+function is_vclua_utf8_cp:boolean; // internal
+
 implementation
 
 Uses TypInfo,
@@ -440,8 +444,24 @@ Uses TypInfo,
      Dialogs,
      LCLProc;
 
-//{$I showstack.inc}
-     
+// ***********************************************
+// VCLUA UTF-8
+// ***********************************************
+var _VCLUA_UTF8:boolean;
+// -----------------------------------------------
+function set_vclua_utf8_cp(L : Plua_State): Integer; cdecl;
+begin
+    CheckArg(L, 1);
+    if (lua_isboolean(L,1)) then
+       _VCLUA_UTF8 := lua_toboolean(L,1);
+    result := 0;
+end;
+
+function is_vclua_utf8_cp:boolean;
+begin
+    result := _VCLUA_UTF8;
+end;
+
 // ***********************************************
 // LUA Control Methods
 // ***********************************************
@@ -786,7 +806,7 @@ begin
     lua_pushliteral(LL,'X');
     lua_pushnumber(LL,MousePos.X);
     lua_rawset(LL,-3);
-    lua_pushliteral(LL,'X');
+    lua_pushliteral(LL,'Y');
     lua_pushnumber(LL,MousePos.Y);
     lua_rawset(LL,-3);
     lua_pushnumber(LL,2);
@@ -813,7 +833,7 @@ begin
     lua_pushliteral(LL,'X');
     lua_pushnumber(LL,MousePos.X);
     lua_rawset(LL,-3);
-    lua_pushliteral(LL,'X');
+    lua_pushliteral(LL,'Y');
     lua_pushnumber(LL,MousePos.Y);
     lua_rawset(LL,-3);
     lua_pushnumber(LL,2);
@@ -997,14 +1017,14 @@ var LL:Plua_State;
 begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
-    ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,ACol);
-    lua_pushnumber(LL,ARow);
-    lua_pushstring(LL,pchar(TStringGrid(Sender).Cells[ACol, ARow]));
-    DoCall(LL,4);
-  	if lua_isstring(LL,-1) then
-//       Value := lua_tostring(LL,-1);
-       TStringGrid(Sender).Cells[ACol, ARow] := lua_tostring(LL,-1);
+      ToTable(LL, -1, Sender);
+      lua_pushnumber(LL,ACol);
+      lua_pushnumber(LL,ARow);
+      lua_pushstring(LL,pchar(TStringGrid(Sender).Cells[ACol, ARow]));
+      DoCall(LL,4);
+      if lua_isstring(LL,-1) then
+         Value := lua_tostring(LL,-1);
+//      TStringGrid(Sender).Cells[ACol, ARow] := lua_tostring(LL,-1);
     end;
 end;
 
@@ -1018,7 +1038,7 @@ begin
     lua_pushnumber(LL,ARow);
     lua_pushstring(LL,pchar(Value));
     DoCall(LL,4);
-  	if lua_isstring(LL,-1) then
+    if lua_isstring(LL,-1) then
        Value := lua_tostring(LL,-1);
 //       TStringGrid(Sender).Cells[ACol, ARow] := lua_tostring(LL,-1);
     end;

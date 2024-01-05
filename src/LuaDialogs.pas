@@ -10,12 +10,12 @@ function LuaMessageDlg(L: Plua_State): Integer; cdecl;
 
 implementation
 
-Uses LuaHelper, Typinfo;
+Uses LuaHelper, LuaProxy, Typinfo;
 
 // ***********************************************
 function LuaShowMessage(L: Plua_State): Integer; cdecl;
 begin
-  ShowMessage(lua_tostring(L,-1));
+  ShowMessage(lua_toStringCP(L,-1));
   Result := 0;
 end;
 
@@ -29,7 +29,7 @@ end;
 // mtError
 function LuaMessageDlg(L: Plua_State): Integer; cdecl;
 var
-	res: Integer;
+  res: Integer;
   Mdb: TMsgDlgButtons;
   n:   Integer;
   Msg: String;
@@ -37,7 +37,7 @@ var
 begin
   CheckArg(L, 3);
   n := lua_gettop(L);
-  Msg := lua_tostring(L,1);
+  Msg := lua_toStringCP(L,1);
   MsgType := TMsgDlgType(GetEnumValue(TypeInfo(TMsgDlgType),lua_tostring(L,2)));
   Mdb := [];
   if lua_istable(L,3) then begin

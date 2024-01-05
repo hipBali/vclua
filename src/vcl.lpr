@@ -1,7 +1,6 @@
 library vcl;
 
 {$TYPEINFO ON}
-{$i vcldef.inc}
 
 {$R *.res}
 
@@ -25,8 +24,10 @@ uses
   LuaProxy in 'LuaProxy.pas',
   LuaDialogs in 'LuaDialogs.pas',
   LuaStream in 'LuaStream.pas',
+  {$IFDEF PROPERTYGRID}
+    LuaPropertyGrid in 'src/addons/LuaPropertyGrid.pas',
+  {$ENDIF}
   {$IFDEF EXTENDED}
-  LuaPropertyGrid in 'src/addons/LuaPropertyGrid.pas',
   LuaRichMemo in 'src/addons/LuaRichMemo.pas',
   LuaSynEdit in 'src/addons/LuaSynEdit.pas',
   LuaSynHighlighterAttributes in 'src/addons/LuaSynHighlighterAttributes.pas',
@@ -55,9 +56,14 @@ begin
   lua_setfield(L, -2, 'MessageDlg');
   lua_pushcfunction(L, @lua_setArrayProperty);
   lua_setfield(L, -2, 'setArray');
-  {$IFDEF EXTENDED}
+  // UTF-8 CP
+  lua_pushcfunction(L, @set_vclua_utf8_cp);
+  lua_setfield(L, -2, 'setCPUTF8');
+  {$IFDEF PROPERTYGRID}
   lua_pushcfunction(L, @CreatePropertyGrid);
   lua_setfield(L, -2, 'PropertyGrid');
+  {$ENDIF}
+  {$IFDEF EXTENDED}
   lua_pushcfunction(L, @CreateSynEdit);
   lua_setfield(L, -2, 'SynEdit');
   lua_pushcfunction(L, @CreateSynHighlighterAttributes);
@@ -67,7 +73,7 @@ begin
   {$ENDIF}
 
   lua_pushliteral (L, '_COPYRIGHT');
-  lua_pushliteral (L, 'Copyright (C) 2006,2023 Hi-Project Ltd.');
+  lua_pushliteral (L, 'Copyright (C) 2006,2024 Hi-Project Ltd.');
   lua_settable (L, -3);
   lua_pushliteral (L, '_DESCRIPTION');
   lua_pushliteral (L, 'VCLua Visual Controls for LUA ('+ LUA_VERSION_MAJOR + '.' + LUA_VERSION_MINOR + ')' );
@@ -76,7 +82,7 @@ begin
   lua_pushliteral (L, 'VCLua');
   lua_settable (L, -3);
   lua_pushliteral (L, '_VERSION');
-  lua_pushliteral (L, '0.9.1');
+  lua_pushliteral (L, '0.9.2');
   lua_settable (L, -3);
 
   result := 1;

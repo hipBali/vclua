@@ -214,7 +214,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ACaption := lua_tostring(L,2);
+	ACaption := lua_toStringCP(L,2);
 	ret := lMenuItem.Find(ACaption);
 	MenuItemToTable(L,-1,ret);
 	
@@ -385,7 +385,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ACaption := lua_tostring(L,2);
+	ACaption := lua_toStringCP(L,2);
 	ret := lMenuItem.IndexOfCaption(ACaption);
 	lua_pushinteger(L,ret);
 	
@@ -638,7 +638,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	Prefix := lua_tostring(L,2);
+	Prefix := lua_toStringCP(L,2);
 	lMenuItem.WriteDebugReport(Prefix);
 	
 	Result := 0;
