@@ -4,7 +4,7 @@
 # vclua
 Gui library for lua
 
-Version 0.9.1
+Version 0.9.2
 
 Made with *Lazarus version 2.2.6*
 ___
@@ -96,6 +96,6 @@ copy core.dll my_lua_libs/vcl/core.dll
 
 ## Documentation
 
-[VCLua Programming](https://github.com/hipBali/vclua/tree/initial-v1/docs/README.md)
+[VCLua Programming](docs/README.md)
 
-[VCLua Class reference](https://github.com/hipBali/vclua/tree/initial-v1/vclua_ref.html)
+[VCLua Class reference](vclua_ref.html)
