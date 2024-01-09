@@ -64,7 +64,7 @@ myForm:ShowModal()
 ``` lua
 VCL = require "vcl.core"
 VCL.Application():Initialize()
-VCL.setConvertUTF8(true)
+VCL.setCPWin(true)
 ```
 
 ### Events

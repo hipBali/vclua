@@ -183,7 +183,6 @@ begin
 end;
 ]]
 
-
 VCLUA_OBJECT_PUSH = [[
 if (comp.InheritsFrom(T#CNAME)) then
 	#CNAMEToTable(L,index,Comp)

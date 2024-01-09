@@ -58,7 +58,7 @@ begin
   lua_setfield(L, -2, 'setArray');
   // UTF-8 CP
   lua_pushcfunction(L, @set_vclua_utf8_conv);
-  lua_setfield(L, -2, 'setConvertUTF8');
+  lua_setfield(L, -2, 'setCPWin');
   {$IFDEF PROPERTYGRID}
   lua_pushcfunction(L, @CreatePropertyGrid);
   lua_setfield(L, -2, 'PropertyGrid');
