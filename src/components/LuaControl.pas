@@ -955,7 +955,7 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Buffer := PChar(lua_tostring(L,2));
+	Buffer := PChar(lua_toStringCP(L,2));
 	BufSize := lua_tointeger(L,3);
 	ret := lControl.GetTextBuf(Buffer,BufSize);
 	lua_pushinteger(L,ret);
@@ -983,7 +983,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Buffer := PChar(lua_tostring(L,2));
+	Buffer := PChar(lua_toStringCP(L,2));
 	lControl.SetTextBuf(Buffer);
 	
 	Result := 0;

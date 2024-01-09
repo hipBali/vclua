@@ -370,7 +370,7 @@ begin
 	CheckArg(L, 1);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	ret := lStrings.GetText();
-	lua_pushstring(L,PChar(ret));
+	lua_pushStringCP(L,ret);
 	
 	Result := 1;
 end;
@@ -648,7 +648,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheText := PChar(lua_tostring(L,2));
+	TheText := PChar(lua_toStringCP(L,2));
 	lStrings.SetText(TheText);
 	
 	Result := 0;

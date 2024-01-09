@@ -426,8 +426,8 @@ function GetLuaControl(Sender:TObject):TVCLuaControl;
 function CheckEvent(L:Plua_State; Sender: TObject; EFn:TLuaCFunction):Boolean;
 
 // UTF8 Codepage conversion
-function set_vclua_utf8_cp(L : Plua_State): Integer; cdecl;
-function is_vclua_utf8_cp:boolean; // internal
+function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
+function is_vclua_utf8_conv:boolean; // internal
 
 implementation
 
@@ -445,21 +445,21 @@ Uses TypInfo,
      LCLProc;
 
 // ***********************************************
-// VCLUA UTF-8
+// VCLUA UTF-8 Converter
 // ***********************************************
-var _VCLUA_UTF8:boolean;
+var _VCLUA_UTF8_CONV:boolean;
 // -----------------------------------------------
-function set_vclua_utf8_cp(L : Plua_State): Integer; cdecl;
+function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
 begin
     CheckArg(L, 1);
     if (lua_isboolean(L,1)) then
-       _VCLUA_UTF8 := lua_toboolean(L,1);
+       _VCLUA_UTF8_CONV := lua_toboolean(L,1);
     result := 0;
 end;
 
-function is_vclua_utf8_cp:boolean;
+function is_vclua_utf8_conv:boolean;
 begin
-    result := _VCLUA_UTF8;
+    result := _VCLUA_UTF8_CONV;
 end;
 
 // ***********************************************
