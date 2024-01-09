@@ -7,8 +7,10 @@
 -- **************************************************** --
 
 VCLUA_TOLUA = {
+	-- String UTF-8 cp
 	["string"] = "lua_pushStringCP(L,ret);",
-	["pchar"] = "lua_pushstring(L,PChar(ret));",
+	["pchar"] = "lua_pushStringCP(L,ret);",
+	
 	["integer"] = "lua_pushinteger(L,ret);",
 	["boolean"] = "lua_pushboolean(L,ret);",
 	["longint"] = "lua_pushinteger(L,ret);",
@@ -57,10 +59,11 @@ VCLUA_FROMLUA = {
 	["def_integer"] = "luaL_optint(L,#IDX,#DEF);",
 	["def_tshiftstate"] = "lua_toTShiftState(L,#IDX,#DEF);",
 	
-
+	-- String UTF-8 cp
 	["string"] = "lua_toStringCP(L,#);",
+	["pchar"] = "PChar(lua_toStringCP(L,#));",
+	
 	["array of string"] = "lua_toStringArray(L,#);",
-	["pchar"] = "PChar(lua_tostring(L,#));",
 	["char"] = "Char(lua_tostring(L,#));",
 	["integer"] = "lua_tointeger(L,#);",
 	["boolean"] = "lua_toboolean(L,#);",

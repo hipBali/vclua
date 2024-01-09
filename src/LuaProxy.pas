@@ -47,7 +47,7 @@ uses TypInfo, LuaController, LuaObject, LazUtf8;
 
 function lua_toStringCP(L: Plua_State; Index: Integer):string;
 begin
-     if (is_vclua_utf8_cp) then
+     if (is_vclua_utf8_conv) then
        result := WinCPToUTF8(lua_tostring(L,Index))
      else
        result := lua_tostring(L,Index);
@@ -55,7 +55,7 @@ end;
 
 procedure lua_pushStringCP(L: Plua_State; str:string);
 begin
-     if (is_vclua_utf8_cp) then
+     if (is_vclua_utf8_conv) then
        lua_pushstring(L,pchar(UTF8ToWinCP(str)))
      else
        lua_pushstring(L,pchar(str));
