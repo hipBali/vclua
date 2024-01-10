@@ -44,7 +44,12 @@ local frmMain = VCL.Form( nil, 'mainForm',
 		Caption='VCLua Menu example',
 		Width=640,
 		Height=480,
-		position="poScreenCenter",
+		Position="poScreenCenter",
+		Font = {
+			Height = -19,
+            Name = "Courier New",
+			Pitch = "fpFixed",
+		}
 	}
 )
 local toolImages = VCL.ImageList(frmMain, 'toolImages', { Height=16, Width=16 })
@@ -127,8 +132,8 @@ local function setupImages()
 	local img	
 	local str
 	local add = function(t,b)
-		img = vcl.Image()	
-		str = vcl.Stream()
+		img = VCL.Image()	
+		str = VCL.Stream()
 		-- skip first 8 bytes
 		local memStr,size = str.LoadFromHex(b:sub(9))
 		img.picture.bitmap:LoadFromStream(memStr,size) 	
