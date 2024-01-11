@@ -1,6 +1,3 @@
-
-
-
 # vclua
 Gui library for lua
 
@@ -95,7 +92,8 @@ copy core.dll my_lua_libs/vcl/core.dll
 ```
 
 ## Documentation
+[Tips, tricks and tools](https://github.com/hipBali/vclua-tools)
 
-[VCLua Programming](docs/README.md)
+[Programming](docs/README.md)
 
-[VCLua Class reference](docs/vclua_ref.html)
+[Class reference](docs/vclua_ref.html)
