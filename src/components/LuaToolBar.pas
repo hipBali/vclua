@@ -184,7 +184,7 @@ var
 begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToolButton := TLuaToolButton.Create(Parent);
-	// := TWinControl(Parent);
+	lToolButton.Parent := TWinControl(Parent);
 	lToolButton.LuaCtl := TVCLuaControl.Create(TControl(lToolButton),L,@ToolButtonToTable);
 	InitControl(L,lToolButton,Name);
 	ToolButtonToTable(L, -1, lToolButton);

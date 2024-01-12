@@ -9,7 +9,6 @@ Generated with Lua-fpc parser/generator
 	LuaStringList in 'LuaStringList.pas',
 	LuaControl in 'LuaControl.pas',
 	LuaBitmap in 'LuaBitmap.pas',
-	LuaCustomBitmap in 'LuaCustomBitmap.pas',
 	LuaGraphic in 'LuaGraphic.pas',
 	LuaFont in 'LuaFont.pas',
 	LuaPen in 'LuaPen.pas',
@@ -79,6 +78,7 @@ Generated with Lua-fpc parser/generator
 	LuaColorListBox in 'LuaColorListBox.pas',
 	LuaStringGrid in 'LuaStringGrid.pas',
 	LuaDrawGrid in 'LuaDrawGrid.pas',
+	LuaValueListEditor in 'LuaValueListEditor.pas',
 	LuaCommonDialogs in 'LuaCommonDialogs.pas';
 	// *****************************************
 	
@@ -86,11 +86,14 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..84] of lual_reg = (
+	vcl_lib : array[0..88] of lual_reg = (
 		(name:'Strings'; func:@CreateStrings),
 		(name:'TextStrings'; func:@CreateTextStrings),
 		(name:'StringList'; func:@CreateStringList),
 		(name:'Control'; func:@CreateControl),
+		(name:'CustomBitmap'; func:@CreateCustomBitmap),
+		(name:'Bitmap'; func:@CreateBitmap),
+		(name:'Picture'; func:@CreatePicture),
 		(name:'Application'; func:@CreateApplication),
 		(name:'Form'; func:@CreateForm),
 		(name:'ScrollBox'; func:@CreateScrollBox),
@@ -163,6 +166,7 @@ Generated with Lua-fpc parser/generator
 		(name:'GridColumns'; func:@CreateGridColumns),
 		(name:'StringGrid'; func:@CreateStringGrid),
 		(name:'DrawGrid'; func:@CreateDrawGrid),
+		(name:'ValueListEditor'; func:@CreateValueListEditor),
 		(name:'ColorButton'; func:@CreateColorButton),
 		(name:'OpenDialog'; func:@CreateOpenDialog),
 		(name:'SaveDialog'; func:@CreateSaveDialog),

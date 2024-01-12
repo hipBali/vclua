@@ -73,14 +73,19 @@ classes = {
 	{ name = "Control", src = "TControl", ref = "Controls, Graphics"},
 	
 	-- graphics    
-	{ name = "Bitmap", src = "TBitmap", ref = "Graphics, LCLType", base=true, nocreate=true },
-	{ name = "CustomBitmap", src = "TCustomBitmap", ref = "Graphics, LCLType", base=true, nocreate=true },
+	{ unit = "Bitmap", ref = "Graphics, LCLType",
+		classes = {
+			{ name = "CustomBitmap", src = "TCustomBitmap", nv=true, noparent=true },
+			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true, impl = "CustomBitmap" },
+		}
+	},
+
 	{ name = "Graphic", src = "TGraphic", ref = "Graphics, LCLType", base=true, nocreate=true },
 	{ name = "Font", src = "TFont", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Pen", src = "TPen", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Brush", src = "TBrush", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Canvas", src = "TCanvas", ref = "Graphics, GraphType", base=true, nocreate=true, impl = "SetPixel", },
-	{ name = "Picture", src = "TPicture", ref = "Graphics", base=true, nocreate=true },
+	{ name = "Picture", src = "TPicture", ref = "Graphics", nv=true, noparent=true },
 	{ name = "RasterImage", src = "TRasterImage", ref = "Graphics, LCLType, Types", base=true, nocreate=true },
 	-- { name = "ImageList", src = "TImageList", ref = "Controls", noparent=true},
 
@@ -152,7 +157,7 @@ classes = {
 	
 	{ unit = "ToolBar", ref = "ComCtrls, Controls, ImgList, LuaImageList", canvas=true,
 		classes = {
-			{ name = "ToolButton", src = "TToolButton", noparent=true,},
+			{ name = "ToolButton", src = "TToolButton" },
 			{ name = "ToolBar", src = "TToolBar" },
 		}
 	},
@@ -221,6 +226,8 @@ classes = {
 	},
 	{ name = "DrawGrid", src = "TCustomDrawGrid", ref = "Grids, Controls" },
 	
+	-- valuelisteditor
+	{ name = "ValueListEditor", src = "TValueListEditor", ref = "ValEdit, Controls" , canvas=true},
 	-- dialogs
 	{ unit = "CommonDialogs", ref = "Dialogs, Controls",
 		classes = {

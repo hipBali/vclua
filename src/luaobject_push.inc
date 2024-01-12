@@ -14,11 +14,11 @@ else
 if (comp.InheritsFrom(TControl)) then
 	ControlToTable(L,index,Comp)
 else
-if (comp.InheritsFrom(TBitmap)) then
-	BitmapToTable(L,index,Comp)
-else
 if (comp.InheritsFrom(TCustomBitmap)) then
 	CustomBitmapToTable(L,index,Comp)
+else
+if (comp.InheritsFrom(TBitmap)) then
+	BitmapToTable(L,index,Comp)
 else
 if (comp.InheritsFrom(TGraphic)) then
 	GraphicToTable(L,index,Comp)
@@ -271,6 +271,9 @@ if (comp.InheritsFrom(TStringGrid)) then
 else
 if (comp.InheritsFrom(TDrawGrid)) then
 	DrawGridToTable(L,index,Comp)
+else
+if (comp.InheritsFrom(TValueListEditor)) then
+	ValueListEditorToTable(L,index,Comp)
 else
 if (comp.InheritsFrom(TColorButton)) then
 	ColorButtonToTable(L,index,Comp)

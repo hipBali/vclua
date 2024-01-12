@@ -1,7 +1,20 @@
 function_defnitions = {
+
+["CustomBitmap"] = {src = [[
+function #FNAME(L: Plua_State): Integer; cdecl;
+var
+  b: TLuaBitmap;
+begin
+  b := TLuaBitmap(GetLuaObject(L, 1));
+  CustomBitmapToTable(L, -1, TLuaCustomBitmap(b));
+  Result := 1;
+end;
+]],
+		finalMethodName="CustomBitmap",
+		vcluaMethodName="CustomBitmap",
+},
 	
-	["DialogExecute"] = {
-		src = [[
+["DialogExecute"] = {src = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var
   d: TCommonDialog;
@@ -13,9 +26,9 @@ end;
 ]],
 		finalMethodName="Execute",
 		vcluaMethodName="DoExecute",
-	},
-	["SetPixel"] = {
-		src = [[
+},
+
+["SetPixel"] = {src = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var
 	lCanvas:TLuaCanvas;
@@ -34,9 +47,11 @@ end;
 ]],
 		finalMethodName="SetPixel",
 		vcluaMethodName="SetPixel",
-	},
-	["AddMenu"] = {
+},
+
+["AddMenu"] = {
 		finalMethodName="Add",
 		vcluaMethodName="VCLua_MenuItem_Add",
-	},
+},
+
 }

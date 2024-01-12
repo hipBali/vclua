@@ -4,18 +4,17 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaPicture;	
 
-{$MODE Delphi}
-
 interface
 
 Uses Classes, Lua, LuaController, Graphics;
 
+function CreatePicture(L: Plua_State): Integer; cdecl;
 procedure PictureToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPicture = class(TPicture)
 		public
-			L:Plua_State;   
+			L:Plua_State;
     end;
 
 
@@ -144,5 +143,12 @@ begin
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
-
+function CreatePicture(L: Plua_State): Integer; cdecl;
+var
+	lPicture:TLuaPicture;
+begin
+	lPicture := TLuaPicture.Create;
+	PictureToTable(L, -1, lPicture);
+	Result := 1;
+end;
 end.
