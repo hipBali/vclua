@@ -158,9 +158,9 @@ begin
          rect.Left :=  lua_tointeger(L, -1)
       else if (lowercase(lua_tostring(L,-2))='top') then
          rect.Top :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='width') then
+      else if (lowercase(lua_tostring(L,-2))='right') then
          rect.Width :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='height') then
+      else if (lowercase(lua_tostring(L,-2))='bottom') then
          rect.Height :=  lua_tointeger(L, -1);
       lua_pop(L, 1);
     end;
@@ -175,9 +175,9 @@ begin
   lua_pushinteger(L, rect.Left);
   lua_pushliteral(L, 'top');
   lua_pushinteger(L, rect.Top);
-  lua_pushliteral(L, 'width');
+  lua_pushliteral(L, 'right');
   lua_pushinteger(L, rect.Width);
-  lua_pushliteral(L, 'height');
+  lua_pushliteral(L, 'bottom');
   lua_pushinteger(L, rect.Height);
   lua_settable(L, -9);
   lua_settable(L, -7);
