@@ -30,7 +30,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_CustomBitmap_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -230,7 +230,7 @@ begin
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'GetResourceType', @VCLua_Bitmap_GetResourceType);
 	LuaSetTableFunction(L, Index, 'LoadFromStream', @VCLua_Bitmap_LoadFromStream);
-	LuaSetTableFunction(L, Index, 'CustomBitmap', @VCLua_Bitmap_CustomBitmap);
+	LuaSetTableFunction(L, Index, 'Custom', @VCLua_Bitmap_CustomBitmap);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;

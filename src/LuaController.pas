@@ -61,7 +61,7 @@ type
           fOnLuaMouseWheelDown_Func,
           fOnLuaMouseWheelUp_Func,
 	  fOnLuaMouseEnter_Func,
-          fOnLuaMouseExit_Func,
+          fOnLuaMouseLeave_Func,
 		  
 	  //StringGrid
           fOnLuaHeaderClick_Func,
@@ -127,7 +127,10 @@ type
           fOnLuaSelectionChanged_Func,
 
           // PropertyGrid
-          fOnLuaModified_Func
+          fOnLuaModified_Func,
+
+          // CheckListBox
+          fOnSelectionChange_Func
 
           : TLuaCFunction;
 
@@ -163,7 +166,7 @@ type
           procedure OnLuaMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
           procedure OnLuaMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 	  procedure OnLuaMouseEnter(Sender: TObject);
-          procedure OnLuaMouseExit(Sender: TObject);
+          procedure OnLuaMouseLeave(Sender: TObject);
 
           //PageControl
           procedure OnLuaPageChanged(Sender: TObject);
@@ -230,6 +233,9 @@ type
           // PropertyGrid
           procedure OnLuaModified(Sender: TObject);
 
+          //
+          procedure OnLuaSelectionChangeEvent(Sender: TObject; User: boolean);
+
     // ----------------------------------------------------------------------------------------
     public
 
@@ -290,6 +296,9 @@ type
           procedure EditedEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Node: TTreeNode; var S: string);
           procedure NodeChangedEventHandler(Sender: TObject;  EventCFunc: TLuaCFunction; Node: TTreeNode; ChangeReason: TTreeNodeChangeReason);
 
+          // CheckListBox
+          procedure SelectionChangeEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; User: boolean);
+
         published
 
           // LUA Events
@@ -326,7 +335,7 @@ type
           property OnMouseWheelDown_Function: TLuaCFunction read fOnLuaMouseWheelDown_Func write fOnLuaMouseWheelDown_Func;
           property OnMouseWheelUp_Function: TLuaCFunction read fOnLuaMouseWheelUp_Func write fOnLuaMouseWheelUp_Func;
 	  property OnMouseEnter_Function: TLuaCFunction read fOnLuaMouseEnter_Func write fOnLuaMouseEnter_Func;
-          property OnMouseExit_Function: TLuaCFunction read fOnLuaMouseExit_Func write fOnLuaMouseExit_Func;
+          property OnMouseLeave_Function: TLuaCFunction read fOnLuaMouseLeave_Func write fOnLuaMouseLeave_Func;
 
           //PageControl
           property OnPageChanged_Function: TLuaCFunction read fOnLuaPageChanged_func write fOnLuaPageChanged_func;
@@ -395,6 +404,9 @@ type
           // Propertygrid
           property OnModified_Function: TLuaCFunction read fOnLuaModified_Func write fOnLuaModified_Func;
 
+          // CheckListBox
+          property OnSelectionChange_Function: TLuaCFunction read fOnSelectionChange_Func write fOnSelectionChange_Func;
+
      end;
 
      TLuaBaseControl = class(TComponent)
@@ -403,6 +415,7 @@ type
 
 // *************************************************************************
 function StringToShiftState(Shift:String):TShiftState;
+// function CheckBoxStateToString(State:TCheckBoxState):String;
 
 procedure GetControlParents(L: Plua_State; var Parent:TWinControl; var Name:String);
 procedure InitControl(L: Plua_State; luaObj:TObject; var Name:String);
@@ -699,6 +712,7 @@ begin
      include(Result,ssDouble);
 end;
 
+
 function DrawGridStateToString(State:TGridDrawState):String;
 begin
   Result := '[';
@@ -719,6 +733,32 @@ begin
   else
      Result := Result + ']';
 end;
+
+(*
+function StringToCheckBoxState(State:String):TCheckBoxState;
+begin
+  Result := [];
+  if AnsiContainsStr(State,'cbUnchecked') then
+     include(Result,cbUnchecked);
+  if AnsiContainsStr(State,'cbChecked') then
+     include(Result,cbChecked);
+  if AnsiContainsStr(State,'cbGrayed') then
+     include(Result,cbGrayed);
+end;
+
+function CheckBoxStateToString(State:TCheckBoxState):String;
+begin
+  Result := '[';
+  if cbUnchecked in State then
+     Result := Result + 'cbUnchecked,';
+  if cbChecked in State then
+     Result := Result + 'cbChecked,';
+  if cbGrayed in State then
+     Result := Result + 'cbGrayed,';
+  else
+     Result := Result + ']';
+end;
+*)
 
 // ***********************************************
 // LUA Events
@@ -1324,6 +1364,17 @@ begin
     end;
 end;
 
+procedure TVCLuaControl.SelectionChangeEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; User: boolean);
+var LL:Plua_State;
+begin
+    LL := GetLuaState(Sender);
+    if CheckEvent(LL,Sender,EventCFunc) then begin
+       ToTable(LL, -1, Sender);
+       lua_pushboolean(LL, User);
+       DoCall(LL,2);
+    end;
+end;
+
 //LUA Event Catch
 procedure TVCLuaControl.OnLuaMinimize(Sender: TObject);
   begin NotifyEventHandler(Sender, OnMinimize_Function);end;
@@ -1388,8 +1439,8 @@ procedure TVCLuaControl.OnLuaMouseWheelUp(Sender: TObject; Shift: TShiftState; M
   begin MouseWheelUpDownEventHandler(Sender, OnMouseWheelUp_Function, Shift, MousePos, Handled);end;
 procedure TVCLuaControl.OnLuaMouseEnter(Sender: TObject);
   begin NotifyEventHandler(Sender, OnMouseEnter_Function);end;
-procedure TVCLuaControl.OnLuaMouseExit(Sender: TObject);
-  begin NotifyEventHandler(Sender, OnMouseExit_Function);end; 
+procedure TVCLuaControl.OnLuaMouseLeave(Sender: TObject);
+  begin NotifyEventHandler(Sender, OnMouseLeave_Function);end; 
 
 //PageControl
 procedure TVCLuaControl.OnLuaPageChanged(Sender: TObject);
@@ -1520,6 +1571,20 @@ begin NotifyEventHandler(Sender, OnSelectionChanged_Function);end;
 procedure TVCLuaControl.OnLuaModified(Sender: TObject);
 begin NotifyEventHandler(Sender, OnModified_Function);end;
 
+// CheckListBox
+// TSelectionChangeEvent = procedure(Sender: TObject; User: boolean) of object;
+procedure TVCLuaControl.OnLuaSelectionChangeEvent(Sender: TObject; User: boolean);
+begin
+    SelectionChangeEventHandler(Sender, OnSelectionChange_Function, User);
+end;
+
 
 end.
 
+(*
+type TContextPopupEvent = procedure(
+  Sender: TObject;
+  MousePos: TPoint;
+  var Handled: Boolean
+) of object;
+*)

@@ -20,7 +20,7 @@ Uses Classes, Lua, LuaController#REF;
 #INTFCE
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 #BODY
 #CREATE
@@ -37,7 +37,7 @@ Uses Classes, Lua, LuaController#REF;
 #INTFCE
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 #BODY
 #CREATE

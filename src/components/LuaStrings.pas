@@ -19,7 +19,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Strings_Add(L: Plua_State): Integer; cdecl;
 var 
@@ -106,13 +106,13 @@ function VCLua_Strings_AddStrings2(L: Plua_State): Integer; cdecl;
 var 
 	lStrings:TLuaStrings;
 	TheStrings:TStrings;
-	ClearFirst :Boolean;
+	ClearFirst:Boolean;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	TheStrings := TStrings(GetLuaObject(L,2));
-	ClearFirst  := lua_toboolean(L,3);
-	lStrings.AddStrings(TheStrings,ClearFirst );
+	ClearFirst := lua_toboolean(L,3);
+	lStrings.AddStrings(TheStrings,ClearFirst);
 	
 	Result := 0;
 end;
@@ -134,13 +134,13 @@ function VCLua_Strings_AddStrings4(L: Plua_State): Integer; cdecl;
 var 
 	lStrings:TLuaStrings;
 	TheStrings:array of string;
-	ClearFirst :Boolean;
+	ClearFirst:Boolean;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	TheStrings := lua_toStringArray(L,2);
-	ClearFirst  := lua_toboolean(L,3);
-	lStrings.AddStrings(TheStrings,ClearFirst );
+	ClearFirst := lua_toboolean(L,3);
+	lStrings.AddStrings(TheStrings,ClearFirst);
 	
 	Result := 0;
 end;
@@ -349,16 +349,16 @@ end;
 function VCLua_Strings_GetNameValue(L: Plua_State): Integer; cdecl;
 var 
 	lStrings:TLuaStrings;
-	Index :Integer;
+	Index:Integer;
 	AName:String;
-	AValue :String;
+	AValue:String;
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Index  := lua_tointeger(L,2);
-	lStrings.GetNameValue(Index ,AName,AValue );
+	Index := lua_tointeger(L,2);
+	lStrings.GetNameValue(Index,AName,AValue);
 	lua_pushStringCP(L,AName);
-	lua_pushStringCP(L,AValue );
+	lua_pushStringCP(L,AValue);
 	Result := 2;
 end;
 
@@ -394,14 +394,14 @@ function VCLua_Strings_IndexOf2(L: Plua_State): Integer; cdecl;
 var 
 	lStrings:TLuaStrings;
 	S:string;
-	aStart :Integer;
+	aStart:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
-	aStart  := lua_tointeger(L,3);
-	ret := lStrings.IndexOf(S,aStart );
+	aStart := lua_tointeger(L,3);
+	ret := lStrings.IndexOf(S,aStart);
 	lua_pushinteger(L,ret);
 	
 	Result := 1;
@@ -473,14 +473,14 @@ function VCLua_Strings_LastIndexOf(L: Plua_State): Integer; cdecl;
 var 
 	lStrings:TLuaStrings;
 	S:string;
-	aStart :Integer;
+	aStart:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
-	aStart  := lua_tointeger(L,3);
-	ret := lStrings.LastIndexOf(S,aStart );
+	aStart := lua_tointeger(L,3);
+	ret := lStrings.LastIndexOf(S,aStart);
 	lua_pushinteger(L,ret);
 	
 	Result := 1;
@@ -518,13 +518,13 @@ function VCLua_Strings_LoadFromFile2(L: Plua_State): Integer; cdecl;
 var 
 	lStrings:TLuaStrings;
 	FileName:string;
-	IgnoreEncoding :Boolean;
+	IgnoreEncoding:Boolean;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	FileName := lua_toStringCP(L,2);
-	IgnoreEncoding  := lua_toboolean(L,3);
-	lStrings.LoadFromFile(FileName,IgnoreEncoding );
+	IgnoreEncoding := lua_toboolean(L,3);
+	lStrings.LoadFromFile(FileName,IgnoreEncoding);
 	
 	Result := 0;
 end;
@@ -546,13 +546,13 @@ function VCLua_Strings_LoadFromStream2(L: Plua_State): Integer; cdecl;
 var 
 	lStrings:TLuaStrings;
 	Stream:TStream;
-	IgnoreEncoding :Boolean;
+	IgnoreEncoding:Boolean;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	Stream := TStream(GetLuaObject(L,2));
-	IgnoreEncoding  := lua_toboolean(L,3);
-	lStrings.LoadFromStream(Stream,IgnoreEncoding );
+	IgnoreEncoding := lua_toboolean(L,3);
+	lStrings.LoadFromStream(Stream,IgnoreEncoding);
 	
 	Result := 0;
 end;
@@ -589,13 +589,13 @@ function VCLua_Strings_SaveToFile2(L: Plua_State): Integer; cdecl;
 var 
 	lStrings:TLuaStrings;
 	FileName:string;
-	IgnoreEncoding :Boolean;
+	IgnoreEncoding:Boolean;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	FileName := lua_toStringCP(L,2);
-	IgnoreEncoding  := lua_toboolean(L,3);
-	lStrings.SaveToFile(FileName,IgnoreEncoding );
+	IgnoreEncoding := lua_toboolean(L,3);
+	lStrings.SaveToFile(FileName,IgnoreEncoding);
 	
 	Result := 0;
 end;
@@ -617,13 +617,13 @@ function VCLua_Strings_SaveToStream2(L: Plua_State): Integer; cdecl;
 var 
 	lStrings:TLuaStrings;
 	Stream:TStream;
-	IgnoreEncoding :Boolean;
+	IgnoreEncoding:Boolean;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	Stream := TStream(GetLuaObject(L,2));
-	IgnoreEncoding  := lua_toboolean(L,3);
-	lStrings.SaveToStream(Stream,IgnoreEncoding );
+	IgnoreEncoding := lua_toboolean(L,3);
+	lStrings.SaveToStream(Stream,IgnoreEncoding);
 	
 	Result := 0;
 end;
@@ -652,6 +652,15 @@ begin
 	lStrings.SetText(TheText);
 	
 	Result := 0;
+end;
+
+function VCLua_Strings_ItemsToTable(L: Plua_State): Integer; cdecl;
+var
+  items: TStrings;
+begin
+  items := TStrings(GetLuaObject(L, 1));
+  lua_pushStrings(L, items); 
+  Result := 1;
 end;
 
 procedure StringsToTable(L:Plua_State; Index:Integer; Sender:TObject);
@@ -701,6 +710,7 @@ begin
 	LuaSetTableFunction(L, Index, 'SaveToStream2', @VCLua_Strings_SaveToStream2);
 	LuaSetTableFunction(L, Index, 'Shift', @VCLua_Strings_Shift);
 	LuaSetTableFunction(L, Index, 'SetText', @VCLua_Strings_SetText);
+	LuaSetTableFunction(L, Index, 'ToTable', @VCLua_Strings_ItemsToTable);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;

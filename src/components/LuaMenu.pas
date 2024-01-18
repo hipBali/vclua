@@ -44,7 +44,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
 var 
@@ -536,7 +536,7 @@ var
 begin
 	CheckArg(L, -1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	forced := luaL_optbool(L,2, false);
+	forced := luaL_optbool(L,2,false);
 	lMenuItem.UpdateImage(forced);
 	
 	Result := 0;
@@ -549,7 +549,7 @@ var
 begin
 	CheckArg(L, -1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	forced := luaL_optbool(L,2, false);
+	forced := luaL_optbool(L,2,false);
 	lMenuItem.UpdateImages(forced);
 	
 	Result := 0;

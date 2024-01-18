@@ -36,7 +36,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_ListItem_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -171,12 +171,12 @@ end;
 function VCLua_ListItems_Delete(L: Plua_State): Integer; cdecl;
 var 
 	lListItems:TLuaListItems;
-	AIndex :Integer;
+	AIndex:Integer;
 begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AIndex  := lua_tointeger(L,2);
-	lListItems.Delete(AIndex );
+	AIndex := lua_tointeger(L,2);
+	lListItems.Delete(AIndex);
 	
 	Result := 0;
 end;
@@ -240,7 +240,7 @@ begin
 	Partial := lua_toboolean(L,4);
 	Inclusive := lua_toboolean(L,5);
 	Wrap := lua_toboolean(L,6);
-	PartStart := luaL_optbool(L,7, True);
+	PartStart := luaL_optbool(L,7,True);
 	ret := lListItems.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
 	ListItemsToTable(L,-1,ret);
 	
@@ -446,7 +446,7 @@ begin
 	Partial := lua_toboolean(L,4);
 	Inclusive := lua_toboolean(L,5);
 	Wrap := lua_toboolean(L,6);
-	PartStart := luaL_optbool(L,7, True);
+	PartStart := luaL_optbool(L,7,True);
 	ret := lListView.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
 	ListViewToTable(L,-1,ret);
 	

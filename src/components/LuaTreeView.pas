@@ -36,7 +36,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 
 function VCLua_TreeNodes_Add(L: Plua_State): Integer; cdecl;
@@ -460,7 +460,7 @@ var
 begin
 	CheckArg(L, -1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	ClearSelected := luaL_optbool(L,2, false);
+	ClearSelected := luaL_optbool(L,2,false);
 	lTreeNodes.ClearMultiSelection(ClearSelected);
 	
 	Result := 0;
@@ -590,7 +590,7 @@ var
 begin
 	CheckArg(L, -1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	KeepPrimary := luaL_optbool(L,2, false);
+	KeepPrimary := luaL_optbool(L,2,false);
 	lTreeView.ClearSelection(KeepPrimary);
 	
 	Result := 0;
@@ -898,7 +898,7 @@ begin
 	CheckArg(L, -1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	Node := TTreeNode(GetLuaObject(L,2));
-	ShiftState := lua_toTShiftState(L,3, []);
+	ShiftState := lua_toTShiftState(L,3,[]);
 	lTreeView.Select(Node,ShiftState);
 	
 	Result := 0;
@@ -987,7 +987,7 @@ begin
 	CheckArg(L, -1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ASelection := TStringList(GetLuaObject(L,2));
-	FreeList := luaL_optbool(L,3, True);
+	FreeList := luaL_optbool(L,3,True);
 	lTreeView.ApplyStoredSelection(ASelection,FreeList);
 	
 	Result := 0;
@@ -1000,7 +1000,7 @@ var
 begin
 	CheckArg(L, -1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ASelect := luaL_optbool(L,2, False);
+	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MoveToNextNode(ASelect);
 	
 	Result := 0;
@@ -1013,7 +1013,7 @@ var
 begin
 	CheckArg(L, -1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ASelect := luaL_optbool(L,2, False);
+	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MoveToPrevNode(ASelect);
 	
 	Result := 0;
@@ -1026,7 +1026,7 @@ var
 begin
 	CheckArg(L, -1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ASelect := luaL_optbool(L,2, False);
+	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MovePageDown(ASelect);
 	
 	Result := 0;
@@ -1039,7 +1039,7 @@ var
 begin
 	CheckArg(L, -1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ASelect := luaL_optbool(L,2, False);
+	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MovePageUp(ASelect);
 	
 	Result := 0;
@@ -1052,7 +1052,7 @@ var
 begin
 	CheckArg(L, -1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ASelect := luaL_optbool(L,2, False);
+	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MoveHome(ASelect);
 	
 	Result := 0;
@@ -1065,7 +1065,7 @@ var
 begin
 	CheckArg(L, -1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ASelect := luaL_optbool(L,2, False);
+	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MoveEnd(ASelect);
 	
 	Result := 0;

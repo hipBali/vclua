@@ -28,7 +28,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_ToolButton_CheckMenuDropdown(L: Plua_State): Integer; cdecl;
 var 
@@ -69,17 +69,17 @@ function VCLua_ToolButton_GetPreferredSize(L: Plua_State): Integer; cdecl;
 var 
 	lToolButton:TLuaToolButton;
 	PreferredWidth:integer;
-	 PreferredHeight:integer;
+	PreferredHeight:integer;
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
 	CheckArg(L, -1);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
-	Raw := luaL_optbool(L,2, false);
-	WithThemeSpace := luaL_optbool(L,3, true);
-	lToolButton.GetPreferredSize(PreferredWidth, PreferredHeight,Raw,WithThemeSpace);
+	Raw := luaL_optbool(L,2,false);
+	WithThemeSpace := luaL_optbool(L,3,true);
+	lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_pushinteger(L,PreferredWidth);
-	lua_pushinteger(L, PreferredHeight);
+	lua_pushinteger(L,PreferredHeight);
 	Result := 2;
 end;
 

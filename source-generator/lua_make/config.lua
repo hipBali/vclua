@@ -65,7 +65,7 @@ classes = {
 	-- { name = "Strings", src = "TStrings", nocreate=true },
 	------------------------------------------------------------------
 	-- TStrings and descenants
-	{ name = "Strings", src = "TStrings",  nv=true, noparent=true },
+	{ name = "Strings", src = "TStrings", nv=true, noparent=true, impl = "ItemsToTable" },
 	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 	{ name = "StringList", src = "TStringList", classparent="TStrings", nv=true, noparent=true },
 
@@ -192,7 +192,11 @@ classes = {
 	-- maskedit
 	{ name = "MaskEdit", src = "TMaskEdit", ref = "MaskEdit, Controls" },
 	-- checklistbox
-	{ name = "CheckListBox", src = "TCheckListBox", ref = "CheckLst, Controls" },
+	{ name = "CheckListBox", src = "TCustomCheckListBox", ref = "CheckLst, Controls, StdCtrls", 
+		impl = "CheckListBoxGetChecked, CheckListBoxSetChecked" },
+	
+	
+	
 	-- popupnotifier
 	{ name = "PopupNotifier", src = "TPopupNotifier", ref = "PopupNotifier, Controls", noparent=true, },
 	-- datetimepicker
@@ -217,14 +221,19 @@ classes = {
 	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox, Controls" },
 	
 	-- grids
-	{ unit = "StringGrid", ref = "Grids, Controls", canvas=true,
+	{ unit = "StringGrid", ref = "Grids, Controls", 
 		classes = {
 			{ name = "GridColumn", src = "TGridColumn", noparent=true, parentclass="TCollection", nocreate=true},
 			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", wclass="TGridColumn"},
-			{ name = "StringGrid", src = "TCustomStringGrid"},
+			{ name = "StringGrid", src = "TCustomStringGrid", canvas=true, 
+			  impl="GetCells, SetCells, GetCellRect, GetSelectedCell, MouseToCell, DrawCell"},
 		},
 	},
-	{ name = "DrawGrid", src = "TCustomDrawGrid", ref = "Grids, Controls" },
+	{ unit = "DrawGrid", ref = "Grids, Controls", 
+		classes = {
+			{ name = "DrawGrid", src = "TCustomDrawGrid", canvas=true },
+		},
+	},
 	
 	-- valuelisteditor
 	{ name = "ValueListEditor", src = "TValueListEditor", ref = "ValEdit, Controls" , canvas=true},
@@ -243,4 +252,5 @@ classes = {
 	},
 
 }	
+
 

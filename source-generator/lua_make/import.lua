@@ -82,17 +82,17 @@ function saveTextToFile(txt, fileName)
 	end
 end
 
-function string:split(sep)
-   local sep, fields = sep or ":", {}
-   local pattern = string.format("([^%s]+)", sep)
-   self:gsub(pattern, function(c) fields[#fields+1] = c end)
-   return fields
-end
-
 function string:trim()
  local s = self
  local from = s:match"^%s*()"
  return from > #s and "" or s:match(".*%S", from)
+end
+
+function string:split(sep)
+   local sep, fields = sep or ":", {}
+   local pattern = string.format("([^%s]+)", sep)
+   self:gsub(pattern, function(c) fields[#fields+1] = c:trim() end)
+   return fields
 end
 
 function removeInnerComment(l)
@@ -248,7 +248,7 @@ function processParams(s)
 		local tmp = s:split(";")
 		local vart = {}
 		for n,t in pairs(tmp) do
-			local p = t:trim():split(":") -- varname:typedef
+			local p = t:split(":") -- varname:typedef
 			-- untyped to pointer?
 			if p[2] == nil then
 				p[2] = "Pointer"
@@ -273,7 +273,7 @@ function processParams(s)
 		end
 		-- process params
 		for n,t in pairs(vart) do
-			local p = t:trim():split(":")
+			local p = t:split(":")
 			local varName = p[1]:gsub("var ",""):gsub("out ",""):gsub("Var ",""):gsub("Out ","")
 			local varType = p[2]
 			
@@ -318,7 +318,7 @@ function createUnitBody(cdef, ref)
 		local retCount = 0
 		local vars, varlist, funcparams, out = processParams(method)
 		if mType=="function" then
-			ret = method:trim():split(":")
+			ret = method:split(":")
 			reto = ret[#ret]:match("%w+")
 			ret = reto:lower()
 			retCount = 1
@@ -331,8 +331,6 @@ function createUnitBody(cdef, ref)
 		if overLoads[mName] then
 			finalMethodName = mName..overLoads[mName]
 			vcluaMethodName = finalMethodName
-			print(className, Name,finalMethodName)
-			
 		else
 			local csens
 			for n,_ in pairs(overLoads) do
@@ -435,6 +433,7 @@ function createUnitBody(cdef, ref)
 		if cdef.impl then
 			fncs = cdef.impl:split(",")
 			for f=1,#fncs do
+				cLog("#############  "..fncs[f], "DEBUG")
 				local t = function_defnitions[fncs[f]]
 				if t and t.src then 
 					local vcluaMethodName = "VCLua_"..className.."_"..t.vcluaMethodName
@@ -488,7 +487,7 @@ local cfile
 for n,cdef in pairs(classes) do
 	local ref
 	if cdef.ref then
-		ref = cdef.ref:trim():split(",")
+		ref = cdef.ref:split(",")
 		ref = ref[1]
 	else
 		ref = "Default"
@@ -569,7 +568,7 @@ for n,cdef in pairs(classes) do
 	if cdef.ref then
 		local p = cdef.ref:split(",")
 		for i,_ in pairs(p) do
-			pasRefs[p[1]:trim()] = 1
+			pasRefs[p[1]] = 1
 		end
 	end
 	local pName = cdef.name or cdef.unit

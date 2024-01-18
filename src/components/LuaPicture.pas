@@ -19,7 +19,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Picture_Clear(L: Plua_State): Integer; cdecl;
 var 
@@ -82,7 +82,7 @@ begin
 	CheckArg(L, -1);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	Filename := lua_toStringCP(L,2);
-	FileExt := luaL_optstring(L,3,' ');
+	FileExt := luaL_optstring(L,3,'');
 	lPicture.SaveToFile(Filename,FileExt);
 	
 	Result := 0;

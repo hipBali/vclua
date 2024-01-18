@@ -20,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Canvas_Lock(L: Plua_State): Integer; cdecl;
 var 
@@ -510,8 +510,8 @@ begin
 	CheckArg(L, -1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
-	Filled := luaL_optbool(L,3, False);
-	Continuous := luaL_optbool(L,4, True);
+	Filled := luaL_optbool(L,3,False);
+	Continuous := luaL_optbool(L,4,True);
 	lCanvas.PolyBezier(Points,Filled,Continuous);
 	
 	Result := 0;
@@ -529,8 +529,8 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
 	Winding := lua_toboolean(L,3);
-	StartIndex := luaL_optint(L,4, 0);
-	NumPts := luaL_optint(L,5, -1);
+	StartIndex := luaL_optint(L,4,0);
+	NumPts := luaL_optint(L,5,-1);
 	lCanvas.Polygon(Points,Winding,StartIndex,NumPts);
 	
 	Result := 0;
@@ -560,7 +560,7 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
 	StartIndex := lua_tointeger(L,3);
-	NumPts := luaL_optint(L,4, -1);
+	NumPts := luaL_optint(L,4,-1);
 	lCanvas.Polyline(Points,StartIndex,NumPts);
 	
 	Result := 0;

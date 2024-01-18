@@ -449,9 +449,11 @@ begin
      SetPropertiesFromLuaTable(L,Comp,3);
   end else begin
     PInfo := GetPropInfo(TComponent(Comp).ClassInfo, PropName);
-    if (PInfo <> nil) and (lua_gettop(L)=3) then begin
-      CheckAndSetProperty(L,Comp,PInfo,PropName,3);
-    end else begin
+    if (PInfo <> nil) and (lua_gettop(L)=3) then
+      CheckAndSetProperty(L,Comp,PInfo,PropName,3)
+    // else if (PInfo <> nil) and (PInfo^.Proptype^.Kind = tkArray) then
+    //    lua_setArrayProperty(L)
+    else begin
        case lua_type(L,3) of
   		LUA_TNIL: LuaRawSetTableNil(L,1,lua_tostring(L, 2));
   		LUA_TBOOLEAN: LuaRawSetTableBoolean(L,1,lua_tostring(L, 2),lua_toboolean(L, 3));
@@ -504,7 +506,7 @@ begin
                 lua_pushnil(L);
             end;
           tkInteger:
-            lua_pushnumber(L,GetOrdProp(Comp, PInfo));
+            lua_pushinteger(L,GetOrdProp(Comp, PInfo));
           tkChar,
           tkWChar:
             lua_pushnumber(L,GetOrdProp(Comp, PInfo));
