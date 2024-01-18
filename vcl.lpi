@@ -15,11 +15,14 @@
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
-        <DpiAware Value="True/PM_V2"/>
+        <DpiAware Value="True"/>
+        <ExecutionLevel Value="requireAdministrator"/>
         <UIAccess Value="True"/>
+        <AnsiUTF8 Value="True"/>
         <TextName Value="Hip.VCLua.Library"/>
         <TextDesc Value="Visual controls for Lua 5.x"/>
       </XPManifest>
+      <Icon Value="0"/>
     </General>
     <i18n>
       <EnableI18N LFM="False"/>
@@ -28,12 +31,12 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
-      <RevisionNr Value="1"/>
-      <BuildNr Value="60"/>
+      <RevisionNr Value="2"/>
+      <BuildNr Value="123"/>
       <Language Value="0809"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPreRelease="True"/>
-      <StringTable Comments="Under development" CompanyName="Hi-Project Ltd." FileDescription="VCLua" InternalName="VCLua" LegalCopyright="(C) 2006-2023 Hi-Project Ltd." ProductName="VCLua" ProductVersion="0.9.1"/>
+      <StringTable Comments="Under development" CompanyName="Hi-Project Ltd." FileDescription="VCLua" InternalName="VCLua" LegalCopyright="(C) 2006-2023 Hi-Project Ltd." ProductName="VCLua" ProductVersion="0.9.2"/>
     </VersionInfo>
     <BuildModes Count="5">
       <Item1 Name="Default" Default="True"/>
@@ -46,7 +49,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="src;src\genericsrc;$(ProjOutDir)"/>
-            <OtherUnitFiles Value="src;src\genericsrc;$(LazarusDir)\components\synedit;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols"/>
+            <OtherUnitFiles Value="src;src\genericsrc;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\datetimectrls"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -77,7 +80,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="src;src\genericsrc;$(ProjOutDir)"/>
-            <OtherUnitFiles Value="src;src\components;src\synedit;src\genericsrc;$(LazarusDir)\components\synedit;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols"/>
+            <OtherUnitFiles Value="src;src\components;src\genericsrc;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\datetimectrls"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -106,7 +109,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="src;src\genericsrc;$(ProjOutDir)"/>
-            <OtherUnitFiles Value="src;src\components;src\synedit;src\genericsrc;$(LazarusDir)\components\synedit;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols"/>
+            <OtherUnitFiles Value="src;src\components;src\genericsrc;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\datetimectrls"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -135,7 +138,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="src;src\genericsrc;$(ProjOutDir)"/>
-            <OtherUnitFiles Value="src;src\components;src\synedit;src\genericsrc;$(LazarusDir)\components\synedit;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols"/>
+            <OtherUnitFiles Value="src;src\components;src\genericsrc;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\datetimectrls"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -173,44 +176,11 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="9">
+    <Units Count="1">
       <Unit0>
         <Filename Value="src\vcl.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
-      <Unit1>
-        <Filename Value="src\LuaHelper.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit1>
-      <Unit2>
-        <Filename Value="src\LuaController.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="src\LuaProperties.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="src\LuaObject.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit4>
-      <Unit5>
-        <Filename Value="src\LuaProxy.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="src\LuaDialogs.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="src\LuaStream.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="src\lua.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="Lua"/>
-      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -221,7 +191,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="src;$(ProjOutDir)"/>
-      <OtherUnitFiles Value="src;src\components;$(LazarusDir)\components\synedit;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\lazutils;$(LazarusDir)\components\datetimectrls"/>
+      <OtherUnitFiles Value="src;src\components;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\lazutils;$(LazarusDir)\components\datetimectrls"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
@@ -237,8 +207,8 @@
         <OverflowChecks Value="True"/>
         <StackChecks Value="True"/>
       </Checks>
-      <TargetCPU Value="i386"/>
-      <TargetOS Value="win32"/>
+      <TargetCPU Value="x86_64"/>
+      <TargetOS Value="win64"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
@@ -259,7 +229,8 @@
         <ShowNotes Value="False"/>
         <ShowHints Value="False"/>
       </Verbosity>
-      <CustomOptions Value="-dLUA51"/>
+      <CustomOptions Value="-dLUA54
+-dPROPERTYGRID"/>
     </Other>
   </CompilerOptions>
 </CONFIG>
