@@ -25,11 +25,13 @@ src_generator/lua_make changes:
 	- TBitmap can be casted to TCustomBitmap (funcdef.lua)
 	- TCheckListBox: added GetChecked/SetChecked functions (config.lua, funcdef.lua)
 	- TStrings: added ToTable() function (config.lua, funcdef.lua)
+	- TStringGrid: added SetCells, GetCells, GetCellRect, GetSelectedCell, MouseToCell, DrawCell methods
 
 LuaProperties module:
 	- TColor handling fixed:
 		component.color = "clRed"
 		component.color = 0xFF0000
+	- fixed tkInteger property type bug
 
 LuaController module:
 	- MouseExit event replaced to MouseLeave
