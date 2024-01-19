@@ -141,10 +141,10 @@ begin
   lua_newtable(L);
   lua_pushliteral(L, 'x');
   lua_pushinteger(L, point.x);
+  lua_rawset(L,-3);
   lua_pushliteral(L, 'y');
   lua_pushinteger(L, point.y);
-  lua_settable(L, -5);
-  lua_settable(L, -3);
+  lua_rawset(L,-3);
 end;
 
 function lua_toTRect(L: Plua_State; Index: Integer):TRect;
@@ -173,16 +173,16 @@ begin
   lua_newtable(L);
   lua_pushliteral(L, 'left');
   lua_pushinteger(L, rect.Left);
+  lua_rawset(L,-3);
   lua_pushliteral(L, 'top');
   lua_pushinteger(L, rect.Top);
+  lua_rawset(L,-3);
   lua_pushliteral(L, 'right');
   lua_pushinteger(L, rect.Right);
+  lua_rawset(L,-3);
   lua_pushliteral(L, 'bottom');
   lua_pushinteger(L, rect.Bottom);
-  lua_settable(L, -9);
-  lua_settable(L, -7);
-  lua_settable(L, -5);
-  lua_settable(L, -3);
+  lua_rawset(L,-3);
 end;
 
 function lua_toTSize(L: Plua_State; Index: Integer):TSize;
