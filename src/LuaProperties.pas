@@ -504,11 +504,10 @@ begin
               else
                 lua_pushnil(L);
             end;
-          tkInteger:
-            lua_pushinteger(L,GetOrdProp(Comp, PInfo));
+          tkInteger,
           tkChar,
           tkWChar:
-            lua_pushnumber(L,GetOrdProp(Comp, PInfo));
+            lua_pushinteger(L,GetOrdProp(Comp, PInfo));
           tkBool:
             begin
               strValue := GetEnumName(PInfo^.PropType, GetOrdProp(Comp, PInfo));
