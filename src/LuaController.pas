@@ -11,6 +11,7 @@ Uses Controls,
      ComCtrls,
      Lua,
      LuaHelper,
+     LuaProxy,
 //     SynEdit,
 //     SynEditKeyCmds,
      LclType,
@@ -1043,20 +1044,7 @@ begin
     ToTable(LL, -1, Sender);
     lua_pushnumber(LL,ACol);
     lua_pushnumber(LL,ARow);
-    
-    lua_newtable(LL);
-    lua_pushliteral(LL,'Left');
-    lua_pushnumber(LL,Rect.Left);    
-    lua_rawset(LL,-3);
-    lua_pushliteral(LL,'Top');
-    lua_pushnumber(LL,Rect.Top);    
-    lua_rawset(LL,-3);
-    lua_pushliteral(LL,'Right');
-    lua_pushnumber(LL,Rect.Right);    
-    lua_rawset(LL,-3);
-    lua_pushliteral(LL,'Bottom');
-    lua_pushnumber(LL,Rect.Bottom);    
-    lua_rawset(LL,-3);    
+    lua_pushTRect(LL,Rect);
     lua_pushString(LL,pchar(DrawGridStateToString(State)));
     DoCall(LL,5);
     end;
