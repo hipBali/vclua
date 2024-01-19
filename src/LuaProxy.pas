@@ -122,14 +122,18 @@ end;
 function lua_toTPoint(L: Plua_State; Index: Integer):TPoint;
 var
   point:TPoint;
+  s:AnsiString;
 begin
   if lua_istable(L,Index) then begin
     lua_pushnil(L);
     while (lua_next(L, Index) <> 0) do begin
-      if (lowercase(lua_tostring(L,-2))='x') then
-         point.x :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='y') then
-         point.y :=  lua_tointeger(L, -1);
+      if (lua_type(L, -2) = LUA_TSTRING) then begin
+        s := lowercase(lua_tostring(L,-2));
+        if (s='x') then
+           point.x :=  lua_tointeger(L, -1)
+        else if (s='y') then
+           point.y :=  lua_tointeger(L, -1);
+      end;
       lua_pop(L, 1);
     end;
   end;
@@ -150,18 +154,22 @@ end;
 function lua_toTRect(L: Plua_State; Index: Integer):TRect;
 var
   rect:TRect;
+  s:AnsiString;
 begin
   if lua_istable(L,Index) then begin
     lua_pushnil(L);
     while (lua_next(L, Index) <> 0) do begin
-      if (lowercase(lua_tostring(L,-2))='left') then
-         rect.Left :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='top') then
-         rect.Top :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='right') then
-         rect.Right :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='bottom') then
-         rect.Bottom :=  lua_tointeger(L, -1);
+      if (lua_type(L, -2) = LUA_TSTRING) then begin
+        s := lowercase(lua_tostring(L,-2));
+        if (s='left') then
+           rect.Left :=  lua_tointeger(L, -1)
+        else if (s='top') then
+           rect.Top :=  lua_tointeger(L, -1)
+        else if (s='right') then
+           rect.Right :=  lua_tointeger(L, -1)
+        else if (s='bottom') then
+           rect.Bottom :=  lua_tointeger(L, -1);
+      end;
       lua_pop(L, 1);
     end;
   end;
