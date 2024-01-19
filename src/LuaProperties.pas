@@ -352,9 +352,8 @@ begin
           tkString, tkLString, tkWString:
 	      	  SetStrProp(Comp, PInfo, lua_toStringCP(L, index));
 
-          tkInt64: begin
-	      	  SetInt64Prop(Comp, PInfo, Int64(Round(lua_tointeger(L, index))));
-                  end;
+          tkInt64:
+                  SetInt64Prop(Comp, PInfo, lua_tointeger(L, index));
        else begin
                  Str := lua_toStringCP(L, index);
                  if (PInfo^.Proptype^.Name='TTranslateString') then
