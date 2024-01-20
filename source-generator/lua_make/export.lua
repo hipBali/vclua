@@ -1,11 +1,11 @@
 -- **************************************************** --
 --                                                      --
--- VCLua 1.1 Class document generator                     --
+-- VCLua 1.1 Class document generator                   --
 --                                                      --
--- (C) 2018-2023 Hi-Project Ltd.                        --
+-- (C) 2018-2024 Hi-Project Ltd.                        --
 --                                                      --
 -- **************************************************** --
-package.path="package.path;?.lua;lua_make/?.lua;lua_make/lib/?.lua;"
+package.path=package.path..";?.lua;lua_make/?.lua;lua_make/lib/?.lua"
 
 require "classdef"
 require "template"

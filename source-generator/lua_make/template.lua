@@ -1,6 +1,6 @@
 HDR_INFO = [[(*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 ]]
 VCLua_CDEF_HEADER = [[

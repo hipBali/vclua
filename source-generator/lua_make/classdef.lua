@@ -2,7 +2,7 @@
 --                                                      --
 -- VCLua 1.1 Class source generator  TOLUA/FROMLUA      --
 --                                                      --
--- (C) 2018-2023 Hi-Project Ltd.                             --
+-- (C) 2018-2024 Hi-Project Ltd.                        --
 --                                                      --
 -- **************************************************** --
 

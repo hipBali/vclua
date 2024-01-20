@@ -2,11 +2,11 @@
 --                                                      --
 -- VCLua 1.1 Class source generator                     --
 --                                                      --
--- (C) 2018-2023 Hi-Project Ltd.                        --
+-- (C) 2018-2024 Hi-Project Ltd.                        --
 --                                                      --
 -- **************************************************** --
-package.path="package.path;?.lua;lua_make/?.lua;lua_make/lib/?.lua;"
--- package.cpath="package.cpath;clibs/?.dll;clibs/?.so;"
+package.path=package.path..";?.lua;lua_make/?.lua;lua_make/lib/?.lua"
+-- package.cpath=package.cpath..";clibs/?.dll;clibs/?.so"
 
 require "classdef"
 require "template"
