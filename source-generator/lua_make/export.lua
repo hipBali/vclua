@@ -599,7 +599,7 @@ local luaobject_uses = {}
 for u,_ in pairs(pasRefs) do
 	table.insert(luaobject_uses, u)
 end
-
+table.sort(luaobject_uses)
 
 htmltemp = [[
 <!DOCTYPE html>

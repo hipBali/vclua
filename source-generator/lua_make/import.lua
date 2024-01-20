@@ -595,6 +595,7 @@ local luaobject_uses = {}
 for u,_ in pairs(pasRefs) do
 	table.insert(luaobject_uses, u)
 end
+table.sort(luaobject_uses)
 
 vclinc = vclinc:gsub("#PASCALSOURCE",table.concat(pasSrc,",\n\t"),1)
 vclinc = vclinc:gsub("#LUALIBS",table.concat(luaLibs,"\n\t\t"),1)
