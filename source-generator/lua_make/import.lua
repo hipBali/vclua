@@ -563,6 +563,15 @@ local luaLibs={}
 local pasRefs = {}
 local luaobject_push = {}
 local libcount = 0
+local function processCdef(cdef)
+  local pName = cdef.name
+  local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
+  table.insert(luaobject_push, s)
+  if cdef.nocreate==nil then
+    table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")
+    libcount = libcount + 1
+  end
+end
 for n,cdef in pairs(classes) do
 	-- collect refs
 	if cdef.ref then
@@ -571,25 +580,13 @@ for n,cdef in pairs(classes) do
 			pasRefs[p[1]] = 1
 		end
 	end
-	local pName = cdef.name or cdef.unit
-	local lName = "Lua"..pName
+	local lName = "Lua"..(cdef.name or cdef.unit)
 	if cdef.classes then
 		for _,cn in pairs(cdef.classes) do
-			pName = cn.name
-			local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
-			table.insert(luaobject_push, s)
-			if cn.nocreate==nil then
-				table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")   
-				libcount = libcount + 1
-			end
+			processCdef(cn)
 		end
 	else
-		local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
-		table.insert(luaobject_push, s)
-		if cdef.nocreate==nil then
-			table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")   
-			libcount = libcount + 1
-		end
+		processCdef(cdef)
 	end
 	pasRefs[lName]=1
 	table.insert(pasSrc, lName)
