@@ -592,7 +592,7 @@ for n,cdef in pairs(classes) do
 		end
 	end
 	pasRefs[lName]=1
-	table.insert(pasSrc, lName .." in '"..lName..".pas'") 
+	table.insert(pasSrc, lName)
 end
 local luaobject_uses = {}
 for u,_ in pairs(pasRefs) do
