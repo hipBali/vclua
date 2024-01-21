@@ -2,7 +2,7 @@
 --                                                      --
 -- VCLua 1.1 Class source generator CONFIG              --
 --                                                      --
--- (C) 2018-2023 Hi-Project Ltd.                        --
+-- (C) 2018-2024 Hi-Project Ltd.                        --
 --                                                      --
 -- **************************************************** --
 
@@ -46,7 +46,7 @@ fpcSrc = {
 
 -- name: vclua class name
 -- src:  source class name		parentclass: the owner/parent class
--- ref:  module reference(s)
+-- ref:  module reference(s), first must export 'src'
 -- base: basic class
 -- 
 -- noparent: not parented
@@ -151,7 +151,7 @@ classes = {
 		classes = {
 			{ name = "StatusPanel", src = "TStatusPanel", noparent=true, nocreate=true},
 			{ name = "StatusPanels", src = "TStatusPanels", noparent=true, nocreate=true, parentclass="TStatusBar", wclass="TStatusPanel"},
-			{ name = "StatusBar", src = "TStatusBar", ref = "ComCtrls, Controls"},
+			{ name = "StatusBar", src = "TStatusBar"},
 		}
 	},
 	

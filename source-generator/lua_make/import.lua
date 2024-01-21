@@ -2,11 +2,11 @@
 --                                                      --
 -- VCLua 1.1 Class source generator                     --
 --                                                      --
--- (C) 2018-2023 Hi-Project Ltd.                        --
+-- (C) 2018-2024 Hi-Project Ltd.                        --
 --                                                      --
 -- **************************************************** --
-package.path="package.path;?.lua;lua_make/?.lua;lua_make/lib/?.lua;"
--- package.cpath="package.cpath;clibs/?.dll;clibs/?.so;"
+package.path=package.path..";?.lua;lua_make/?.lua;lua_make/lib/?.lua"
+-- package.cpath=package.cpath..";clibs/?.dll;clibs/?.so"
 
 require "classdef"
 require "template"
@@ -563,6 +563,15 @@ local luaLibs={}
 local pasRefs = {}
 local luaobject_push = {}
 local libcount = 0
+local function processCdef(cdef)
+  local pName = cdef.name
+  local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
+  table.insert(luaobject_push, s)
+  if cdef.nocreate==nil then
+    table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")
+    libcount = libcount + 1
+  end
+end
 for n,cdef in pairs(classes) do
 	-- collect refs
 	if cdef.ref then
@@ -571,33 +580,22 @@ for n,cdef in pairs(classes) do
 			pasRefs[p[1]] = 1
 		end
 	end
-	local pName = cdef.name or cdef.unit
-	local lName = "Lua"..pName
+	local lName = "Lua"..(cdef.name or cdef.unit)
 	if cdef.classes then
 		for _,cn in pairs(cdef.classes) do
-			pName = cn.name
-			local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
-			table.insert(luaobject_push, s)
-			if cn.nocreate==nil then
-				table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")   
-				libcount = libcount + 1
-			end
+			processCdef(cn)
 		end
 	else
-		local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
-		table.insert(luaobject_push, s)
-		if cdef.nocreate==nil then
-			table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")   
-			libcount = libcount + 1
-		end
+		processCdef(cdef)
 	end
 	pasRefs[lName]=1
-	table.insert(pasSrc, lName .." in '"..lName..".pas'") 
+	table.insert(pasSrc, lName)
 end
 local luaobject_uses = {}
 for u,_ in pairs(pasRefs) do
 	table.insert(luaobject_uses, u)
 end
+table.sort(luaobject_uses)
 
 vclinc = vclinc:gsub("#PASCALSOURCE",table.concat(pasSrc,",\n\t"),1)
 vclinc = vclinc:gsub("#LUALIBS",table.concat(luaLibs,"\n\t\t"),1)
