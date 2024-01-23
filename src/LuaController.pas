@@ -11,7 +11,6 @@ Uses Controls,
      ComCtrls,
      Lua,
      LuaHelper,
-     LuaProxy,
 //     SynEdit,
 //     SynEditKeyCmds,
      LclType,
@@ -451,10 +450,6 @@ function GetLuaState(Sender:TObject):Plua_State;
 function GetLuaControl(Sender:TObject):TVCLuaControl;
 function CheckEvent(L:Plua_State; Sender: TObject; EFn:TLuaCFunction):Boolean; inline;
 
-// UTF8 Codepage conversion
-function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
-function is_vclua_utf8_conv:boolean; // internal
-
 implementation
 
 Uses TypInfo,
@@ -468,25 +463,8 @@ Uses TypInfo,
      ActnList,
      Menus,
      Dialogs,
-     LCLProc;
-
-// ***********************************************
-// VCLUA UTF-8 Converter
-// ***********************************************
-var _VCLUA_UTF8_CONV:boolean;
-// -----------------------------------------------
-function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
-begin
-    CheckArg(L, 1);
-    if (lua_isboolean(L,1)) then
-       _VCLUA_UTF8_CONV := lua_toboolean(L,1);
-    result := 0;
-end;
-
-function is_vclua_utf8_conv:boolean;
-begin
-    result := _VCLUA_UTF8_CONV;
-end;
+     LCLProc,
+     LuaProxy;
 
 // ***********************************************
 // LUA Control Methods

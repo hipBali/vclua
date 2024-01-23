@@ -11,7 +11,6 @@ uses
   LuaHelper,
   LuaProperties,
   Lua,
-  LuaProxy,
   {$i luaobject_uses.inc};
 
 procedure lua_pushobject(L: Plua_State; Comp:TObject; index: Integer);overload;
@@ -25,6 +24,9 @@ procedure lua_pushCells(L: Plua_State; ItemOwner:TPersistent);
 function lua_setArrayProperty(L: Plua_State): Integer; cdecl;
 
 implementation
+
+uses
+  LuaProxy;
 
 procedure _lua_pushobject(L: Plua_State; Comp:TObject; index: Integer);overload;
 begin

@@ -15,6 +15,10 @@ type
   aofmi = array of TMenuItem;
   aoftn = array of TTreeNode;
 
+// UTF8 Codepage conversion
+function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
+function is_vclua_utf8_conv:boolean; // internal
+
 // String UTF-8 support
 function lua_toStringCP(L: Plua_State; Index: Integer):string;
 procedure lua_pushStringCP(L: Plua_State; str:string);
@@ -43,7 +47,25 @@ function GetTStringsProperty(L: Plua_State; Comp:TStrings; PropName:String):bool
 
 implementation
 
-uses TypInfo, LuaController, LuaObject, LazUtf8;
+uses TypInfo, LuaObject, LazUtf8;
+
+// ***********************************************
+// VCLUA UTF-8 Converter
+// ***********************************************
+var _VCLUA_UTF8_CONV:boolean;
+// -----------------------------------------------
+function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
+begin
+    CheckArg(L, 1);
+    if (lua_isboolean(L,1)) then
+       _VCLUA_UTF8_CONV := lua_toboolean(L,1);
+    result := 0;
+end;
+
+function is_vclua_utf8_conv:boolean;
+begin
+    result := _VCLUA_UTF8_CONV;
+end;
 
 function lua_toStringCP(L: Plua_State; Index: Integer):string;
 begin
@@ -73,7 +95,7 @@ end;
 
 function lua_toTShiftState(L: Plua_State; Index: Integer):TShiftState; overload;
 begin
-     result := StringToShiftState(lua_tostring(L, Index));
+  StringToSet(PTypeInfo(TypeInfo(TShiftState)), lua_tostring(L, Index), @result);
 end;
 
 function lua_toTShiftState(L: Plua_State; Index: Integer; default:TShiftState ):TShiftState; overload;
