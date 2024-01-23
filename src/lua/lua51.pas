@@ -287,7 +287,7 @@ procedure lua_pushinteger(L : Plua_State; n : lua_Integer);
   cdecl; external LuaDLL;
 procedure lua_pushlstring(L : Plua_State; const s : PChar; ls : size_t);
   cdecl; external LuaDLL;
-procedure lua_pushstring(L : Plua_State; const s : PChar);
+procedure lua_pushstring(L : Plua_State; const s : PChar); overload;
   cdecl; external LuaDLL;
 function  lua_pushvfstring(L : Plua_State;
                            const fmt : PChar; argp : Pointer) : PChar;
@@ -428,6 +428,7 @@ function lua_isnone(L : Plua_State; n : Integer) : Boolean;
 function lua_isnoneornil(L : Plua_State; n : Integer) : Boolean;
 
 procedure lua_pushliteral(L : Plua_State; s : PChar);
+procedure lua_pushstring(L: Plua_State; const s: AnsiString); inline; overload; // added for Pascal
 
 procedure lua_setglobal(L : Plua_State; s : PChar);
 procedure lua_getglobal(L : Plua_State; s : PChar);
@@ -873,6 +874,11 @@ end;
 procedure lua_pushliteral(L : Plua_State; s : PChar);
 begin
   lua_pushlstring(L, s, StrLen(s));
+end;
+
+procedure lua_pushstring(L: Plua_State; const s: AnsiString);
+begin
+  lua_pushlstring(L, PAnsiChar(s), Length(s));
 end;
 
 procedure lua_setglobal(L : Plua_State; s : PChar);

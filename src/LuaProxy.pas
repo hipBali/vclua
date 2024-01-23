@@ -5,7 +5,7 @@ unit LuaProxy;
 interface
 
 uses
-  Classes, Types, Controls, Menus, ComCtrls, SysUtils, Graphics,
+  Classes, Types, Controls, Menus, ComCtrls, SysUtils, Graphics, TypInfo,
   LuaHelper, Lua;
 
 type
@@ -21,7 +21,7 @@ function is_vclua_utf8_conv:boolean; // internal
 
 // String UTF-8 support
 function lua_toStringCP(L: Plua_State; Index: Integer):string;
-procedure lua_pushStringCP(L: Plua_State; str:string);
+procedure lua_pushStringCP(L: Plua_State; const str:string);
 function lua_toStringArray(L: Plua_State; Index: Integer):aofs;
 function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
 // --------------------
@@ -45,9 +45,73 @@ function lua_toTShiftState(L: Plua_State; Index: Integer; default:TShiftState ):
 // TString descenant properties
 function GetTStringsProperty(L: Plua_State; Comp:TStrings; PropName:String):boolean;
 
+procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; v:Int64  ; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; v:QWord  ; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; v:Double ; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; const v:TRect ; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; const v       ; pti : PTypeInfo);       overload; inline;
+
 implementation
 
-uses TypInfo, LuaObject, LazUtf8;
+uses LuaObject, LazUtf8;
+
+// push overloads
+procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil);
+begin
+  lua_pushboolean(L, v);
+end;
+procedure lua_push(L: Plua_State; v:Int64; pti : PTypeInfo = nil);
+begin
+  lua_pushinteger(L, v);
+end;
+procedure lua_push(L: Plua_State; v:QWord; pti : PTypeInfo = nil);
+begin
+  lua_pushinteger(L, v);
+end;
+procedure lua_push(L: Plua_State; v:Double; pti : PTypeInfo = nil);
+begin
+  lua_pushnumber(L, v);
+end;
+// these pushes are used in On* event handlers where user strings are passed from LCL to Lua, so need to decode
+procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil);
+begin
+  lua_pushStringCP(L, v);
+end;
+procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil);
+begin
+  lua_pushTPoint(L, v);
+end;
+procedure lua_push(L: Plua_State; const v:TRect; pti : PTypeInfo = nil);
+begin
+  lua_pushTRect(L, v);
+end;
+procedure lua_push(L: Plua_State; const v; pti : PTypeInfo);
+var
+  i:Integer;
+  s:string;
+begin
+  case pti.Kind of
+    tkSet: begin
+      s := SetToString(pti, @v, True);
+      lua_pushstring(L, s);
+    end;
+    tkEnumeration:
+      begin
+        case Sizeof(GetTypeData(pti).OrdType) of
+            1: i := PByte(@v)^;
+            2: i := PWord(@v)^;
+            4: i := PCardinal(@v)^;
+        end;
+        s := GetEnumName(pti, i);
+        lua_pushstring(L, s);
+      end
+  else
+    LuaError(L, 'Don''t know how to push type to Lua stack', pti.name);
+  end;
+end;
 
 // ***********************************************
 // VCLUA UTF-8 Converter
@@ -75,7 +139,7 @@ begin
        result := lua_tostring(L,Index);
 end;
 
-procedure lua_pushStringCP(L: Plua_State; str:string);
+procedure lua_pushStringCP(L: Plua_State; const str:string);
 begin
      if (is_vclua_utf8_conv) then
        lua_pushstring(L,pchar(UTF8ToWinCP(str)))
