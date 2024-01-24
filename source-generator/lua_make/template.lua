@@ -72,8 +72,8 @@ procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLua#CNAME = class(T#CNAME)
-		public
-			L:Plua_State;
+    public
+      L:Plua_State;
     end;
 ]]
 
@@ -83,8 +83,8 @@ procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLua#CNAME = class(T#CNAME)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 ]]
 
