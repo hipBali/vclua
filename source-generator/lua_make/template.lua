@@ -102,6 +102,10 @@ end;
 VCLua_CDEF_TOTABLE = [[
 procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	#CMETHODS
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
