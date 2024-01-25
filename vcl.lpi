@@ -190,8 +190,8 @@
       <Filename Value="core"/>
     </Target>
     <SearchPaths>
-      <IncludeFiles Value="src;$(ProjOutDir)"/>
-      <OtherUnitFiles Value="src;src\components;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\lazutils;$(LazarusDir)\components\datetimectrls"/>
+      <IncludeFiles Value="src;src\addons;$(ProjOutDir)"/>
+      <OtherUnitFiles Value="src;src\components;src\addons;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\lazutils;$(LazarusDir)\components\datetimectrls"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

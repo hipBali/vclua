@@ -25,12 +25,12 @@ uses
   LuaDialogs in 'LuaDialogs.pas',
   LuaStream in 'LuaStream.pas',
   {$IFDEF PROPERTYGRID}
-    LuaPropertyGrid in 'src/addons/LuaPropertyGrid.pas',
+    LuaPropertyGrid in 'addons/LuaPropertyGrid.pas',
   {$ENDIF}
   {$IFDEF EXTENDED}
-  LuaRichMemo in 'src/addons/LuaRichMemo.pas',
-  LuaSynEdit in 'src/addons/LuaSynEdit.pas',
-  LuaSynHighlighterAttributes in 'src/addons/LuaSynHighlighterAttributes.pas',
+  LuaRichMemo in 'addons/LuaRichMemo.pas',
+  LuaSynEdit in 'addons/LuaSynEdit.pas',
+  LuaSynHighlighterAttributes in 'addons/LuaSynHighlighterAttributes.pas',
   {$ENDIF}
 
   {$i vcl.inc}
