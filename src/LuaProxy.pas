@@ -200,7 +200,7 @@ begin
   if lua_istable(L,Index) then begin
     lua_pushnil(L);
     while (lua_next(L, Index) <> 0) do begin
-      if (lowercase(lua_tointeger(L,-2))='width') then
+      if (lowercase(lua_tostring(L,-2))='width') then
          size.Width :=  lua_tointeger(L, -1)
       else if (lowercase(lua_tostring(L,-2))='height') then
          size.Height :=  lua_tointeger(L, -1);
