@@ -73,8 +73,7 @@ type
           fOnLuaGetEditText_Func,
           fOnLuaGetEditMask_Func,
           fOnLuaSetEditText_Func,
-          fOnLuaColumnMoved_Func,
-          fOnLuaRowMoved_Func,
+          fOnLuaColRowMoved_Func,
           fOnLuaTopLeftChanged_Func,
           // DropFiles
           fOnLuaDropFiles_Func,
@@ -183,23 +182,22 @@ type
 	  procedure OnLuaIdleTimer(Sender: TObject);
 
           // Extended Edit
-          procedure OnAcceptDirectory(Sender: TObject; var Value: String);
-          procedure OnAcceptFileName(Sender: TObject; var Value: String);
-          procedure OnAcceptValue(Sender: TObject; var AValue: Double; var Action: Boolean);
-          procedure OnAcceptDate(Sender: TObject; var ADate: TDateTime; var AcceptDate: Boolean);
+          procedure OnLuaAcceptDirectory(Sender: TObject; var Value: String);
+          procedure OnLuaAcceptFileName(Sender: TObject; var Value: String);
+          procedure OnLuaAcceptValue(Sender: TObject; var AValue: Double; var Action: Boolean);
+          procedure OnLuaAcceptDate(Sender: TObject; var ADate: TDateTime; var AcceptDate: Boolean);
           // procedure OnLuaButtonClick(Sender: TObject);
           //StringGrid
           procedure OnLuaButtonClick(Sender: TObject; aCol, aRow: Integer);
 
           procedure OnLuaHeaderClick(Sender: TObject; IsColumn: Boolean; Index:Integer);
           procedure OnLuaEditButtonClick(Sender: TObject);
-	  procedure OnLuaSelectCell(Sender: TObject; ACol, ARow: Longint; var CanSelect: Boolean);
-          procedure OnLuaDrawCell(Sender: TObject; ACol, ARow: Longint; Rect: TRect; State: TGridDrawState);
-          procedure OnLuaGetEditText(Sender: TObject; ACol, ARow: Longint; var Value: string);
-          procedure OnLuaGetEditMask(Sender: TObject; ACol, ARow: Longint; var Value: string);
-          procedure OnLuaSetEditText(Sender: TObject; ACol, ARow: Longint; var Value: string);
-          procedure OnLuaColumnMoved(Sender: TObject; FromIndex, ToIndex: Longint);
-          procedure OnLuaRowMoved(Sender: TObject; FromIndex, ToIndex: Longint);
+	  procedure OnLuaSelectCell(Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
+          procedure OnLuaDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
+          procedure OnLuaGetEditText(Sender: TObject; ACol, ARow: Integer; var Value: string);
+          procedure OnLuaGetEditMask(Sender: TObject; ACol, ARow: Integer; var Value: string);
+          procedure OnLuaSetEditText(Sender: TObject; ACol, ARow: Integer; const Value: string);
+          procedure OnLuaColRowMoved(Sender: TObject; IsColumn: Boolean; FromIndex, ToIndex: Integer);
           procedure OnLuaTopLeftChanged(Sender: TObject);
 
           // DropFiles
@@ -280,21 +278,19 @@ type
           procedure DockDropEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Source:TDragDockObject; X, Y: Integer);
           procedure DockOverEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Source:TDragDockObject; X, Y: Integer;State: TDragState; var Accept: Boolean);
           procedure StartDockEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; var DockObject: TDragDockObject);
-          procedure EndDockEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Target: TObject; X, Y: Integer);
           procedure UnDockEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Client: TControl; NewTarget: TWinControl; var Allow: Boolean);
           // Form related
           procedure CloseEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; var Action: TCloseAction);
           procedure CloseQueryEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; var CanClose: Boolean);
           // StringGrid related
           procedure HeaderClickEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; IsColumn: Boolean; Index:Integer);
-	  procedure SelectCellEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Longint; var CanSelect: Boolean);
-	  procedure DrawCellEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Longint; Rect: TRect; State: TGridDrawState);
-	  procedure GetEditTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Longint; var Value: string);
-          procedure SetEditTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Longint; var Value: string);
-	  procedure RowColumnMovedEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; FromIndex, ToIndex: Longint);
+	  procedure SelectCellEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Integer; var CanSelect: Boolean);
+	  procedure DrawCellEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
+	  procedure GetEditTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Integer; var Value: string);
+          procedure SetEditTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Integer; const Value: string);
+	  procedure GridOperationEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; IsColumn: Boolean; FromIndex, ToIndex: Integer);
           procedure ButtonClickEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; aCol, aRow: Integer);
           // Extended edit
-          procedure AcceptDirectoryHandler(Sender: TObject; EventCFunc: TLuaCFunction; var Value: String);
           procedure AcceptFileNameHandler(Sender: TObject; EventCFunc: TLuaCFunction; var Value: String);
           procedure AcceptValueHandler(Sender: TObject; EventCFunc: TLuaCFunction; var AValue: Double; var Action: Boolean);
           procedure AcceptDateHandler(Sender: TObject; EventCFunc: TLuaCFunction; var ADate: TDateTime; var AcceptDate: Boolean);
@@ -373,9 +369,8 @@ type
           property OnGetEditText_Function: TLuaCFunction read fOnLuaGetEditText_Func write fOnLuaGetEditText_Func;
           property OnGetEditMask_Function: TLuaCFunction read fOnLuaGetEditMask_Func write fOnLuaGetEditMask_Func;
           property OnSetEditText_Function: TLuaCFunction read fOnLuaSetEditText_Func write fOnLuaSetEditText_Func;
-          property OnColumnMoved_Function: TLuaCFunction read fOnLuaColumnMoved_Func write fOnLuaColumnMoved_Func;
-          property OnRowMoved_Function: TLuaCFunction read fOnLuaRowMoved_Func write fOnLuaRowMoved_Func;
-          property OnTopLeftChanged_Function: TLuaCFunction read fOnLuaTopLeftChanged_Func write fOnLuaTopLeftChanged_Func;          
+          property OnColRowMoved_Function: TLuaCFunction read fOnLuaColRowMoved_Func write fOnLuaColRowMoved_Func;
+          property OnTopLeftChanged_Function: TLuaCFunction read fOnLuaTopLeftChanged_Func write fOnLuaTopLeftChanged_Func;
 
           // DropFiles
           property OnDropFiles_Function: TLuaCFunction read fOnLuaDropFiles_Func write fOnLuaDropFiles_Func;
@@ -778,8 +773,7 @@ begin
 end;
 
 procedure TVCLuaControl.NotifyEventHandler(Sender: TObject; EventCFunc: TLuaCFunction);
-var
-  LL:Plua_State;
+var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then
       DoCall(LL,1);
@@ -874,17 +868,6 @@ end;
 
 // Extended Edit
 
-procedure TVCLuaControl.AcceptDirectoryHandler(Sender: TObject; EventCFunc: TLuaCFunction; var Value: String);
-var LL:Plua_State;
-begin
-    if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushstring(LL,pchar(Value));
-    DoCall(LL,2);
-    if lua_isstring(LL,-1) then
-       Value := lua_tostring(LL,-1);
-    end;
-end;
-
 procedure TVCLuaControl.AcceptFileNameHandler(Sender: TObject; EventCFunc: TLuaCFunction; var Value: String);
 var LL:Plua_State;
 begin
@@ -902,15 +885,11 @@ begin
     if PushEvent(LL,Sender,EventCFunc) then begin
     lua_pushnumber(LL,AValue);
     lua_pushboolean(LL,Action);
-    DoCall(LL,2);
-    if lua_isstring(LL,-1) then
-       AValue := lua_tonumber(LL,-1)
-    else if lua_isboolean(LL,-1) then
+    DoCall(LL,3);
+    if lua_isboolean(LL,-1) then
        Action := lua_toboolean(LL,-1);
-    if lua_isstring(LL,-2) then
+    if lua_isnumber(LL,-2) then
        AValue := lua_tonumber(LL,-2)
-    else if lua_isboolean(LL,-2) then
-       Action := lua_toboolean(LL,-2);
     end;
 end;
 
@@ -976,7 +955,7 @@ begin
     end;
 end;
 
-procedure TVCLuaControl.SelectCellEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Longint; var CanSelect: Boolean);
+procedure TVCLuaControl.SelectCellEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Integer; var CanSelect: Boolean);
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
@@ -990,7 +969,7 @@ begin
     end;
 end;
 
-procedure TVCLuaControl.DrawCellEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Longint; Rect: TRect; State: TGridDrawState);
+procedure TVCLuaControl.DrawCellEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
@@ -1002,21 +981,18 @@ begin
     end;
 end;
 
-procedure TVCLuaControl.SetEditTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Longint; var Value: string);
+procedure TVCLuaControl.SetEditTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Integer; const Value: string);
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
       lua_pushnumber(LL,ACol);
       lua_pushnumber(LL,ARow);
-      lua_pushstring(LL,pchar(TStringGrid(Sender).Cells[ACol, ARow]));
+      lua_pushstring(LL,Value);
       DoCall(LL,4);
-      if lua_isstring(LL,-1) then
-         Value := lua_tostring(LL,-1);
-//      TStringGrid(Sender).Cells[ACol, ARow] := lua_tostring(LL,-1);
     end;
 end;
 
-procedure TVCLuaControl.GetEditTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Longint; var Value: string);
+procedure TVCLuaControl.GetEditTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; ACol, ARow: Integer; var Value: string);
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
@@ -1030,13 +1006,14 @@ begin
     end;
 end;
 
-procedure TVCLuaControl.RowColumnMovedEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; FromIndex, ToIndex: Longint);
+procedure TVCLuaControl.GridOperationEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; IsColumn: Boolean; FromIndex, ToIndex: Integer);
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
+    lua_pushboolean(LL,IsColumn);
     lua_pushnumber(LL,FromIndex);
     lua_pushnumber(LL,ToIndex);
-    DoCall(LL,3);
+    DoCall(LL,4);
     end;
 end;
 
@@ -1128,18 +1105,6 @@ begin
     // If the OnStartDock event handler sets the DockObject parameter to nil (Delphi) or NULL (C++), a TDockControlObject object is automatically created and Dockging begins on the control itself.
     DockObject := nil;
     DoCall(LL,1);
-    end;
-end;
-
-// type TEndDockEvent = procedure(Sender, Target: TObject; X, Y: Integer) of object;
-procedure TVCLuaControl.EndDockEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Target: TObject; X, Y: Integer);
-var LL:Plua_State;
-begin
-    if PushEvent(LL,Sender,EventCFunc) then begin // 1st
-    ToTable(LL, -1, Target); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
-    DoCall(LL,4);
     end;
 end;
 
@@ -1367,16 +1332,16 @@ procedure TVCLuaControl.OnLuaIdleTimer(Sender: TObject);
   begin NotifyEventHandler(Sender, OnIdleTimer_Function);end;
 
 // Extended edit
-procedure TVCLuaControl.OnAcceptDirectory(Sender: TObject; var Value: String);
-  begin AcceptDirectoryHandler(Sender, OnAcceptDirectory_Function, Value); end;
+procedure TVCLuaControl.OnLuaAcceptDirectory(Sender: TObject; var Value: String);
+  begin AcceptFileNameHandler(Sender, OnAcceptDirectory_Function, Value); end;
 
-procedure TVCLuaControl.OnAcceptFileName(Sender: TObject; var Value: String);
+procedure TVCLuaControl.OnLuaAcceptFileName(Sender: TObject; var Value: String);
   begin AcceptFileNameHandler(Sender, OnAcceptFileName_Function, Value); end;
 
-procedure TVCLuaControl.OnAcceptValue(Sender: TObject; var AValue: Double; var Action: Boolean);
+procedure TVCLuaControl.OnLuaAcceptValue(Sender: TObject; var AValue: Double; var Action: Boolean);
 begin AcceptValueHandler(Sender, OnAcceptValue_Function, AValue, Action) end;
 
-procedure TVCLuaControl.OnAcceptDate(Sender: TObject; var ADate: TDateTime; var AcceptDate: Boolean);
+procedure TVCLuaControl.OnLuaAcceptDate(Sender: TObject; var ADate: TDateTime; var AcceptDate: Boolean);
 begin AcceptDateHandler(Sender, OnAcceptDate_Function, ADate, AcceptDate) end;
 
 (*
@@ -1396,21 +1361,18 @@ procedure TVCLuaControl.OnLuaHeaderClick(Sender: TObject; IsColumn: Boolean; Ind
   begin HeaderClickEventHandler(Sender, OnHeaderClick_Function, IsColumn, Index);end;
 procedure TVCLuaControl.OnLuaEditButtonClick(Sender: TObject);
   begin NotifyEventHandler(Sender,OnEditButtonClick_Function);end;
-procedure TVCLuaControl.OnLuaSelectCell(Sender: TObject; ACol, ARow: Longint; var CanSelect: Boolean);
+procedure TVCLuaControl.OnLuaSelectCell(Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
   begin SelectCellEventHandler(Sender, OnSelectCell_Function, ACol, ARow, CanSelect);end;
-procedure TVCLuaControl.OnLuaDrawCell(Sender: TObject; ACol, ARow: Longint; Rect: TRect; State: TGridDrawState);
+procedure TVCLuaControl.OnLuaDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
   begin DrawCellEventHandler(Sender, OnDrawCell_Function, ACol, ARow, Rect, State);end;
-procedure TVCLuaControl.OnLuaGetEditText(Sender: TObject; ACol, ARow: Longint; var Value: string);
+procedure TVCLuaControl.OnLuaGetEditText(Sender: TObject; ACol, ARow: Integer; var Value: string);
   begin GetEditTextEventHandler(Sender, OnGetEditText_Function, ACol, ARow, Value);end;
-procedure TVCLuaControl.OnLuaGetEditMask(Sender: TObject; ACol, ARow: Longint; var Value: string);
+procedure TVCLuaControl.OnLuaGetEditMask(Sender: TObject; ACol, ARow: Integer; var Value: string);
   begin GetEditTextEventHandler(Sender, OnGetEditMask_Function, ACol, ARow, Value);end;
-procedure TVCLuaControl.OnLuaSetEditText(Sender: TObject; ACol, ARow: Longint; var Value: string);
+procedure TVCLuaControl.OnLuaSetEditText(Sender: TObject; ACol, ARow: Integer; const Value: string);
   begin SetEditTextEventHandler(Sender, OnSetEditText_Function, ACol, ARow, Value);end;
-procedure TVCLuaControl.OnLuaColumnMoved(Sender: TObject; FromIndex, ToIndex: Longint);
-  begin RowColumnMovedEventHandler(Sender, OnColumnMoved_Function, FromIndex, ToIndex);end;
-procedure TVCLuaControl.OnLuaRowMoved(Sender: TObject; FromIndex, ToIndex: Longint);
-  begin RowColumnMovedEventHandler(Sender, OnRowMoved_Function, FromIndex, ToIndex);end;
-  
+procedure TVCLuaControl.OnLuaColRowMoved(Sender: TObject; IsColumn: Boolean; FromIndex, ToIndex: Integer);
+  begin GridOperationEventHandler(Sender, OnColRowMoved_Function, IsColumn, FromIndex, ToIndex);end;
 procedure TVCLuaControl.OnLuaTopLeftChanged(Sender: TObject);
   begin NotifyEventHandler(Sender, OnTopLeftChanged_Function);end;
   
@@ -1434,7 +1396,7 @@ procedure TVCLuaControl.OnLuaUnDock(Sender: TObject; Client: TControl; NewTarget
 procedure TVCLuaControl.OnLuaStartDock(Sender: TObject; var DockObject: TDragDockObject);
   begin StartDockEventHandler(Sender, OnStartDock_Function, DockObject); end;
 procedure TVCLuaControl.OnLuaEndDock(Sender: TObject; Target: TObject; X, Y: Integer);
-  begin EndDockEventHandler(Sender, OnEndDock_Function, Target, X, Y); end;
+  begin EndDragEventHandler(Sender, OnEndDock_Function, Target, X, Y); end;
 
 // FindDialog
 procedure TVCLuaControl.OnLuaFind(Sender: TObject);
@@ -1455,24 +1417,16 @@ begin MouseLinkEventHandler(Sender, OnMouseLink_Function, X, Y, AllowMouseLink);
 *)
 // Listview
 procedure TVCLuaControl.OnLuaColumnClick(Sender: TObject; Column: TListColumn);
-begin
-  // ColumnClickEventHandler(Sender, OnColumnClick_Function, Column);
-end;
+begin ColumnClickEventHandler(Sender, OnColumnClick_Function, Column); end;
 procedure TVCLuaControl.OnLuaSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
-begin
-  // SelectItemEventHandler(Sender, OnSelectItem_Function, Item, Selected);
-end;
+begin SelectItemEventHandler(Sender, OnSelectItem_Function, Item, Selected); end;
 
 // TreeView
 procedure TVCLuaControl.OnLuaEdited(Sender: TObject; Node: TTreeNode; var S: string);
-begin
-  // EditedEventHandler(Sender,OnEdited_Function, Node, S);
-end;
+begin EditedEventHandler(Sender,OnEdited_Function, Node, S); end;
 
 procedure TVCLuaControl.OnLuaNodeChanged(Sender: TObject; Node: TTreeNode; ChangeReason: TTreeNodeChangeReason);
-begin
-  // NodeChangedEventHandler(Sender, OnNodeChanged_Function, Node, ChangeReason);
-end;
+begin NodeChangedEventHandler(Sender, OnNodeChanged_Function, Node, ChangeReason); end;
 
 procedure TVCLuaControl.OnLuaSelectionChanged(Sender: TObject);
 begin NotifyEventHandler(Sender, OnSelectionChanged_Function);end;
