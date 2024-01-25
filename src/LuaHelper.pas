@@ -4,7 +4,7 @@ interface
 
 uses
   Dialogs,
-  Classes, SysUtils, Lua;
+  Classes, SysUtils, TypInfo, Lua;
 
 const
   HandleStr = 'Handle';
@@ -17,6 +17,7 @@ const
 function RunSeparate(L: Plua_State):integer;cdecl;
 
 procedure LuaError(L: Plua_State; text: String; err: String);
+procedure LuaTypeError(L: Plua_State; pti: PTypeInfo; index: Integer); inline;
 procedure DoScript(L: Plua_State; fileName: String);
 procedure DoCall(L: Plua_State; paramCount:integer);
 
@@ -162,6 +163,23 @@ begin
      // Halt;
 end;
 
+procedure LuaTypeError(L: Plua_State; pti: PTypeInfo; index: Integer);
+var t,v:string;
+begin
+  index := LuaAbsIndex(L, index);
+  t := lua_typename(L, lua_type(L, index));
+  {$IFNDEF LUA51}
+  v := luaL_tolstring(L, index, nil);
+  {$ELSE}
+  lua_getglobal(L, 'tostring');
+  lua_pushvalue(L, index);
+  lua_call(L, 1, 1);
+  v := lua_tostring(L, -1);
+  {$ENDIF}
+  lua_pop(L, 1);
+  LuaError(L, 'Wrong type', format('Expected value convertible to ''%s'', got ''%s'' of Lua type ''%s''', [pti^.Name, v, t]));
+end;
+
 procedure DoScript(L: Plua_State; fileName: String);
 begin
      if (luaL_loadfile(L, PChar(FileName)) <> 0) then begin
@@ -269,7 +287,7 @@ end;
 procedure CheckArg(L: Plua_State; N: Integer);
 begin
   if ((lua_gettop(L) <> N) and (N<>-1)) then
-    LuaError(L, 'BAD parameter call!', IntToStr(N)+ 'params required!');
+    LuaError(L, 'BAD parameter call!', IntToStr(N)+ ' params required!');
 end;
 
 procedure LuaRawSetTableFunction(L: Plua_State; TableIndex: Integer; const Key: string; F: lua_CFunction);
