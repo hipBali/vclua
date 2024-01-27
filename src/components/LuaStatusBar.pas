@@ -14,16 +14,16 @@ procedure StatusPanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStatusPanel = class(TStatusPanel)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 procedure StatusPanelsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStatusPanels = class(TStatusPanels)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 function CreateStatusBar(L: Plua_State): Integer; cdecl;
@@ -174,6 +174,10 @@ end;
 
 procedure StatusPanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_StatusPanel_Assign);
 	LuaSetTableFunction(L, Index, 'StatusBar', @VCLua_StatusPanel_StatusBar);
@@ -183,6 +187,10 @@ end;
 
 procedure StatusPanelsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Add', @VCLua_StatusPanels_Add);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -191,6 +199,10 @@ end;
 
 procedure StatusBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'InvalidatePanel', @VCLua_StatusBar_InvalidatePanel);
 	LuaSetTableFunction(L, Index, 'BeginUpdate', @VCLua_StatusBar_BeginUpdate);
@@ -211,7 +223,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStatusBar := TLuaStatusBar.Create(Parent);
 	lStatusBar.Parent := TWinControl(Parent);
-	lStatusBar.LuaCtl := TVCLuaControl.Create(TControl(lStatusBar),L,@StatusBarToTable);
+	lStatusBar.LuaCtl := TVCLuaControl.Create(lStatusBar as TComponent,L,@StatusBarToTable);
 	InitControl(L,lStatusBar,Name);
 	StatusBarToTable(L, -1, lStatusBar);
 	Result := 1;

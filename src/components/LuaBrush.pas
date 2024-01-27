@@ -14,8 +14,8 @@ procedure BrushToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaBrush = class(TBrush)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 
@@ -52,6 +52,10 @@ end;
 
 procedure BrushToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Brush_Assign);
 	LuaSetTableFunction(L, Index, 'EqualsBrush', @VCLua_Brush_EqualsBrush);

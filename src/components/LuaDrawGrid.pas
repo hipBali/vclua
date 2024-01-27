@@ -168,6 +168,10 @@ end;
 
 procedure DrawGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'DeleteColRow', @VCLua_DrawGrid_DeleteColRow);
 	LuaSetTableFunction(L, Index, 'DeleteCol', @VCLua_DrawGrid_DeleteCol);
@@ -190,7 +194,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDrawGrid := TLuaDrawGrid.Create(Parent);
 	lDrawGrid.Parent := TWinControl(Parent);
-	lDrawGrid.LuaCtl := TVCLuaControl.Create(TControl(lDrawGrid),L,@DrawGridToTable);
+	lDrawGrid.LuaCtl := TVCLuaControl.Create(lDrawGrid as TComponent,L,@DrawGridToTable);
 	InitControl(L,lDrawGrid,Name);
 	DrawGridToTable(L, -1, lDrawGrid);
 	Result := 1;

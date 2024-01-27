@@ -716,6 +716,10 @@ end;
 
 procedure ImageListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'AssignTo', @VCLua_ImageList_AssignTo);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_ImageList_Assign);
@@ -773,7 +777,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lImageList := TLuaImageList.Create(Parent);
 	// := TWinControl(Parent);
-	lImageList.LuaCtl := TVCLuaControl.Create(TControl(lImageList),L,@ImageListToTable);
+	lImageList.LuaCtl := TVCLuaControl.Create(lImageList as TComponent,L,@ImageListToTable);
 	InitControl(L,lImageList,Name);
 	ImageListToTable(L, -1, lImageList);
 	Result := 1;

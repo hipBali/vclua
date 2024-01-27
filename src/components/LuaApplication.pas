@@ -321,6 +321,10 @@ end;
 
 procedure ApplicationToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'ActivateHint', @VCLua_Application_ActivateHint);
 	LuaSetTableFunction(L, Index, 'GetControlAtMouse', @VCLua_Application_GetControlAtMouse);
@@ -358,7 +362,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lApplication := TLuaApplication.Create(Parent);
 	// := TWinControl(Parent);
-	lApplication.LuaCtl := TVCLuaControl.Create(TControl(lApplication),L,@ApplicationToTable);
+	lApplication.LuaCtl := TVCLuaControl.Create(lApplication as TComponent,L,@ApplicationToTable);
 	InitControl(L,lApplication,Name);
 	ApplicationToTable(L, -1, lApplication);
 	Result := 1;

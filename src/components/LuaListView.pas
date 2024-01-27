@@ -14,16 +14,16 @@ procedure ListItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaListItem = class(TListItem)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 procedure ListItemsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaListItems = class(TListItems)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 function CreateListView(L: Plua_State): Integer; cdecl;
@@ -551,6 +551,10 @@ end;
 
 procedure ListItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_ListItem_Assign);
 	LuaSetTableFunction(L, Index, 'Delete', @VCLua_ListItem_Delete);
@@ -564,6 +568,10 @@ end;
 
 procedure ListItemsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Add', @VCLua_ListItems_Add);
 	LuaSetTableFunction(L, Index, 'AddItem', @VCLua_ListItems_AddItem);
@@ -586,6 +594,10 @@ end;
 
 procedure ListViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'AddItem', @VCLua_ListView_AddItem);
 	LuaSetTableFunction(L, Index, 'Sort', @VCLua_ListView_Sort);
@@ -613,7 +625,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lListView := TLuaListView.Create(Parent);
 	lListView.Parent := TWinControl(Parent);
-	lListView.LuaCtl := TVCLuaControl.Create(TControl(lListView),L,@ListViewToTable);
+	lListView.LuaCtl := TVCLuaControl.Create(lListView as TComponent,L,@ListViewToTable);
 	InitControl(L,lListView,Name);
 	ListViewToTable(L, -1, lListView);
 	Result := 1;

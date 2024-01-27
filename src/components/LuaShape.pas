@@ -50,6 +50,10 @@ end;
 
 procedure ShapeToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Paint', @VCLua_Shape_Paint);
 	LuaSetTableFunction(L, Index, 'StyleChanged', @VCLua_Shape_StyleChanged);
@@ -65,7 +69,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lShape := TLuaShape.Create(Parent);
 	lShape.Parent := TWinControl(Parent);
-	lShape.LuaCtl := TVCLuaControl.Create(TControl(lShape),L,@ShapeToTable);
+	lShape.LuaCtl := TVCLuaControl.Create(lShape as TComponent,L,@ShapeToTable);
 	InitControl(L,lShape,Name);
 	ShapeToTable(L, -1, lShape);
 	Result := 1;

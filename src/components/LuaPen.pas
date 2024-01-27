@@ -14,8 +14,8 @@ procedure PenToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPen = class(TPen)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 
@@ -50,6 +50,10 @@ end;
 
 procedure PenToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Pen_Assign);
 	LuaSetTableFunction(L, Index, 'SetPattern', @VCLua_Pen_SetPattern);

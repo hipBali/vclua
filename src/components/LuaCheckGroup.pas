@@ -50,6 +50,10 @@ end;
 
 procedure CheckGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'FlipChildren', @VCLua_CheckGroup_FlipChildren);
 	LuaSetTableFunction(L, Index, 'Rows', @VCLua_CheckGroup_Rows);
@@ -65,7 +69,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCheckGroup := TLuaCheckGroup.Create(Parent);
 	lCheckGroup.Parent := TWinControl(Parent);
-	lCheckGroup.LuaCtl := TVCLuaControl.Create(TControl(lCheckGroup),L,@CheckGroupToTable);
+	lCheckGroup.LuaCtl := TVCLuaControl.Create(lCheckGroup as TComponent,L,@CheckGroupToTable);
 	InitControl(L,lCheckGroup,Name);
 	CheckGroupToTable(L, -1, lCheckGroup);
 	Result := 1;

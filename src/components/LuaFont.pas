@@ -14,8 +14,8 @@ procedure FontToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaFont = class(TFont)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 
@@ -111,6 +111,10 @@ end;
 
 procedure FontToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Font_Assign);
 	LuaSetTableFunction(L, Index, 'BeginUpdate', @VCLua_Font_BeginUpdate);

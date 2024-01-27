@@ -112,6 +112,10 @@ end;
 
 procedure ComboBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'IntfGetItems', @VCLua_ComboBox_IntfGetItems);
 	LuaSetTableFunction(L, Index, 'AddItem', @VCLua_ComboBox_AddItem);
@@ -131,7 +135,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lComboBox := TLuaComboBox.Create(Parent);
 	lComboBox.Parent := TWinControl(Parent);
-	lComboBox.LuaCtl := TVCLuaControl.Create(TControl(lComboBox),L,@ComboBoxToTable);
+	lComboBox.LuaCtl := TVCLuaControl.Create(lComboBox as TComponent,L,@ComboBoxToTable);
 	InitControl(L,lComboBox,Name);
 	ComboBoxToTable(L, -1, lComboBox);
 	Result := 1;

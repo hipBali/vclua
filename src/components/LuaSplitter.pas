@@ -93,6 +93,10 @@ end;
 
 procedure SplitterToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'AnchorSplitter', @VCLua_Splitter_AnchorSplitter);
 	LuaSetTableFunction(L, Index, 'GetOtherResizeControl', @VCLua_Splitter_GetOtherResizeControl);
@@ -111,7 +115,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSplitter := TLuaSplitter.Create(Parent);
 	lSplitter.Parent := TWinControl(Parent);
-	lSplitter.LuaCtl := TVCLuaControl.Create(TControl(lSplitter),L,@SplitterToTable);
+	lSplitter.LuaCtl := TVCLuaControl.Create(lSplitter as TComponent,L,@SplitterToTable);
 	InitControl(L,lSplitter,Name);
 	SplitterToTable(L, -1, lSplitter);
 	Result := 1;

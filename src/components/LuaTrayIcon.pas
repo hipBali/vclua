@@ -87,6 +87,10 @@ end;
 
 procedure TrayIconToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Hide', @VCLua_TrayIcon_Hide);
 	LuaSetTableFunction(L, Index, 'Show', @VCLua_TrayIcon_Show);
@@ -105,7 +109,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTrayIcon := TLuaTrayIcon.Create(Parent);
 	// := TWinControl(Parent);
-	lTrayIcon.LuaCtl := TVCLuaControl.Create(TControl(lTrayIcon),L,@TrayIconToTable);
+	lTrayIcon.LuaCtl := TVCLuaControl.Create(lTrayIcon as TComponent,L,@TrayIconToTable);
 	InitControl(L,lTrayIcon,Name);
 	TrayIconToTable(L, -1, lTrayIcon);
 	Result := 1;

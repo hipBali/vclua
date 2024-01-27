@@ -14,8 +14,8 @@ procedure CanvasToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaCanvas = class(TCanvas)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 
@@ -786,6 +786,10 @@ end;
 
 procedure CanvasToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Lock', @VCLua_Canvas_Lock);
 	LuaSetTableFunction(L, Index, 'TryLock', @VCLua_Canvas_TryLock);

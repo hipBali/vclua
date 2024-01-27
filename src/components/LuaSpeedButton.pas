@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure SpeedButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSpeedButton := TLuaSpeedButton.Create(Parent);
 	lSpeedButton.Parent := TWinControl(Parent);
-	lSpeedButton.LuaCtl := TVCLuaControl.Create(TControl(lSpeedButton),L,@SpeedButtonToTable);
+	lSpeedButton.LuaCtl := TVCLuaControl.Create(lSpeedButton as TComponent,L,@SpeedButtonToTable);
 	InitControl(L,lSpeedButton,Name);
 	SpeedButtonToTable(L, -1, lSpeedButton);
 	Result := 1;

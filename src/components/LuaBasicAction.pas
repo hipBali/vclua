@@ -91,6 +91,10 @@ end;
 
 procedure BasicActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'HandlesTarget', @VCLua_BasicAction_HandlesTarget);
 	LuaSetTableFunction(L, Index, 'UpdateTarget', @VCLua_BasicAction_UpdateTarget);
@@ -109,7 +113,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBasicAction := TLuaBasicAction.Create(Parent);
 	// := TWinControl(Parent);
-	lBasicAction.LuaCtl := TVCLuaControl.Create(TControl(lBasicAction),L,@BasicActionToTable);
+	lBasicAction.LuaCtl := TVCLuaControl.Create(lBasicAction as TComponent,L,@BasicActionToTable);
 	InitControl(L,lBasicAction,Name);
 	BasicActionToTable(L, -1, lBasicAction);
 	Result := 1;

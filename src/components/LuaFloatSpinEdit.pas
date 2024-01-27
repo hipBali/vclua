@@ -69,6 +69,10 @@ end;
 
 procedure FloatSpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'GetLimitedValue', @VCLua_FloatSpinEdit_GetLimitedValue);
 	LuaSetTableFunction(L, Index, 'ValueToStr', @VCLua_FloatSpinEdit_ValueToStr);
@@ -85,7 +89,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFloatSpinEdit := TLuaFloatSpinEdit.Create(Parent);
 	lFloatSpinEdit.Parent := TWinControl(Parent);
-	lFloatSpinEdit.LuaCtl := TVCLuaControl.Create(TControl(lFloatSpinEdit),L,@FloatSpinEditToTable);
+	lFloatSpinEdit.LuaCtl := TVCLuaControl.Create(lFloatSpinEdit as TComponent,L,@FloatSpinEditToTable);
 	InitControl(L,lFloatSpinEdit,Name);
 	FloatSpinEditToTable(L, -1, lFloatSpinEdit);
 	Result := 1;

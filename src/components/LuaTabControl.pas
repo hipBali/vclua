@@ -318,6 +318,10 @@ end;
 
 procedure TabSheetToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -332,7 +336,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTabSheet := TLuaTabSheet.Create(Parent);
 	lTabSheet.Parent := TWinControl(Parent);
-	lTabSheet.LuaCtl := TVCLuaControl.Create(TControl(lTabSheet),L,@TabSheetToTable);
+	lTabSheet.LuaCtl := TVCLuaControl.Create(lTabSheet as TComponent,L,@TabSheetToTable);
 	InitControl(L,lTabSheet,Name);
 	TabSheetToTable(L, -1, lTabSheet);
 	Result := 1;
@@ -340,6 +344,10 @@ end;
 
 procedure TabControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'TabRect', @VCLua_TabControl_TabRect);
 	LuaSetTableFunction(L, Index, 'GetImageIndex', @VCLua_TabControl_GetImageIndex);
@@ -363,7 +371,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTabControl := TLuaTabControl.Create(Parent);
 	lTabControl.Parent := TWinControl(Parent);
-	lTabControl.LuaCtl := TVCLuaControl.Create(TControl(lTabControl),L,@TabControlToTable);
+	lTabControl.LuaCtl := TVCLuaControl.Create(lTabControl as TComponent,L,@TabControlToTable);
 	InitControl(L,lTabControl,Name);
 	TabControlToTable(L, -1, lTabControl);
 	Result := 1;
@@ -371,6 +379,10 @@ end;
 
 procedure PageControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_PageControl_Clear);
 	LuaSetTableFunction(L, Index, 'FindNextPage', @VCLua_PageControl_FindNextPage);
@@ -393,7 +405,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPageControl := TLuaPageControl.Create(Parent);
 	lPageControl.Parent := TWinControl(Parent);
-	lPageControl.LuaCtl := TVCLuaControl.Create(TControl(lPageControl),L,@PageControlToTable);
+	lPageControl.LuaCtl := TVCLuaControl.Create(lPageControl as TComponent,L,@PageControlToTable);
 	InitControl(L,lPageControl,Name);
 	PageControlToTable(L, -1, lPageControl);
 	Result := 1;

@@ -48,6 +48,10 @@ end;
 
 procedure ProgressBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'StepIt', @VCLua_ProgressBar_StepIt);
 	LuaSetTableFunction(L, Index, 'StepBy', @VCLua_ProgressBar_StepBy);
@@ -63,7 +67,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lProgressBar := TLuaProgressBar.Create(Parent);
 	lProgressBar.Parent := TWinControl(Parent);
-	lProgressBar.LuaCtl := TVCLuaControl.Create(TControl(lProgressBar),L,@ProgressBarToTable);
+	lProgressBar.LuaCtl := TVCLuaControl.Create(lProgressBar as TComponent,L,@ProgressBarToTable);
 	InitControl(L,lProgressBar,Name);
 	ProgressBarToTable(L, -1, lProgressBar);
 	Result := 1;

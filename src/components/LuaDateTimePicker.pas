@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure DateTimePickerToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDateTimePicker := TLuaDateTimePicker.Create(Parent);
 	lDateTimePicker.Parent := TWinControl(Parent);
-	lDateTimePicker.LuaCtl := TVCLuaControl.Create(TControl(lDateTimePicker),L,@DateTimePickerToTable);
+	lDateTimePicker.LuaCtl := TVCLuaControl.Create(lDateTimePicker as TComponent,L,@DateTimePickerToTable);
 	InitControl(L,lDateTimePicker,Name);
 	DateTimePickerToTable(L, -1, lDateTimePicker);
 	Result := 1;

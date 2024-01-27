@@ -10,20 +10,20 @@ interface
 
 Uses Classes, Lua, LuaController, ComCtrls, Controls;
 
-function CreateTreeNode(L: Plua_State): Integer; cdecl;
 procedure TreeNodeToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaTreeNode = class(TTreeNode)
-        LuaCtl: TVCLuaControl;
+    public
+      L:Plua_State;
     end;
 
-function CreateTreeNodes(L: Plua_State): Integer; cdecl;
 procedure TreeNodesToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaTreeNodes = class(TTreeNodes)
-        LuaCtl: TVCLuaControl;
+    public
+      L:Plua_State;
     end;
 
 function CreateTreeView(L: Plua_State): Integer; cdecl;
@@ -1073,28 +1073,22 @@ end;
 
 procedure TreeNodeToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
-function CreateTreeNode(L: Plua_State): Integer; cdecl;
-var
-	lTreeNode:TLuaTreeNode;
-	Parent:TTreeNodes;
-	Name:String;
-begin
-	GetControlParents(L,TWinControl(Parent),Name);
-	lTreeNode := TLuaTreeNode.Create(Parent);
-	// := TTreeNodes(Parent);
-	lTreeNode.LuaCtl := TVCLuaControl.Create(TControl(lTreeNode),L,@TreeNodeToTable);
-	InitControl(L,lTreeNode,Name);
-	TreeNodeToTable(L, -1, lTreeNode);
-	Result := 1;
-end;
 
 procedure TreeNodesToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Add', @VCLua_TreeNodes_Add);
 	LuaSetTableFunction(L, Index, 'AddChild', @VCLua_TreeNodes_AddChild);
@@ -1134,23 +1128,13 @@ begin
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
-function CreateTreeNodes(L: Plua_State): Integer; cdecl;
-var
-	lTreeNodes:TLuaTreeNodes;
-	Parent:TCustomTreeView;
-	Name:String;
-begin
-	GetControlParents(L,TWinControl(Parent),Name);
-	lTreeNodes := TLuaTreeNodes.Create(Parent);
-	// := TCustomTreeView(Parent);
-	lTreeNodes.LuaCtl := TVCLuaControl.Create(TControl(lTreeNodes),L,@TreeNodesToTable);
-	InitControl(L,lTreeNodes,Name);
-	TreeNodesToTable(L, -1, lTreeNodes);
-	Result := 1;
-end;
 
 procedure TreeViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'AlphaSort', @VCLua_TreeView_AlphaSort);
 	LuaSetTableFunction(L, Index, 'ClearSelection', @VCLua_TreeView_ClearSelection);
@@ -1202,7 +1186,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTreeView := TLuaTreeView.Create(Parent);
 	lTreeView.Parent := TWinControl(Parent);
-	lTreeView.LuaCtl := TVCLuaControl.Create(TControl(lTreeView),L,@TreeViewToTable);
+	lTreeView.LuaCtl := TVCLuaControl.Create(lTreeView as TComponent,L,@TreeViewToTable);
 	InitControl(L,lTreeView,Name);
 	TreeViewToTable(L, -1, lTreeView);
 	Result := 1;

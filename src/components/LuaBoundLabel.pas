@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure BoundLabelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBoundLabel := TLuaBoundLabel.Create(Parent);
 	lBoundLabel.Parent := TWinControl(Parent);
-	lBoundLabel.LuaCtl := TVCLuaControl.Create(TControl(lBoundLabel),L,@BoundLabelToTable);
+	lBoundLabel.LuaCtl := TVCLuaControl.Create(lBoundLabel as TComponent,L,@BoundLabelToTable);
 	InitControl(L,lBoundLabel,Name);
 	BoundLabelToTable(L, -1, lBoundLabel);
 	Result := 1;

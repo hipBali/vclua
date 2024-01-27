@@ -14,8 +14,8 @@ procedure RasterImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaRasterImage = class(TRasterImage)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 
@@ -260,6 +260,10 @@ end;
 
 procedure RasterImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_RasterImage_Assign);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_RasterImage_Clear);

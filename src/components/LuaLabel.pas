@@ -106,6 +106,10 @@ end;
 
 procedure LabelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'CalcFittingFontHeight', @VCLua_Label_CalcFittingFontHeight);
 	LuaSetTableFunction(L, Index, 'ColorIsStored', @VCLua_Label_ColorIsStored);
@@ -124,7 +128,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lLabel := TLuaLabel.Create(Parent);
 	lLabel.Parent := TWinControl(Parent);
-	lLabel.LuaCtl := TVCLuaControl.Create(TControl(lLabel),L,@LabelToTable);
+	lLabel.LuaCtl := TVCLuaControl.Create(lLabel as TComponent,L,@LabelToTable);
 	InitControl(L,lLabel,Name);
 	LabelToTable(L, -1, lLabel);
 	Result := 1;

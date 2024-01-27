@@ -50,6 +50,10 @@ end;
 
 procedure ImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'DestRect', @VCLua_Image_DestRect);
 	LuaSetTableFunction(L, Index, 'Invalidate', @VCLua_Image_Invalidate);
@@ -65,7 +69,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lImage := TLuaImage.Create(Parent);
 	lImage.Parent := TWinControl(Parent);
-	lImage.LuaCtl := TVCLuaControl.Create(TControl(lImage),L,@ImageToTable);
+	lImage.LuaCtl := TVCLuaControl.Create(lImage as TComponent,L,@ImageToTable);
 	InitControl(L,lImage,Name);
 	ImageToTable(L, -1, lImage);
 	Result := 1;

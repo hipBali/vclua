@@ -175,8 +175,8 @@ classes = {
 	{ name = "HeaderControl", src = "TCustomHeaderControl", ref = "ComCtrls, Controls" },
 	{ unit = "TreeView", ref = "ComCtrls, Controls", canvas=true,
 		classes = {
-			{ name = "TreeNode", src = "TTreeNode", noparent=true, parentclass="TTreeNodes" },
-			{ name = "TreeNodes", src = "TTreeNodes", noparent=true, parentclass="TCustomTreeView"},
+			{ name = "TreeNode", src = "TTreeNode", noparent=true, parentclass="TTreeNodes", nocreate=true},
+			{ name = "TreeNodes", src = "TTreeNodes", noparent=true, parentclass="TCustomTreeView", nocreate=true},
 			{ name = "TreeView", src = "TCustomTreeView"},
 		},
 	},
@@ -225,7 +225,7 @@ classes = {
 	{ unit = "StringGrid", ref = "Grids, Controls", 
 		classes = {
 			{ name = "GridColumn", src = "TGridColumn", noparent=true, parentclass="TCollection", nocreate=true},
-			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", wclass="TGridColumn"},
+			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", nocreate=true},--, wclass="TGridColumn"
 			{ name = "StringGrid", src = "TCustomStringGrid", canvas=true, 
 			  impl="GetCells, SetCells, GetCellRect, GetSelectedCell, MouseToCell, DrawCell"},
 		},

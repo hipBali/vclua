@@ -37,6 +37,10 @@ end;
 
 procedure BevelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Bevel_Assign);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -51,7 +55,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBevel := TLuaBevel.Create(Parent);
 	lBevel.Parent := TWinControl(Parent);
-	lBevel.LuaCtl := TVCLuaControl.Create(TControl(lBevel),L,@BevelToTable);
+	lBevel.LuaCtl := TVCLuaControl.Create(lBevel as TComponent,L,@BevelToTable);
 	InitControl(L,lBevel,Name);
 	BevelToTable(L, -1, lBevel);
 	Result := 1;

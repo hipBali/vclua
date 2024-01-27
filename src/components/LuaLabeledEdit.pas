@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure LabeledEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lLabeledEdit := TLuaLabeledEdit.Create(Parent);
 	lLabeledEdit.Parent := TWinControl(Parent);
-	lLabeledEdit.LuaCtl := TVCLuaControl.Create(TControl(lLabeledEdit),L,@LabeledEditToTable);
+	lLabeledEdit.LuaCtl := TVCLuaControl.Create(lLabeledEdit as TComponent,L,@LabeledEditToTable);
 	InitControl(L,lLabeledEdit,Name);
 	LabeledEditToTable(L, -1, lLabeledEdit);
 	Result := 1;

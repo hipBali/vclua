@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure TimerToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTimer := TLuaTimer.Create(Parent);
 	// := TWinControl(Parent);
-	lTimer.LuaCtl := TVCLuaControl.Create(TControl(lTimer),L,@TimerToTable);
+	lTimer.LuaCtl := TVCLuaControl.Create(lTimer as TComponent,L,@TimerToTable);
 	InitControl(L,lTimer,Name);
 	TimerToTable(L, -1, lTimer);
 	Result := 1;

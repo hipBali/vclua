@@ -52,6 +52,10 @@ end;
 
 procedure CalendarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'HitTest', @VCLua_Calendar_HitTest);
 	LuaSetTableFunction(L, Index, 'GetCalendarView', @VCLua_Calendar_GetCalendarView);
@@ -67,7 +71,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCalendar := TLuaCalendar.Create(Parent);
 	lCalendar.Parent := TWinControl(Parent);
-	lCalendar.LuaCtl := TVCLuaControl.Create(TControl(lCalendar),L,@CalendarToTable);
+	lCalendar.LuaCtl := TVCLuaControl.Create(lCalendar as TComponent,L,@CalendarToTable);
 	InitControl(L,lCalendar,Name);
 	CalendarToTable(L, -1, lCalendar);
 	Result := 1;

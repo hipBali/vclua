@@ -61,6 +61,10 @@ end;
 
 procedure PopupNotifierToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Hide', @VCLua_PopupNotifier_Hide);
 	LuaSetTableFunction(L, Index, 'Show', @VCLua_PopupNotifier_Show);
@@ -77,7 +81,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPopupNotifier := TLuaPopupNotifier.Create(Parent);
 	// := TWinControl(Parent);
-	lPopupNotifier.LuaCtl := TVCLuaControl.Create(TControl(lPopupNotifier),L,@PopupNotifierToTable);
+	lPopupNotifier.LuaCtl := TVCLuaControl.Create(lPopupNotifier as TComponent,L,@PopupNotifierToTable);
 	InitControl(L,lPopupNotifier,Name);
 	PopupNotifierToTable(L, -1, lPopupNotifier);
 	Result := 1;

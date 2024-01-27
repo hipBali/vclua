@@ -86,7 +86,7 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..88] of lual_reg = (
+	vcl_lib : array[0..85] of lual_reg = (
 		(name:'Strings'; func:@CreateStrings),
 		(name:'TextStrings'; func:@CreateTextStrings),
 		(name:'StringList'; func:@CreateStringList),
@@ -141,8 +141,6 @@ Generated with Lua-fpc parser/generator
 		(name:'TabControl'; func:@CreateTabControl),
 		(name:'PageControl'; func:@CreatePageControl),
 		(name:'HeaderControl'; func:@CreateHeaderControl),
-		(name:'TreeNode'; func:@CreateTreeNode),
-		(name:'TreeNodes'; func:@CreateTreeNodes),
 		(name:'TreeView'; func:@CreateTreeView),
 		(name:'ListView'; func:@CreateListView),
 		(name:'BitBtn'; func:@CreateBitBtn),
@@ -163,7 +161,6 @@ Generated with Lua-fpc parser/generator
 		(name:'CalcEdit'; func:@CreateCalcEdit),
 		(name:'ColorBox'; func:@CreateColorBox),
 		(name:'ColorListBox'; func:@CreateColorListBox),
-		(name:'GridColumns'; func:@CreateGridColumns),
 		(name:'StringGrid'; func:@CreateStringGrid),
 		(name:'DrawGrid'; func:@CreateDrawGrid),
 		(name:'ValueListEditor'; func:@CreateValueListEditor),

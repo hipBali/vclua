@@ -100,6 +100,10 @@ end;
 
 procedure HeaderControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Click', @VCLua_HeaderControl_Click);
 	LuaSetTableFunction(L, Index, 'DblClick', @VCLua_HeaderControl_DblClick);
@@ -119,7 +123,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lHeaderControl := TLuaHeaderControl.Create(Parent);
 	lHeaderControl.Parent := TWinControl(Parent);
-	lHeaderControl.LuaCtl := TVCLuaControl.Create(TControl(lHeaderControl),L,@HeaderControlToTable);
+	lHeaderControl.LuaCtl := TVCLuaControl.Create(lHeaderControl as TComponent,L,@HeaderControlToTable);
 	InitControl(L,lHeaderControl,Name);
 	HeaderControlToTable(L, -1, lHeaderControl);
 	Result := 1;

@@ -672,6 +672,10 @@ end;
 
 procedure MenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'DestroyHandle', @VCLua_Menu_DestroyHandle);
 	LuaSetTableFunction(L, Index, 'FindItem', @VCLua_Menu_FindItem);
@@ -694,7 +698,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMenu := TLuaMenu.Create(Parent);
 	lMenu.Parent := TWinControl(Parent);
-	lMenu.LuaCtl := TVCLuaControl.Create(TControl(lMenu),L,@MenuToTable);
+	lMenu.LuaCtl := TVCLuaControl.Create(lMenu as TComponent,L,@MenuToTable);
 	InitControl(L,lMenu,Name);
 	MenuToTable(L, -1, lMenu);
 	Result := 1;
@@ -702,6 +706,10 @@ end;
 
 procedure PopupMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'PopUp', @VCLua_PopupMenu_PopUp);
 	LuaSetTableFunction(L, Index, 'PopUp2', @VCLua_PopupMenu_PopUp2);
@@ -718,7 +726,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPopupMenu := TLuaPopupMenu.Create(Parent);
 	lPopupMenu.Parent := TWinControl(Parent);
-	lPopupMenu.LuaCtl := TVCLuaControl.Create(TControl(lPopupMenu),L,@PopupMenuToTable);
+	lPopupMenu.LuaCtl := TVCLuaControl.Create(lPopupMenu as TComponent,L,@PopupMenuToTable);
 	InitControl(L,lPopupMenu,Name);
 	PopupMenuToTable(L, -1, lPopupMenu);
 	Result := 1;
@@ -726,6 +734,10 @@ end;
 
 procedure MenuItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Find', @VCLua_MenuItem_Find);
 	LuaSetTableFunction(L, Index, 'GetImageList', @VCLua_MenuItem_GetImageList);
@@ -773,7 +785,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMenuItem := TLuaMenuItem.Create(Parent);
 	// := TWinControl(Parent);
-	lMenuItem.LuaCtl := TVCLuaControl.Create(TControl(lMenuItem),L,@MenuItemToTable);
+	lMenuItem.LuaCtl := TVCLuaControl.Create(lMenuItem as TComponent,L,@MenuItemToTable);
 	InitControl(L,lMenuItem,Name);
 	MenuItemToTable(L, -1, lMenuItem);
 	Result := 1;
@@ -781,6 +793,10 @@ end;
 
 procedure MainMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Merge', @VCLua_MainMenu_Merge);
 	LuaSetTableFunction(L, Index, 'Unmerge', @VCLua_MainMenu_Unmerge);
@@ -797,7 +813,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMainMenu := TLuaMainMenu.Create(Parent);
 	lMainMenu.Parent := TWinControl(Parent);
-	lMainMenu.LuaCtl := TVCLuaControl.Create(TControl(lMainMenu),L,@MainMenuToTable);
+	lMainMenu.LuaCtl := TVCLuaControl.Create(lMainMenu as TComponent,L,@MainMenuToTable);
 	InitControl(L,lMainMenu,Name);
 	MainMenuToTable(L, -1, lMainMenu);
 	Result := 1;

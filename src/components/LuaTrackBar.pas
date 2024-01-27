@@ -37,6 +37,10 @@ end;
 
 procedure TrackBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'SetTick', @VCLua_TrackBar_SetTick);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -51,7 +55,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTrackBar := TLuaTrackBar.Create(Parent);
 	lTrackBar.Parent := TWinControl(Parent);
-	lTrackBar.LuaCtl := TVCLuaControl.Create(TControl(lTrackBar),L,@TrackBarToTable);
+	lTrackBar.LuaCtl := TVCLuaControl.Create(lTrackBar as TComponent,L,@TrackBarToTable);
 	InitControl(L,lTrackBar,Name);
 	TrackBarToTable(L, -1, lTrackBar);
 	Result := 1;

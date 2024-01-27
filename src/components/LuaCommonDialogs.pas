@@ -245,6 +245,10 @@ end;
 
 procedure ColorButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Click', @VCLua_ColorButton_Click);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -259,7 +263,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorButton := TLuaColorButton.Create(Parent);
 	lColorButton.Parent := TWinControl(Parent);
-	lColorButton.LuaCtl := TVCLuaControl.Create(TControl(lColorButton),L,@ColorButtonToTable);
+	lColorButton.LuaCtl := TVCLuaControl.Create(lColorButton as TComponent,L,@ColorButtonToTable);
 	InitControl(L,lColorButton,Name);
 	ColorButtonToTable(L, -1, lColorButton);
 	Result := 1;
@@ -267,6 +271,10 @@ end;
 
 procedure OpenDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'DoCanClose', @VCLua_OpenDialog_DoCanClose);
 	LuaSetTableFunction(L, Index, 'DoFolderChange', @VCLua_OpenDialog_DoFolderChange);
@@ -285,7 +293,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lOpenDialog := TLuaOpenDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lOpenDialog.LuaCtl := TVCLuaControl.Create(TControl(lOpenDialog),L,@OpenDialogToTable);
+	lOpenDialog.LuaCtl := TVCLuaControl.Create(lOpenDialog as TComponent,L,@OpenDialogToTable);
 	InitControl(L,lOpenDialog,Name);
 	OpenDialogToTable(L, -1, lOpenDialog);
 	Result := 1;
@@ -293,6 +301,10 @@ end;
 
 procedure SaveDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Execute', @VCLua_SaveDialog_DoExecute);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -307,7 +319,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSaveDialog := TLuaSaveDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lSaveDialog.LuaCtl := TVCLuaControl.Create(TControl(lSaveDialog),L,@SaveDialogToTable);
+	lSaveDialog.LuaCtl := TVCLuaControl.Create(lSaveDialog as TComponent,L,@SaveDialogToTable);
 	InitControl(L,lSaveDialog,Name);
 	SaveDialogToTable(L, -1, lSaveDialog);
 	Result := 1;
@@ -315,6 +327,10 @@ end;
 
 procedure SelectDirectoryDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Execute', @VCLua_SelectDirectoryDialog_DoExecute);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -329,7 +345,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSelectDirectoryDialog := TLuaSelectDirectoryDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lSelectDirectoryDialog.LuaCtl := TVCLuaControl.Create(TControl(lSelectDirectoryDialog),L,@SelectDirectoryDialogToTable);
+	lSelectDirectoryDialog.LuaCtl := TVCLuaControl.Create(lSelectDirectoryDialog as TComponent,L,@SelectDirectoryDialogToTable);
 	InitControl(L,lSelectDirectoryDialog,Name);
 	SelectDirectoryDialogToTable(L, -1, lSelectDirectoryDialog);
 	Result := 1;
@@ -337,6 +353,10 @@ end;
 
 procedure ColorDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Execute', @VCLua_ColorDialog_DoExecute);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -351,7 +371,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorDialog := TLuaColorDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lColorDialog.LuaCtl := TVCLuaControl.Create(TControl(lColorDialog),L,@ColorDialogToTable);
+	lColorDialog.LuaCtl := TVCLuaControl.Create(lColorDialog as TComponent,L,@ColorDialogToTable);
 	InitControl(L,lColorDialog,Name);
 	ColorDialogToTable(L, -1, lColorDialog);
 	Result := 1;
@@ -359,6 +379,10 @@ end;
 
 procedure FontDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'ApplyClicked', @VCLua_FontDialog_ApplyClicked);
 	LuaSetTableFunction(L, Index, 'Execute', @VCLua_FontDialog_DoExecute);
@@ -374,7 +398,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFontDialog := TLuaFontDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lFontDialog.LuaCtl := TVCLuaControl.Create(TControl(lFontDialog),L,@FontDialogToTable);
+	lFontDialog.LuaCtl := TVCLuaControl.Create(lFontDialog as TComponent,L,@FontDialogToTable);
 	InitControl(L,lFontDialog,Name);
 	FontDialogToTable(L, -1, lFontDialog);
 	Result := 1;
@@ -382,6 +406,10 @@ end;
 
 procedure FindDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'CloseDialog', @VCLua_FindDialog_CloseDialog);
 	LuaSetTableFunction(L, Index, 'Execute', @VCLua_FindDialog_Execute);
@@ -397,7 +425,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFindDialog := TLuaFindDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lFindDialog.LuaCtl := TVCLuaControl.Create(TControl(lFindDialog),L,@FindDialogToTable);
+	lFindDialog.LuaCtl := TVCLuaControl.Create(lFindDialog as TComponent,L,@FindDialogToTable);
 	InitControl(L,lFindDialog,Name);
 	FindDialogToTable(L, -1, lFindDialog);
 	Result := 1;
@@ -405,6 +433,10 @@ end;
 
 procedure ReplaceDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'CloseDialog', @VCLua_ReplaceDialog_CloseDialog);
 	LuaSetTableFunction(L, Index, 'Execute', @VCLua_ReplaceDialog_Execute);
@@ -420,7 +452,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lReplaceDialog := TLuaReplaceDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lReplaceDialog.LuaCtl := TVCLuaControl.Create(TControl(lReplaceDialog),L,@ReplaceDialogToTable);
+	lReplaceDialog.LuaCtl := TVCLuaControl.Create(lReplaceDialog as TComponent,L,@ReplaceDialogToTable);
 	InitControl(L,lReplaceDialog,Name);
 	ReplaceDialogToTable(L, -1, lReplaceDialog);
 	Result := 1;

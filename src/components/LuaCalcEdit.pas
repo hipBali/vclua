@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure CalcEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCalcEdit := TLuaCalcEdit.Create(Parent);
 	lCalcEdit.Parent := TWinControl(Parent);
-	lCalcEdit.LuaCtl := TVCLuaControl.Create(TControl(lCalcEdit),L,@CalcEditToTable);
+	lCalcEdit.LuaCtl := TVCLuaControl.Create(lCalcEdit as TComponent,L,@CalcEditToTable);
 	InitControl(L,lCalcEdit,Name);
 	CalcEditToTable(L, -1, lCalcEdit);
 	Result := 1;

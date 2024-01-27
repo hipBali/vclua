@@ -13,8 +13,8 @@ procedure PictureToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPicture = class(TPicture)
-		public
-			L:Plua_State;
+    public
+      L:Plua_State;
     end;
 
 
@@ -131,6 +131,10 @@ end;
 
 procedure PictureToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_Picture_Clear);
 	LuaSetTableFunction(L, Index, 'LoadFromFile', @VCLua_Picture_LoadFromFile);

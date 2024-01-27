@@ -15,8 +15,8 @@ procedure CustomBitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaCustomBitmap = class(TCustomBitmap)
-		public
-			L:Plua_State;
+    public
+      L:Plua_State;
     end;
 
 function CreateBitmap(L: Plua_State): Integer; cdecl;
@@ -24,8 +24,8 @@ procedure BitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaBitmap = class(TBitmap)
-		public
-			L:Plua_State;
+    public
+      L:Plua_State;
     end;
 
 
@@ -197,12 +197,16 @@ var
   b: TLuaBitmap;
 begin
   b := TLuaBitmap(GetLuaObject(L, 1));
-  CustomBitmapToTable(L, -1, TLuaCustomBitmap(b));
+  CustomBitmapToTable(L, -1, b);
   Result := 1;
 end;
 
 procedure CustomBitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_CustomBitmap_Assign);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_CustomBitmap_Clear);
@@ -227,10 +231,14 @@ begin
 end;
 procedure BitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'GetResourceType', @VCLua_Bitmap_GetResourceType);
 	LuaSetTableFunction(L, Index, 'LoadFromStream', @VCLua_Bitmap_LoadFromStream);
-	LuaSetTableFunction(L, Index, 'Custom', @VCLua_Bitmap_CustomBitmap);
+	LuaSetTableFunction(L, Index, 'CustomBitmap', @VCLua_Bitmap_CustomBitmap);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;

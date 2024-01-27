@@ -52,6 +52,10 @@ end;
 
 procedure NotebookToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'ShowControl', @VCLua_Notebook_ShowControl);
 	LuaSetTableFunction(L, Index, 'IndexOf', @VCLua_Notebook_IndexOf);
@@ -67,7 +71,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lNotebook := TLuaNotebook.Create(Parent);
 	lNotebook.Parent := TWinControl(Parent);
-	lNotebook.LuaCtl := TVCLuaControl.Create(TControl(lNotebook),L,@NotebookToTable);
+	lNotebook.LuaCtl := TVCLuaControl.Create(lNotebook as TComponent,L,@NotebookToTable);
 	InitControl(L,lNotebook,Name);
 	NotebookToTable(L, -1, lNotebook);
 	Result := 1;

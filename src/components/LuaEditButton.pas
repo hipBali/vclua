@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure EditButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lEditButton := TLuaEditButton.Create(Parent);
 	lEditButton.Parent := TWinControl(Parent);
-	lEditButton.LuaCtl := TVCLuaControl.Create(TControl(lEditButton),L,@EditButtonToTable);
+	lEditButton.LuaCtl := TVCLuaControl.Create(lEditButton as TComponent,L,@EditButtonToTable);
 	InitControl(L,lEditButton,Name);
 	EditButtonToTable(L, -1, lEditButton);
 	Result := 1;

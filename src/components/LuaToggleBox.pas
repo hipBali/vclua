@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure ToggleBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToggleBox := TLuaToggleBox.Create(Parent);
 	lToggleBox.Parent := TWinControl(Parent);
-	lToggleBox.LuaCtl := TVCLuaControl.Create(TControl(lToggleBox),L,@ToggleBoxToTable);
+	lToggleBox.LuaCtl := TVCLuaControl.Create(lToggleBox as TComponent,L,@ToggleBoxToTable);
 	InitControl(L,lToggleBox,Name);
 	ToggleBoxToTable(L, -1, lToggleBox);
 	Result := 1;

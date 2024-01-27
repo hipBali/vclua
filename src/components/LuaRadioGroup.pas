@@ -63,6 +63,10 @@ end;
 
 procedure RadioGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'CanModify', @VCLua_RadioGroup_CanModify);
 	LuaSetTableFunction(L, Index, 'FlipChildren', @VCLua_RadioGroup_FlipChildren);
@@ -79,7 +83,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lRadioGroup := TLuaRadioGroup.Create(Parent);
 	lRadioGroup.Parent := TWinControl(Parent);
-	lRadioGroup.LuaCtl := TVCLuaControl.Create(TControl(lRadioGroup),L,@RadioGroupToTable);
+	lRadioGroup.LuaCtl := TVCLuaControl.Create(lRadioGroup as TComponent,L,@RadioGroupToTable);
 	InitControl(L,lRadioGroup,Name);
 	RadioGroupToTable(L, -1, lRadioGroup);
 	Result := 1;

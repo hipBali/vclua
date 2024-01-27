@@ -94,6 +94,10 @@ end;
 
 procedure ButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Click', @VCLua_Button_Click);
 	LuaSetTableFunction(L, Index, 'ExecuteDefaultAction', @VCLua_Button_ExecuteDefaultAction);
@@ -113,7 +117,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lButton := TLuaButton.Create(Parent);
 	lButton.Parent := TWinControl(Parent);
-	lButton.LuaCtl := TVCLuaControl.Create(TControl(lButton),L,@ButtonToTable);
+	lButton.LuaCtl := TVCLuaControl.Create(lButton as TComponent,L,@ButtonToTable);
 	InitControl(L,lButton,Name);
 	ButtonToTable(L, -1, lButton);
 	Result := 1;

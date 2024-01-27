@@ -114,6 +114,10 @@ end;
 
 procedure EditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_Edit_Clear);
 	LuaSetTableFunction(L, Index, 'SelectAll', @VCLua_Edit_SelectAll);
@@ -135,7 +139,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lEdit := TLuaEdit.Create(Parent);
 	lEdit.Parent := TWinControl(Parent);
-	lEdit.LuaCtl := TVCLuaControl.Create(TControl(lEdit),L,@EditToTable);
+	lEdit.LuaCtl := TVCLuaControl.Create(lEdit as TComponent,L,@EditToTable);
 	InitControl(L,lEdit,Name);
 	EditToTable(L, -1, lEdit);
 	Result := 1;

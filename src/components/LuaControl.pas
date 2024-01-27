@@ -1196,6 +1196,10 @@ end;
 
 procedure ControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'DragDrop', @VCLua_Control_DragDrop);
 	LuaSetTableFunction(L, Index, 'Dock', @VCLua_Control_Dock);
@@ -1292,7 +1296,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lControl := TLuaControl.Create(Parent);
 	lControl.Parent := TWinControl(Parent);
-	lControl.LuaCtl := TVCLuaControl.Create(TControl(lControl),L,@ControlToTable);
+	lControl.LuaCtl := TVCLuaControl.Create(lControl as TComponent,L,@ControlToTable);
 	InitControl(L,lControl,Name);
 	ControlToTable(L, -1, lControl);
 	Result := 1;

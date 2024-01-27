@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure TimeEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTimeEdit := TLuaTimeEdit.Create(Parent);
 	lTimeEdit.Parent := TWinControl(Parent);
-	lTimeEdit.LuaCtl := TVCLuaControl.Create(TControl(lTimeEdit),L,@TimeEditToTable);
+	lTimeEdit.LuaCtl := TVCLuaControl.Create(lTimeEdit as TComponent,L,@TimeEditToTable);
 	InitControl(L,lTimeEdit,Name);
 	TimeEditToTable(L, -1, lTimeEdit);
 	Result := 1;

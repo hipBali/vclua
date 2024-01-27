@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure MaskEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMaskEdit := TLuaMaskEdit.Create(Parent);
 	lMaskEdit.Parent := TWinControl(Parent);
-	lMaskEdit.LuaCtl := TVCLuaControl.Create(TControl(lMaskEdit),L,@MaskEditToTable);
+	lMaskEdit.LuaCtl := TVCLuaControl.Create(lMaskEdit as TComponent,L,@MaskEditToTable);
 	InitControl(L,lMaskEdit,Name);
 	MaskEditToTable(L, -1, lMaskEdit);
 	Result := 1;

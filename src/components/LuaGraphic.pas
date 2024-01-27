@@ -14,8 +14,8 @@ procedure GraphicToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaGraphic = class(TGraphic)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
 
@@ -270,6 +270,10 @@ end;
 
 procedure GraphicToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Graphic_Assign);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_Graphic_Clear);

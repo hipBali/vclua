@@ -256,6 +256,10 @@ end;
 
 procedure ListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'AddItem', @VCLua_ListBox_AddItem);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_ListBox_Clear);
@@ -286,7 +290,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lListBox := TLuaListBox.Create(Parent);
 	lListBox.Parent := TWinControl(Parent);
-	lListBox.LuaCtl := TVCLuaControl.Create(TControl(lListBox),L,@ListBoxToTable);
+	lListBox.LuaCtl := TVCLuaControl.Create(lListBox as TComponent,L,@ListBoxToTable);
 	InitControl(L,lListBox,Name);
 	ListBoxToTable(L, -1, lListBox);
 	Result := 1;

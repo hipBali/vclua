@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure RadioButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lRadioButton := TLuaRadioButton.Create(Parent);
 	lRadioButton.Parent := TWinControl(Parent);
-	lRadioButton.LuaCtl := TVCLuaControl.Create(TControl(lRadioButton),L,@RadioButtonToTable);
+	lRadioButton.LuaCtl := TVCLuaControl.Create(lRadioButton as TComponent,L,@RadioButtonToTable);
 	InitControl(L,lRadioButton,Name);
 	RadioButtonToTable(L, -1, lRadioButton);
 	Result := 1;

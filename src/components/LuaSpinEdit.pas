@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure SpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSpinEdit := TLuaSpinEdit.Create(Parent);
 	lSpinEdit.Parent := TWinControl(Parent);
-	lSpinEdit.LuaCtl := TVCLuaControl.Create(TControl(lSpinEdit),L,@SpinEditToTable);
+	lSpinEdit.LuaCtl := TVCLuaControl.Create(lSpinEdit as TComponent,L,@SpinEditToTable);
 	InitControl(L,lSpinEdit,Name);
 	SpinEditToTable(L, -1, lSpinEdit);
 	Result := 1;

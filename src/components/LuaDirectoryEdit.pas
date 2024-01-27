@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure DirectoryEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDirectoryEdit := TLuaDirectoryEdit.Create(Parent);
 	lDirectoryEdit.Parent := TWinControl(Parent);
-	lDirectoryEdit.LuaCtl := TVCLuaControl.Create(TControl(lDirectoryEdit),L,@DirectoryEditToTable);
+	lDirectoryEdit.LuaCtl := TVCLuaControl.Create(lDirectoryEdit as TComponent,L,@DirectoryEditToTable);
 	InitControl(L,lDirectoryEdit,Name);
 	DirectoryEditToTable(L, -1, lDirectoryEdit);
 	Result := 1;

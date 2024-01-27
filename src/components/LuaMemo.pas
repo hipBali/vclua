@@ -52,6 +52,10 @@ end;
 
 procedure MemoToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Append', @VCLua_Memo_Append);
 	LuaSetTableFunction(L, Index, 'ScrollBy', @VCLua_Memo_ScrollBy);
@@ -67,7 +71,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMemo := TLuaMemo.Create(Parent);
 	lMemo.Parent := TWinControl(Parent);
-	lMemo.LuaCtl := TVCLuaControl.Create(TControl(lMemo),L,@MemoToTable);
+	lMemo.LuaCtl := TVCLuaControl.Create(lMemo as TComponent,L,@MemoToTable);
 	InitControl(L,lMemo,Name);
 	MemoToTable(L, -1, lMemo);
 	Result := 1;

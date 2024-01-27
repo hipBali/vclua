@@ -109,6 +109,10 @@ end;
 
 procedure CheckListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'MeasureItem', @VCLua_CheckListBox_MeasureItem);
 	LuaSetTableFunction(L, Index, 'Toggle', @VCLua_CheckListBox_Toggle);
@@ -128,7 +132,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCheckListBox := TLuaCheckListBox.Create(Parent);
 	lCheckListBox.Parent := TWinControl(Parent);
-	lCheckListBox.LuaCtl := TVCLuaControl.Create(TControl(lCheckListBox),L,@CheckListBoxToTable);
+	lCheckListBox.LuaCtl := TVCLuaControl.Create(lCheckListBox as TComponent,L,@CheckListBoxToTable);
 	InitControl(L,lCheckListBox,Name);
 	CheckListBoxToTable(L, -1, lCheckListBox);
 	Result := 1;

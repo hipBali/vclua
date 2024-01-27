@@ -120,6 +120,10 @@ end;
 
 procedure ActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'DoHint', @VCLua_Action_DoHint);
 	LuaSetTableFunction(L, Index, 'Execute', @VCLua_Action_Execute);
@@ -135,7 +139,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lAction := TLuaAction.Create(Parent);
 	// := TWinControl(Parent);
-	lAction.LuaCtl := TVCLuaControl.Create(TControl(lAction),L,@ActionToTable);
+	lAction.LuaCtl := TVCLuaControl.Create(lAction as TComponent,L,@ActionToTable);
 	InitControl(L,lAction,Name);
 	ActionToTable(L, -1, lAction);
 	Result := 1;
@@ -143,6 +147,10 @@ end;
 
 procedure ActionListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'ActionByName', @VCLua_ActionList_ActionByName);
 	LuaSetTableFunction(L, Index, 'ExecuteAction', @VCLua_ActionList_ExecuteAction);
@@ -160,7 +168,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lActionList := TLuaActionList.Create(Parent);
 	// := TWinControl(Parent);
-	lActionList.LuaCtl := TVCLuaControl.Create(TControl(lActionList),L,@ActionListToTable);
+	lActionList.LuaCtl := TVCLuaControl.Create(lActionList as TComponent,L,@ActionListToTable);
 	InitControl(L,lActionList,Name);
 	ActionListToTable(L, -1, lActionList);
 	Result := 1;

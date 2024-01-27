@@ -13,8 +13,8 @@ procedure StringListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStringList = class(TStringList)
-		public
-			L:Plua_State;
+    public
+      L:Plua_State;
     end;
 
 
@@ -147,6 +147,10 @@ end;
 
 procedure StringListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Add', @VCLua_StringList_Add);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_StringList_Clear);

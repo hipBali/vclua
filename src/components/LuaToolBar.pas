@@ -167,6 +167,10 @@ end;
 
 procedure ToolButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'CheckMenuDropdown', @VCLua_ToolButton_CheckMenuDropdown);
 	LuaSetTableFunction(L, Index, 'Click', @VCLua_ToolButton_Click);
@@ -185,7 +189,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToolButton := TLuaToolButton.Create(Parent);
 	lToolButton.Parent := TWinControl(Parent);
-	lToolButton.LuaCtl := TVCLuaControl.Create(TControl(lToolButton),L,@ToolButtonToTable);
+	lToolButton.LuaCtl := TVCLuaControl.Create(lToolButton as TComponent,L,@ToolButtonToTable);
 	InitControl(L,lToolButton,Name);
 	ToolButtonToTable(L, -1, lToolButton);
 	Result := 1;
@@ -193,6 +197,10 @@ end;
 
 procedure ToolBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_ToolBar_EndUpdate);
 	LuaSetTableFunction(L, Index, 'FlipChildren', @VCLua_ToolBar_FlipChildren);
@@ -211,7 +219,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToolBar := TLuaToolBar.Create(Parent);
 	lToolBar.Parent := TWinControl(Parent);
-	lToolBar.LuaCtl := TVCLuaControl.Create(TControl(lToolBar),L,@ToolBarToTable);
+	lToolBar.LuaCtl := TVCLuaControl.Create(lToolBar as TComponent,L,@ToolBarToTable);
 	InitControl(L,lToolBar,Name);
 	ToolBarToTable(L, -1, lToolBar);
 	Result := 1;

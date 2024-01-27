@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure GroupBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lGroupBox := TLuaGroupBox.Create(Parent);
 	lGroupBox.Parent := TWinControl(Parent);
-	lGroupBox.LuaCtl := TVCLuaControl.Create(TControl(lGroupBox),L,@GroupBoxToTable);
+	lGroupBox.LuaCtl := TVCLuaControl.Create(lGroupBox as TComponent,L,@GroupBoxToTable);
 	InitControl(L,lGroupBox,Name);
 	GroupBoxToTable(L, -1, lGroupBox);
 	Result := 1;

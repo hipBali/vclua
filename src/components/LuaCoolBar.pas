@@ -105,6 +105,10 @@ end;
 
 procedure CoolBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'AutosizeBands', @VCLua_CoolBar_AutosizeBands);
 	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_CoolBar_EndUpdate);
@@ -124,7 +128,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCoolBar := TLuaCoolBar.Create(Parent);
 	lCoolBar.Parent := TWinControl(Parent);
-	lCoolBar.LuaCtl := TVCLuaControl.Create(TControl(lCoolBar),L,@CoolBarToTable);
+	lCoolBar.LuaCtl := TVCLuaControl.Create(lCoolBar as TComponent,L,@CoolBarToTable);
 	InitControl(L,lCoolBar,Name);
 	CoolBarToTable(L, -1, lCoolBar);
 	Result := 1;

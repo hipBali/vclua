@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure ColorListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorListBox := TLuaColorListBox.Create(Parent);
 	lColorListBox.Parent := TWinControl(Parent);
-	lColorListBox.LuaCtl := TVCLuaControl.Create(TControl(lColorListBox),L,@ColorListBoxToTable);
+	lColorListBox.LuaCtl := TVCLuaControl.Create(lColorListBox as TComponent,L,@ColorListBoxToTable);
 	InitControl(L,lColorListBox,Name);
 	ColorListBoxToTable(L, -1, lColorListBox);
 	Result := 1;

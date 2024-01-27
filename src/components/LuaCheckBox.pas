@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure CheckBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCheckBox := TLuaCheckBox.Create(Parent);
 	lCheckBox.Parent := TWinControl(Parent);
-	lCheckBox.LuaCtl := TVCLuaControl.Create(TControl(lCheckBox),L,@CheckBoxToTable);
+	lCheckBox.LuaCtl := TVCLuaControl.Create(lCheckBox as TComponent,L,@CheckBoxToTable);
 	InitControl(L,lCheckBox,Name);
 	CheckBoxToTable(L, -1, lCheckBox);
 	Result := 1;

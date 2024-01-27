@@ -27,6 +27,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure ScrollBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -41,7 +45,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lScrollBox := TLuaScrollBox.Create(Parent);
 	lScrollBox.Parent := TWinControl(Parent);
-	lScrollBox.LuaCtl := TVCLuaControl.Create(TControl(lScrollBox),L,@ScrollBoxToTable);
+	lScrollBox.LuaCtl := TVCLuaControl.Create(lScrollBox as TComponent,L,@ScrollBoxToTable);
 	InitControl(L,lScrollBox,Name);
 	ScrollBoxToTable(L, -1, lScrollBox);
 	Result := 1;

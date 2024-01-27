@@ -13,8 +13,8 @@ procedure StringsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStrings = class(TStrings)
-		public
-			L:Plua_State;
+    public
+      L:Plua_State;
     end;
 
 
@@ -665,6 +665,10 @@ end;
 
 procedure StringsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Add', @VCLua_Strings_Add);
 	LuaSetTableFunction(L, Index, 'AddObject', @VCLua_Strings_AddObject);

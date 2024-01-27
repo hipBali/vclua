@@ -462,6 +462,10 @@ end;
 
 procedure FormToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'AfterConstruction', @VCLua_Form_AfterConstruction);
 	LuaSetTableFunction(L, Index, 'BeforeDestruction', @VCLua_Form_BeforeDestruction);
@@ -508,7 +512,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lForm := TLuaForm.CreateNew(Parent);
 	lForm.Parent := TWinControl(Parent);
-	lForm.LuaCtl := TVCLuaControl.Create(TControl(lForm),L,@FormToTable);
+	lForm.LuaCtl := TVCLuaControl.Create(lForm as TComponent,L,@FormToTable);
 	InitControl(L,lForm,Name);
 	FormToTable(L, -1, lForm);
 	Result := 1;

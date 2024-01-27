@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure ArrowToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lArrow := TLuaArrow.Create(Parent);
 	lArrow.Parent := TWinControl(Parent);
-	lArrow.LuaCtl := TVCLuaControl.Create(TControl(lArrow),L,@ArrowToTable);
+	lArrow.LuaCtl := TVCLuaControl.Create(lArrow as TComponent,L,@ArrowToTable);
 	InitControl(L,lArrow,Name);
 	ArrowToTable(L, -1, lArrow);
 	Result := 1;

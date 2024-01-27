@@ -14,16 +14,16 @@ procedure GridColumnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaGridColumn = class(TGridColumn)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
 
-function CreateGridColumns(L: Plua_State): Integer; cdecl;
 procedure GridColumnsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaGridColumns = class(TGridColumns)
-        LuaCtl: TVCLuaControl;
+    public
+      L:Plua_State;
     end;
 
 function CreateStringGrid(L: Plua_State): Integer; cdecl;
@@ -494,6 +494,10 @@ begin
 end;
 procedure GridColumnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_GridColumn_Assign);
 	LuaSetTableFunction(L, Index, 'FillDefaultFont', @VCLua_GridColumn_FillDefaultFont);
@@ -506,6 +510,10 @@ end;
 
 procedure GridColumnsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Add', @VCLua_GridColumns_Add);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_GridColumns_Clear);
@@ -518,23 +526,13 @@ begin
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
-function CreateGridColumns(L: Plua_State): Integer; cdecl;
-var
-	lGridColumns:TLuaGridColumns;
-	Parent:TCustomStringGrid;
-	Name:String;
-begin
-	GetControlParents(L,TWinControl(Parent),Name);
-	lGridColumns := TLuaGridColumns.Create(Parent, TGridColumn);
-	// := TCustomStringGrid(Parent);
-	lGridColumns.LuaCtl := TVCLuaControl.Create(TControl(lGridColumns),L,@GridColumnsToTable);
-	InitControl(L,lGridColumns,Name);
-	GridColumnsToTable(L, -1, lGridColumns);
-	Result := 1;
-end;
 
 procedure StringGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'AutoSizeColumn', @VCLua_StringGrid_AutoSizeColumn);
 	LuaSetTableFunction(L, Index, 'AutoSizeColumns', @VCLua_StringGrid_AutoSizeColumns);
@@ -566,7 +564,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStringGrid := TLuaStringGrid.Create(Parent);
 	lStringGrid.Parent := TWinControl(Parent);
-	lStringGrid.LuaCtl := TVCLuaControl.Create(TControl(lStringGrid),L,@StringGridToTable);
+	lStringGrid.LuaCtl := TVCLuaControl.Create(lStringGrid as TComponent,L,@StringGridToTable);
 	InitControl(L,lStringGrid,Name);
 	StringGridToTable(L, -1, lStringGrid);
 	Result := 1;

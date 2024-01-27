@@ -25,6 +25,10 @@ Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 procedure BitBtnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -39,7 +43,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBitBtn := TLuaBitBtn.Create(Parent);
 	lBitBtn.Parent := TWinControl(Parent);
-	lBitBtn.LuaCtl := TVCLuaControl.Create(TControl(lBitBtn),L,@BitBtnToTable);
+	lBitBtn.LuaCtl := TVCLuaControl.Create(lBitBtn as TComponent,L,@BitBtnToTable);
 	InitControl(L,lBitBtn,Name);
 	BitBtnToTable(L, -1, lBitBtn);
 	Result := 1;

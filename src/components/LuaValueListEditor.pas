@@ -269,6 +269,10 @@ end;
 
 procedure ValueListEditorToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
+	if Sender = nil then begin
+		lua_pushnil(L);
+		Exit;
+	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'Clear', @VCLua_ValueListEditor_Clear);
 	LuaSetTableFunction(L, Index, 'DeleteColRow', @VCLua_ValueListEditor_DeleteColRow);
@@ -298,7 +302,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lValueListEditor := TLuaValueListEditor.Create(Parent);
 	lValueListEditor.Parent := TWinControl(Parent);
-	lValueListEditor.LuaCtl := TVCLuaControl.Create(TControl(lValueListEditor),L,@ValueListEditorToTable);
+	lValueListEditor.LuaCtl := TVCLuaControl.Create(lValueListEditor as TComponent,L,@ValueListEditorToTable);
 	InitControl(L,lValueListEditor,Name);
 	ValueListEditorToTable(L, -1, lValueListEditor);
 	Result := 1;

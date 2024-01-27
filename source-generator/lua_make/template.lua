@@ -105,6 +105,15 @@ begin
 end;
 ]]
 
+VCLua_CDEF_SUFFIX = [[
+	l#CNAME.#PARENT := #PARENTCLASS(Parent);
+	l#CNAME.LuaCtl := TVCLuaControl.Create(l#CNAME as TComponent,L,@#CNAMEToTable);
+	InitControl(L,l#CNAME,Name);
+	#CNAMEToTable(L, -1, l#CNAME);
+	Result := 1;
+end;
+]]
+
 VCLua_CDEF_FOOTER = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
 var
@@ -114,13 +123,7 @@ var
 begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	l#CNAME := TLua#CNAME.Create(Parent);
-	l#CNAME.#PARENT := #PARENTCLASS(Parent);
-	l#CNAME.LuaCtl := TVCLuaControl.Create(TControl(l#CNAME),L,@#CNAMEToTable);
-	InitControl(L,l#CNAME,Name);
-	#CNAMEToTable(L, -1, l#CNAME);
-	Result := 1;
-end;
-]]
+]]..VCLua_CDEF_SUFFIX
 
 VCLua_CDEF_FOOTER_FORM = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
@@ -131,13 +134,7 @@ var
 begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	l#CNAME := TLua#CNAME.CreateNew(Parent);
-	l#CNAME.#PARENT := #PARENTCLASS(Parent);
-	l#CNAME.LuaCtl := TVCLuaControl.Create(TControl(l#CNAME),L,@#CNAMEToTable);
-	InitControl(L,l#CNAME,Name);
-	#CNAMEToTable(L, -1, l#CNAME);
-	Result := 1;
-end;
-]]
+]]..VCLua_CDEF_SUFFIX
 
 VCLua_CDEF_FOOTER_NV = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
@@ -171,13 +168,7 @@ var
 begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	l#CNAME := TLua#CNAME.Create(Parent, #WCLASS);
-	l#CNAME.#PARENT := #PARENTCLASS(Parent);
-	l#CNAME.LuaCtl := TVCLuaControl.Create(TControl(l#CNAME),L,@#CNAMEToTable);
-	InitControl(L,l#CNAME,Name);
-	#CNAMEToTable(L, -1, l#CNAME);
-	Result := 1;
-end;
-]]
+]]..VCLua_CDEF_SUFFIX
 
 VCLUA_OBJECT_PUSH = [[
 if (comp.InheritsFrom(T#CNAME)) then
