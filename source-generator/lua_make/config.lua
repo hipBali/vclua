@@ -47,14 +47,15 @@ fpcSrc = {
 -- name: vclua class name
 -- src:  source class name		parentclass: the owner/parent class
 -- ref:  module reference(s), first must export 'src'
--- base: basic class
+-- base: basic class (even if creatable, no parent, name or init supported)
 -- 
--- noparent: not parented
+-- noparent: not parented. Only descendants of Control can be parented
 -- nv:		 non visible
--- nocreate: no create method for this class
+-- nocreate: no create method for this class. Currently only those classes can be Create'd which inherit TComponent or are non visible
 -- impl: implements method from funcdef.lua/function_defnitions
 -- canvas: has canvas
 -- form: use CreateNew instead Create
+-- wclass: item class for collections
 
 
 classes = {
