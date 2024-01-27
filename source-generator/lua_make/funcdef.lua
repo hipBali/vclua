@@ -133,11 +133,11 @@ var
   b: TLuaBitmap;
 begin
   b := TLuaBitmap(GetLuaObject(L, 1));
-  CustomBitmapToTable(L, -1, TLuaCustomBitmap(b));
+  CustomBitmapToTable(L, -1, b);
   Result := 1;
 end;
 ]],
-		finalMethodName="Custom",
+		finalMethodName="CustomBitmap",
 		vcluaMethodName="CustomBitmap",
 },
 
