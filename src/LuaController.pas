@@ -521,7 +521,12 @@ begin
      if (lua_gettop(L)>1) and (lua_istable(L,-1)) and (GetLuaObject(L, -1) = nil) then
         SetPropertiesFromLuaTable(L, luaObj,-1)
      else
-         TComponent(luaObj).Name := Name;
+       try
+          (luaObj as TComponent).Name := Name;
+       except
+           on E: Exception do
+              LuaError(L, E.ClassName , E.Message );
+       end;
 end;
 
 function ControlFree(L: Plua_State): Integer; cdecl;
