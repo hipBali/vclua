@@ -66,18 +66,6 @@ type
     end;
 ]]
 
-VCLua_CDEF_INTFCE_NV = [[
-function Create#CNAME(L: Plua_State): Integer; cdecl;
-procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
-
-type
-    TLua#CNAME = class(T#CNAME)
-    public
-      L:Plua_State;
-    end;
-]]
-
-
 VCLua_CDEF_INTFCE_NOCREATE = [[
 procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -87,6 +75,10 @@ type
       L:Plua_State;
     end;
 ]]
+
+VCLua_CDEF_INTFCE_NV = [[
+function Create#CNAME(L: Plua_State): Integer; cdecl;
+]]..VCLua_CDEF_INTFCE_NOCREATE
 
 VCLua_CDEF_LUAFUNC = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
