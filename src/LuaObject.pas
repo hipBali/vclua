@@ -13,7 +13,7 @@ uses
   Lua,
   {$i luaobject_uses.inc};
 
-procedure lua_pushobject(L: Plua_State; Comp:TObject; index: Integer);overload;
+procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
 
 // TStrings
 procedure lua_pushStrings(L: Plua_State; ItemOwner:TPersistent);
@@ -28,7 +28,7 @@ implementation
 uses
   LuaProxy;
 
-procedure _lua_pushobject(L: Plua_State; Comp:TObject; index: Integer);overload;
+procedure _lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
 begin
     lua_newtable(L);
     LuaSetTableLightUserData(L, index, HandleStr, Pointer(Comp));
@@ -36,13 +36,13 @@ begin
     LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
-procedure lua_pushobject(L: Plua_State; Comp:TObject; index: Integer);overload;
+procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
 var cName: String;
 begin
     // GENERATED STUFF
     {$i luaobject_push.inc}
     begin
-          _lua_pushobject(L,Comp,index);
+          _lua_pushobject(L,index,Comp);
     end
 end;
 
@@ -70,7 +70,7 @@ begin
     top := lua_gettop(L);
     for i:=0 to ItemOwner.Count-1 do begin
       lua_pushinteger(L, i + 1 );
-      lua_pushobject(L, ItemOwner.Items[i], -1);
+      lua_pushobject(L, -1, ItemOwner.Items[i]);
       lua_settable(L, top);
     end;
     if ItemOwner.Count=0 then

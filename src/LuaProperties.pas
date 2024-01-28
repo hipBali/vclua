@@ -500,7 +500,7 @@ begin
             begin
               pComp := TComponent(GetInt64Prop(Comp,PropName));
               if (pComp<>nil) then
-                lua_pushobject(L, pComp, -1)
+                lua_pushobject(L, -1, pComp)
               else
                 lua_pushnil(L);
             end;
@@ -573,7 +573,7 @@ begin
              lua_pushstring(L,pchar(ClassName));
           end
           else if lowercase(lua_tostring(L,2)) = 'parent' then
-             lua_pushobject(L, TComponent(Comp).Owner, -1)
+             lua_pushobject(L, -1, TComponent(Comp).Owner)
           else if (comp.InheritsFrom(TStrings)) then begin
             if not GetTStringsProperty(L,TStrings(Comp),PropName) then begin
 	        lua_pushnil(L);

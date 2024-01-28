@@ -1206,7 +1206,7 @@ procedure TVCLuaControl.ColumnClickEventHandler(Sender: TObject; EventCFunc: TLu
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushobject(LL, Column, -1);
+       lua_pushobject(LL, -1, Column);
        DoCall(LL,2);
     end;
 end;
@@ -1216,7 +1216,7 @@ var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
        // push as table -1 not -2!
-       lua_pushobject(LL, Item, -1);
+       lua_pushobject(LL, -1, Item);
        lua_pushboolean(LL, Selected);
        DoCall(LL,3);
     end;
@@ -1227,7 +1227,7 @@ procedure TVCLuaControl.EditedEventHandler(Sender: TObject; EventCFunc: TLuaCFun
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushobject(LL, Node, -1);
+       lua_pushobject(LL, -1, Node);
        lua_pushstring(LL, pchar(S));
        DoCall(LL,3);
        if lua_isstring(LL,-1) then
@@ -1239,7 +1239,7 @@ procedure TVCLuaControl.NodeChangedEventHandler(Sender: TObject;  EventCFunc: TL
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushobject(LL, Node, -1);
+       lua_pushobject(LL, -1, Node);
        lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TTreeNodeChangeReason),Integer(ChangeReason))));
        DoCall(LL,3);
     end;

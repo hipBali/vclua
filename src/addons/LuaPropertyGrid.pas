@@ -113,7 +113,7 @@ begin
   CheckArg(L, 2);
   pg := TLuaPropertyGrid(GetLuaObject(L, 1));
   try
-     lua_pushobject(L,pg.Rows[lua_tointeger(L,2)],-1);
+     lua_pushobject(L,-1,pg.Rows[lua_tointeger(L,2)]);
   except
      lua_pushnil(L);
   end;
