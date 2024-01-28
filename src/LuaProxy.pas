@@ -49,10 +49,14 @@ procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil); overload; i
 procedure lua_push(L: Plua_State; v:Int64  ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:QWord  ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:Double ; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; v:Char   ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:TRect ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v       ; pti : PTypeInfo);       overload; inline;
+procedure lua_pushSet(L: Plua_State; v:LongInt; pti : PTypeInfo);overload; inline;// LongInt as per TypInfo
+procedure lua_pushSet(L: Plua_State; v:Pointer; pti : PTypeInfo);overload; inline;
+procedure lua_pushEnum(L: Plua_State; v:Integer; pti : PTypeInfo);inline;         // Integer as per TypInfo
 
 implementation
 
@@ -80,6 +84,10 @@ procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil);
 begin
   lua_pushStringCP(L, v);
 end;
+procedure lua_push(L: Plua_State; v:Char; pti : PTypeInfo = nil);
+begin
+  lua_push(L, string(v));
+end;
 procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil);
 begin
   lua_pushTPoint(L, v);
@@ -91,13 +99,9 @@ end;
 procedure lua_push(L: Plua_State; const v; pti : PTypeInfo);
 var
   i:Integer;
-  s:string;
 begin
   case pti.Kind of
-    tkSet: begin
-      s := SetToString(pti, @v, True);
-      lua_pushstring(L, s);
-    end;
+    tkSet: lua_pushSet(L, @v, pti);
     tkEnumeration:
       begin
         case Sizeof(GetTypeData(pti).OrdType) of
@@ -105,12 +109,25 @@ begin
             2: i := PWord(@v)^;
             4: i := PCardinal(@v)^;
         end;
-        s := GetEnumName(pti, i);
-        lua_pushstring(L, s);
+        lua_pushEnum(L, i, pti);
       end
   else
     LuaError(L, 'Don''t know how to push type to Lua stack', pti.name);
   end;
+end;
+procedure lua_pushSet(L: Plua_State; v:LongInt; pti : PTypeInfo);
+begin lua_pushset(L, @v, pti); end;
+procedure lua_pushSet(L: Plua_State; v:Pointer; pti : PTypeInfo);
+var s:string;
+begin
+  s := SetToString(pti, v, True);
+  lua_pushstring(L, s);
+end;
+procedure lua_pushEnum(L: Plua_State; v:Integer; pti : PTypeInfo);
+var s:string;
+begin
+  s := GetEnumName(pti, v);
+  lua_pushstring(L, s);
 end;
 
 // ***********************************************

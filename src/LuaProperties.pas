@@ -487,6 +487,7 @@ begin
         case PInfo^.Proptype^.Kind of
           tkMethod:
             begin
+               // TODO: always nil
                PPInfo := GetPropInfo(Comp.ClassInfo, PropName + '_FunctionName');
                if PPInfo <> nil then
                   lua_pushstring(L,pchar(GetStrProp(Comp, PPInfo)))
@@ -495,7 +496,7 @@ begin
                end;
             end;
           tkSet:
-            lua_pushstring(L,pchar(SetToString(PInfo,GetOrdProp(Comp, PInfo),true)));
+            lua_pushSet(L,GetOrdProp(Comp, PInfo),PInfo^.PropType);
           tkClass:
             begin
               pComp := TComponent(GetInt64Prop(Comp,PropName));
@@ -505,36 +506,25 @@ begin
                 lua_pushnil(L);
             end;
           tkInteger,
+          tkInt64,
+          tkQWord:
+            lua_push(L,GetOrdProp(Comp, PInfo));
           tkChar,
-          tkWChar:
-            lua_pushinteger(L,GetOrdProp(Comp, PInfo));
+          tkWChar: // noone cares about WChar, right?
+            lua_push(L,Char(GetOrdProp(Comp, PInfo)));
           tkBool:
-            begin
-              strValue := GetEnumName(PInfo^.PropType, GetOrdProp(Comp, PInfo));
-              if (strValue<>'') then
-              lua_pushboolean(L,StrToBool(strValue));
-            end;
+            lua_push(L,boolean(GetOrdProp(Comp, PInfo)));
           tkEnumeration:
-             lua_pushstring(L,PChar(GetEnumName(PInfo^.PropType, GetOrdProp(Comp, PInfo))));
+            lua_pushEnum(L,GetOrdProp(Comp, PInfo),PInfo^.PropType);
           tkFloat:
-            lua_pushnumber(L,GetFloatProp(Comp, PInfo));
-          tkString,
+            lua_push(L,GetFloatProp(Comp, PInfo));
+          tkSString,
           tkLString,
+          tkAString,
           tkWString:
-            lua_pushStringCP(L,GetStrProp(Comp, PInfo));
-          tkInt64:
-            lua_tointeger(L,GetInt64Prop(Comp, PInfo));
+            lua_push(L,GetStrProp(Comp, PInfo));
         else
-          begin
-            if (PInfo^.Proptype^.Name='TTranslateString') then begin
-              lua_pushStringCP(L,GetStrProp(Comp, PInfo));
-            end else if (PInfo^.Proptype^.Name='AnsiString') then begin
-              lua_pushStringCP(L,GetStrProp(Comp, PInfo));
-            end else begin
-              lua_pushnil(L);
-              LuaError(L,'Property not supported!', lua_tostring(L,2) + ' ' + PInfo^.Proptype^.Name);
-            end;
-          end
+            LuaError(L,'Property not supported!', PropName + ' ' + PInfo^.Proptype^.Name);
         end;
         Result := true;
      end;
