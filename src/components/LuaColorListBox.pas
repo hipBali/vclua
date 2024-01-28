@@ -8,9 +8,10 @@ unit LuaColorListBox;
 
 interface
 
-Uses Classes, Lua, LuaController, ColorBox, Controls;
+Uses Classes, Lua, LuaController, ColorBox, Controls, TypInfo;
 
 function CreateColorListBox(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo = nil); overload; inline;
 procedure ColorListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,9 +21,13 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo);
+begin
+	ColorListBoxToTable(L,-1,v);
+end;
 procedure ColorListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

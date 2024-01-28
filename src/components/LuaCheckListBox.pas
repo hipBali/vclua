@@ -8,9 +8,10 @@ unit LuaCheckListBox;
 
 interface
 
-Uses Classes, Lua, LuaController, CheckLst, Controls, StdCtrls;
+Uses Classes, Lua, LuaController, CheckLst, Controls, StdCtrls, TypInfo;
 
 function CreateCheckListBox(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TCheckListBox; pti: PTypeInfo = nil); overload; inline;
 procedure CheckListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_CheckListBox_MeasureItem(L: Plua_State): Integer; cdecl;
 var 
@@ -107,6 +108,10 @@ begin
   Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TCheckListBox; pti: PTypeInfo);
+begin
+	CheckListBoxToTable(L,-1,v);
+end;
 procedure CheckListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

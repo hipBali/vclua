@@ -8,8 +8,9 @@ unit LuaListView;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls;
+Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
+procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo = nil); overload; inline;
 procedure ListItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -18,6 +19,7 @@ type
       L:Plua_State;
     end;
 
+procedure lua_push(L: Plua_State; const v: TListItems; pti: PTypeInfo = nil); overload; inline;
 procedure ListItemsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -27,6 +29,7 @@ type
     end;
 
 function CreateListView(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TListView; pti: PTypeInfo = nil); overload; inline;
 procedure ListViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -36,7 +39,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ListItem_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -549,6 +552,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo);
+begin
+	ListItemToTable(L,-1,v);
+end;
 procedure ListItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -566,6 +573,10 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+procedure lua_push(L: Plua_State; const v: TListItems; pti: PTypeInfo);
+begin
+	ListItemsToTable(L,-1,v);
+end;
 procedure ListItemsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -592,6 +603,10 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+procedure lua_push(L: Plua_State; const v: TListView; pti: PTypeInfo);
+begin
+	ListViewToTable(L,-1,v);
+end;
 procedure ListViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

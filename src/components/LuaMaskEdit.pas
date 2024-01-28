@@ -8,9 +8,10 @@ unit LuaMaskEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, MaskEdit, Controls;
+Uses Classes, Lua, LuaController, MaskEdit, Controls, TypInfo;
 
 function CreateMaskEdit(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TMaskEdit; pti: PTypeInfo = nil); overload; inline;
 procedure MaskEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,9 +21,13 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+procedure lua_push(L: Plua_State; const v: TMaskEdit; pti: PTypeInfo);
+begin
+	MaskEditToTable(L,-1,v);
+end;
 procedure MaskEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

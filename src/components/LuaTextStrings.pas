@@ -6,9 +6,10 @@ unit LuaTextStrings;
 
 interface
 
-Uses Classes, Lua, LuaController, TextStrings;
+Uses Classes, Lua, LuaController, TextStrings, TypInfo;
 
 function CreateTextStrings(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TTextStrings; pti: PTypeInfo = nil); overload; inline;
 procedure TextStringsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -19,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_TextStrings_Clear(L: Plua_State): Integer; cdecl;
 var 
@@ -235,6 +236,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TTextStrings; pti: PTypeInfo);
+begin
+	TextStringsToTable(L,-1,v);
+end;
 procedure TextStringsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

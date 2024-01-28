@@ -8,9 +8,10 @@ unit LuaSpeedButton;
 
 interface
 
-Uses Classes, Lua, LuaController, Buttons, Controls;
+Uses Classes, Lua, LuaController, Buttons, Controls, TypInfo;
 
 function CreateSpeedButton(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TSpeedButton; pti: PTypeInfo = nil); overload; inline;
 procedure SpeedButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,9 +21,13 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+procedure lua_push(L: Plua_State; const v: TSpeedButton; pti: PTypeInfo);
+begin
+	SpeedButtonToTable(L,-1,v);
+end;
 procedure SpeedButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

@@ -8,9 +8,10 @@ unit LuaFloatSpinEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, Spin, Controls;
+Uses Classes, Lua, LuaController, Spin, Controls, TypInfo;
 
 function CreateFloatSpinEdit(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TFloatSpinEdit; pti: PTypeInfo = nil); overload; inline;
 procedure FloatSpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_FloatSpinEdit_GetLimitedValue(L: Plua_State): Integer; cdecl;
 var 
@@ -67,6 +68,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TFloatSpinEdit; pti: PTypeInfo);
+begin
+	FloatSpinEditToTable(L,-1,v);
+end;
 procedure FloatSpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

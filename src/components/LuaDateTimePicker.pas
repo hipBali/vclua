@@ -8,9 +8,10 @@ unit LuaDateTimePicker;
 
 interface
 
-Uses Classes, Lua, LuaController, DateTimePicker, Controls;
+Uses Classes, Lua, LuaController, DateTimePicker, Controls, TypInfo;
 
 function CreateDateTimePicker(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TDateTimePicker; pti: PTypeInfo = nil); overload; inline;
 procedure DateTimePickerToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,9 +21,13 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+procedure lua_push(L: Plua_State; const v: TDateTimePicker; pti: PTypeInfo);
+begin
+	DateTimePickerToTable(L,-1,v);
+end;
 procedure DateTimePickerToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

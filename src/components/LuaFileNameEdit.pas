@@ -8,9 +8,10 @@ unit LuaFileNameEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, Controls;
+Uses Classes, Lua, LuaController, EditBtn, Controls, TypInfo;
 
 function CreateFileNameEdit(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TFileNameEdit; pti: PTypeInfo = nil); overload; inline;
 procedure FileNameEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,9 +21,13 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+procedure lua_push(L: Plua_State; const v: TFileNameEdit; pti: PTypeInfo);
+begin
+	FileNameEditToTable(L,-1,v);
+end;
 procedure FileNameEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

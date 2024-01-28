@@ -3,11 +3,7 @@ Generated with Lua-fpc parser/generator
 (C) 2018-2024 Hi-Project Ltd.
 *)
 ]]
-VCLua_CDEF_HEADER = [[
-unit Lua#CNAME;	
-interface
-Uses Classes, Lua, LuaController#REF;
-]]
+
 VCLua_CLASSDEF = [[
 unit Lua#CNAME;	
 
@@ -15,12 +11,12 @@ unit Lua#CNAME;
 
 interface
 
-Uses Classes, Lua, LuaController#REF;
+Uses Classes, Lua, LuaController#REF, TypInfo;
 
 #INTFCE
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 #BODY
 #CREATE
@@ -32,12 +28,12 @@ unit Lua#CNAME;
 
 interface
 
-Uses Classes, Lua, LuaController#REF;
+Uses Classes, Lua, LuaController#REF, TypInfo;
 
 #INTFCE
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 #BODY
 #CREATE
@@ -46,6 +42,7 @@ end.
 
 VCLua_CDEF_INTFCE = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
 procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -56,6 +53,7 @@ type
 
 VCLua_CDEF_INTFCE_CANVAS = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
 procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -67,6 +65,7 @@ type
 ]]
 
 VCLua_CDEF_INTFCE_NOCREATE = [[
+procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
 procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -92,6 +91,10 @@ end;
 ]]
 
 VCLua_CDEF_TOTABLE = [[
+procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo);
+begin
+	#CNAMEToTable(L,-1,v);
+end;
 procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

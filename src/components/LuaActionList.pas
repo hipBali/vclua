@@ -8,9 +8,10 @@ unit LuaActionList;
 
 interface
 
-Uses Classes, Lua, LuaController, ActnList, Controls;
+Uses Classes, Lua, LuaController, ActnList, Controls, TypInfo;
 
 function CreateAction(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TAction; pti: PTypeInfo = nil); overload; inline;
 procedure ActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -19,6 +20,7 @@ type
     end;
 
 function CreateActionList(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TActionList; pti: PTypeInfo = nil); overload; inline;
 procedure ActionListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -28,7 +30,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Action_DoHint(L: Plua_State): Integer; cdecl;
 var 
@@ -118,6 +120,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TAction; pti: PTypeInfo);
+begin
+	ActionToTable(L,-1,v);
+end;
 procedure ActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -145,6 +151,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TActionList; pti: PTypeInfo);
+begin
+	ActionListToTable(L,-1,v);
+end;
 procedure ActionListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

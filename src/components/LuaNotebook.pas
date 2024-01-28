@@ -8,9 +8,10 @@ unit LuaNotebook;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
 
 function CreateNotebook(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TNotebook; pti: PTypeInfo = nil); overload; inline;
 procedure NotebookToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Notebook_ShowControl(L: Plua_State): Integer; cdecl;
 var 
@@ -50,6 +51,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TNotebook; pti: PTypeInfo);
+begin
+	NotebookToTable(L,-1,v);
+end;
 procedure NotebookToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

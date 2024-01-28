@@ -8,9 +8,10 @@ unit LuaGroupBox;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
 
 function CreateGroupBox(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TGroupBox; pti: PTypeInfo = nil); overload; inline;
 procedure GroupBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,9 +21,13 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+procedure lua_push(L: Plua_State; const v: TGroupBox; pti: PTypeInfo);
+begin
+	GroupBoxToTable(L,-1,v);
+end;
 procedure GroupBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

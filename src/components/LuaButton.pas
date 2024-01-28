@@ -8,9 +8,10 @@ unit LuaButton;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
 
 function CreateButton(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TButton; pti: PTypeInfo = nil); overload; inline;
 procedure ButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Button_Click(L: Plua_State): Integer; cdecl;
 var 
@@ -92,6 +93,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TButton; pti: PTypeInfo);
+begin
+	ButtonToTable(L,-1,v);
+end;
 procedure ButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

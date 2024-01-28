@@ -8,9 +8,10 @@ unit LuaTabControl;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls;
+Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
 function CreateTabSheet(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TTabSheet; pti: PTypeInfo = nil); overload; inline;
 procedure TabSheetToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -19,6 +20,7 @@ type
     end;
 
 function CreateTabControl(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TTabControl; pti: PTypeInfo = nil); overload; inline;
 procedure TabControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -27,6 +29,7 @@ type
     end;
 
 function CreatePageControl(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TPageControl; pti: PTypeInfo = nil); overload; inline;
 procedure PageControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -36,7 +39,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
 function VCLua_TabControl_TabRect(L: Plua_State): Integer; cdecl;
@@ -316,6 +319,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TTabSheet; pti: PTypeInfo);
+begin
+	TabSheetToTable(L,-1,v);
+end;
 procedure TabSheetToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -342,6 +349,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TTabControl; pti: PTypeInfo);
+begin
+	TabControlToTable(L,-1,v);
+end;
 procedure TabControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -377,6 +388,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TPageControl; pti: PTypeInfo);
+begin
+	PageControlToTable(L,-1,v);
+end;
 procedure PageControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

@@ -8,9 +8,10 @@ unit LuaPanel;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
 
 function CreatePanel(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TPanel; pti: PTypeInfo = nil); overload; inline;
 procedure PanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -22,9 +23,13 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+procedure lua_push(L: Plua_State; const v: TPanel; pti: PTypeInfo);
+begin
+	PanelToTable(L,-1,v);
+end;
 procedure PanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

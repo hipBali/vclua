@@ -8,9 +8,10 @@ unit LuaValueListEditor;
 
 interface
 
-Uses Classes, Lua, LuaController, ValEdit, Controls;
+Uses Classes, Lua, LuaController, ValEdit, Controls, TypInfo;
 
 function CreateValueListEditor(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo = nil); overload; inline;
 procedure ValueListEditorToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -22,7 +23,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ValueListEditor_Clear(L: Plua_State): Integer; cdecl;
 var 
@@ -267,6 +268,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo);
+begin
+	ValueListEditorToTable(L,-1,v);
+end;
 procedure ValueListEditorToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

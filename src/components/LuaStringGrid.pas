@@ -8,8 +8,9 @@ unit LuaStringGrid;
 
 interface
 
-Uses Classes, Lua, LuaController, Grids, Controls;
+Uses Classes, Lua, LuaController, Grids, Controls, TypInfo;
 
+procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo = nil); overload; inline;
 procedure GridColumnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -18,6 +19,7 @@ type
       L:Plua_State;
     end;
 
+procedure lua_push(L: Plua_State; const v: TGridColumns; pti: PTypeInfo = nil); overload; inline;
 procedure GridColumnsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -27,6 +29,7 @@ type
     end;
 
 function CreateStringGrid(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo = nil); overload; inline;
 procedure StringGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -38,7 +41,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_GridColumn_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -492,6 +495,10 @@ begin
   strGrid.defaultdrawcell(c,r,rect,aState);
   Result := 0;
 end;
+procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo);
+begin
+	GridColumnToTable(L,-1,v);
+end;
 procedure GridColumnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -508,6 +515,10 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+procedure lua_push(L: Plua_State; const v: TGridColumns; pti: PTypeInfo);
+begin
+	GridColumnsToTable(L,-1,v);
+end;
 procedure GridColumnsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -527,6 +538,10 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo);
+begin
+	StringGridToTable(L,-1,v);
+end;
 procedure StringGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

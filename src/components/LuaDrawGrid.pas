@@ -8,9 +8,10 @@ unit LuaDrawGrid;
 
 interface
 
-Uses Classes, Lua, LuaController, Grids, Controls;
+Uses Classes, Lua, LuaController, Grids, Controls, TypInfo;
 
 function CreateDrawGrid(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo = nil); overload; inline;
 procedure DrawGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -22,7 +23,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_DrawGrid_DeleteColRow(L: Plua_State): Integer; cdecl;
 var 
@@ -166,6 +167,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo);
+begin
+	DrawGridToTable(L,-1,v);
+end;
 procedure DrawGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

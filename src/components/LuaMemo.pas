@@ -8,9 +8,10 @@ unit LuaMemo;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
 
 function CreateMemo(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TMemo; pti: PTypeInfo = nil); overload; inline;
 procedure MemoToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Memo_Append(L: Plua_State): Integer; cdecl;
 var 
@@ -50,6 +51,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TMemo; pti: PTypeInfo);
+begin
+	MemoToTable(L,-1,v);
+end;
 procedure MemoToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

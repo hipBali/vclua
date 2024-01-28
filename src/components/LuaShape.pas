@@ -8,9 +8,10 @@ unit LuaShape;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
 
 function CreateShape(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TShape; pti: PTypeInfo = nil); overload; inline;
 procedure ShapeToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -22,7 +23,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Shape_Paint(L: Plua_State): Integer; cdecl;
 var 
@@ -48,6 +49,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TShape; pti: PTypeInfo);
+begin
+	ShapeToTable(L,-1,v);
+end;
 procedure ShapeToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

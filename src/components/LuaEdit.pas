@@ -8,9 +8,10 @@ unit LuaEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
 
 function CreateEdit(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TEdit; pti: PTypeInfo = nil); overload; inline;
 procedure EditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Edit_Clear(L: Plua_State): Integer; cdecl;
 var 
@@ -112,6 +113,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TEdit; pti: PTypeInfo);
+begin
+	EditToTable(L,-1,v);
+end;
 procedure EditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

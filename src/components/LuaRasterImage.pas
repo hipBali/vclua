@@ -8,8 +8,9 @@ unit LuaRasterImage;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, LCLType, Types;
+Uses Classes, Lua, LuaController, Graphics, LCLType, Types, TypInfo;
 
+procedure lua_push(L: Plua_State; const v: TRasterImage; pti: PTypeInfo = nil); overload; inline;
 procedure RasterImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_RasterImage_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -258,6 +259,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TRasterImage; pti: PTypeInfo);
+begin
+	RasterImageToTable(L,-1,v);
+end;
 procedure RasterImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

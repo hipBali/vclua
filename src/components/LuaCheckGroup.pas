@@ -8,9 +8,10 @@ unit LuaCheckGroup;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
 
 function CreateCheckGroup(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TCheckGroup; pti: PTypeInfo = nil); overload; inline;
 procedure CheckGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_CheckGroup_FlipChildren(L: Plua_State): Integer; cdecl;
 var 
@@ -48,6 +49,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TCheckGroup; pti: PTypeInfo);
+begin
+	CheckGroupToTable(L,-1,v);
+end;
 procedure CheckGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

@@ -8,8 +8,9 @@ unit LuaGraphic;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, LCLType;
+Uses Classes, Lua, LuaController, Graphics, LCLType, TypInfo;
 
+procedure lua_push(L: Plua_State; const v: TGraphic; pti: PTypeInfo = nil); overload; inline;
 procedure GraphicToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Graphic_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -268,6 +269,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TGraphic; pti: PTypeInfo);
+begin
+	GraphicToTable(L,-1,v);
+end;
 procedure GraphicToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

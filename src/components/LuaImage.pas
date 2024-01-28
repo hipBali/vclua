@@ -8,9 +8,10 @@ unit LuaImage;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
 
 function CreateImage(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TImage; pti: PTypeInfo = nil); overload; inline;
 procedure ImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -22,7 +23,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Image_DestRect(L: Plua_State): Integer; cdecl;
 var 
@@ -48,6 +49,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TImage; pti: PTypeInfo);
+begin
+	ImageToTable(L,-1,v);
+end;
 procedure ImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

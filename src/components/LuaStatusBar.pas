@@ -8,8 +8,9 @@ unit LuaStatusBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls;
+Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
+procedure lua_push(L: Plua_State; const v: TStatusPanel; pti: PTypeInfo = nil); overload; inline;
 procedure StatusPanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -18,6 +19,7 @@ type
       L:Plua_State;
     end;
 
+procedure lua_push(L: Plua_State; const v: TStatusPanels; pti: PTypeInfo = nil); overload; inline;
 procedure StatusPanelsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -27,6 +29,7 @@ type
     end;
 
 function CreateStatusBar(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TStatusBar; pti: PTypeInfo = nil); overload; inline;
 procedure StatusBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -36,7 +39,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_StatusPanel_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -172,6 +175,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TStatusPanel; pti: PTypeInfo);
+begin
+	StatusPanelToTable(L,-1,v);
+end;
 procedure StatusPanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -185,6 +192,10 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+procedure lua_push(L: Plua_State; const v: TStatusPanels; pti: PTypeInfo);
+begin
+	StatusPanelsToTable(L,-1,v);
+end;
 procedure StatusPanelsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -197,6 +208,10 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+procedure lua_push(L: Plua_State; const v: TStatusBar; pti: PTypeInfo);
+begin
+	StatusBarToTable(L,-1,v);
+end;
 procedure StatusBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

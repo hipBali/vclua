@@ -8,8 +8,9 @@ unit LuaTreeView;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls;
+Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
+procedure lua_push(L: Plua_State; const v: TTreeNode; pti: PTypeInfo = nil); overload; inline;
 procedure TreeNodeToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -18,6 +19,7 @@ type
       L:Plua_State;
     end;
 
+procedure lua_push(L: Plua_State; const v: TTreeNodes; pti: PTypeInfo = nil); overload; inline;
 procedure TreeNodesToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -27,6 +29,7 @@ type
     end;
 
 function CreateTreeView(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TTreeView; pti: PTypeInfo = nil); overload; inline;
 procedure TreeViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -36,7 +39,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
 function VCLua_TreeNodes_Add(L: Plua_State): Integer; cdecl;
@@ -1071,6 +1074,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TTreeNode; pti: PTypeInfo);
+begin
+	TreeNodeToTable(L,-1,v);
+end;
 procedure TreeNodeToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -1083,6 +1090,10 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+procedure lua_push(L: Plua_State; const v: TTreeNodes; pti: PTypeInfo);
+begin
+	TreeNodesToTable(L,-1,v);
+end;
 procedure TreeNodesToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -1129,6 +1140,10 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+procedure lua_push(L: Plua_State; const v: TTreeView; pti: PTypeInfo);
+begin
+	TreeViewToTable(L,-1,v);
+end;
 procedure TreeViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

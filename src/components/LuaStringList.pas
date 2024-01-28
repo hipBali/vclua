@@ -6,9 +6,10 @@ unit LuaStringList;
 
 interface
 
-Uses Classes, Lua, LuaController;
+Uses Classes, Lua, LuaController, TypInfo;
 
 function CreateStringList(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TStringList; pti: PTypeInfo = nil); overload; inline;
 procedure StringListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -19,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_StringList_Add(L: Plua_State): Integer; cdecl;
 var 
@@ -145,6 +146,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TStringList; pti: PTypeInfo);
+begin
+	StringListToTable(L,-1,v);
+end;
 procedure StringListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

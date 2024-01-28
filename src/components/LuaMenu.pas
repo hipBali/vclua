@@ -8,9 +8,10 @@ unit LuaMenu;
 
 interface
 
-Uses Classes, Lua, LuaController, Menus, Controls, ImgList, LuaImageList;
+Uses Classes, Lua, LuaController, Menus, Controls, ImgList, LuaImageList, TypInfo;
 
 function CreateMenu(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TMenu; pti: PTypeInfo = nil); overload; inline;
 procedure MenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -19,6 +20,7 @@ type
     end;
 
 function CreatePopupMenu(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TPopupMenu; pti: PTypeInfo = nil); overload; inline;
 procedure PopupMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -27,6 +29,7 @@ type
     end;
 
 function CreateMenuItem(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TMenuItem; pti: PTypeInfo = nil); overload; inline;
 procedure MenuItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -35,6 +38,7 @@ type
     end;
 
 function CreateMainMenu(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TMainMenu; pti: PTypeInfo = nil); overload; inline;
 procedure MainMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -44,7 +48,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
 var 
@@ -670,6 +674,10 @@ begin
 	Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TMenu; pti: PTypeInfo);
+begin
+	MenuToTable(L,-1,v);
+end;
 procedure MenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -704,6 +712,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TPopupMenu; pti: PTypeInfo);
+begin
+	PopupMenuToTable(L,-1,v);
+end;
 procedure PopupMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -732,6 +744,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TMenuItem; pti: PTypeInfo);
+begin
+	MenuItemToTable(L,-1,v);
+end;
 procedure MenuItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -791,6 +807,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TMainMenu; pti: PTypeInfo);
+begin
+	MainMenuToTable(L,-1,v);
+end;
 procedure MainMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

@@ -8,9 +8,10 @@ unit LuaImageList;
 
 interface
 
-Uses Classes, Lua, LuaController, ImgList, Controls, Graphics, GraphType;
+Uses Classes, Lua, LuaController, ImgList, Controls, Graphics, GraphType, TypInfo;
 
 function CreateImageList(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TImageList; pti: PTypeInfo = nil); overload; inline;
 procedure ImageListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ImageList_AssignTo(L: Plua_State): Integer; cdecl;
 var 
@@ -714,6 +715,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TImageList; pti: PTypeInfo);
+begin
+	ImageListToTable(L,-1,v);
+end;
 procedure ImageListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

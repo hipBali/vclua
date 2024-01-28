@@ -8,9 +8,10 @@ unit LuaToolBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls, ImgList, LuaImageList;
+Uses Classes, Lua, LuaController, ComCtrls, Controls, ImgList, LuaImageList, TypInfo;
 
 function CreateToolButton(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TToolButton; pti: PTypeInfo = nil); overload; inline;
 procedure ToolButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -19,6 +20,7 @@ type
     end;
 
 function CreateToolBar(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TToolBar; pti: PTypeInfo = nil); overload; inline;
 procedure ToolBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -28,7 +30,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ToolButton_CheckMenuDropdown(L: Plua_State): Integer; cdecl;
 var 
@@ -165,6 +167,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TToolButton; pti: PTypeInfo);
+begin
+	ToolButtonToTable(L,-1,v);
+end;
 procedure ToolButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -195,6 +201,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TToolBar; pti: PTypeInfo);
+begin
+	ToolBarToTable(L,-1,v);
+end;
 procedure ToolBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

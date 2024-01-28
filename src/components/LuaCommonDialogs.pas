@@ -8,9 +8,10 @@ unit LuaCommonDialogs;
 
 interface
 
-Uses Classes, Lua, LuaController, Dialogs, Controls;
+Uses Classes, Lua, LuaController, Dialogs, Controls, TypInfo;
 
 function CreateColorButton(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TColorButton; pti: PTypeInfo = nil); overload; inline;
 procedure ColorButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -19,6 +20,7 @@ type
     end;
 
 function CreateOpenDialog(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TOpenDialog; pti: PTypeInfo = nil); overload; inline;
 procedure OpenDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -27,6 +29,7 @@ type
     end;
 
 function CreateSaveDialog(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TSaveDialog; pti: PTypeInfo = nil); overload; inline;
 procedure SaveDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -35,6 +38,7 @@ type
     end;
 
 function CreateSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TSelectDirectoryDialog; pti: PTypeInfo = nil); overload; inline;
 procedure SelectDirectoryDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -43,6 +47,7 @@ type
     end;
 
 function CreateColorDialog(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TColorDialog; pti: PTypeInfo = nil); overload; inline;
 procedure ColorDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -51,6 +56,7 @@ type
     end;
 
 function CreateFontDialog(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TFontDialog; pti: PTypeInfo = nil); overload; inline;
 procedure FontDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -59,6 +65,7 @@ type
     end;
 
 function CreateFindDialog(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TFindDialog; pti: PTypeInfo = nil); overload; inline;
 procedure FindDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -67,6 +74,7 @@ type
     end;
 
 function CreateReplaceDialog(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TReplaceDialog; pti: PTypeInfo = nil); overload; inline;
 procedure ReplaceDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -76,7 +84,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ColorButton_Click(L: Plua_State): Integer; cdecl;
 var 
@@ -243,6 +251,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TColorButton; pti: PTypeInfo);
+begin
+	ColorButtonToTable(L,-1,v);
+end;
 procedure ColorButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -269,6 +281,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TOpenDialog; pti: PTypeInfo);
+begin
+	OpenDialogToTable(L,-1,v);
+end;
 procedure OpenDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -299,6 +315,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TSaveDialog; pti: PTypeInfo);
+begin
+	SaveDialogToTable(L,-1,v);
+end;
 procedure SaveDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -325,6 +345,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TSelectDirectoryDialog; pti: PTypeInfo);
+begin
+	SelectDirectoryDialogToTable(L,-1,v);
+end;
 procedure SelectDirectoryDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -351,6 +375,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TColorDialog; pti: PTypeInfo);
+begin
+	ColorDialogToTable(L,-1,v);
+end;
 procedure ColorDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -377,6 +405,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TFontDialog; pti: PTypeInfo);
+begin
+	FontDialogToTable(L,-1,v);
+end;
 procedure FontDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -404,6 +436,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TFindDialog; pti: PTypeInfo);
+begin
+	FindDialogToTable(L,-1,v);
+end;
 procedure FindDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
@@ -431,6 +467,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TReplaceDialog; pti: PTypeInfo);
+begin
+	ReplaceDialogToTable(L,-1,v);
+end;
 procedure ReplaceDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

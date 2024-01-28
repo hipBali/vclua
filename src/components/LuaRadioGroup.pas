@@ -8,9 +8,10 @@ unit LuaRadioGroup;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
 
 function CreateRadioGroup(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TRadioGroup; pti: PTypeInfo = nil); overload; inline;
 procedure RadioGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_RadioGroup_CanModify(L: Plua_State): Integer; cdecl;
 var 
@@ -61,6 +62,10 @@ begin
 	Result := 1;
 end;
 
+procedure lua_push(L: Plua_State; const v: TRadioGroup; pti: PTypeInfo);
+begin
+	RadioGroupToTable(L,-1,v);
+end;
 procedure RadioGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin

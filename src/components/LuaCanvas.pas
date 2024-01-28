@@ -8,8 +8,9 @@ unit LuaCanvas;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, GraphType;
+Uses Classes, Lua, LuaController, Graphics, GraphType, TypInfo;
 
+procedure lua_push(L: Plua_State; const v: TCanvas; pti: PTypeInfo = nil); overload; inline;
 procedure CanvasToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
@@ -20,7 +21,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Canvas_Lock(L: Plua_State): Integer; cdecl;
 var 
@@ -784,6 +785,10 @@ begin
     Result := 0;
 end;
 
+procedure lua_push(L: Plua_State; const v: TCanvas; pti: PTypeInfo);
+begin
+	CanvasToTable(L,-1,v);
+end;
 procedure CanvasToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	if Sender = nil then begin
