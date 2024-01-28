@@ -13,6 +13,7 @@ uses
   Lua,
   {$i luaobject_uses.inc};
 
+procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);overload;
 procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
 
 // TStrings
@@ -26,7 +27,33 @@ function lua_setArrayProperty(L: Plua_State): Integer; cdecl;
 implementation
 
 uses
-  LuaProxy;
+  LuaProxy, LuaController;
+
+procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);
+var
+    ttp:ToTableProc;
+    luactl:TVCLuaControl;
+begin
+  // we are here because there were no more specialized lua_push'es
+
+  // events sometimes send nil objects as params
+  if v = nil then begin
+    lua_pushnil(L);
+    exit
+  end;
+  ttp := @lua_pushobject;
+  // 'fast' path, check if we are pushing component with precomputed TTable
+  if v is TComponent then begin
+    luactl := GetLuaControl(v);
+    // events can send objects which were not created with our Lua API, e.g. container items
+    // code not checked! (what if typecast to TVCLuaControl changes what 'is' (=InheritsFrom) returns?)
+    if luactl is TVCLuaControl then
+       ttp := luactl.TTable
+    else
+       ShowMessage('Component has no TTable: '+v.QualifiedClassName);
+  end;
+  ttp(L, -1, v);
+end;
 
 procedure _lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
 begin

@@ -542,7 +542,7 @@ begin
     lua_pushstring(L,o.ClassName);
   end
   else if (o is TControl) and (PropNameLower = 'parent') then begin
-    lua_pushobject(L, -1, TControl(o).Parent);
+    lua_push(L, TControl(o).Parent, nil);
   end
   else begin
     Result := (o is TStrings) and GetTStringsProperty(L,TStrings(o),PropNameLower);
