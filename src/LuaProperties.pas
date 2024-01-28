@@ -25,6 +25,7 @@ Uses SysUtils,
 function VCLua_Propinfo(Comp:TPersistent; PropName:String):PPropInfo;
 begin
   if (Comp.InheritsFrom(TStrings)) then
+      // TODO: TStringList doesn't publish anything so this is nil
       Result := GetPropInfo(TStringList.ClassInfo, PropName)
   else
       Result := GetPropInfo(Comp.ClassInfo, PropName);
@@ -471,13 +472,14 @@ begin
   end;
 end;
 
-//
-function GetObjectProperty(L: Plua_State; Comp: TComponent; PropName: String): boolean;
+// ****************************************************************
+// Gets Property Value
+// ****************************************************************
+function GetPublishedProperty(L: Plua_State; Comp: TPersistent; PropName: String): boolean;
 var
   PInfo, PPInfo: PPropInfo;
   Pcomp: TComponent;
   PropType: String;
-  strValue: String;
 begin
      PInfo := VCLua_Propinfo(Comp,PropName);
      Result := false;
@@ -524,65 +526,52 @@ begin
           tkWString:
             lua_push(L,GetStrProp(Comp, PInfo));
         else
-            LuaError(L,'Property not supported!', PropName + ' ' + PInfo^.Proptype^.Name);
+            LuaError(L,'Property not supported!', PropName + ' of type ' + PInfo^.Proptype^.Name);
         end;
         Result := true;
      end;
 end;
 
-// ****************************************************************
-// Gets Property Value
-// ****************************************************************
+// here go either non-published properties or not properties at all (procedures and class procedures)
+// begin+end left for easier 'debugln' insertion
+function GetSpecialProperty(L: Plua_State; o: TObject; PropNameLower: String): boolean;
+begin
+  Result := true;
+  if PropNameLower = 'classname' then begin
+    // no need for CP conversion
+    lua_pushstring(L,o.ClassName);
+  end
+  else if (o is TControl) and (PropNameLower = 'parent') then begin
+    lua_pushobject(L, -1, TControl(o).Parent);
+  end
+  else begin
+    Result := (o is TStrings) and GetTStringsProperty(L,TStrings(o),PropNameLower);
+  end;
+end;
+
 function LuaGetProperty(L: Plua_State): Integer; cdecl;
 var
-  Comp: TComponent;
+  o: TObject;
   PropName: String;
   ClassName: String;
 begin
+  // stackwise should resemble lua_gettable: pop key, then push result
   Result := 1;
-  Comp := TComponent(GetLuaObject(L, 1));
+  o := GetLuaObject(L, 1);
   PropName := lua_tostring(L, 2);
-  if (Comp=nil) then begin
-     LuaError(L, 'Can''t get null object property!' , '' );
+  // shouldn't really happen since we push nil instead of creating function tables with null handle
+  if (o=nil) then begin
+     lua_pop(L,1);
      lua_pushnil(L);
+     LuaError(L, 'Can''t get null object property!', PropName);
      Exit;
   end;
-  if not GetObjectProperty(L, Comp, PropName) then begin
-    case lua_type(L,1) of
-      LUA_TBOOLEAN:
-         lua_pushBoolean(L, LuaRawGetTableBoolean(L,1,lua_tostring(L, 2)));
-      LUA_TLIGHTUSERDATA:
-         lua_pushlightuserdata(L,LuaRawGetTableLightUserData(L,1,lua_tostring(L, 2)));
-      LUA_TNUMBER:
-         lua_pushnumber(L,LuaRawGetTableNumber(L,1,lua_tostring(L, 2)));
-      LUA_TSTRING:
-         lua_pushstring(L,PChar(LuaRawGetTableString(L,1,lua_tostring(L, 2))));
-      LUA_TTABLE: begin
-          if lowercase(lua_tostring(L,2)) = 'classname' then begin
-             ClassName := TObject(Comp).ClassName;
-             lua_pushstring(L,pchar(ClassName));
-          end
-          else if lowercase(lua_tostring(L,2)) = 'parent' then
-             lua_pushobject(L, -1, TComponent(Comp).Owner)
-          else if (comp.InheritsFrom(TStrings)) then begin
-            if not GetTStringsProperty(L,TStrings(Comp),PropName) then begin
-	        lua_pushnil(L);
-	        LuaError(L,'(Lua) Property not found!', lua_tostring(L,2)+' type:'+IntToStr(lua_type(L,1)));
-            end;
-          end
-          else
-	     LuaRawGetTable(L,1,lua_tostring(L, 2));
-         end;
-      LUA_TFUNCTION:
-        begin
-             lua_pushcfunction(L,LuaRawGetTableFunction(L,1,lua_tostring(L, 2)));
-        end
-      else begin
-           lua_pushnil(L);
-	   LuaError(L,'(Lua) Property not found!', lua_tostring(L,2)+' type:'+IntToStr(lua_type(L,1)));
-      end;
-    end;
-  end;
+  // since o<>nil here, that means that lua_type(L,1)=LUA_TTABLE
+  if (o is TPersistent) and GetPublishedProperty(L, TPersistent(o), PropName) or GetSpecialProperty(L, o, lowercase(PropName)) then
+    // those functions push on top without removing the key, since they don't know where that key came from
+    lua_replace(L, 2)
+  else
+    lua_rawget(L, 1);
 end;
 
 end.

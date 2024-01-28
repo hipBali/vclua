@@ -43,7 +43,7 @@ function lua_toTShiftState(L: Plua_State; Index: Integer):TShiftState; overload;
 function lua_toTShiftState(L: Plua_State; Index: Integer; default:TShiftState ):TShiftState; overload;
 
 // TString descenant properties
-function GetTStringsProperty(L: Plua_State; Comp:TStrings; PropName:String):boolean;
+function GetTStringsProperty(L: Plua_State; Comp:TStrings; pn:String):boolean;
 
 procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:Int64  ; pti : PTypeInfo = nil); overload; inline;
@@ -164,13 +164,11 @@ begin
        lua_pushstring(L,pchar(str));
 end;
 
-function GetTStringsProperty(L: Plua_State; Comp:TStrings; PropName:String):boolean;
-var pn:String;
+function GetTStringsProperty(L: Plua_State; Comp:TStrings; pn:String):boolean;
 begin
      Result := true;
-     pn := LowerCase(PropName);
-     if (pn = 'count') then lua_pushinteger(L,Comp.Count) else
-     if (pn = 'text') then lua_pushStringCP(L,Comp.text) else
+     if (pn = 'count') then lua_push(L,Comp.Count) else
+     if (pn = 'text') then lua_push(L,Comp.text) else
         Result := false;
 end;
 
