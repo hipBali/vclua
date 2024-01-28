@@ -597,11 +597,13 @@ for u,_ in pairs(pasRefs) do
 end
 table.sort(luaobject_uses)
 
-vclinc = vclinc:gsub("#PASCALSOURCE",table.concat(pasSrc,",\n\t"),1)
+local pasSrcStr = table.concat(pasSrc,",\n\t")
+vclinc = vclinc:gsub("#PASCALSOURCE",pasSrcStr,1)
 vclinc = vclinc:gsub("#LUALIBS",table.concat(luaLibs,"\n\t\t"),1)
 vclinc = vclinc:gsub("#LIBCOUNT",libcount,1)
 saveTextToFile(HDR_INFO .. vclinc,out_path.."src/vcl.inc")
 saveTextToFile(HDR_INFO .. table.concat(luaobject_uses,",\n"),out_path.."src/luaobject_uses.inc")
 saveTextToFile(HDR_INFO .. table.concat(luaobject_push,"\n"),out_path.."src/luaobject_push.inc")
+saveTextToFile(HDR_INFO .. "\n\t" .. pasSrcStr,out_path.."src/luacontroller_uses.inc")
 
 
