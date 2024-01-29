@@ -35,6 +35,14 @@ uses
 
   {$i vcl.inc}
   
+  is_funcs : array of lual_reg = (
+  {$i is_funcs.inc}
+  (name:nil;func:nil)
+  );
+  as_funcs : array of lual_reg = (
+  {$i as_funcs.inc}
+  (name:nil;func:nil)
+  );
 
 function luaopen_vcl_core(L: Plua_State): Integer; cdecl;
 begin
@@ -84,6 +92,22 @@ begin
   lua_pushliteral (L, '_VERSION');
   lua_pushliteral (L, '0.9.2');
   lua_settable (L, -3);
+
+  {$IFNDEF LUA51}
+  luaL_newlib(l, is_funcs);
+  {$ELSE}
+  lua_createtable(L, 0, High(is_funcs));
+  luaL_register(L, nil, PluaL_Reg(is_funcs));
+  {$ENDIF}
+  lua_setfield(L, -2, 'is');
+
+  {$IFNDEF LUA51}
+  luaL_newlib(l, as_funcs);
+  {$ELSE}
+  lua_createtable(L, 0, High(as_funcs));
+  luaL_register(L, nil, PluaL_Reg(as_funcs));
+  {$ENDIF}
+  lua_setfield(L, -2, 'as');
 
   result := 1;
 end;

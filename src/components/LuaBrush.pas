@@ -10,6 +10,8 @@ interface
 
 Uses Classes, Lua, LuaController, Graphics, TypInfo;
 
+function IsBrush(L: Plua_State): Integer; cdecl;
+function AsBrush(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBrush; pti: PTypeInfo = nil); overload; inline;
 procedure BrushToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -51,6 +53,23 @@ begin
 	Result := 1;
 end;
 
+function IsBrush(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TBrush);
+end;
+function AsBrush(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TBrush then
+    lua_push(L, TBrush(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TBrush; pti: PTypeInfo);
 begin
 	BrushToTable(L,-1,v);

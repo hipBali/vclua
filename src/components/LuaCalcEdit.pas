@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, EditBtn, Controls, TypInfo;
 
 function CreateCalcEdit(L: Plua_State): Integer; cdecl;
+function IsCalcEdit(L: Plua_State): Integer; cdecl;
+function AsCalcEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo = nil); overload; inline;
 procedure CalcEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -24,6 +26,23 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+function IsCalcEdit(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TCalcEdit);
+end;
+function AsCalcEdit(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TCalcEdit then
+    lua_push(L, TCalcEdit(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo);
 begin
 	CalcEditToTable(L,-1,v);

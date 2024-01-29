@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
 
 function CreateLabel(L: Plua_State): Integer; cdecl;
+function IsLabel(L: Plua_State): Integer; cdecl;
+function AsLabel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo = nil); overload; inline;
 procedure LabelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -105,6 +107,23 @@ begin
 	Result := 0;
 end;
 
+function IsLabel(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TLabel);
+end;
+function AsLabel(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TLabel then
+    lua_push(L, TLabel(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo);
 begin
 	LabelToTable(L,-1,v);

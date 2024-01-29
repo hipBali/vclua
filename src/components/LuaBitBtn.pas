@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, Buttons, Controls, TypInfo;
 
 function CreateBitBtn(L: Plua_State): Integer; cdecl;
+function IsBitBtn(L: Plua_State): Integer; cdecl;
+function AsBitBtn(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBitBtn; pti: PTypeInfo = nil); overload; inline;
 procedure BitBtnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -24,6 +26,23 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+function IsBitBtn(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TBitBtn);
+end;
+function AsBitBtn(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TBitBtn then
+    lua_push(L, TBitBtn(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TBitBtn; pti: PTypeInfo);
 begin
 	BitBtnToTable(L,-1,v);

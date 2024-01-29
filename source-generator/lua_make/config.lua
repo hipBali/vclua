@@ -76,8 +76,8 @@ classes = {
 	-- graphics    
 	{ unit = "Bitmap", ref = "Graphics, LCLType",
 		classes = {
-			{ name = "CustomBitmap", src = "TCustomBitmap", nv=true, noparent=true },
-			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true, impl = "CustomBitmap" },
+			{ name = "CustomBitmap", src = "TCustomBitmap", nv=true, noparent=true, nocreate=true },
+			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true },
 		}
 	},
 
@@ -88,7 +88,6 @@ classes = {
 	{ name = "Canvas", src = "TCanvas", ref = "Graphics, GraphType", base=true, nocreate=true, impl = "SetPixel", },
 	{ name = "Picture", src = "TPicture", ref = "Graphics", nv=true, noparent=true },
 	{ name = "RasterImage", src = "TRasterImage", ref = "Graphics, LCLType, Types", base=true, nocreate=true },
-	-- { name = "ImageList", src = "TImageList", ref = "Controls", noparent=true},
 
 	-- forms
 	{ name = "Application", src = "TApplication", ref = "Forms, LCLType, LMessages, Controls", noparent=true  },

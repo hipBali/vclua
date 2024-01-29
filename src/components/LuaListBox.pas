@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
 
 function CreateListBox(L: Plua_State): Integer; cdecl;
+function IsListBox(L: Plua_State): Integer; cdecl;
+function AsListBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListBox; pti: PTypeInfo = nil); overload; inline;
 procedure ListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -255,6 +257,23 @@ begin
 	Result := 0;
 end;
 
+function IsListBox(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TListBox);
+end;
+function AsListBox(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TListBox then
+    lua_push(L, TListBox(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TListBox; pti: PTypeInfo);
 begin
 	ListBoxToTable(L,-1,v);

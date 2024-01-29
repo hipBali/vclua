@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, Spin, Controls, TypInfo;
 
 function CreateFloatSpinEdit(L: Plua_State): Integer; cdecl;
+function IsFloatSpinEdit(L: Plua_State): Integer; cdecl;
+function AsFloatSpinEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFloatSpinEdit; pti: PTypeInfo = nil); overload; inline;
 procedure FloatSpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -68,6 +70,23 @@ begin
 	Result := 1;
 end;
 
+function IsFloatSpinEdit(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TFloatSpinEdit);
+end;
+function AsFloatSpinEdit(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TFloatSpinEdit then
+    lua_push(L, TFloatSpinEdit(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TFloatSpinEdit; pti: PTypeInfo);
 begin
 	FloatSpinEditToTable(L,-1,v);

@@ -127,20 +127,6 @@ end;
 		vcluaMethodName="ItemsToTable",
 },
 
-["CustomBitmap"] = {src = [[
-function #FNAME(L: Plua_State): Integer; cdecl;
-var
-  b: TLuaBitmap;
-begin
-  b := TLuaBitmap(GetLuaObject(L, 1));
-  CustomBitmapToTable(L, -1, b);
-  Result := 1;
-end;
-]],
-		finalMethodName="CustomBitmap",
-		vcluaMethodName="CustomBitmap",
-},
-
 ["CheckListBoxSetChecked"] = {src = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var

@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
 
 function CreateMemo(L: Plua_State): Integer; cdecl;
+function IsMemo(L: Plua_State): Integer; cdecl;
+function AsMemo(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMemo; pti: PTypeInfo = nil); overload; inline;
 procedure MemoToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -51,6 +53,23 @@ begin
 	Result := 0;
 end;
 
+function IsMemo(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TMemo);
+end;
+function AsMemo(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TMemo then
+    lua_push(L, TMemo(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TMemo; pti: PTypeInfo);
 begin
 	MemoToTable(L,-1,v);

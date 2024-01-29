@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
 function CreateProgressBar(L: Plua_State): Integer; cdecl;
+function IsProgressBar(L: Plua_State): Integer; cdecl;
+function AsProgressBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TProgressBar; pti: PTypeInfo = nil); overload; inline;
 procedure ProgressBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -47,6 +49,23 @@ begin
 	Result := 0;
 end;
 
+function IsProgressBar(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TProgressBar);
+end;
+function AsProgressBar(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TProgressBar then
+    lua_push(L, TProgressBar(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TProgressBar; pti: PTypeInfo);
 begin
 	ProgressBarToTable(L,-1,v);

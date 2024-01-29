@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, MaskEdit, Controls, TypInfo;
 
 function CreateMaskEdit(L: Plua_State): Integer; cdecl;
+function IsMaskEdit(L: Plua_State): Integer; cdecl;
+function AsMaskEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMaskEdit; pti: PTypeInfo = nil); overload; inline;
 procedure MaskEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -24,6 +26,23 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+function IsMaskEdit(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TMaskEdit);
+end;
+function AsMaskEdit(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TMaskEdit then
+    lua_push(L, TMaskEdit(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TMaskEdit; pti: PTypeInfo);
 begin
 	MaskEditToTable(L,-1,v);

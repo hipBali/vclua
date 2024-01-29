@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
 
 function CreateTrayIcon(L: Plua_State): Integer; cdecl;
+function IsTrayIcon(L: Plua_State): Integer; cdecl;
+function AsTrayIcon(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTrayIcon; pti: PTypeInfo = nil); overload; inline;
 procedure TrayIconToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -86,6 +88,23 @@ begin
 	Result := 1;
 end;
 
+function IsTrayIcon(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TTrayIcon);
+end;
+function AsTrayIcon(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TTrayIcon then
+    lua_push(L, TTrayIcon(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TTrayIcon; pti: PTypeInfo);
 begin
 	TrayIconToTable(L,-1,v);

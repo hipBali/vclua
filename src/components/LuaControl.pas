@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, Controls, Graphics, TypInfo;
 
 function CreateControl(L: Plua_State): Integer; cdecl;
+function IsControl(L: Plua_State): Integer; cdecl;
+function AsControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TControl; pti: PTypeInfo = nil); overload; inline;
 procedure ControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -1195,6 +1197,23 @@ begin
 	Result := 1;
 end;
 
+function IsControl(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TControl);
+end;
+function AsControl(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TControl then
+    lua_push(L, TControl(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TControl; pti: PTypeInfo);
 begin
 	ControlToTable(L,-1,v);

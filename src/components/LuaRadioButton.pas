@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
 
 function CreateRadioButton(L: Plua_State): Integer; cdecl;
+function IsRadioButton(L: Plua_State): Integer; cdecl;
+function AsRadioButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TRadioButton; pti: PTypeInfo = nil); overload; inline;
 procedure RadioButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -24,6 +26,23 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+function IsRadioButton(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TRadioButton);
+end;
+function AsRadioButton(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TRadioButton then
+    lua_push(L, TRadioButton(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TRadioButton; pti: PTypeInfo);
 begin
 	RadioButtonToTable(L,-1,v);

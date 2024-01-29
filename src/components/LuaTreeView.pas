@@ -10,6 +10,8 @@ interface
 
 Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
+function IsTreeNode(L: Plua_State): Integer; cdecl;
+function AsTreeNode(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTreeNode; pti: PTypeInfo = nil); overload; inline;
 procedure TreeNodeToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -19,6 +21,8 @@ type
       L:Plua_State;
     end;
 
+function IsTreeNodes(L: Plua_State): Integer; cdecl;
+function AsTreeNodes(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTreeNodes; pti: PTypeInfo = nil); overload; inline;
 procedure TreeNodesToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -29,6 +33,8 @@ type
     end;
 
 function CreateTreeView(L: Plua_State): Integer; cdecl;
+function IsTreeView(L: Plua_State): Integer; cdecl;
+function AsTreeView(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTreeView; pti: PTypeInfo = nil); overload; inline;
 procedure TreeViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -1074,6 +1080,23 @@ begin
 	Result := 0;
 end;
 
+function IsTreeNode(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TTreeNode);
+end;
+function AsTreeNode(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TTreeNode then
+    lua_push(L, TTreeNode(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TTreeNode; pti: PTypeInfo);
 begin
 	TreeNodeToTable(L,-1,v);
@@ -1090,6 +1113,23 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+function IsTreeNodes(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TTreeNodes);
+end;
+function AsTreeNodes(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TTreeNodes then
+    lua_push(L, TTreeNodes(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TTreeNodes; pti: PTypeInfo);
 begin
 	TreeNodesToTable(L,-1,v);
@@ -1140,6 +1180,23 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+function IsTreeView(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TTreeView);
+end;
+function AsTreeView(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TTreeView then
+    lua_push(L, TTreeView(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TTreeView; pti: PTypeInfo);
 begin
 	TreeViewToTable(L,-1,v);

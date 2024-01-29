@@ -10,6 +10,8 @@ interface
 
 Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
+function IsListItem(L: Plua_State): Integer; cdecl;
+function AsListItem(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo = nil); overload; inline;
 procedure ListItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -19,6 +21,8 @@ type
       L:Plua_State;
     end;
 
+function IsListItems(L: Plua_State): Integer; cdecl;
+function AsListItems(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListItems; pti: PTypeInfo = nil); overload; inline;
 procedure ListItemsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -29,6 +33,8 @@ type
     end;
 
 function CreateListView(L: Plua_State): Integer; cdecl;
+function IsListView(L: Plua_State): Integer; cdecl;
+function AsListView(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListView; pti: PTypeInfo = nil); overload; inline;
 procedure ListViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -552,6 +558,23 @@ begin
 	Result := 0;
 end;
 
+function IsListItem(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TListItem);
+end;
+function AsListItem(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TListItem then
+    lua_push(L, TListItem(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo);
 begin
 	ListItemToTable(L,-1,v);
@@ -573,6 +596,23 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+function IsListItems(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TListItems);
+end;
+function AsListItems(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TListItems then
+    lua_push(L, TListItems(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TListItems; pti: PTypeInfo);
 begin
 	ListItemsToTable(L,-1,v);
@@ -603,6 +643,23 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+function IsListView(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TListView);
+end;
+function AsListView(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TListView then
+    lua_push(L, TListView(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TListView; pti: PTypeInfo);
 begin
 	ListViewToTable(L,-1,v);

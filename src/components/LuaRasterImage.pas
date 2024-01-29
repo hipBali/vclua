@@ -10,6 +10,8 @@ interface
 
 Uses Classes, Lua, LuaController, Graphics, LCLType, Types, TypInfo;
 
+function IsRasterImage(L: Plua_State): Integer; cdecl;
+function AsRasterImage(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TRasterImage; pti: PTypeInfo = nil); overload; inline;
 procedure RasterImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -259,6 +261,23 @@ begin
 	Result := 1;
 end;
 
+function IsRasterImage(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TRasterImage);
+end;
+function AsRasterImage(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TRasterImage then
+    lua_push(L, TRasterImage(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TRasterImage; pti: PTypeInfo);
 begin
 	RasterImageToTable(L,-1,v);

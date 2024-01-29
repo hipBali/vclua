@@ -10,6 +10,8 @@ interface
 
 Uses Classes, Lua, LuaController, Grids, Controls, TypInfo;
 
+function IsGridColumn(L: Plua_State): Integer; cdecl;
+function AsGridColumn(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo = nil); overload; inline;
 procedure GridColumnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -19,6 +21,8 @@ type
       L:Plua_State;
     end;
 
+function IsGridColumns(L: Plua_State): Integer; cdecl;
+function AsGridColumns(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TGridColumns; pti: PTypeInfo = nil); overload; inline;
 procedure GridColumnsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -29,6 +33,8 @@ type
     end;
 
 function CreateStringGrid(L: Plua_State): Integer; cdecl;
+function IsStringGrid(L: Plua_State): Integer; cdecl;
+function AsStringGrid(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo = nil); overload; inline;
 procedure StringGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -495,6 +501,23 @@ begin
   strGrid.defaultdrawcell(c,r,rect,aState);
   Result := 0;
 end;
+function IsGridColumn(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TGridColumn);
+end;
+function AsGridColumn(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TGridColumn then
+    lua_push(L, TGridColumn(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo);
 begin
 	GridColumnToTable(L,-1,v);
@@ -515,6 +538,23 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+function IsGridColumns(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TGridColumns);
+end;
+function AsGridColumns(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TGridColumns then
+    lua_push(L, TGridColumns(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TGridColumns; pti: PTypeInfo);
 begin
 	GridColumnsToTable(L,-1,v);
@@ -538,6 +578,23 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+function IsStringGrid(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TStringGrid);
+end;
+function AsStringGrid(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TStringGrid then
+    lua_push(L, TStringGrid(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo);
 begin
 	StringGridToTable(L,-1,v);

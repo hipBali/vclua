@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, EditBtn, Controls, TypInfo;
 
 function CreateDateEdit(L: Plua_State): Integer; cdecl;
+function IsDateEdit(L: Plua_State): Integer; cdecl;
+function AsDateEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TDateEdit; pti: PTypeInfo = nil); overload; inline;
 procedure DateEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -24,6 +26,23 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+function IsDateEdit(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TDateEdit);
+end;
+function AsDateEdit(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TDateEdit then
+    lua_push(L, TDateEdit(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TDateEdit; pti: PTypeInfo);
 begin
 	DateEditToTable(L,-1,v);

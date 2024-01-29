@@ -17,7 +17,7 @@ local add_img = function(imgList, fName)
 	Picture:LoadFromFile(fName)
 	SrcBmp = VCL.Bitmap()
 	-- Bitmap has no method named 'Assign', must be used as CustomBitmap!
-	SrcBmp:CustomBitmap():Assign(Picture.Graphic)
+	VCL.as.CustomBitmap(SrcBmp):Assign(Picture.Graphic)
     local idx = imgList:Add(SrcBmp, nil)
     Picture:Free()
 	return idx

@@ -10,6 +10,8 @@ interface
 
 Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
+function IsStatusPanel(L: Plua_State): Integer; cdecl;
+function AsStatusPanel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStatusPanel; pti: PTypeInfo = nil); overload; inline;
 procedure StatusPanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -19,6 +21,8 @@ type
       L:Plua_State;
     end;
 
+function IsStatusPanels(L: Plua_State): Integer; cdecl;
+function AsStatusPanels(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStatusPanels; pti: PTypeInfo = nil); overload; inline;
 procedure StatusPanelsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -29,6 +33,8 @@ type
     end;
 
 function CreateStatusBar(L: Plua_State): Integer; cdecl;
+function IsStatusBar(L: Plua_State): Integer; cdecl;
+function AsStatusBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStatusBar; pti: PTypeInfo = nil); overload; inline;
 procedure StatusBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -175,6 +181,23 @@ begin
 	Result := 1;
 end;
 
+function IsStatusPanel(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TStatusPanel);
+end;
+function AsStatusPanel(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TStatusPanel then
+    lua_push(L, TStatusPanel(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TStatusPanel; pti: PTypeInfo);
 begin
 	StatusPanelToTable(L,-1,v);
@@ -192,6 +215,23 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+function IsStatusPanels(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TStatusPanels);
+end;
+function AsStatusPanels(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TStatusPanels then
+    lua_push(L, TStatusPanels(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TStatusPanels; pti: PTypeInfo);
 begin
 	StatusPanelsToTable(L,-1,v);
@@ -208,6 +248,23 @@ begin
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
 
+function IsStatusBar(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TStatusBar);
+end;
+function AsStatusBar(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TStatusBar then
+    lua_push(L, TStatusBar(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TStatusBar; pti: PTypeInfo);
 begin
 	StatusBarToTable(L,-1,v);

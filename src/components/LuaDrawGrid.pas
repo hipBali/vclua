@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, Grids, Controls, TypInfo;
 
 function CreateDrawGrid(L: Plua_State): Integer; cdecl;
+function IsDrawGrid(L: Plua_State): Integer; cdecl;
+function AsDrawGrid(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo = nil); overload; inline;
 procedure DrawGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -167,6 +169,23 @@ begin
 	Result := 1;
 end;
 
+function IsDrawGrid(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TDrawGrid);
+end;
+function AsDrawGrid(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TDrawGrid then
+    lua_push(L, TDrawGrid(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo);
 begin
 	DrawGridToTable(L,-1,v);

@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
 function CreateCoolBar(L: Plua_State): Integer; cdecl;
+function IsCoolBar(L: Plua_State): Integer; cdecl;
+function AsCoolBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCoolBar; pti: PTypeInfo = nil); overload; inline;
 procedure CoolBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -104,6 +106,23 @@ begin
 	Result := 0;
 end;
 
+function IsCoolBar(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TCoolBar);
+end;
+function AsCoolBar(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TCoolBar then
+    lua_push(L, TCoolBar(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TCoolBar; pti: PTypeInfo);
 begin
 	CoolBarToTable(L,-1,v);

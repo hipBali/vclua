@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, PopupNotifier, Controls, TypInfo;
 
 function CreatePopupNotifier(L: Plua_State): Integer; cdecl;
+function IsPopupNotifier(L: Plua_State): Integer; cdecl;
+function AsPopupNotifier(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPopupNotifier; pti: PTypeInfo = nil); overload; inline;
 procedure PopupNotifierToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -60,6 +62,23 @@ begin
 	Result := 0;
 end;
 
+function IsPopupNotifier(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TPopupNotifier);
+end;
+function AsPopupNotifier(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TPopupNotifier then
+    lua_push(L, TPopupNotifier(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TPopupNotifier; pti: PTypeInfo);
 begin
 	PopupNotifierToTable(L,-1,v);

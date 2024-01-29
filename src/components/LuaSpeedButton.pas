@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, Buttons, Controls, TypInfo;
 
 function CreateSpeedButton(L: Plua_State): Integer; cdecl;
+function IsSpeedButton(L: Plua_State): Integer; cdecl;
+function AsSpeedButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TSpeedButton; pti: PTypeInfo = nil); overload; inline;
 procedure SpeedButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -24,6 +26,23 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+function IsSpeedButton(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TSpeedButton);
+end;
+function AsSpeedButton(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TSpeedButton then
+    lua_push(L, TSpeedButton(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TSpeedButton; pti: PTypeInfo);
 begin
 	SpeedButtonToTable(L,-1,v);

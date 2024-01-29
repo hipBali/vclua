@@ -9,6 +9,8 @@ interface
 Uses Classes, Lua, LuaController, TypInfo;
 
 function CreateStringList(L: Plua_State): Integer; cdecl;
+function IsStringList(L: Plua_State): Integer; cdecl;
+function AsStringList(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStringList; pti: PTypeInfo = nil); overload; inline;
 procedure StringListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -146,6 +148,23 @@ begin
 	Result := 0;
 end;
 
+function IsStringList(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TStringList);
+end;
+function AsStringList(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TStringList then
+    lua_push(L, TStringList(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TStringList; pti: PTypeInfo);
 begin
 	StringListToTable(L,-1,v);

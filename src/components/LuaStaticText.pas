@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
 
 function CreateStaticText(L: Plua_State): Integer; cdecl;
+function IsStaticText(L: Plua_State): Integer; cdecl;
+function AsStaticText(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStaticText; pti: PTypeInfo = nil); overload; inline;
 procedure StaticTextToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -24,6 +26,23 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
+function IsStaticText(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TStaticText);
+end;
+function AsStaticText(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TStaticText then
+    lua_push(L, TStaticText(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TStaticText; pti: PTypeInfo);
 begin
 	StaticTextToTable(L,-1,v);

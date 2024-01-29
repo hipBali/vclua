@@ -10,7 +10,8 @@ interface
 
 Uses Classes, Lua, LuaController, Graphics, LCLType, TypInfo;
 
-function CreateCustomBitmap(L: Plua_State): Integer; cdecl;
+function IsCustomBitmap(L: Plua_State): Integer; cdecl;
+function AsCustomBitmap(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCustomBitmap; pti: PTypeInfo = nil); overload; inline;
 procedure CustomBitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -21,6 +22,8 @@ type
     end;
 
 function CreateBitmap(L: Plua_State): Integer; cdecl;
+function IsBitmap(L: Plua_State): Integer; cdecl;
+function AsBitmap(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBitmap; pti: PTypeInfo = nil); overload; inline;
 procedure BitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -194,15 +197,23 @@ begin
 	Result := 0;
 end;
 
-function VCLua_Bitmap_CustomBitmap(L: Plua_State): Integer; cdecl;
-var
-  b: TLuaBitmap;
+function IsCustomBitmap(L: Plua_State): Integer; cdecl;
 begin
-  b := TLuaBitmap(GetLuaObject(L, 1));
-  CustomBitmapToTable(L, -1, b);
+  CheckArg(L, 1);
   Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TCustomBitmap);
 end;
-
+function AsCustomBitmap(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TCustomBitmap then
+    lua_push(L, TCustomBitmap(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TCustomBitmap; pti: PTypeInfo);
 begin
 	CustomBitmapToTable(L,-1,v);
@@ -227,13 +238,23 @@ begin
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
-function CreateCustomBitmap(L: Plua_State): Integer; cdecl;
-var
-	lCustomBitmap:TLuaCustomBitmap;
+
+function IsBitmap(L: Plua_State): Integer; cdecl;
 begin
-	lCustomBitmap := TLuaCustomBitmap.Create;
-	CustomBitmapToTable(L, -1, lCustomBitmap);
-	Result := 1;
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TBitmap);
+end;
+function AsBitmap(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TBitmap then
+    lua_push(L, TBitmap(o))
+  else
+    lua_pushnil(L);
 end;
 procedure lua_push(L: Plua_State; const v: TBitmap; pti: PTypeInfo);
 begin
@@ -248,7 +269,6 @@ begin
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'GetResourceType', @VCLua_Bitmap_GetResourceType);
 	LuaSetTableFunction(L, Index, 'LoadFromStream', @VCLua_Bitmap_LoadFromStream);
-	LuaSetTableFunction(L, Index, 'CustomBitmap', @VCLua_Bitmap_CustomBitmap);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;

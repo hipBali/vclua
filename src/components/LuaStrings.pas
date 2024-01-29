@@ -9,6 +9,8 @@ interface
 Uses Classes, Lua, LuaController, TypInfo;
 
 function CreateStrings(L: Plua_State): Integer; cdecl;
+function IsStrings(L: Plua_State): Integer; cdecl;
+function AsStrings(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStrings; pti: PTypeInfo = nil); overload; inline;
 procedure StringsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -664,6 +666,23 @@ begin
   Result := 1;
 end;
 
+function IsStrings(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TStrings);
+end;
+function AsStrings(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TStrings then
+    lua_push(L, TStrings(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TStrings; pti: PTypeInfo);
 begin
 	StringsToTable(L,-1,v);

@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 
 function CreateTabSheet(L: Plua_State): Integer; cdecl;
+function IsTabSheet(L: Plua_State): Integer; cdecl;
+function AsTabSheet(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTabSheet; pti: PTypeInfo = nil); overload; inline;
 procedure TabSheetToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -20,6 +22,8 @@ type
     end;
 
 function CreateTabControl(L: Plua_State): Integer; cdecl;
+function IsTabControl(L: Plua_State): Integer; cdecl;
+function AsTabControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTabControl; pti: PTypeInfo = nil); overload; inline;
 procedure TabControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -29,6 +33,8 @@ type
     end;
 
 function CreatePageControl(L: Plua_State): Integer; cdecl;
+function IsPageControl(L: Plua_State): Integer; cdecl;
+function AsPageControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPageControl; pti: PTypeInfo = nil); overload; inline;
 procedure PageControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -319,6 +325,23 @@ begin
 	Result := 1;
 end;
 
+function IsTabSheet(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TTabSheet);
+end;
+function AsTabSheet(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TTabSheet then
+    lua_push(L, TTabSheet(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TTabSheet; pti: PTypeInfo);
 begin
 	TabSheetToTable(L,-1,v);
@@ -349,6 +372,23 @@ begin
 	Result := 1;
 end;
 
+function IsTabControl(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TTabControl);
+end;
+function AsTabControl(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TTabControl then
+    lua_push(L, TTabControl(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TTabControl; pti: PTypeInfo);
 begin
 	TabControlToTable(L,-1,v);
@@ -388,6 +428,23 @@ begin
 	Result := 1;
 end;
 
+function IsPageControl(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TPageControl);
+end;
+function AsPageControl(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TPageControl then
+    lua_push(L, TPageControl(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TPageControl; pti: PTypeInfo);
 begin
 	PageControlToTable(L,-1,v);

@@ -11,6 +11,8 @@ interface
 Uses Classes, Lua, LuaController, Menus, Controls, ImgList, LuaImageList, TypInfo;
 
 function CreateMenu(L: Plua_State): Integer; cdecl;
+function IsMenu(L: Plua_State): Integer; cdecl;
+function AsMenu(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMenu; pti: PTypeInfo = nil); overload; inline;
 procedure MenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -20,6 +22,8 @@ type
     end;
 
 function CreatePopupMenu(L: Plua_State): Integer; cdecl;
+function IsPopupMenu(L: Plua_State): Integer; cdecl;
+function AsPopupMenu(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPopupMenu; pti: PTypeInfo = nil); overload; inline;
 procedure PopupMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -29,6 +33,8 @@ type
     end;
 
 function CreateMenuItem(L: Plua_State): Integer; cdecl;
+function IsMenuItem(L: Plua_State): Integer; cdecl;
+function AsMenuItem(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMenuItem; pti: PTypeInfo = nil); overload; inline;
 procedure MenuItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -38,6 +44,8 @@ type
     end;
 
 function CreateMainMenu(L: Plua_State): Integer; cdecl;
+function IsMainMenu(L: Plua_State): Integer; cdecl;
+function AsMainMenu(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMainMenu; pti: PTypeInfo = nil); overload; inline;
 procedure MainMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
@@ -674,6 +682,23 @@ begin
 	Result := 0;
 end;
 
+function IsMenu(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TMenu);
+end;
+function AsMenu(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TMenu then
+    lua_push(L, TMenu(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TMenu; pti: PTypeInfo);
 begin
 	MenuToTable(L,-1,v);
@@ -712,6 +737,23 @@ begin
 	Result := 1;
 end;
 
+function IsPopupMenu(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TPopupMenu);
+end;
+function AsPopupMenu(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TPopupMenu then
+    lua_push(L, TPopupMenu(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TPopupMenu; pti: PTypeInfo);
 begin
 	PopupMenuToTable(L,-1,v);
@@ -744,6 +786,23 @@ begin
 	Result := 1;
 end;
 
+function IsMenuItem(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TMenuItem);
+end;
+function AsMenuItem(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TMenuItem then
+    lua_push(L, TMenuItem(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TMenuItem; pti: PTypeInfo);
 begin
 	MenuItemToTable(L,-1,v);
@@ -807,6 +866,23 @@ begin
 	Result := 1;
 end;
 
+function IsMainMenu(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  lua_push(L, GetLuaObject(L, 1) is TMainMenu);
+end;
+function AsMainMenu(L: Plua_State): Integer; cdecl;
+var o : TObject;
+begin
+  CheckArg(L, 1);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o is TMainMenu then
+    lua_push(L, TMainMenu(o))
+  else
+    lua_pushnil(L);
+end;
 procedure lua_push(L: Plua_State; const v: TMainMenu; pti: PTypeInfo);
 begin
 	MainMenuToTable(L,-1,v);
