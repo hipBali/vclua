@@ -11,8 +11,9 @@ Uses Controls,
      ComCtrls,
      Lua,
      LuaHelper,
-     SynEdit,
-     SynEditKeyCmds,
+     LuaProxy,
+//     SynEdit,
+//     SynEditKeyCmds,
      LclType,
      Messages,
      SysUtils;
@@ -61,7 +62,7 @@ type
           fOnLuaMouseWheelDown_Func,
           fOnLuaMouseWheelUp_Func,
 	  fOnLuaMouseEnter_Func,
-          fOnLuaMouseExit_Func,
+          fOnLuaMouseLeave_Func,
 		  
 	  //StringGrid
           fOnLuaHeaderClick_Func,
@@ -108,11 +109,12 @@ type
           fOnLuaReplace_Func,
 
           //SynEdit
+          (*
           fOnLuaReplaceText_Func,
           fOnLuaCommandProcessed_Func,
           fOnLuaClickLink_Func,
           fOnLuaMouseLink_Func,
-
+          *)
           // Min/Max
           fOnLuaMinimize_Func,
           fOnLuaMaximize_Func,
@@ -127,7 +129,10 @@ type
           fOnLuaSelectionChanged_Func,
 
           // PropertyGrid
-          fOnLuaModified_Func
+          fOnLuaModified_Func,
+
+          // CheckListBox
+          fOnSelectionChange_Func
 
           : TLuaCFunction;
 
@@ -163,7 +168,7 @@ type
           procedure OnLuaMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
           procedure OnLuaMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 	  procedure OnLuaMouseEnter(Sender: TObject);
-          procedure OnLuaMouseExit(Sender: TObject);
+          procedure OnLuaMouseLeave(Sender: TObject);
 
           //PageControl
           procedure OnLuaPageChanged(Sender: TObject);
@@ -212,15 +217,19 @@ type
           procedure OnLuaReplace(Sender: TObject);
 
           //SynEdit
+          (*
           procedure OnLuaReplaceText(Sender: TObject; const ASearch,
                     AReplace: string; Line, Column: integer; var ReplaceAction: TSynReplaceAction);
           procedure OnLuaCommandProcessed(Sender: TObject;
                     var Command: TSynEditorCommand; var AChar: TUTF8Char; Data: pointer);
           procedure OnLuaClickLink(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
           procedure OnLuaMouseLink(Sender: TObject; X, Y: Integer; var AllowMouseLink: Boolean);
+          *)
 
+          // ListView
           procedure OnLuaColumnClick(Sender: TObject; Column: TListColumn);
           procedure OnLuaSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
+
 
           //TreeView
           procedure OnLuaEdited(Sender: TObject; Node: TTreeNode; var S: string);
@@ -230,6 +239,9 @@ type
           // PropertyGrid
           procedure OnLuaModified(Sender: TObject);
 
+          //
+          procedure OnLuaSelectionChangeEvent(Sender: TObject; User: boolean);
+
     // ----------------------------------------------------------------------------------------
     public
 
@@ -237,6 +249,7 @@ type
           // EVENT HANDLERS
 
           // SynEdit
+          (*
           procedure ReplaceTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; const ASearch,
                     AReplace: string; Line, Column: integer; var ReplaceAction: TSynReplaceAction);
           procedure CommandProcessedEventHandler(Sender: TObject; EventCFunc: TLuaCFunction;
@@ -245,13 +258,16 @@ type
                     Shift: TShiftState; X, Y: Integer);
           procedure MouseLinkEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; X, Y: Integer;
                     var AllowMouseLink: Boolean);
+          *)
 
+          // basic events
           procedure NotifyEventHandler(Sender: TObject; EventCFunc: TLuaCFunction);
           procedure KeyEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; var Key: Word; Shift: TShiftState);
           procedure MouseEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
           procedure MouseMoveEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Shift: TShiftState; X, Y: Integer);
           procedure MouseWheelEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
           procedure MouseWheelUpDownEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+
           // DropFiles
           procedure DropFilesEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; const FileNames: array of String);
           // DragDrop
@@ -290,6 +306,9 @@ type
           procedure EditedEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Node: TTreeNode; var S: string);
           procedure NodeChangedEventHandler(Sender: TObject;  EventCFunc: TLuaCFunction; Node: TTreeNode; ChangeReason: TTreeNodeChangeReason);
 
+          // CheckListBox
+          procedure SelectionChangeEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; User: boolean);
+
         published
 
           // LUA Events
@@ -326,7 +345,7 @@ type
           property OnMouseWheelDown_Function: TLuaCFunction read fOnLuaMouseWheelDown_Func write fOnLuaMouseWheelDown_Func;
           property OnMouseWheelUp_Function: TLuaCFunction read fOnLuaMouseWheelUp_Func write fOnLuaMouseWheelUp_Func;
 	  property OnMouseEnter_Function: TLuaCFunction read fOnLuaMouseEnter_Func write fOnLuaMouseEnter_Func;
-          property OnMouseExit_Function: TLuaCFunction read fOnLuaMouseExit_Func write fOnLuaMouseExit_Func;
+          property OnMouseLeave_Function: TLuaCFunction read fOnLuaMouseLeave_Func write fOnLuaMouseLeave_Func;
 
           //PageControl
           property OnPageChanged_Function: TLuaCFunction read fOnLuaPageChanged_func write fOnLuaPageChanged_func;
@@ -374,11 +393,12 @@ type
           property OnReplace_Function: TLuaCFunction read fOnLuaReplace_Func write fOnLuaReplace_Func;
 
           //SynEdit
+          (*
           property OnReplaceText_Function: TLuaCFunction read fOnLuaReplaceText_Func write fOnLuaReplaceText_Func;
           property OnCommandProcessed_Function: TLuaCFunction read fOnLuaCommandProcessed_Func write fOnLuaCommandProcessed_Func;
-
           property OnClickLink_Function: TLuaCFunction read fOnLuaClickLink_Func write fOnLuaClickLink_Func;
           property OnMouseLink_Function: TLuaCFunction read fOnLuaMouseLink_Func write fOnLuaMouseLink_Func;
+          *)
 
           // ListView
           // OnColumnClick
@@ -395,14 +415,14 @@ type
           // Propertygrid
           property OnModified_Function: TLuaCFunction read fOnLuaModified_Func write fOnLuaModified_Func;
 
-     end;
+          // CheckListBox
+          property OnSelectionChange_Function: TLuaCFunction read fOnSelectionChange_Func write fOnSelectionChange_Func;
 
-     TLuaBaseControl = class(TComponent)
-         LuaCtl: TVCLuaControl;
      end;
 
 // *************************************************************************
 function StringToShiftState(Shift:String):TShiftState;
+// function CheckBoxStateToString(State:TCheckBoxState):String;
 
 procedure GetControlParents(L: Plua_State; var Parent:TWinControl; var Name:String);
 procedure InitControl(L: Plua_State; luaObj:TObject; var Name:String);
@@ -425,6 +445,10 @@ function GetLuaState(Sender:TObject):Plua_State;
 function GetLuaControl(Sender:TObject):TVCLuaControl;
 function CheckEvent(L:Plua_State; Sender: TObject; EFn:TLuaCFunction):Boolean;
 
+// UTF8 Codepage conversion
+function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
+function is_vclua_utf8_conv:boolean; // internal
+
 implementation
 
 Uses TypInfo,
@@ -440,8 +464,24 @@ Uses TypInfo,
      Dialogs,
      LCLProc;
 
-//{$I showstack.inc}
-     
+// ***********************************************
+// VCLUA UTF-8 Converter
+// ***********************************************
+var _VCLUA_UTF8_CONV:boolean;
+// -----------------------------------------------
+function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
+begin
+    CheckArg(L, 1);
+    if (lua_isboolean(L,1)) then
+       _VCLUA_UTF8_CONV := lua_toboolean(L,1);
+    result := 0;
+end;
+
+function is_vclua_utf8_conv:boolean;
+begin
+    result := _VCLUA_UTF8_CONV;
+end;
+
 // ***********************************************
 // LUA Control Methods
 // ***********************************************
@@ -679,6 +719,7 @@ begin
      include(Result,ssDouble);
 end;
 
+
 function DrawGridStateToString(State:TGridDrawState):String;
 begin
   Result := '[';
@@ -699,6 +740,32 @@ begin
   else
      Result := Result + ']';
 end;
+
+(*
+function StringToCheckBoxState(State:String):TCheckBoxState;
+begin
+  Result := [];
+  if AnsiContainsStr(State,'cbUnchecked') then
+     include(Result,cbUnchecked);
+  if AnsiContainsStr(State,'cbChecked') then
+     include(Result,cbChecked);
+  if AnsiContainsStr(State,'cbGrayed') then
+     include(Result,cbGrayed);
+end;
+
+function CheckBoxStateToString(State:TCheckBoxState):String;
+begin
+  Result := '[';
+  if cbUnchecked in State then
+     Result := Result + 'cbUnchecked,';
+  if cbChecked in State then
+     Result := Result + 'cbChecked,';
+  if cbGrayed in State then
+     Result := Result + 'cbGrayed,';
+  else
+     Result := Result + ']';
+end;
+*)
 
 // ***********************************************
 // LUA Events
@@ -738,7 +805,7 @@ begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,Word(Key));
+    lua_pushinteger(LL,Word(Key));
     lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
     DoCall(LL,3);
     if lua_isnumber(LL,-1) then
@@ -754,8 +821,8 @@ begin
     ToTable(LL, -1, Sender);
     lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TMouseButton),Integer(Button))));
     lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    lua_pushnumber(LL,X);
-    lua_pushnumber(LL,Y);
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,5);
     end;
 end;
@@ -767,8 +834,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
     lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    lua_pushnumber(LL,X);
-    lua_pushnumber(LL,Y);
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -780,16 +847,16 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
     lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    lua_pushnumber(LL,WheelDelta);
+    lua_pushinteger(LL,WheelDelta);
 
     lua_newtable(LL);
     lua_pushliteral(LL,'X');
-    lua_pushnumber(LL,MousePos.X);
+    lua_pushinteger(LL,MousePos.X);
     lua_rawset(LL,-3);
-    lua_pushliteral(LL,'X');
-    lua_pushnumber(LL,MousePos.Y);
+    lua_pushliteral(LL,'Y');
+    lua_pushinteger(LL,MousePos.Y);
     lua_rawset(LL,-3);
-    lua_pushnumber(LL,2);
+    lua_pushinteger(LL,2);
     lua_pushliteral(LL,'n');
     lua_rawset(LL,-3);
 
@@ -811,12 +878,12 @@ begin
 
     lua_newtable(LL);
     lua_pushliteral(LL,'X');
-    lua_pushnumber(LL,MousePos.X);
+    lua_pushinteger(LL,MousePos.X);
     lua_rawset(LL,-3);
-    lua_pushliteral(LL,'X');
-    lua_pushnumber(LL,MousePos.Y);
+    lua_pushliteral(LL,'Y');
+    lua_pushinteger(LL,MousePos.Y);
     lua_rawset(LL,-3);
-    lua_pushnumber(LL,2);
+    lua_pushinteger(LL,2);
     lua_pushliteral(LL,'n');
     lua_rawset(LL,-3);
 
@@ -944,7 +1011,7 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
        ToTable(LL, -1, Sender);
        lua_pushboolean(LL,IsColumn);
-       lua_pushnumber(LL,Index);
+       lua_pushinteger(LL,Index);
        DoCall(LL,3);
     end;
 end;
@@ -955,8 +1022,8 @@ begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,ACol);
-    lua_pushnumber(LL,ARow);
+    lua_pushinteger(LL,ACol);
+    lua_pushinteger(LL,ARow);
     lua_pushboolean(LL,CanSelect);
     DoCall(LL,4);
 
@@ -973,20 +1040,7 @@ begin
     ToTable(LL, -1, Sender);
     lua_pushnumber(LL,ACol);
     lua_pushnumber(LL,ARow);
-    
-    lua_newtable(LL);
-    lua_pushliteral(LL,'Left');
-    lua_pushnumber(LL,Rect.Left);    
-    lua_rawset(LL,-3);
-    lua_pushliteral(LL,'Top');
-    lua_pushnumber(LL,Rect.Top);    
-    lua_rawset(LL,-3);
-    lua_pushliteral(LL,'Right');
-    lua_pushnumber(LL,Rect.Right);    
-    lua_rawset(LL,-3);
-    lua_pushliteral(LL,'Bottom');
-    lua_pushnumber(LL,Rect.Bottom);    
-    lua_rawset(LL,-3);    
+    lua_pushTRect(LL,Rect);
     lua_pushString(LL,pchar(DrawGridStateToString(State)));
     DoCall(LL,5);
     end;
@@ -997,14 +1051,14 @@ var LL:Plua_State;
 begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
-    ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,ACol);
-    lua_pushnumber(LL,ARow);
-    lua_pushstring(LL,pchar(TStringGrid(Sender).Cells[ACol, ARow]));
-    DoCall(LL,4);
-  	if lua_isstring(LL,-1) then
-//       Value := lua_tostring(LL,-1);
-       TStringGrid(Sender).Cells[ACol, ARow] := lua_tostring(LL,-1);
+      ToTable(LL, -1, Sender);
+      lua_pushinteger(LL,ACol);
+      lua_pushinteger(LL,ARow);
+      lua_pushstring(LL,pchar(TStringGrid(Sender).Cells[ACol, ARow]));
+      DoCall(LL,4);
+      if lua_isstring(LL,-1) then
+         Value := lua_tostring(LL,-1);
+//      TStringGrid(Sender).Cells[ACol, ARow] := lua_tostring(LL,-1);
     end;
 end;
 
@@ -1014,11 +1068,11 @@ begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,ACol);
-    lua_pushnumber(LL,ARow);
+    lua_pushinteger(LL,ACol);
+    lua_pushinteger(LL,ARow);
     lua_pushstring(LL,pchar(Value));
     DoCall(LL,4);
-  	if lua_isstring(LL,-1) then
+    if lua_isstring(LL,-1) then
        Value := lua_tostring(LL,-1);
 //       TStringGrid(Sender).Cells[ACol, ARow] := lua_tostring(LL,-1);
     end;
@@ -1030,8 +1084,8 @@ begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,FromIndex);
-    lua_pushnumber(LL,ToIndex);
+    lua_pushinteger(LL,FromIndex);
+    lua_pushinteger(LL,ToIndex);
     DoCall(LL,3);
     end;
 end;
@@ -1046,8 +1100,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Source); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -1060,8 +1114,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Source); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TDragState),Integer(State))));
     DoCall(LL,5);
     if lua_isboolean(LL,-1) then
@@ -1090,8 +1144,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Target); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -1105,8 +1159,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin;
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Source.Control); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -1119,8 +1173,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Source.Control); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TDragState),Integer(State))));
     DoCall(LL,5);
     if lua_isboolean(LL,-1) then
@@ -1149,8 +1203,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Target); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -1178,7 +1232,7 @@ begin
       ToTable(LL, -1, Sender);
       For i:=0 to Length(FileNames)-1 do begin
         if i=0 then lua_newtable(LL);
-        lua_pushnumber(LL,i+1);
+        lua_pushinteger(LL,i+1);
         lua_pushstring(LL,pchar(FileNames[i]));
         lua_rawset(LL,-3);
       end;
@@ -1186,7 +1240,8 @@ begin
     end;
 end;
 
-
+// SynEdit
+(*
 procedure TVCLuaControl.ReplaceTextEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; const ASearch,
   AReplace: string; Line, Column: integer; var ReplaceAction: TSynReplaceAction);
 var LL:Plua_State;
@@ -1252,7 +1307,9 @@ begin
           AllowMouseLink := lua_toboolean(LL,-1);
     end;
 end;
+*)
 
+// ListView
 procedure TVCLuaControl.ColumnClickEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Column: TListColumn);
 var LL:Plua_State;
 begin
@@ -1301,6 +1358,17 @@ begin
        lua_pushobject(LL, Node, -1);
        lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TTreeNodeChangeReason),Integer(ChangeReason))));
        DoCall(LL,3);
+    end;
+end;
+
+procedure TVCLuaControl.SelectionChangeEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; User: boolean);
+var LL:Plua_State;
+begin
+    LL := GetLuaState(Sender);
+    if CheckEvent(LL,Sender,EventCFunc) then begin
+       ToTable(LL, -1, Sender);
+       lua_pushboolean(LL, User);
+       DoCall(LL,2);
     end;
 end;
 
@@ -1368,8 +1436,8 @@ procedure TVCLuaControl.OnLuaMouseWheelUp(Sender: TObject; Shift: TShiftState; M
   begin MouseWheelUpDownEventHandler(Sender, OnMouseWheelUp_Function, Shift, MousePos, Handled);end;
 procedure TVCLuaControl.OnLuaMouseEnter(Sender: TObject);
   begin NotifyEventHandler(Sender, OnMouseEnter_Function);end;
-procedure TVCLuaControl.OnLuaMouseExit(Sender: TObject);
-  begin NotifyEventHandler(Sender, OnMouseExit_Function);end; 
+procedure TVCLuaControl.OnLuaMouseLeave(Sender: TObject);
+  begin NotifyEventHandler(Sender, OnMouseLeave_Function);end; 
 
 //PageControl
 procedure TVCLuaControl.OnLuaPageChanged(Sender: TObject);
@@ -1463,6 +1531,7 @@ procedure TVCLuaControl.OnLuaReplace(Sender: TObject);
   begin NotifyEventHandler(Sender, OnReplace_Function);end;
 
 // SynEdit
+(*
 procedure TVCLuaControl.OnLuaReplaceText(Sender: TObject; const ASearch,AReplace: string; Line, Column: integer; var ReplaceAction: TSynReplaceAction);
 begin ReplaceTextEventHandler(Sender, OnReplaceText_Function, ASearch, AReplace, Line, Column, ReplaceAction); end;
 procedure TVCLuaControl.OnLuaCommandProcessed(Sender: TObject; var Command: TSynEditorCommand; var AChar: TUTF8Char; Data: pointer);
@@ -1471,7 +1540,7 @@ procedure TVCLuaControl.OnLuaClickLink(Sender: TObject; Button: TMouseButton; Sh
 begin ClickLinkEventHandler(Sender, OnClickLink_Function, Button, Shift, X, Y); end;
 procedure TVCLuaControl.OnLuaMouseLink(Sender: TObject; X, Y: Integer; var AllowMouseLink: Boolean);
 begin MouseLinkEventHandler(Sender, OnMouseLink_Function, X, Y, AllowMouseLink); end;
-
+*)
 // Listview
 procedure TVCLuaControl.OnLuaColumnClick(Sender: TObject; Column: TListColumn);
 begin
@@ -1500,6 +1569,20 @@ begin NotifyEventHandler(Sender, OnSelectionChanged_Function);end;
 procedure TVCLuaControl.OnLuaModified(Sender: TObject);
 begin NotifyEventHandler(Sender, OnModified_Function);end;
 
+// CheckListBox
+// TSelectionChangeEvent = procedure(Sender: TObject; User: boolean) of object;
+procedure TVCLuaControl.OnLuaSelectionChangeEvent(Sender: TObject; User: boolean);
+begin
+    SelectionChangeEventHandler(Sender, OnSelectionChange_Function, User);
+end;
+
 
 end.
 
+(*
+type TContextPopupEvent = procedure(
+  Sender: TObject;
+  MousePos: TPoint;
+  var Handled: Boolean
+) of object;
+*)

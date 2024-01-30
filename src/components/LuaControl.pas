@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaControl;	
 
@@ -20,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Control_DragDrop(L: Plua_State): Integer; cdecl;
 var 
@@ -68,7 +68,7 @@ begin
 	NewDockSite := TWinControl(GetLuaObject(L,2));
 	DropControl := TControl(GetLuaObject(L,3));
 	ControlSide := TAlign(GetLuaObject(L,4));
-	KeepDockSiteSize := luaL_optbool(L,5, true);
+	KeepDockSiteSize := luaL_optbool(L,5,true);
 	ret := lControl.ManualDock(NewDockSite,DropControl,ControlSide,KeepDockSiteSize);
 	lua_pushboolean(L,ret);
 	
@@ -85,7 +85,7 @@ begin
 	CheckArg(L, -1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	TheScreenRect := lua_toTRect(L,2);
-	KeepDockSiteSize := luaL_optbool(L,3, true);
+	KeepDockSiteSize := luaL_optbool(L,3,true);
 	ret := lControl.ManualFloat(TheScreenRect,KeepDockSiteSize);
 	lua_pushboolean(L,ret);
 	
@@ -362,7 +362,7 @@ begin
 	Side := TAnchorKind(GetLuaObject(L,2));
 	Space := TSpacingSize(GetLuaObject(L,3));
 	Sibling := TControl(GetLuaObject(L,4));
-	FreeCompositeSide := luaL_optbool(L,5, true);
+	FreeCompositeSide := luaL_optbool(L,5,true);
 	lControl.AnchorToCompanion(Side,Space,Sibling,FreeCompositeSide);
 	
 	Result := 0;
@@ -485,17 +485,17 @@ function VCLua_Control_GetPreferredSize(L: Plua_State): Integer; cdecl;
 var 
 	lControl:TLuaControl;
 	PreferredWidth:integer;
-	 PreferredHeight:integer;
+	PreferredHeight:integer;
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
 	CheckArg(L, -1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Raw := luaL_optbool(L,2, false);
-	WithThemeSpace := luaL_optbool(L,3, true);
-	lControl.GetPreferredSize(PreferredWidth, PreferredHeight,Raw,WithThemeSpace);
+	Raw := luaL_optbool(L,2,false);
+	WithThemeSpace := luaL_optbool(L,3,true);
+	lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_pushinteger(L,PreferredWidth);
-	lua_pushinteger(L, PreferredHeight);
+	lua_pushinteger(L,PreferredHeight);
 	Result := 2;
 end;
 
@@ -637,14 +637,14 @@ function VCLua_Control_ShouldAutoAdjust(L: Plua_State): Integer; cdecl;
 var 
 	lControl:TLuaControl;
 	AWidth:Boolean;
-	 AHeight:Boolean;
+	AHeight:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	
-	lControl.ShouldAutoAdjust(AWidth, AHeight);
+	lControl.ShouldAutoAdjust(AWidth,AHeight);
 	lua_pushboolean(L,AWidth);
-	lua_pushboolean(L, AHeight);
+	lua_pushboolean(L,AHeight);
 	Result := 2;
 end;
 
@@ -729,7 +729,7 @@ begin
 	CheckArg(L, -1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	Immediate := lua_toboolean(L,2);
-	Threshold := luaL_optint(L,3, -1);
+	Threshold := luaL_optint(L,3,-1);
 	lControl.BeginDrag(Immediate,Threshold);
 	
 	Result := 0;
@@ -821,7 +821,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	AName := lua_tostring(L,2);
+	AName := lua_toStringCP(L,2);
 	ret := lControl.FindSubComponent(AName);
 	lua_pushlightuserdata(L,ret);
 	
@@ -955,7 +955,7 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Buffer := PChar(lua_tostring(L,2));
+	Buffer := PChar(lua_toStringCP(L,2));
 	BufSize := lua_tointeger(L,3);
 	ret := lControl.GetTextBuf(Buffer,BufSize);
 	lua_pushinteger(L,ret);
@@ -983,7 +983,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Buffer := PChar(lua_tostring(L,2));
+	Buffer := PChar(lua_toStringCP(L,2));
 	lControl.SetTextBuf(Buffer);
 	
 	Result := 0;

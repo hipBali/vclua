@@ -2,17 +2,17 @@
 --                                                      --
 -- VCLua 1.1 Class source generator CONFIG              --
 --                                                      --
--- (C) 2018-2023 Hi-Project Ltd.                        --
+-- (C) 2018-2024 Hi-Project Ltd.                        --
 --                                                      --
 -- **************************************************** --
 
 -- linux
-local LAZPATH = "/usr/share/lazarus/2.2.6/"
-local FPCSOURCE = "/usr/share/fpcsrc/3.2.2/"
+-- local LAZPATH = "/usr/share/lazarus/2.2.6/"
+-- local FPCSOURCE = "/usr/share/fpcsrc/3.2.2/"
 
 -- windows
--- local LAZPATH = "/work/tools/lazarus/"
--- local FPCSOURCE = "/work/tools/lazarus/fpc/3.2.2/source/"
+local LAZPATH = "/work/tools/lazarus/"
+local FPCSOURCE = "/work/tools/lazarus/fpc/3.2.2/source/"
 
 fpcSrc = {
 	["Default"] 	= FPCSOURCE.."rtl/objpas/classes/classesh.inc",
@@ -46,7 +46,7 @@ fpcSrc = {
 
 -- name: vclua class name
 -- src:  source class name		parentclass: the owner/parent class
--- ref:  module reference(s)
+-- ref:  module reference(s), first must export 'src'
 -- base: basic class
 -- 
 -- noparent: not parented
@@ -65,7 +65,7 @@ classes = {
 	-- { name = "Strings", src = "TStrings", nocreate=true },
 	------------------------------------------------------------------
 	-- TStrings and descenants
-	{ name = "Strings", src = "TStrings",  nv=true, noparent=true },
+	{ name = "Strings", src = "TStrings", nv=true, noparent=true, impl = "ItemsToTable" },
 	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 	{ name = "StringList", src = "TStringList", classparent="TStrings", nv=true, noparent=true },
 
@@ -73,14 +73,19 @@ classes = {
 	{ name = "Control", src = "TControl", ref = "Controls, Graphics"},
 	
 	-- graphics    
-	{ name = "Bitmap", src = "TBitmap", ref = "Graphics, LCLType", base=true, nocreate=true },
-	{ name = "CustomBitmap", src = "TCustomBitmap", ref = "Graphics, LCLType", base=true, nocreate=true },
+	{ unit = "Bitmap", ref = "Graphics, LCLType",
+		classes = {
+			{ name = "CustomBitmap", src = "TCustomBitmap", nv=true, noparent=true },
+			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true, impl = "CustomBitmap" },
+		}
+	},
+
 	{ name = "Graphic", src = "TGraphic", ref = "Graphics, LCLType", base=true, nocreate=true },
 	{ name = "Font", src = "TFont", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Pen", src = "TPen", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Brush", src = "TBrush", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Canvas", src = "TCanvas", ref = "Graphics, GraphType", base=true, nocreate=true, impl = "SetPixel", },
-	{ name = "Picture", src = "TPicture", ref = "Graphics", base=true, nocreate=true },
+	{ name = "Picture", src = "TPicture", ref = "Graphics", nv=true, noparent=true },
 	{ name = "RasterImage", src = "TRasterImage", ref = "Graphics, LCLType, Types", base=true, nocreate=true },
 	-- { name = "ImageList", src = "TImageList", ref = "Controls", noparent=true},
 
@@ -146,13 +151,13 @@ classes = {
 		classes = {
 			{ name = "StatusPanel", src = "TStatusPanel", noparent=true, nocreate=true},
 			{ name = "StatusPanels", src = "TStatusPanels", noparent=true, nocreate=true, parentclass="TStatusBar", wclass="TStatusPanel"},
-			{ name = "StatusBar", src = "TStatusBar", ref = "ComCtrls, Controls"},
+			{ name = "StatusBar", src = "TStatusBar"},
 		}
 	},
 	
 	{ unit = "ToolBar", ref = "ComCtrls, Controls, ImgList, LuaImageList", canvas=true,
 		classes = {
-			{ name = "ToolButton", src = "TToolButton", noparent=true,},
+			{ name = "ToolButton", src = "TToolButton" },
 			{ name = "ToolBar", src = "TToolBar" },
 		}
 	},
@@ -187,7 +192,11 @@ classes = {
 	-- maskedit
 	{ name = "MaskEdit", src = "TMaskEdit", ref = "MaskEdit, Controls" },
 	-- checklistbox
-	{ name = "CheckListBox", src = "TCheckListBox", ref = "CheckLst, Controls" },
+	{ name = "CheckListBox", src = "TCustomCheckListBox", ref = "CheckLst, Controls, StdCtrls", 
+		impl = "CheckListBoxGetChecked, CheckListBoxSetChecked" },
+	
+	
+	
 	-- popupnotifier
 	{ name = "PopupNotifier", src = "TPopupNotifier", ref = "PopupNotifier, Controls", noparent=true, },
 	-- datetimepicker
@@ -212,15 +221,22 @@ classes = {
 	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox, Controls" },
 	
 	-- grids
-	{ unit = "StringGrid", ref = "Grids, Controls", canvas=true,
+	{ unit = "StringGrid", ref = "Grids, Controls", 
 		classes = {
 			{ name = "GridColumn", src = "TGridColumn", noparent=true, parentclass="TCollection", nocreate=true},
 			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", wclass="TGridColumn"},
-			{ name = "StringGrid", src = "TCustomStringGrid"},
+			{ name = "StringGrid", src = "TCustomStringGrid", canvas=true, 
+			  impl="GetCells, SetCells, GetCellRect, GetSelectedCell, MouseToCell, DrawCell"},
 		},
 	},
-	{ name = "DrawGrid", src = "TCustomDrawGrid", ref = "Grids, Controls" },
+	{ unit = "DrawGrid", ref = "Grids, Controls", 
+		classes = {
+			{ name = "DrawGrid", src = "TCustomDrawGrid", canvas=true },
+		},
+	},
 	
+	-- valuelisteditor
+	{ name = "ValueListEditor", src = "TValueListEditor", ref = "ValEdit, Controls" , canvas=true},
 	-- dialogs
 	{ unit = "CommonDialogs", ref = "Dialogs, Controls",
 		classes = {
@@ -236,4 +252,5 @@ classes = {
 	},
 
 }	
+
 

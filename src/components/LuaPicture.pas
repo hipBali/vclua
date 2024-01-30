@@ -1,26 +1,25 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaPicture;	
-
-{$MODE Delphi}
 
 interface
 
 Uses Classes, Lua, LuaController, Graphics;
 
+function CreatePicture(L: Plua_State): Integer; cdecl;
 procedure PictureToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPicture = class(TPicture)
 		public
-			L:Plua_State;   
+			L:Plua_State;
     end;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Picture_Clear(L: Plua_State): Integer; cdecl;
 var 
@@ -40,7 +39,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Filename := lua_tostring(L,2);
+	Filename := lua_toStringCP(L,2);
 	lPicture.LoadFromFile(Filename);
 	
 	Result := 0;
@@ -68,7 +67,7 @@ begin
 	CheckArg(L, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	Stream := TStream(GetLuaObject(L,2));
-	FileExt := lua_tostring(L,3);
+	FileExt := lua_toStringCP(L,3);
 	lPicture.LoadFromStreamWithFileExt(Stream,FileExt);
 	
 	Result := 0;
@@ -82,8 +81,8 @@ var
 begin
 	CheckArg(L, -1);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Filename := lua_tostring(L,2);
-	FileExt := luaL_optstring(L,3,' ');
+	Filename := lua_toStringCP(L,2);
+	FileExt := luaL_optstring(L,3,'');
 	lPicture.SaveToFile(Filename,FileExt);
 	
 	Result := 0;
@@ -111,7 +110,7 @@ begin
 	CheckArg(L, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	Stream := TStream(GetLuaObject(L,2));
-	FileExt := lua_tostring(L,3);
+	FileExt := lua_toStringCP(L,3);
 	lPicture.SaveToStreamWithFileExt(Stream,FileExt);
 	
 	Result := 0;
@@ -144,5 +143,12 @@ begin
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
-
+function CreatePicture(L: Plua_State): Integer; cdecl;
+var
+	lPicture:TLuaPicture;
+begin
+	lPicture := TLuaPicture.Create;
+	PictureToTable(L, -1, lPicture);
+	Result := 1;
+end;
 end.

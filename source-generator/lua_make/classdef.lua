@@ -2,13 +2,15 @@
 --                                                      --
 -- VCLua 1.1 Class source generator  TOLUA/FROMLUA      --
 --                                                      --
--- (C) 2018-2023 Hi-Project Ltd.                             --
+-- (C) 2018-2024 Hi-Project Ltd.                        --
 --                                                      --
 -- **************************************************** --
 
 VCLUA_TOLUA = {
-	["string"] = "lua_pushstring(L,PChar(ret));",
-	["pchar"] = "lua_pushstring(L,PChar(ret));",
+	-- String UTF-8 cp
+	["string"] = "lua_pushStringCP(L,ret);",
+	["pchar"] = "lua_pushStringCP(L,ret);",
+	
 	["integer"] = "lua_pushinteger(L,ret);",
 	["boolean"] = "lua_pushboolean(L,ret);",
 	["longint"] = "lua_pushinteger(L,ret);",
@@ -34,12 +36,9 @@ VCLUA_TOLUA = {
 	["tcalendarpart"] = "lua_pushlightuserdata(L,@ret);",
 	["tcalendarview"] = "lua_pushlightuserdata(L,@ret);",
 	
-	["TGENERICCLASS"] = "if ret=nil then lua_pushnil(L) else %sToTable(L,-1,ret);",
-	
 	-- treeview
 	["ttreeviewinsertmarktype"] = "lua_pushstring(L,PChar(GetEnumName(typeInfo(TTreeViewInsertMarkType), Ord(ret))));",
-	-- treeview function result is a treenode!
-	["ttreenode"] = "if ret=nil then lua_pushnil(L) else TreeNodeToTable(L,-1,ret);",
+	["ttreenode"] = "TreeNodeToTable(L,-1,ret);",
 	
 	-- stringgrid
 	["tgridcolumn"] = "GridColumnToTable(L,-1,ret);",
@@ -60,10 +59,11 @@ VCLUA_FROMLUA = {
 	["def_integer"] = "luaL_optint(L,#IDX,#DEF);",
 	["def_tshiftstate"] = "lua_toTShiftState(L,#IDX,#DEF);",
 	
-
-	["string"] = "lua_tostring(L,#);",
+	-- String UTF-8 cp
+	["string"] = "lua_toStringCP(L,#);",
+	["pchar"] = "PChar(lua_toStringCP(L,#));",
+	
 	["array of string"] = "lua_toStringArray(L,#);",
-	["pchar"] = "PChar(lua_tostring(L,#));",
 	["char"] = "Char(lua_tostring(L,#));",
 	["integer"] = "lua_tointeger(L,#);",
 	["boolean"] = "lua_toboolean(L,#);",

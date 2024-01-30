@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaCanvas;	
 
@@ -20,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Canvas_Lock(L: Plua_State): Integer; cdecl;
 var 
@@ -510,8 +510,8 @@ begin
 	CheckArg(L, -1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
-	Filled := luaL_optbool(L,3, False);
-	Continuous := luaL_optbool(L,4, True);
+	Filled := luaL_optbool(L,3,False);
+	Continuous := luaL_optbool(L,4,True);
 	lCanvas.PolyBezier(Points,Filled,Continuous);
 	
 	Result := 0;
@@ -529,8 +529,8 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
 	Winding := lua_toboolean(L,3);
-	StartIndex := luaL_optint(L,4, 0);
-	NumPts := luaL_optint(L,5, -1);
+	StartIndex := luaL_optint(L,4,0);
+	NumPts := luaL_optint(L,5,-1);
 	lCanvas.Polygon(Points,Winding,StartIndex,NumPts);
 	
 	Result := 0;
@@ -560,7 +560,7 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
 	StartIndex := lua_tointeger(L,3);
-	NumPts := luaL_optint(L,4, -1);
+	NumPts := luaL_optint(L,4,-1);
 	lCanvas.Polyline(Points,StartIndex,NumPts);
 	
 	Result := 0;
@@ -662,7 +662,7 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
-	Text := lua_tostring(L,4);
+	Text := lua_toStringCP(L,4);
 	lCanvas.TextOut(X,Y,Text);
 	
 	Result := 0;
@@ -681,7 +681,7 @@ begin
 	ARect := lua_toTRect(L,2);
 	X := lua_tointeger(L,3);
 	Y := lua_tointeger(L,4);
-	Text := lua_tostring(L,5);
+	Text := lua_toStringCP(L,5);
 	lCanvas.TextRect(ARect,X,Y,Text);
 	
 	Result := 0;
@@ -701,7 +701,7 @@ begin
 	ARect := lua_toTRect(L,2);
 	X := lua_tointeger(L,3);
 	Y := lua_tointeger(L,4);
-	Text := lua_tostring(L,5);
+	Text := lua_toStringCP(L,5);
 	Style := lua_toTextStyle(L,6);
 	lCanvas.TextRect(ARect,X,Y,Text,Style);
 	
@@ -716,7 +716,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Text := lua_tostring(L,2);
+	Text := lua_toStringCP(L,2);
 	ret := lCanvas.TextHeight(Text);
 	lua_pushinteger(L,ret);
 	
@@ -731,7 +731,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Text := lua_tostring(L,2);
+	Text := lua_toStringCP(L,2);
 	ret := lCanvas.TextWidth(Text);
 	lua_pushinteger(L,ret);
 	
@@ -747,7 +747,7 @@ var
 begin
 	CheckArg(L, 3);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Text := lua_tostring(L,2);
+	Text := lua_toStringCP(L,2);
 	MaxWidth := lua_tointeger(L,3);
 	ret := lCanvas.TextFitInfo(Text,MaxWidth);
 	lua_pushinteger(L,ret);

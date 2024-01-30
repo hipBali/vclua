@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaDrawGrid;	
 
@@ -15,12 +15,14 @@ procedure DrawGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaDrawGrid = class(TDrawGrid)
-        LuaCtl: TVCLuaControl;
+	  LuaCtl: TVCLuaControl;
+	  published
+	    property Canvas;
     end;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_DrawGrid_DeleteColRow(L: Plua_State): Integer; cdecl;
 var 

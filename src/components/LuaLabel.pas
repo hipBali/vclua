@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaLabel;	
 
@@ -22,7 +22,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Label_CalcFittingFontHeight(L: Plua_State): Integer; cdecl;
 var 
@@ -31,20 +31,20 @@ var
 	MaxWidth:Integer;
 	MaxHeight:Integer;
 	FontHeight:Integer;
-	 NeededWidth:Integer;
-	 NeededHeight:Integer;
+	NeededWidth:Integer;
+	NeededHeight:Integer;
 	ret:Boolean;
 begin
 	CheckArg(L, 4);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	TheText := lua_tostring(L,2);
+	TheText := lua_toStringCP(L,2);
 	MaxWidth := lua_tointeger(L,3);
 	MaxHeight := lua_tointeger(L,4);
-	ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight, NeededWidth, NeededHeight);
+	ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight,NeededWidth,NeededHeight);
 	lua_pushboolean(L,ret);
 	lua_pushinteger(L,FontHeight);	
-lua_pushinteger(L, NeededWidth);	
-lua_pushinteger(L, NeededHeight);
+lua_pushinteger(L,NeededWidth);	
+lua_pushinteger(L,NeededHeight);
 	Result := 4;
 end;
 

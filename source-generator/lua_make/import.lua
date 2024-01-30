@@ -2,11 +2,11 @@
 --                                                      --
 -- VCLua 1.1 Class source generator                     --
 --                                                      --
--- (C) 2018-2023 Hi-Project Ltd.                        --
+-- (C) 2018-2024 Hi-Project Ltd.                        --
 --                                                      --
 -- **************************************************** --
-package.path="package.path;?.lua;lua_make/?.lua;lua_make/lib/?.lua;"
--- package.cpath="package.cpath;clibs/?.dll;clibs/?.so;"
+package.path=package.path..";?.lua;lua_make/?.lua;lua_make/lib/?.lua"
+-- package.cpath=package.cpath..";clibs/?.dll;clibs/?.so"
 
 require "classdef"
 require "template"
@@ -82,17 +82,17 @@ function saveTextToFile(txt, fileName)
 	end
 end
 
-function string:split(sep)
-   local sep, fields = sep or ":", {}
-   local pattern = string.format("([^%s]+)", sep)
-   self:gsub(pattern, function(c) fields[#fields+1] = c end)
-   return fields
-end
-
 function string:trim()
  local s = self
  local from = s:match"^%s*()"
  return from > #s and "" or s:match(".*%S", from)
+end
+
+function string:split(sep)
+   local sep, fields = sep or ":", {}
+   local pattern = string.format("([^%s]+)", sep)
+   self:gsub(pattern, function(c) fields[#fields+1] = c:trim() end)
+   return fields
 end
 
 function removeInnerComment(l)
@@ -248,7 +248,7 @@ function processParams(s)
 		local tmp = s:split(";")
 		local vart = {}
 		for n,t in pairs(tmp) do
-			local p = t:trim():split(":") -- varname:typedef
+			local p = t:split(":") -- varname:typedef
 			-- untyped to pointer?
 			if p[2] == nil then
 				p[2] = "Pointer"
@@ -273,7 +273,7 @@ function processParams(s)
 		end
 		-- process params
 		for n,t in pairs(vart) do
-			local p = t:trim():split(":")
+			local p = t:split(":")
 			local varName = p[1]:gsub("var ",""):gsub("out ",""):gsub("Var ",""):gsub("Out ","")
 			local varType = p[2]
 			
@@ -318,7 +318,7 @@ function createUnitBody(cdef, ref)
 		local retCount = 0
 		local vars, varlist, funcparams, out = processParams(method)
 		if mType=="function" then
-			ret = method:trim():split(":")
+			ret = method:split(":")
 			reto = ret[#ret]:match("%w+")
 			ret = reto:lower()
 			retCount = 1
@@ -406,7 +406,7 @@ function createUnitBody(cdef, ref)
 			fParams = table.concat(funcparams,",")
 		end
 		if ret then
-			local rtype = VCLUA_TOLUA[ret] or string.format(VCLUA_TOLUA.TGENERICCLASS,className)
+			local rtype = VCLUA_TOLUA[ret] or className.."ToTable(L,-1,ret);"
 			s = s:gsub("#FUNC","\n\tret := l"..className.."."..mName.."("..fParams..");",1)
 			s = s:gsub("#PUSHTOLUA","\n\t"..rtype,1)
 			s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\t\n"))
@@ -433,6 +433,7 @@ function createUnitBody(cdef, ref)
 		if cdef.impl then
 			fncs = cdef.impl:split(",")
 			for f=1,#fncs do
+				cLog("#############  "..fncs[f], "DEBUG")
 				local t = function_defnitions[fncs[f]]
 				if t and t.src then 
 					local vcluaMethodName = "VCLua_"..className.."_"..t.vcluaMethodName
@@ -486,7 +487,7 @@ local cfile
 for n,cdef in pairs(classes) do
 	local ref
 	if cdef.ref then
-		ref = cdef.ref:trim():split(",")
+		ref = cdef.ref:split(",")
 		ref = ref[1]
 	else
 		ref = "Default"
@@ -562,41 +563,39 @@ local luaLibs={}
 local pasRefs = {}
 local luaobject_push = {}
 local libcount = 0
+local function processCdef(cdef)
+  local pName = cdef.name
+  local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
+  table.insert(luaobject_push, s)
+  if cdef.nocreate==nil then
+    table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")
+    libcount = libcount + 1
+  end
+end
 for n,cdef in pairs(classes) do
 	-- collect refs
 	if cdef.ref then
 		local p = cdef.ref:split(",")
 		for i,_ in pairs(p) do
-			pasRefs[p[1]:trim()] = 1
+			pasRefs[p[1]] = 1
 		end
 	end
-	local pName = cdef.name or cdef.unit
-	local lName = "Lua"..pName
+	local lName = "Lua"..(cdef.name or cdef.unit)
 	if cdef.classes then
 		for _,cn in pairs(cdef.classes) do
-			pName = cn.name
-			local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
-			table.insert(luaobject_push, s)
-			if cn.nocreate==nil then
-				table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")   
-				libcount = libcount + 1
-			end
+			processCdef(cn)
 		end
 	else
-		local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
-		table.insert(luaobject_push, s)
-		if cdef.nocreate==nil then
-			table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")   
-			libcount = libcount + 1
-		end
+		processCdef(cdef)
 	end
 	pasRefs[lName]=1
-	table.insert(pasSrc, lName .." in '"..lName..".pas'") 
+	table.insert(pasSrc, lName)
 end
 local luaobject_uses = {}
 for u,_ in pairs(pasRefs) do
 	table.insert(luaobject_uses, u)
 end
+table.sort(luaobject_uses)
 
 vclinc = vclinc:gsub("#PASCALSOURCE",table.concat(pasSrc,",\n\t"),1)
 vclinc = vclinc:gsub("#LUALIBS",table.concat(luaLibs,"\n\t\t"),1)

@@ -1,6 +1,6 @@
 HDR_INFO = [[(*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 ]]
 VCLua_CDEF_HEADER = [[
@@ -20,7 +20,7 @@ Uses Classes, Lua, LuaController#REF;
 #INTFCE
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 #BODY
 #CREATE
@@ -37,7 +37,7 @@ Uses Classes, Lua, LuaController#REF;
 #INTFCE
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 #BODY
 #CREATE
@@ -182,7 +182,6 @@ begin
 	Result := 1;
 end;
 ]]
-
 
 VCLUA_OBJECT_PUSH = [[
 if (comp.InheritsFrom(T#CNAME)) then

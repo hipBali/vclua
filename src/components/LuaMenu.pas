@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaMenu;	
 
@@ -44,7 +44,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
 var 
@@ -214,7 +214,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ACaption := lua_tostring(L,2);
+	ACaption := lua_toStringCP(L,2);
 	ret := lMenuItem.Find(ACaption);
 	MenuItemToTable(L,-1,ret);
 	
@@ -385,7 +385,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ACaption := lua_tostring(L,2);
+	ACaption := lua_toStringCP(L,2);
 	ret := lMenuItem.IndexOfCaption(ACaption);
 	lua_pushinteger(L,ret);
 	
@@ -536,7 +536,7 @@ var
 begin
 	CheckArg(L, -1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	forced := luaL_optbool(L,2, false);
+	forced := luaL_optbool(L,2,false);
 	lMenuItem.UpdateImage(forced);
 	
 	Result := 0;
@@ -549,7 +549,7 @@ var
 begin
 	CheckArg(L, -1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	forced := luaL_optbool(L,2, false);
+	forced := luaL_optbool(L,2,false);
 	lMenuItem.UpdateImages(forced);
 	
 	Result := 0;
@@ -638,7 +638,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	Prefix := lua_tostring(L,2);
+	Prefix := lua_toStringCP(L,2);
 	lMenuItem.WriteDebugReport(Prefix);
 	
 	Result := 0;

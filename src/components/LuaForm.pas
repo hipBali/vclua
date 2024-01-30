@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaForm;	
 
@@ -22,7 +22,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Form_AfterConstruction(L: Plua_State): Integer; cdecl;
 var 
@@ -116,7 +116,7 @@ var
 begin
 	CheckArg(L, -1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	AMoveToTop := luaL_optbool(L,2, True);
+	AMoveToTop := luaL_optbool(L,2,True);
 	lForm.EnsureVisible(AMoveToTop);
 	
 	Result := 0;
@@ -235,7 +235,7 @@ begin
 	CheckArg(L, -1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	AMonitor := TMonitor(GetLuaObject(L,2));
-	UseWorkarea := luaL_optbool(L,3, False);
+	UseWorkarea := luaL_optbool(L,3,False);
 	lForm.MakeFullyVisible(AMonitor,UseWorkarea);
 	
 	Result := 0;
@@ -258,17 +258,17 @@ function VCLua_Form_GetPreferredSize(L: Plua_State): Integer; cdecl;
 var 
 	lForm:TLuaForm;
 	PreferredWidth:integer;
-	 PreferredHeight:integer;
+	PreferredHeight:integer;
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
 	CheckArg(L, -1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	Raw := luaL_optbool(L,2, false);
-	WithThemeSpace := luaL_optbool(L,3, true);
-	lForm.GetPreferredSize(PreferredWidth, PreferredHeight,Raw,WithThemeSpace);
+	Raw := luaL_optbool(L,2,false);
+	WithThemeSpace := luaL_optbool(L,3,true);
+	lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_pushinteger(L,PreferredWidth);
-	lua_pushinteger(L, PreferredHeight);
+	lua_pushinteger(L,PreferredHeight);
 	Result := 2;
 end;
 
@@ -337,7 +337,7 @@ begin
 	ATop := lua_tointeger(L,3);
 	AWidth := lua_tointeger(L,4);
 	AHeight := lua_tointeger(L,5);
-	ADefaultPosition := luaL_optbool(L,6, False);
+	ADefaultPosition := luaL_optbool(L,6,False);
 	lForm.SetRestoredBounds(ALeft,ATop,AWidth,AHeight,ADefaultPosition);
 	
 	Result := 0;

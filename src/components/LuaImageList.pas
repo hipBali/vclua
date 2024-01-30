@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaImageList;	
 
@@ -20,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_ImageList_AssignTo(L: Plua_State): Integer; cdecl;
 var 
@@ -259,7 +259,7 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ResourceName := lua_tostring(L,2);
+	ResourceName := lua_toStringCP(L,2);
 	MaskColor := TColor(lua_tointeger(L,3));
 	ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
 	lua_pushinteger(L,ret);
@@ -278,7 +278,7 @@ begin
 	CheckArg(L, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	Instance := THandle(lua_tointeger(L,2));
-	ResourceName := lua_tostring(L,3);
+	ResourceName := lua_toStringCP(L,3);
 	MaskColor := TColor(lua_tointeger(L,4));
 	ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
 	lua_pushinteger(L,ret);
@@ -336,7 +336,7 @@ begin
 	AX := lua_tointeger(L,3);
 	AY := lua_tointeger(L,4);
 	AIndex := lua_tointeger(L,5);
-	AEnabled := luaL_optbool(L,6, True);
+	AEnabled := luaL_optbool(L,6,True);
 	lImageList.Draw(ACanvas,AX,AY,AIndex,AEnabled);
 	
 	Result := 0;
@@ -361,7 +361,7 @@ begin
 	AIndex := lua_tointeger(L,5);
 	ADrawingStyle := TDrawingStyle(GetLuaObject(L,6));
 	AImageType := TImageType(GetLuaObject(L,7));
-	AEnabled := luaL_optbool(L,8, True);
+	AEnabled := luaL_optbool(L,8,True);
 	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,AEnabled);
 	
 	Result := 0;
@@ -388,7 +388,7 @@ begin
 	AImageWidthAt96PPI := lua_tointeger(L,6);
 	ATargetPPI := lua_tointeger(L,7);
 	ACanvasFactor := lua_tonumber(L,8);
-	AEnabled := luaL_optbool(L,9, True);
+	AEnabled := luaL_optbool(L,9,True);
 	lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,AEnabled);
 	
 	Result := 0;
@@ -411,7 +411,7 @@ begin
 	AY := lua_tointeger(L,4);
 	AIndex := lua_tointeger(L,5);
 	AOverlay := lua_tointeger(L,6);
-	AEnabled := luaL_optbool(L,7, True);
+	AEnabled := luaL_optbool(L,7,True);
 	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,AEnabled);
 	
 	Result := 0;
@@ -552,7 +552,7 @@ begin
 	AIndex := lua_tointeger(L,2);
 	AImage := TCustomBitmap(GetLuaObject(L,3));
 	AMask := TCustomBitmap(GetLuaObject(L,4));
-	AllResolutions := luaL_optbool(L,5, True);
+	AllResolutions := luaL_optbool(L,5,True);
 	lImageList.Replace(AIndex,AImage,AMask,AllResolutions);
 	
 	Result := 0;
@@ -571,7 +571,7 @@ begin
 	AIndex := lua_tointeger(L,2);
 	Image := TCustomBitmap(GetLuaObject(L,3));
 	AImageRect := lua_toTRect(L,4);
-	AllResolutions := luaL_optbool(L,5, True);
+	AllResolutions := luaL_optbool(L,5,True);
 	lImageList.ReplaceSlice(AIndex,Image,AImageRect,AllResolutions);
 	
 	Result := 0;
@@ -590,7 +590,7 @@ begin
 	AIndex := lua_tointeger(L,2);
 	AImageWidth := lua_tointeger(L,3);
 	Image := TCustomBitmap(GetLuaObject(L,4));
-	AllResolutions := luaL_optbool(L,5, True);
+	AllResolutions := luaL_optbool(L,5,True);
 	lImageList.ReplaceSliceCentered(AIndex,AImageWidth,Image,AllResolutions);
 	
 	Result := 0;
@@ -624,7 +624,7 @@ begin
 	Index := lua_tointeger(L,2);
 	NewImage := TCustomBitmap(GetLuaObject(L,3));
 	MaskColor := TColor(lua_tointeger(L,4));
-	AllResolutions := luaL_optbool(L,5, True);
+	AllResolutions := luaL_optbool(L,5,True);
 	lImageList.ReplaceMasked(Index,NewImage,MaskColor,AllResolutions);
 	
 	Result := 0;
@@ -656,7 +656,7 @@ begin
 	Canvas := TCanvas(GetLuaObject(L,2));
 	Index := lua_tointeger(L,3);
 	ARect := lua_toTRect(L,4);
-	Enabled := luaL_optbool(L,5, True);
+	Enabled := luaL_optbool(L,5,True);
 	lImageList.StretchDraw(Canvas,Index,ARect,Enabled);
 	
 	Result := 0;

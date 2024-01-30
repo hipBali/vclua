@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaComboBox;	
 
@@ -20,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_ComboBox_IntfGetItems(L: Plua_State): Integer; cdecl;
 var 
@@ -41,7 +41,7 @@ var
 begin
 	CheckArg(L, 3);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	Item := lua_tostring(L,2);
+	Item := lua_toStringCP(L,2);
 	AnObject := TObject(GetLuaObject(L,3));
 	lComboBox.AddItem(Item,AnObject);
 	
@@ -58,7 +58,7 @@ var
 begin
 	CheckArg(L, 5);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	Item := lua_tostring(L,2);
+	Item := lua_toStringCP(L,2);
 	MaxHistoryCount := lua_tointeger(L,3);
 	SetAsText := lua_toboolean(L,4);
 	CaseSensitive := lua_toboolean(L,5);
@@ -78,7 +78,7 @@ var
 begin
 	CheckArg(L, 6);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	Item := lua_tostring(L,2);
+	Item := lua_toStringCP(L,2);
 	AnObject := TObject(GetLuaObject(L,3));
 	MaxHistoryCount := lua_tointeger(L,4);
 	SetAsText := lua_toboolean(L,5);

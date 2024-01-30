@@ -1,11 +1,11 @@
 -- **************************************************** --
 --                                                      --
--- VCLua 1.1 Class document generator                     --
+-- VCLua 1.1 Class document generator                   --
 --                                                      --
--- (C) 2018-2023 Hi-Project Ltd.                        --
+-- (C) 2018-2024 Hi-Project Ltd.                        --
 --                                                      --
 -- **************************************************** --
-package.path="package.path;?.lua;lua_make/?.lua;lua_make/lib/?.lua;"
+package.path=package.path..";?.lua;lua_make/?.lua;lua_make/lib/?.lua"
 
 require "classdef"
 require "template"
@@ -81,17 +81,17 @@ function saveTextToFile(txt, fileName)
 	end
 end
 
-function string:split(sep)
-   local sep, fields = sep or ":", {}
-   local pattern = string.format("([^%s]+)", sep)
-   self:gsub(pattern, function(c) fields[#fields+1] = c end)
-   return fields
-end
-
 function string:trim()
  local s = self
  local from = s:match"^%s*()"
  return from > #s and "" or s:match(".*%S", from)
+end
+
+function string:split(sep)
+   local sep, fields = sep or ":", {}
+   local pattern = string.format("([^%s]+)", sep)
+   self:gsub(pattern, function(c) fields[#fields+1] = c:trim() end)
+   return fields
 end
 
 function table:sortByKey()
@@ -283,7 +283,7 @@ function processParams(s)
 		end
 		-- process params
 		for n,t in pairs(vart) do
-			local p = t:trim():split(":")
+			local p = t:split(":")
 			local varName = p[1]:gsub("var ",""):gsub("out ",""):gsub("Var ",""):gsub("Out ","")
 			local varType = p[2]
 			
@@ -328,7 +328,7 @@ function createUnitBody(cdef, ref)
 		local retCount = 0
 		local vars, varlist, funcparams, out = processParams(method)
 		if mType=="function" then
-			ret = method:trim():split(":")
+			ret = method:split(":")
 			reto = ret[#ret]:match("%w+")
 			ret = reto:lower()
 			retCount = 1
@@ -491,7 +491,7 @@ local cfile
 for n,cdef in pairs(classes) do
 	local ref
 	if cdef.ref then
-		ref = cdef.ref:trim():split(",")
+		ref = cdef.ref:split(",")
 		ref = ref[1]
 	else
 		ref = "Default"
@@ -567,6 +567,15 @@ local luaLibs={}
 local pasRefs = {}
 local luaobject_push = {}
 local libcount = 0
+local function processCdef(cdef)
+  local pName = cdef.name
+  local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
+  table.insert(luaobject_push, s)
+  if cdef.nocreate==nil then
+    table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")
+    libcount = libcount + 1
+  end
+end
 for n,cdef in pairs(classes) do
 	-- collect refs
 	if cdef.ref then
@@ -575,25 +584,13 @@ for n,cdef in pairs(classes) do
 			pasRefs[p[1]:trim()] = 1
 		end
 	end
-	local pName = cdef.name or cdef.unit
-	local lName = "Lua"..pName
+	local lName = "Lua"..(cdef.name or cdef.unit)
 	if cdef.classes then
 		for _,cn in pairs(cdef.classes) do
-			pName = cn.name
-			local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
-			table.insert(luaobject_push, s)
-			if cn.nocreate==nil then
-				table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")   
-				libcount = libcount + 1
-			end
+			processCdef(cn)
 		end
 	else
-		local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
-		table.insert(luaobject_push, s)
-		if cdef.nocreate==nil then
-			table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")   
-			libcount = libcount + 1
-		end
+		processCdef(cdef)
 	end
 	pasRefs[lName]=1
 	table.insert(pasSrc, lName .." in '"..lName..".pas'") 
@@ -602,7 +599,7 @@ local luaobject_uses = {}
 for u,_ in pairs(pasRefs) do
 	table.insert(luaobject_uses, u)
 end
-
+table.sort(luaobject_uses)
 
 htmltemp = [[
 <!DOCTYPE html>
@@ -634,7 +631,7 @@ htmltemp = [[
 	}
 </style>
 <H2>VCLua Class Reference</H2>
-<H3>version 0.9.1</H3>
+<H3>version 0.9.2</H3>
 </head>
 <body>
 <hr>
@@ -654,13 +651,17 @@ local vcl = require "vcl.core"
 local str = vcl.Stream()
 local t_image = vcl.Image()
 local LUA_image = [[36040000424D36040000000000003600000028000000100000001000000001002000000000000004000064000000640000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF808080FF800000FF800000FF800000FF800000FF808080FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF808080FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF808080FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF808080FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF808080FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FFFFFFFFFFFFFFFFFFFFFFFFFF808080FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF808080FFFFFFFFFFFFFFFFFF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FFFFFFFFFFFFFFFFFF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FFFFFFFFFFFFFFFFFF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FFFFFFFFFFFFFFFFFF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF808080FFF7F7F7FFF7F7F7FF808080FF800000FF800000FFFFFFFFFFFFFFFFFF808080FF800000FF800000FF800000FF800000FF800000FF800000FF800000FFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F7FF800000FF808080FFFFFFFFFFFFFFFFFFFFFFFFFF800000FF800000FF800000FF800000FF800000FF800000FF800000FFF7F7F7FFF7F7F7FFF7F7F7FFF7F7F7FF800000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF808080FF800000FF800000FF800000FF800000FF800000FF800000FF808080FFF7F7F7FFF7F7F7FF808080FF808080FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF808080FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF800000FF808080FFC0C0C0FF800000FF800000FFC0C0C0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF808080FF800000FF800000FF800000FF800000FF808080FFFFFFFFFFFFFFFFFF800000FF800000FF800000FF800000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF800000FF800000FF800000FF800000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC0C0C0FF800000FF800000FFC0C0C0FF]]
-t_image.picture.bitmap:LoadFromStream(str.LoadFromHex(LUA_image:sub(9))) 
+local ss = str.LoadFromHex(LUA_image:sub(9))
+t_image.picture:LoadFromStream(ss) 
 local t_label = vcl.Label()
 local t_canvas = t_label.canvas
 local t_combo = vcl.ComboBox()
 local t_listview = vcl.ListView()
 local li = t_listview.items:Add()
 local t_statuspanels = vcl.StatusBar().panels
+
+print(t_label.classname)
+print(t_label.canvas)
 
 local exl = {
 	TextStrings = vcl.Memo().lines,

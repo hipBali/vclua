@@ -60,6 +60,13 @@ local myForm= VCL.Form(nil,'myForm',{
 myForm:ShowModal()
 ```
 
+### Set automatic codepage conversion
+``` lua
+VCL = require "vcl.core"
+VCL.Application():Initialize()
+VCL.setCPWin(true)
+```
+
 ### Events
 All available events of a component represented as On*EventName* proprety. The basic events of a control is the event named 'NotifyEvent',
 ``` lua

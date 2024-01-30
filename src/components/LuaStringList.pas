@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaStringList;	
 
@@ -19,7 +19,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_StringList_Add(L: Plua_State): Integer; cdecl;
 var 
@@ -29,7 +29,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	S := lua_tostring(L,2);
+	S := lua_toStringCP(L,2);
 	ret := lStringList.Add(S);
 	lua_pushinteger(L,ret);
 	
@@ -84,7 +84,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	S := lua_tostring(L,2);
+	S := lua_toStringCP(L,2);
 	ret := lStringList.Find(S,Index);
 	lua_pushboolean(L,ret);
 	lua_pushinteger(L,Index);
@@ -99,7 +99,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	S := lua_tostring(L,2);
+	S := lua_toStringCP(L,2);
 	ret := lStringList.IndexOf(S);
 	lua_pushinteger(L,ret);
 	
@@ -115,7 +115,7 @@ begin
 	CheckArg(L, 3);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
-	S := lua_tostring(L,3);
+	S := lua_toStringCP(L,3);
 	lStringList.Insert(Index,S);
 	
 	Result := 0;

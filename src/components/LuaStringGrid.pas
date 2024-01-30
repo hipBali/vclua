@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaStringGrid;	
 
@@ -31,12 +31,14 @@ procedure StringGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStringGrid = class(TStringGrid)
-        LuaCtl: TVCLuaControl;
+	  LuaCtl: TVCLuaControl;
+	  published
+	    property Canvas;
     end;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_GridColumn_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -135,7 +137,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
-	aTitle := lua_tostring(L,2);
+	aTitle := lua_toStringCP(L,2);
 	ret := lGridColumns.ColumnByTitle(aTitle);
 	GridColumnToTable(L,-1,ret);
 	
@@ -306,7 +308,7 @@ var
 begin
 	CheckArg(L, -1);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	AUseSelection := luaL_optbool(L,2, false);
+	AUseSelection := luaL_optbool(L,2,false);
 	lStringGrid.CopyToClipboard(AUseSelection);
 	
 	Result := 0;
@@ -359,7 +361,7 @@ var
 begin
 	CheckArg(L, -1);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	AFilename := lua_tostring(L,2);
+	AFilename := lua_toStringCP(L,2);
 	ADelimiter := char(luaL_optstring(L,3,','));
 	UseTitles := luaL_optbool(L,4,true);
 	FromLine := luaL_optint(L,5,0);
@@ -398,7 +400,7 @@ var
 begin
 	CheckArg(L, -1);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	AFileName := lua_tostring(L,2);
+	AFileName := lua_toStringCP(L,2);
 	ADelimiter := char(luaL_optstring(L,3,','));
 	WriteTitles := luaL_optbool(L,4,true);
 	VisibleColumnsOnly := luaL_optbool(L,5,false);
@@ -407,6 +409,89 @@ begin
 	Result := 0;
 end;
 
+function VCLua_StringGrid_GridCellsGet(L: Plua_State): Integer; cdecl;
+var
+  strGrid:TLuaStringGrid;
+  c,r :Integer;
+begin
+  CheckArg(L, 3);
+  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  c := lua_tointeger(L,2);
+  r := lua_tointeger(L,3);
+  lua_pushstring(L,pchar(strGrid.Cells[c,r]));
+  Result := 1;
+end;
+function VCLua_StringGrid_GridCellsSet(L: Plua_State): Integer; cdecl;
+var
+  strGrid:TLuaStringGrid;
+  c,r :Integer;
+begin
+  CheckArg(L, 4);
+  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  c := lua_tointeger(L,2);
+  r := lua_tointeger(L,3);
+  strGrid.Cells[c,r] := lua_tostring(L,4);
+  Result := 0;
+end;
+function VCLua_StringGrid_GridCellRectGet(L: Plua_State): Integer; cdecl;
+var
+  strGrid:TLuaStringGrid;
+  c,r :Integer;
+  Rect : TRect;
+begin
+  CheckArg(L, 3);
+  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  c := lua_tointeger(L,2);
+  r := lua_tointeger(L,3);
+  Rect := strGrid.CellRect(c,r);
+  lua_pushTRect(L,Rect);
+  Result := 1;
+end;
+function VCLua_StringGrid_GridGetSelectedCell(L: Plua_State): Integer; cdecl;
+var
+  strGrid:TLuaStringGrid;
+  c,r :Integer;
+  Rect : TRect;
+begin
+  CheckArg(L, 1);
+  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  c := strGrid.Selection.TopLeft.x;
+  r := strGrid.Selection.TopLeft.y;
+  Rect := strGrid.CellRect(c,r);
+  lua_pushnumber(L,c);
+  lua_pushnumber(L,r);
+  Result := 2;
+end;
+function VCLua_StringGrid_GridMouseToCell(L: Plua_State): Integer; cdecl;
+var
+  strGrid:TLuaStringGrid;
+  X,Y,c,r :Integer;
+begin
+  CheckArg(L, 3);
+  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  X := lua_tointeger(L,2);
+  Y := lua_tointeger(L,3);
+  strGrid.MouseToCell(X, Y, c, r);
+  lua_pushnumber(L,c);
+  lua_pushnumber(L,r);
+  Result := 2;
+end;
+function VCLua_StringGrid_GridDrawCell(L: Plua_State): Integer; cdecl;
+var
+  strGrid:TLuaStringGrid;
+  c,r:Integer;
+  rect:TRect;
+  aState:TGridDrawState;
+begin
+  CheckArg(L, 5);
+  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  c := lua_tointeger(L,2);
+  r := lua_tointeger(L,3);
+  rect := lua_toTRect(L,4);
+  aState := TGridDrawState(GetEnumValue(TypeInfo(TGridDrawState),lua_tostring(L,5)));
+  strGrid.defaultdrawcell(c,r,rect,aState);
+  Result := 0;
+end;
 procedure GridColumnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
 	SetDefaultMethods(L,Index,Sender);
@@ -463,6 +548,12 @@ begin
 	LuaSetTableFunction(L, Index, 'LoadFromCSVFile', @VCLua_StringGrid_LoadFromCSVFile);
 	LuaSetTableFunction(L, Index, 'SaveToCSVStream', @VCLua_StringGrid_SaveToCSVStream);
 	LuaSetTableFunction(L, Index, 'SaveToCSVFile', @VCLua_StringGrid_SaveToCSVFile);
+	LuaSetTableFunction(L, Index, 'GetCells', @VCLua_StringGrid_GridCellsGet);
+	LuaSetTableFunction(L, Index, 'SetCells', @VCLua_StringGrid_GridCellsSet);
+	LuaSetTableFunction(L, Index, 'GetCellRect', @VCLua_StringGrid_GridCellRectGet);
+	LuaSetTableFunction(L, Index, 'GetSelectedCell', @VCLua_StringGrid_GridGetSelectedCell);
+	LuaSetTableFunction(L, Index, 'MouseToCell', @VCLua_StringGrid_GridMouseToCell);
+	LuaSetTableFunction(L, Index, 'DrawCell', @VCLua_StringGrid_GridDrawCell);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;

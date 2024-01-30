@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaRasterImage;	
 
@@ -20,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_RasterImage_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -53,7 +53,7 @@ var
 begin
 	CheckArg(L, -1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	ACanvasOnly := luaL_optbool(L,2, False);
+	ACanvasOnly := luaL_optbool(L,2,False);
 	lRasterImage.BeginUpdate(ACanvasOnly);
 	
 	Result := 0;
@@ -66,7 +66,7 @@ var
 begin
 	CheckArg(L, -1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	AStreamIsValid := luaL_optbool(L,2, False);
+	AStreamIsValid := luaL_optbool(L,2,False);
 	lRasterImage.EndUpdate(AStreamIsValid);
 	
 	Result := 0;
@@ -159,7 +159,7 @@ begin
 	CheckArg(L, 3);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	AStream := TStream(GetLuaObject(L,2));
-	AMimeType := lua_tostring(L,3);
+	AMimeType := lua_toStringCP(L,3);
 	lRasterImage.LoadFromMimeStream(AStream,AMimeType);
 	
 	Result := 0;
@@ -195,14 +195,14 @@ function VCLua_RasterImage_GetSize(L: Plua_State): Integer; cdecl;
 var 
 	lRasterImage:TLuaRasterImage;
 	AWidth:Integer;
-	 AHeight:Integer;
+	AHeight:Integer;
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	
-	lRasterImage.GetSize(AWidth, AHeight);
+	lRasterImage.GetSize(AWidth,AHeight);
 	lua_pushinteger(L,AWidth);
-	lua_pushinteger(L, AHeight);
+	lua_pushinteger(L,AHeight);
 	Result := 2;
 end;
 

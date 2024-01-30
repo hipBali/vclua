@@ -15,14 +15,19 @@ type
   aofmi = array of TMenuItem;
   aoftn = array of TTreeNode;
 
+// String UTF-8 support
+function lua_toStringCP(L: Plua_State; Index: Integer):string;
+procedure lua_pushStringCP(L: Plua_State; str:string);
+function lua_toStringArray(L: Plua_State; Index: Integer):aofs;
+function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
+// --------------------
+
 function lua_toTPoint(L: Plua_State; Index: Integer):TPoint;
 procedure lua_pushTPoint(L: Plua_State; point:TPoint);
 function lua_toTRect(L: Plua_State; Index: Integer):TRect;
 procedure lua_pushTRect(L: Plua_State; rect:TRect);
 function lua_toTSize(L: Plua_State; Index: Integer):TSize;
 
-function lua_toStringArray(L: Plua_State; Index: Integer):aofs;
-function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
 function lua_toLongWordArray(L: Plua_State; Index: Integer):aoflw;
 function lua_toTPointArray(L: Plua_State; Index: Integer):aoftp;
 function lua_toTMenuItem(L: Plua_State; Index: Integer):aofmi;
@@ -38,7 +43,23 @@ function GetTStringsProperty(L: Plua_State; Comp:TStrings; PropName:String):bool
 
 implementation
 
-uses TypInfo, LuaController, LuaObject;
+uses TypInfo, LuaController, LuaObject, LazUtf8;
+
+function lua_toStringCP(L: Plua_State; Index: Integer):string;
+begin
+     if (is_vclua_utf8_conv) then
+       result := WinCPToUTF8(lua_tostring(L,Index))
+     else
+       result := lua_tostring(L,Index);
+end;
+
+procedure lua_pushStringCP(L: Plua_State; str:string);
+begin
+     if (is_vclua_utf8_conv) then
+       lua_pushstring(L,pchar(UTF8ToWinCP(str)))
+     else
+       lua_pushstring(L,pchar(str));
+end;
 
 function GetTStringsProperty(L: Plua_State; Comp:TStrings; PropName:String):boolean;
 var pn:String;
@@ -46,7 +67,7 @@ begin
      Result := true;
      pn := LowerCase(PropName);
      if (pn = 'count') then lua_pushinteger(L,Comp.Count) else
-     if (pn = 'text') then lua_pushstring(L,pchar(Comp.text)) else
+     if (pn = 'text') then lua_pushStringCP(L,Comp.text) else
         Result := false;
 end;
 
@@ -101,14 +122,18 @@ end;
 function lua_toTPoint(L: Plua_State; Index: Integer):TPoint;
 var
   point:TPoint;
+  s:AnsiString;
 begin
   if lua_istable(L,Index) then begin
     lua_pushnil(L);
     while (lua_next(L, Index) <> 0) do begin
-      if (lowercase(lua_tostring(L,-2))='x') then
-         point.x :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='y') then
-         point.y :=  lua_tointeger(L, -1);
+      if (lua_type(L, -2) = LUA_TSTRING) then begin
+        s := lowercase(lua_tostring(L,-2));
+        if (s='x') then
+           point.x :=  lua_tointeger(L, -1)
+        else if (s='y') then
+           point.y :=  lua_tointeger(L, -1);
+      end;
       lua_pop(L, 1);
     end;
   end;
@@ -120,27 +145,31 @@ begin
   lua_newtable(L);
   lua_pushliteral(L, 'x');
   lua_pushinteger(L, point.x);
+  lua_rawset(L,-3);
   lua_pushliteral(L, 'y');
   lua_pushinteger(L, point.y);
-  lua_settable(L, -5);
-  lua_settable(L, -3);
+  lua_rawset(L,-3);
 end;
 
 function lua_toTRect(L: Plua_State; Index: Integer):TRect;
 var
   rect:TRect;
+  s:AnsiString;
 begin
   if lua_istable(L,Index) then begin
     lua_pushnil(L);
     while (lua_next(L, Index) <> 0) do begin
-      if (lowercase(lua_tostring(L,-2))='left') then
-         rect.Left :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='top') then
-         rect.Top :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='width') then
-         rect.Width :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='height') then
-         rect.Height :=  lua_tointeger(L, -1);
+      if (lua_type(L, -2) = LUA_TSTRING) then begin
+        s := lowercase(lua_tostring(L,-2));
+        if (s='left') then
+           rect.Left :=  lua_tointeger(L, -1)
+        else if (s='top') then
+           rect.Top :=  lua_tointeger(L, -1)
+        else if (s='right') then
+           rect.Right :=  lua_tointeger(L, -1)
+        else if (s='bottom') then
+           rect.Bottom :=  lua_tointeger(L, -1);
+      end;
       lua_pop(L, 1);
     end;
   end;
@@ -152,16 +181,16 @@ begin
   lua_newtable(L);
   lua_pushliteral(L, 'left');
   lua_pushinteger(L, rect.Left);
+  lua_rawset(L,-3);
   lua_pushliteral(L, 'top');
   lua_pushinteger(L, rect.Top);
-  lua_pushliteral(L, 'width');
-  lua_pushinteger(L, rect.Width);
-  lua_pushliteral(L, 'height');
-  lua_pushinteger(L, rect.Height);
-  lua_settable(L, -9);
-  lua_settable(L, -7);
-  lua_settable(L, -5);
-  lua_settable(L, -3);
+  lua_rawset(L,-3);
+  lua_pushliteral(L, 'right');
+  lua_pushinteger(L, rect.Right);
+  lua_rawset(L,-3);
+  lua_pushliteral(L, 'bottom');
+  lua_pushinteger(L, rect.Bottom);
+  lua_rawset(L,-3);
 end;
 
 function lua_toTSize(L: Plua_State; Index: Integer):TSize;
@@ -192,7 +221,7 @@ begin
     lua_pushnil(L);
     while (lua_next(L, Index) <> 0) do begin
       if (lua_isstring(L, -1)) then begin
-         s := lua_tostring(L, -1);
+         s := lua_toStringCP(L, -1);
          SetLength(arr,n+1);
          arr[n] := s;
          n := n + 1;
@@ -215,7 +244,7 @@ begin
     lua_pushnil(L);
     while (lua_next(L, n) <> 0) do begin
       if (lua_isstring(L, -1)) then begin
-         s := lua_tostring(L, -1);
+         s := lua_toStringCP(L, -1);
          Result.Add(s);
       end;
       lua_pop(L, 1);

@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaListView;	
 
@@ -36,7 +36,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_ListItem_Assign(L: Plua_State): Integer; cdecl;
 var 
@@ -171,12 +171,12 @@ end;
 function VCLua_ListItems_Delete(L: Plua_State): Integer; cdecl;
 var 
 	lListItems:TLuaListItems;
-	AIndex :Integer;
+	AIndex:Integer;
 begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AIndex  := lua_tointeger(L,2);
-	lListItems.Delete(AIndex );
+	AIndex := lua_tointeger(L,2);
+	lListItems.Delete(AIndex);
 	
 	Result := 0;
 end;
@@ -236,11 +236,11 @@ begin
 	CheckArg(L, -1);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	StartIndex := lua_tointeger(L,2);
-	Value := lua_tostring(L,3);
+	Value := lua_toStringCP(L,3);
 	Partial := lua_toboolean(L,4);
 	Inclusive := lua_toboolean(L,5);
 	Wrap := lua_toboolean(L,6);
-	PartStart := luaL_optbool(L,7, True);
+	PartStart := luaL_optbool(L,7,True);
 	ret := lListItems.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
 	ListItemsToTable(L,-1,ret);
 	
@@ -349,7 +349,7 @@ var
 begin
 	CheckArg(L, 3);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	Item := lua_tostring(L,2);
+	Item := lua_toStringCP(L,2);
 	AObject := TObject(GetLuaObject(L,3));
 	lListView.AddItem(Item,AObject);
 	
@@ -442,11 +442,11 @@ begin
 	CheckArg(L, -1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	StartIndex := lua_tointeger(L,2);
-	Value := lua_tostring(L,3);
+	Value := lua_toStringCP(L,3);
 	Partial := lua_toboolean(L,4);
 	Inclusive := lua_toboolean(L,5);
 	Wrap := lua_toboolean(L,6);
-	PartStart := luaL_optbool(L,7, True);
+	PartStart := luaL_optbool(L,7,True);
 	ret := lListView.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
 	ListViewToTable(L,-1,ret);
 	

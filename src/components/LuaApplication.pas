@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaApplication;	
 
@@ -20,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Application_ActivateHint(L: Plua_State): Integer; cdecl;
 var 
@@ -31,7 +31,7 @@ begin
 	CheckArg(L, -1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	CursorPos := lua_toTPoint(L,2);
-	CheckHintControlChange := luaL_optbool(L,3, False);
+	CheckHintControlChange := luaL_optbool(L,3,False);
 	lApplication.ActivateHint(CursorPos,CheckHintControlChange);
 	
 	Result := 0;
@@ -171,7 +171,7 @@ var
 begin
 	CheckArg(L, -1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	ASystemTopAlso := luaL_optbool(L,2, False);
+	ASystemTopAlso := luaL_optbool(L,2,False);
 	lApplication.RemoveStayOnTop(ASystemTopAlso);
 	
 	Result := 0;
@@ -184,7 +184,7 @@ var
 begin
 	CheckArg(L, -1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	ASystemTopAlso := luaL_optbool(L,2, False);
+	ASystemTopAlso := luaL_optbool(L,2,False);
 	lApplication.RestoreStayOnTop(ASystemTopAlso);
 	
 	Result := 0;

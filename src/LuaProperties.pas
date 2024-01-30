@@ -103,15 +103,6 @@ begin
        Result := lua_tostring(L,Index);
 end;
 
-function ToColor(L: Plua_State; index: Integer):TColor;
-begin
-     result := 0;
-     if lua_isstring(L,index) then
-        result := StringToColor(lua_tostring(L,index))
-     else if lua_isnumber(L,index) then
-        result := TColor(lua_tointeger(L,index));
-end;
-
 function SetTStringsProperty( L: Plua_State; Comp:TObject; PropName:String; index:Integer):boolean;
 var target: TStrings;
 begin
@@ -124,6 +115,16 @@ begin
     end;
 end;
 *)
+
+function ToColor(L: Plua_State; index: Integer):TColor;
+begin
+     result := 0;
+     if lua_isstring(L,index) then
+        result := StringToColor(lua_tostring(L,index))
+     else if lua_isnumber(L,index) then
+        result := TColor(lua_tointeger(L,index));
+end;
+
 // ****************************************************************
 
 function isVcluaObject(L: Plua_State; index: Integer):boolean;
@@ -259,115 +260,112 @@ Var propVal:String;
     luafunc, top: Integer;
 begin
      Str := PInfo^.Proptype^.Name;
-     if (Str = 'TShortCut') and
-        (ComponentShortCut(TComponent(Comp),lua_tostring(L, -1))) then
-     else
-     case PInfo^.Proptype^.Kind of
-      tkMethod: begin
-          // Property Name
-          Str := lua_tostring(L,index-1);
-          // omg watchout!
-          cc := GetLuaControl(Comp);
-          LuaFuncPInfo := GetPropInfo(cc, Str+'_Function');
-	  if LuaFuncPInfo <> nil then begin
-              // OnXxxx_Function
-              if lua_isfunction(L,index) then begin
-                // store luafunc in component by LuaCtl
-                top := lua_gettop(L);
-                lua_settop(L,index);
-                luafunc := luaL_ref(L, LUA_REGISTRYINDEX);
-                SetOrdProp(cc, LuaFuncPInfo, luafunc);
-                lua_settop(L,top);
-                // setup luaeventhandler
-                LuaFuncPInfo := GetPropInfo(Comp.ClassInfo, Str);
-                // OnXxxx -->OnLuaXxxx
-                insert('Lua',Str,3);
-                if (LuaFuncPInfo<>nil) then begin
-                    tm.Data := Pointer(cc);
-                    tm.Code := cc.MethodAddress(Str);
-                    SetMethodProp(Comp, LuaFuncPInfo, tm);
-                 end
-              end else begin
-                  tm.Data:= nil;
-                  tm.Code:= nil;
-                  SetMethodProp(Comp, PInfo, tm);
-              end
-          end
-	  else begin
-               LuaError(L,'Method not found or not supported!' , lua_tostring(L,index));
-          end
-        end;
-        tkSet:
-            begin
-               SetOrdProp(Comp, PInfo, StringToSet(PInfo,lua_tostring(L,index)));
-            end;
-	tkClass:
-           begin
-      	       SetInt64Prop(Comp, PInfo, Int64(Pointer(GetLuaObject(L, index))));
-           end;
-	tkInteger:
-           begin
-                  (*
-                   if (Str='TGraphicsColor') and lua_isstring(L, index) then
-                      SetOrdProp(Comp, PInfo, ToColor(L, index))
-                   else
-                   *)
-                   if lua_isfunction(L,index) then begin
-                       top := lua_gettop(L);
-                       lua_settop(L,index);
-                       luafunc := luaL_ref(L, LUA_REGISTRYINDEX);
-                       SetOrdProp(Comp, PInfo, luafunc);
-                       lua_settop(L,top);
-                   end else begin
-     	               SetOrdProp(Comp, PInfo, lua_tointeger(L, index));
-                   end;
-           end;
-	tkChar, tkWChar:
-          begin
-            Str := lua_tostring(L, index);
-            if length(Str)<1 then
-              SetOrdProp(Comp, PInfo, 0)
-            else
-              SetOrdProp(Comp, PInfo, Ord(Str[1]));
+       if (Str = 'TShortCut') and
+          (ComponentShortCut(TComponent(Comp),lua_tostring(L, -1))) then
+       else
+       case PInfo^.Proptype^.Kind of
+        tkMethod: begin
+            // Property Name
+            Str := lua_tostring(L,index-1);
+            // omg watchout!
+            cc := GetLuaControl(Comp);
+            LuaFuncPInfo := GetPropInfo(cc, Str+'_Function');
+	    if LuaFuncPInfo <> nil then begin
+                // OnXxxx_Function
+                if lua_isfunction(L,index) then begin
+                  // store luafunc in component by LuaCtl
+                  top := lua_gettop(L);
+                  lua_settop(L,index);
+                  luafunc := luaL_ref(L, LUA_REGISTRYINDEX);
+                  SetOrdProp(cc, LuaFuncPInfo, luafunc);
+                  lua_settop(L,top);
+                  // setup luaeventhandler
+                  LuaFuncPInfo := GetPropInfo(Comp.ClassInfo, Str);
+                  // OnXxxx -->OnLuaXxxx
+                  insert('Lua',Str,3);
+                  if (LuaFuncPInfo<>nil) then begin
+                      tm.Data := Pointer(cc);
+                      tm.Code := cc.MethodAddress(Str);
+                      SetMethodProp(Comp, LuaFuncPInfo, tm);
+                   end
+                end else begin
+                    tm.Data:= nil;
+                    tm.Code:= nil;
+                    SetMethodProp(Comp, PInfo, tm);
+                end
+            end
+	    else begin
+                 LuaError(L,'Method not found or not supported!' , lua_tostring(L,index));
+            end
           end;
-        tkBool:
-               begin
-		    // {$IFDEF UNIX}
-                    // propval := BoolToStr(lua_toboolean(L,index));
-                    // SetOrdProp(Comp, PInfo, GetEnumValue(PInfo^.PropType, PropVal));
-		    // {$ELSE}
-                    SetPropValue(Comp, PInfo^.Name, lua_toboolean(L,index));
-		    // {$ENDIF}
-               end;
-        tkEnumeration:
-	         begin
-	            if lua_type(L, index) = LUA_TBOOLEAN then
-                       propval := BoolToStr(lua_toboolean(L,index))
-		    else
-		       propVal := lua_tostring(L, index);
-                    SetOrdProp(Comp, PInfo, GetEnumValue(PInfo^.PropType, PropVal));
-	         end;
-        tkFloat:
-	      	SetFloatProp(Comp, PInfo, lua_tonumber(L, index));
+          tkSet:
+              begin
+                 SetOrdProp(Comp, PInfo, StringToSet(PInfo,lua_tostring(L,index)));
+              end;
+	  tkClass:
+             begin
+      	         SetInt64Prop(Comp, PInfo, Int64(Pointer(GetLuaObject(L, index))));
+             end;
+	  tkInteger:
+             begin
+                     if ((Str='TGraphicsColor') or (Str='TColor' )) and lua_isstring(L, index) then
+                        SetOrdProp(Comp, PInfo, ToColor(L, index))
+                     else
+                     if lua_isfunction(L,index) then begin
+                         top := lua_gettop(L);
+                         lua_settop(L,index);
+                         luafunc := luaL_ref(L, LUA_REGISTRYINDEX);
+                         SetOrdProp(Comp, PInfo, luafunc);
+                         lua_settop(L,top);
+                     end else begin
+     	                 SetOrdProp(Comp, PInfo, lua_tointeger(L, index));
+                     end;
+             end;
+	  tkChar, tkWChar:
+            begin
+              Str := lua_toStringCP(L, index);
+              if length(Str)<1 then
+                SetOrdProp(Comp, PInfo, 0)
+              else
+                SetOrdProp(Comp, PInfo, Ord(Str[1]));
+            end;
+          tkBool:
+                 begin
+		      // {$IFDEF UNIX}
+                      // propval := BoolToStr(lua_toboolean(L,index));
+                      // SetOrdProp(Comp, PInfo, GetEnumValue(PInfo^.PropType, PropVal));
+		      // {$ELSE}
+                      SetPropValue(Comp, PInfo^.Name, lua_toboolean(L,index));
+		      // {$ENDIF}
+                 end;
+          tkEnumeration:
+	           begin
+	              if lua_type(L, index) = LUA_TBOOLEAN then
+                         propval := BoolToStr(lua_toboolean(L,index))
+		      else
+		         propVal := lua_tostring(L, index);
+                      SetOrdProp(Comp, PInfo, GetEnumValue(PInfo^.PropType, PropVal));
+	           end;
+          tkFloat:
+	      	  SetFloatProp(Comp, PInfo, lua_tonumber(L, index));
 
-        tkString, tkLString, tkWString:
-	      	SetStrProp(Comp, PInfo, lua_tostring(L, index));
+          tkString, tkLString, tkWString:
+	      	  SetStrProp(Comp, PInfo, lua_toStringCP(L, index));
 
-        tkInt64: begin
-	      	SetInt64Prop(Comp, PInfo, Int64(Round(lua_tonumber(L, index))));
-                end;
-     else begin
-               Str := lua_tostring(L, index);
-               if (PInfo^.Proptype^.Name='TTranslateString') then
-		    SetStrProp(Comp, PInfo, Str )
-               else if (PInfo^.Proptype^.Name='AnsiString') then
-		    SetStrProp(Comp, PInfo, Str)
-	       else if (PInfo^.Proptype^.Name='WideString') then
-		    SetStrProp(Comp, PInfo, Str)
-               else
-		    LuaError(L,'Property not supported!' , PInfo^.Proptype^.Name);
-	    end;
-      end;
+          tkInt64:
+                  SetInt64Prop(Comp, PInfo, lua_tointeger(L, index));
+       else begin
+                 Str := lua_toStringCP(L, index);
+                 if (PInfo^.Proptype^.Name='TTranslateString') then
+		      SetStrProp(Comp, PInfo, Str )
+                 else if (PInfo^.Proptype^.Name='AnsiString') then
+		      SetStrProp(Comp, PInfo, Str)
+	         else if (PInfo^.Proptype^.Name='WideString') then
+		      SetStrProp(Comp, PInfo, Str)
+                 else
+		      LuaError(L,'Property not supported!' , PInfo^.Proptype^.Name);
+	      end;
+        end;
 end;
 
 procedure CheckAndSetProperty(L: Plua_State; Obj:TObject; PInfo: PPropInfo; PName: String; Index:Integer);
@@ -450,9 +448,11 @@ begin
      SetPropertiesFromLuaTable(L,Comp,3);
   end else begin
     PInfo := GetPropInfo(TComponent(Comp).ClassInfo, PropName);
-    if (PInfo <> nil) and (lua_gettop(L)=3) then begin
-      CheckAndSetProperty(L,Comp,PInfo,PropName,3);
-    end else begin
+    if (PInfo <> nil) and (lua_gettop(L)=3) then
+      CheckAndSetProperty(L,Comp,PInfo,PropName,3)
+    // else if (PInfo <> nil) and (PInfo^.Proptype^.Kind = tkArray) then
+    //    lua_setArrayProperty(L)
+    else begin
        case lua_type(L,3) of
   		LUA_TNIL: LuaRawSetTableNil(L,1,lua_tostring(L, 2));
   		LUA_TBOOLEAN: LuaRawSetTableBoolean(L,1,lua_tostring(L, 2),lua_toboolean(L, 3));
@@ -464,7 +464,6 @@ begin
        else
            if lowercase(PropName) = 'parent' then begin
               TWinControl(Comp).Parent := TWinControl(GetLuaObject(L, 3));
-
            end else
                    LuaError(L,'Property not found!',PropName);
        end;
@@ -505,11 +504,10 @@ begin
               else
                 lua_pushnil(L);
             end;
-          tkInteger:
-            lua_pushnumber(L,GetOrdProp(Comp, PInfo));
+          tkInteger,
           tkChar,
           tkWChar:
-            lua_pushnumber(L,GetOrdProp(Comp, PInfo));
+            lua_pushinteger(L,GetOrdProp(Comp, PInfo));
           tkBool:
             begin
               strValue := GetEnumName(PInfo^.PropType, GetOrdProp(Comp, PInfo));
@@ -523,15 +521,15 @@ begin
           tkString,
           tkLString,
           tkWString:
-            lua_pushstring(L,pchar(GetStrProp(Comp, PInfo)));
+            lua_pushStringCP(L,GetStrProp(Comp, PInfo));
           tkInt64:
-            lua_pushnumber(L,GetInt64Prop(Comp, PInfo));
+            lua_tointeger(L,GetInt64Prop(Comp, PInfo));
         else
           begin
             if (PInfo^.Proptype^.Name='TTranslateString') then begin
-              lua_pushstring(L,pchar(GetStrProp(Comp, PInfo)));
+              lua_pushStringCP(L,GetStrProp(Comp, PInfo));
             end else if (PInfo^.Proptype^.Name='AnsiString') then begin
-              lua_pushstring(L,pchar(GetStrProp(Comp, PInfo)));
+              lua_pushStringCP(L,GetStrProp(Comp, PInfo));
             end else begin
               lua_pushnil(L);
               LuaError(L,'Property not supported!', lua_tostring(L,2) + ' ' + PInfo^.Proptype^.Name);

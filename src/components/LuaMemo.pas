@@ -1,6 +1,6 @@
 (*
 Generated with Lua-fpc parser/generator
-(C) 2018-2023 Hi-Project Ltd.
+(C) 2018-2024 Hi-Project Ltd.
 *)
 unit LuaMemo;	
 
@@ -20,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaHelper, LCLClasses; 
+Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
 
 function VCLua_Memo_Append(L: Plua_State): Integer; cdecl;
 var 
@@ -29,7 +29,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMemo := TLuaMemo(GetLuaObject(L, 1));
-	AValue := lua_tostring(L,2);
+	AValue := lua_toStringCP(L,2);
 	lMemo.Append(AValue);
 	
 	Result := 0;

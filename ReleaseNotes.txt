@@ -1,0 +1,38 @@
+Visual Controls For LUA (VCLua)
+
+version 0.9.2 (alpha)
+luaversion 5.1-5.4
+date 2024-01-12
+---------------------
+
+Added global switch setWinCP:
+	- fixed issue (#15)
+	to turn on the automatic codepage conversion add 
+		VCL.setWinCP(true)
+	command to your code
+	
+Components with canvas:
+	- fixed issue (#14)
+	
+Toolbar's Toolbuttons:
+	- fixed issue (#17)
+	
+src_generator/lua_make changes:
+	- TTreeNode class bugfixed (classdef.lua)
+	- TToolbutton parent bug fixed (config.lua)
+	- TBitmap and TPicture now can be created at runtime (config.lua)
+	- TBitmap and TCustomBitmap merged to LuaBitmap module (config.lua)
+	- TBitmap can be casted to TCustomBitmap (funcdef.lua)
+	- TCheckListBox: added GetChecked/SetChecked functions (config.lua, funcdef.lua)
+	- TStrings: added ToTable() function (config.lua, funcdef.lua)
+	- TStringGrid: added SetCells, GetCells, GetCellRect, GetSelectedCell, MouseToCell, DrawCell methods
+
+LuaProperties module:
+	- TColor handling fixed:
+		component.color = "clRed"
+		component.color = 0xFF0000
+	- fixed tkInteger property type bug
+
+LuaController module:
+	- MouseExit event replaced to MouseLeave
+	- Added KeyPress event
