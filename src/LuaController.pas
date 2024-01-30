@@ -420,10 +420,6 @@ type
 
      end;
 
-     TLuaBaseControl = class(TComponent)
-         LuaCtl: TVCLuaControl;
-     end;
-
 // *************************************************************************
 function StringToShiftState(Shift:String):TShiftState;
 // function CheckBoxStateToString(State:TCheckBoxState):String;
@@ -809,7 +805,7 @@ begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,Word(Key));
+    lua_pushinteger(LL,Word(Key));
     lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
     DoCall(LL,3);
     if lua_isnumber(LL,-1) then
@@ -825,8 +821,8 @@ begin
     ToTable(LL, -1, Sender);
     lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TMouseButton),Integer(Button))));
     lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    lua_pushnumber(LL,X);
-    lua_pushnumber(LL,Y);
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,5);
     end;
 end;
@@ -838,8 +834,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
     lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    lua_pushnumber(LL,X);
-    lua_pushnumber(LL,Y);
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -851,16 +847,16 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
     lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    lua_pushnumber(LL,WheelDelta);
+    lua_pushinteger(LL,WheelDelta);
 
     lua_newtable(LL);
     lua_pushliteral(LL,'X');
-    lua_pushnumber(LL,MousePos.X);
+    lua_pushinteger(LL,MousePos.X);
     lua_rawset(LL,-3);
     lua_pushliteral(LL,'Y');
-    lua_pushnumber(LL,MousePos.Y);
+    lua_pushinteger(LL,MousePos.Y);
     lua_rawset(LL,-3);
-    lua_pushnumber(LL,2);
+    lua_pushinteger(LL,2);
     lua_pushliteral(LL,'n');
     lua_rawset(LL,-3);
 
@@ -882,12 +878,12 @@ begin
 
     lua_newtable(LL);
     lua_pushliteral(LL,'X');
-    lua_pushnumber(LL,MousePos.X);
+    lua_pushinteger(LL,MousePos.X);
     lua_rawset(LL,-3);
     lua_pushliteral(LL,'Y');
-    lua_pushnumber(LL,MousePos.Y);
+    lua_pushinteger(LL,MousePos.Y);
     lua_rawset(LL,-3);
-    lua_pushnumber(LL,2);
+    lua_pushinteger(LL,2);
     lua_pushliteral(LL,'n');
     lua_rawset(LL,-3);
 
@@ -1015,7 +1011,7 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
        ToTable(LL, -1, Sender);
        lua_pushboolean(LL,IsColumn);
-       lua_pushnumber(LL,Index);
+       lua_pushinteger(LL,Index);
        DoCall(LL,3);
     end;
 end;
@@ -1026,8 +1022,8 @@ begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,ACol);
-    lua_pushnumber(LL,ARow);
+    lua_pushinteger(LL,ACol);
+    lua_pushinteger(LL,ARow);
     lua_pushboolean(LL,CanSelect);
     DoCall(LL,4);
 
@@ -1056,8 +1052,8 @@ begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
       ToTable(LL, -1, Sender);
-      lua_pushnumber(LL,ACol);
-      lua_pushnumber(LL,ARow);
+      lua_pushinteger(LL,ACol);
+      lua_pushinteger(LL,ARow);
       lua_pushstring(LL,pchar(TStringGrid(Sender).Cells[ACol, ARow]));
       DoCall(LL,4);
       if lua_isstring(LL,-1) then
@@ -1072,8 +1068,8 @@ begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,ACol);
-    lua_pushnumber(LL,ARow);
+    lua_pushinteger(LL,ACol);
+    lua_pushinteger(LL,ARow);
     lua_pushstring(LL,pchar(Value));
     DoCall(LL,4);
     if lua_isstring(LL,-1) then
@@ -1088,8 +1084,8 @@ begin
     LL := GetLuaState(Sender);
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender);
-    lua_pushnumber(LL,FromIndex);
-    lua_pushnumber(LL,ToIndex);
+    lua_pushinteger(LL,FromIndex);
+    lua_pushinteger(LL,ToIndex);
     DoCall(LL,3);
     end;
 end;
@@ -1104,8 +1100,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Source); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -1118,8 +1114,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Source); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TDragState),Integer(State))));
     DoCall(LL,5);
     if lua_isboolean(LL,-1) then
@@ -1148,8 +1144,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Target); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -1163,8 +1159,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin;
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Source.Control); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -1177,8 +1173,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Source.Control); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TDragState),Integer(State))));
     DoCall(LL,5);
     if lua_isboolean(LL,-1) then
@@ -1207,8 +1203,8 @@ begin
     if CheckEvent(LL,Sender,EventCFunc) then begin
     ToTable(LL, -1, Sender); // 1st
     ToTable(LL, -1, Target); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
+    lua_pushinteger(LL,X);
+    lua_pushinteger(LL,Y);
     DoCall(LL,4);
     end;
 end;
@@ -1236,7 +1232,7 @@ begin
       ToTable(LL, -1, Sender);
       For i:=0 to Length(FileNames)-1 do begin
         if i=0 then lua_newtable(LL);
-        lua_pushnumber(LL,i+1);
+        lua_pushinteger(LL,i+1);
         lua_pushstring(LL,pchar(FileNames[i]));
         lua_rawset(LL,-3);
       end;
