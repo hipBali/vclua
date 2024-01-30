@@ -1,5 +1,7 @@
 unit LuaController;
 
+{$mode delphi}
+
 interface
 
 Uses Controls,
@@ -1130,13 +1132,8 @@ var LL:Plua_State;
     i:Integer;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-      For i:=0 to Length(FileNames)-1 do begin
-        if i=0 then lua_newtable(LL);
-        lua_pushnumber(LL,i+1);
-        lua_pushstring(LL,pchar(FileNames[i]));
-        lua_rawset(LL,-3);
-      end;
-      DoCall(LL,2);
+       lua_pushArray<string>(LL, FileNames);
+       DoCall(LL,2);
     end;
 end;
 

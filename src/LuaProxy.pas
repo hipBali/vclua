@@ -57,6 +57,8 @@ procedure lua_push(L: Plua_State; const v       ; pti : PTypeInfo);       overlo
 procedure lua_pushSet(L: Plua_State; v:LongInt; pti : PTypeInfo);overload; inline;// LongInt as per TypInfo
 procedure lua_pushSet(L: Plua_State; v:Pointer; pti : PTypeInfo);overload; inline;
 procedure lua_pushEnum(L: Plua_State; v:Integer; pti : PTypeInfo);inline;         // Integer as per TypInfo
+// can't be named lua_push even with overloads due to a bug in generic implementation
+procedure lua_pushArray<T>(L: Plua_State; const v:array of T; pti : PTypeInfo = nil);inline;
 
 implementation
 
@@ -128,6 +130,17 @@ var s:string;
 begin
   s := GetEnumName(pti, v);
   lua_pushstring(L, s);
+end;
+procedure lua_pushArray<T>(L: Plua_State; const v:array of T; pti : PTypeInfo);
+var i,top:Integer;
+begin
+  pti := TypeInfo(T);
+  lua_createtable(L, Length(v), 0);
+  top := lua_gettop(L);
+  for i:=0 to High(v) do begin
+    lua_push(L,v[i],pti);
+    lua_rawseti(L,top,i+1);
+  end;
 end;
 
 // ***********************************************
