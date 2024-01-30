@@ -1,6 +1,6 @@
 library vcl;
 
-{$TYPEINFO ON}
+{$TYPEINFO ON}{$H+}
 
 {$R *.res}
 
@@ -45,6 +45,7 @@ uses
   );
 
 function luaopen_vcl_core(L: Plua_State): Integer; cdecl;
+var res:string;
 begin
   // luaL_openlib is deprecated?
   {$IFNDEF LUA51}
@@ -108,6 +109,10 @@ begin
   luaL_register(L, nil, PluaL_Reg(as_funcs));
   {$ENDIF}
   lua_setfield(L, -2, 'as');
+
+  res := CheckOrderOfPushObject();
+  if not res.IsEmpty then
+     luaL_error(L, PChar(res));
 
   result := 1;
 end;

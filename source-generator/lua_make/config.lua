@@ -74,13 +74,6 @@ classes = {
 	{ name = "Control", src = "TControl", ref = "Controls, Graphics"},
 	
 	-- graphics    
-	{ unit = "Bitmap", ref = "Graphics, LCLType",
-		classes = {
-			{ name = "CustomBitmap", src = "TCustomBitmap", nv=true, noparent=true, nocreate=true },
-			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true },
-		}
-	},
-
 	{ name = "Graphic", src = "TGraphic", ref = "Graphics, LCLType", base=true, nocreate=true },
 	{ name = "Font", src = "TFont", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Pen", src = "TPen", ref = "Graphics", base=true, nocreate=true },
@@ -88,6 +81,12 @@ classes = {
 	{ name = "Canvas", src = "TCanvas", ref = "Graphics, GraphType", base=true, nocreate=true, impl = "SetPixel", },
 	{ name = "Picture", src = "TPicture", ref = "Graphics", nv=true, noparent=true },
 	{ name = "RasterImage", src = "TRasterImage", ref = "Graphics, LCLType, Types", base=true, nocreate=true },
+	{ unit = "Bitmap", ref = "Graphics, LCLType",
+		classes = {
+			{ name = "CustomBitmap", src = "TCustomBitmap", nv=true, noparent=true, nocreate=true },
+			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true },
+		}
+	},
 
 	-- forms
 	{ name = "Application", src = "TApplication", ref = "Forms, LCLType, LMessages, Controls", noparent=true  },

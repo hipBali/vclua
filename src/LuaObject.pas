@@ -1,6 +1,6 @@
 unit LuaObject;
 
-{$mode objfpc}
+{$mode objfpc}{$H+}
 
 interface
 
@@ -16,6 +16,8 @@ uses
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);overload;
 procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
 
+function CheckOrderOfPushObject():string;
+
 // TStrings
 procedure lua_pushStrings(L: Plua_State; ItemOwner:TPersistent);
 // getters -- e.g. StringGrid
@@ -28,6 +30,39 @@ implementation
 
 uses
   LuaProxy, LuaController;
+
+type aopti = array of PTypeInfo;
+
+function Ancestry(pti:PTypeInfo):TStringList;
+begin
+     Result := TStringList.Create;
+     while (pti <> nil) and (pti^.Kind = tkClass) do begin
+       Result.Add(pti^.Name);
+       pti := GetTypeData(pti)^.ParentInfo;
+     end;
+end;
+
+function CheckOrderOfPushObject():string;
+var
+  sl : array of TStringList;
+  ptis : aopti;
+  i,j:Integer;
+begin
+  ptis := aopti.Create(
+  {$i luaobject_push_check.inc}
+  );
+  SetLength(sl, Length(ptis));
+  for i := 0 to High(sl) do begin
+    sl[i] := ancestry(ptis[i]);
+    sl[i].Sort;
+  end;
+  for i := 0 to High(sl) do
+    for j := i + 1 to High(sl) do
+      if sl[j].IndexOf(ptis[i]^.Name) >= 0 then begin
+        Result:=format('%s precedes %s and hence can''t be pushed to stack properly', [ptis[i]^.Name, ptis[j]^.Name]);
+        Exit;
+      end;
+end;
 
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);
 var
