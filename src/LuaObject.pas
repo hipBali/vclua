@@ -15,6 +15,7 @@ uses
 
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);overload;
 procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
+procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo = nil);overload; inline;
 
 function CheckOrderOfPushObject():string;
 
@@ -62,6 +63,15 @@ begin
         Result:=format('%s precedes %s and hence can''t be pushed to stack properly', [ptis[i]^.Name, ptis[j]^.Name]);
         Exit;
       end;
+end;
+
+procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo);
+begin
+  if v = nil then begin
+    lua_pushnil(L);
+    exit
+  end;
+  lua_push(L, v.Control);
 end;
 
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);

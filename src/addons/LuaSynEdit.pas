@@ -5,7 +5,7 @@ unit LuaSynEdit;
 interface
 
 Uses Classes, Controls, Forms, ComCtrls, TypInfo,
-     LuaPas,
+     Lua,
      LuaController,
      SynEdit,
      SynEditHighlighter,

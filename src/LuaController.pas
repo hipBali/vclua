@@ -28,7 +28,6 @@ type
     TVCLuaControl = class(TComponent)
 
         constructor Create(AOwner:TComponent; LL: Plua_State; T:ToTableProc);
-        procedure ToTable(LL:Plua_State; Index:Integer; Sender:TObject);
         public
             function PushEvent(var L:Plua_State; Sender: TObject; EFn:TLuaCFunction):Boolean; inline;
         public
@@ -186,7 +185,7 @@ type
           // Extended Edit
           procedure OnLuaAcceptDirectory(Sender: TObject; var Value: String);
           procedure OnLuaAcceptFileName(Sender: TObject; var Value: String);
-          procedure OnLuaAcceptValue(Sender: TObject; var AValue: Double; var Action: Boolean);
+          procedure OnLuaAcceptValue(Sender: TObject; var AValue: Double; var Accept: Boolean);
           procedure OnLuaAcceptDate(Sender: TObject; var ADate: TDateTime; var AcceptDate: Boolean);
           // procedure OnLuaButtonClick(Sender: TObject);
           //StringGrid
@@ -294,7 +293,7 @@ type
           procedure ButtonClickEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; aCol, aRow: Integer);
           // Extended edit
           procedure AcceptFileNameHandler(Sender: TObject; EventCFunc: TLuaCFunction; var Value: String);
-          procedure AcceptValueHandler(Sender: TObject; EventCFunc: TLuaCFunction; var AValue: Double; var Action: Boolean);
+          procedure AcceptValueHandler(Sender: TObject; EventCFunc: TLuaCFunction; var AValue: Double; var Accept: Boolean);
           procedure AcceptDateHandler(Sender: TObject; EventCFunc: TLuaCFunction; var ADate: TDateTime; var AcceptDate: Boolean);
 
           // ListView
@@ -423,7 +422,6 @@ type
      end;
 
 // *************************************************************************
-function StringToShiftState(Shift:String):TShiftState;
 // function CheckBoxStateToString(State:TCheckBoxState):String;
 
 procedure GetControlParents(L: Plua_State; var Parent:TWinControl; var Name:String);
@@ -461,7 +459,49 @@ Uses TypInfo,
      Menus,
      Dialogs,
      LCLProc,
-     LuaProxy;
+     LuaProxy,
+     {$i luacontroller_uses.inc};
+
+// generic call
+// defined here because generics need all used functions (lua_push) available at declaration, so LuaProxy and LuaObject and all components should be available
+// Call Method, that is, 'self' should be already put on stack, hence number of params is less by 1
+// dunno if type overloading and -M implicitFunctionSpecialization would get along in FPC 3.3.1+
+// so I keep numbers at the end of proc names - R.O.
+procedure CallM2<T1>(L: Plua_State; const v1:T1);
+begin
+  lua_push(L,v1,TypeInfo(v1));
+  DoCall(L, 2);
+end;
+procedure CallM3<T1, T2>(L: Plua_State; const v1:T1; const v2:T2);
+begin
+  lua_push(L,v1,TypeInfo(v1));
+  lua_push(L,v2,TypeInfo(v2));
+  DoCall(L, 3);
+end;
+procedure CallM4<T1, T2, T3>(L: Plua_State; const v1:T1; const v2:T2; const v3:T3);
+begin
+  lua_push(L,v1,TypeInfo(v1));
+  lua_push(L,v2,TypeInfo(v2));
+  lua_push(L,v3,TypeInfo(v3));
+  DoCall(L, 4);
+end;
+procedure CallM5<T1, T2, T3, T4>(L: Plua_State; const v1:T1; const v2:T2; const v3:T3; const v4:T4);
+begin
+  lua_push(L,v1,TypeInfo(v1));
+  lua_push(L,v2,TypeInfo(v2));
+  lua_push(L,v3,TypeInfo(v3));
+  lua_push(L,v4,TypeInfo(v4));
+  DoCall(L, 5);
+end;
+procedure CallM6<T1, T2, T3, T4, T5>(L: Plua_State; const v1:T1; const v2:T2; const v3:T3; const v4:T4; const v5:T5);
+begin
+  lua_push(L,v1,TypeInfo(v1));
+  lua_push(L,v2,TypeInfo(v2));
+  lua_push(L,v3,TypeInfo(v3));
+  lua_push(L,v4,TypeInfo(v4));
+  lua_push(L,v5,TypeInfo(v5));
+  DoCall(L, 6);
+end;
 
 // ***********************************************
 // LUA Control Methods
@@ -659,33 +699,6 @@ begin
      ComponentIndex := 0;
 end;
 
-procedure TVCLuaControl.ToTable(LL:Plua_State; Index:Integer; Sender:TObject);
-begin
-     TTable(LL, Index, Sender);
-end;
-
-function ShiftStateToString(Shift:TShiftState):String;
-begin
-  Result := '';
-  if ssShift in Shift then
-     Result := 'ssShift,';
-  if ssAlt in Shift then
-     Result := Result + 'ssAlt,';
-  if ssCtrl in Shift then
-     Result := Result + 'ssCtrl,';
-  if ssLeft in Shift then
-     Result := Result + 'ssLeft,';
-  if ssRight in Shift then
-     Result := Result + 'ssRight,';
-  if ssMiddle in Shift then
-     Result := Result + 'ssMiddle,';
-  if ssDouble in Shift then
-     Result := Result + 'ssDouble,';
-  if Result <> '' then
-     delete(Result,Length(Result),1);
-  Result := '['+Result+']';
-end;
-
 function StringToShiftState(Shift:String):TShiftState;
 begin
   Result := [];
@@ -705,28 +718,6 @@ begin
      include(Result,ssDouble);
 end;
 
-
-function DrawGridStateToString(State:TGridDrawState):String;
-begin
-  Result := '[';
-  if gdSelected in State then
-     Result := Result + 'gdSelected,';
-  if gdFocused in State then
-     Result := Result + 'gdFocused,';
-  if gdFixed in State then
-     Result := Result + 'gdFixed,';
-  if gdHot in State then
-     Result := Result + 'gdHot,';
-  if gdPushed in State then
-     Result := Result + 'gdPushed,';
-  if gdRowHighlight in State then
-     Result := Result + 'gdRowHighlight,';
-  if length(Result)>1 then
-     Result[length(Result)] := ']'
-  else
-     Result := Result + ']';
-end;
-
 (*
 function StringToCheckBoxState(State:String):TCheckBoxState;
 begin
@@ -739,18 +730,6 @@ begin
      include(Result,cbGrayed);
 end;
 
-function CheckBoxStateToString(State:TCheckBoxState):String;
-begin
-  Result := '[';
-  if cbUnchecked in State then
-     Result := Result + 'cbUnchecked,';
-  if cbChecked in State then
-     Result := Result + 'cbChecked,';
-  if cbGrayed in State then
-     Result := Result + 'cbGrayed,';
-  else
-     Result := Result + ']';
-end;
 *)
 
 // ***********************************************
@@ -790,9 +769,7 @@ procedure TVCLuaControl.KeyEventHandler(Sender: TObject; EventCFunc: TLuaCFuncti
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushnumber(LL,Word(Key));
-    lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    DoCall(LL,3);
+       CallM3<Word, TShiftState>(LL, Key, Shift);
     if lua_isnumber(LL,-1) then
        Key := Word(Round(lua_tonumber(LL,-1)));
     end
@@ -802,11 +779,7 @@ procedure TVCLuaControl.MouseEventHandler(Sender: TObject; EventCFunc: TLuaCFunc
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TMouseButton),Integer(Button))));
-    lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    lua_pushnumber(LL,X);
-    lua_pushnumber(LL,Y);
-    DoCall(LL,5);
+       CallM5<TMouseButton, TShiftState, Integer, Integer>(LL, Button, Shift, X, Y);
     end;
 end;
 
@@ -814,10 +787,7 @@ procedure TVCLuaControl.MouseMoveEventHandler(Sender: TObject; EventCFunc: TLuaC
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    lua_pushnumber(LL,X);
-    lua_pushnumber(LL,Y);
-    DoCall(LL,4);
+       CallM4<TShiftState, Integer, Integer>(LL, Shift, X, Y);
     end;
 end;
 
@@ -825,23 +795,7 @@ procedure TVCLuaControl.MouseWheelEventHandler(Sender: TObject; EventCFunc: TLua
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-    lua_pushnumber(LL,WheelDelta);
-
-    lua_newtable(LL);
-    lua_pushliteral(LL,'X');
-    lua_pushnumber(LL,MousePos.X);
-    lua_rawset(LL,-3);
-    lua_pushliteral(LL,'Y');
-    lua_pushnumber(LL,MousePos.Y);
-    lua_rawset(LL,-3);
-    lua_pushnumber(LL,2);
-    lua_pushliteral(LL,'n');
-    lua_rawset(LL,-3);
-
-    lua_pushboolean(LL,Handled);
-
-    DoCall(LL,5);
+       CallM5<TShiftState, Integer, TPoint, Boolean>(LL, Shift, WheelDelta, MousePos, Handled);
     if lua_isboolean(LL,-1) then
        Handled := lua_toboolean(LL,-1);
     end;
@@ -851,22 +805,7 @@ procedure TVCLuaControl.MouseWheelUpDownEventHandler(Sender: TObject; EventCFunc
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-
-    lua_newtable(LL);
-    lua_pushliteral(LL,'X');
-    lua_pushnumber(LL,MousePos.X);
-    lua_rawset(LL,-3);
-    lua_pushliteral(LL,'Y');
-    lua_pushnumber(LL,MousePos.Y);
-    lua_rawset(LL,-3);
-    lua_pushnumber(LL,2);
-    lua_pushliteral(LL,'n');
-    lua_rawset(LL,-3);
-
-    lua_pushboolean(LL,Handled);
-
-    DoCall(LL,4);
+       CallM4<TShiftState, TPoint, Boolean>(LL, Shift, MousePos, Handled);
     if lua_isboolean(LL,-1) then
        Handled := lua_toboolean(LL,-1);
     end;
@@ -879,24 +818,39 @@ procedure TVCLuaControl.AcceptFileNameHandler(Sender: TObject; EventCFunc: TLuaC
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushstring(LL,pchar(Value));
-    DoCall(LL,2);
+       CallM2<string>(LL, Value);
     if lua_isstring(LL,-1) then
        Value := lua_tostring(LL,-1);
     end;
 end;
 
-procedure TVCLuaControl.AcceptValueHandler(Sender: TObject; EventCFunc: TLuaCFunction; var AValue: Double; var Action: Boolean);
+procedure TVCLuaControl.AcceptValueHandler(Sender: TObject; EventCFunc: TLuaCFunction; var AValue: Double; var Accept: Boolean);
 var LL:Plua_State;
+  newTop,i:integer;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushnumber(LL,AValue);
-    lua_pushboolean(LL,Action);
-    DoCall(LL,3);
-    if lua_isboolean(LL,-1) then
-       Action := lua_toboolean(LL,-1);
-    if lua_isnumber(LL,-2) then
-       AValue := lua_tonumber(LL,-2)
+       // adjust results to expected number as Lua does (<=2 in this case)
+       // store old top, grab results from next slot
+       i := lua_gettop(LL)-2;
+       CallM3<Double, Boolean>(LL, AValue, Accept);
+       newTop := lua_gettop(LL);
+       if i < newTop then begin
+          // have result, so get (absolute) index
+          Inc(i);
+          if lua_isnumber(LL,i) then begin
+             AValue := lua_tonumber(LL,i);
+          end
+          else begin
+             LuaTypeError(LL, TypeInfo(AValue), i);
+          end;
+       end;
+       if i < newTop then begin
+         Inc(i);
+         if lua_isboolean(LL,i) then
+            Accept := lua_toboolean(LL,i)
+         else
+            LuaTypeError(LL, TypeInfo(Accept), i);
+       end;
     end;
 end;
 
@@ -904,9 +858,7 @@ procedure TVCLuaControl.AcceptDateHandler(Sender: TObject; EventCFunc: TLuaCFunc
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushnumber(LL,ADate);
-    lua_pushboolean(LL,AcceptDate);
-    DoCall(LL,2);
+       CallM3<TDateTime, Boolean>(LL, ADate, AcceptDate);
     if lua_isstring(LL,-1) then
        ADate := lua_tonumber(LL,-1)
     else if lua_isboolean(LL,-1) then
@@ -923,8 +875,7 @@ procedure TVCLuaControl.CloseEventHandler(Sender: TObject; EventCFunc: TLuaCFunc
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TCloseAction),Integer(Action))));
-    DoCall(LL,2);
+       CallM2<TCloseAction>(LL, Action);
     if lua_isstring(LL,-1) then
        Action := TCloseAction(GetEnumValue(TypeInfo(TCloseAction),lua_tostring(LL,-1)));
     end;
@@ -934,8 +885,7 @@ procedure TVCLuaControl.CloseQueryEventHandler(Sender: TObject; EventCFunc: TLua
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushboolean(LL,CanClose);
-    DoCall(LL,2);
+       CallM2<Boolean>(LL, CanClose);
     if lua_isboolean(LL,-1) then
        CanClose := lua_toboolean(LL,-1);
     end;
@@ -946,9 +896,7 @@ procedure TVCLuaControl.ButtonClickEventHandler(Sender: TObject; EventCFunc: TLu
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushinteger(LL,ACol);
-       lua_pushinteger(LL,ARow);
-       DoCall(LL,3);
+       CallM3<Integer, Integer>(LL, ACol, ARow);
     end;
 end;
 
@@ -956,9 +904,7 @@ procedure TVCLuaControl.HeaderClickEventHandler(Sender: TObject; EventCFunc: TLu
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushboolean(LL,IsColumn);
-       lua_pushnumber(LL,Index);
-       DoCall(LL,3);
+       CallM3<Boolean, Integer>(LL, IsColumn, Index);
     end;
 end;
 
@@ -966,10 +912,7 @@ procedure TVCLuaControl.SelectCellEventHandler(Sender: TObject; EventCFunc: TLua
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushnumber(LL,ACol);
-    lua_pushnumber(LL,ARow);
-    lua_pushboolean(LL,CanSelect);
-    DoCall(LL,4);
+       CallM4<Integer, Integer, Boolean>(LL, ACol, ARow, CanSelect);
 
     if lua_isboolean(LL,-1) then
        CanSelect := lua_toboolean(LL,-1);
@@ -980,11 +923,7 @@ procedure TVCLuaControl.DrawCellEventHandler(Sender: TObject; EventCFunc: TLuaCF
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushnumber(LL,ACol);
-    lua_pushnumber(LL,ARow);
-    lua_pushTRect(LL,Rect);
-    lua_pushString(LL,pchar(DrawGridStateToString(State)));
-    DoCall(LL,5);
+       CallM5<Integer, Integer, TRect, TGridDrawState>(LL, ACol, ARow, Rect, State);
     end;
 end;
 
@@ -992,10 +931,7 @@ procedure TVCLuaControl.SetEditTextEventHandler(Sender: TObject; EventCFunc: TLu
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-      lua_pushnumber(LL,ACol);
-      lua_pushnumber(LL,ARow);
-      lua_pushstring(LL,Value);
-      DoCall(LL,4);
+       CallM4<Integer, Integer, string>(LL, ACol, ARow, Value);
     end;
 end;
 
@@ -1003,10 +939,7 @@ procedure TVCLuaControl.GetEditTextEventHandler(Sender: TObject; EventCFunc: TLu
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushnumber(LL,ACol);
-    lua_pushnumber(LL,ARow);
-    lua_pushstring(LL,pchar(Value));
-    DoCall(LL,4);
+       CallM4<Integer, Integer, string>(LL, ACol, ARow, Value);
     if lua_isstring(LL,-1) then
        Value := lua_tostring(LL,-1);
 //       TStringGrid(Sender).Cells[ACol, ARow] := lua_tostring(LL,-1);
@@ -1017,10 +950,7 @@ procedure TVCLuaControl.GridOperationEventHandler(Sender: TObject; EventCFunc: T
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    lua_pushboolean(LL,IsColumn);
-    lua_pushnumber(LL,FromIndex);
-    lua_pushnumber(LL,ToIndex);
-    DoCall(LL,4);
+       CallM4<Boolean, Integer, Integer>(LL, IsColumn, FromIndex, ToIndex);
     end;
 end;
 
@@ -1030,11 +960,8 @@ end;
 procedure TVCLuaControl.DragDropEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Source: TObject; X, Y: Integer);
 var LL:Plua_State;
 begin
-    if PushEvent(LL,Sender,EventCFunc) then begin // 1st
-    ToTable(LL, -1, Source); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
-    DoCall(LL,4);
+    if PushEvent(LL,Sender,EventCFunc) then begin
+       CallM4<TObject, Integer, Integer>(LL, Source, X, Y);
     end;
 end;
 
@@ -1042,12 +969,8 @@ end;
 procedure TVCLuaControl.DragOverEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
 var LL:Plua_State;
 begin
-    if PushEvent(LL,Sender,EventCFunc) then begin // 1st
-    ToTable(LL, -1, Source); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
-    lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TDragState),Integer(State))));
-    DoCall(LL,5);
+    if PushEvent(LL,Sender,EventCFunc) then begin
+       CallM6<TObject, Integer, Integer, TDragState, Boolean>(LL, Source, X, Y, State, Accept);
     if lua_isboolean(LL,-1) then
        Accept := lua_toboolean(LL,-1);
     end;
@@ -1068,11 +991,8 @@ end;
 procedure TVCLuaControl.EndDragEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Target: TObject; X, Y: Integer);
 var LL:Plua_State;
 begin
-    if PushEvent(LL,Sender,EventCFunc) then begin // 1st
-    ToTable(LL, -1, Target); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
-    DoCall(LL,4);
+    if PushEvent(LL,Sender,EventCFunc) then begin
+       CallM4<TObject, Integer, Integer>(LL, Target, X, Y);
     end;
 end;
 
@@ -1081,11 +1001,8 @@ end;
 procedure TVCLuaControl.DockDropEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Source: TDragDockObject; X, Y: Integer);
 var LL:Plua_State;
 begin
-    if PushEvent(LL,Sender,EventCFunc) then begin // 1st
-    ToTable(LL, -1, Source.Control); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
-    DoCall(LL,4);
+    if PushEvent(LL,Sender,EventCFunc) then begin
+       CallM4<TDragDockObject, Integer, Integer>(LL, Source, X, Y);
     end;
 end;
 
@@ -1093,12 +1010,8 @@ end;
 procedure TVCLuaControl.DockOverEventHandler(Sender: TObject; EventCFunc: TLuaCFunction; Source: TDragDockObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
 var LL:Plua_State;
 begin
-    if PushEvent(LL,Sender,EventCFunc) then begin // 1st
-    ToTable(LL, -1, Source.Control); // 2nd
-    lua_pushnumber(LL,trunc(X));
-    lua_pushnumber(LL,trunc(Y));
-    lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TDragState),Integer(State))));
-    DoCall(LL,5);
+    if PushEvent(LL,Sender,EventCFunc) then begin
+       CallM6<TDragDockObject, Integer, Integer, TDragState, Boolean>(LL, Source, X, Y, State, Accept);
     if lua_isboolean(LL,-1) then
        Accept := lua_toboolean(LL,-1);
     end;
@@ -1119,9 +1032,7 @@ procedure TVCLuaControl.UnDockEventHandler(Sender: TObject; EventCFunc: TLuaCFun
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-    ToTable(LL, -1, Client);
-    ToTable(LL, -1, NewTarget);
-    DoCall(LL,3);
+       CallM4<TControl, TWinControl, Boolean>(LL, Client, NewTarget, Allow);
     if lua_isboolean(LL,-1) then
        Allow := lua_toboolean(LL,-1);
     end;
@@ -1144,12 +1055,7 @@ procedure TVCLuaControl.ReplaceTextEventHandler(Sender: TObject; EventCFunc: TLu
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-      lua_pushstring(LL,pchar(ASearch));
-      lua_pushstring(LL,pchar(AReplace));
-      lua_pushnumber(LL,Line);
-      lua_pushnumber(LL,Column);
-      lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TSynReplaceAction),Integer(ReplaceAction))));
-      DoCall(LL,6);
+       CallM6<string, string, integer, integer, TSynReplaceAction>(LL, ASearch, AReplace, Line, Column, ReplaceAction);
       if lua_isstring(LL,-1) then
          ReplaceAction := TSynReplaceAction(GetEnumValue(TypeInfo(TSynReplaceAction),lua_tostring(LL,-1)));
     end;
@@ -1175,11 +1081,7 @@ procedure TVCLuaControl.ClickLinkEventHandler(Sender: TObject; EventCFunc: TLuaC
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TMouseButton),Integer(Button))));
-       lua_pushstring(LL,pchar(ShiftStateToString(Shift)));
-       lua_pushnumber(LL,X);
-       lua_pushnumber(LL,Y);
-       DoCall(LL,5);
+       CallM5<TMouseButton, TShiftState, Integer, Integer>(LL, Button, Shift, X, Y);
     end;
 end;
 
@@ -1188,10 +1090,7 @@ procedure TVCLuaControl.MouseLinkEventHandler(Sender: TObject; EventCFunc: TLuaC
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushnumber(LL,X);
-       lua_pushnumber(LL,Y);
-       lua_pushboolean(LL,AllowMouseLink);
-       DoCall(LL,3);
+       CallM4<Integer, Integer, Boolean>(LL, X, Y, AllowMouseLink);
        if lua_isboolean(LL,-1) then
           AllowMouseLink := lua_toboolean(LL,-1);
     end;
@@ -1203,8 +1102,7 @@ procedure TVCLuaControl.ColumnClickEventHandler(Sender: TObject; EventCFunc: TLu
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushobject(LL, -1, Column);
-       DoCall(LL,2);
+       CallM2<TListColumn>(LL, Column);
     end;
 end;
 
@@ -1212,10 +1110,7 @@ procedure TVCLuaControl.SelectItemEventHandler(Sender: TObject; EventCFunc: TLua
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       // push as table -1 not -2!
-       lua_pushobject(LL, -1, Item);
-       lua_pushboolean(LL, Selected);
-       DoCall(LL,3);
+       CallM3<TListItem, Boolean>(LL, Item, Selected);
     end;
 end;
 
@@ -1224,9 +1119,7 @@ procedure TVCLuaControl.EditedEventHandler(Sender: TObject; EventCFunc: TLuaCFun
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushobject(LL, -1, Node);
-       lua_pushstring(LL, pchar(S));
-       DoCall(LL,3);
+       CallM3<TTreeNode, string>(LL, Node, S);
        if lua_isstring(LL,-1) then
           S := lua_tostring(LL,-1);
     end;
@@ -1236,9 +1129,7 @@ procedure TVCLuaControl.NodeChangedEventHandler(Sender: TObject;  EventCFunc: TL
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushobject(LL, -1, Node);
-       lua_pushstring(LL,pchar(GetEnumName(TypeInfo(TTreeNodeChangeReason),Integer(ChangeReason))));
-       DoCall(LL,3);
+       CallM3<TTreeNode, TTreeNodeChangeReason>(LL, Node, ChangeReason);
     end;
 end;
 
@@ -1246,8 +1137,7 @@ procedure TVCLuaControl.SelectionChangeEventHandler(Sender: TObject; EventCFunc:
 var LL:Plua_State;
 begin
     if PushEvent(LL,Sender,EventCFunc) then begin
-       lua_pushboolean(LL, User);
-       DoCall(LL,2);
+       CallM2<Boolean>(LL, User);
     end;
 end;
 
@@ -1340,8 +1230,8 @@ procedure TVCLuaControl.OnLuaAcceptDirectory(Sender: TObject; var Value: String)
 procedure TVCLuaControl.OnLuaAcceptFileName(Sender: TObject; var Value: String);
   begin AcceptFileNameHandler(Sender, OnAcceptFileName_Function, Value); end;
 
-procedure TVCLuaControl.OnLuaAcceptValue(Sender: TObject; var AValue: Double; var Action: Boolean);
-begin AcceptValueHandler(Sender, OnAcceptValue_Function, AValue, Action) end;
+procedure TVCLuaControl.OnLuaAcceptValue(Sender: TObject; var AValue: Double; var Accept: Boolean);
+begin AcceptValueHandler(Sender, OnAcceptValue_Function, AValue, Accept) end;
 
 procedure TVCLuaControl.OnLuaAcceptDate(Sender: TObject; var ADate: TDateTime; var AcceptDate: Boolean);
 begin AcceptDateHandler(Sender, OnAcceptDate_Function, ADate, AcceptDate) end;
