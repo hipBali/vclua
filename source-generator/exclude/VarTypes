@@ -12,3 +12,4 @@ TStringsReduceMethod
 TGraphicsDrawEffect
 TPhysPoint
 TNotifyEvent
+IInterface

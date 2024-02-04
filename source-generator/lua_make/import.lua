@@ -173,7 +173,7 @@ local function processClass(def,cdef)
 			cLog(string.format("SET FOUND %s LINE:%d",c, n),"INFO")
 		end
 		-- parse class
-		local _,_,c,cc = line:find("(%a+)%s*=%s*class%s*%((%a+)%)")
+		local _,_,c = line:find("([_%w]+)%s*=%s*class%s*%([_%w]+%s*")
 		if c==cdef.src then
 			classTable[cname] = {} 
 			cLog(string.format("PARSING %s %s LINE:%d",cname, c,n),"INFO")
