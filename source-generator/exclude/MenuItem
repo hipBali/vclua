@@ -1,4 +1,3 @@
-function GetEnumerator
 procedure RemoveAllHandlersOfObject
 procedure AddHandlerOnDestroy
 procedure RemoveHandlerOnDestroy

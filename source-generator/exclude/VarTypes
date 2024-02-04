@@ -13,3 +13,4 @@ TGraphicsDrawEffect
 TPhysPoint
 TNotifyEvent
 IInterface
+TCustomImageListResolutionEnumerator

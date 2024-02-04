@@ -151,13 +151,15 @@ function testCEnd(l)
 end
 
 local excludeType = loadMap("exclude/VarTypes")
+local excludeFuncs = loadMap("exclude/AnyClass")
 -- parser ------------------------------------------
 local function processClass(def,cdef)
 	local processed
 	local cname = cdef.name
 	local skip
 	local headers = {}
-	local exclude = loadMap("exclude/"..cname)
+	local exclude = loadMap("exclude/"..cname) or {}
+	for k, v in pairs(excludeFuncs) do exclude[k] = v end
 	for n, line in pairs(def) do
 		-- find classdef
 		local ln = {}
@@ -188,7 +190,7 @@ local function processClass(def,cdef)
 		if stage=="fill" and classTable[cname] then
 			if ln[1]=="procedure" or ln[1]=="function" then
 				local mId = ln[1].." "..ln[2]
-				if exclude and exclude[mId] then
+				if exclude[mId] then
 					cLog(" ** EXCLUDE:"..mId, "DEBUG")
 				else
 					table.insert(headers,mId)
