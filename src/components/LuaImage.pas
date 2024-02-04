@@ -28,20 +28,20 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Image_DestRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImage:TLuaImage;
 	ret:TRect;
 begin
 	CheckArg(L, 1);
 	lImage := TLuaImage(GetLuaObject(L, 1));
 	ret := lImage.DestRect();
-	lua_pushTRect(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Image_Invalidate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImage:TLuaImage;
 begin
 	CheckArg(L, 1);

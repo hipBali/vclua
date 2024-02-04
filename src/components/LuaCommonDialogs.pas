@@ -103,7 +103,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ColorButton_Click(L: Plua_State): Integer; cdecl;
-var 
+var
 	lColorButton:TLuaColorButton;
 begin
 	CheckArg(L, 1);
@@ -114,7 +114,7 @@ begin
 end;
 
 function VCLua_OpenDialog_DoCanClose(L: Plua_State): Integer; cdecl;
-var 
+var
 	lOpenDialog:TLuaOpenDialog;
 	CanClose:Boolean;
 begin
@@ -122,12 +122,12 @@ begin
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
 	
 	lOpenDialog.DoCanClose(CanClose);
-	lua_pushboolean(L,CanClose);
+	lua_push(L,CanClose);
 	Result := 1;
 end;
 
 function VCLua_OpenDialog_DoFolderChange(L: Plua_State): Integer; cdecl;
-var 
+var
 	lOpenDialog:TLuaOpenDialog;
 begin
 	CheckArg(L, 1);
@@ -138,7 +138,7 @@ begin
 end;
 
 function VCLua_OpenDialog_DoSelectionChange(L: Plua_State): Integer; cdecl;
-var 
+var
 	lOpenDialog:TLuaOpenDialog;
 begin
 	CheckArg(L, 1);
@@ -149,7 +149,7 @@ begin
 end;
 
 function VCLua_OpenDialog_IntfSetOption(L: Plua_State): Integer; cdecl;
-var 
+var
 	lOpenDialog:TLuaOpenDialog;
 	AOption:TOpenOption;
 	AValue:Boolean;
@@ -200,7 +200,7 @@ begin
 end;
 
 function VCLua_FontDialog_ApplyClicked(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFontDialog:TLuaFontDialog;
 begin
 	CheckArg(L, 1);
@@ -220,7 +220,7 @@ begin
 end;
 
 function VCLua_FindDialog_CloseDialog(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFindDialog:TLuaFindDialog;
 begin
 	CheckArg(L, 1);
@@ -231,20 +231,20 @@ begin
 end;
 
 function VCLua_FindDialog_Execute(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFindDialog:TLuaFindDialog;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
 	ret := lFindDialog.Execute();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ReplaceDialog_CloseDialog(L: Plua_State): Integer; cdecl;
-var 
+var
 	lReplaceDialog:TLuaReplaceDialog;
 begin
 	CheckArg(L, 1);
@@ -255,14 +255,14 @@ begin
 end;
 
 function VCLua_ReplaceDialog_Execute(L: Plua_State): Integer; cdecl;
-var 
+var
 	lReplaceDialog:TLuaReplaceDialog;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
 	ret := lReplaceDialog.Execute();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

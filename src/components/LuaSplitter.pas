@@ -28,7 +28,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Splitter_AnchorSplitter(L: Plua_State): Integer; cdecl;
-var 
+var
 	lSplitter:TLuaSplitter;
 	Kind:TAnchorKind;
 	AControl:TControl;
@@ -43,20 +43,20 @@ begin
 end;
 
 function VCLua_Splitter_GetOtherResizeControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lSplitter:TLuaSplitter;
 	ret:TControl;
 begin
 	CheckArg(L, 1);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
 	ret := lSplitter.GetOtherResizeControl();
-	lua_pushlightuserdata(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Splitter_MoveSplitter(L: Plua_State): Integer; cdecl;
-var 
+var
 	lSplitter:TLuaSplitter;
 	Offset:integer;
 begin
@@ -69,7 +69,7 @@ begin
 end;
 
 function VCLua_Splitter_SetSplitterPosition(L: Plua_State): Integer; cdecl;
-var 
+var
 	lSplitter:TLuaSplitter;
 	NewPosition:integer;
 begin
@@ -82,14 +82,14 @@ begin
 end;
 
 function VCLua_Splitter_GetSplitterPosition(L: Plua_State): Integer; cdecl;
-var 
+var
 	lSplitter:TLuaSplitter;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
 	ret := lSplitter.GetSplitterPosition();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

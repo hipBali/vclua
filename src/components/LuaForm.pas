@@ -28,7 +28,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Form_AfterConstruction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 begin
 	CheckArg(L, 1);
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_Form_BeforeDestruction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 begin
 	CheckArg(L, 1);
@@ -50,20 +50,20 @@ begin
 end;
 
 function VCLua_Form_BigIconHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:HICON;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.BigIconHandle();
-	lua_pushlightuserdata(L,@ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_Close(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 begin
 	CheckArg(L, 1);
@@ -74,20 +74,20 @@ begin
 end;
 
 function VCLua_Form_CloseQuery(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.CloseQuery();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_DefocusControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	Control:TWinControl;
 	Removing:Boolean;
@@ -102,7 +102,7 @@ begin
 end;
 
 function VCLua_Form_DestroyWnd(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 begin
 	CheckArg(L, 1);
@@ -113,7 +113,7 @@ begin
 end;
 
 function VCLua_Form_EnsureVisible(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	AMoveToTop:Boolean;
 begin
@@ -126,7 +126,7 @@ begin
 end;
 
 function VCLua_Form_FocusControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	WinControl:TWinControl;
 begin
@@ -139,33 +139,33 @@ begin
 end;
 
 function VCLua_Form_FormIsUpdating(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.FormIsUpdating();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_GetFormImage(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:TBitmap;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.GetFormImage();
-	FormToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_GetRolesForControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	AControl:TControl;
 	ret:TControlRolesForForm;
@@ -174,26 +174,26 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	AControl := TControl(GetLuaObject(L,2));
 	ret := lForm.GetRolesForControl(AControl);
-	lua_pushlightuserdata(L,@ret);
+	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
 end;
 
 function VCLua_Form_GetRealPopupParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:TCustomForm;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.GetRealPopupParent();
-	lua_pushlightuserdata(L,@ret);
+	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
 end;
 
 function VCLua_Form_Hide(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 begin
 	CheckArg(L, 1);
@@ -204,7 +204,7 @@ begin
 end;
 
 function VCLua_Form_IntfDropFiles(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	FileNames:array of String;
 begin
@@ -217,7 +217,7 @@ begin
 end;
 
 function VCLua_Form_IntfHelp(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	AComponent:TComponent;
 begin
@@ -230,7 +230,7 @@ begin
 end;
 
 function VCLua_Form_MakeFullyVisible(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	AMonitor:TMonitor;
 	UseWorkarea:Boolean;
@@ -245,20 +245,20 @@ begin
 end;
 
 function VCLua_Form_AutoSizeDelayedHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.AutoSizeDelayedHandle();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_GetPreferredSize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	PreferredWidth:integer;
 	PreferredHeight:integer;
@@ -270,13 +270,13 @@ begin
 	Raw := luaL_optbool(L,2,false);
 	WithThemeSpace := luaL_optbool(L,3,true);
 	lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
-	lua_pushinteger(L,PreferredWidth);
-	lua_pushinteger(L,PreferredHeight);
+	lua_push(L,PreferredWidth);
+	lua_push(L,PreferredHeight);
 	Result := 2;
 end;
 
 function VCLua_Form_Release(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 begin
 	CheckArg(L, 1);
@@ -287,20 +287,20 @@ begin
 end;
 
 function VCLua_Form_CanFocus(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.CanFocus();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_SetFocus(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 begin
 	CheckArg(L, 1);
@@ -311,7 +311,7 @@ begin
 end;
 
 function VCLua_Form_SetFocusedControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	Control:TWinControl;
 	ret:Boolean;
@@ -320,13 +320,13 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	Control := TWinControl(GetLuaObject(L,2));
 	ret := lForm.SetFocusedControl(Control);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_SetRestoredBounds(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ALeft:integer;
 	ATop:integer;
@@ -347,7 +347,7 @@ begin
 end;
 
 function VCLua_Form_Show(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 begin
 	CheckArg(L, 1);
@@ -358,20 +358,20 @@ begin
 end;
 
 function VCLua_Form_ShowModal(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:Integer;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.ShowModal();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_ShowOnTop(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 begin
 	CheckArg(L, 1);
@@ -382,33 +382,33 @@ begin
 end;
 
 function VCLua_Form_SmallIconHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:HICON;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.SmallIconHandle();
-	lua_pushlightuserdata(L,@ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_ActiveMDIChild(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:TCustomForm;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.ActiveMDIChild();
-	lua_pushlightuserdata(L,@ret);
+	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
 end;
 
 function VCLua_Form_GetMDIChildren(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	AIndex:Integer;
 	ret:TCustomForm;
@@ -417,26 +417,26 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	AIndex := lua_tointeger(L,2);
 	ret := lForm.GetMDIChildren(AIndex);
-	lua_pushlightuserdata(L,@ret);
+	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
 end;
 
 function VCLua_Form_MDIChildCount(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	ret:Integer;
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	ret := lForm.MDIChildCount();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Form_Dock(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	NewDockSite:TWinControl;
 	ARect:TRect;
@@ -451,7 +451,7 @@ begin
 end;
 
 function VCLua_Form_UpdateDockCaption(L: Plua_State): Integer; cdecl;
-var 
+var
 	lForm:TLuaForm;
 	Exclude:TControl;
 begin

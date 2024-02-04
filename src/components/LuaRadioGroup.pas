@@ -26,20 +26,20 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_RadioGroup_CanModify(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRadioGroup:TLuaRadioGroup;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
 	ret := lRadioGroup.CanModify();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_RadioGroup_FlipChildren(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRadioGroup:TLuaRadioGroup;
 	AllLevels:Boolean;
 begin
@@ -52,14 +52,14 @@ begin
 end;
 
 function VCLua_RadioGroup_Rows(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRadioGroup:TLuaRadioGroup;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
 	ret := lRadioGroup.Rows();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

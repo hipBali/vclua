@@ -48,7 +48,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_StatusPanel_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusPanel:TLuaStatusPanel;
 	Source:TPersistent;
 begin
@@ -61,33 +61,33 @@ begin
 end;
 
 function VCLua_StatusPanel_StatusBar(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusPanel:TLuaStatusPanel;
 	ret:TStatusBar;
 begin
 	CheckArg(L, 1);
 	lStatusPanel := TLuaStatusPanel(GetLuaObject(L, 1));
 	ret := lStatusPanel.StatusBar();
-	StatusPanelToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_StatusPanels_Add(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusPanels:TLuaStatusPanels;
 	ret:TStatusPanel;
 begin
 	CheckArg(L, 1);
 	lStatusPanels := TLuaStatusPanels(GetLuaObject(L, 1));
 	ret := lStatusPanels.Add();
-	StatusPanelsToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_StatusBar_InvalidatePanel(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusBar:TLuaStatusBar;
 	PanelIndex:integer;
 	PanelParts:TPanelParts;
@@ -102,7 +102,7 @@ begin
 end;
 
 function VCLua_StatusBar_BeginUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusBar:TLuaStatusBar;
 begin
 	CheckArg(L, 1);
@@ -113,7 +113,7 @@ begin
 end;
 
 function VCLua_StatusBar_EndUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusBar:TLuaStatusBar;
 begin
 	CheckArg(L, 1);
@@ -124,7 +124,7 @@ begin
 end;
 
 function VCLua_StatusBar_ExecuteAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusBar:TLuaStatusBar;
 	ExeAction:TBasicAction;
 	ret:Boolean;
@@ -133,13 +133,13 @@ begin
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
 	ExeAction := TBasicAction(GetLuaObject(L,2));
 	ret := lStatusBar.ExecuteAction(ExeAction);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_StatusBar_GetPanelIndexAt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusBar:TLuaStatusBar;
 	X:Integer;
 	Y:Integer;
@@ -150,33 +150,33 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	ret := lStatusBar.GetPanelIndexAt(X,Y);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_StatusBar_SizeGripEnabled(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusBar:TLuaStatusBar;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
 	ret := lStatusBar.SizeGripEnabled();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_StatusBar_UpdatingStatusBar(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStatusBar:TLuaStatusBar;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
 	ret := lStatusBar.UpdatingStatusBar();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_HeaderControl_Click(L: Plua_State): Integer; cdecl;
-var 
+var
 	lHeaderControl:TLuaHeaderControl;
 begin
 	CheckArg(L, 1);
@@ -37,7 +37,7 @@ begin
 end;
 
 function VCLua_HeaderControl_DblClick(L: Plua_State): Integer; cdecl;
-var 
+var
 	lHeaderControl:TLuaHeaderControl;
 begin
 	CheckArg(L, 1);
@@ -48,7 +48,7 @@ begin
 end;
 
 function VCLua_HeaderControl_GetSectionAt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lHeaderControl:TLuaHeaderControl;
 	P:TPoint;
 	ret:Integer;
@@ -57,13 +57,13 @@ begin
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
 	P := lua_toTPoint(L,2);
 	ret := lHeaderControl.GetSectionAt(P);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_HeaderControl_Paint(L: Plua_State): Integer; cdecl;
-var 
+var
 	lHeaderControl:TLuaHeaderControl;
 begin
 	CheckArg(L, 1);
@@ -74,7 +74,7 @@ begin
 end;
 
 function VCLua_HeaderControl_PaintSection(L: Plua_State): Integer; cdecl;
-var 
+var
 	lHeaderControl:TLuaHeaderControl;
 	Index:Integer;
 begin
@@ -87,7 +87,7 @@ begin
 end;
 
 function VCLua_HeaderControl_ChangeScale(L: Plua_State): Integer; cdecl;
-var 
+var
 	lHeaderControl:TLuaHeaderControl;
 	M:Integer;
 	D:Integer;

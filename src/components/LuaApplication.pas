@@ -8,7 +8,7 @@ unit LuaApplication;
 
 interface
 
-Uses Classes, Lua, LuaController, Forms, LCLType, LMessages, Controls, TypInfo;
+Uses Classes, Lua, LuaController, Forms, LCLType, LMessages, Controls, LuaControl, TypInfo;
 
 function CreateApplication(L: Plua_State): Integer; cdecl;
 function IsApplication(L: Plua_State): Integer; cdecl;
@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Application_ActivateHint(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	CursorPos:TPoint;
 	CheckHintControlChange:Boolean;
@@ -41,20 +41,20 @@ begin
 end;
 
 function VCLua_Application_GetControlAtMouse(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	ret:TControl;
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	ret := lApplication.GetControlAtMouse();
-	lua_pushlightuserdata(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Application_ControlDestroyed(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	AControl:TControl;
 begin
@@ -67,33 +67,33 @@ begin
 end;
 
 function VCLua_Application_BigIconHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	ret:HIcon;
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	ret := lApplication.BigIconHandle();
-	lua_pushlightuserdata(L,@ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Application_SmallIconHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	ret:HIcon;
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	ret := lApplication.SmallIconHandle();
-	lua_pushlightuserdata(L,@ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Application_BringToFront(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);
@@ -104,7 +104,7 @@ begin
 end;
 
 function VCLua_Application_CreateForm(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	InstanceClass:TComponentClass;
 	Reference:Pointer;
@@ -118,7 +118,7 @@ begin
 end;
 
 function VCLua_Application_UpdateMainForm(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	AForm:TForm;
 begin
@@ -131,7 +131,7 @@ begin
 end;
 
 function VCLua_Application_ReleaseComponent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	AComponent:TComponent;
 begin
@@ -144,7 +144,7 @@ begin
 end;
 
 function VCLua_Application_HandleException(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	Sender:TObject;
 begin
@@ -157,7 +157,7 @@ begin
 end;
 
 function VCLua_Application_HandleMessage(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);
@@ -168,7 +168,7 @@ begin
 end;
 
 function VCLua_Application_RemoveStayOnTop(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	ASystemTopAlso:Boolean;
 begin
@@ -181,7 +181,7 @@ begin
 end;
 
 function VCLua_Application_RestoreStayOnTop(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	ASystemTopAlso:Boolean;
 begin
@@ -194,20 +194,20 @@ begin
 end;
 
 function VCLua_Application_IsWaiting(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	ret := lApplication.IsWaiting();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Application_Initialize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);
@@ -218,7 +218,7 @@ begin
 end;
 
 function VCLua_Application_Minimize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);
@@ -229,7 +229,7 @@ begin
 end;
 
 function VCLua_Application_ModalStarted(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);
@@ -240,7 +240,7 @@ begin
 end;
 
 function VCLua_Application_ModalFinished(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);
@@ -251,7 +251,7 @@ begin
 end;
 
 function VCLua_Application_Restore(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);
@@ -262,7 +262,7 @@ begin
 end;
 
 function VCLua_Application_Notification(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	AComponent:TComponent;
 	Operation:TOperation;
@@ -277,7 +277,7 @@ begin
 end;
 
 function VCLua_Application_ProcessMessages(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);
@@ -288,7 +288,7 @@ begin
 end;
 
 function VCLua_Application_Idle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 	Wait:Boolean;
 begin
@@ -301,7 +301,7 @@ begin
 end;
 
 function VCLua_Application_Run(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);
@@ -312,7 +312,7 @@ begin
 end;
 
 function VCLua_Application_Terminate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lApplication:TLuaApplication;
 begin
 	CheckArg(L, 1);

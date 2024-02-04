@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Edit_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lEdit:TLuaEdit;
 begin
 	CheckArg(L, 1);
@@ -37,7 +37,7 @@ begin
 end;
 
 function VCLua_Edit_SelectAll(L: Plua_State): Integer; cdecl;
-var 
+var
 	lEdit:TLuaEdit;
 begin
 	CheckArg(L, 1);
@@ -48,7 +48,7 @@ begin
 end;
 
 function VCLua_Edit_ClearSelection(L: Plua_State): Integer; cdecl;
-var 
+var
 	lEdit:TLuaEdit;
 begin
 	CheckArg(L, 1);
@@ -59,7 +59,7 @@ begin
 end;
 
 function VCLua_Edit_CopyToClipboard(L: Plua_State): Integer; cdecl;
-var 
+var
 	lEdit:TLuaEdit;
 begin
 	CheckArg(L, 1);
@@ -70,7 +70,7 @@ begin
 end;
 
 function VCLua_Edit_CutToClipboard(L: Plua_State): Integer; cdecl;
-var 
+var
 	lEdit:TLuaEdit;
 begin
 	CheckArg(L, 1);
@@ -81,7 +81,7 @@ begin
 end;
 
 function VCLua_Edit_PasteFromClipboard(L: Plua_State): Integer; cdecl;
-var 
+var
 	lEdit:TLuaEdit;
 begin
 	CheckArg(L, 1);
@@ -92,7 +92,7 @@ begin
 end;
 
 function VCLua_Edit_Undo(L: Plua_State): Integer; cdecl;
-var 
+var
 	lEdit:TLuaEdit;
 begin
 	CheckArg(L, 1);
@@ -103,7 +103,7 @@ begin
 end;
 
 function VCLua_Edit_RemoveAllHandlersOfObject(L: Plua_State): Integer; cdecl;
-var 
+var
 	lEdit:TLuaEdit;
 	AnObject:TObject;
 begin

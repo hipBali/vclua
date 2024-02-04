@@ -25,7 +25,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Strings_Add(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:string;
 	ret:Integer;
@@ -34,13 +34,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
 	ret := lStrings.Add(S);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_AddObject(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:string;
 	AObject:TObject;
@@ -51,13 +51,13 @@ begin
 	S := lua_toStringCP(L,2);
 	AObject := TObject(GetLuaObject(L,3));
 	ret := lStrings.AddObject(S,AObject);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_AddPair(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	AName:string;
 	AValue:string;
@@ -68,13 +68,13 @@ begin
 	AName := lua_toStringCP(L,2);
 	AValue := lua_toStringCP(L,3);
 	ret := lStrings.AddPair(AName,AValue);
-	StringsToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_AddPair2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	AName:string;
 	AValue:string;
@@ -87,13 +87,13 @@ begin
 	AValue := lua_toStringCP(L,3);
 	AObject := TObject(GetLuaObject(L,4));
 	ret := lStrings.AddPair(AName,AValue,AObject);
-	StringsToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_AddStrings(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	TheStrings:TStrings;
 begin
@@ -106,7 +106,7 @@ begin
 end;
 
 function VCLua_Strings_AddStrings2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	TheStrings:TStrings;
 	ClearFirst:Boolean;
@@ -121,7 +121,7 @@ begin
 end;
 
 function VCLua_Strings_AddStrings3(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	TheStrings:array of string;
 begin
@@ -134,7 +134,7 @@ begin
 end;
 
 function VCLua_Strings_AddStrings4(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	TheStrings:array of string;
 	ClearFirst:Boolean;
@@ -149,7 +149,7 @@ begin
 end;
 
 function VCLua_Strings_SetStrings(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	TheStrings:TStrings;
 begin
@@ -162,7 +162,7 @@ begin
 end;
 
 function VCLua_Strings_SetStrings2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	TheStrings:array of string;
 begin
@@ -175,7 +175,7 @@ begin
 end;
 
 function VCLua_Strings_AddCommaText(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:String;
 begin
@@ -188,7 +188,7 @@ begin
 end;
 
 function VCLua_Strings_AddDelimitedText(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:String;
 	ADelimiter:char;
@@ -205,7 +205,7 @@ begin
 end;
 
 function VCLua_Strings_AddDelimitedtext_(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:String;
 begin
@@ -218,7 +218,7 @@ begin
 end;
 
 function VCLua_Strings_Append(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:string;
 begin
@@ -231,7 +231,7 @@ begin
 end;
 
 function VCLua_Strings_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Source:TPersistent;
 begin
@@ -244,7 +244,7 @@ begin
 end;
 
 function VCLua_Strings_BeginUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 begin
 	CheckArg(L, 1);
@@ -255,7 +255,7 @@ begin
 end;
 
 function VCLua_Strings_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 begin
 	CheckArg(L, 1);
@@ -266,7 +266,7 @@ begin
 end;
 
 function VCLua_Strings_Delete(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Index:Integer;
 begin
@@ -279,7 +279,7 @@ begin
 end;
 
 function VCLua_Strings_EndUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 begin
 	CheckArg(L, 1);
@@ -290,7 +290,7 @@ begin
 end;
 
 function VCLua_Strings_Equals(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Obj:TObject;
 	ret:Boolean;
@@ -299,13 +299,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	Obj := TObject(GetLuaObject(L,2));
 	ret := lStrings.Equals(Obj);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_Equals2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	TheStrings:TStrings;
 	ret:Boolean;
@@ -314,13 +314,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	TheStrings := TStrings(GetLuaObject(L,2));
 	ret := lStrings.Equals(TheStrings);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_Exchange(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Index1:Integer;
 	Index2:Integer;
@@ -335,7 +335,7 @@ begin
 end;
 
 function VCLua_Strings_ExtractName(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:String;
 	ret:String;
@@ -344,13 +344,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
 	ret := lStrings.ExtractName(S);
-	lua_pushStringCP(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_GetNameValue(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Index:Integer;
 	AName:String;
@@ -360,26 +360,26 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	lStrings.GetNameValue(Index,AName,AValue);
-	lua_pushStringCP(L,AName);
-	lua_pushStringCP(L,AValue);
+	lua_push(L,AName);
+	lua_push(L,AValue);
 	Result := 2;
 end;
 
 function VCLua_Strings_GetText(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	ret:PChar;
 begin
 	CheckArg(L, 1);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	ret := lStrings.GetText();
-	lua_pushStringCP(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_IndexOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:string;
 	ret:Integer;
@@ -388,13 +388,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
 	ret := lStrings.IndexOf(S);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_IndexOf2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:string;
 	aStart:Integer;
@@ -405,13 +405,13 @@ begin
 	S := lua_toStringCP(L,2);
 	aStart := lua_tointeger(L,3);
 	ret := lStrings.IndexOf(S,aStart);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_IndexOfName(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Name:string;
 	ret:Integer;
@@ -420,13 +420,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	Name := lua_toStringCP(L,2);
 	ret := lStrings.IndexOfName(Name);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_IndexOfObject(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	AObject:TObject;
 	ret:Integer;
@@ -435,13 +435,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	AObject := TObject(GetLuaObject(L,2));
 	ret := lStrings.IndexOfObject(AObject);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_Insert(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Index:Integer;
 	S:string;
@@ -456,7 +456,7 @@ begin
 end;
 
 function VCLua_Strings_InsertObject(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Index:Integer;
 	S:string;
@@ -473,7 +473,7 @@ begin
 end;
 
 function VCLua_Strings_LastIndexOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:string;
 	aStart:Integer;
@@ -484,13 +484,13 @@ begin
 	S := lua_toStringCP(L,2);
 	aStart := lua_tointeger(L,3);
 	ret := lStrings.LastIndexOf(S,aStart);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_LastIndexOf2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	S:string;
 	ret:Integer;
@@ -499,13 +499,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
 	ret := lStrings.LastIndexOf(S);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_LoadFromFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	FileName:string;
 begin
@@ -518,7 +518,7 @@ begin
 end;
 
 function VCLua_Strings_LoadFromFile2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	FileName:string;
 	IgnoreEncoding:Boolean;
@@ -533,7 +533,7 @@ begin
 end;
 
 function VCLua_Strings_LoadFromStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Stream:TStream;
 begin
@@ -546,7 +546,7 @@ begin
 end;
 
 function VCLua_Strings_LoadFromStream2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Stream:TStream;
 	IgnoreEncoding:Boolean;
@@ -561,7 +561,7 @@ begin
 end;
 
 function VCLua_Strings_Move(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	CurIndex:Integer;
 	NewIndex:Integer;
@@ -576,7 +576,7 @@ begin
 end;
 
 function VCLua_Strings_SaveToFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	FileName:string;
 begin
@@ -589,7 +589,7 @@ begin
 end;
 
 function VCLua_Strings_SaveToFile2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	FileName:string;
 	IgnoreEncoding:Boolean;
@@ -604,7 +604,7 @@ begin
 end;
 
 function VCLua_Strings_SaveToStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Stream:TStream;
 begin
@@ -617,7 +617,7 @@ begin
 end;
 
 function VCLua_Strings_SaveToStream2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	Stream:TStream;
 	IgnoreEncoding:Boolean;
@@ -632,20 +632,20 @@ begin
 end;
 
 function VCLua_Strings_Shift(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	ret:String;
 begin
 	CheckArg(L, 1);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	ret := lStrings.Shift();
-	lua_pushStringCP(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Strings_SetText(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStrings:TLuaStrings;
 	TheText:PChar;
 begin

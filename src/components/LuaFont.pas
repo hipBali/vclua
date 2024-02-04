@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Font_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFont:TLuaFont;
 	Source:TPersistent;
 begin
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_Font_BeginUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFont:TLuaFont;
 begin
 	CheckArg(L, 1);
@@ -50,7 +50,7 @@ begin
 end;
 
 function VCLua_Font_EndUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFont:TLuaFont;
 begin
 	CheckArg(L, 1);
@@ -61,33 +61,33 @@ begin
 end;
 
 function VCLua_Font_HandleAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFont:TLuaFont;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	ret := lFont.HandleAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Font_IsDefault(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFont:TLuaFont;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	ret := lFont.IsDefault();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Font_IsEqual(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFont:TLuaFont;
 	AFont:TFont;
 	ret:boolean;
@@ -96,13 +96,13 @@ begin
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	AFont := TFont(GetLuaObject(L,2));
 	ret := lFont.IsEqual(AFont);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Font_SetDefault(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFont:TLuaFont;
 begin
 	CheckArg(L, 1);

@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ComboBox_IntfGetItems(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 begin
 	CheckArg(L, 1);
@@ -37,7 +37,7 @@ begin
 end;
 
 function VCLua_ComboBox_AddItem(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 	Item:String;
 	AnObject:TObject;
@@ -52,7 +52,7 @@ begin
 end;
 
 function VCLua_ComboBox_AddHistoryItem(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 	Item:string;
 	MaxHistoryCount:integer;
@@ -71,7 +71,7 @@ begin
 end;
 
 function VCLua_ComboBox_AddHistoryItem2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 	Item:string;
 	AnObject:TObject;
@@ -92,7 +92,7 @@ begin
 end;
 
 function VCLua_ComboBox_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 begin
 	CheckArg(L, 1);
@@ -103,7 +103,7 @@ begin
 end;
 
 function VCLua_ComboBox_SelectAll(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 begin
 	CheckArg(L, 1);

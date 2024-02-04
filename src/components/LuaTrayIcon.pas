@@ -28,33 +28,33 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_TrayIcon_Hide(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTrayIcon:TLuaTrayIcon;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
 	ret := lTrayIcon.Hide();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TrayIcon_Show(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTrayIcon:TLuaTrayIcon;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
 	ret := lTrayIcon.Show();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TrayIcon_InternalUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTrayIcon:TLuaTrayIcon;
 begin
 	CheckArg(L, 1);
@@ -65,7 +65,7 @@ begin
 end;
 
 function VCLua_TrayIcon_ShowBalloonHint(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTrayIcon:TLuaTrayIcon;
 begin
 	CheckArg(L, 1);
@@ -76,14 +76,14 @@ begin
 end;
 
 function VCLua_TrayIcon_GetPosition(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTrayIcon:TLuaTrayIcon;
 	ret:TPoint;
 begin
 	CheckArg(L, 1);
 	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
 	ret := lTrayIcon.GetPosition();
-	lua_pushTPoint(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

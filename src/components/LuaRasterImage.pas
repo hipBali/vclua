@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_RasterImage_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	Source:TPersistent;
 begin
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_RasterImage_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 begin
 	CheckArg(L, 1);
@@ -50,7 +50,7 @@ begin
 end;
 
 function VCLua_RasterImage_BeginUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	ACanvasOnly:Boolean;
 begin
@@ -63,7 +63,7 @@ begin
 end;
 
 function VCLua_RasterImage_EndUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	AStreamIsValid:Boolean;
 begin
@@ -76,7 +76,7 @@ begin
 end;
 
 function VCLua_RasterImage_FreeImage(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 begin
 	CheckArg(L, 1);
@@ -87,46 +87,46 @@ begin
 end;
 
 function VCLua_RasterImage_BitmapHandleAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	ret := lRasterImage.BitmapHandleAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_RasterImage_MaskHandleAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	ret := lRasterImage.MaskHandleAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_RasterImage_PaletteAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	ret := lRasterImage.PaletteAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_RasterImage_LoadFromStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	AStream:TStream;
 begin
@@ -139,7 +139,7 @@ begin
 end;
 
 function VCLua_RasterImage_LoadFromStream2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	AStream:TStream;
 	ASize:Cardinal;
@@ -154,7 +154,7 @@ begin
 end;
 
 function VCLua_RasterImage_LoadFromMimeStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	AStream:TStream;
 	AMimeType:string;
@@ -169,7 +169,7 @@ begin
 end;
 
 function VCLua_RasterImage_SaveToStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	AStream:TStream;
 begin
@@ -182,7 +182,7 @@ begin
 end;
 
 function VCLua_RasterImage_GetSupportedSourceMimeTypes(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	List:TStrings;
 begin
@@ -195,7 +195,7 @@ begin
 end;
 
 function VCLua_RasterImage_GetSize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	AWidth:Integer;
 	AHeight:Integer;
@@ -204,13 +204,13 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	
 	lRasterImage.GetSize(AWidth,AHeight);
-	lua_pushinteger(L,AWidth);
-	lua_pushinteger(L,AHeight);
+	lua_push(L,AWidth);
+	lua_push(L,AHeight);
 	Result := 2;
 end;
 
 function VCLua_RasterImage_Mask(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	ATransparentColor:TColor;
 begin
@@ -223,40 +223,40 @@ begin
 end;
 
 function VCLua_RasterImage_ReleaseBitmapHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	ret:HBITMAP;
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	ret := lRasterImage.ReleaseBitmapHandle();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_RasterImage_ReleaseMaskHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	ret:HBITMAP;
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	ret := lRasterImage.ReleaseMaskHandle();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_RasterImage_HandleAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lRasterImage:TLuaRasterImage;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	ret := lRasterImage.HandleAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

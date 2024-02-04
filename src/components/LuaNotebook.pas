@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Notebook_ShowControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lNotebook:TLuaNotebook;
 	AControl:TControl;
 begin
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_Notebook_IndexOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lNotebook:TLuaNotebook;
 	APage:TPage;
 	ret:integer;
@@ -48,7 +48,7 @@ begin
 	lNotebook := TLuaNotebook(GetLuaObject(L, 1));
 	APage := TPage(GetLuaObject(L,2));
 	ret := lNotebook.IndexOf(APage);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

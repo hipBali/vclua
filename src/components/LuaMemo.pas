@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Memo_Append(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMemo:TLuaMemo;
 	AValue:String;
 begin
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_Memo_ScrollBy(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMemo:TLuaMemo;
 	DeltaX:Integer;
 	DeltaY:Integer;

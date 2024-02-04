@@ -50,7 +50,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_GridColumn_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumn:TLuaGridColumn;
 	Source:TPersistent;
 begin
@@ -63,7 +63,7 @@ begin
 end;
 
 function VCLua_GridColumn_FillDefaultFont(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumn:TLuaGridColumn;
 begin
 	CheckArg(L, 1);
@@ -74,7 +74,7 @@ begin
 end;
 
 function VCLua_GridColumn_FixDesignFontsPPI(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumn:TLuaGridColumn;
 	ADesignTimePPI:Integer;
 begin
@@ -87,7 +87,7 @@ begin
 end;
 
 function VCLua_GridColumn_ScaleFontsPPI(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumn:TLuaGridColumn;
 	AToPPI:Integer;
 	AProportion:Double;
@@ -102,33 +102,33 @@ begin
 end;
 
 function VCLua_GridColumn_IsDefault(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumn:TLuaGridColumn;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
 	ret := lGridColumn.IsDefault();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_GridColumns_Add(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumns:TLuaGridColumns;
 	ret:TGridColumn;
 begin
 	CheckArg(L, 1);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	ret := lGridColumns.Add();
-	GridColumnToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_GridColumns_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumns:TLuaGridColumns;
 begin
 	CheckArg(L, 1);
@@ -139,7 +139,7 @@ begin
 end;
 
 function VCLua_GridColumns_ColumnByTitle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumns:TLuaGridColumns;
 	aTitle:string;
 	ret:TGridColumn;
@@ -148,13 +148,13 @@ begin
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	aTitle := lua_toStringCP(L,2);
 	ret := lGridColumns.ColumnByTitle(aTitle);
-	GridColumnToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_GridColumns_RealIndex(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumns:TLuaGridColumns;
 	Index:Integer;
 	ret:Integer;
@@ -163,13 +163,13 @@ begin
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	ret := lGridColumns.RealIndex(Index);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_GridColumns_IndexOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumns:TLuaGridColumns;
 	Column:TGridColumn;
 	ret:Integer;
@@ -178,26 +178,26 @@ begin
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	Column := TGridColumn(GetLuaObject(L,2));
 	ret := lGridColumns.IndexOf(Column);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_GridColumns_IsDefault(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumns:TLuaGridColumns;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	ret := lGridColumns.IsDefault();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_GridColumns_HasIndex(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumns:TLuaGridColumns;
 	Index:Integer;
 	ret:boolean;
@@ -206,13 +206,13 @@ begin
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	ret := lGridColumns.HasIndex(Index);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_GridColumns_VisibleIndex(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGridColumns:TLuaGridColumns;
 	Index:Integer;
 	ret:Integer;
@@ -221,13 +221,13 @@ begin
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	ret := lGridColumns.VisibleIndex(Index);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_StringGrid_AutoSizeColumn(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	aCol:Integer;
 begin
@@ -240,7 +240,7 @@ begin
 end;
 
 function VCLua_StringGrid_AutoSizeColumns(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 begin
 	CheckArg(L, 1);
@@ -251,7 +251,7 @@ begin
 end;
 
 function VCLua_StringGrid_Clean(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 begin
 	CheckArg(L, 1);
@@ -262,7 +262,7 @@ begin
 end;
 
 function VCLua_StringGrid_Clean2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	CleanOptions:TGridZoneSet;
 begin
@@ -275,7 +275,7 @@ begin
 end;
 
 function VCLua_StringGrid_Clean3(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	aRect:TRect;
 	CleanOptions:TGridZoneSet;
@@ -290,7 +290,7 @@ begin
 end;
 
 function VCLua_StringGrid_Clean4(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	StartCol:integer;
 	StartRow:integer;
@@ -311,7 +311,7 @@ begin
 end;
 
 function VCLua_StringGrid_CopyToClipboard(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	AUseSelection:boolean;
 begin
@@ -324,7 +324,7 @@ begin
 end;
 
 function VCLua_StringGrid_InsertRowWithValues(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	Index:Integer;
 	Values:array of String;
@@ -339,7 +339,7 @@ begin
 end;
 
 function VCLua_StringGrid_LoadFromCSVStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	AStream:TStream;
 	ADelimiter:Char;
@@ -360,7 +360,7 @@ begin
 end;
 
 function VCLua_StringGrid_LoadFromCSVFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	AFilename:string;
 	ADelimiter:Char;
@@ -381,7 +381,7 @@ begin
 end;
 
 function VCLua_StringGrid_SaveToCSVStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	AStream:TStream;
 	ADelimiter:Char;
@@ -400,7 +400,7 @@ begin
 end;
 
 function VCLua_StringGrid_SaveToCSVFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringGrid:TLuaStringGrid;
 	AFileName:string;
 	ADelimiter:Char;

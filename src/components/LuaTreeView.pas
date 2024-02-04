@@ -8,7 +8,7 @@ unit LuaTreeView;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, Controls, LuaStringList, TypInfo;
 
 function IsTreeNode(L: Plua_State): Integer; cdecl;
 function AsTreeNode(L: Plua_State): Integer; cdecl;
@@ -49,7 +49,7 @@ Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
 function VCLua_TreeNodes_Add(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	SiblingNode:TTreeNode;
 	S:string;
@@ -60,13 +60,13 @@ begin
 	SiblingNode := TTreeNode(GetLuaObject(L,2));
 	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.Add(SiblingNode,S);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddChild(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ParentNode:TTreeNode;
 	S:string;
@@ -77,13 +77,13 @@ begin
 	ParentNode := TTreeNode(GetLuaObject(L,2));
 	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.AddChild(ParentNode,S);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddChildFirst(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ParentNode:TTreeNode;
 	S:string;
@@ -94,13 +94,13 @@ begin
 	ParentNode := TTreeNode(GetLuaObject(L,2));
 	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.AddChildFirst(ParentNode,S);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddChildObject(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ParentNode:TTreeNode;
 	S:string;
@@ -113,13 +113,13 @@ begin
 	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddChildObject(ParentNode,S,Data);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddChildObjectFirst(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ParentNode:TTreeNode;
 	S:string;
@@ -132,13 +132,13 @@ begin
 	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddChildObjectFirst(ParentNode,S,Data);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddFirst(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	SiblingNode:TTreeNode;
 	S:string;
@@ -149,13 +149,13 @@ begin
 	SiblingNode := TTreeNode(GetLuaObject(L,2));
 	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.AddFirst(SiblingNode,S);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddNode(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	Node:TTreeNode;
 	Relative:TTreeNode;
@@ -172,13 +172,13 @@ begin
 	Ptr := Pointer(lua_touserdata(L,5));
 	Method := TNodeAttachMode(GetLuaObject(L,6));
 	ret := lTreeNodes.AddNode(Node,Relative,S,Ptr,Method);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddObject(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	SiblingNode:TTreeNode;
 	S:string;
@@ -191,13 +191,13 @@ begin
 	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddObject(SiblingNode,S,Data);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddObjectFirst(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	SiblingNode:TTreeNode;
 	S:string;
@@ -210,13 +210,13 @@ begin
 	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddObjectFirst(SiblingNode,S,Data);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_FindNodeWithData(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	NodeData:Pointer;
 	ret:TTreeNode;
@@ -225,13 +225,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	NodeData := Pointer(lua_touserdata(L,2));
 	ret := lTreeNodes.FindNodeWithData(NodeData);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_FindNodeWithText(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	NodeText:string;
 	ret:TTreeNode;
@@ -240,13 +240,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	NodeText := lua_toStringCP(L,2);
 	ret := lTreeNodes.FindNodeWithText(NodeText);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_FindNodeWithTextPath(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	TextPath:string;
 	ret:TTreeNode;
@@ -255,13 +255,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	TextPath := lua_toStringCP(L,2);
 	ret := lTreeNodes.FindNodeWithTextPath(TextPath);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_FindTopLvlNode(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	NodeText:string;
 	ret:TTreeNode;
@@ -270,65 +270,52 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	NodeText := lua_toStringCP(L,2);
 	ret := lTreeNodes.FindTopLvlNode(NodeText);
-	TreeNodeToTable(L,-1,ret);
-	
-	Result := 1;
-end;
-
-function VCLua_TreeNodes_GetEnumerator(L: Plua_State): Integer; cdecl;
-var 
-	lTreeNodes:TLuaTreeNodes;
-	ret:TTreeNodesEnumerator;
-begin
-	CheckArg(L, 1);
-	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	ret := lTreeNodes.GetEnumerator();
-	TreeNodesToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_GetFirstNode(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ret:TTreeNode;
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ret := lTreeNodes.GetFirstNode();
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_GetFirstVisibleNode(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ret:TTreeNode;
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ret := lTreeNodes.GetFirstVisibleNode();
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_GetLastVisibleNode(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ret:TTreeNode;
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ret := lTreeNodes.GetLastVisibleNode();
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_GetSelections(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	AIndex:Integer;
 	ret:TTreeNode;
@@ -337,13 +324,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	AIndex := lua_tointeger(L,2);
 	ret := lTreeNodes.GetSelections(AIndex);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_Insert(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	NextNode:TTreeNode;
 	S:string;
@@ -354,13 +341,13 @@ begin
 	NextNode := TTreeNode(GetLuaObject(L,2));
 	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.Insert(NextNode,S);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_InsertBehind(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	PrevNode:TTreeNode;
 	S:string;
@@ -371,13 +358,13 @@ begin
 	PrevNode := TTreeNode(GetLuaObject(L,2));
 	S := lua_toStringCP(L,3);
 	ret := lTreeNodes.InsertBehind(PrevNode,S);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_InsertObject(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	NextNode:TTreeNode;
 	S:string;
@@ -390,13 +377,13 @@ begin
 	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.InsertObject(NextNode,S,Data);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_InsertObjectBehind(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	PrevNode:TTreeNode;
 	S:string;
@@ -409,26 +396,26 @@ begin
 	S := lua_toStringCP(L,3);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.InsertObjectBehind(PrevNode,S,Data);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_IsMultiSelection(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ret := lTreeNodes.IsMultiSelection();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeNodes_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	Source:TPersistent;
 begin
@@ -441,7 +428,7 @@ begin
 end;
 
 function VCLua_TreeNodes_BeginUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 begin
 	CheckArg(L, 1);
@@ -452,7 +439,7 @@ begin
 end;
 
 function VCLua_TreeNodes_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 begin
 	CheckArg(L, 1);
@@ -463,7 +450,7 @@ begin
 end;
 
 function VCLua_TreeNodes_ClearMultiSelection(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ClearSelected:boolean;
 begin
@@ -476,7 +463,7 @@ begin
 end;
 
 function VCLua_TreeNodes_ConsistencyCheck(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 begin
 	CheckArg(L, 1);
@@ -487,7 +474,7 @@ begin
 end;
 
 function VCLua_TreeNodes_Delete(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	Node:TTreeNode;
 begin
@@ -500,7 +487,7 @@ begin
 end;
 
 function VCLua_TreeNodes_EndUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 begin
 	CheckArg(L, 1);
@@ -511,7 +498,7 @@ begin
 end;
 
 function VCLua_TreeNodes_FreeAllNodeData(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 begin
 	CheckArg(L, 1);
@@ -522,7 +509,7 @@ begin
 end;
 
 function VCLua_TreeNodes_SelectionsChanged(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	ANode:TTreeNode;
 	AIsSelected:Boolean;
@@ -537,7 +524,7 @@ begin
 end;
 
 function VCLua_TreeNodes_SelectOnlyThis(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	Node:TTreeNode;
 begin
@@ -550,7 +537,7 @@ begin
 end;
 
 function VCLua_TreeNodes_MultiSelect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	Node:TTreeNode;
 	ClearWholeSelection:Boolean;
@@ -565,7 +552,7 @@ begin
 end;
 
 function VCLua_TreeNodes_WriteDebugReport(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeNodes:TLuaTreeNodes;
 	Prefix:string;
 	AllNodes:boolean;
@@ -580,20 +567,20 @@ begin
 end;
 
 function VCLua_TreeView_AlphaSort(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ret := lTreeView.AlphaSort();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeView_ClearSelection(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	KeepPrimary:Boolean;
 begin
@@ -606,7 +593,7 @@ begin
 end;
 
 function VCLua_TreeView_ConsistencyCheck(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -617,7 +604,7 @@ begin
 end;
 
 function VCLua_TreeView_DefaultTreeViewSort(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	Node1:TTreeNode;
 	Node2:TTreeNode;
@@ -628,13 +615,13 @@ begin
 	Node1 := TTreeNode(GetLuaObject(L,2));
 	Node2 := TTreeNode(GetLuaObject(L,3));
 	ret := lTreeView.DefaultTreeViewSort(Node1,Node2);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeView_GetNodeAt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	X:Integer;
 	Y:Integer;
@@ -645,13 +632,13 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	ret := lTreeView.GetNodeAt(X,Y);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeView_GetNodeWithExpandSignAt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	X:Integer;
 	Y:Integer;
@@ -662,13 +649,13 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	ret := lTreeView.GetNodeWithExpandSignAt(X,Y);
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeView_GetInsertMarkAt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	X:Integer;
 	Y:Integer;
@@ -680,13 +667,13 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	lTreeView.GetInsertMarkAt(X,Y,AnInsertMarkNode,AnInsertMarkType);
-	TreeNodeToTable(L,-1,AnInsertMarkNode);
-	lua_pushstring(L,PChar(GetEnumName(typeInfo(TTreeViewInsertMarkType), Ord(AnInsertMarkType))));
+	lua_push(L,AnInsertMarkNode);
+	lua_push(L,AnInsertMarkType,TypeInfo(AnInsertMarkType));
 	Result := 2;
 end;
 
 function VCLua_TreeView_SetInsertMark(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	AnInsertMarkNode:TTreeNode;
 	AnInsertMarkType:TTreeViewInsertMarkType;
@@ -701,7 +688,7 @@ begin
 end;
 
 function VCLua_TreeView_SetInsertMarkAt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	X:integer;
 	Y:integer;
@@ -716,7 +703,7 @@ begin
 end;
 
 function VCLua_TreeView_Invalidate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -727,20 +714,20 @@ begin
 end;
 
 function VCLua_TreeView_IsEditing(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ret := lTreeView.IsEditing();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeView_BeginUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -751,7 +738,7 @@ begin
 end;
 
 function VCLua_TreeView_EndUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -762,7 +749,7 @@ begin
 end;
 
 function VCLua_TreeView_FullCollapse(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -773,7 +760,7 @@ begin
 end;
 
 function VCLua_TreeView_FullExpand(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -784,7 +771,7 @@ begin
 end;
 
 function VCLua_TreeView_LoadFromFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	FileName:string;
 begin
@@ -797,7 +784,7 @@ begin
 end;
 
 function VCLua_TreeView_LoadFromStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	Stream:TStream;
 begin
@@ -810,7 +797,7 @@ begin
 end;
 
 function VCLua_TreeView_SaveToFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	FileName:string;
 begin
@@ -823,7 +810,7 @@ begin
 end;
 
 function VCLua_TreeView_SaveToStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	Stream:TStream;
 begin
@@ -836,7 +823,7 @@ begin
 end;
 
 function VCLua_TreeView_WriteDebugReport(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	Prefix:string;
 	AllNodes:boolean;
@@ -851,7 +838,7 @@ begin
 end;
 
 function VCLua_TreeView_LockSelectionChangeEvent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -862,7 +849,7 @@ begin
 end;
 
 function VCLua_TreeView_UnlockSelectionChangeEvent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -873,33 +860,33 @@ begin
 end;
 
 function VCLua_TreeView_GetFirstMultiSelected(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ret:TTreeNode;
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ret := lTreeView.GetFirstMultiSelected();
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeView_GetLastMultiSelected(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ret:TTreeNode;
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ret := lTreeView.GetLastMultiSelected();
-	TreeNodeToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeView_Select(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	Node:TTreeNode;
 	ShiftState:TShiftState;
@@ -914,7 +901,7 @@ begin
 end;
 
 function VCLua_TreeView_Select2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	Nodes:array of TTreeNode;
 begin
@@ -927,7 +914,7 @@ begin
 end;
 
 function VCLua_TreeView_Select3(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	Nodes:TList;
 begin
@@ -940,20 +927,20 @@ begin
 end;
 
 function VCLua_TreeView_SelectionVisible(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ret := lTreeView.SelectionVisible();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeView_MakeSelectionVisible(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -964,7 +951,7 @@ begin
 end;
 
 function VCLua_TreeView_ClearInvisibleSelection(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 begin
 	CheckArg(L, 1);
@@ -975,20 +962,20 @@ begin
 end;
 
 function VCLua_TreeView_StoreCurrentSelection(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ret:TStringList;
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ret := lTreeView.StoreCurrentSelection();
-	TreeViewToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TreeView_ApplyStoredSelection(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ASelection:TStringList;
 	FreeList:boolean;
@@ -1003,7 +990,7 @@ begin
 end;
 
 function VCLua_TreeView_MoveToNextNode(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
@@ -1016,7 +1003,7 @@ begin
 end;
 
 function VCLua_TreeView_MoveToPrevNode(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
@@ -1029,7 +1016,7 @@ begin
 end;
 
 function VCLua_TreeView_MovePageDown(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
@@ -1042,7 +1029,7 @@ begin
 end;
 
 function VCLua_TreeView_MovePageUp(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
@@ -1055,7 +1042,7 @@ begin
 end;
 
 function VCLua_TreeView_MoveHome(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
@@ -1068,7 +1055,7 @@ begin
 end;
 
 function VCLua_TreeView_MoveEnd(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
@@ -1154,7 +1141,6 @@ begin
 	LuaSetTableFunction(L, Index, 'FindNodeWithText', @VCLua_TreeNodes_FindNodeWithText);
 	LuaSetTableFunction(L, Index, 'FindNodeWithTextPath', @VCLua_TreeNodes_FindNodeWithTextPath);
 	LuaSetTableFunction(L, Index, 'FindTopLvlNode', @VCLua_TreeNodes_FindTopLvlNode);
-	LuaSetTableFunction(L, Index, 'GetEnumerator', @VCLua_TreeNodes_GetEnumerator);
 	LuaSetTableFunction(L, Index, 'GetFirstNode', @VCLua_TreeNodes_GetFirstNode);
 	LuaSetTableFunction(L, Index, 'GetFirstVisibleNode', @VCLua_TreeNodes_GetFirstVisibleNode);
 	LuaSetTableFunction(L, Index, 'GetLastVisibleNode', @VCLua_TreeNodes_GetLastVisibleNode);

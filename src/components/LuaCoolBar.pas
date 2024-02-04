@@ -28,7 +28,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_CoolBar_AutosizeBands(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCoolBar:TLuaCoolBar;
 begin
 	CheckArg(L, 1);
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_CoolBar_EndUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCoolBar:TLuaCoolBar;
 begin
 	CheckArg(L, 1);
@@ -50,7 +50,7 @@ begin
 end;
 
 function VCLua_CoolBar_Invalidate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCoolBar:TLuaCoolBar;
 begin
 	CheckArg(L, 1);
@@ -61,7 +61,7 @@ begin
 end;
 
 function VCLua_CoolBar_InsertControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCoolBar:TLuaCoolBar;
 	AControl:TControl;
 	Index:integer;
@@ -76,7 +76,7 @@ begin
 end;
 
 function VCLua_CoolBar_MouseToBandPos(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCoolBar:TLuaCoolBar;
 	X:Integer;
 	Y:Integer;
@@ -88,13 +88,13 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	lCoolBar.MouseToBandPos(X,Y,ABand,AGrabber);
-	lua_pushinteger(L,ABand);
-	lua_pushboolean(L,AGrabber);
+	lua_push(L,ABand);
+	lua_push(L,AGrabber);
 	Result := 2;
 end;
 
 function VCLua_CoolBar_RemoveControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCoolBar:TLuaCoolBar;
 	AControl:TControl;
 begin

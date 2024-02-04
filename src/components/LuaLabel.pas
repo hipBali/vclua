@@ -28,7 +28,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Label_CalcFittingFontHeight(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 	TheText:string;
 	MaxWidth:Integer;
@@ -44,41 +44,41 @@ begin
 	MaxWidth := lua_tointeger(L,3);
 	MaxHeight := lua_tointeger(L,4);
 	ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight,NeededWidth,NeededHeight);
-	lua_pushboolean(L,ret);
-	lua_pushinteger(L,FontHeight);	
-lua_pushinteger(L,NeededWidth);	
-lua_pushinteger(L,NeededHeight);
+	lua_push(L,ret);
+	lua_push(L,FontHeight);
+	lua_push(L,NeededWidth);
+	lua_push(L,NeededHeight);
 	Result := 4;
 end;
 
 function VCLua_Label_ColorIsStored(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
 	ret := lLabel.ColorIsStored();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Label_AdjustFontForOptimalFill(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
 	ret := lLabel.AdjustFontForOptimalFill();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Label_Paint(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 begin
 	CheckArg(L, 1);
@@ -89,7 +89,7 @@ begin
 end;
 
 function VCLua_Label_SetBounds(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 	aLeft:integer;
 	aTop:integer;

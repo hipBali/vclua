@@ -25,7 +25,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Picture_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 begin
 	CheckArg(L, 1);
@@ -36,7 +36,7 @@ begin
 end;
 
 function VCLua_Picture_LoadFromFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Filename:string;
 begin
@@ -49,7 +49,7 @@ begin
 end;
 
 function VCLua_Picture_LoadFromStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Stream:TStream;
 begin
@@ -62,7 +62,7 @@ begin
 end;
 
 function VCLua_Picture_LoadFromStreamWithFileExt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Stream:TStream;
 	FileExt:string;
@@ -77,7 +77,7 @@ begin
 end;
 
 function VCLua_Picture_SaveToFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Filename:string;
 	FileExt:string;
@@ -92,7 +92,7 @@ begin
 end;
 
 function VCLua_Picture_SaveToStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Stream:TStream;
 begin
@@ -105,7 +105,7 @@ begin
 end;
 
 function VCLua_Picture_SaveToStreamWithFileExt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Stream:TStream;
 	FileExt:string;
@@ -120,7 +120,7 @@ begin
 end;
 
 function VCLua_Picture_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Source:TPersistent;
 begin

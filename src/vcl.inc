@@ -86,7 +86,7 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..84] of lual_reg = (
+	vcl_lib : array[0..85] of lual_reg = (
 		(name:'Strings'; func:@CreateStrings),
 		(name:'TextStrings'; func:@CreateTextStrings),
 		(name:'StringList'; func:@CreateStringList),
@@ -97,6 +97,7 @@ Generated with Lua-fpc parser/generator
 		(name:'Form'; func:@CreateForm),
 		(name:'ScrollBox'; func:@CreateScrollBox),
 		(name:'BasicAction'; func:@CreateBasicAction),
+		(name:'ContainedAction'; func:@CreateContainedAction),
 		(name:'Action'; func:@CreateAction),
 		(name:'ActionList'; func:@CreateActionList),
 		(name:'ImageList'; func:@CreateImageList),

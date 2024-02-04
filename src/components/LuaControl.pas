@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Control_DragDrop(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Source:TObject;
 	X:Integer;
@@ -43,7 +43,7 @@ begin
 end;
 
 function VCLua_Control_Dock(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	NewDockSite:TWinControl;
 	ARect:TRect;
@@ -58,7 +58,7 @@ begin
 end;
 
 function VCLua_Control_ManualDock(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	NewDockSite:TWinControl;
 	DropControl:TControl;
@@ -73,13 +73,13 @@ begin
 	ControlSide := TAlign(GetLuaObject(L,4));
 	KeepDockSiteSize := luaL_optbool(L,5,true);
 	ret := lControl.ManualDock(NewDockSite,DropControl,ControlSide,KeepDockSiteSize);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ManualFloat(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	TheScreenRect:TRect;
 	KeepDockSiteSize:Boolean;
@@ -90,13 +90,13 @@ begin
 	TheScreenRect := lua_toTRect(L,2);
 	KeepDockSiteSize := luaL_optbool(L,3,true);
 	ret := lControl.ManualFloat(TheScreenRect,KeepDockSiteSize);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ReplaceDockedControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Control:TControl;
 	NewDockSite:TWinControl;
@@ -111,39 +111,39 @@ begin
 	DropControl := TControl(GetLuaObject(L,4));
 	ControlSide := TAlign(GetLuaObject(L,5));
 	ret := lControl.ReplaceDockedControl(Control,NewDockSite,DropControl,ControlSide);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_Docked(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.Docked();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_Dragging(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.Dragging();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ScaleDesignToForm(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -152,13 +152,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.ScaleDesignToForm(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ScaleFormToDesign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -167,13 +167,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.ScaleFormToDesign(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_Scale96ToForm(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -182,13 +182,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.Scale96ToForm(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ScaleFormTo96(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -197,13 +197,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.ScaleFormTo96(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_Scale96ToFont(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -212,13 +212,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.Scale96ToFont(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ScaleFontTo96(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -227,13 +227,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.ScaleFontTo96(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ScaleScreenToFont(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -242,13 +242,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.ScaleScreenToFont(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ScaleFontToScreen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -257,13 +257,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.ScaleFontToScreen(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_Scale96ToScreen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -272,13 +272,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.Scale96ToScreen(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ScaleScreenTo96(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
@@ -287,13 +287,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ASize := lua_tointeger(L,2);
 	ret := lControl.ScaleScreenTo96(ASize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_AnchorToNeighbour(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	Space:TSpacingSize;
@@ -310,7 +310,7 @@ begin
 end;
 
 function VCLua_Control_AnchorParallel(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	Space:TSpacingSize;
@@ -327,7 +327,7 @@ begin
 end;
 
 function VCLua_Control_AnchorHorizontalCenterTo(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Sibling:TControl;
 begin
@@ -340,7 +340,7 @@ begin
 end;
 
 function VCLua_Control_AnchorVerticalCenterTo(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Sibling:TControl;
 begin
@@ -353,7 +353,7 @@ begin
 end;
 
 function VCLua_Control_AnchorToCompanion(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	Space:TSpacingSize;
@@ -372,7 +372,7 @@ begin
 end;
 
 function VCLua_Control_AnchorSame(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	Sibling:TControl;
@@ -387,7 +387,7 @@ begin
 end;
 
 function VCLua_Control_AnchorAsAlign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	TheAlign:TAlign;
 	Space:TSpacingSize;
@@ -402,7 +402,7 @@ begin
 end;
 
 function VCLua_Control_AnchorClient(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Space:TSpacingSize;
 begin
@@ -415,20 +415,20 @@ begin
 end;
 
 function VCLua_Control_AnchoredControlCount(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.AnchoredControlCount();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_SetBounds(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	aLeft:integer;
 	aTop:integer;
@@ -447,7 +447,7 @@ begin
 end;
 
 function VCLua_Control_SetInitialBounds(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	aLeft:integer;
 	aTop:integer;
@@ -466,7 +466,7 @@ begin
 end;
 
 function VCLua_Control_SetBoundsKeepBase(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	aLeft:integer;
 	aTop:integer;
@@ -485,7 +485,7 @@ begin
 end;
 
 function VCLua_Control_GetPreferredSize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	PreferredWidth:integer;
 	PreferredHeight:integer;
@@ -497,52 +497,52 @@ begin
 	Raw := luaL_optbool(L,2,false);
 	WithThemeSpace := luaL_optbool(L,3,true);
 	lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
-	lua_pushinteger(L,PreferredWidth);
-	lua_pushinteger(L,PreferredHeight);
+	lua_push(L,PreferredWidth);
+	lua_push(L,PreferredHeight);
 	Result := 2;
 end;
 
 function VCLua_Control_GetCanvasScaleFactor(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Double;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.GetCanvasScaleFactor();
-	lua_pushnumber(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetDefaultWidth(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.GetDefaultWidth();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetDefaultHeight(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.GetDefaultHeight();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetDefaultColor(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	DefaultColorType:TDefaultColorType;
 	ret:TColor;
@@ -551,39 +551,39 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	DefaultColorType := TDefaultColorType(GetLuaObject(L,2));
 	ret := lControl.GetDefaultColor(DefaultColorType);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetColorResolvingParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:TColor;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.GetColorResolvingParent();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetRGBColorResolvingParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:TColor;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.GetRGBColorResolvingParent();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetSidePosition(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	ret:integer;
@@ -592,13 +592,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	Side := TAnchorKind(GetLuaObject(L,2));
 	ret := lControl.GetSidePosition(Side);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_CNPreferredSizeChanged(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -609,7 +609,7 @@ begin
 end;
 
 function VCLua_Control_InvalidatePreferredSize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -620,7 +620,7 @@ begin
 end;
 
 function VCLua_Control_UpdateBaseBounds(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	StoreBounds:boolean;
 	StoreParentClientSize:boolean;
@@ -637,7 +637,7 @@ begin
 end;
 
 function VCLua_Control_ShouldAutoAdjust(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	AWidth:Boolean;
 	AHeight:Boolean;
@@ -646,13 +646,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	
 	lControl.ShouldAutoAdjust(AWidth,AHeight);
-	lua_pushboolean(L,AWidth);
-	lua_pushboolean(L,AHeight);
+	lua_push(L,AWidth);
+	lua_push(L,AHeight);
 	Result := 2;
 end;
 
 function VCLua_Control_FixDesignFontsPPI(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ADesignTimePPI:Integer;
 begin
@@ -665,7 +665,7 @@ begin
 end;
 
 function VCLua_Control_ScaleFontsPPI(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	AToPPI:Integer;
 	AProportion:Double;
@@ -680,7 +680,7 @@ begin
 end;
 
 function VCLua_Control_BeforeDestruction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -691,7 +691,7 @@ begin
 end;
 
 function VCLua_Control_EditingDone(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -702,7 +702,7 @@ begin
 end;
 
 function VCLua_Control_ExecuteDefaultAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -713,7 +713,7 @@ begin
 end;
 
 function VCLua_Control_ExecuteCancelAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -724,7 +724,7 @@ begin
 end;
 
 function VCLua_Control_BeginDrag(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Immediate:Boolean;
 	Threshold:Integer;
@@ -739,7 +739,7 @@ begin
 end;
 
 function VCLua_Control_EndDrag(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Drop:Boolean;
 begin
@@ -752,7 +752,7 @@ begin
 end;
 
 function VCLua_Control_BringToFront(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -763,33 +763,33 @@ begin
 end;
 
 function VCLua_Control_HasParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.HasParent();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetParentComponent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:TComponent;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.GetParentComponent();
-	lua_pushlightuserdata(L,ret);
+	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
 end;
 
 function VCLua_Control_IsParentOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	AControl:TControl;
 	ret:boolean;
@@ -798,26 +798,26 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	AControl := TControl(GetLuaObject(L,2));
 	ret := lControl.IsParentOf(AControl);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetTopParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:TControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.GetTopParent();
-	lua_pushlightuserdata(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_FindSubComponent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	AName:string;
 	ret:TComponent;
@@ -826,39 +826,39 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	AName := lua_toStringCP(L,2);
 	ret := lControl.FindSubComponent(AName);
-	lua_pushlightuserdata(L,ret);
+	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
 end;
 
 function VCLua_Control_FormIsUpdating(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.FormIsUpdating();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_IsProcessingPaintMsg(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.IsProcessingPaintMsg();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_Hide(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -869,7 +869,7 @@ begin
 end;
 
 function VCLua_Control_Refresh(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -880,7 +880,7 @@ begin
 end;
 
 function VCLua_Control_Repaint(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -891,7 +891,7 @@ begin
 end;
 
 function VCLua_Control_Invalidate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -902,7 +902,7 @@ begin
 end;
 
 function VCLua_Control_SendToBack(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -913,7 +913,7 @@ begin
 end;
 
 function VCLua_Control_SetTempCursor(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Value:TCursor;
 begin
@@ -926,7 +926,7 @@ begin
 end;
 
 function VCLua_Control_UpdateRolesForForm(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -937,7 +937,7 @@ begin
 end;
 
 function VCLua_Control_ActiveDefaultControlChanged(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	NewControl:TControl;
 begin
@@ -950,7 +950,7 @@ begin
 end;
 
 function VCLua_Control_GetTextBuf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Buffer:PChar;
 	BufSize:Integer;
@@ -961,26 +961,26 @@ begin
 	Buffer := PChar(lua_toStringCP(L,2));
 	BufSize := lua_tointeger(L,3);
 	ret := lControl.GetTextBuf(Buffer,BufSize);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetTextLen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.GetTextLen();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_SetTextBuf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Buffer:PChar;
 begin
@@ -993,7 +993,7 @@ begin
 end;
 
 function VCLua_Control_ScreenToClient(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	APoint:TPoint;
 	ret:TPoint;
@@ -1002,13 +1002,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	APoint := lua_toTPoint(L,2);
 	ret := lControl.ScreenToClient(APoint);
-	lua_pushTPoint(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ClientToScreen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	APoint:TPoint;
 	ret:TPoint;
@@ -1017,13 +1017,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	APoint := lua_toTPoint(L,2);
 	ret := lControl.ClientToScreen(APoint);
-	lua_pushTPoint(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ScreenToControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	APoint:TPoint;
 	ret:TPoint;
@@ -1032,13 +1032,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	APoint := lua_toTPoint(L,2);
 	ret := lControl.ScreenToControl(APoint);
-	lua_pushTPoint(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ControlToScreen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	APoint:TPoint;
 	ret:TPoint;
@@ -1047,13 +1047,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	APoint := lua_toTPoint(L,2);
 	ret := lControl.ControlToScreen(APoint);
-	lua_pushTPoint(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ClientToParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Point:TPoint;
 	AParent:TWinControl;
@@ -1064,13 +1064,13 @@ begin
 	Point := lua_toTPoint(L,2);
 	AParent := TWinControl(GetLuaObject(L,3));
 	ret := lControl.ClientToParent(Point,AParent);
-	lua_pushTPoint(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ParentToClient(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Point:TPoint;
 	AParent:TWinControl;
@@ -1081,13 +1081,13 @@ begin
 	Point := lua_toTPoint(L,2);
 	AParent := TWinControl(GetLuaObject(L,3));
 	ret := lControl.ParentToClient(Point,AParent);
-	lua_pushTPoint(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_GetChildrenRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Scrolled:boolean;
 	ret:TRect;
@@ -1096,13 +1096,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	Scrolled := lua_toboolean(L,2);
 	ret := lControl.GetChildrenRect(Scrolled);
-	lua_pushTRect(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_Show(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -1113,7 +1113,7 @@ begin
 end;
 
 function VCLua_Control_Update(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -1124,46 +1124,46 @@ begin
 end;
 
 function VCLua_Control_HandleObjectShouldBeVisible(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.HandleObjectShouldBeVisible();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ParentDestroyingHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.ParentDestroyingHandle();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_ParentHandlesAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.ParentHandlesAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Control_InitiateAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -1174,7 +1174,7 @@ begin
 end;
 
 function VCLua_Control_ShowHelp(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
@@ -1185,14 +1185,14 @@ begin
 end;
 
 function VCLua_Control_HasHelp(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	ret := lControl.HasHelp();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

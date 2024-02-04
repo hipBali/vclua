@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Bevel_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBevel:TLuaBevel;
 	Source:TPersistent;
 begin

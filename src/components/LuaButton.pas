@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Button_Click(L: Plua_State): Integer; cdecl;
-var 
+var
 	lButton:TLuaButton;
 begin
 	CheckArg(L, 1);
@@ -37,7 +37,7 @@ begin
 end;
 
 function VCLua_Button_ExecuteDefaultAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lButton:TLuaButton;
 begin
 	CheckArg(L, 1);
@@ -48,7 +48,7 @@ begin
 end;
 
 function VCLua_Button_ExecuteCancelAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lButton:TLuaButton;
 begin
 	CheckArg(L, 1);
@@ -59,7 +59,7 @@ begin
 end;
 
 function VCLua_Button_ActiveDefaultControlChanged(L: Plua_State): Integer; cdecl;
-var 
+var
 	lButton:TLuaButton;
 	NewControl:TControl;
 begin
@@ -72,7 +72,7 @@ begin
 end;
 
 function VCLua_Button_UpdateRolesForForm(L: Plua_State): Integer; cdecl;
-var 
+var
 	lButton:TLuaButton;
 begin
 	CheckArg(L, 1);
@@ -83,14 +83,14 @@ begin
 end;
 
 function VCLua_Button_UseRightToLeftAlignment(L: Plua_State): Integer; cdecl;
-var 
+var
 	lButton:TLuaButton;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lButton := TLuaButton(GetLuaObject(L, 1));
 	ret := lButton.UseRightToLeftAlignment();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

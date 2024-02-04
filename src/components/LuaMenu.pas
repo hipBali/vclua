@@ -59,7 +59,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenu:TLuaMenu;
 begin
 	CheckArg(L, 1);
@@ -70,7 +70,7 @@ begin
 end;
 
 function VCLua_Menu_FindItem(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenu:TLuaMenu;
 	AValue:PtrInt;
 	Kind:TFindItemKind;
@@ -81,13 +81,13 @@ begin
 	AValue := lua_tointeger(L,2);
 	Kind := TFindItemKind(GetLuaObject(L,3));
 	ret := lMenu.FindItem(AValue,Kind);
-	MenuToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Menu_GetHelpContext(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenu:TLuaMenu;
 	AValue:PtrInt;
 	ByCommand:Boolean;
@@ -98,65 +98,65 @@ begin
 	AValue := lua_tointeger(L,2);
 	ByCommand := lua_toboolean(L,3);
 	ret := lMenu.GetHelpContext(AValue,ByCommand);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Menu_HandleAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenu:TLuaMenu;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	ret := lMenu.HandleAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Menu_IsRightToLeft(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenu:TLuaMenu;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	ret := lMenu.IsRightToLeft();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Menu_UseRightToLeftAlignment(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenu:TLuaMenu;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	ret := lMenu.UseRightToLeftAlignment();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Menu_UseRightToLeftReading(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenu:TLuaMenu;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	ret := lMenu.UseRightToLeftReading();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Menu_HandleNeeded(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenu:TLuaMenu;
 begin
 	CheckArg(L, 1);
@@ -167,7 +167,7 @@ begin
 end;
 
 function VCLua_Menu_DispatchCommand(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenu:TLuaMenu;
 	ACommand:Word;
 	ret:Boolean;
@@ -176,13 +176,13 @@ begin
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	ACommand := Word(lua_tointeger(L,2));
 	ret := lMenu.DispatchCommand(ACommand);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_PopupMenu_PopUp(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPopupMenu:TLuaPopupMenu;
 begin
 	CheckArg(L, 1);
@@ -193,7 +193,7 @@ begin
 end;
 
 function VCLua_PopupMenu_PopUp2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPopupMenu:TLuaPopupMenu;
 	X:Integer;
 	Y:Integer;
@@ -208,7 +208,7 @@ begin
 end;
 
 function VCLua_PopupMenu_Close(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPopupMenu:TLuaPopupMenu;
 begin
 	CheckArg(L, 1);
@@ -219,7 +219,7 @@ begin
 end;
 
 function VCLua_MenuItem_Find(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ACaption:string;
 	ret:TMenuItem;
@@ -228,13 +228,13 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ACaption := lua_toStringCP(L,2);
 	ret := lMenuItem.Find(ACaption);
-	MenuItemToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_GetImageList(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	aImages:TCustomImageList;
 	aImagesWidth:Integer;
@@ -243,117 +243,117 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	
 	lMenuItem.GetImageList(aImages,aImagesWidth);
-	ImageListToTable(L,-1,aImages);
-	lua_pushinteger(L,aImagesWidth);
+	lua_push(L,aImages,TypeInfo(aImages));
+	lua_push(L,aImagesWidth);
 	Result := 2;
 end;
 
 function VCLua_MenuItem_GetImageList2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:TCustomImageList;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.GetImageList();
-	ImageListToTable(L,-1,ret);
+	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_GetParentComponent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:TComponent;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.GetParentComponent();
-	lua_pushlightuserdata(L,ret);
+	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_GetParentMenu(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:TMenu;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.GetParentMenu();
-	MenuItemToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_GetMergedParentMenu(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:TMenu;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.GetMergedParentMenu();
-	MenuItemToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_GetIsRightToLeft(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.GetIsRightToLeft();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_HandleAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.HandleAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_HasIcon(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.HasIcon();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_HasParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.HasParent();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_InitiateAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 begin
 	CheckArg(L, 1);
@@ -364,7 +364,7 @@ begin
 end;
 
 function VCLua_MenuItem_IntfDoSelect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 begin
 	CheckArg(L, 1);
@@ -375,7 +375,7 @@ begin
 end;
 
 function VCLua_MenuItem_IndexOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	Item:TMenuItem;
 	ret:Integer;
@@ -384,13 +384,13 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	Item := TMenuItem(GetLuaObject(L,2));
 	ret := lMenuItem.IndexOf(Item);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_IndexOfCaption(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ACaption:string;
 	ret:Integer;
@@ -399,13 +399,13 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ACaption := lua_toStringCP(L,2);
 	ret := lMenuItem.IndexOfCaption(ACaption);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_InvalidateMergedItems(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 begin
 	CheckArg(L, 1);
@@ -416,7 +416,7 @@ begin
 end;
 
 function VCLua_MenuItem_VisibleIndexOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	Item:TMenuItem;
 	ret:Integer;
@@ -425,13 +425,13 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	Item := TMenuItem(GetLuaObject(L,2));
 	ret := lMenuItem.VisibleIndexOf(Item);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_Add(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	Item:TMenuItem;
 begin
@@ -444,7 +444,7 @@ begin
 end;
 
 function VCLua_MenuItem_Add2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	AItems:array of TMenuItem;
 begin
@@ -457,7 +457,7 @@ begin
 end;
 
 function VCLua_MenuItem_AddSeparator(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 begin
 	CheckArg(L, 1);
@@ -468,7 +468,7 @@ begin
 end;
 
 function VCLua_MenuItem_Click(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 begin
 	CheckArg(L, 1);
@@ -479,7 +479,7 @@ begin
 end;
 
 function VCLua_MenuItem_Delete(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	Index:Integer;
 begin
@@ -492,7 +492,7 @@ begin
 end;
 
 function VCLua_MenuItem_HandleNeeded(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 begin
 	CheckArg(L, 1);
@@ -503,7 +503,7 @@ begin
 end;
 
 function VCLua_MenuItem_Insert(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	Index:Integer;
 	Item:TMenuItem;
@@ -518,7 +518,7 @@ begin
 end;
 
 function VCLua_MenuItem_RecreateHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 begin
 	CheckArg(L, 1);
@@ -529,7 +529,7 @@ begin
 end;
 
 function VCLua_MenuItem_Remove(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	Item:TMenuItem;
 begin
@@ -542,7 +542,7 @@ begin
 end;
 
 function VCLua_MenuItem_UpdateImage(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	forced:Boolean;
 begin
@@ -555,7 +555,7 @@ begin
 end;
 
 function VCLua_MenuItem_UpdateImages(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	forced:Boolean;
 begin
@@ -568,46 +568,46 @@ begin
 end;
 
 function VCLua_MenuItem_IsCheckItem(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.IsCheckItem();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_IsLine(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.IsLine();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_IsInMenuBar(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.IsInMenuBar();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 begin
 	CheckArg(L, 1);
@@ -618,33 +618,33 @@ begin
 end;
 
 function VCLua_MenuItem_HasBitmap(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.HasBitmap();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_MenuVisibleIndex(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	ret := lMenuItem.MenuVisibleIndex();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_MenuItem_WriteDebugReport(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMenuItem:TLuaMenuItem;
 	Prefix:string;
 begin
@@ -657,7 +657,7 @@ begin
 end;
 
 function VCLua_MainMenu_Merge(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMainMenu:TLuaMainMenu;
 	Menu:TMainMenu;
 begin
@@ -670,7 +670,7 @@ begin
 end;
 
 function VCLua_MainMenu_Unmerge(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMainMenu:TLuaMainMenu;
 	Menu:TMainMenu;
 begin

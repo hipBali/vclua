@@ -28,7 +28,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Shape_Paint(L: Plua_State): Integer; cdecl;
-var 
+var
 	lShape:TLuaShape;
 begin
 	CheckArg(L, 1);
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_Shape_StyleChanged(L: Plua_State): Integer; cdecl;
-var 
+var
 	lShape:TLuaShape;
 	Sender:TObject;
 begin

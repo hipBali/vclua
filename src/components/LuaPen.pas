@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Pen_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPen:TLuaPen;
 	Source:TPersistent;
 begin
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_Pen_SetPattern(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPen:TLuaPen;
 	APattern:TPenPattern;
 begin

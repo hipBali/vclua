@@ -248,6 +248,9 @@ else
 if (comp.InheritsFrom(TAction)) then
 	ActionToTable(L,index,Comp)
 else
+if (comp.InheritsFrom(TContainedAction)) then
+	ContainedActionToTable(L,index,Comp)
+else
 if (comp.InheritsFrom(TBasicAction)) then
 	BasicActionToTable(L,index,Comp)
 else

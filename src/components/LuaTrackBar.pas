@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_TrackBar_SetTick(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTrackBar:TLuaTrackBar;
 	Value:Integer;
 begin

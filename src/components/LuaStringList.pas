@@ -25,7 +25,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_StringList_Add(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringList:TLuaStringList;
 	S:string;
 	ret:Integer;
@@ -34,13 +34,13 @@ begin
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
 	ret := lStringList.Add(S);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_StringList_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringList:TLuaStringList;
 begin
 	CheckArg(L, 1);
@@ -51,7 +51,7 @@ begin
 end;
 
 function VCLua_StringList_Delete(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringList:TLuaStringList;
 	Index:Integer;
 begin
@@ -64,7 +64,7 @@ begin
 end;
 
 function VCLua_StringList_Exchange(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringList:TLuaStringList;
 	Index1:Integer;
 	Index2:Integer;
@@ -79,7 +79,7 @@ begin
 end;
 
 function VCLua_StringList_Find(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringList:TLuaStringList;
 	S:string;
 	Index:Integer;
@@ -89,13 +89,13 @@ begin
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
 	ret := lStringList.Find(S,Index);
-	lua_pushboolean(L,ret);
-	lua_pushinteger(L,Index);
+	lua_push(L,ret);
+	lua_push(L,Index);
 	Result := 2;
 end;
 
 function VCLua_StringList_IndexOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringList:TLuaStringList;
 	S:string;
 	ret:Integer;
@@ -104,13 +104,13 @@ begin
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
 	ret := lStringList.IndexOf(S);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_StringList_Insert(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringList:TLuaStringList;
 	Index:Integer;
 	S:string;
@@ -125,7 +125,7 @@ begin
 end;
 
 function VCLua_StringList_Sort(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringList:TLuaStringList;
 begin
 	CheckArg(L, 1);
@@ -136,7 +136,7 @@ begin
 end;
 
 function VCLua_StringList_CustomSort(L: Plua_State): Integer; cdecl;
-var 
+var
 	lStringList:TLuaStringList;
 	CompareFn:TStringListSortCompare;
 begin

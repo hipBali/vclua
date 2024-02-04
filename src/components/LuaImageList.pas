@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ImageList_AssignTo(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Dest:TPersistent;
 begin
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_ImageList_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Source:TPersistent;
 begin
@@ -52,7 +52,7 @@ begin
 end;
 
 function VCLua_ImageList_WriteData(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AStream:TStream;
 begin
@@ -65,7 +65,7 @@ begin
 end;
 
 function VCLua_ImageList_ReadData(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AStream:TStream;
 begin
@@ -78,7 +78,7 @@ begin
 end;
 
 function VCLua_ImageList_WriteAdvData(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AStream:TStream;
 begin
@@ -91,7 +91,7 @@ begin
 end;
 
 function VCLua_ImageList_ReadAdvData(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AStream:TStream;
 begin
@@ -104,7 +104,7 @@ begin
 end;
 
 function VCLua_ImageList_Equals(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Obj:TObject;
 	ret:boolean;
@@ -113,13 +113,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	Obj := TObject(GetLuaObject(L,2));
 	ret := lImageList.Equals(Obj);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_BeginUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 begin
 	CheckArg(L, 1);
@@ -130,7 +130,7 @@ begin
 end;
 
 function VCLua_ImageList_EndUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 begin
 	CheckArg(L, 1);
@@ -141,7 +141,7 @@ begin
 end;
 
 function VCLua_ImageList_Add(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Image:TCustomBitmap;
 	Mask:TCustomBitmap;
@@ -152,13 +152,13 @@ begin
 	Image := TCustomBitmap(GetLuaObject(L,2));
 	Mask := TCustomBitmap(GetLuaObject(L,3));
 	ret := lImageList.Add(Image,Mask);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_AddSliced(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Image:TCustomBitmap;
 	AHorizontalCount:Integer;
@@ -171,13 +171,13 @@ begin
 	AHorizontalCount := lua_tointeger(L,3);
 	AVerticalCount := lua_tointeger(L,4);
 	ret := lImageList.AddSliced(Image,AHorizontalCount,AVerticalCount);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_AddSlice(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Image:TCustomBitmap;
 	AImageRect:TRect;
@@ -188,13 +188,13 @@ begin
 	Image := TCustomBitmap(GetLuaObject(L,2));
 	AImageRect := lua_toTRect(L,3);
 	ret := lImageList.AddSlice(Image,AImageRect);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_AddSliceCentered(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Image:TCustomBitmap;
 	ret:Integer;
@@ -203,13 +203,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	Image := TCustomBitmap(GetLuaObject(L,2));
 	ret := lImageList.AddSliceCentered(Image);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_AddIcon(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Image:TCustomIcon;
 	ret:Integer;
@@ -218,13 +218,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	Image := TCustomIcon(GetLuaObject(L,2));
 	ret := lImageList.AddIcon(Image);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_AddImages(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AValue:TCustomImageList;
 begin
@@ -237,7 +237,7 @@ begin
 end;
 
 function VCLua_ImageList_AddMasked(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Image:TBitmap;
 	MaskColor:TColor;
@@ -248,13 +248,13 @@ begin
 	Image := TBitmap(GetLuaObject(L,2));
 	MaskColor := TColor(lua_tointeger(L,3));
 	ret := lImageList.AddMasked(Image,MaskColor);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_AddLazarusResource(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	ResourceName:string;
 	MaskColor:TColor;
@@ -265,13 +265,13 @@ begin
 	ResourceName := lua_toStringCP(L,2);
 	MaskColor := TColor(lua_tointeger(L,3));
 	ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_AddResourceName(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Instance:THandle;
 	ResourceName:string;
@@ -284,13 +284,13 @@ begin
 	ResourceName := lua_toStringCP(L,3);
 	MaskColor := TColor(lua_tointeger(L,4));
 	ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_Change(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 begin
 	CheckArg(L, 1);
@@ -301,7 +301,7 @@ begin
 end;
 
 function VCLua_ImageList_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 begin
 	CheckArg(L, 1);
@@ -312,7 +312,7 @@ begin
 end;
 
 function VCLua_ImageList_Delete(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AIndex:Integer;
 begin
@@ -325,7 +325,7 @@ begin
 end;
 
 function VCLua_ImageList_Draw(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	ACanvas:TCanvas;
 	AX:Integer;
@@ -346,7 +346,28 @@ begin
 end;
 
 function VCLua_ImageList_Draw2(L: Plua_State): Integer; cdecl;
-var 
+var
+	lImageList:TLuaImageList;
+	ACanvas:TCanvas;
+	AX:Integer;
+	AY:Integer;
+	AIndex:Integer;
+	ADrawEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 6);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	ACanvas := TCanvas(GetLuaObject(L,2));
+	AX := lua_tointeger(L,3);
+	AY := lua_tointeger(L,4);
+	AIndex := lua_tointeger(L,5);
+	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,6));
+	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawEffect);
+	
+	Result := 0;
+end;
+
+function VCLua_ImageList_Draw3(L: Plua_State): Integer; cdecl;
+var
 	lImageList:TLuaImageList;
 	ACanvas:TCanvas;
 	AX:Integer;
@@ -370,8 +391,33 @@ begin
 	Result := 0;
 end;
 
+function VCLua_ImageList_Draw4(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ACanvas:TCanvas;
+	AX:Integer;
+	AY:Integer;
+	AIndex:Integer;
+	ADrawingStyle:TDrawingStyle;
+	AImageType:TImageType;
+	ADrawEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 8);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	ACanvas := TCanvas(GetLuaObject(L,2));
+	AX := lua_tointeger(L,3);
+	AY := lua_tointeger(L,4);
+	AIndex := lua_tointeger(L,5);
+	ADrawingStyle := TDrawingStyle(GetLuaObject(L,6));
+	AImageType := TImageType(GetLuaObject(L,7));
+	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,8));
+	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,ADrawEffect);
+	
+	Result := 0;
+end;
+
 function VCLua_ImageList_DrawForPPI(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	ACanvas:TCanvas;
 	AX:Integer;
@@ -397,8 +443,35 @@ begin
 	Result := 0;
 end;
 
+function VCLua_ImageList_DrawForPPI2(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ACanvas:TCanvas;
+	AX:Integer;
+	AY:Integer;
+	AIndex:Integer;
+	AImageWidthAt96PPI:Integer;
+	ATargetPPI:Integer;
+	ACanvasFactor:Double;
+	ADrawEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 9);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	ACanvas := TCanvas(GetLuaObject(L,2));
+	AX := lua_tointeger(L,3);
+	AY := lua_tointeger(L,4);
+	AIndex := lua_tointeger(L,5);
+	AImageWidthAt96PPI := lua_tointeger(L,6);
+	ATargetPPI := lua_tointeger(L,7);
+	ACanvasFactor := lua_tonumber(L,8);
+	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,9));
+	lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,ADrawEffect);
+	
+	Result := 0;
+end;
+
 function VCLua_ImageList_DrawOverlay(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	ACanvas:TCanvas;
 	AX:Integer;
@@ -420,8 +493,58 @@ begin
 	Result := 0;
 end;
 
+function VCLua_ImageList_DrawOverlay2(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ACanvas:TCanvas;
+	AX:Integer;
+	AY:Integer;
+	AIndex:Integer;
+	AOverlay:TOverlay;
+	ADrawEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 7);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	ACanvas := TCanvas(GetLuaObject(L,2));
+	AX := lua_tointeger(L,3);
+	AY := lua_tointeger(L,4);
+	AIndex := lua_tointeger(L,5);
+	AOverlay := lua_tointeger(L,6);
+	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,7));
+	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawEffect);
+	
+	Result := 0;
+end;
+
+function VCLua_ImageList_DrawOverlay3(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ACanvas:TCanvas;
+	AX:Integer;
+	AY:Integer;
+	AIndex:Integer;
+	AOverlay:TOverlay;
+	ADrawingStyle:TDrawingStyle;
+	AImageType:TImageType;
+	ADrawEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 9);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	ACanvas := TCanvas(GetLuaObject(L,2));
+	AX := lua_tointeger(L,3);
+	AY := lua_tointeger(L,4);
+	AIndex := lua_tointeger(L,5);
+	AOverlay := lua_tointeger(L,6);
+	ADrawingStyle := TDrawingStyle(GetLuaObject(L,7));
+	AImageType := TImageType(GetLuaObject(L,8));
+	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,9));
+	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawingStyle,AImageType,ADrawEffect);
+	
+	Result := 0;
+end;
+
 function VCLua_ImageList_GetBitmap(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Index:Integer;
 	Image:TCustomBitmap;
@@ -435,8 +558,57 @@ begin
 	Result := 0;
 end;
 
+function VCLua_ImageList_GetBitmap2(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	Index:Integer;
+	Image:TCustomBitmap;
+	AEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 4);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	Index := lua_tointeger(L,2);
+	Image := TCustomBitmap(GetLuaObject(L,3));
+	AEffect := TGraphicsDrawEffect(GetLuaObject(L,4));
+	lImageList.GetBitmap(Index,Image,AEffect);
+	
+	Result := 0;
+end;
+
+function VCLua_ImageList_GetFullBitmap(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	Image:TCustomBitmap;
+	AEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 3);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	Image := TCustomBitmap(GetLuaObject(L,2));
+	AEffect := TGraphicsDrawEffect(GetLuaObject(L,3));
+	lImageList.GetFullBitmap(Image,AEffect);
+	
+	Result := 0;
+end;
+
 function VCLua_ImageList_GetIcon(L: Plua_State): Integer; cdecl;
-var 
+var
+	lImageList:TLuaImageList;
+	Index:Integer;
+	Image:TIcon;
+	AEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 4);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	Index := lua_tointeger(L,2);
+	Image := TIcon(GetLuaObject(L,3));
+	AEffect := TGraphicsDrawEffect(GetLuaObject(L,4));
+	lImageList.GetIcon(Index,Image,AEffect);
+	
+	Result := 0;
+end;
+
+function VCLua_ImageList_GetIcon2(L: Plua_State): Integer; cdecl;
+var
 	lImageList:TLuaImageList;
 	Index:Integer;
 	Image:TIcon;
@@ -451,20 +623,20 @@ begin
 end;
 
 function VCLua_ImageList_GetHotSpot(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	ret:TPoint;
 begin
 	CheckArg(L, 1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	ret := lImageList.GetHotSpot();
-	lua_pushTPoint(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ImageList_Insert(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AIndex:Integer;
 	AImage:TCustomBitmap;
@@ -481,7 +653,7 @@ begin
 end;
 
 function VCLua_ImageList_InsertIcon(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AIndex:Integer;
 	AIcon:TCustomIcon;
@@ -496,7 +668,7 @@ begin
 end;
 
 function VCLua_ImageList_InsertMasked(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Index:Integer;
 	AImage:TCustomBitmap;
@@ -513,7 +685,7 @@ begin
 end;
 
 function VCLua_ImageList_Move(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	ACurIndex:Integer;
 	ANewIndex:Integer;
@@ -528,7 +700,7 @@ begin
 end;
 
 function VCLua_ImageList_Overlay(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AIndex:Integer;
 	Overlay:TOverlay;
@@ -543,7 +715,7 @@ begin
 end;
 
 function VCLua_ImageList_Replace(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AIndex:Integer;
 	AImage:TCustomBitmap;
@@ -562,7 +734,7 @@ begin
 end;
 
 function VCLua_ImageList_ReplaceSlice(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AIndex:Integer;
 	Image:TCustomBitmap;
@@ -581,7 +753,7 @@ begin
 end;
 
 function VCLua_ImageList_ReplaceSliceCentered(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AIndex:Integer;
 	AImageWidth:Integer;
@@ -600,7 +772,7 @@ begin
 end;
 
 function VCLua_ImageList_ReplaceIcon(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AIndex:Integer;
 	AIcon:TCustomIcon;
@@ -615,7 +787,7 @@ begin
 end;
 
 function VCLua_ImageList_ReplaceMasked(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Index:Integer;
 	NewImage:TCustomBitmap;
@@ -634,7 +806,7 @@ begin
 end;
 
 function VCLua_ImageList_RegisterChanges(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Value:TChangeLink;
 begin
@@ -647,7 +819,7 @@ begin
 end;
 
 function VCLua_ImageList_StretchDraw(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Canvas:TCanvas;
 	Index:Integer;
@@ -666,7 +838,7 @@ begin
 end;
 
 function VCLua_ImageList_UnRegisterChanges(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	Value:TChangeLink;
 begin
@@ -679,7 +851,7 @@ begin
 end;
 
 function VCLua_ImageList_DeleteResolution(L: Plua_State): Integer; cdecl;
-var 
+var
 	lImageList:TLuaImageList;
 	AWidth:Integer;
 begin
@@ -689,32 +861,6 @@ begin
 	lImageList.DeleteResolution(AWidth);
 	
 	Result := 0;
-end;
-
-function VCLua_ImageList_Resolutions(L: Plua_State): Integer; cdecl;
-var 
-	lImageList:TLuaImageList;
-	ret:TCustomImageListResolutionEnumerator;
-begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ret := lImageList.Resolutions();
-	ImageListToTable(L,-1,ret);
-	
-	Result := 1;
-end;
-
-function VCLua_ImageList_ResolutionsDesc(L: Plua_State): Integer; cdecl;
-var 
-	lImageList:TLuaImageList;
-	ret:TCustomImageListResolutionEnumerator;
-begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ret := lImageList.ResolutionsDesc();
-	ImageListToTable(L,-1,ret);
-	
-	Result := 1;
 end;
 
 function IsImageList(L: Plua_State): Integer; cdecl;
@@ -768,10 +914,18 @@ begin
 	LuaSetTableFunction(L, Index, 'Delete', @VCLua_ImageList_Delete);
 	LuaSetTableFunction(L, Index, 'Draw', @VCLua_ImageList_Draw);
 	LuaSetTableFunction(L, Index, 'Draw2', @VCLua_ImageList_Draw2);
+	LuaSetTableFunction(L, Index, 'Draw3', @VCLua_ImageList_Draw3);
+	LuaSetTableFunction(L, Index, 'Draw4', @VCLua_ImageList_Draw4);
 	LuaSetTableFunction(L, Index, 'DrawForPPI', @VCLua_ImageList_DrawForPPI);
+	LuaSetTableFunction(L, Index, 'DrawForPPI2', @VCLua_ImageList_DrawForPPI2);
 	LuaSetTableFunction(L, Index, 'DrawOverlay', @VCLua_ImageList_DrawOverlay);
+	LuaSetTableFunction(L, Index, 'DrawOverlay2', @VCLua_ImageList_DrawOverlay2);
+	LuaSetTableFunction(L, Index, 'DrawOverlay3', @VCLua_ImageList_DrawOverlay3);
 	LuaSetTableFunction(L, Index, 'GetBitmap', @VCLua_ImageList_GetBitmap);
+	LuaSetTableFunction(L, Index, 'GetBitmap2', @VCLua_ImageList_GetBitmap2);
+	LuaSetTableFunction(L, Index, 'GetFullBitmap', @VCLua_ImageList_GetFullBitmap);
 	LuaSetTableFunction(L, Index, 'GetIcon', @VCLua_ImageList_GetIcon);
+	LuaSetTableFunction(L, Index, 'GetIcon2', @VCLua_ImageList_GetIcon2);
 	LuaSetTableFunction(L, Index, 'GetHotSpot', @VCLua_ImageList_GetHotSpot);
 	LuaSetTableFunction(L, Index, 'Insert', @VCLua_ImageList_Insert);
 	LuaSetTableFunction(L, Index, 'InsertIcon', @VCLua_ImageList_InsertIcon);
@@ -787,8 +941,6 @@ begin
 	LuaSetTableFunction(L, Index, 'StretchDraw', @VCLua_ImageList_StretchDraw);
 	LuaSetTableFunction(L, Index, 'UnRegisterChanges', @VCLua_ImageList_UnRegisterChanges);
 	LuaSetTableFunction(L, Index, 'DeleteResolution', @VCLua_ImageList_DeleteResolution);
-	LuaSetTableFunction(L, Index, 'Resolutions', @VCLua_ImageList_Resolutions);
-	LuaSetTableFunction(L, Index, 'ResolutionsDesc', @VCLua_ImageList_ResolutionsDesc);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;

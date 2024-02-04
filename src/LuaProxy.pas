@@ -82,6 +82,7 @@ begin
   lua_pushnumber(L, v);
 end;
 // these pushes are used in On* event handlers where user strings are passed from LCL to Lua, so need to decode
+// string also catches PChar
 procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil);
 begin
   lua_pushStringCP(L, v);

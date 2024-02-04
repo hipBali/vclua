@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Brush_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBrush:TLuaBrush;
 	Source:TPersistent;
 begin
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_Brush_EqualsBrush(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBrush:TLuaBrush;
 	ABrush:TBrush;
 	ret:boolean;
@@ -48,7 +48,7 @@ begin
 	lBrush := TLuaBrush(GetLuaObject(L, 1));
 	ABrush := TBrush(GetLuaObject(L,2));
 	ret := lBrush.EqualsBrush(ABrush);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

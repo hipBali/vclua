@@ -28,7 +28,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ListBox_AddItem(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	Item:String;
 	AnObject:TObject;
@@ -43,7 +43,7 @@ begin
 end;
 
 function VCLua_ListBox_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 begin
 	CheckArg(L, 1);
@@ -54,7 +54,7 @@ begin
 end;
 
 function VCLua_ListBox_ClearSelection(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 begin
 	CheckArg(L, 1);
@@ -65,7 +65,7 @@ begin
 end;
 
 function VCLua_ListBox_GetIndexAtXY(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	X:integer;
 	Y:integer;
@@ -76,13 +76,13 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	ret := lListBox.GetIndexAtXY(X,Y);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ListBox_GetIndexAtY(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	Y:integer;
 	ret:integer;
@@ -91,26 +91,26 @@ begin
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	Y := lua_tointeger(L,2);
 	ret := lListBox.GetIndexAtY(Y);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ListBox_GetSelectedText(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	ret:string;
 begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	ret := lListBox.GetSelectedText();
-	lua_pushStringCP(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ListBox_ItemAtPos(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	Pos:TPoint;
 	Existing:Boolean;
@@ -121,13 +121,13 @@ begin
 	Pos := lua_toTPoint(L,2);
 	Existing := lua_toboolean(L,3);
 	ret := lListBox.ItemAtPos(Pos,Existing);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ListBox_ItemRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	Index:Integer;
 	ret:TRect;
@@ -136,13 +136,13 @@ begin
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	ret := lListBox.ItemRect(Index);
-	lua_pushTRect(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ListBox_ItemVisible(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	Index:Integer;
 	ret:boolean;
@@ -151,13 +151,13 @@ begin
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	ret := lListBox.ItemVisible(Index);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ListBox_ItemFullyVisible(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	Index:Integer;
 	ret:boolean;
@@ -166,13 +166,13 @@ begin
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	ret := lListBox.ItemFullyVisible(Index);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ListBox_LockSelectionChange(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 begin
 	CheckArg(L, 1);
@@ -183,7 +183,7 @@ begin
 end;
 
 function VCLua_ListBox_MakeCurrentVisible(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 begin
 	CheckArg(L, 1);
@@ -194,7 +194,7 @@ begin
 end;
 
 function VCLua_ListBox_MeasureItem(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	Index:Integer;
 	TheHeight:Integer;
@@ -203,12 +203,12 @@ begin
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	lListBox.MeasureItem(Index,TheHeight);
-	lua_pushinteger(L,TheHeight);
+	lua_push(L,TheHeight);
 	Result := 1;
 end;
 
 function VCLua_ListBox_SelectAll(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 begin
 	CheckArg(L, 1);
@@ -219,7 +219,7 @@ begin
 end;
 
 function VCLua_ListBox_SelectRange(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 	ALow:integer;
 	AHigh:integer;
@@ -236,7 +236,7 @@ begin
 end;
 
 function VCLua_ListBox_DeleteSelected(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 begin
 	CheckArg(L, 1);
@@ -247,7 +247,7 @@ begin
 end;
 
 function VCLua_ListBox_UnlockSelectionChange(L: Plua_State): Integer; cdecl;
-var 
+var
 	lListBox:TLuaListBox;
 begin
 	CheckArg(L, 1);

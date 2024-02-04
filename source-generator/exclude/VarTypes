@@ -9,7 +9,6 @@ TBasicActionLink
 TLMKey
 TEncoding
 TStringsReduceMethod
-TGraphicsDrawEffect
 TPhysPoint
 TNotifyEvent
 IInterface

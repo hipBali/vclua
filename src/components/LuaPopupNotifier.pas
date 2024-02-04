@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_PopupNotifier_Hide(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPopupNotifier:TLuaPopupNotifier;
 begin
 	CheckArg(L, 1);
@@ -37,7 +37,7 @@ begin
 end;
 
 function VCLua_PopupNotifier_Show(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPopupNotifier:TLuaPopupNotifier;
 begin
 	CheckArg(L, 1);
@@ -48,7 +48,7 @@ begin
 end;
 
 function VCLua_PopupNotifier_ShowAtPos(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPopupNotifier:TLuaPopupNotifier;
 	x:Integer;
 	y:Integer;

@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_CheckGroup_FlipChildren(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCheckGroup:TLuaCheckGroup;
 	AllLevels:Boolean;
 begin
@@ -39,14 +39,14 @@ begin
 end;
 
 function VCLua_CheckGroup_Rows(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCheckGroup:TLuaCheckGroup;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
 	ret := lCheckGroup.Rows();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ProgressBar_StepIt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lProgressBar:TLuaProgressBar;
 begin
 	CheckArg(L, 1);
@@ -37,7 +37,7 @@ begin
 end;
 
 function VCLua_ProgressBar_StepBy(L: Plua_State): Integer; cdecl;
-var 
+var
 	lProgressBar:TLuaProgressBar;
 	Delta:Integer;
 begin

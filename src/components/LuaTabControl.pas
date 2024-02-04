@@ -49,7 +49,7 @@ Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 
 function VCLua_TabControl_TabRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	AIndex:Integer;
 	ret:TRect;
@@ -58,13 +58,13 @@ begin
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	AIndex := lua_tointeger(L,2);
 	ret := lTabControl.TabRect(AIndex);
-	lua_pushTRect(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TabControl_GetImageIndex(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	ThePageIndex:Integer;
 	ret:Integer;
@@ -73,13 +73,13 @@ begin
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	ThePageIndex := lua_tointeger(L,2);
 	ret := lTabControl.GetImageIndex(ThePageIndex);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TabControl_IndexOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	APage:TPersistent;
 	ret:integer;
@@ -88,13 +88,13 @@ begin
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	APage := TPersistent(GetLuaObject(L,2));
 	ret := lTabControl.IndexOf(APage);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TabControl_CustomPage(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	Index:integer;
 	ret:TCustomPage;
@@ -103,52 +103,52 @@ begin
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	ret := lTabControl.CustomPage(Index);
-	TabControlToTable(L,-1,ret);
+	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
 end;
 
 function VCLua_TabControl_CanChangePageIndex(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	ret := lTabControl.CanChangePageIndex();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TabControl_GetMinimumTabWidth(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	ret := lTabControl.GetMinimumTabWidth();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TabControl_GetMinimumTabHeight(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	ret := lTabControl.GetMinimumTabHeight();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TabControl_TabToPageIndex(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	AIndex:integer;
 	ret:integer;
@@ -157,13 +157,13 @@ begin
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	AIndex := lua_tointeger(L,2);
 	ret := lTabControl.TabToPageIndex(AIndex);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TabControl_PageToTabIndex(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	AIndex:integer;
 	ret:integer;
@@ -172,13 +172,13 @@ begin
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	AIndex := lua_tointeger(L,2);
 	ret := lTabControl.PageToTabIndex(AIndex);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_TabControl_DoCloseTabClicked(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTabControl:TLuaTabControl;
 	APage:TCustomPage;
 begin
@@ -191,7 +191,7 @@ begin
 end;
 
 function VCLua_PageControl_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPageControl:TLuaPageControl;
 begin
 	CheckArg(L, 1);
@@ -202,7 +202,7 @@ begin
 end;
 
 function VCLua_PageControl_FindNextPage(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPageControl:TLuaPageControl;
 	CurPage:TTabSheet;
 	GoForward:Boolean;
@@ -215,13 +215,13 @@ begin
 	GoForward := lua_toboolean(L,3);
 	CheckTabVisible := lua_toboolean(L,4);
 	ret := lPageControl.FindNextPage(CurPage,GoForward,CheckTabVisible);
-	PageControlToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_PageControl_SelectNextPage(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPageControl:TLuaPageControl;
 	GoForward:Boolean;
 begin
@@ -234,7 +234,7 @@ begin
 end;
 
 function VCLua_PageControl_SelectNextPage2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPageControl:TLuaPageControl;
 	GoForward:Boolean;
 	CheckTabVisible:Boolean;
@@ -249,7 +249,7 @@ begin
 end;
 
 function VCLua_PageControl_IndexOfTabAt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPageControl:TLuaPageControl;
 	X:Integer;
 	Y:Integer;
@@ -260,13 +260,13 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	ret := lPageControl.IndexOfTabAt(X,Y);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_PageControl_IndexOfTabAt2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPageControl:TLuaPageControl;
 	P:TPoint;
 	ret:Integer;
@@ -275,13 +275,13 @@ begin
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	P := lua_toTPoint(L,2);
 	ret := lPageControl.IndexOfTabAt(P);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_PageControl_IndexOfPageAt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPageControl:TLuaPageControl;
 	X:Integer;
 	Y:Integer;
@@ -292,13 +292,13 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	ret := lPageControl.IndexOfPageAt(X,Y);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_PageControl_IndexOfPageAt2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPageControl:TLuaPageControl;
 	P:TPoint;
 	ret:Integer;
@@ -307,20 +307,20 @@ begin
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	P := lua_toTPoint(L,2);
 	ret := lPageControl.IndexOfPageAt(P);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_PageControl_AddTabSheet(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPageControl:TLuaPageControl;
 	ret:TTabSheet;
 begin
 	CheckArg(L, 1);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	ret := lPageControl.AddTabSheet();
-	PageControlToTable(L,-1,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

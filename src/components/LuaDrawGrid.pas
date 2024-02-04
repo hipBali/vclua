@@ -28,7 +28,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_DrawGrid_DeleteColRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lDrawGrid:TLuaDrawGrid;
 	IsColumn:Boolean;
 	index:Integer;
@@ -43,7 +43,7 @@ begin
 end;
 
 function VCLua_DrawGrid_DeleteCol(L: Plua_State): Integer; cdecl;
-var 
+var
 	lDrawGrid:TLuaDrawGrid;
 	Index:Integer;
 begin
@@ -56,7 +56,7 @@ begin
 end;
 
 function VCLua_DrawGrid_DeleteRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lDrawGrid:TLuaDrawGrid;
 	Index:Integer;
 begin
@@ -69,7 +69,7 @@ begin
 end;
 
 function VCLua_DrawGrid_ExchangeColRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lDrawGrid:TLuaDrawGrid;
 	IsColumn:Boolean;
 	index:Integer;
@@ -86,7 +86,7 @@ begin
 end;
 
 function VCLua_DrawGrid_InsertColRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lDrawGrid:TLuaDrawGrid;
 	IsColumn:boolean;
 	index:integer;
@@ -101,7 +101,7 @@ begin
 end;
 
 function VCLua_DrawGrid_MoveColRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lDrawGrid:TLuaDrawGrid;
 	IsColumn:Boolean;
 	FromIndex:Integer;
@@ -118,7 +118,7 @@ begin
 end;
 
 function VCLua_DrawGrid_SortColRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lDrawGrid:TLuaDrawGrid;
 	IsColumn:Boolean;
 	index:Integer;
@@ -133,7 +133,7 @@ begin
 end;
 
 function VCLua_DrawGrid_SortColRow2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lDrawGrid:TLuaDrawGrid;
 	IsColumn:Boolean;
 	Index:Integer;
@@ -152,7 +152,7 @@ begin
 end;
 
 function VCLua_DrawGrid_DefaultDrawCell(L: Plua_State): Integer; cdecl;
-var 
+var
 	lDrawGrid:TLuaDrawGrid;
 	aCol:Integer;
 	aRow:Integer;
@@ -165,7 +165,7 @@ begin
 	aRow := lua_tointeger(L,3);
 	aState := TGridDrawState(GetEnumValue(TypeInfo(TGridDrawState),lua_tostring(L,4)));
 	lDrawGrid.DefaultDrawCell(aCol,aRow,aRect,aState);
-	lua_pushTRect(L,aRect);
+	lua_push(L,aRect);
 	Result := 1;
 end;
 

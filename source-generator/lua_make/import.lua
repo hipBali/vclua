@@ -8,6 +8,10 @@
 package.path=package.path..";?.lua;lua_make/?.lua;lua_make/lib/?.lua"
 -- package.cpath=package.cpath..";clibs/?.dll;clibs/?.so"
 
+-- when true generates code which would not compile if some pushed type isn't supported
+-- when false the error detection is deferred to runtime, but no change is needed to add more sources
+checkTypeSupport = arg[1] or false
+
 require "classdef"
 require "template"
 require "funcdef"
@@ -393,12 +397,7 @@ function createUnitBody(cdef, ref)
 		local outStr = {}
 		if out and #out>0 then
 			for i=1,#out do
-				local rtype
-				if VCLUA_TOLUA[out[i].type:lower():trim()] then
-					rtype = VCLUA_TOLUA[out[i].type:lower():trim()]:gsub("ret",out[i].name) 
-				else
-					rtype = out[i].type:gsub("T","",1).."ToTable(L,-1,"..out[i].name..");"
-				end
+				local rtype = (VCLUA_TOLUA[out[i].type:lower():trim()] or VCLUA_TOLUA_DEFAULT):gsub("ret",out[i].name)
 				table.insert(outStr, rtype)
 				retCount = retCount + 1
 			end
@@ -408,10 +407,10 @@ function createUnitBody(cdef, ref)
 			fParams = table.concat(funcparams,",")
 		end
 		if ret then
-			local rtype = VCLUA_TOLUA[ret] or className.."ToTable(L,-1,ret);"
+			local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
 			s = s:gsub("#FUNC","\n\tret := l"..className.."."..mName.."("..fParams..");",1)
 			s = s:gsub("#PUSHTOLUA","\n\t"..rtype,1)
-			s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\t\n"))
+			s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\n\t"))
 			s = s:gsub("#RETVAR","\n\tret:"..reto,1)
 			s = s:gsub("#RETCOUNT",retCount)
 		else

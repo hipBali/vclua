@@ -20,6 +20,7 @@ Generated with Lua-fpc parser/generator
 	(name:'Form'; func:@AsForm),
 	(name:'ScrollBox'; func:@AsScrollBox),
 	(name:'BasicAction'; func:@AsBasicAction),
+	(name:'ContainedAction'; func:@AsContainedAction),
 	(name:'Action'; func:@AsAction),
 	(name:'ActionList'; func:@AsActionList),
 	(name:'ImageList'; func:@AsImageList),

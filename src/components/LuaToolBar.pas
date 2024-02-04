@@ -8,7 +8,7 @@ unit LuaToolBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls, ImgList, LuaImageList, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, Controls, ImgList, GraphType, LuaImageList, TypInfo;
 
 function CreateToolButton(L: Plua_State): Integer; cdecl;
 function IsToolButton(L: Plua_State): Integer; cdecl;
@@ -37,20 +37,20 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ToolButton_CheckMenuDropdown(L: Plua_State): Integer; cdecl;
-var 
+var
 	lToolButton:TLuaToolButton;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	ret := lToolButton.CheckMenuDropdown();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ToolButton_Click(L: Plua_State): Integer; cdecl;
-var 
+var
 	lToolButton:TLuaToolButton;
 begin
 	CheckArg(L, 1);
@@ -61,7 +61,7 @@ begin
 end;
 
 function VCLua_ToolButton_ArrowClick(L: Plua_State): Integer; cdecl;
-var 
+var
 	lToolButton:TLuaToolButton;
 begin
 	CheckArg(L, 1);
@@ -71,8 +71,25 @@ begin
 	Result := 0;
 end;
 
+function VCLua_ToolButton_GetCurrentIcon(L: Plua_State): Integer; cdecl;
+var
+	lToolButton:TLuaToolButton;
+	ImageList:TCustomImageList;
+	TheIndex:integer;
+	TheEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 1);
+	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
+	
+	lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
+	lua_push(L,ImageList,TypeInfo(ImageList));
+	lua_push(L,TheIndex);
+	lua_push(L,TheEffect,TypeInfo(TheEffect));
+	Result := 3;
+end;
+
 function VCLua_ToolButton_GetPreferredSize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lToolButton:TLuaToolButton;
 	PreferredWidth:integer;
 	PreferredHeight:integer;
@@ -84,13 +101,13 @@ begin
 	Raw := luaL_optbool(L,2,false);
 	WithThemeSpace := luaL_optbool(L,3,true);
 	lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
-	lua_pushinteger(L,PreferredWidth);
-	lua_pushinteger(L,PreferredHeight);
+	lua_push(L,PreferredWidth);
+	lua_push(L,PreferredHeight);
 	Result := 2;
 end;
 
 function VCLua_ToolButton_PointInArrow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lToolButton:TLuaToolButton;
 	X:Integer;
 	Y:Integer;
@@ -101,13 +118,13 @@ begin
 	X := lua_tointeger(L,2);
 	Y := lua_tointeger(L,3);
 	ret := lToolButton.PointInArrow(X,Y);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ToolBar_EndUpdate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lToolBar:TLuaToolBar;
 begin
 	CheckArg(L, 1);
@@ -118,7 +135,7 @@ begin
 end;
 
 function VCLua_ToolBar_FlipChildren(L: Plua_State): Integer; cdecl;
-var 
+var
 	lToolBar:TLuaToolBar;
 	AllLevels:Boolean;
 begin
@@ -130,21 +147,8 @@ begin
 	Result := 0;
 end;
 
-function VCLua_ToolBar_GetEnumerator(L: Plua_State): Integer; cdecl;
-var 
-	lToolBar:TLuaToolBar;
-	ret:TToolBarEnumerator;
-begin
-	CheckArg(L, 1);
-	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
-	ret := lToolBar.GetEnumerator();
-	ToolBarToTable(L,-1,ret);
-	
-	Result := 1;
-end;
-
 function VCLua_ToolBar_SetButtonSize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lToolBar:TLuaToolBar;
 	NewButtonWidth:integer;
 	NewButtonHeight:integer;
@@ -159,14 +163,14 @@ begin
 end;
 
 function VCLua_ToolBar_CanFocus(L: Plua_State): Integer; cdecl;
-var 
+var
 	lToolBar:TLuaToolBar;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
 	ret := lToolBar.CanFocus();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
@@ -202,6 +206,7 @@ begin
 	LuaSetTableFunction(L, Index, 'CheckMenuDropdown', @VCLua_ToolButton_CheckMenuDropdown);
 	LuaSetTableFunction(L, Index, 'Click', @VCLua_ToolButton_Click);
 	LuaSetTableFunction(L, Index, 'ArrowClick', @VCLua_ToolButton_ArrowClick);
+	LuaSetTableFunction(L, Index, 'GetCurrentIcon', @VCLua_ToolButton_GetCurrentIcon);
 	LuaSetTableFunction(L, Index, 'GetPreferredSize', @VCLua_ToolButton_GetPreferredSize);
 	LuaSetTableFunction(L, Index, 'PointInArrow', @VCLua_ToolButton_PointInArrow);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -252,7 +257,6 @@ begin
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_ToolBar_EndUpdate);
 	LuaSetTableFunction(L, Index, 'FlipChildren', @VCLua_ToolBar_FlipChildren);
-	LuaSetTableFunction(L, Index, 'GetEnumerator', @VCLua_ToolBar_GetEnumerator);
 	LuaSetTableFunction(L, Index, 'SetButtonSize', @VCLua_ToolBar_SetButtonSize);
 	LuaSetTableFunction(L, Index, 'CanFocus', @VCLua_ToolBar_CanFocus);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);

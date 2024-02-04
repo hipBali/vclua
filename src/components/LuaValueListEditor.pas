@@ -28,7 +28,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_ValueListEditor_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 begin
 	CheckArg(L, 1);
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_ValueListEditor_DeleteColRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	IsColumn:Boolean;
 	index:Integer;
@@ -54,7 +54,7 @@ begin
 end;
 
 function VCLua_ValueListEditor_DeleteRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	Index:Integer;
 begin
@@ -67,7 +67,7 @@ begin
 end;
 
 function VCLua_ValueListEditor_DeleteCol(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	Index:Integer;
 begin
@@ -80,7 +80,7 @@ begin
 end;
 
 function VCLua_ValueListEditor_FindRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	KeyName:string;
 	aRow:Integer;
@@ -90,13 +90,13 @@ begin
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	KeyName := lua_toStringCP(L,2);
 	ret := lValueListEditor.FindRow(KeyName,aRow);
-	lua_pushboolean(L,ret);
-	lua_pushinteger(L,aRow);
+	lua_push(L,ret);
+	lua_push(L,aRow);
 	Result := 2;
 end;
 
 function VCLua_ValueListEditor_InsertColRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	IsColumn:boolean;
 	index:integer;
@@ -111,7 +111,7 @@ begin
 end;
 
 function VCLua_ValueListEditor_InsertRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	KeyName:string;
 	Value:string;
@@ -124,13 +124,13 @@ begin
 	Value := lua_toStringCP(L,3);
 	Append := lua_toboolean(L,4);
 	ret := lValueListEditor.InsertRow(KeyName,Value,Append);
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ValueListEditor_InsertRowWithValues(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	Index:Integer;
 	Values:array of String;
@@ -145,7 +145,7 @@ begin
 end;
 
 function VCLua_ValueListEditor_ExchangeColRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	IsColumn:Boolean;
 	index:Integer;
@@ -162,20 +162,20 @@ begin
 end;
 
 function VCLua_ValueListEditor_IsEmptyRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	ret := lValueListEditor.IsEmptyRow();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ValueListEditor_IsEmptyRow2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	aRow:Integer;
 	ret:Boolean;
@@ -184,13 +184,13 @@ begin
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	aRow := lua_tointeger(L,2);
 	ret := lValueListEditor.IsEmptyRow(aRow);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ValueListEditor_LoadFromCSVStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	AStream:TStream;
 	ADelimiter:Char;
@@ -211,7 +211,7 @@ begin
 end;
 
 function VCLua_ValueListEditor_MoveColRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	IsColumn:Boolean;
 	FromIndex:Integer;
@@ -228,20 +228,20 @@ begin
 end;
 
 function VCLua_ValueListEditor_RestoreCurrentRow(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	ret := lValueListEditor.RestoreCurrentRow();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_ValueListEditor_Sort(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	Index:Integer;
 	IndxFrom:Integer;
@@ -258,7 +258,7 @@ begin
 end;
 
 function VCLua_ValueListEditor_Sort2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lValueListEditor:TLuaValueListEditor;
 	ACol:TVleSortCol;
 begin

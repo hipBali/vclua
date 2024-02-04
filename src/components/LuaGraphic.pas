@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_Graphic_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ASource:TPersistent;
 begin
@@ -39,7 +39,7 @@ begin
 end;
 
 function VCLua_Graphic_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 begin
 	CheckArg(L, 1);
@@ -50,7 +50,7 @@ begin
 end;
 
 function VCLua_Graphic_Equals(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Obj:TObject;
 	ret:Boolean;
@@ -59,13 +59,13 @@ begin
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	Obj := TObject(GetLuaObject(L,2));
 	ret := lGraphic.Equals(Obj);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Graphic_LazarusResourceTypeValid(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	AResourceType:string;
 	ret:boolean;
@@ -74,13 +74,13 @@ begin
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	AResourceType := lua_toStringCP(L,2);
 	ret := lGraphic.LazarusResourceTypeValid(AResourceType);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Graphic_LoadFromFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Filename:string;
 begin
@@ -93,7 +93,7 @@ begin
 end;
 
 function VCLua_Graphic_LoadFromStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Stream:TStream;
 begin
@@ -106,7 +106,7 @@ begin
 end;
 
 function VCLua_Graphic_LoadFromMimeStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	AStream:TStream;
 	AMimeType:string;
@@ -121,7 +121,7 @@ begin
 end;
 
 function VCLua_Graphic_LoadFromLazarusResource(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ResName:String;
 begin
@@ -134,7 +134,7 @@ begin
 end;
 
 function VCLua_Graphic_LoadFromResourceName(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Instance:THandle;
 	ResName:String;
@@ -149,7 +149,7 @@ begin
 end;
 
 function VCLua_Graphic_LoadFromResourceID(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Instance:THandle;
 	ResID:PtrInt;
@@ -164,7 +164,7 @@ begin
 end;
 
 function VCLua_Graphic_LoadFromClipboardFormat(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	FormatID:TClipboardFormat;
 begin
@@ -177,7 +177,7 @@ begin
 end;
 
 function VCLua_Graphic_LoadFromClipboardFormatID(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ClipboardType:TClipboardType;
 	FormatID:TClipboardFormat;
@@ -192,7 +192,7 @@ begin
 end;
 
 function VCLua_Graphic_SaveToFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Filename:string;
 begin
@@ -205,7 +205,7 @@ begin
 end;
 
 function VCLua_Graphic_SaveToStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Stream:TStream;
 begin
@@ -218,7 +218,7 @@ begin
 end;
 
 function VCLua_Graphic_SaveToClipboardFormat(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	FormatID:TClipboardFormat;
 begin
@@ -231,7 +231,7 @@ begin
 end;
 
 function VCLua_Graphic_SaveToClipboardFormatID(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ClipboardType:TClipboardType;
 	FormatID:TClipboardFormat;
@@ -246,7 +246,7 @@ begin
 end;
 
 function VCLua_Graphic_GetSupportedSourceMimeTypes(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	List:TStrings;
 begin
@@ -259,14 +259,14 @@ begin
 end;
 
 function VCLua_Graphic_GetResourceType(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ret:TResourceType;
 begin
 	CheckArg(L, 1);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	ret := lGraphic.GetResourceType();
-	lua_pushstring(L,PChar(ret));
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

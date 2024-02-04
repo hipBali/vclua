@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_BasicAction_HandlesTarget(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	Target:TObject;
 	ret:Boolean;
@@ -35,13 +35,13 @@ begin
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
 	Target := TObject(GetLuaObject(L,2));
 	ret := lBasicAction.HandlesTarget(Target);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_BasicAction_UpdateTarget(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	Target:TObject;
 begin
@@ -54,7 +54,7 @@ begin
 end;
 
 function VCLua_BasicAction_ExecuteTarget(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	Target:TObject;
 begin
@@ -67,27 +67,27 @@ begin
 end;
 
 function VCLua_BasicAction_Execute(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
 	ret := lBasicAction.Execute();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_BasicAction_Update(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
 	ret := lBasicAction.Update();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

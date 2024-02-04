@@ -38,7 +38,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_CustomBitmap_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 	Source:TPersistent;
 begin
@@ -51,7 +51,7 @@ begin
 end;
 
 function VCLua_CustomBitmap_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 begin
 	CheckArg(L, 1);
@@ -62,7 +62,7 @@ begin
 end;
 
 function VCLua_CustomBitmap_FreeImage(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 begin
 	CheckArg(L, 1);
@@ -73,7 +73,7 @@ begin
 end;
 
 function VCLua_CustomBitmap_LazarusResourceTypeValid(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 	ResourceType:string;
 	ret:Boolean;
@@ -82,65 +82,65 @@ begin
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	ResourceType := lua_toStringCP(L,2);
 	ret := lCustomBitmap.LazarusResourceTypeValid(ResourceType);
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_CustomBitmap_BitmapHandleAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	ret := lCustomBitmap.BitmapHandleAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_CustomBitmap_MaskHandleAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	ret := lCustomBitmap.MaskHandleAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_CustomBitmap_PaletteAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	ret := lCustomBitmap.PaletteAllocated();
-	lua_pushboolean(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_CustomBitmap_ReleaseHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 	ret:HBITMAP;
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	ret := lCustomBitmap.ReleaseHandle();
-	lua_pushinteger(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_CustomBitmap_SetHandles(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 	ABitmap:HBITMAP;
 	AMask:HBITMAP;
@@ -155,7 +155,7 @@ begin
 end;
 
 function VCLua_CustomBitmap_SetSize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCustomBitmap:TLuaCustomBitmap;
 	AWidth:integer;
 	AHeight:integer;
@@ -170,20 +170,20 @@ begin
 end;
 
 function VCLua_Bitmap_GetResourceType(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBitmap:TLuaBitmap;
 	ret:TResourceType;
 begin
 	CheckArg(L, 1);
 	lBitmap := TLuaBitmap(GetLuaObject(L, 1));
 	ret := lBitmap.GetResourceType();
-	lua_pushstring(L,PChar(ret));
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_Bitmap_LoadFromStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBitmap:TLuaBitmap;
 	AStream:TStream;
 	ASize:Cardinal;

@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_CheckListBox_MeasureItem(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCheckListBox:TLuaCheckListBox;
 	Index:Integer;
 	TheHeight:Integer;
@@ -35,12 +35,12 @@ begin
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
 	Index := lua_tointeger(L,2);
 	lCheckListBox.MeasureItem(Index,TheHeight);
-	lua_pushinteger(L,TheHeight);
+	lua_push(L,TheHeight);
 	Result := 1;
 end;
 
 function VCLua_CheckListBox_Toggle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCheckListBox:TLuaCheckListBox;
 	AIndex:Integer;
 begin
@@ -53,7 +53,7 @@ begin
 end;
 
 function VCLua_CheckListBox_CheckAll(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCheckListBox:TLuaCheckListBox;
 	AState:TCheckBoxState;
 	aAllowGrayed:Boolean;
@@ -70,7 +70,7 @@ begin
 end;
 
 function VCLua_CheckListBox_Exchange(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCheckListBox:TLuaCheckListBox;
 	AIndex1:Integer;
 	AIndex2:Integer;

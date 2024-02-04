@@ -87,7 +87,7 @@ function Create#CNAME(L: Plua_State): Integer; cdecl;
 
 VCLua_CDEF_LUAFUNC = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
-var 
+var
 	l#CNAME:TLua#CNAME;#VARS;#RETVAR;
 begin
 	CheckArg(L, #VARCOUNT);

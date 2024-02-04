@@ -26,7 +26,7 @@ implementation
 Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 function VCLua_FloatSpinEdit_GetLimitedValue(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	AValue:Double;
 	ret:Double;
@@ -35,13 +35,13 @@ begin
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
 	AValue := lua_tonumber(L,2);
 	ret := lFloatSpinEdit.GetLimitedValue(AValue);
-	lua_pushnumber(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_FloatSpinEdit_ValueToStr(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	AValue:Double;
 	ret:String;
@@ -50,13 +50,13 @@ begin
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
 	AValue := lua_tonumber(L,2);
 	ret := lFloatSpinEdit.ValueToStr(AValue);
-	lua_pushStringCP(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;
 
 function VCLua_FloatSpinEdit_StrToValue(L: Plua_State): Integer; cdecl;
-var 
+var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	S:String;
 	ret:Double;
@@ -65,7 +65,7 @@ begin
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
 	ret := lFloatSpinEdit.StrToValue(S);
-	lua_pushnumber(L,ret);
+	lua_push(L,ret);
 	
 	Result := 1;
 end;

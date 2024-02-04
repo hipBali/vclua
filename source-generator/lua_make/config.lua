@@ -89,13 +89,14 @@ classes = {
 	},
 
 	-- forms
-	{ name = "Application", src = "TApplication", ref = "Forms, LCLType, LMessages, Controls", noparent=true  },
+	{ name = "Application", src = "TApplication", ref = "Forms, LCLType, LMessages, Controls, LuaControl", noparent=true  },
 	{ name = "Form", src = "TCustomForm", ref = "Forms, LCLType, LMessages, Controls, Graphics, LuaBitmap", canvas=true, form=true},
 	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms, Controls", canvas=true, },
 	-- actions
 	{ name = "BasicAction", src = "TBasicAction", ref="Default, Controls", noparent=true},
 	{ unit = "ActionList", ref = "ActnList, Controls", -- include = "{$i src/inc/actionlist.inc}",
 		classes = {
+			{ name = "ContainedAction", src = "TContainedAction",  noparent=true },
 			{ name = "Action", src = "TCustomAction",  noparent=true },
 			{ name = "ActionList", src = "TCustomActionList",  noparent=true, 
 			  -- impl = "LoadFromTable,GetAction" 
@@ -154,7 +155,7 @@ classes = {
 		}
 	},
 	
-	{ unit = "ToolBar", ref = "ComCtrls, Controls, ImgList, LuaImageList", canvas=true,
+	{ unit = "ToolBar", ref = "ComCtrls, Controls, ImgList, GraphType, LuaImageList", canvas=true,
 		classes = {
 			{ name = "ToolButton", src = "TToolButton" },
 			{ name = "ToolBar", src = "TToolBar" },
@@ -171,7 +172,7 @@ classes = {
 		},
 	},
 	{ name = "HeaderControl", src = "TCustomHeaderControl", ref = "ComCtrls, Controls" },
-	{ unit = "TreeView", ref = "ComCtrls, Controls", canvas=true,
+	{ unit = "TreeView", ref = "ComCtrls, Controls, LuaStringList", canvas=true,
 		classes = {
 			{ name = "TreeNode", src = "TTreeNode", noparent=true, parentclass="TTreeNodes", nocreate=true},
 			{ name = "TreeNodes", src = "TTreeNodes", noparent=true, parentclass="TCustomTreeView", nocreate=true},

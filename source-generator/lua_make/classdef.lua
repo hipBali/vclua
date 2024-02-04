@@ -6,48 +6,33 @@
 --                                                      --
 -- **************************************************** --
 
+if checkTypeSupport then
+
+VCLUA_TOLUA_DEFAULT = "lua_push(L,ret);"
+
 VCLUA_TOLUA = {
-	-- String UTF-8 cp
-	["string"] = "lua_pushStringCP(L,ret);",
-	["pchar"] = "lua_pushStringCP(L,ret);",
-	
-	["integer"] = "lua_pushinteger(L,ret);",
-	["boolean"] = "lua_pushboolean(L,ret);",
-	["longint"] = "lua_pushinteger(L,ret);",
-	["cardinal"] = "lua_pushinteger(L,ret);",
-	["double"] = "lua_pushnumber(L,ret);",
-	["word"] = "lua_pushinteger(L,ret);",
-	["qword"] = "lua_pushinteger(L,ret);",
-	["byte"] = "lua_pushinteger(L,ret);",
-	["int64"] = "lua_pushnumber(L,ret);",
-	["pointer"] = "lua_pushlightuserdata(L,ret);",
-	["thandle"] = "lua_pushinteger(L,ret);",
-	["tcontrol"] = "lua_pushlightuserdata(L,ret);",
-	["tcomponent"] = "lua_pushlightuserdata(L,ret);",
-	["tcolor"] = "lua_pushinteger(L,ret);",
-	["tpoint"] = "lua_pushTPoint(L,ret);",
-	["trect"] = "lua_pushTRect(L,ret);",
-	["hicon"] = "lua_pushlightuserdata(L,@ret);",
-	["hbitmap"] = "lua_pushinteger(L,ret);",
-	["tresourcetype"] = "lua_pushstring(L,PChar(ret));",
-	["tcontrolrolesforform"] = "lua_pushlightuserdata(L,@ret);",
-	["tcustomform"] = "lua_pushlightuserdata(L,@ret);",
-	["thelpcontext"] = "lua_pushinteger(L,ret);",
-	["tcalendarpart"] = "lua_pushlightuserdata(L,@ret);",
-	["tcalendarview"] = "lua_pushlightuserdata(L,@ret);",
-	
-	-- treeview
-	["ttreeviewinsertmarktype"] = "lua_pushstring(L,PChar(GetEnumName(typeInfo(TTreeViewInsertMarkType), Ord(ret))));",
-	["ttreenode"] = "TreeNodeToTable(L,-1,ret);",
-	
-	-- stringgrid
-	["tgridcolumn"] = "GridColumnToTable(L,-1,ret);",
-	
-	-- inherited classes
-	["tcustomimagelist"] = "ImageListToTable(L,-1,ret);",
-	["tcontainedaction"] = "ActionToTable(L,-1,ret);",
-	
+	["pointer"] = "lua_pushlightuserdata(L,ret);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
+	-- enums and sets
+	["tcontrolrolesforform"] = "lua_push(L,ret,TypeInfo(ret));",
+	["tcalendarpart"] = "lua_push(L,ret,TypeInfo(ret));",
+	["tcalendarview"] = "lua_push(L,ret,TypeInfo(ret));",
+	["ttreeviewinsertmarktype"] = "lua_push(L,ret,TypeInfo(ret));",
+	["tgraphicsdraweffect"] = "lua_push(L,ret,TypeInfo(ret));",
+	-- if src ~= "T"..cdef.name
+	["tcustomimagelist"] = "lua_push(L,ret,TypeInfo(ret));",
+	["tcustompage"] = "lua_push(L,ret,TypeInfo(ret));",
+	["tcustomform"] = "lua_push(L,ret,TypeInfo(ret));",
+
+	["tcomponent"] = "lua_push(L,ret,TypeInfo(ret));",
 }
+
+else
+VCLUA_TOLUA_DEFAULT = "lua_push(L,ret,TypeInfo(ret));"
+
+VCLUA_TOLUA = {
+	["pointer"] = "lua_pushlightuserdata(L,ret);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
+}
+end
 
 VCLUA_FROMLUA = {
 
