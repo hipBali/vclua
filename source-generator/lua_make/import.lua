@@ -537,8 +537,8 @@ for n,cdef in pairs(classes) do
 	end
 	classSource = classSource:gsub("#CNAME",className)
 	if cdef.ref then
-		cdef.ref = cdef.ref:gsub("Default?,%s+","")
-		classSource = classSource:gsub("#REF",", "..cdef.ref)
+		cdef.ref = cdef.ref:gsub("Default[,%s]*","")
+		classSource = classSource:gsub("#REF",(cdef.ref ~= "" and ", "..cdef.ref) or "")
 	else
 		classSource = classSource:gsub("#REF","")
 	end
