@@ -150,6 +150,7 @@ function testCEnd(l)
 	return 0
 end
 
+local excludeType = loadMap("exclude/VarTypes")
 -- parser ------------------------------------------
 local function processClass(def,cdef)
 	local processed
@@ -157,7 +158,6 @@ local function processClass(def,cdef)
 	local skip
 	local headers = {}
 	local exclude = loadMap("exclude/"..cname)
-	local excludeType = loadMap("exclude/VarTypes")
 	for n, line in pairs(def) do
 		-- find classdef
 		local ln = {}
@@ -484,6 +484,7 @@ end
 
 -- pascal source generator --------------------------
 local cfile
+local fpcSrcPrev
 for n,cdef in pairs(classes) do
 	local ref
 	if cdef.ref then
@@ -492,9 +493,12 @@ for n,cdef in pairs(classes) do
 	else
 		ref = "Default"
 	end
-	if fpcSrc[ref] ~= cfile then 
+	if fpcSrc[ref] ~= fpcSrcPrev then
 		cLog(ref.." "..fpcSrc[ref],"INFO")
 		cfile = loadTable(fpcSrc[ref])
+		fpcSrcPrev = fpcSrc[ref]
+	else
+		cLog(ref.." use previous","INFO")
 	end
 	classTable = {}
 	classData = {}
