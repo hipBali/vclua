@@ -204,7 +204,7 @@ begin
 	Result := 0;
 end;
 
-function VCLua_Strings_AddDelimitedtext_(L: Plua_State): Integer; cdecl;
+function VCLua_Strings_AddDelimitedtext2(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
 	S:String;
@@ -706,7 +706,7 @@ begin
 	LuaSetTableFunction(L, Index, 'SetStrings2', @VCLua_Strings_SetStrings2);
 	LuaSetTableFunction(L, Index, 'AddCommaText', @VCLua_Strings_AddCommaText);
 	LuaSetTableFunction(L, Index, 'AddDelimitedText', @VCLua_Strings_AddDelimitedText);
-	LuaSetTableFunction(L, Index, 'AddDelimitedtext', @VCLua_Strings_AddDelimitedtext_);
+	LuaSetTableFunction(L, Index, 'AddDelimitedtext2', @VCLua_Strings_AddDelimitedtext2);
 	LuaSetTableFunction(L, Index, 'Append', @VCLua_Strings_Append);
 	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Strings_Assign);
 	LuaSetTableFunction(L, Index, 'BeginUpdate', @VCLua_Strings_BeginUpdate);

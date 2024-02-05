@@ -356,25 +356,13 @@ function createUnitBody(cdef, ref)
       -- check overloaded methods
       local finalMethodName = mName
       local vcluaMethodName = finalMethodName
-      if overLoads[mName] then
-        finalMethodName = mName..overLoads[mName]
+      local mnLower = mName:lower()
+      if overLoads[mnLower] then
+        finalMethodName = mName..overLoads[mnLower]
         vcluaMethodName = finalMethodName
+        overLoads[mnLower] = overLoads[mnLower] + 1
       else
-        local csens
-        for n,_ in pairs(overLoads) do
-          if n:lower()==mName:lower() then
-            csens = true
-            break
-          end
-        end
-        if csens then
-          vcluaMethodName = finalMethodName.."_"
-        end
-      end
-      if overLoads[mName] then
-        overLoads[mName] = overLoads[mName] + 1
-      else
-        overLoads[mName] = 2
+        overLoads[mnLower] = 2
       end
 
       vcluaMethodName = "VCLua_"..className.."_"..vcluaMethodName

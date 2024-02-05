@@ -433,7 +433,7 @@ begin
 	Result := 1;
 end;
 
-function VCLua_Canvas_Frame3D_(L: Plua_State): Integer; cdecl;
+function VCLua_Canvas_Frame3D3(L: Plua_State): Integer; cdecl;
 var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
@@ -451,7 +451,7 @@ begin
 	Result := 1;
 end;
 
-function VCLua_Canvas_Frame3D2(L: Plua_State): Integer; cdecl;
+function VCLua_Canvas_Frame3D4(L: Plua_State): Integer; cdecl;
 var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
@@ -876,8 +876,8 @@ begin
 	LuaSetTableFunction(L, Index, 'FloodFill', @VCLua_Canvas_FloodFill);
 	LuaSetTableFunction(L, Index, 'Frame3d', @VCLua_Canvas_Frame3d);
 	LuaSetTableFunction(L, Index, 'Frame3d2', @VCLua_Canvas_Frame3d2);
-	LuaSetTableFunction(L, Index, 'Frame3D', @VCLua_Canvas_Frame3D_);
-	LuaSetTableFunction(L, Index, 'Frame3D2', @VCLua_Canvas_Frame3D2);
+	LuaSetTableFunction(L, Index, 'Frame3D3', @VCLua_Canvas_Frame3D3);
+	LuaSetTableFunction(L, Index, 'Frame3D4', @VCLua_Canvas_Frame3D4);
 	LuaSetTableFunction(L, Index, 'GradientFill', @VCLua_Canvas_GradientFill);
 	LuaSetTableFunction(L, Index, 'RadialPie', @VCLua_Canvas_RadialPie);
 	LuaSetTableFunction(L, Index, 'Pie', @VCLua_Canvas_Pie);
