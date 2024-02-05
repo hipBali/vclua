@@ -126,6 +126,19 @@ begin
 	Result := 1;
 end;
 
+function VCLua_OpenDialog_DoCanClose2(L: Plua_State): Integer; cdecl;
+var
+	lOpenDialog:TLuaOpenDialog;
+	CanClose:Boolean;
+begin
+	CheckArg(L, 2);
+	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
+	CanClose := lua_toboolean(L,2);
+	lOpenDialog.DoCanClose(CanClose);
+	lua_push(L,CanClose);
+	Result := 1;
+end;
+
 function VCLua_OpenDialog_DoFolderChange(L: Plua_State): Integer; cdecl;
 var
 	lOpenDialog:TLuaOpenDialog;
@@ -343,6 +356,7 @@ begin
 	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'DoCanClose', @VCLua_OpenDialog_DoCanClose);
+	LuaSetTableFunction(L, Index, 'DoCanClose2', @VCLua_OpenDialog_DoCanClose2);
 	LuaSetTableFunction(L, Index, 'DoFolderChange', @VCLua_OpenDialog_DoFolderChange);
 	LuaSetTableFunction(L, Index, 'DoSelectionChange', @VCLua_OpenDialog_DoSelectionChange);
 	LuaSetTableFunction(L, Index, 'IntfSetOption', @VCLua_OpenDialog_IntfSetOption);

@@ -39,6 +39,21 @@ begin
 	Result := 1;
 end;
 
+function VCLua_CheckListBox_MeasureItem2(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	Index:Integer;
+	TheHeight:Integer;
+begin
+	CheckArg(L, 3);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	Index := lua_tointeger(L,2);
+	TheHeight := lua_tointeger(L,3);
+	lCheckListBox.MeasureItem(Index,TheHeight);
+	lua_push(L,TheHeight);
+	Result := 1;
+end;
+
 function VCLua_CheckListBox_Toggle(L: Plua_State): Integer; cdecl;
 var
 	lCheckListBox:TLuaCheckListBox;
@@ -139,6 +154,7 @@ begin
 	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'MeasureItem', @VCLua_CheckListBox_MeasureItem);
+	LuaSetTableFunction(L, Index, 'MeasureItem2', @VCLua_CheckListBox_MeasureItem2);
 	LuaSetTableFunction(L, Index, 'Toggle', @VCLua_CheckListBox_Toggle);
 	LuaSetTableFunction(L, Index, 'CheckAll', @VCLua_CheckListBox_CheckAll);
 	LuaSetTableFunction(L, Index, 'Exchange', @VCLua_CheckListBox_Exchange);

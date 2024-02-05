@@ -169,6 +169,25 @@ begin
 	Result := 1;
 end;
 
+function VCLua_DrawGrid_DefaultDrawCell2(L: Plua_State): Integer; cdecl;
+var
+	lDrawGrid:TLuaDrawGrid;
+	aCol:Integer;
+	aRow:Integer;
+	aRect:TRect;
+	aState:TGridDrawState;
+begin
+	CheckArg(L, 5);
+	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	aCol := lua_tointeger(L,2);
+	aRow := lua_tointeger(L,3);
+	aRect := lua_toTRect(L,4);
+	aState := TGridDrawState(GetEnumValue(TypeInfo(TGridDrawState),lua_tostring(L,5)));
+	lDrawGrid.DefaultDrawCell(aCol,aRow,aRect,aState);
+	lua_push(L,aRect);
+	Result := 1;
+end;
+
 function IsDrawGrid(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -206,6 +225,7 @@ begin
 	LuaSetTableFunction(L, Index, 'SortColRow', @VCLua_DrawGrid_SortColRow);
 	LuaSetTableFunction(L, Index, 'SortColRow2', @VCLua_DrawGrid_SortColRow2);
 	LuaSetTableFunction(L, Index, 'DefaultDrawCell', @VCLua_DrawGrid_DefaultDrawCell);
+	LuaSetTableFunction(L, Index, 'DefaultDrawCell2', @VCLua_DrawGrid_DefaultDrawCell2);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;

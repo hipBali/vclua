@@ -275,6 +275,26 @@ begin
 	Result := 2;
 end;
 
+function VCLua_Form_GetPreferredSize2(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	PreferredWidth:integer;
+	PreferredHeight:integer;
+	Raw:boolean;
+	WithThemeSpace:boolean;
+begin
+	CheckArg(L, -1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	PreferredWidth := lua_tointeger(L,2);
+	PreferredHeight := lua_tointeger(L,3);
+	Raw := luaL_optbool(L,4,false);
+	WithThemeSpace := luaL_optbool(L,5,true);
+	lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	lua_push(L,PreferredWidth);
+	lua_push(L,PreferredHeight);
+	Result := 2;
+end;
+
 function VCLua_Form_Release(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
@@ -510,6 +530,7 @@ begin
 	LuaSetTableFunction(L, Index, 'MakeFullyVisible', @VCLua_Form_MakeFullyVisible);
 	LuaSetTableFunction(L, Index, 'AutoSizeDelayedHandle', @VCLua_Form_AutoSizeDelayedHandle);
 	LuaSetTableFunction(L, Index, 'GetPreferredSize', @VCLua_Form_GetPreferredSize);
+	LuaSetTableFunction(L, Index, 'GetPreferredSize2', @VCLua_Form_GetPreferredSize2);
 	LuaSetTableFunction(L, Index, 'Release', @VCLua_Form_Release);
 	LuaSetTableFunction(L, Index, 'CanFocus', @VCLua_Form_CanFocus);
 	LuaSetTableFunction(L, Index, 'SetFocus', @VCLua_Form_SetFocus);

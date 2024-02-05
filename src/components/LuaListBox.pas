@@ -207,6 +207,21 @@ begin
 	Result := 1;
 end;
 
+function VCLua_ListBox_MeasureItem2(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	Index:Integer;
+	TheHeight:Integer;
+begin
+	CheckArg(L, 3);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	Index := lua_tointeger(L,2);
+	TheHeight := lua_tointeger(L,3);
+	lListBox.MeasureItem(Index,TheHeight);
+	lua_push(L,TheHeight);
+	Result := 1;
+end;
+
 function VCLua_ListBox_SelectAll(L: Plua_State): Integer; cdecl;
 var
 	lListBox:TLuaListBox;
@@ -298,6 +313,7 @@ begin
 	LuaSetTableFunction(L, Index, 'LockSelectionChange', @VCLua_ListBox_LockSelectionChange);
 	LuaSetTableFunction(L, Index, 'MakeCurrentVisible', @VCLua_ListBox_MakeCurrentVisible);
 	LuaSetTableFunction(L, Index, 'MeasureItem', @VCLua_ListBox_MeasureItem);
+	LuaSetTableFunction(L, Index, 'MeasureItem2', @VCLua_ListBox_MeasureItem2);
 	LuaSetTableFunction(L, Index, 'SelectAll', @VCLua_ListBox_SelectAll);
 	LuaSetTableFunction(L, Index, 'SelectRange', @VCLua_ListBox_SelectRange);
 	LuaSetTableFunction(L, Index, 'DeleteSelected', @VCLua_ListBox_DeleteSelected);

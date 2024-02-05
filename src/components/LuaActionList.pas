@@ -114,6 +114,21 @@ begin
 	Result := 2;
 end;
 
+function VCLua_Action_DoHint2(L: Plua_State): Integer; cdecl;
+var
+	lAction:TLuaAction;
+	HintStr:string;
+	ret:Boolean;
+begin
+	CheckArg(L, 2);
+	lAction := TLuaAction(GetLuaObject(L, 1));
+	HintStr := lua_toStringCP(L,2);
+	ret := lAction.DoHint(HintStr);
+	lua_push(L,ret);
+	lua_push(L,HintStr);
+	Result := 2;
+end;
+
 function VCLua_Action_Execute(L: Plua_State): Integer; cdecl;
 var
 	lAction:TLuaAction;
@@ -266,6 +281,7 @@ begin
 	end;
 	SetDefaultMethods(L,Index,Sender);
 	LuaSetTableFunction(L, Index, 'DoHint', @VCLua_Action_DoHint);
+	LuaSetTableFunction(L, Index, 'DoHint2', @VCLua_Action_DoHint2);
 	LuaSetTableFunction(L, Index, 'Execute', @VCLua_Action_Execute);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);

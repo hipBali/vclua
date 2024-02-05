@@ -88,6 +88,25 @@ begin
 	Result := 3;
 end;
 
+function VCLua_ToolButton_GetCurrentIcon2(L: Plua_State): Integer; cdecl;
+var
+	lToolButton:TLuaToolButton;
+	ImageList:TCustomImageList;
+	TheIndex:integer;
+	TheEffect:TGraphicsDrawEffect;
+begin
+	CheckArg(L, 4);
+	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
+	ImageList := TCustomImageList(GetLuaObject(L,2));
+	TheIndex := lua_tointeger(L,3);
+	TheEffect := TGraphicsDrawEffect(GetLuaObject(L,4));
+	lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
+	lua_push(L,ImageList,TypeInfo(ImageList));
+	lua_push(L,TheIndex);
+	lua_push(L,TheEffect,TypeInfo(TheEffect));
+	Result := 3;
+end;
+
 function VCLua_ToolButton_GetPreferredSize(L: Plua_State): Integer; cdecl;
 var
 	lToolButton:TLuaToolButton;
@@ -100,6 +119,26 @@ begin
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	Raw := luaL_optbool(L,2,false);
 	WithThemeSpace := luaL_optbool(L,3,true);
+	lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	lua_push(L,PreferredWidth);
+	lua_push(L,PreferredHeight);
+	Result := 2;
+end;
+
+function VCLua_ToolButton_GetPreferredSize2(L: Plua_State): Integer; cdecl;
+var
+	lToolButton:TLuaToolButton;
+	PreferredWidth:integer;
+	PreferredHeight:integer;
+	Raw:boolean;
+	WithThemeSpace:boolean;
+begin
+	CheckArg(L, -1);
+	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
+	PreferredWidth := lua_tointeger(L,2);
+	PreferredHeight := lua_tointeger(L,3);
+	Raw := luaL_optbool(L,4,false);
+	WithThemeSpace := luaL_optbool(L,5,true);
 	lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
@@ -207,7 +246,9 @@ begin
 	LuaSetTableFunction(L, Index, 'Click', @VCLua_ToolButton_Click);
 	LuaSetTableFunction(L, Index, 'ArrowClick', @VCLua_ToolButton_ArrowClick);
 	LuaSetTableFunction(L, Index, 'GetCurrentIcon', @VCLua_ToolButton_GetCurrentIcon);
+	LuaSetTableFunction(L, Index, 'GetCurrentIcon2', @VCLua_ToolButton_GetCurrentIcon2);
 	LuaSetTableFunction(L, Index, 'GetPreferredSize', @VCLua_ToolButton_GetPreferredSize);
+	LuaSetTableFunction(L, Index, 'GetPreferredSize2', @VCLua_ToolButton_GetPreferredSize2);
 	LuaSetTableFunction(L, Index, 'PointInArrow', @VCLua_ToolButton_PointInArrow);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);

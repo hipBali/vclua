@@ -502,6 +502,26 @@ begin
 	Result := 2;
 end;
 
+function VCLua_Control_GetPreferredSize2(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	PreferredWidth:integer;
+	PreferredHeight:integer;
+	Raw:boolean;
+	WithThemeSpace:boolean;
+begin
+	CheckArg(L, -1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	PreferredWidth := lua_tointeger(L,2);
+	PreferredHeight := lua_tointeger(L,3);
+	Raw := luaL_optbool(L,4,false);
+	WithThemeSpace := luaL_optbool(L,5,true);
+	lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	lua_push(L,PreferredWidth);
+	lua_push(L,PreferredHeight);
+	Result := 2;
+end;
+
 function VCLua_Control_GetCanvasScaleFactor(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
@@ -645,6 +665,22 @@ begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	
+	lControl.ShouldAutoAdjust(AWidth,AHeight);
+	lua_push(L,AWidth);
+	lua_push(L,AHeight);
+	Result := 2;
+end;
+
+function VCLua_Control_ShouldAutoAdjust2(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	AWidth:Boolean;
+	AHeight:Boolean;
+begin
+	CheckArg(L, 3);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	AWidth := lua_toboolean(L,2);
+	AHeight := lua_toboolean(L,3);
 	lControl.ShouldAutoAdjust(AWidth,AHeight);
 	lua_push(L,AWidth);
 	lua_push(L,AHeight);
@@ -1255,6 +1291,7 @@ begin
 	LuaSetTableFunction(L, Index, 'SetInitialBounds', @VCLua_Control_SetInitialBounds);
 	LuaSetTableFunction(L, Index, 'SetBoundsKeepBase', @VCLua_Control_SetBoundsKeepBase);
 	LuaSetTableFunction(L, Index, 'GetPreferredSize', @VCLua_Control_GetPreferredSize);
+	LuaSetTableFunction(L, Index, 'GetPreferredSize2', @VCLua_Control_GetPreferredSize2);
 	LuaSetTableFunction(L, Index, 'GetCanvasScaleFactor', @VCLua_Control_GetCanvasScaleFactor);
 	LuaSetTableFunction(L, Index, 'GetDefaultWidth', @VCLua_Control_GetDefaultWidth);
 	LuaSetTableFunction(L, Index, 'GetDefaultHeight', @VCLua_Control_GetDefaultHeight);
@@ -1266,6 +1303,7 @@ begin
 	LuaSetTableFunction(L, Index, 'InvalidatePreferredSize', @VCLua_Control_InvalidatePreferredSize);
 	LuaSetTableFunction(L, Index, 'UpdateBaseBounds', @VCLua_Control_UpdateBaseBounds);
 	LuaSetTableFunction(L, Index, 'ShouldAutoAdjust', @VCLua_Control_ShouldAutoAdjust);
+	LuaSetTableFunction(L, Index, 'ShouldAutoAdjust2', @VCLua_Control_ShouldAutoAdjust2);
 	LuaSetTableFunction(L, Index, 'FixDesignFontsPPI', @VCLua_Control_FixDesignFontsPPI);
 	LuaSetTableFunction(L, Index, 'ScaleFontsPPI', @VCLua_Control_ScaleFontsPPI);
 	LuaSetTableFunction(L, Index, 'BeforeDestruction', @VCLua_Control_BeforeDestruction);

@@ -416,6 +416,23 @@ begin
 	Result := 1;
 end;
 
+function VCLua_Canvas_Frame3d2(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	ARect:TRect;
+	FrameWidth:integer;
+	Style:TGraphicsBevelCut;
+begin
+	CheckArg(L, 4);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	ARect := lua_toTRect(L,2);
+	FrameWidth := lua_tointeger(L,3);
+	Style := TGraphicsBevelCut(GetLuaObject(L,4));
+	lCanvas.Frame3d(ARect,FrameWidth,Style);
+	lua_push(L,ARect);
+	Result := 1;
+end;
+
 function VCLua_Canvas_Frame3D_(L: Plua_State): Integer; cdecl;
 var
 	lCanvas:TLuaCanvas;
@@ -429,6 +446,25 @@ begin
 	TopColor := TColor(lua_tointeger(L,2));
 	BottomColor := TColor(lua_tointeger(L,3));
 	FrameWidth := lua_tointeger(L,4);
+	lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
+	lua_push(L,ARect);
+	Result := 1;
+end;
+
+function VCLua_Canvas_Frame3D2(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	ARect:TRect;
+	TopColor:TColor;
+	BottomColor:TColor;
+	FrameWidth:integer;
+begin
+	CheckArg(L, 5);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	ARect := lua_toTRect(L,2);
+	TopColor := TColor(lua_tointeger(L,3));
+	BottomColor := TColor(lua_tointeger(L,4));
+	FrameWidth := lua_tointeger(L,5);
 	lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
 	lua_push(L,ARect);
 	Result := 1;
@@ -839,7 +875,9 @@ begin
 	LuaSetTableFunction(L, Index, 'FillRect2', @VCLua_Canvas_FillRect2);
 	LuaSetTableFunction(L, Index, 'FloodFill', @VCLua_Canvas_FloodFill);
 	LuaSetTableFunction(L, Index, 'Frame3d', @VCLua_Canvas_Frame3d);
+	LuaSetTableFunction(L, Index, 'Frame3d2', @VCLua_Canvas_Frame3d2);
 	LuaSetTableFunction(L, Index, 'Frame3D', @VCLua_Canvas_Frame3D_);
+	LuaSetTableFunction(L, Index, 'Frame3D2', @VCLua_Canvas_Frame3D2);
 	LuaSetTableFunction(L, Index, 'GradientFill', @VCLua_Canvas_GradientFill);
 	LuaSetTableFunction(L, Index, 'RadialPie', @VCLua_Canvas_RadialPie);
 	LuaSetTableFunction(L, Index, 'Pie', @VCLua_Canvas_Pie);

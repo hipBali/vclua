@@ -243,8 +243,9 @@ end
 
 function processParams(s)
 	local vars,varlist,funcparams,out,def
+	vars={{}}
 	if s:find("%(") then
-		vars={}
+		vars[2] = {}
 		varlist={}
 		funcparams = {}
 		out={}
@@ -293,18 +294,27 @@ function processParams(s)
 					
 				end
 			end
-			varType = pp[1]:trim()
+			varType = pp[1]
 
 			-- should passed back?
-			if p[1]:find("var%s+") or p[1]:find("out%s+") or p[1]:find("Var%s+") or p[1]:find("Out%s+") then
+			local isVar = p[1]:find("[vV]ar%s+")
+			local isOut = p[1]:find("[oO]ut%s+")
+			if isVar or isOut then
 				table.insert(out, {name=varName, type=varType})
-			else
-				table.insert(vars, {name=varName, type=varType, value=def})
+			end
+			-- var parameters can actually be required, e.g. in TCustomDrawGrid.DefaultDrawCell, TCustomListBox.MeasureItem
+			-- so provide an overload
+			if not isOut then
+				if not isVar then
+					table.insert(vars[1], {name=varName, type=varType, value=def})
+				end
+				table.insert(vars[2], {name=varName, type=varType, value=def})
 			end
 			table.insert(funcparams, varName)
 			table.insert(varlist, varName..":"..varType)
 		end
 	end
+	if vars[2] and #vars[2] == #vars[1] then vars[2] = nil end
 	return vars, varlist, funcparams, out
 end
 
@@ -329,70 +339,6 @@ function createUnitBody(cdef, ref)
 			ret = reto:lower()
 			retCount = 1
 		end
-		local s = VCLua_CDEF_LUAFUNC
-		
-		-- check overloaded methods
-		local finalMethodName = mName
-		local vcluaMethodName = finalMethodName
-		if overLoads[mName] then
-			finalMethodName = mName..overLoads[mName]
-			vcluaMethodName = finalMethodName
-		else
-			local csens
-			for n,_ in pairs(overLoads) do
-				if n:lower()==mName:lower() then
-					csens = true
-					break
-				end
-			end
-			if csens then
-				vcluaMethodName = finalMethodName.."_"
-			end
-		end
-		if overLoads[mName] then 
-			overLoads[mName] = overLoads[mName] + 1
-		else
-			overLoads[mName] = 2
-		end
-		
-		vcluaMethodName = "VCLua_"..className.."_"..vcluaMethodName
-		
-		s = s:gsub("#FNAME",vcluaMethodName):gsub("#CNAME",className)
-		
-		if vars then
-			s = s:gsub("#VARS","\n\t"..table.concat(varlist,";\n\t"),1)
-			-- processing parameters
-			local varsFromLua = {}
-			local idx = 1
-			local defVars
-			for n,p in pairs(vars) do
-				local varName,varType,varValue = p.name,p.type,p.value
-				ppp = varName:split(",")	-- var1, var2, ...
-				for i=1,#ppp do
-					idx = idx + 1
-					varName = ppp[i]
-					if varValue and VCLUA_FROMLUA["def_"..varType:lower()] then
-						table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA["def_"..varType:lower()]:gsub("#IDX",idx):gsub("#DEF",varValue))
-						defVars = true
-					elseif VCLUA_FROMLUA[varType:lower()] then
-						table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA[varType:lower()]:gsub("#",idx))
-					else
-						table.insert(varsFromLua,varName .. " := "..varType.."(GetLuaObject(L," .. idx .. "));" )
-					end
-				end
-			end
-			-- input params checking
-			if defVars then
-				s = s:gsub("#VARCOUNT",-1,1)
-			else
-				s = s:gsub("#VARCOUNT",idx,1)
-			end
-			s = s:gsub("#TOVCLUA","\n\t"..table.concat(varsFromLua,"\n\t"),1)
-		else
-			s = s:gsub("#VARS;","",1)
-			s = s:gsub("#VARCOUNT",1,1)
-			s = s:gsub("#TOVCLUA","",1)
-		end
 		-- additional outputs
 		local outStr = {}
 		if out and #out>0 then
@@ -402,32 +348,96 @@ function createUnitBody(cdef, ref)
 				retCount = retCount + 1
 			end
 		end
-		local fParams = ""
-		if funcparams and #funcparams>0 then
-			fParams = table.concat(funcparams,",")
-		end
-		if ret then
-			local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
-			s = s:gsub("#FUNC","\n\tret := l"..className.."."..mName.."("..fParams..");",1)
-			s = s:gsub("#PUSHTOLUA","\n\t"..rtype,1)
-			s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\n\t"))
-			s = s:gsub("#RETVAR","\n\tret:"..reto,1)
-			s = s:gsub("#RETCOUNT",retCount)
-		else
-			s = s:gsub("#FUNC","\n\tl"..className.."."..mName.."("..fParams..");",1)
-			s = s:gsub("#PUSHTOLUA","",1)
-			s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\n\t"))
-			s = s:gsub("#RETVAR;","",1)
-			s = s:gsub("#RETCOUNT",retCount,1)
-		end
-		table.insert(cMethods,"LuaSetTableFunction(L, Index, '"..finalMethodName.."', @"..vcluaMethodName..");")
-		table.insert(classBody,s)
-		classDoc[className][finalMethodName] = classDoc[className][finalMethodName] or {} 
-		classDoc[className][finalMethodName]["params"] = fParams:len()>0 and fParams or nil
-		classDoc[className][finalMethodName]["out"] = out
-		classDoc[className][finalMethodName]["return"] = reto
-		classDoc[className][finalMethodName]["reference"] = cdef.ref or ref
-		classDoc[className][finalMethodName]["method"] = method	
+		local fParams = table.concat(funcparams or {},",")
+
+    for _,vv in ipairs(vars) do
+      local s = VCLua_CDEF_LUAFUNC
+
+      -- check overloaded methods
+      local finalMethodName = mName
+      local vcluaMethodName = finalMethodName
+      if overLoads[mName] then
+        finalMethodName = mName..overLoads[mName]
+        vcluaMethodName = finalMethodName
+      else
+        local csens
+        for n,_ in pairs(overLoads) do
+          if n:lower()==mName:lower() then
+            csens = true
+            break
+          end
+        end
+        if csens then
+          vcluaMethodName = finalMethodName.."_"
+        end
+      end
+      if overLoads[mName] then
+        overLoads[mName] = overLoads[mName] + 1
+      else
+        overLoads[mName] = 2
+      end
+
+      vcluaMethodName = "VCLua_"..className.."_"..vcluaMethodName
+
+      s = s:gsub("#FNAME",vcluaMethodName):gsub("#CNAME",className)
+
+      if varlist then
+        s = s:gsub("#VARS","\n\t"..table.concat(varlist,";\n\t"),1)
+        -- processing parameters
+        local varsFromLua = {}
+        local idx = 1
+        local defVars
+        for n,p in ipairs(vv) do
+          local varName,varType,varValue = p.name,p.type,p.value
+          ppp = varName:split(",")	-- var1, var2, ...
+          for i=1,#ppp do
+            idx = idx + 1
+            varName = ppp[i]
+            if varValue and VCLUA_FROMLUA["def_"..varType:lower()] then
+              table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA["def_"..varType:lower()]:gsub("#IDX",idx):gsub("#DEF",varValue))
+              defVars = true
+            elseif VCLUA_FROMLUA[varType:lower()] then
+              table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA[varType:lower()]:gsub("#",idx))
+            else
+              table.insert(varsFromLua,varName .. " := "..varType.."(GetLuaObject(L," .. idx .. "));" )
+            end
+          end
+        end
+        -- input params checking
+        if defVars then
+          s = s:gsub("#VARCOUNT",-1,1)
+        else
+          s = s:gsub("#VARCOUNT",idx,1)
+        end
+        s = s:gsub("#TOVCLUA","\n\t"..table.concat(varsFromLua,"\n\t"),1)
+      else
+        s = s:gsub("#VARS;","",1)
+        s = s:gsub("#VARCOUNT",1,1)
+        s = s:gsub("#TOVCLUA","",1)
+      end
+      if ret then
+        local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
+        s = s:gsub("#FUNC","\n\tret := l"..className.."."..mName.."("..fParams..");",1)
+        s = s:gsub("#PUSHTOLUA","\n\t"..rtype,1)
+        s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\n\t"))
+        s = s:gsub("#RETVAR","\n\tret:"..reto,1)
+        s = s:gsub("#RETCOUNT",retCount)
+      else
+        s = s:gsub("#FUNC","\n\tl"..className.."."..mName.."("..fParams..");",1)
+        s = s:gsub("#PUSHTOLUA","",1)
+        s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\n\t"))
+        s = s:gsub("#RETVAR;","",1)
+        s = s:gsub("#RETCOUNT",retCount,1)
+      end
+      table.insert(cMethods,"LuaSetTableFunction(L, Index, '"..finalMethodName.."', @"..vcluaMethodName..");")
+      table.insert(classBody,s)
+      classDoc[className][finalMethodName] = classDoc[className][finalMethodName] or {} 
+      classDoc[className][finalMethodName]["params"] = fParams:len()>0 and fParams or nil
+      classDoc[className][finalMethodName]["out"] = out
+      classDoc[className][finalMethodName]["return"] = reto
+      classDoc[className][finalMethodName]["reference"] = cdef.ref or ref
+      classDoc[className][finalMethodName]["method"] = method	
+    end
 	end
 	
 	-- check implemented methods
