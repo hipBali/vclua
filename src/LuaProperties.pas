@@ -268,6 +268,8 @@ begin
         tkMethod: begin
             // Property Name
             Str := lua_tostring(L,index-1);
+            if (not (Comp is TComponent)) then
+               LuaError(L,'Can only set methods on TComponent descendants!', Comp.ClassName + ' isn''t a TComponent, propname ' + Str);
             // omg watchout!
             cc := GetLuaControl(Comp);
             LuaFuncPInfo := GetPropInfo(cc, Str+'_Function');
