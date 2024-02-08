@@ -204,7 +204,7 @@ end;
 function GetLuaObject(L: Plua_State; Index: Integer): TObject;
 begin
 	if (not lua_isnil(L, Index)) then
-		Result := TObject(LuaGetTableLightUserData(L, Index, HandleStr))
+		Result := TObject(LuaRawGetTableLightUserData(L, Index, HandleStr))
 	else
 		Result := nil;
 end;
@@ -259,6 +259,8 @@ begin
     lua_settable(L, TableIndex);
     lua_pushnil(L);
   end;
+  lua_pushnil(L);
+  lua_setmetatable(L,TableIndex);
 end;
 
 procedure LuaPushKeyString(L: Plua_State; var Index: Integer; const Key: string);
