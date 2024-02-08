@@ -27,9 +27,7 @@ function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
 // --------------------
 
 function lua_toTPoint(L: Plua_State; Index: Integer):TPoint;
-procedure lua_pushTPoint(L: Plua_State; point:TPoint);
 function lua_toTRect(L: Plua_State; Index: Integer):TRect;
-procedure lua_pushTRect(L: Plua_State; rect:TRect);
 function lua_toTSize(L: Plua_State; Index: Integer):TSize;
 
 function lua_toLongWordArray(L: Plua_State; Index: Integer):aoflw;
@@ -98,11 +96,29 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil);
 begin
-  lua_pushTPoint(L, v);
+  lua_newtable(L);
+  lua_pushliteral(L, 'x');
+  lua_pushinteger(L, v.x);
+  lua_rawset(L,-3);
+  lua_pushliteral(L, 'y');
+  lua_pushinteger(L, v.y);
+  lua_rawset(L,-3);
 end;
 procedure lua_push(L: Plua_State; const v:TRect; pti : PTypeInfo = nil);
 begin
-  lua_pushTRect(L, v);
+  lua_newtable(L);
+  lua_pushliteral(L, 'left');
+  lua_pushinteger(L, v.Left);
+  lua_rawset(L,-3);
+  lua_pushliteral(L, 'top');
+  lua_pushinteger(L, v.Top);
+  lua_rawset(L,-3);
+  lua_pushliteral(L, 'right');
+  lua_pushinteger(L, v.Right);
+  lua_rawset(L,-3);
+  lua_pushliteral(L, 'bottom');
+  lua_pushinteger(L, v.Bottom);
+  lua_rawset(L,-3);
 end;
 procedure lua_push(L: Plua_State; const v; pti : PTypeInfo);
 var
@@ -260,17 +276,6 @@ begin
   result := point;
 end;
 
-procedure lua_pushTPoint(L: Plua_State; point:TPoint);
-begin
-  lua_newtable(L);
-  lua_pushliteral(L, 'x');
-  lua_pushinteger(L, point.x);
-  lua_rawset(L,-3);
-  lua_pushliteral(L, 'y');
-  lua_pushinteger(L, point.y);
-  lua_rawset(L,-3);
-end;
-
 function lua_toTRect(L: Plua_State; Index: Integer):TRect;
 var
   rect:TRect;
@@ -294,23 +299,6 @@ begin
     end;
   end;
   result := rect;
-end;
-
-procedure lua_pushTRect(L: Plua_State; rect:TRect);
-begin
-  lua_newtable(L);
-  lua_pushliteral(L, 'left');
-  lua_pushinteger(L, rect.Left);
-  lua_rawset(L,-3);
-  lua_pushliteral(L, 'top');
-  lua_pushinteger(L, rect.Top);
-  lua_rawset(L,-3);
-  lua_pushliteral(L, 'right');
-  lua_pushinteger(L, rect.Right);
-  lua_rawset(L,-3);
-  lua_pushliteral(L, 'bottom');
-  lua_pushinteger(L, rect.Bottom);
-  lua_rawset(L,-3);
 end;
 
 function lua_toTSize(L: Plua_State; Index: Integer):TSize;
