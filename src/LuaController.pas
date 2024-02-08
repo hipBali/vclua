@@ -438,8 +438,6 @@ function ControlFocus(L: Plua_State): Integer; cdecl;
 function ControlRefresh(L: Plua_State): Integer; cdecl;
 function ControlBeginUpdateBounds(L: Plua_State): Integer; cdecl;
 function ControlEndUpdateBounds(L: Plua_State): Integer; cdecl;
-function ControlBeginUpdate(L: Plua_State): Integer; cdecl;
-function ControlEndUpdate(L: Plua_State): Integer; cdecl;
 function ControlParentName(L: Plua_State): Integer; cdecl;
 function GetLuaState(Sender:TObject):Plua_State;
 function GetLuaControl(Sender:TObject):TVCLuaControl;
@@ -511,16 +509,16 @@ begin
 	lua_newtable(L);
 	LuaSetTableLightUserData(L, Index, HandleStr, Pointer(Sender));
 	LuaSetTableFunction(L, index, 'Free', @ControlFree);
-	LuaSetTableFunction(L, index, 'SetFocus', @ControlFocus);
-        LuaSetTableFunction(L, index, 'Refresh', @ControlRefresh);
-        LuaSetTableFunction(L, index, 'EndUpdateBounds', @ControlEndUpdateBounds);
-        LuaSetTableFunction(L, index, 'BeginUpdateBounds', @ControlBeginUpdateBounds);
-        LuaSetTableFunction(L, Index, 'BeginUpdate', @ControlBeginUpdate);
-        LuaSetTableFunction(L, Index, 'EndUpdate', @ControlEndUpdate);
+        if Sender is TWinControl then begin
+           LuaSetTableFunction(L, index, 'SetFocus', @ControlFocus);
+           LuaSetTableFunction(L, index, 'EndUpdateBounds', @ControlEndUpdateBounds);
+           LuaSetTableFunction(L, index, 'BeginUpdateBounds', @ControlBeginUpdateBounds);
+        end;
+        if Sender is TControl then
+           LuaSetTableFunction(L, index, 'Refresh', @ControlRefresh);
 end;
 
 // -----------------------------------------------------------------------------
-
 function ExecMethod(Instance : TObject; Name : String) : Boolean;
 type
   TProc= procedure of object;
@@ -573,12 +571,11 @@ end;
 
 function ControlFree(L: Plua_State): Integer; cdecl;
 var
-  lC: TComponent;
+  o: TObject;
 begin
   CheckArg(L, 1);
-  lC := TComponent(GetLuaObject(L, 1));
-  LC.Free;
-  LC := nil;
+  o := GetLuaObject(L, 1);
+  o.Free;
   LuaSetTableClear(L, 1);
   Result := 0;
 end;
@@ -595,10 +592,10 @@ end;
 
 function ControlRefresh(L: Plua_State): Integer; cdecl;
 var
-  lC: TWinControl;
+  lC: TControl;
 begin
   CheckArg(L, 1);
-  lC := TWincontrol(GetLuaObject(L, 1));
+  lC := TControl(GetLuaObject(L, 1));
   lC.Refresh;
   Result := 0;
 end;
@@ -620,26 +617,6 @@ begin
   CheckArg(L, 1);
   lC := TWincontrol(GetLuaObject(L, 1));
   lC.EndUpdateBounds;
-  Result := 0;
-end;
-
-function ControlBeginUpdate(L: Plua_State): Integer; cdecl;
-var
-  lC: TObject;
-begin
-  CheckArg(L, 1);
-  lC := TObject(GetLuaObject(L, 1));
-  ExecMethod(lC,'BeginUpdate');
-  Result := 0;
-end;
-
-function ControlEndUpdate(L: Plua_State): Integer; cdecl;
-var
-  lC: TObject;
-begin
-  CheckArg(L, 1);
-  lC := TObject(GetLuaObject(L, 1));
-  ExecMethod(lC,'EndUpdate');
   Result := 0;
 end;
 
