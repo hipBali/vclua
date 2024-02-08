@@ -90,6 +90,7 @@ Generated with Lua-fpc parser/generator
 	(name:'CalcEdit'; func:@IsCalcEdit),
 	(name:'ColorBox'; func:@IsColorBox),
 	(name:'ColorListBox'; func:@IsColorListBox),
+	(name:'CustomGrid'; func:@IsCustomGrid),
 	(name:'DrawGrid'; func:@IsDrawGrid),
 	(name:'GridColumn'; func:@IsGridColumn),
 	(name:'GridColumns'; func:@IsGridColumns),

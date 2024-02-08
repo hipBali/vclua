@@ -221,8 +221,9 @@ classes = {
 	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox, Controls" },
 	
 	-- grids
-	{ unit = "DrawGrid", ref = "Grids, Controls",
+	{ unit = "DrawGrid", ref = "Grids, Controls, LCLType",
 		classes = {
+			{ name = "CustomGrid", src = "TCustomGrid", nocreate=true },
 			{ name = "DrawGrid", src = "TCustomDrawGrid", canvas=true },
 		},
 	},
@@ -231,7 +232,7 @@ classes = {
 			{ name = "GridColumn", src = "TGridColumn", noparent=true, parentclass="TCollection", nocreate=true},
 			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", nocreate=true},--, wclass="TGridColumn"
 			{ name = "StringGrid", src = "TCustomStringGrid", canvas=true, 
-			  impl="GetCells, SetCells, GetCellRect, GetSelectedCell, MouseToCell"},
+			  impl="GetCells, SetCells, GetSelectedCell"},
 		},
 	},
 	

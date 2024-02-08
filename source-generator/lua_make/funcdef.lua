@@ -34,25 +34,6 @@ end;]],
 		vcluaMethodName="GridCellsSet",
 },
 
-["GetCellRect"] = {src = [[
-function #FNAME(L: Plua_State): Integer; cdecl;
-var
-  strGrid:TLuaStringGrid;
-  c,r :Integer;
-  Rect : TRect;
-begin
-  CheckArg(L, 3);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
-  c := lua_tointeger(L,2);
-  r := lua_tointeger(L,3);
-  Rect := strGrid.CellRect(c,r);
-  lua_pushTRect(L,Rect);
-  Result := 1;
-end;]],
-		finalMethodName="GetCellRect",
-		vcluaMethodName="GridCellRectGet",
-},
-
 ["GetSelectedCell"] = {src = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var
@@ -71,25 +52,6 @@ begin
 end;]],
 		finalMethodName="GetSelectedCell",
 		vcluaMethodName="GridGetSelectedCell",
-},
-
-["MouseToCell"] = {src = [[
-function #FNAME(L: Plua_State): Integer; cdecl;
-var
-  strGrid:TLuaStringGrid;
-  X,Y,c,r :Integer;
-begin
-  CheckArg(L, 3);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
-  X := lua_tointeger(L,2);
-  Y := lua_tointeger(L,3);
-  strGrid.MouseToCell(X, Y, c, r);
-  lua_pushnumber(L,c);
-  lua_pushnumber(L,r);
-  Result := 2;
-end;]],
-		finalMethodName="MouseToCell",
-		vcluaMethodName="GridMouseToCell",
 },
 
 ["ItemsToTable"] = {src = [[

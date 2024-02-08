@@ -18,12 +18,15 @@ VCLUA_TOLUA = {
 	["tcalendarview"] = "lua_push(L,ret,TypeInfo(ret));",
 	["ttreeviewinsertmarktype"] = "lua_push(L,ret,TypeInfo(ret));",
 	["tgraphicsdraweffect"] = "lua_push(L,ret,TypeInfo(ret));",
+	["tgridzone"] = "lua_push(L,ret,TypeInfo(ret));",
+
 	-- if src ~= "T"..cdef.name
 	["tcustomimagelist"] = "lua_push(L,ret,TypeInfo(ret));",
 	["tcustompage"] = "lua_push(L,ret,TypeInfo(ret));",
 	["tcustomform"] = "lua_push(L,ret,TypeInfo(ret));",
 
 	["tcomponent"] = "lua_push(L,ret,TypeInfo(ret));",
+	["twincontrol"] = "lua_push(L,ret,TypeInfo(ret));",
 }
 
 else

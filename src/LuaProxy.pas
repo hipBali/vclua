@@ -5,7 +5,7 @@ unit LuaProxy;
 interface
 
 uses
-  Classes, Types, Controls, Menus, ComCtrls, SysUtils, Graphics, TypInfo,
+  Classes, Types, Controls, Menus, ComCtrls, SysUtils, Graphics, TypInfo, LCLType,
   LuaHelper, Lua;
 
 type
@@ -51,6 +51,7 @@ procedure lua_push(L: Plua_State; v:QWord  ; pti : PTypeInfo = nil); overload; i
 procedure lua_push(L: Plua_State; v:Double ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:Char   ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; const v:TUTF8Char; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:TRect ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v       ; pti : PTypeInfo);       overload; inline;
@@ -86,6 +87,10 @@ end;
 procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil);
 begin
   lua_pushStringCP(L, v);
+end;
+procedure lua_push(L: Plua_State; const v:TUTF8Char; pti : PTypeInfo = nil);
+begin
+  lua_pushString(L, v);
 end;
 procedure lua_push(L: Plua_State; v:Char; pti : PTypeInfo = nil);
 begin

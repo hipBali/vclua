@@ -448,20 +448,6 @@ begin
   strGrid.Cells[c,r] := lua_tostring(L,4);
   Result := 0;
 end;
-function VCLua_StringGrid_GridCellRectGet(L: Plua_State): Integer; cdecl;
-var
-  strGrid:TLuaStringGrid;
-  c,r :Integer;
-  Rect : TRect;
-begin
-  CheckArg(L, 3);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
-  c := lua_tointeger(L,2);
-  r := lua_tointeger(L,3);
-  Rect := strGrid.CellRect(c,r);
-  lua_pushTRect(L,Rect);
-  Result := 1;
-end;
 function VCLua_StringGrid_GridGetSelectedCell(L: Plua_State): Integer; cdecl;
 var
   strGrid:TLuaStringGrid;
@@ -473,20 +459,6 @@ begin
   c := strGrid.Selection.TopLeft.x;
   r := strGrid.Selection.TopLeft.y;
   Rect := strGrid.CellRect(c,r);
-  lua_pushnumber(L,c);
-  lua_pushnumber(L,r);
-  Result := 2;
-end;
-function VCLua_StringGrid_GridMouseToCell(L: Plua_State): Integer; cdecl;
-var
-  strGrid:TLuaStringGrid;
-  X,Y,c,r :Integer;
-begin
-  CheckArg(L, 3);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
-  X := lua_tointeger(L,2);
-  Y := lua_tointeger(L,3);
-  strGrid.MouseToCell(X, Y, c, r);
   lua_pushnumber(L,c);
   lua_pushnumber(L,r);
   Result := 2;
@@ -654,7 +626,7 @@ begin
 	GridColumnsFuncs[8].name:=nil;
 	GridColumnsFuncs[8].func:=nil;
 
-	SetLength(CustomStringGridFuncs, 17+1);
+	SetLength(CustomStringGridFuncs, 15+1);
 	CustomStringGridFuncs[0].name:='AutoSizeColumn';
 	CustomStringGridFuncs[0].func:=@VCLua_StringGrid_AutoSizeColumn;
 	CustomStringGridFuncs[1].name:='AutoSizeColumns';
@@ -683,13 +655,9 @@ begin
 	CustomStringGridFuncs[12].func:=@VCLua_StringGrid_GridCellsGet;
 	CustomStringGridFuncs[13].name:='SetCells';
 	CustomStringGridFuncs[13].func:=@VCLua_StringGrid_GridCellsSet;
-	CustomStringGridFuncs[14].name:='GetCellRect';
-	CustomStringGridFuncs[14].func:=@VCLua_StringGrid_GridCellRectGet;
-	CustomStringGridFuncs[15].name:='GetSelectedCell';
-	CustomStringGridFuncs[15].func:=@VCLua_StringGrid_GridGetSelectedCell;
-	CustomStringGridFuncs[16].name:='MouseToCell';
-	CustomStringGridFuncs[16].func:=@VCLua_StringGrid_GridMouseToCell;
-	CustomStringGridFuncs[17].name:=nil;
-	CustomStringGridFuncs[17].func:=nil;
+	CustomStringGridFuncs[14].name:='GetSelectedCell';
+	CustomStringGridFuncs[14].func:=@VCLua_StringGrid_GridGetSelectedCell;
+	CustomStringGridFuncs[15].name:=nil;
+	CustomStringGridFuncs[15].func:=nil;
 
 end.

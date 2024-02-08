@@ -39,6 +39,9 @@ Generated with Lua-fpc parser/generator
   assert(metaPtis[i]^.Name = 'TCustomDrawGrid');
   Inc(i);
   funcs.Add('TCustomDrawGrid', CustomDrawGridFuncs);
+  assert(metaPtis[i]^.Name = 'TCustomGrid');
+  Inc(i);
+  funcs.Add('TCustomGrid', CustomGridFuncs);
   assert(metaPtis[i]^.Name = 'TColorListBox');
   Inc(i);
   funcs.Add('TColorListBox', ColorListBoxFuncs);

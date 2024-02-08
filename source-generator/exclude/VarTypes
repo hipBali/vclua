@@ -13,3 +13,4 @@ TPhysPoint
 TNotifyEvent
 IInterface
 TCustomImageListResolutionEnumerator
+TMessage

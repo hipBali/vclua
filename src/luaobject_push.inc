@@ -41,6 +41,9 @@ else
 if (comp.InheritsFrom(TDrawGrid)) then
 	DrawGridToTable(L,index,Comp)
 else
+if (comp.InheritsFrom(TCustomGrid)) then
+	CustomGridToTable(L,index,Comp)
+else
 if (comp.InheritsFrom(TColorListBox)) then
 	ColorListBoxToTable(L,index,Comp)
 else
