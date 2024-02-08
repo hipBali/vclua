@@ -435,7 +435,6 @@ function ComponentShortCut(Comp: TComponent; scName:String): boolean;
 // default methods
 function ControlFree(L: Plua_State): Integer; cdecl;
 function ControlFocus(L: Plua_State): Integer; cdecl;
-function ControlRefresh(L: Plua_State): Integer; cdecl;
 function ControlBeginUpdateBounds(L: Plua_State): Integer; cdecl;
 function ControlEndUpdateBounds(L: Plua_State): Integer; cdecl;
 function ControlParentName(L: Plua_State): Integer; cdecl;
@@ -612,16 +611,6 @@ begin
   CheckArg(L, 1);
   lC := TWincontrol(GetLuaObject(L, 1));
   lC.Setfocus;
-  Result := 0;
-end;
-
-function ControlRefresh(L: Plua_State): Integer; cdecl;
-var
-  lC: TControl;
-begin
-  CheckArg(L, 1);
-  lC := TControl(GetLuaObject(L, 1));
-  lC.Refresh;
   Result := 0;
 end;
 
