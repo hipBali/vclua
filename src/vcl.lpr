@@ -94,20 +94,10 @@ begin
   lua_pushliteral (L, '0.9.2');
   lua_settable (L, -3);
 
-  {$IFNDEF LUA51}
-  luaL_newlib(l, is_funcs);
-  {$ELSE}
-  lua_createtable(L, 0, High(is_funcs));
-  luaL_register(L, nil, PluaL_Reg(is_funcs));
-  {$ENDIF}
+  luaL_newlib(L, is_funcs);
   lua_setfield(L, -2, 'is');
 
-  {$IFNDEF LUA51}
-  luaL_newlib(l, as_funcs);
-  {$ELSE}
-  lua_createtable(L, 0, High(as_funcs));
-  luaL_register(L, nil, PluaL_Reg(as_funcs));
-  {$ENDIF}
+  luaL_newlib(L, as_funcs);
   lua_setfield(L, -2, 'as');
 
   res := CheckOrderOfPushObject();

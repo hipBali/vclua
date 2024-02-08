@@ -708,6 +708,10 @@ function luaL_dostring(L : Plua_State; s : PChar) : Integer;
 
 procedure luaL_getmetatable(L : Plua_State; n : PChar);
 
+procedure luaL_newlib(L: Plua_State; lr: array of luaL_Reg);
+procedure luaL_setfuncs(L: Plua_State; lr: array of luaL_Reg; nup: Integer); overload;
+procedure luaL_setfuncs(L: Plua_State; lr: PluaL_Reg; nup: Integer); cdecl; overload;
+
 (* not implemented yet
 #define luaL_opt(L,f,n,d) (lua_isnoneornil(L,(n)) ? (d) : f(L,(n)))
 *)
@@ -996,6 +1000,21 @@ end;
 procedure luaL_getmetatable(L : Plua_State; n : PChar);
 begin
   lua_getfield(L, LUA_REGISTRYINDEX, n);
+end;
+
+procedure luaL_newlib(L: Plua_State; lr: array of luaL_Reg);
+begin
+  lua_createtable(L, 0, High(lr));
+  luaL_register(L, nil, PluaL_Reg(lr));
+end;
+procedure luaL_setfuncs(L: Plua_State; lr: PluaL_Reg; nup: Integer); cdecl;
+begin
+  luaL_openlib(L, nil, lr, nup);
+end;
+
+procedure luaL_setfuncs(L: Plua_State; lr: array of luaL_Reg; nup: Integer);
+begin
+   luaL_setfuncs(L, @lr, nup);
 end;
 
 procedure luaL_addchar(B : PluaL_Buffer; c : Char);
