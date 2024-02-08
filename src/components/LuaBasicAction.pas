@@ -20,6 +20,8 @@ type
     TLuaBasicAction = class(TBasicAction)
         LuaCtl: TVCLuaControl;
     end;
+var
+    BasicActionFuncs: aoluaL_Reg;
 
 
 implementation
@@ -120,11 +122,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'HandlesTarget', @VCLua_BasicAction_HandlesTarget);
-	LuaSetTableFunction(L, Index, 'UpdateTarget', @VCLua_BasicAction_UpdateTarget);
-	LuaSetTableFunction(L, Index, 'ExecuteTarget', @VCLua_BasicAction_ExecuteTarget);
-	LuaSetTableFunction(L, Index, 'Execute', @VCLua_BasicAction_Execute);
-	LuaSetTableFunction(L, Index, 'Update', @VCLua_BasicAction_Update);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TBasicAction');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -142,5 +145,20 @@ begin
 	BasicActionToTable(L, -1, lBasicAction);
 	Result := 1;
 end;
+
+begin
+	SetLength(BasicActionFuncs, 5+1);
+	BasicActionFuncs[0].name:='HandlesTarget';
+	BasicActionFuncs[0].func:=@VCLua_BasicAction_HandlesTarget;
+	BasicActionFuncs[1].name:='UpdateTarget';
+	BasicActionFuncs[1].func:=@VCLua_BasicAction_UpdateTarget;
+	BasicActionFuncs[2].name:='ExecuteTarget';
+	BasicActionFuncs[2].func:=@VCLua_BasicAction_ExecuteTarget;
+	BasicActionFuncs[3].name:='Execute';
+	BasicActionFuncs[3].func:=@VCLua_BasicAction_Execute;
+	BasicActionFuncs[4].name:='Update';
+	BasicActionFuncs[4].func:=@VCLua_BasicAction_Update;
+	BasicActionFuncs[5].name:=nil;
+	BasicActionFuncs[5].func:=nil;
 
 end.

@@ -22,6 +22,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomTrayIconFuncs: aoluaL_Reg;
 
 
 implementation
@@ -116,11 +118,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Hide', @VCLua_TrayIcon_Hide);
-	LuaSetTableFunction(L, Index, 'Show', @VCLua_TrayIcon_Show);
-	LuaSetTableFunction(L, Index, 'InternalUpdate', @VCLua_TrayIcon_InternalUpdate);
-	LuaSetTableFunction(L, Index, 'ShowBalloonHint', @VCLua_TrayIcon_ShowBalloonHint);
-	LuaSetTableFunction(L, Index, 'GetPosition', @VCLua_TrayIcon_GetPosition);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomTrayIcon');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -138,5 +141,20 @@ begin
 	TrayIconToTable(L, -1, lTrayIcon);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomTrayIconFuncs, 5+1);
+	CustomTrayIconFuncs[0].name:='Hide';
+	CustomTrayIconFuncs[0].func:=@VCLua_TrayIcon_Hide;
+	CustomTrayIconFuncs[1].name:='Show';
+	CustomTrayIconFuncs[1].func:=@VCLua_TrayIcon_Show;
+	CustomTrayIconFuncs[2].name:='InternalUpdate';
+	CustomTrayIconFuncs[2].func:=@VCLua_TrayIcon_InternalUpdate;
+	CustomTrayIconFuncs[3].name:='ShowBalloonHint';
+	CustomTrayIconFuncs[3].func:=@VCLua_TrayIcon_ShowBalloonHint;
+	CustomTrayIconFuncs[4].name:='GetPosition';
+	CustomTrayIconFuncs[4].func:=@VCLua_TrayIcon_GetPosition;
+	CustomTrayIconFuncs[5].name:=nil;
+	CustomTrayIconFuncs[5].func:=nil;
 
 end.

@@ -92,27 +92,6 @@ end;]],
 		vcluaMethodName="GridMouseToCell",
 },
 
-["DrawCell"] = {src = [[
-function #FNAME(L: Plua_State): Integer; cdecl;
-var
-  strGrid:TLuaStringGrid;
-  c,r:Integer;
-  rect:TRect;
-  aState:TGridDrawState;
-begin
-  CheckArg(L, 5);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
-  c := lua_tointeger(L,2);
-  r := lua_tointeger(L,3);
-  rect := lua_toTRect(L,4);
-  aState := TGridDrawState(GetEnumValue(TypeInfo(TGridDrawState),lua_tostring(L,5)));
-  strGrid.defaultdrawcell(c,r,rect,aState);
-  Result := 0;
-end;]],
-		finalMethodName="DrawCell",
-		vcluaMethodName="GridDrawCell",
-},
-
 ["ItemsToTable"] = {src = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var
@@ -196,11 +175,6 @@ end;
 ]],
 		finalMethodName="SetPixel",
 		vcluaMethodName="SetPixel",
-},
-
-["AddMenu"] = {
-		finalMethodName="Add",
-		vcluaMethodName="VCLua_MenuItem_Add",
 },
 
 }

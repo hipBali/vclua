@@ -22,6 +22,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomListBoxFuncs: aoluaL_Reg;
 
 
 implementation
@@ -300,24 +302,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'AddItem', @VCLua_ListBox_AddItem);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_ListBox_Clear);
-	LuaSetTableFunction(L, Index, 'ClearSelection', @VCLua_ListBox_ClearSelection);
-	LuaSetTableFunction(L, Index, 'GetIndexAtXY', @VCLua_ListBox_GetIndexAtXY);
-	LuaSetTableFunction(L, Index, 'GetIndexAtY', @VCLua_ListBox_GetIndexAtY);
-	LuaSetTableFunction(L, Index, 'GetSelectedText', @VCLua_ListBox_GetSelectedText);
-	LuaSetTableFunction(L, Index, 'ItemAtPos', @VCLua_ListBox_ItemAtPos);
-	LuaSetTableFunction(L, Index, 'ItemRect', @VCLua_ListBox_ItemRect);
-	LuaSetTableFunction(L, Index, 'ItemVisible', @VCLua_ListBox_ItemVisible);
-	LuaSetTableFunction(L, Index, 'ItemFullyVisible', @VCLua_ListBox_ItemFullyVisible);
-	LuaSetTableFunction(L, Index, 'LockSelectionChange', @VCLua_ListBox_LockSelectionChange);
-	LuaSetTableFunction(L, Index, 'MakeCurrentVisible', @VCLua_ListBox_MakeCurrentVisible);
-	LuaSetTableFunction(L, Index, 'MeasureItem', @VCLua_ListBox_MeasureItem);
-	LuaSetTableFunction(L, Index, 'MeasureItem2', @VCLua_ListBox_MeasureItem2);
-	LuaSetTableFunction(L, Index, 'SelectAll', @VCLua_ListBox_SelectAll);
-	LuaSetTableFunction(L, Index, 'SelectRange', @VCLua_ListBox_SelectRange);
-	LuaSetTableFunction(L, Index, 'DeleteSelected', @VCLua_ListBox_DeleteSelected);
-	LuaSetTableFunction(L, Index, 'UnlockSelectionChange', @VCLua_ListBox_UnlockSelectionChange);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomListBox');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -335,5 +325,46 @@ begin
 	ListBoxToTable(L, -1, lListBox);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomListBoxFuncs, 18+1);
+	CustomListBoxFuncs[0].name:='AddItem';
+	CustomListBoxFuncs[0].func:=@VCLua_ListBox_AddItem;
+	CustomListBoxFuncs[1].name:='Clear';
+	CustomListBoxFuncs[1].func:=@VCLua_ListBox_Clear;
+	CustomListBoxFuncs[2].name:='ClearSelection';
+	CustomListBoxFuncs[2].func:=@VCLua_ListBox_ClearSelection;
+	CustomListBoxFuncs[3].name:='GetIndexAtXY';
+	CustomListBoxFuncs[3].func:=@VCLua_ListBox_GetIndexAtXY;
+	CustomListBoxFuncs[4].name:='GetIndexAtY';
+	CustomListBoxFuncs[4].func:=@VCLua_ListBox_GetIndexAtY;
+	CustomListBoxFuncs[5].name:='GetSelectedText';
+	CustomListBoxFuncs[5].func:=@VCLua_ListBox_GetSelectedText;
+	CustomListBoxFuncs[6].name:='ItemAtPos';
+	CustomListBoxFuncs[6].func:=@VCLua_ListBox_ItemAtPos;
+	CustomListBoxFuncs[7].name:='ItemRect';
+	CustomListBoxFuncs[7].func:=@VCLua_ListBox_ItemRect;
+	CustomListBoxFuncs[8].name:='ItemVisible';
+	CustomListBoxFuncs[8].func:=@VCLua_ListBox_ItemVisible;
+	CustomListBoxFuncs[9].name:='ItemFullyVisible';
+	CustomListBoxFuncs[9].func:=@VCLua_ListBox_ItemFullyVisible;
+	CustomListBoxFuncs[10].name:='LockSelectionChange';
+	CustomListBoxFuncs[10].func:=@VCLua_ListBox_LockSelectionChange;
+	CustomListBoxFuncs[11].name:='MakeCurrentVisible';
+	CustomListBoxFuncs[11].func:=@VCLua_ListBox_MakeCurrentVisible;
+	CustomListBoxFuncs[12].name:='MeasureItem';
+	CustomListBoxFuncs[12].func:=@VCLua_ListBox_MeasureItem;
+	CustomListBoxFuncs[13].name:='MeasureItem2';
+	CustomListBoxFuncs[13].func:=@VCLua_ListBox_MeasureItem2;
+	CustomListBoxFuncs[14].name:='SelectAll';
+	CustomListBoxFuncs[14].func:=@VCLua_ListBox_SelectAll;
+	CustomListBoxFuncs[15].name:='SelectRange';
+	CustomListBoxFuncs[15].func:=@VCLua_ListBox_SelectRange;
+	CustomListBoxFuncs[16].name:='DeleteSelected';
+	CustomListBoxFuncs[16].func:=@VCLua_ListBox_DeleteSelected;
+	CustomListBoxFuncs[17].name:='UnlockSelectionChange';
+	CustomListBoxFuncs[17].func:=@VCLua_ListBox_UnlockSelectionChange;
+	CustomListBoxFuncs[18].name:=nil;
+	CustomListBoxFuncs[18].func:=nil;
 
 end.

@@ -20,6 +20,8 @@ type
     TLuaContainedAction = class(TContainedAction)
         LuaCtl: TVCLuaControl;
     end;
+var
+    ContainedActionFuncs: aoluaL_Reg;
 
 function CreateAction(L: Plua_State): Integer; cdecl;
 function IsAction(L: Plua_State): Integer; cdecl;
@@ -31,6 +33,8 @@ type
     TLuaAction = class(TAction)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomActionFuncs: aoluaL_Reg;
 
 function CreateActionList(L: Plua_State): Integer; cdecl;
 function IsActionList(L: Plua_State): Integer; cdecl;
@@ -42,6 +46,8 @@ type
     TLuaActionList = class(TActionList)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomActionListFuncs: aoluaL_Reg;
 
 
 implementation
@@ -230,10 +236,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Execute', @VCLua_ContainedAction_Execute);
-	LuaSetTableFunction(L, Index, 'GetParentComponent', @VCLua_ContainedAction_GetParentComponent);
-	LuaSetTableFunction(L, Index, 'HasParent', @VCLua_ContainedAction_HasParent);
-	LuaSetTableFunction(L, Index, 'Update', @VCLua_ContainedAction_Update);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TContainedAction');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -280,9 +288,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'DoHint', @VCLua_Action_DoHint);
-	LuaSetTableFunction(L, Index, 'DoHint2', @VCLua_Action_DoHint2);
-	LuaSetTableFunction(L, Index, 'Execute', @VCLua_Action_Execute);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomAction');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -329,10 +340,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'ActionByName', @VCLua_ActionList_ActionByName);
-	LuaSetTableFunction(L, Index, 'ExecuteAction', @VCLua_ActionList_ExecuteAction);
-	LuaSetTableFunction(L, Index, 'IndexOfName', @VCLua_ActionList_IndexOfName);
-	LuaSetTableFunction(L, Index, 'UpdateAction', @VCLua_ActionList_UpdateAction);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomActionList');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -350,5 +363,40 @@ begin
 	ActionListToTable(L, -1, lActionList);
 	Result := 1;
 end;
+
+begin
+	SetLength(ContainedActionFuncs, 4+1);
+	ContainedActionFuncs[0].name:='Execute';
+	ContainedActionFuncs[0].func:=@VCLua_ContainedAction_Execute;
+	ContainedActionFuncs[1].name:='GetParentComponent';
+	ContainedActionFuncs[1].func:=@VCLua_ContainedAction_GetParentComponent;
+	ContainedActionFuncs[2].name:='HasParent';
+	ContainedActionFuncs[2].func:=@VCLua_ContainedAction_HasParent;
+	ContainedActionFuncs[3].name:='Update';
+	ContainedActionFuncs[3].func:=@VCLua_ContainedAction_Update;
+	ContainedActionFuncs[4].name:=nil;
+	ContainedActionFuncs[4].func:=nil;
+
+	SetLength(CustomActionFuncs, 3+1);
+	CustomActionFuncs[0].name:='DoHint';
+	CustomActionFuncs[0].func:=@VCLua_Action_DoHint;
+	CustomActionFuncs[1].name:='DoHint2';
+	CustomActionFuncs[1].func:=@VCLua_Action_DoHint2;
+	CustomActionFuncs[2].name:='Execute';
+	CustomActionFuncs[2].func:=@VCLua_Action_Execute;
+	CustomActionFuncs[3].name:=nil;
+	CustomActionFuncs[3].func:=nil;
+
+	SetLength(CustomActionListFuncs, 4+1);
+	CustomActionListFuncs[0].name:='ActionByName';
+	CustomActionListFuncs[0].func:=@VCLua_ActionList_ActionByName;
+	CustomActionListFuncs[1].name:='ExecuteAction';
+	CustomActionListFuncs[1].func:=@VCLua_ActionList_ExecuteAction;
+	CustomActionListFuncs[2].name:='IndexOfName';
+	CustomActionListFuncs[2].func:=@VCLua_ActionList_IndexOfName;
+	CustomActionListFuncs[3].name:='UpdateAction';
+	CustomActionListFuncs[3].func:=@VCLua_ActionList_UpdateAction;
+	CustomActionListFuncs[4].name:=nil;
+	CustomActionListFuncs[4].func:=nil;
 
 end.

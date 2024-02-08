@@ -20,6 +20,8 @@ type
     TLuaPopupNotifier = class(TPopupNotifier)
         LuaCtl: TVCLuaControl;
     end;
+var
+    PopupNotifierFuncs: aoluaL_Reg;
 
 
 implementation
@@ -90,9 +92,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Hide', @VCLua_PopupNotifier_Hide);
-	LuaSetTableFunction(L, Index, 'Show', @VCLua_PopupNotifier_Show);
-	LuaSetTableFunction(L, Index, 'ShowAtPos', @VCLua_PopupNotifier_ShowAtPos);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TPopupNotifier');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -110,5 +115,16 @@ begin
 	PopupNotifierToTable(L, -1, lPopupNotifier);
 	Result := 1;
 end;
+
+begin
+	SetLength(PopupNotifierFuncs, 3+1);
+	PopupNotifierFuncs[0].name:='Hide';
+	PopupNotifierFuncs[0].func:=@VCLua_PopupNotifier_Hide;
+	PopupNotifierFuncs[1].name:='Show';
+	PopupNotifierFuncs[1].func:=@VCLua_PopupNotifier_Show;
+	PopupNotifierFuncs[2].name:='ShowAtPos';
+	PopupNotifierFuncs[2].func:=@VCLua_PopupNotifier_ShowAtPos;
+	PopupNotifierFuncs[3].name:=nil;
+	PopupNotifierFuncs[3].func:=nil;
 
 end.

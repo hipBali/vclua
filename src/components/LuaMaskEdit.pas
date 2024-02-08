@@ -20,6 +20,8 @@ type
     TLuaMaskEdit = class(TMaskEdit)
         LuaCtl: TVCLuaControl;
     end;
+var
+    MaskEditFuncs: aoluaL_Reg;
 
 
 implementation
@@ -54,7 +56,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TMaskEdit');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -72,5 +79,11 @@ begin
 	MaskEditToTable(L, -1, lMaskEdit);
 	Result := 1;
 end;
+
+begin
+	SetLength(MaskEditFuncs, 0+1);
+	
+	MaskEditFuncs[0].name:=nil;
+	MaskEditFuncs[0].func:=nil;
 
 end.

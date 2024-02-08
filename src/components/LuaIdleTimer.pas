@@ -20,6 +20,8 @@ type
     TLuaIdleTimer = class(TIdleTimer)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomIdleTimerFuncs: aoluaL_Reg;
 
 
 implementation
@@ -54,7 +56,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomIdleTimer');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -72,5 +79,11 @@ begin
 	IdleTimerToTable(L, -1, lIdleTimer);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomIdleTimerFuncs, 0+1);
+	
+	CustomIdleTimerFuncs[0].name:=nil;
+	CustomIdleTimerFuncs[0].func:=nil;
 
 end.

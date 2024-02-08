@@ -20,6 +20,8 @@ type
     TLuaBevel = class(TBevel)
         LuaCtl: TVCLuaControl;
     end;
+var
+    BevelFuncs: aoluaL_Reg;
 
 
 implementation
@@ -66,7 +68,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Bevel_Assign);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TBevel');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -84,5 +91,12 @@ begin
 	BevelToTable(L, -1, lBevel);
 	Result := 1;
 end;
+
+begin
+	SetLength(BevelFuncs, 1+1);
+	BevelFuncs[0].name:='Assign';
+	BevelFuncs[0].func:=@VCLua_Bevel_Assign;
+	BevelFuncs[1].name:=nil;
+	BevelFuncs[1].func:=nil;
 
 end.

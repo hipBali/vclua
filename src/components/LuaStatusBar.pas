@@ -20,6 +20,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    StatusPanelFuncs: aoluaL_Reg;
 
 function IsStatusPanels(L: Plua_State): Integer; cdecl;
 function AsStatusPanels(L: Plua_State): Integer; cdecl;
@@ -31,6 +33,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    StatusPanelsFuncs: aoluaL_Reg;
 
 function CreateStatusBar(L: Plua_State): Integer; cdecl;
 function IsStatusBar(L: Plua_State): Integer; cdecl;
@@ -42,6 +46,8 @@ type
     TLuaStatusBar = class(TStatusBar)
         LuaCtl: TVCLuaControl;
     end;
+var
+    StatusBarFuncs: aoluaL_Reg;
 
 
 implementation
@@ -209,8 +215,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_StatusPanel_Assign);
-	LuaSetTableFunction(L, Index, 'StatusBar', @VCLua_StatusPanel_StatusBar);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TStatusPanel');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -243,7 +253,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Add', @VCLua_StatusPanels_Add);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TStatusPanels');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -276,13 +291,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'InvalidatePanel', @VCLua_StatusBar_InvalidatePanel);
-	LuaSetTableFunction(L, Index, 'BeginUpdate', @VCLua_StatusBar_BeginUpdate);
-	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_StatusBar_EndUpdate);
-	LuaSetTableFunction(L, Index, 'ExecuteAction', @VCLua_StatusBar_ExecuteAction);
-	LuaSetTableFunction(L, Index, 'GetPanelIndexAt', @VCLua_StatusBar_GetPanelIndexAt);
-	LuaSetTableFunction(L, Index, 'SizeGripEnabled', @VCLua_StatusBar_SizeGripEnabled);
-	LuaSetTableFunction(L, Index, 'UpdatingStatusBar', @VCLua_StatusBar_UpdatingStatusBar);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TStatusBar');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -300,5 +314,38 @@ begin
 	StatusBarToTable(L, -1, lStatusBar);
 	Result := 1;
 end;
+
+begin
+	SetLength(StatusPanelFuncs, 2+1);
+	StatusPanelFuncs[0].name:='Assign';
+	StatusPanelFuncs[0].func:=@VCLua_StatusPanel_Assign;
+	StatusPanelFuncs[1].name:='StatusBar';
+	StatusPanelFuncs[1].func:=@VCLua_StatusPanel_StatusBar;
+	StatusPanelFuncs[2].name:=nil;
+	StatusPanelFuncs[2].func:=nil;
+
+	SetLength(StatusPanelsFuncs, 1+1);
+	StatusPanelsFuncs[0].name:='Add';
+	StatusPanelsFuncs[0].func:=@VCLua_StatusPanels_Add;
+	StatusPanelsFuncs[1].name:=nil;
+	StatusPanelsFuncs[1].func:=nil;
+
+	SetLength(StatusBarFuncs, 7+1);
+	StatusBarFuncs[0].name:='InvalidatePanel';
+	StatusBarFuncs[0].func:=@VCLua_StatusBar_InvalidatePanel;
+	StatusBarFuncs[1].name:='BeginUpdate';
+	StatusBarFuncs[1].func:=@VCLua_StatusBar_BeginUpdate;
+	StatusBarFuncs[2].name:='EndUpdate';
+	StatusBarFuncs[2].func:=@VCLua_StatusBar_EndUpdate;
+	StatusBarFuncs[3].name:='ExecuteAction';
+	StatusBarFuncs[3].func:=@VCLua_StatusBar_ExecuteAction;
+	StatusBarFuncs[4].name:='GetPanelIndexAt';
+	StatusBarFuncs[4].func:=@VCLua_StatusBar_GetPanelIndexAt;
+	StatusBarFuncs[5].name:='SizeGripEnabled';
+	StatusBarFuncs[5].func:=@VCLua_StatusBar_SizeGripEnabled;
+	StatusBarFuncs[6].name:='UpdatingStatusBar';
+	StatusBarFuncs[6].func:=@VCLua_StatusBar_UpdatingStatusBar;
+	StatusBarFuncs[7].name:=nil;
+	StatusBarFuncs[7].func:=nil;
 
 end.

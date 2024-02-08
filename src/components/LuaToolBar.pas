@@ -20,6 +20,8 @@ type
     TLuaToolButton = class(TToolButton)
         LuaCtl: TVCLuaControl;
     end;
+var
+    ToolButtonFuncs: aoluaL_Reg;
 
 function CreateToolBar(L: Plua_State): Integer; cdecl;
 function IsToolBar(L: Plua_State): Integer; cdecl;
@@ -31,6 +33,8 @@ type
     TLuaToolBar = class(TToolBar)
         LuaCtl: TVCLuaControl;
     end;
+var
+    ToolBarFuncs: aoluaL_Reg;
 
 
 implementation
@@ -242,14 +246,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'CheckMenuDropdown', @VCLua_ToolButton_CheckMenuDropdown);
-	LuaSetTableFunction(L, Index, 'Click', @VCLua_ToolButton_Click);
-	LuaSetTableFunction(L, Index, 'ArrowClick', @VCLua_ToolButton_ArrowClick);
-	LuaSetTableFunction(L, Index, 'GetCurrentIcon', @VCLua_ToolButton_GetCurrentIcon);
-	LuaSetTableFunction(L, Index, 'GetCurrentIcon2', @VCLua_ToolButton_GetCurrentIcon2);
-	LuaSetTableFunction(L, Index, 'GetPreferredSize', @VCLua_ToolButton_GetPreferredSize);
-	LuaSetTableFunction(L, Index, 'GetPreferredSize2', @VCLua_ToolButton_GetPreferredSize2);
-	LuaSetTableFunction(L, Index, 'PointInArrow', @VCLua_ToolButton_PointInArrow);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TToolButton');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -296,10 +298,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_ToolBar_EndUpdate);
-	LuaSetTableFunction(L, Index, 'FlipChildren', @VCLua_ToolBar_FlipChildren);
-	LuaSetTableFunction(L, Index, 'SetButtonSize', @VCLua_ToolBar_SetButtonSize);
-	LuaSetTableFunction(L, Index, 'CanFocus', @VCLua_ToolBar_CanFocus);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TToolBar');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -317,5 +321,38 @@ begin
 	ToolBarToTable(L, -1, lToolBar);
 	Result := 1;
 end;
+
+begin
+	SetLength(ToolButtonFuncs, 8+1);
+	ToolButtonFuncs[0].name:='CheckMenuDropdown';
+	ToolButtonFuncs[0].func:=@VCLua_ToolButton_CheckMenuDropdown;
+	ToolButtonFuncs[1].name:='Click';
+	ToolButtonFuncs[1].func:=@VCLua_ToolButton_Click;
+	ToolButtonFuncs[2].name:='ArrowClick';
+	ToolButtonFuncs[2].func:=@VCLua_ToolButton_ArrowClick;
+	ToolButtonFuncs[3].name:='GetCurrentIcon';
+	ToolButtonFuncs[3].func:=@VCLua_ToolButton_GetCurrentIcon;
+	ToolButtonFuncs[4].name:='GetCurrentIcon2';
+	ToolButtonFuncs[4].func:=@VCLua_ToolButton_GetCurrentIcon2;
+	ToolButtonFuncs[5].name:='GetPreferredSize';
+	ToolButtonFuncs[5].func:=@VCLua_ToolButton_GetPreferredSize;
+	ToolButtonFuncs[6].name:='GetPreferredSize2';
+	ToolButtonFuncs[6].func:=@VCLua_ToolButton_GetPreferredSize2;
+	ToolButtonFuncs[7].name:='PointInArrow';
+	ToolButtonFuncs[7].func:=@VCLua_ToolButton_PointInArrow;
+	ToolButtonFuncs[8].name:=nil;
+	ToolButtonFuncs[8].func:=nil;
+
+	SetLength(ToolBarFuncs, 4+1);
+	ToolBarFuncs[0].name:='EndUpdate';
+	ToolBarFuncs[0].func:=@VCLua_ToolBar_EndUpdate;
+	ToolBarFuncs[1].name:='FlipChildren';
+	ToolBarFuncs[1].func:=@VCLua_ToolBar_FlipChildren;
+	ToolBarFuncs[2].name:='SetButtonSize';
+	ToolBarFuncs[2].func:=@VCLua_ToolBar_SetButtonSize;
+	ToolBarFuncs[3].name:='CanFocus';
+	ToolBarFuncs[3].func:=@VCLua_ToolBar_CanFocus;
+	ToolBarFuncs[4].name:=nil;
+	ToolBarFuncs[4].func:=nil;
 
 end.

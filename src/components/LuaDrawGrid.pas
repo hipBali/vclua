@@ -22,6 +22,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomDrawGridFuncs: aoluaL_Reg;
 
 
 implementation
@@ -216,16 +218,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'DeleteColRow', @VCLua_DrawGrid_DeleteColRow);
-	LuaSetTableFunction(L, Index, 'DeleteCol', @VCLua_DrawGrid_DeleteCol);
-	LuaSetTableFunction(L, Index, 'DeleteRow', @VCLua_DrawGrid_DeleteRow);
-	LuaSetTableFunction(L, Index, 'ExchangeColRow', @VCLua_DrawGrid_ExchangeColRow);
-	LuaSetTableFunction(L, Index, 'InsertColRow', @VCLua_DrawGrid_InsertColRow);
-	LuaSetTableFunction(L, Index, 'MoveColRow', @VCLua_DrawGrid_MoveColRow);
-	LuaSetTableFunction(L, Index, 'SortColRow', @VCLua_DrawGrid_SortColRow);
-	LuaSetTableFunction(L, Index, 'SortColRow2', @VCLua_DrawGrid_SortColRow2);
-	LuaSetTableFunction(L, Index, 'DefaultDrawCell', @VCLua_DrawGrid_DefaultDrawCell);
-	LuaSetTableFunction(L, Index, 'DefaultDrawCell2', @VCLua_DrawGrid_DefaultDrawCell2);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomDrawGrid');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -243,5 +241,30 @@ begin
 	DrawGridToTable(L, -1, lDrawGrid);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomDrawGridFuncs, 10+1);
+	CustomDrawGridFuncs[0].name:='DeleteColRow';
+	CustomDrawGridFuncs[0].func:=@VCLua_DrawGrid_DeleteColRow;
+	CustomDrawGridFuncs[1].name:='DeleteCol';
+	CustomDrawGridFuncs[1].func:=@VCLua_DrawGrid_DeleteCol;
+	CustomDrawGridFuncs[2].name:='DeleteRow';
+	CustomDrawGridFuncs[2].func:=@VCLua_DrawGrid_DeleteRow;
+	CustomDrawGridFuncs[3].name:='ExchangeColRow';
+	CustomDrawGridFuncs[3].func:=@VCLua_DrawGrid_ExchangeColRow;
+	CustomDrawGridFuncs[4].name:='InsertColRow';
+	CustomDrawGridFuncs[4].func:=@VCLua_DrawGrid_InsertColRow;
+	CustomDrawGridFuncs[5].name:='MoveColRow';
+	CustomDrawGridFuncs[5].func:=@VCLua_DrawGrid_MoveColRow;
+	CustomDrawGridFuncs[6].name:='SortColRow';
+	CustomDrawGridFuncs[6].func:=@VCLua_DrawGrid_SortColRow;
+	CustomDrawGridFuncs[7].name:='SortColRow2';
+	CustomDrawGridFuncs[7].func:=@VCLua_DrawGrid_SortColRow2;
+	CustomDrawGridFuncs[8].name:='DefaultDrawCell';
+	CustomDrawGridFuncs[8].func:=@VCLua_DrawGrid_DefaultDrawCell;
+	CustomDrawGridFuncs[9].name:='DefaultDrawCell2';
+	CustomDrawGridFuncs[9].func:=@VCLua_DrawGrid_DefaultDrawCell2;
+	CustomDrawGridFuncs[10].name:=nil;
+	CustomDrawGridFuncs[10].func:=nil;
 
 end.

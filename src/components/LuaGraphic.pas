@@ -20,6 +20,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    GraphicFuncs: aoluaL_Reg;
 
 
 implementation
@@ -299,26 +301,55 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Graphic_Assign);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_Graphic_Clear);
-	LuaSetTableFunction(L, Index, 'Equals', @VCLua_Graphic_Equals);
-	LuaSetTableFunction(L, Index, 'LazarusResourceTypeValid', @VCLua_Graphic_LazarusResourceTypeValid);
-	LuaSetTableFunction(L, Index, 'LoadFromFile', @VCLua_Graphic_LoadFromFile);
-	LuaSetTableFunction(L, Index, 'LoadFromStream', @VCLua_Graphic_LoadFromStream);
-	LuaSetTableFunction(L, Index, 'LoadFromMimeStream', @VCLua_Graphic_LoadFromMimeStream);
-	LuaSetTableFunction(L, Index, 'LoadFromLazarusResource', @VCLua_Graphic_LoadFromLazarusResource);
-	LuaSetTableFunction(L, Index, 'LoadFromResourceName', @VCLua_Graphic_LoadFromResourceName);
-	LuaSetTableFunction(L, Index, 'LoadFromResourceID', @VCLua_Graphic_LoadFromResourceID);
-	LuaSetTableFunction(L, Index, 'LoadFromClipboardFormat', @VCLua_Graphic_LoadFromClipboardFormat);
-	LuaSetTableFunction(L, Index, 'LoadFromClipboardFormatID', @VCLua_Graphic_LoadFromClipboardFormatID);
-	LuaSetTableFunction(L, Index, 'SaveToFile', @VCLua_Graphic_SaveToFile);
-	LuaSetTableFunction(L, Index, 'SaveToStream', @VCLua_Graphic_SaveToStream);
-	LuaSetTableFunction(L, Index, 'SaveToClipboardFormat', @VCLua_Graphic_SaveToClipboardFormat);
-	LuaSetTableFunction(L, Index, 'SaveToClipboardFormatID', @VCLua_Graphic_SaveToClipboardFormatID);
-	LuaSetTableFunction(L, Index, 'GetSupportedSourceMimeTypes', @VCLua_Graphic_GetSupportedSourceMimeTypes);
-	LuaSetTableFunction(L, Index, 'GetResourceType', @VCLua_Graphic_GetResourceType);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TGraphic');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
+
+begin
+	SetLength(GraphicFuncs, 18+1);
+	GraphicFuncs[0].name:='Assign';
+	GraphicFuncs[0].func:=@VCLua_Graphic_Assign;
+	GraphicFuncs[1].name:='Clear';
+	GraphicFuncs[1].func:=@VCLua_Graphic_Clear;
+	GraphicFuncs[2].name:='Equals';
+	GraphicFuncs[2].func:=@VCLua_Graphic_Equals;
+	GraphicFuncs[3].name:='LazarusResourceTypeValid';
+	GraphicFuncs[3].func:=@VCLua_Graphic_LazarusResourceTypeValid;
+	GraphicFuncs[4].name:='LoadFromFile';
+	GraphicFuncs[4].func:=@VCLua_Graphic_LoadFromFile;
+	GraphicFuncs[5].name:='LoadFromStream';
+	GraphicFuncs[5].func:=@VCLua_Graphic_LoadFromStream;
+	GraphicFuncs[6].name:='LoadFromMimeStream';
+	GraphicFuncs[6].func:=@VCLua_Graphic_LoadFromMimeStream;
+	GraphicFuncs[7].name:='LoadFromLazarusResource';
+	GraphicFuncs[7].func:=@VCLua_Graphic_LoadFromLazarusResource;
+	GraphicFuncs[8].name:='LoadFromResourceName';
+	GraphicFuncs[8].func:=@VCLua_Graphic_LoadFromResourceName;
+	GraphicFuncs[9].name:='LoadFromResourceID';
+	GraphicFuncs[9].func:=@VCLua_Graphic_LoadFromResourceID;
+	GraphicFuncs[10].name:='LoadFromClipboardFormat';
+	GraphicFuncs[10].func:=@VCLua_Graphic_LoadFromClipboardFormat;
+	GraphicFuncs[11].name:='LoadFromClipboardFormatID';
+	GraphicFuncs[11].func:=@VCLua_Graphic_LoadFromClipboardFormatID;
+	GraphicFuncs[12].name:='SaveToFile';
+	GraphicFuncs[12].func:=@VCLua_Graphic_SaveToFile;
+	GraphicFuncs[13].name:='SaveToStream';
+	GraphicFuncs[13].func:=@VCLua_Graphic_SaveToStream;
+	GraphicFuncs[14].name:='SaveToClipboardFormat';
+	GraphicFuncs[14].func:=@VCLua_Graphic_SaveToClipboardFormat;
+	GraphicFuncs[15].name:='SaveToClipboardFormatID';
+	GraphicFuncs[15].func:=@VCLua_Graphic_SaveToClipboardFormatID;
+	GraphicFuncs[16].name:='GetSupportedSourceMimeTypes';
+	GraphicFuncs[16].func:=@VCLua_Graphic_GetSupportedSourceMimeTypes;
+	GraphicFuncs[17].name:='GetResourceType';
+	GraphicFuncs[17].func:=@VCLua_Graphic_GetResourceType;
+	GraphicFuncs[18].name:=nil;
+	GraphicFuncs[18].func:=nil;
 
 end.

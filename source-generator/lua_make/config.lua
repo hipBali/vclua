@@ -67,8 +67,8 @@ classes = {
 	------------------------------------------------------------------
 	-- TStrings and descenants
 	{ name = "Strings", src = "TStrings", nv=true, noparent=true, impl = "ItemsToTable" },
-	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 	{ name = "StringList", src = "TStringList", classparent="TStrings", nv=true, noparent=true },
+	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 
 	-- controls
 	{ name = "Control", src = "TControl", ref = "Controls, Graphics"},
@@ -113,7 +113,7 @@ classes = {
 			{ name = "Menu", src = "TMenu"},
 			{ name = "PopupMenu", src = "TPopupMenu"},
 			{ name = "MenuItem", src = "TMenuItem", noparent=true,},
-			{ name = "MainMenu", src = "TMainMenu", impl = "AddMenu"},
+			{ name = "MainMenu", src = "TMainMenu"},
 		}
 	},
 	-- standard controls
@@ -202,8 +202,8 @@ classes = {
 	-- datetimepicker
 	{ name = "DateTimePicker", src = "TDateTimePicker", ref = "DateTimePicker, Controls" },
 	-- spin
-	{ name = "SpinEdit", src = "TSpinEdit", ref = "Spin, Controls" },
 	{ name = "FloatSpinEdit", src = "TCustomFloatSpinEdit", ref = "Spin, Controls" },
+	{ name = "SpinEdit", src = "TSpinEdit", ref = "Spin, Controls" },
 	-- arrow
 	{ name = "Arrow", src = "TArrow", ref = "Arrow, Controls" },
 	-- calendar
@@ -221,17 +221,17 @@ classes = {
 	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox, Controls" },
 	
 	-- grids
+	{ unit = "DrawGrid", ref = "Grids, Controls",
+		classes = {
+			{ name = "DrawGrid", src = "TCustomDrawGrid", canvas=true },
+		},
+	},
 	{ unit = "StringGrid", ref = "Grids, Controls", 
 		classes = {
 			{ name = "GridColumn", src = "TGridColumn", noparent=true, parentclass="TCollection", nocreate=true},
 			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", nocreate=true},--, wclass="TGridColumn"
 			{ name = "StringGrid", src = "TCustomStringGrid", canvas=true, 
-			  impl="GetCells, SetCells, GetCellRect, GetSelectedCell, MouseToCell, DrawCell"},
-		},
-	},
-	{ unit = "DrawGrid", ref = "Grids, Controls", 
-		classes = {
-			{ name = "DrawGrid", src = "TCustomDrawGrid", canvas=true },
+			  impl="GetCells, SetCells, GetCellRect, GetSelectedCell, MouseToCell"},
 		},
 	},
 	

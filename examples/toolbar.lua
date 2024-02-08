@@ -13,13 +13,16 @@ local add_img = function(imgList, fName)
 		print(string.format("Image file '%s' not found!", fName))
 		return -1 
 	end
+	-- Picture can load several formats, not just one
 	Picture = VCL.Picture()
 	Picture:LoadFromFile(fName)
+	-- ImageList needs a CustomBitmap descendant
 	SrcBmp = VCL.Bitmap()
-	-- Bitmap has no method named 'Assign', must be used as CustomBitmap!
-	VCL.as.CustomBitmap(SrcBmp):Assign(Picture.Graphic)
-    local idx = imgList:Add(SrcBmp, nil)
-    Picture:Free()
+	-- This converts the format (png->bmp)
+	-- Bitmap has no method named 'Assign', but CustomBitmap has it
+	SrcBmp:Assign(Picture.Graphic)
+	local idx = imgList:Add(SrcBmp, nil)
+	Picture:Free()
 	return idx
 end
 

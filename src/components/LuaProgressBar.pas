@@ -20,6 +20,8 @@ type
     TLuaProgressBar = class(TProgressBar)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomProgressBarFuncs: aoluaL_Reg;
 
 
 implementation
@@ -77,8 +79,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'StepIt', @VCLua_ProgressBar_StepIt);
-	LuaSetTableFunction(L, Index, 'StepBy', @VCLua_ProgressBar_StepBy);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomProgressBar');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -96,5 +102,14 @@ begin
 	ProgressBarToTable(L, -1, lProgressBar);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomProgressBarFuncs, 2+1);
+	CustomProgressBarFuncs[0].name:='StepIt';
+	CustomProgressBarFuncs[0].func:=@VCLua_ProgressBar_StepIt;
+	CustomProgressBarFuncs[1].name:='StepBy';
+	CustomProgressBarFuncs[1].func:=@VCLua_ProgressBar_StepBy;
+	CustomProgressBarFuncs[2].name:=nil;
+	CustomProgressBarFuncs[2].func:=nil;
 
 end.

@@ -20,6 +20,8 @@ type
     TLuaComboBox = class(TComboBox)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomComboBoxFuncs: aoluaL_Reg;
 
 
 implementation
@@ -141,12 +143,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'IntfGetItems', @VCLua_ComboBox_IntfGetItems);
-	LuaSetTableFunction(L, Index, 'AddItem', @VCLua_ComboBox_AddItem);
-	LuaSetTableFunction(L, Index, 'AddHistoryItem', @VCLua_ComboBox_AddHistoryItem);
-	LuaSetTableFunction(L, Index, 'AddHistoryItem2', @VCLua_ComboBox_AddHistoryItem2);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_ComboBox_Clear);
-	LuaSetTableFunction(L, Index, 'SelectAll', @VCLua_ComboBox_SelectAll);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomComboBox');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -164,5 +166,22 @@ begin
 	ComboBoxToTable(L, -1, lComboBox);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomComboBoxFuncs, 6+1);
+	CustomComboBoxFuncs[0].name:='IntfGetItems';
+	CustomComboBoxFuncs[0].func:=@VCLua_ComboBox_IntfGetItems;
+	CustomComboBoxFuncs[1].name:='AddItem';
+	CustomComboBoxFuncs[1].func:=@VCLua_ComboBox_AddItem;
+	CustomComboBoxFuncs[2].name:='AddHistoryItem';
+	CustomComboBoxFuncs[2].func:=@VCLua_ComboBox_AddHistoryItem;
+	CustomComboBoxFuncs[3].name:='AddHistoryItem2';
+	CustomComboBoxFuncs[3].func:=@VCLua_ComboBox_AddHistoryItem2;
+	CustomComboBoxFuncs[4].name:='Clear';
+	CustomComboBoxFuncs[4].func:=@VCLua_ComboBox_Clear;
+	CustomComboBoxFuncs[5].name:='SelectAll';
+	CustomComboBoxFuncs[5].func:=@VCLua_ComboBox_SelectAll;
+	CustomComboBoxFuncs[6].name:=nil;
+	CustomComboBoxFuncs[6].func:=nil;
 
 end.

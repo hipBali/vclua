@@ -19,6 +19,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    StringListFuncs: aoluaL_Reg;
 
 
 implementation
@@ -176,15 +178,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Add', @VCLua_StringList_Add);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_StringList_Clear);
-	LuaSetTableFunction(L, Index, 'Delete', @VCLua_StringList_Delete);
-	LuaSetTableFunction(L, Index, 'Exchange', @VCLua_StringList_Exchange);
-	LuaSetTableFunction(L, Index, 'Find', @VCLua_StringList_Find);
-	LuaSetTableFunction(L, Index, 'IndexOf', @VCLua_StringList_IndexOf);
-	LuaSetTableFunction(L, Index, 'Insert', @VCLua_StringList_Insert);
-	LuaSetTableFunction(L, Index, 'Sort', @VCLua_StringList_Sort);
-	LuaSetTableFunction(L, Index, 'CustomSort', @VCLua_StringList_CustomSort);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TStringList');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -196,4 +195,27 @@ begin
 	StringListToTable(L, -1, lStringList);
 	Result := 1;
 end;
+begin
+	SetLength(StringListFuncs, 9+1);
+	StringListFuncs[0].name:='Add';
+	StringListFuncs[0].func:=@VCLua_StringList_Add;
+	StringListFuncs[1].name:='Clear';
+	StringListFuncs[1].func:=@VCLua_StringList_Clear;
+	StringListFuncs[2].name:='Delete';
+	StringListFuncs[2].func:=@VCLua_StringList_Delete;
+	StringListFuncs[3].name:='Exchange';
+	StringListFuncs[3].func:=@VCLua_StringList_Exchange;
+	StringListFuncs[4].name:='Find';
+	StringListFuncs[4].func:=@VCLua_StringList_Find;
+	StringListFuncs[5].name:='IndexOf';
+	StringListFuncs[5].func:=@VCLua_StringList_IndexOf;
+	StringListFuncs[6].name:='Insert';
+	StringListFuncs[6].func:=@VCLua_StringList_Insert;
+	StringListFuncs[7].name:='Sort';
+	StringListFuncs[7].func:=@VCLua_StringList_Sort;
+	StringListFuncs[8].name:='CustomSort';
+	StringListFuncs[8].func:=@VCLua_StringList_CustomSort;
+	StringListFuncs[9].name:=nil;
+	StringListFuncs[9].func:=nil;
+
 end.

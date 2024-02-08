@@ -22,6 +22,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomImageFuncs: aoluaL_Reg;
 
 
 implementation
@@ -79,8 +81,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'DestRect', @VCLua_Image_DestRect);
-	LuaSetTableFunction(L, Index, 'Invalidate', @VCLua_Image_Invalidate);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomImage');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -98,5 +104,14 @@ begin
 	ImageToTable(L, -1, lImage);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomImageFuncs, 2+1);
+	CustomImageFuncs[0].name:='DestRect';
+	CustomImageFuncs[0].func:=@VCLua_Image_DestRect;
+	CustomImageFuncs[1].name:='Invalidate';
+	CustomImageFuncs[1].func:=@VCLua_Image_Invalidate;
+	CustomImageFuncs[2].name:=nil;
+	CustomImageFuncs[2].func:=nil;
 
 end.

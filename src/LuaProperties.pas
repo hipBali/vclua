@@ -555,20 +555,34 @@ function LuaGetProperty(L: Plua_State): Integer; cdecl;
 var
   o: TObject;
   PropName: String;
-  ClassName: String;
 begin
   // stackwise should resemble lua_gettable: pop key, then push result
   Result := 1;
   o := GetLuaObject(L, 1);
-  PropName := lua_tostring(L, 2);
   // shouldn't really happen since we push nil instead of creating function tables with null handle
   if (o=nil) then begin
+     PropName := lua_tostring(L, 2);
      lua_pop(L,1);
      lua_pushnil(L);
      LuaError(L, 'Can''t get null object property!', PropName);
      Exit;
   end;
   // since o<>nil here, that means that lua_type(L,1)=LUA_TTABLE
+  // first try to get as generated method
+  lua_pushliteral(L,'vmt');
+  lua_rawget(L,1);
+  if lua_istable(L,3) then begin
+    lua_pushvalue(L,2);
+    lua_gettable(L,3); // use metatables!
+    if not lua_isnil(L,4) then begin
+      lua_replace(L,2);
+      lua_settop(L,2);
+      Exit;
+    end;
+  end;
+  lua_settop(L,2);
+  // now try to get as property
+  PropName := lua_tostring(L, 2);
   if (o is TPersistent) and GetPublishedProperty(L, TPersistent(o), PropName) or GetSpecialProperty(L, o, lowercase(PropName)) then
     // those functions push on top without removing the key, since they don't know where that key came from
     lua_replace(L, 2)

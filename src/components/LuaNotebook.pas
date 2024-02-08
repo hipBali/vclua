@@ -20,6 +20,8 @@ type
     TLuaNotebook = class(TNotebook)
         LuaCtl: TVCLuaControl;
     end;
+var
+    NotebookFuncs: aoluaL_Reg;
 
 
 implementation
@@ -81,8 +83,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'ShowControl', @VCLua_Notebook_ShowControl);
-	LuaSetTableFunction(L, Index, 'IndexOf', @VCLua_Notebook_IndexOf);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TNotebook');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -100,5 +106,14 @@ begin
 	NotebookToTable(L, -1, lNotebook);
 	Result := 1;
 end;
+
+begin
+	SetLength(NotebookFuncs, 2+1);
+	NotebookFuncs[0].name:='ShowControl';
+	NotebookFuncs[0].func:=@VCLua_Notebook_ShowControl;
+	NotebookFuncs[1].name:='IndexOf';
+	NotebookFuncs[1].func:=@VCLua_Notebook_IndexOf;
+	NotebookFuncs[2].name:=nil;
+	NotebookFuncs[2].func:=nil;
 
 end.

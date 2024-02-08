@@ -20,6 +20,8 @@ type
     TLuaBitBtn = class(TBitBtn)
         LuaCtl: TVCLuaControl;
     end;
+var
+    BitBtnFuncs: aoluaL_Reg;
 
 
 implementation
@@ -54,7 +56,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TBitBtn');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -72,5 +79,11 @@ begin
 	BitBtnToTable(L, -1, lBitBtn);
 	Result := 1;
 end;
+
+begin
+	SetLength(BitBtnFuncs, 0+1);
+	
+	BitBtnFuncs[0].name:=nil;
+	BitBtnFuncs[0].func:=nil;
 
 end.

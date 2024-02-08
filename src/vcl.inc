@@ -5,8 +5,8 @@ Generated with Lua-fpc parser/generator
 	
 	// GENERATED SOURCES ***********************
 	LuaStrings,
-	LuaTextStrings,
 	LuaStringList,
+	LuaTextStrings,
 	LuaControl,
 	LuaGraphic,
 	LuaFont,
@@ -64,8 +64,8 @@ Generated with Lua-fpc parser/generator
 	LuaCheckListBox,
 	LuaPopupNotifier,
 	LuaDateTimePicker,
-	LuaSpinEdit,
 	LuaFloatSpinEdit,
+	LuaSpinEdit,
 	LuaArrow,
 	LuaCalendar,
 	LuaEditButton,
@@ -76,8 +76,8 @@ Generated with Lua-fpc parser/generator
 	LuaCalcEdit,
 	LuaColorBox,
 	LuaColorListBox,
-	LuaStringGrid,
 	LuaDrawGrid,
+	LuaStringGrid,
 	LuaValueListEditor,
 	LuaCommonDialogs;
 	// *****************************************
@@ -88,8 +88,8 @@ Generated with Lua-fpc parser/generator
 	var
 	vcl_lib : array[0..85] of lual_reg = (
 		(name:'Strings'; func:@CreateStrings),
-		(name:'TextStrings'; func:@CreateTextStrings),
 		(name:'StringList'; func:@CreateStringList),
+		(name:'TextStrings'; func:@CreateTextStrings),
 		(name:'Control'; func:@CreateControl),
 		(name:'Picture'; func:@CreatePicture),
 		(name:'Bitmap'; func:@CreateBitmap),
@@ -149,8 +149,8 @@ Generated with Lua-fpc parser/generator
 		(name:'CheckListBox'; func:@CreateCheckListBox),
 		(name:'PopupNotifier'; func:@CreatePopupNotifier),
 		(name:'DateTimePicker'; func:@CreateDateTimePicker),
-		(name:'SpinEdit'; func:@CreateSpinEdit),
 		(name:'FloatSpinEdit'; func:@CreateFloatSpinEdit),
+		(name:'SpinEdit'; func:@CreateSpinEdit),
 		(name:'Arrow'; func:@CreateArrow),
 		(name:'Calendar'; func:@CreateCalendar),
 		(name:'EditButton'; func:@CreateEditButton),
@@ -161,8 +161,8 @@ Generated with Lua-fpc parser/generator
 		(name:'CalcEdit'; func:@CreateCalcEdit),
 		(name:'ColorBox'; func:@CreateColorBox),
 		(name:'ColorListBox'; func:@CreateColorListBox),
-		(name:'StringGrid'; func:@CreateStringGrid),
 		(name:'DrawGrid'; func:@CreateDrawGrid),
+		(name:'StringGrid'; func:@CreateStringGrid),
 		(name:'ValueListEditor'; func:@CreateValueListEditor),
 		(name:'ColorButton'; func:@CreateColorButton),
 		(name:'OpenDialog'; func:@CreateOpenDialog),

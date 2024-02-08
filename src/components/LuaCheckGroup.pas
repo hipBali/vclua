@@ -20,6 +20,8 @@ type
     TLuaCheckGroup = class(TCheckGroup)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomCheckGroupFuncs: aoluaL_Reg;
 
 
 implementation
@@ -79,8 +81,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'FlipChildren', @VCLua_CheckGroup_FlipChildren);
-	LuaSetTableFunction(L, Index, 'Rows', @VCLua_CheckGroup_Rows);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomCheckGroup');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -98,5 +104,14 @@ begin
 	CheckGroupToTable(L, -1, lCheckGroup);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomCheckGroupFuncs, 2+1);
+	CustomCheckGroupFuncs[0].name:='FlipChildren';
+	CustomCheckGroupFuncs[0].func:=@VCLua_CheckGroup_FlipChildren;
+	CustomCheckGroupFuncs[1].name:='Rows';
+	CustomCheckGroupFuncs[1].func:=@VCLua_CheckGroup_Rows;
+	CustomCheckGroupFuncs[2].name:=nil;
+	CustomCheckGroupFuncs[2].func:=nil;
 
 end.

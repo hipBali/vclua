@@ -20,6 +20,8 @@ type
     TLuaStaticText = class(TStaticText)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomStaticTextFuncs: aoluaL_Reg;
 
 
 implementation
@@ -54,7 +56,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomStaticText');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -72,5 +79,11 @@ begin
 	StaticTextToTable(L, -1, lStaticText);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomStaticTextFuncs, 0+1);
+	
+	CustomStaticTextFuncs[0].name:=nil;
+	CustomStaticTextFuncs[0].func:=nil;
 
 end.

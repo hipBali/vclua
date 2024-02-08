@@ -156,6 +156,7 @@ end
 
 local excludeType = loadMap("exclude/VarTypes")
 local excludeFuncs = loadMap("exclude/AnyClass")
+local initedSrcs = {}
 -- parser ------------------------------------------
 local function processClass(def,cdef)
 	local processed
@@ -322,7 +323,18 @@ function createUnitBody(cdef, ref)
 	local className = cdef.name
 	local classBody = {} 
 	local cMethods = {}
+	local mIdx = 0
 	local overLoads = {}
+	local src = cdef.src:sub(2)
+	local initSrc = not initedSrcs[src]
+	if not initSrc then cLog("###  skipping init of src "..src, "DEBUG") end
+	local initFmt = src.."Funcs[%d].name:='%s';\n\t"..src.."Funcs[%d].func:=@%s;"
+	local function addMethod(finalMethodName,vcluaMethodName)
+			if initSrc then
+				table.insert(cMethods,string.format(initFmt,mIdx,finalMethodName,mIdx,vcluaMethodName))
+				mIdx=mIdx+1
+			end
+	end
 	classDoc[className] = classDoc[className] or {}
 	classDoc[className]["reference"] = cdef.ref or cdef.name
 	for _,method in pairs(classTable[className]) do
@@ -417,7 +429,7 @@ function createUnitBody(cdef, ref)
         s = s:gsub("#RETVAR;","",1)
         s = s:gsub("#RETCOUNT",retCount,1)
       end
-      table.insert(cMethods,"LuaSetTableFunction(L, Index, '"..finalMethodName.."', @"..vcluaMethodName..");")
+      addMethod(finalMethodName, vcluaMethodName)
       table.insert(classBody,s)
       classDoc[className][finalMethodName] = classDoc[className][finalMethodName] or {} 
       classDoc[className][finalMethodName]["params"] = fParams:len()>0 and fParams or nil
@@ -437,12 +449,12 @@ function createUnitBody(cdef, ref)
 				if t and t.src then 
 					local vcluaMethodName = "VCLua_"..className.."_"..t.vcluaMethodName
 					cLog("#############  "..vcluaMethodName, "DEBUG")
-					table.insert(cMethods,"LuaSetTableFunction(L, Index, '"..t.finalMethodName.."', @"..vcluaMethodName..");")
+					addMethod(t.finalMethodName, vcluaMethodName)
 					local src = t.src:gsub("#FNAME", vcluaMethodName,1)
 					table.insert(classBody,src)
 				elseif t then
 					cLog("#############  "..t.vcluaMethodName,"DEBUG")
-					table.insert(cMethods,"LuaSetTableFunction(L, Index, '"..t.finalMethodName.."', @"..t.vcluaMethodName..");")
+					addMethod(t.finalMethodName, t.vcluaMethodName)
 				else
 					assert(nil,"Cannot implement "..tostring(fncs[f]))
 				end
@@ -474,16 +486,22 @@ function createUnitBody(cdef, ref)
 		ccreate = ccreate:gsub("l#CNAME.#PARENT","//")
 	end
 	ccreate = ccreate:gsub("#PARENTCLASS", pc):gsub("#PARENT","Parent")
-	ccreate = ccreate:gsub("#CNAME",className)
-	ccreate = ccreate:gsub("#CMETHODS",table.concat(cMethods,"\n\t"))
+	ccreate = ccreate:gsub("#CNAME",className):gsub("#CSRC",cdef.src)
 	ccreate = ccreate:gsub("#WCLASS",cdef.wclass or "nil")
+	local init
+	if initSrc then
+		intface = intface..VCLUA_INIT_INTFCE
+		init = VCLUA_INIT:gsub("#MIDX",mIdx):gsub("#CSRC",src):gsub("#CMETHODS", table.concat(cMethods,"\n\t"))
+	end
+	initedSrcs[src] = true
 	
-	return table.concat(classBody,"\n"), ccreate, intface:gsub("#CNAME",className)
+	return table.concat(classBody,"\n"), ccreate, intface:gsub("#CSRC",src):gsub("#CNAME",className), init
 end
 
 -- pascal source generator --------------------------
 local cfile
 local fpcSrcPrev
+local createMap = {}
 for n,cdef in pairs(classes) do
 	local ref
 	if cdef.ref then
@@ -510,8 +528,8 @@ for n,cdef in pairs(classes) do
 			cLog("*CLASS NOT FOUND:"..cdef.name,"ERROR")
 			break
 		else
-			local body,create,intf = createUnitBody(cdef, ref)
-			table.insert(classData,{intf,body,create})
+			local body,create,intf,init = createUnitBody(cdef, ref)
+			table.insert(classData,{intf,body,create,init})
 		end
 	elseif cdef.classes and type(cdef.classes)=="table" then
 		className = cdef.unit
@@ -522,8 +540,8 @@ for n,cdef in pairs(classes) do
 				cLog("*CLASS NOT FOUND:"..ccdef.name,"ERROR")
 				break
 			end
-			local body,create,intf = createUnitBody(ccdef, ref)
-			table.insert(classData,{intf,body,create})
+			local body,create,intf,init = createUnitBody(ccdef, ref)
+			table.insert(classData,{intf,body,create,init})
 		end
 	else
 		cLog("*ERROR READING CONFIG AT LINE :"..n,"ERROR")
@@ -541,7 +559,7 @@ for n,cdef in pairs(classes) do
 	else
 		classSource = classSource:gsub("#REF","")
 	end
-	local intf, body, create = {},{},{}
+	local intf, body, create, init = {},{},{},{"begin"}
 	-- manual code to include
 	if cdef.include then
 		table.insert(body,cdef.include)
@@ -550,10 +568,12 @@ for n,cdef in pairs(classes) do
 		table.insert(intf,cdata[1])
 		table.insert(body,cdata[2])
 		table.insert(create,cdata[3])
+		table.insert(init,cdata[4])
 	end
-	classSource = classSource:gsub("#INTFCE",table.concat(intf,"\n"))
-	classSource = classSource:gsub("#BODY",table.concat(body,"\n"))
-	classSource = classSource:gsub("#CREATE",table.concat(create,"\n"))
+	classSource = classSource:gsub("#INIT",table.concat(init,"\n"),1)
+	classSource = classSource:gsub("#CREATE",table.concat(create,"\n"),1)
+	classSource = classSource:gsub("#BODY",table.concat(body,"\n"),1)
+	classSource = classSource:gsub("#INTFCE",table.concat(intf,"\n"),1)
 	saveTextToFile(classSource,out_path.."src/components/Lua"..className..".pas")
 end
 
@@ -566,8 +586,11 @@ local luaLibs={}
 local pasRefs = {}
 local luaobject_push = {}
 local luaobject_push_check = {}
+local meta_srcs = {}
 local luaobject_cast = {}
 local libcount = 0
+initedSrcs = {}
+local init = {}
 local function processCdef(cdef)
   local pName = cdef.name
   local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
@@ -577,6 +600,12 @@ local function processCdef(cdef)
   if cdef.nocreate==nil then
     table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")
     libcount = libcount + 1
+  end
+  local src = cdef.src:sub(2)
+  if not initedSrcs[src] then
+    initedSrcs[src] = true
+    table.insert(meta_srcs, cdef.src..'.ClassInfo')
+    table.insert(init, (VCLUA_ADD_MAP:gsub("#CSRC", src)))
   end
 end
 for n,cdef in pairs(classes) do
@@ -604,12 +633,12 @@ for u,_ in pairs(pasRefs) do
 end
 table.sort(luaobject_uses)
 
-local luaobject_push_rev = {}
-local luaobject_push_check_rev = {}
-local len = #luaobject_push
-for i = 1, len do
-  table.insert(luaobject_push_rev, luaobject_push[len-i+1])
-  table.insert(luaobject_push_check_rev, luaobject_push_check[len-i+1])
+function table.reverse(t)
+  local res, len = {}, #t
+  for i = 0, len-1 do
+    table.insert(res, t[len-i])
+  end
+  return res
 end
 
 local pasSrcStr = table.concat(pasSrc,",\n\t")
@@ -619,10 +648,12 @@ vclinc = vclinc:gsub("#LUALIBS",table.concat(luaLibs,"\n\t\t"),1)
 vclinc = vclinc:gsub("#LIBCOUNT",libcount,1)
 saveTextToFile(HDR_INFO .. vclinc,out_path.."src/vcl.inc")
 saveTextToFile(HDR_INFO .. table.concat(luaobject_uses,",\n"),out_path.."src/luaobject_uses.inc")
-saveTextToFile(HDR_INFO .. table.concat(luaobject_push_rev,"\n"),out_path.."src/luaobject_push.inc")
-saveTextToFile(HDR_INFO .. table.concat(luaobject_push_check_rev,",\n"),out_path.."src/luaobject_push_check.inc")
+saveTextToFile(HDR_INFO .. table.concat(table.reverse(luaobject_push),"\n"),out_path.."src/luaobject_push.inc")
+saveTextToFile(HDR_INFO .. table.concat(table.reverse(luaobject_push_check),",\n"),out_path.."src/luaobject_push_check.inc")
 saveTextToFile(HDR_INFO .. "\n\t" .. pasSrcStr,out_path.."src/luacontroller_uses.inc")
 saveTextToFile(HDR_INFO .. "\n\t" .. funcs:gsub('@As','@Is'),out_path.."src/is_funcs.inc")
 saveTextToFile(HDR_INFO .. "\n\t" .. funcs,out_path.."src/as_funcs.inc")
+saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(init)),out_path.."src/init_map.inc")
+saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(meta_srcs),",\n"),out_path.."src/meta_srcs.inc")
 
 

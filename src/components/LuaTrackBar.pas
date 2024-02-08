@@ -20,6 +20,8 @@ type
     TLuaTrackBar = class(TTrackBar)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomTrackBarFuncs: aoluaL_Reg;
 
 
 implementation
@@ -66,7 +68,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'SetTick', @VCLua_TrackBar_SetTick);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomTrackBar');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -84,5 +91,12 @@ begin
 	TrackBarToTable(L, -1, lTrackBar);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomTrackBarFuncs, 1+1);
+	CustomTrackBarFuncs[0].name:='SetTick';
+	CustomTrackBarFuncs[0].func:=@VCLua_TrackBar_SetTick;
+	CustomTrackBarFuncs[1].name:=nil;
+	CustomTrackBarFuncs[1].func:=nil;
 
 end.

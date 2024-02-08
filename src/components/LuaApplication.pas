@@ -20,6 +20,8 @@ type
     TLuaApplication = class(TApplication)
         LuaCtl: TVCLuaControl;
     end;
+var
+    ApplicationFuncs: aoluaL_Reg;
 
 
 implementation
@@ -350,30 +352,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'ActivateHint', @VCLua_Application_ActivateHint);
-	LuaSetTableFunction(L, Index, 'GetControlAtMouse', @VCLua_Application_GetControlAtMouse);
-	LuaSetTableFunction(L, Index, 'ControlDestroyed', @VCLua_Application_ControlDestroyed);
-	LuaSetTableFunction(L, Index, 'BigIconHandle', @VCLua_Application_BigIconHandle);
-	LuaSetTableFunction(L, Index, 'SmallIconHandle', @VCLua_Application_SmallIconHandle);
-	LuaSetTableFunction(L, Index, 'BringToFront', @VCLua_Application_BringToFront);
-	LuaSetTableFunction(L, Index, 'CreateForm', @VCLua_Application_CreateForm);
-	LuaSetTableFunction(L, Index, 'UpdateMainForm', @VCLua_Application_UpdateMainForm);
-	LuaSetTableFunction(L, Index, 'ReleaseComponent', @VCLua_Application_ReleaseComponent);
-	LuaSetTableFunction(L, Index, 'HandleException', @VCLua_Application_HandleException);
-	LuaSetTableFunction(L, Index, 'HandleMessage', @VCLua_Application_HandleMessage);
-	LuaSetTableFunction(L, Index, 'RemoveStayOnTop', @VCLua_Application_RemoveStayOnTop);
-	LuaSetTableFunction(L, Index, 'RestoreStayOnTop', @VCLua_Application_RestoreStayOnTop);
-	LuaSetTableFunction(L, Index, 'IsWaiting', @VCLua_Application_IsWaiting);
-	LuaSetTableFunction(L, Index, 'Initialize', @VCLua_Application_Initialize);
-	LuaSetTableFunction(L, Index, 'Minimize', @VCLua_Application_Minimize);
-	LuaSetTableFunction(L, Index, 'ModalStarted', @VCLua_Application_ModalStarted);
-	LuaSetTableFunction(L, Index, 'ModalFinished', @VCLua_Application_ModalFinished);
-	LuaSetTableFunction(L, Index, 'Restore', @VCLua_Application_Restore);
-	LuaSetTableFunction(L, Index, 'Notification', @VCLua_Application_Notification);
-	LuaSetTableFunction(L, Index, 'ProcessMessages', @VCLua_Application_ProcessMessages);
-	LuaSetTableFunction(L, Index, 'Idle', @VCLua_Application_Idle);
-	LuaSetTableFunction(L, Index, 'Run', @VCLua_Application_Run);
-	LuaSetTableFunction(L, Index, 'Terminate', @VCLua_Application_Terminate);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TApplication');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -391,5 +375,58 @@ begin
 	ApplicationToTable(L, -1, lApplication);
 	Result := 1;
 end;
+
+begin
+	SetLength(ApplicationFuncs, 24+1);
+	ApplicationFuncs[0].name:='ActivateHint';
+	ApplicationFuncs[0].func:=@VCLua_Application_ActivateHint;
+	ApplicationFuncs[1].name:='GetControlAtMouse';
+	ApplicationFuncs[1].func:=@VCLua_Application_GetControlAtMouse;
+	ApplicationFuncs[2].name:='ControlDestroyed';
+	ApplicationFuncs[2].func:=@VCLua_Application_ControlDestroyed;
+	ApplicationFuncs[3].name:='BigIconHandle';
+	ApplicationFuncs[3].func:=@VCLua_Application_BigIconHandle;
+	ApplicationFuncs[4].name:='SmallIconHandle';
+	ApplicationFuncs[4].func:=@VCLua_Application_SmallIconHandle;
+	ApplicationFuncs[5].name:='BringToFront';
+	ApplicationFuncs[5].func:=@VCLua_Application_BringToFront;
+	ApplicationFuncs[6].name:='CreateForm';
+	ApplicationFuncs[6].func:=@VCLua_Application_CreateForm;
+	ApplicationFuncs[7].name:='UpdateMainForm';
+	ApplicationFuncs[7].func:=@VCLua_Application_UpdateMainForm;
+	ApplicationFuncs[8].name:='ReleaseComponent';
+	ApplicationFuncs[8].func:=@VCLua_Application_ReleaseComponent;
+	ApplicationFuncs[9].name:='HandleException';
+	ApplicationFuncs[9].func:=@VCLua_Application_HandleException;
+	ApplicationFuncs[10].name:='HandleMessage';
+	ApplicationFuncs[10].func:=@VCLua_Application_HandleMessage;
+	ApplicationFuncs[11].name:='RemoveStayOnTop';
+	ApplicationFuncs[11].func:=@VCLua_Application_RemoveStayOnTop;
+	ApplicationFuncs[12].name:='RestoreStayOnTop';
+	ApplicationFuncs[12].func:=@VCLua_Application_RestoreStayOnTop;
+	ApplicationFuncs[13].name:='IsWaiting';
+	ApplicationFuncs[13].func:=@VCLua_Application_IsWaiting;
+	ApplicationFuncs[14].name:='Initialize';
+	ApplicationFuncs[14].func:=@VCLua_Application_Initialize;
+	ApplicationFuncs[15].name:='Minimize';
+	ApplicationFuncs[15].func:=@VCLua_Application_Minimize;
+	ApplicationFuncs[16].name:='ModalStarted';
+	ApplicationFuncs[16].func:=@VCLua_Application_ModalStarted;
+	ApplicationFuncs[17].name:='ModalFinished';
+	ApplicationFuncs[17].func:=@VCLua_Application_ModalFinished;
+	ApplicationFuncs[18].name:='Restore';
+	ApplicationFuncs[18].func:=@VCLua_Application_Restore;
+	ApplicationFuncs[19].name:='Notification';
+	ApplicationFuncs[19].func:=@VCLua_Application_Notification;
+	ApplicationFuncs[20].name:='ProcessMessages';
+	ApplicationFuncs[20].func:=@VCLua_Application_ProcessMessages;
+	ApplicationFuncs[21].name:='Idle';
+	ApplicationFuncs[21].func:=@VCLua_Application_Idle;
+	ApplicationFuncs[22].name:='Run';
+	ApplicationFuncs[22].func:=@VCLua_Application_Run;
+	ApplicationFuncs[23].name:='Terminate';
+	ApplicationFuncs[23].func:=@VCLua_Application_Terminate;
+	ApplicationFuncs[24].name:=nil;
+	ApplicationFuncs[24].func:=nil;
 
 end.

@@ -22,6 +22,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomSplitterFuncs: aoluaL_Reg;
 
 
 implementation
@@ -122,11 +124,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'AnchorSplitter', @VCLua_Splitter_AnchorSplitter);
-	LuaSetTableFunction(L, Index, 'GetOtherResizeControl', @VCLua_Splitter_GetOtherResizeControl);
-	LuaSetTableFunction(L, Index, 'MoveSplitter', @VCLua_Splitter_MoveSplitter);
-	LuaSetTableFunction(L, Index, 'SetSplitterPosition', @VCLua_Splitter_SetSplitterPosition);
-	LuaSetTableFunction(L, Index, 'GetSplitterPosition', @VCLua_Splitter_GetSplitterPosition);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomSplitter');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -144,5 +147,20 @@ begin
 	SplitterToTable(L, -1, lSplitter);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomSplitterFuncs, 5+1);
+	CustomSplitterFuncs[0].name:='AnchorSplitter';
+	CustomSplitterFuncs[0].func:=@VCLua_Splitter_AnchorSplitter;
+	CustomSplitterFuncs[1].name:='GetOtherResizeControl';
+	CustomSplitterFuncs[1].func:=@VCLua_Splitter_GetOtherResizeControl;
+	CustomSplitterFuncs[2].name:='MoveSplitter';
+	CustomSplitterFuncs[2].func:=@VCLua_Splitter_MoveSplitter;
+	CustomSplitterFuncs[3].name:='SetSplitterPosition';
+	CustomSplitterFuncs[3].func:=@VCLua_Splitter_SetSplitterPosition;
+	CustomSplitterFuncs[4].name:='GetSplitterPosition';
+	CustomSplitterFuncs[4].func:=@VCLua_Splitter_GetSplitterPosition;
+	CustomSplitterFuncs[5].name:=nil;
+	CustomSplitterFuncs[5].func:=nil;
 
 end.

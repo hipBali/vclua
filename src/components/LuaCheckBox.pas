@@ -20,6 +20,8 @@ type
     TLuaCheckBox = class(TCheckBox)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomCheckBoxFuncs: aoluaL_Reg;
 
 
 implementation
@@ -54,7 +56,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomCheckBox');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -72,5 +79,11 @@ begin
 	CheckBoxToTable(L, -1, lCheckBox);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomCheckBoxFuncs, 0+1);
+	
+	CustomCheckBoxFuncs[0].name:=nil;
+	CustomCheckBoxFuncs[0].func:=nil;
 
 end.

@@ -20,6 +20,8 @@ type
     TLuaTabSheet = class(TTabSheet)
         LuaCtl: TVCLuaControl;
     end;
+var
+    TabSheetFuncs: aoluaL_Reg;
 
 function CreateTabControl(L: Plua_State): Integer; cdecl;
 function IsTabControl(L: Plua_State): Integer; cdecl;
@@ -31,6 +33,8 @@ type
     TLuaTabControl = class(TTabControl)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomTabControlFuncs: aoluaL_Reg;
 
 function CreatePageControl(L: Plua_State): Integer; cdecl;
 function IsPageControl(L: Plua_State): Integer; cdecl;
@@ -42,6 +46,8 @@ type
     TLuaPageControl = class(TPageControl)
         LuaCtl: TVCLuaControl;
     end;
+var
+    PageControlFuncs: aoluaL_Reg;
 
 
 implementation
@@ -353,7 +359,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TTabSheet');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -400,16 +411,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'TabRect', @VCLua_TabControl_TabRect);
-	LuaSetTableFunction(L, Index, 'GetImageIndex', @VCLua_TabControl_GetImageIndex);
-	LuaSetTableFunction(L, Index, 'IndexOf', @VCLua_TabControl_IndexOf);
-	LuaSetTableFunction(L, Index, 'CustomPage', @VCLua_TabControl_CustomPage);
-	LuaSetTableFunction(L, Index, 'CanChangePageIndex', @VCLua_TabControl_CanChangePageIndex);
-	LuaSetTableFunction(L, Index, 'GetMinimumTabWidth', @VCLua_TabControl_GetMinimumTabWidth);
-	LuaSetTableFunction(L, Index, 'GetMinimumTabHeight', @VCLua_TabControl_GetMinimumTabHeight);
-	LuaSetTableFunction(L, Index, 'TabToPageIndex', @VCLua_TabControl_TabToPageIndex);
-	LuaSetTableFunction(L, Index, 'PageToTabIndex', @VCLua_TabControl_PageToTabIndex);
-	LuaSetTableFunction(L, Index, 'DoCloseTabClicked', @VCLua_TabControl_DoCloseTabClicked);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomTabControl');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -456,15 +463,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_PageControl_Clear);
-	LuaSetTableFunction(L, Index, 'FindNextPage', @VCLua_PageControl_FindNextPage);
-	LuaSetTableFunction(L, Index, 'SelectNextPage', @VCLua_PageControl_SelectNextPage);
-	LuaSetTableFunction(L, Index, 'SelectNextPage2', @VCLua_PageControl_SelectNextPage2);
-	LuaSetTableFunction(L, Index, 'IndexOfTabAt', @VCLua_PageControl_IndexOfTabAt);
-	LuaSetTableFunction(L, Index, 'IndexOfTabAt2', @VCLua_PageControl_IndexOfTabAt2);
-	LuaSetTableFunction(L, Index, 'IndexOfPageAt', @VCLua_PageControl_IndexOfPageAt);
-	LuaSetTableFunction(L, Index, 'IndexOfPageAt2', @VCLua_PageControl_IndexOfPageAt2);
-	LuaSetTableFunction(L, Index, 'AddTabSheet', @VCLua_PageControl_AddTabSheet);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TPageControl');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -482,5 +486,57 @@ begin
 	PageControlToTable(L, -1, lPageControl);
 	Result := 1;
 end;
+
+begin
+	SetLength(TabSheetFuncs, 0+1);
+	
+	TabSheetFuncs[0].name:=nil;
+	TabSheetFuncs[0].func:=nil;
+
+	SetLength(CustomTabControlFuncs, 10+1);
+	CustomTabControlFuncs[0].name:='TabRect';
+	CustomTabControlFuncs[0].func:=@VCLua_TabControl_TabRect;
+	CustomTabControlFuncs[1].name:='GetImageIndex';
+	CustomTabControlFuncs[1].func:=@VCLua_TabControl_GetImageIndex;
+	CustomTabControlFuncs[2].name:='IndexOf';
+	CustomTabControlFuncs[2].func:=@VCLua_TabControl_IndexOf;
+	CustomTabControlFuncs[3].name:='CustomPage';
+	CustomTabControlFuncs[3].func:=@VCLua_TabControl_CustomPage;
+	CustomTabControlFuncs[4].name:='CanChangePageIndex';
+	CustomTabControlFuncs[4].func:=@VCLua_TabControl_CanChangePageIndex;
+	CustomTabControlFuncs[5].name:='GetMinimumTabWidth';
+	CustomTabControlFuncs[5].func:=@VCLua_TabControl_GetMinimumTabWidth;
+	CustomTabControlFuncs[6].name:='GetMinimumTabHeight';
+	CustomTabControlFuncs[6].func:=@VCLua_TabControl_GetMinimumTabHeight;
+	CustomTabControlFuncs[7].name:='TabToPageIndex';
+	CustomTabControlFuncs[7].func:=@VCLua_TabControl_TabToPageIndex;
+	CustomTabControlFuncs[8].name:='PageToTabIndex';
+	CustomTabControlFuncs[8].func:=@VCLua_TabControl_PageToTabIndex;
+	CustomTabControlFuncs[9].name:='DoCloseTabClicked';
+	CustomTabControlFuncs[9].func:=@VCLua_TabControl_DoCloseTabClicked;
+	CustomTabControlFuncs[10].name:=nil;
+	CustomTabControlFuncs[10].func:=nil;
+
+	SetLength(PageControlFuncs, 9+1);
+	PageControlFuncs[0].name:='Clear';
+	PageControlFuncs[0].func:=@VCLua_PageControl_Clear;
+	PageControlFuncs[1].name:='FindNextPage';
+	PageControlFuncs[1].func:=@VCLua_PageControl_FindNextPage;
+	PageControlFuncs[2].name:='SelectNextPage';
+	PageControlFuncs[2].func:=@VCLua_PageControl_SelectNextPage;
+	PageControlFuncs[3].name:='SelectNextPage2';
+	PageControlFuncs[3].func:=@VCLua_PageControl_SelectNextPage2;
+	PageControlFuncs[4].name:='IndexOfTabAt';
+	PageControlFuncs[4].func:=@VCLua_PageControl_IndexOfTabAt;
+	PageControlFuncs[5].name:='IndexOfTabAt2';
+	PageControlFuncs[5].func:=@VCLua_PageControl_IndexOfTabAt2;
+	PageControlFuncs[6].name:='IndexOfPageAt';
+	PageControlFuncs[6].func:=@VCLua_PageControl_IndexOfPageAt;
+	PageControlFuncs[7].name:='IndexOfPageAt2';
+	PageControlFuncs[7].func:=@VCLua_PageControl_IndexOfPageAt2;
+	PageControlFuncs[8].name:='AddTabSheet';
+	PageControlFuncs[8].func:=@VCLua_PageControl_AddTabSheet;
+	PageControlFuncs[9].name:=nil;
+	PageControlFuncs[9].func:=nil;
 
 end.

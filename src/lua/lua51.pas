@@ -600,7 +600,7 @@ type
     func : lua_CFunction;
   end;
   PluaL_Reg = ^luaL_Reg;
-
+  aoluaL_Reg = array of luaL_Reg;
 
 procedure luaL_openlib(L : Plua_State; const libname : PChar;
                        const lr : PluaL_Reg; nup : Integer);

@@ -20,6 +20,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    PenFuncs: aoluaL_Reg;
 
 
 implementation
@@ -79,10 +81,23 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Pen_Assign);
-	LuaSetTableFunction(L, Index, 'SetPattern', @VCLua_Pen_SetPattern);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TPen');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
+
+begin
+	SetLength(PenFuncs, 2+1);
+	PenFuncs[0].name:='Assign';
+	PenFuncs[0].func:=@VCLua_Pen_Assign;
+	PenFuncs[1].name:='SetPattern';
+	PenFuncs[1].func:=@VCLua_Pen_SetPattern;
+	PenFuncs[2].name:=nil;
+	PenFuncs[2].func:=nil;
 
 end.

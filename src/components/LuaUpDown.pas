@@ -20,6 +20,8 @@ type
     TLuaUpDown = class(TUpDown)
         LuaCtl: TVCLuaControl;
     end;
+var
+    UpDownFuncs: aoluaL_Reg;
 
 
 implementation
@@ -54,7 +56,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TUpDown');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -72,5 +79,11 @@ begin
 	UpDownToTable(L, -1, lUpDown);
 	Result := 1;
 end;
+
+begin
+	SetLength(UpDownFuncs, 0+1);
+	
+	UpDownFuncs[0].name:=nil;
+	UpDownFuncs[0].func:=nil;
 
 end.

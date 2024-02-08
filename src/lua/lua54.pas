@@ -453,6 +453,7 @@ type
       func: lua_CFunction;
    end;
    PluaL_Reg = ^luaL_Reg;
+   aoluaL_Reg = array of luaL_Reg;
 
 procedure luaL_checkversion_(L: Plua_State; ver: lua_Number; sz: size_t); cdecl;
 procedure luaL_checkversion(L: Plua_State); inline;

@@ -20,6 +20,8 @@ type
     TLuaRadioGroup = class(TRadioGroup)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomRadioGroupFuncs: aoluaL_Reg;
 
 
 implementation
@@ -92,9 +94,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'CanModify', @VCLua_RadioGroup_CanModify);
-	LuaSetTableFunction(L, Index, 'FlipChildren', @VCLua_RadioGroup_FlipChildren);
-	LuaSetTableFunction(L, Index, 'Rows', @VCLua_RadioGroup_Rows);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomRadioGroup');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -112,5 +117,16 @@ begin
 	RadioGroupToTable(L, -1, lRadioGroup);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomRadioGroupFuncs, 3+1);
+	CustomRadioGroupFuncs[0].name:='CanModify';
+	CustomRadioGroupFuncs[0].func:=@VCLua_RadioGroup_CanModify;
+	CustomRadioGroupFuncs[1].name:='FlipChildren';
+	CustomRadioGroupFuncs[1].func:=@VCLua_RadioGroup_FlipChildren;
+	CustomRadioGroupFuncs[2].name:='Rows';
+	CustomRadioGroupFuncs[2].func:=@VCLua_RadioGroup_Rows;
+	CustomRadioGroupFuncs[3].name:=nil;
+	CustomRadioGroupFuncs[3].func:=nil;
 
 end.

@@ -20,6 +20,8 @@ type
     TLuaLabeledEdit = class(TLabeledEdit)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomLabeledEditFuncs: aoluaL_Reg;
 
 
 implementation
@@ -54,7 +56,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomLabeledEdit');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -72,5 +79,11 @@ begin
 	LabeledEditToTable(L, -1, lLabeledEdit);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomLabeledEditFuncs, 0+1);
+	
+	CustomLabeledEditFuncs[0].name:=nil;
+	CustomLabeledEditFuncs[0].func:=nil;
 
 end.

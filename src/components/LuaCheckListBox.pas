@@ -20,6 +20,8 @@ type
     TLuaCheckListBox = class(TCheckListBox)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomCheckListBoxFuncs: aoluaL_Reg;
 
 
 implementation
@@ -153,13 +155,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'MeasureItem', @VCLua_CheckListBox_MeasureItem);
-	LuaSetTableFunction(L, Index, 'MeasureItem2', @VCLua_CheckListBox_MeasureItem2);
-	LuaSetTableFunction(L, Index, 'Toggle', @VCLua_CheckListBox_Toggle);
-	LuaSetTableFunction(L, Index, 'CheckAll', @VCLua_CheckListBox_CheckAll);
-	LuaSetTableFunction(L, Index, 'Exchange', @VCLua_CheckListBox_Exchange);
-	LuaSetTableFunction(L, Index, 'GetChecked', @VCLua_CheckListBox_CheckListBoxGetChecked);
-	LuaSetTableFunction(L, Index, 'SetChecked', @VCLua_CheckListBox_CheckListBoxSetChecked);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomCheckListBox');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -177,5 +178,24 @@ begin
 	CheckListBoxToTable(L, -1, lCheckListBox);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomCheckListBoxFuncs, 7+1);
+	CustomCheckListBoxFuncs[0].name:='MeasureItem';
+	CustomCheckListBoxFuncs[0].func:=@VCLua_CheckListBox_MeasureItem;
+	CustomCheckListBoxFuncs[1].name:='MeasureItem2';
+	CustomCheckListBoxFuncs[1].func:=@VCLua_CheckListBox_MeasureItem2;
+	CustomCheckListBoxFuncs[2].name:='Toggle';
+	CustomCheckListBoxFuncs[2].func:=@VCLua_CheckListBox_Toggle;
+	CustomCheckListBoxFuncs[3].name:='CheckAll';
+	CustomCheckListBoxFuncs[3].func:=@VCLua_CheckListBox_CheckAll;
+	CustomCheckListBoxFuncs[4].name:='Exchange';
+	CustomCheckListBoxFuncs[4].func:=@VCLua_CheckListBox_Exchange;
+	CustomCheckListBoxFuncs[5].name:='GetChecked';
+	CustomCheckListBoxFuncs[5].func:=@VCLua_CheckListBox_CheckListBoxGetChecked;
+	CustomCheckListBoxFuncs[6].name:='SetChecked';
+	CustomCheckListBoxFuncs[6].func:=@VCLua_CheckListBox_CheckListBoxSetChecked;
+	CustomCheckListBoxFuncs[7].name:=nil;
+	CustomCheckListBoxFuncs[7].func:=nil;
 
 end.

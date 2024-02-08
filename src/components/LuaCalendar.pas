@@ -20,6 +20,8 @@ type
     TLuaCalendar = class(TCalendar)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomCalendarFuncs: aoluaL_Reg;
 
 
 implementation
@@ -81,8 +83,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'HitTest', @VCLua_Calendar_HitTest);
-	LuaSetTableFunction(L, Index, 'GetCalendarView', @VCLua_Calendar_GetCalendarView);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomCalendar');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -100,5 +106,14 @@ begin
 	CalendarToTable(L, -1, lCalendar);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomCalendarFuncs, 2+1);
+	CustomCalendarFuncs[0].name:='HitTest';
+	CustomCalendarFuncs[0].func:=@VCLua_Calendar_HitTest;
+	CustomCalendarFuncs[1].name:='GetCalendarView';
+	CustomCalendarFuncs[1].func:=@VCLua_Calendar_GetCalendarView;
+	CustomCalendarFuncs[2].name:=nil;
+	CustomCalendarFuncs[2].func:=nil;
 
 end.

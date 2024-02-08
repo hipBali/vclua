@@ -20,6 +20,8 @@ type
     TLuaHeaderControl = class(THeaderControl)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomHeaderControlFuncs: aoluaL_Reg;
 
 
 implementation
@@ -129,12 +131,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Click', @VCLua_HeaderControl_Click);
-	LuaSetTableFunction(L, Index, 'DblClick', @VCLua_HeaderControl_DblClick);
-	LuaSetTableFunction(L, Index, 'GetSectionAt', @VCLua_HeaderControl_GetSectionAt);
-	LuaSetTableFunction(L, Index, 'Paint', @VCLua_HeaderControl_Paint);
-	LuaSetTableFunction(L, Index, 'PaintSection', @VCLua_HeaderControl_PaintSection);
-	LuaSetTableFunction(L, Index, 'ChangeScale', @VCLua_HeaderControl_ChangeScale);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomHeaderControl');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -152,5 +154,22 @@ begin
 	HeaderControlToTable(L, -1, lHeaderControl);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomHeaderControlFuncs, 6+1);
+	CustomHeaderControlFuncs[0].name:='Click';
+	CustomHeaderControlFuncs[0].func:=@VCLua_HeaderControl_Click;
+	CustomHeaderControlFuncs[1].name:='DblClick';
+	CustomHeaderControlFuncs[1].func:=@VCLua_HeaderControl_DblClick;
+	CustomHeaderControlFuncs[2].name:='GetSectionAt';
+	CustomHeaderControlFuncs[2].func:=@VCLua_HeaderControl_GetSectionAt;
+	CustomHeaderControlFuncs[3].name:='Paint';
+	CustomHeaderControlFuncs[3].func:=@VCLua_HeaderControl_Paint;
+	CustomHeaderControlFuncs[4].name:='PaintSection';
+	CustomHeaderControlFuncs[4].func:=@VCLua_HeaderControl_PaintSection;
+	CustomHeaderControlFuncs[5].name:='ChangeScale';
+	CustomHeaderControlFuncs[5].func:=@VCLua_HeaderControl_ChangeScale;
+	CustomHeaderControlFuncs[6].name:=nil;
+	CustomHeaderControlFuncs[6].func:=nil;
 
 end.

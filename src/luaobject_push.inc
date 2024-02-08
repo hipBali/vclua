@@ -29,9 +29,6 @@ else
 if (comp.InheritsFrom(TValueListEditor)) then
 	ValueListEditorToTable(L,index,Comp)
 else
-if (comp.InheritsFrom(TDrawGrid)) then
-	DrawGridToTable(L,index,Comp)
-else
 if (comp.InheritsFrom(TStringGrid)) then
 	StringGridToTable(L,index,Comp)
 else
@@ -40,6 +37,9 @@ if (comp.InheritsFrom(TGridColumns)) then
 else
 if (comp.InheritsFrom(TGridColumn)) then
 	GridColumnToTable(L,index,Comp)
+else
+if (comp.InheritsFrom(TDrawGrid)) then
+	DrawGridToTable(L,index,Comp)
 else
 if (comp.InheritsFrom(TColorListBox)) then
 	ColorListBoxToTable(L,index,Comp)
@@ -71,11 +71,11 @@ else
 if (comp.InheritsFrom(TArrow)) then
 	ArrowToTable(L,index,Comp)
 else
-if (comp.InheritsFrom(TFloatSpinEdit)) then
-	FloatSpinEditToTable(L,index,Comp)
-else
 if (comp.InheritsFrom(TSpinEdit)) then
 	SpinEditToTable(L,index,Comp)
+else
+if (comp.InheritsFrom(TFloatSpinEdit)) then
+	FloatSpinEditToTable(L,index,Comp)
 else
 if (comp.InheritsFrom(TDateTimePicker)) then
 	DateTimePickerToTable(L,index,Comp)
@@ -293,11 +293,11 @@ else
 if (comp.InheritsFrom(TControl)) then
 	ControlToTable(L,index,Comp)
 else
-if (comp.InheritsFrom(TStringList)) then
-	StringListToTable(L,index,Comp)
-else
 if (comp.InheritsFrom(TTextStrings)) then
 	TextStringsToTable(L,index,Comp)
+else
+if (comp.InheritsFrom(TStringList)) then
+	StringListToTable(L,index,Comp)
 else
 if (comp.InheritsFrom(TStrings)) then
 	StringsToTable(L,index,Comp)

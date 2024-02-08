@@ -19,6 +19,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    PictureFuncs: aoluaL_Reg;
 
 
 implementation
@@ -160,14 +162,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_Picture_Clear);
-	LuaSetTableFunction(L, Index, 'LoadFromFile', @VCLua_Picture_LoadFromFile);
-	LuaSetTableFunction(L, Index, 'LoadFromStream', @VCLua_Picture_LoadFromStream);
-	LuaSetTableFunction(L, Index, 'LoadFromStreamWithFileExt', @VCLua_Picture_LoadFromStreamWithFileExt);
-	LuaSetTableFunction(L, Index, 'SaveToFile', @VCLua_Picture_SaveToFile);
-	LuaSetTableFunction(L, Index, 'SaveToStream', @VCLua_Picture_SaveToStream);
-	LuaSetTableFunction(L, Index, 'SaveToStreamWithFileExt', @VCLua_Picture_SaveToStreamWithFileExt);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Picture_Assign);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TPicture');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -179,4 +179,25 @@ begin
 	PictureToTable(L, -1, lPicture);
 	Result := 1;
 end;
+begin
+	SetLength(PictureFuncs, 8+1);
+	PictureFuncs[0].name:='Clear';
+	PictureFuncs[0].func:=@VCLua_Picture_Clear;
+	PictureFuncs[1].name:='LoadFromFile';
+	PictureFuncs[1].func:=@VCLua_Picture_LoadFromFile;
+	PictureFuncs[2].name:='LoadFromStream';
+	PictureFuncs[2].func:=@VCLua_Picture_LoadFromStream;
+	PictureFuncs[3].name:='LoadFromStreamWithFileExt';
+	PictureFuncs[3].func:=@VCLua_Picture_LoadFromStreamWithFileExt;
+	PictureFuncs[4].name:='SaveToFile';
+	PictureFuncs[4].func:=@VCLua_Picture_SaveToFile;
+	PictureFuncs[5].name:='SaveToStream';
+	PictureFuncs[5].func:=@VCLua_Picture_SaveToStream;
+	PictureFuncs[6].name:='SaveToStreamWithFileExt';
+	PictureFuncs[6].func:=@VCLua_Picture_SaveToStreamWithFileExt;
+	PictureFuncs[7].name:='Assign';
+	PictureFuncs[7].func:=@VCLua_Picture_Assign;
+	PictureFuncs[8].name:=nil;
+	PictureFuncs[8].func:=nil;
+
 end.

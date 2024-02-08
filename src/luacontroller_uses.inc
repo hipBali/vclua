@@ -4,8 +4,8 @@ Generated with Lua-fpc parser/generator
 *)
 
 	LuaStrings,
-	LuaTextStrings,
 	LuaStringList,
+	LuaTextStrings,
 	LuaControl,
 	LuaGraphic,
 	LuaFont,
@@ -63,8 +63,8 @@ Generated with Lua-fpc parser/generator
 	LuaCheckListBox,
 	LuaPopupNotifier,
 	LuaDateTimePicker,
-	LuaSpinEdit,
 	LuaFloatSpinEdit,
+	LuaSpinEdit,
 	LuaArrow,
 	LuaCalendar,
 	LuaEditButton,
@@ -75,7 +75,7 @@ Generated with Lua-fpc parser/generator
 	LuaCalcEdit,
 	LuaColorBox,
 	LuaColorListBox,
-	LuaStringGrid,
 	LuaDrawGrid,
+	LuaStringGrid,
 	LuaValueListEditor,
 	LuaCommonDialogs

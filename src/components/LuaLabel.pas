@@ -22,6 +22,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomLabelFuncs: aoluaL_Reg;
 
 
 implementation
@@ -135,11 +137,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'CalcFittingFontHeight', @VCLua_Label_CalcFittingFontHeight);
-	LuaSetTableFunction(L, Index, 'ColorIsStored', @VCLua_Label_ColorIsStored);
-	LuaSetTableFunction(L, Index, 'AdjustFontForOptimalFill', @VCLua_Label_AdjustFontForOptimalFill);
-	LuaSetTableFunction(L, Index, 'Paint', @VCLua_Label_Paint);
-	LuaSetTableFunction(L, Index, 'SetBounds', @VCLua_Label_SetBounds);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomLabel');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -157,5 +160,20 @@ begin
 	LabelToTable(L, -1, lLabel);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomLabelFuncs, 5+1);
+	CustomLabelFuncs[0].name:='CalcFittingFontHeight';
+	CustomLabelFuncs[0].func:=@VCLua_Label_CalcFittingFontHeight;
+	CustomLabelFuncs[1].name:='ColorIsStored';
+	CustomLabelFuncs[1].func:=@VCLua_Label_ColorIsStored;
+	CustomLabelFuncs[2].name:='AdjustFontForOptimalFill';
+	CustomLabelFuncs[2].func:=@VCLua_Label_AdjustFontForOptimalFill;
+	CustomLabelFuncs[3].name:='Paint';
+	CustomLabelFuncs[3].func:=@VCLua_Label_Paint;
+	CustomLabelFuncs[4].name:='SetBounds';
+	CustomLabelFuncs[4].func:=@VCLua_Label_SetBounds;
+	CustomLabelFuncs[5].name:=nil;
+	CustomLabelFuncs[5].func:=nil;
 
 end.

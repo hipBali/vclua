@@ -22,6 +22,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    ValueListEditorFuncs: aoluaL_Reg;
 
 
 implementation
@@ -298,22 +300,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_ValueListEditor_Clear);
-	LuaSetTableFunction(L, Index, 'DeleteColRow', @VCLua_ValueListEditor_DeleteColRow);
-	LuaSetTableFunction(L, Index, 'DeleteRow', @VCLua_ValueListEditor_DeleteRow);
-	LuaSetTableFunction(L, Index, 'DeleteCol', @VCLua_ValueListEditor_DeleteCol);
-	LuaSetTableFunction(L, Index, 'FindRow', @VCLua_ValueListEditor_FindRow);
-	LuaSetTableFunction(L, Index, 'InsertColRow', @VCLua_ValueListEditor_InsertColRow);
-	LuaSetTableFunction(L, Index, 'InsertRow', @VCLua_ValueListEditor_InsertRow);
-	LuaSetTableFunction(L, Index, 'InsertRowWithValues', @VCLua_ValueListEditor_InsertRowWithValues);
-	LuaSetTableFunction(L, Index, 'ExchangeColRow', @VCLua_ValueListEditor_ExchangeColRow);
-	LuaSetTableFunction(L, Index, 'IsEmptyRow', @VCLua_ValueListEditor_IsEmptyRow);
-	LuaSetTableFunction(L, Index, 'IsEmptyRow2', @VCLua_ValueListEditor_IsEmptyRow2);
-	LuaSetTableFunction(L, Index, 'LoadFromCSVStream', @VCLua_ValueListEditor_LoadFromCSVStream);
-	LuaSetTableFunction(L, Index, 'MoveColRow', @VCLua_ValueListEditor_MoveColRow);
-	LuaSetTableFunction(L, Index, 'RestoreCurrentRow', @VCLua_ValueListEditor_RestoreCurrentRow);
-	LuaSetTableFunction(L, Index, 'Sort', @VCLua_ValueListEditor_Sort);
-	LuaSetTableFunction(L, Index, 'Sort2', @VCLua_ValueListEditor_Sort2);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TValueListEditor');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -331,5 +323,42 @@ begin
 	ValueListEditorToTable(L, -1, lValueListEditor);
 	Result := 1;
 end;
+
+begin
+	SetLength(ValueListEditorFuncs, 16+1);
+	ValueListEditorFuncs[0].name:='Clear';
+	ValueListEditorFuncs[0].func:=@VCLua_ValueListEditor_Clear;
+	ValueListEditorFuncs[1].name:='DeleteColRow';
+	ValueListEditorFuncs[1].func:=@VCLua_ValueListEditor_DeleteColRow;
+	ValueListEditorFuncs[2].name:='DeleteRow';
+	ValueListEditorFuncs[2].func:=@VCLua_ValueListEditor_DeleteRow;
+	ValueListEditorFuncs[3].name:='DeleteCol';
+	ValueListEditorFuncs[3].func:=@VCLua_ValueListEditor_DeleteCol;
+	ValueListEditorFuncs[4].name:='FindRow';
+	ValueListEditorFuncs[4].func:=@VCLua_ValueListEditor_FindRow;
+	ValueListEditorFuncs[5].name:='InsertColRow';
+	ValueListEditorFuncs[5].func:=@VCLua_ValueListEditor_InsertColRow;
+	ValueListEditorFuncs[6].name:='InsertRow';
+	ValueListEditorFuncs[6].func:=@VCLua_ValueListEditor_InsertRow;
+	ValueListEditorFuncs[7].name:='InsertRowWithValues';
+	ValueListEditorFuncs[7].func:=@VCLua_ValueListEditor_InsertRowWithValues;
+	ValueListEditorFuncs[8].name:='ExchangeColRow';
+	ValueListEditorFuncs[8].func:=@VCLua_ValueListEditor_ExchangeColRow;
+	ValueListEditorFuncs[9].name:='IsEmptyRow';
+	ValueListEditorFuncs[9].func:=@VCLua_ValueListEditor_IsEmptyRow;
+	ValueListEditorFuncs[10].name:='IsEmptyRow2';
+	ValueListEditorFuncs[10].func:=@VCLua_ValueListEditor_IsEmptyRow2;
+	ValueListEditorFuncs[11].name:='LoadFromCSVStream';
+	ValueListEditorFuncs[11].func:=@VCLua_ValueListEditor_LoadFromCSVStream;
+	ValueListEditorFuncs[12].name:='MoveColRow';
+	ValueListEditorFuncs[12].func:=@VCLua_ValueListEditor_MoveColRow;
+	ValueListEditorFuncs[13].name:='RestoreCurrentRow';
+	ValueListEditorFuncs[13].func:=@VCLua_ValueListEditor_RestoreCurrentRow;
+	ValueListEditorFuncs[14].name:='Sort';
+	ValueListEditorFuncs[14].func:=@VCLua_ValueListEditor_Sort;
+	ValueListEditorFuncs[15].name:='Sort2';
+	ValueListEditorFuncs[15].func:=@VCLua_ValueListEditor_Sort2;
+	ValueListEditorFuncs[16].name:=nil;
+	ValueListEditorFuncs[16].func:=nil;
 
 end.

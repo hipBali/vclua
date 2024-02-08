@@ -20,6 +20,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    FontFuncs: aoluaL_Reg;
 
 
 implementation
@@ -140,15 +142,33 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Font_Assign);
-	LuaSetTableFunction(L, Index, 'BeginUpdate', @VCLua_Font_BeginUpdate);
-	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_Font_EndUpdate);
-	LuaSetTableFunction(L, Index, 'HandleAllocated', @VCLua_Font_HandleAllocated);
-	LuaSetTableFunction(L, Index, 'IsDefault', @VCLua_Font_IsDefault);
-	LuaSetTableFunction(L, Index, 'IsEqual', @VCLua_Font_IsEqual);
-	LuaSetTableFunction(L, Index, 'SetDefault', @VCLua_Font_SetDefault);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TFont');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
+
+begin
+	SetLength(FontFuncs, 7+1);
+	FontFuncs[0].name:='Assign';
+	FontFuncs[0].func:=@VCLua_Font_Assign;
+	FontFuncs[1].name:='BeginUpdate';
+	FontFuncs[1].func:=@VCLua_Font_BeginUpdate;
+	FontFuncs[2].name:='EndUpdate';
+	FontFuncs[2].func:=@VCLua_Font_EndUpdate;
+	FontFuncs[3].name:='HandleAllocated';
+	FontFuncs[3].func:=@VCLua_Font_HandleAllocated;
+	FontFuncs[4].name:='IsDefault';
+	FontFuncs[4].func:=@VCLua_Font_IsDefault;
+	FontFuncs[5].name:='IsEqual';
+	FontFuncs[5].func:=@VCLua_Font_IsEqual;
+	FontFuncs[6].name:='SetDefault';
+	FontFuncs[6].func:=@VCLua_Font_SetDefault;
+	FontFuncs[7].name:=nil;
+	FontFuncs[7].func:=nil;
 
 end.

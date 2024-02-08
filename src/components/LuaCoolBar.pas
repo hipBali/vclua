@@ -22,6 +22,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomCoolBarFuncs: aoluaL_Reg;
 
 
 implementation
@@ -134,12 +136,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'AutosizeBands', @VCLua_CoolBar_AutosizeBands);
-	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_CoolBar_EndUpdate);
-	LuaSetTableFunction(L, Index, 'Invalidate', @VCLua_CoolBar_Invalidate);
-	LuaSetTableFunction(L, Index, 'InsertControl', @VCLua_CoolBar_InsertControl);
-	LuaSetTableFunction(L, Index, 'MouseToBandPos', @VCLua_CoolBar_MouseToBandPos);
-	LuaSetTableFunction(L, Index, 'RemoveControl', @VCLua_CoolBar_RemoveControl);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomCoolBar');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -157,5 +159,22 @@ begin
 	CoolBarToTable(L, -1, lCoolBar);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomCoolBarFuncs, 6+1);
+	CustomCoolBarFuncs[0].name:='AutosizeBands';
+	CustomCoolBarFuncs[0].func:=@VCLua_CoolBar_AutosizeBands;
+	CustomCoolBarFuncs[1].name:='EndUpdate';
+	CustomCoolBarFuncs[1].func:=@VCLua_CoolBar_EndUpdate;
+	CustomCoolBarFuncs[2].name:='Invalidate';
+	CustomCoolBarFuncs[2].func:=@VCLua_CoolBar_Invalidate;
+	CustomCoolBarFuncs[3].name:='InsertControl';
+	CustomCoolBarFuncs[3].func:=@VCLua_CoolBar_InsertControl;
+	CustomCoolBarFuncs[4].name:='MouseToBandPos';
+	CustomCoolBarFuncs[4].func:=@VCLua_CoolBar_MouseToBandPos;
+	CustomCoolBarFuncs[5].name:='RemoveControl';
+	CustomCoolBarFuncs[5].func:=@VCLua_CoolBar_RemoveControl;
+	CustomCoolBarFuncs[6].name:=nil;
+	CustomCoolBarFuncs[6].func:=nil;
 
 end.

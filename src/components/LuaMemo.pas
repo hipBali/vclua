@@ -20,6 +20,8 @@ type
     TLuaMemo = class(TMemo)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomMemoFuncs: aoluaL_Reg;
 
 
 implementation
@@ -81,8 +83,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Append', @VCLua_Memo_Append);
-	LuaSetTableFunction(L, Index, 'ScrollBy', @VCLua_Memo_ScrollBy);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomMemo');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -100,5 +106,14 @@ begin
 	MemoToTable(L, -1, lMemo);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomMemoFuncs, 2+1);
+	CustomMemoFuncs[0].name:='Append';
+	CustomMemoFuncs[0].func:=@VCLua_Memo_Append;
+	CustomMemoFuncs[1].name:='ScrollBy';
+	CustomMemoFuncs[1].func:=@VCLua_Memo_ScrollBy;
+	CustomMemoFuncs[2].name:=nil;
+	CustomMemoFuncs[2].func:=nil;
 
 end.

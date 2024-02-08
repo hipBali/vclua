@@ -20,6 +20,7 @@ Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 #BODY
 #CREATE
+#INIT
 end.
 ]]
 
@@ -37,6 +38,7 @@ Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
 
 #BODY
 #CREATE
+#INIT
 end.
 ]]
 
@@ -125,7 +127,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	#CMETHODS
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'#CSRC');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -217,3 +224,20 @@ VCLUA_INC = [[
 	);
 ]]
 
+VCLUA_INIT_INTFCE = [[
+var
+    #CSRCFuncs: aoluaL_Reg;
+]]
+
+VCLUA_INIT = [[
+	SetLength(#CSRCFuncs, #MIDX+1);
+	#CMETHODS
+	#CSRCFuncs[#MIDX].name:=nil;
+	#CSRCFuncs[#MIDX].func:=nil;
+]]
+
+VCLUA_ADD_MAP = [[
+  assert(metaPtis[i]^.Name = 'T#CSRC');
+  Inc(i);
+  funcs.Add('T#CSRC', #CSRCFuncs);
+]]

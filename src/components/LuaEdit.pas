@@ -20,6 +20,8 @@ type
     TLuaEdit = class(TEdit)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomEditFuncs: aoluaL_Reg;
 
 
 implementation
@@ -143,14 +145,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_Edit_Clear);
-	LuaSetTableFunction(L, Index, 'SelectAll', @VCLua_Edit_SelectAll);
-	LuaSetTableFunction(L, Index, 'ClearSelection', @VCLua_Edit_ClearSelection);
-	LuaSetTableFunction(L, Index, 'CopyToClipboard', @VCLua_Edit_CopyToClipboard);
-	LuaSetTableFunction(L, Index, 'CutToClipboard', @VCLua_Edit_CutToClipboard);
-	LuaSetTableFunction(L, Index, 'PasteFromClipboard', @VCLua_Edit_PasteFromClipboard);
-	LuaSetTableFunction(L, Index, 'Undo', @VCLua_Edit_Undo);
-	LuaSetTableFunction(L, Index, 'RemoveAllHandlersOfObject', @VCLua_Edit_RemoveAllHandlersOfObject);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomEdit');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -168,5 +168,26 @@ begin
 	EditToTable(L, -1, lEdit);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomEditFuncs, 8+1);
+	CustomEditFuncs[0].name:='Clear';
+	CustomEditFuncs[0].func:=@VCLua_Edit_Clear;
+	CustomEditFuncs[1].name:='SelectAll';
+	CustomEditFuncs[1].func:=@VCLua_Edit_SelectAll;
+	CustomEditFuncs[2].name:='ClearSelection';
+	CustomEditFuncs[2].func:=@VCLua_Edit_ClearSelection;
+	CustomEditFuncs[3].name:='CopyToClipboard';
+	CustomEditFuncs[3].func:=@VCLua_Edit_CopyToClipboard;
+	CustomEditFuncs[4].name:='CutToClipboard';
+	CustomEditFuncs[4].func:=@VCLua_Edit_CutToClipboard;
+	CustomEditFuncs[5].name:='PasteFromClipboard';
+	CustomEditFuncs[5].func:=@VCLua_Edit_PasteFromClipboard;
+	CustomEditFuncs[6].name:='Undo';
+	CustomEditFuncs[6].func:=@VCLua_Edit_Undo;
+	CustomEditFuncs[7].name:='RemoveAllHandlersOfObject';
+	CustomEditFuncs[7].func:=@VCLua_Edit_RemoveAllHandlersOfObject;
+	CustomEditFuncs[8].name:=nil;
+	CustomEditFuncs[8].func:=nil;
 
 end.

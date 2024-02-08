@@ -20,6 +20,8 @@ type
     TLuaButton = class(TButton)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomButtonFuncs: aoluaL_Reg;
 
 
 implementation
@@ -123,12 +125,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Click', @VCLua_Button_Click);
-	LuaSetTableFunction(L, Index, 'ExecuteDefaultAction', @VCLua_Button_ExecuteDefaultAction);
-	LuaSetTableFunction(L, Index, 'ExecuteCancelAction', @VCLua_Button_ExecuteCancelAction);
-	LuaSetTableFunction(L, Index, 'ActiveDefaultControlChanged', @VCLua_Button_ActiveDefaultControlChanged);
-	LuaSetTableFunction(L, Index, 'UpdateRolesForForm', @VCLua_Button_UpdateRolesForForm);
-	LuaSetTableFunction(L, Index, 'UseRightToLeftAlignment', @VCLua_Button_UseRightToLeftAlignment);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomButton');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -146,5 +148,22 @@ begin
 	ButtonToTable(L, -1, lButton);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomButtonFuncs, 6+1);
+	CustomButtonFuncs[0].name:='Click';
+	CustomButtonFuncs[0].func:=@VCLua_Button_Click;
+	CustomButtonFuncs[1].name:='ExecuteDefaultAction';
+	CustomButtonFuncs[1].func:=@VCLua_Button_ExecuteDefaultAction;
+	CustomButtonFuncs[2].name:='ExecuteCancelAction';
+	CustomButtonFuncs[2].func:=@VCLua_Button_ExecuteCancelAction;
+	CustomButtonFuncs[3].name:='ActiveDefaultControlChanged';
+	CustomButtonFuncs[3].func:=@VCLua_Button_ActiveDefaultControlChanged;
+	CustomButtonFuncs[4].name:='UpdateRolesForForm';
+	CustomButtonFuncs[4].func:=@VCLua_Button_UpdateRolesForForm;
+	CustomButtonFuncs[5].name:='UseRightToLeftAlignment';
+	CustomButtonFuncs[5].func:=@VCLua_Button_UseRightToLeftAlignment;
+	CustomButtonFuncs[6].name:=nil;
+	CustomButtonFuncs[6].func:=nil;
 
 end.

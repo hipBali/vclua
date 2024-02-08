@@ -20,6 +20,8 @@ type
     TLuaMenu = class(TMenu)
         LuaCtl: TVCLuaControl;
     end;
+var
+    MenuFuncs: aoluaL_Reg;
 
 function CreatePopupMenu(L: Plua_State): Integer; cdecl;
 function IsPopupMenu(L: Plua_State): Integer; cdecl;
@@ -31,6 +33,8 @@ type
     TLuaPopupMenu = class(TPopupMenu)
         LuaCtl: TVCLuaControl;
     end;
+var
+    PopupMenuFuncs: aoluaL_Reg;
 
 function CreateMenuItem(L: Plua_State): Integer; cdecl;
 function IsMenuItem(L: Plua_State): Integer; cdecl;
@@ -42,6 +46,8 @@ type
     TLuaMenuItem = class(TMenuItem)
         LuaCtl: TVCLuaControl;
     end;
+var
+    MenuItemFuncs: aoluaL_Reg;
 
 function CreateMainMenu(L: Plua_State): Integer; cdecl;
 function IsMainMenu(L: Plua_State): Integer; cdecl;
@@ -53,6 +59,8 @@ type
     TLuaMainMenu = class(TMainMenu)
         LuaCtl: TVCLuaControl;
     end;
+var
+    MainMenuFuncs: aoluaL_Reg;
 
 
 implementation
@@ -710,15 +718,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'DestroyHandle', @VCLua_Menu_DestroyHandle);
-	LuaSetTableFunction(L, Index, 'FindItem', @VCLua_Menu_FindItem);
-	LuaSetTableFunction(L, Index, 'GetHelpContext', @VCLua_Menu_GetHelpContext);
-	LuaSetTableFunction(L, Index, 'HandleAllocated', @VCLua_Menu_HandleAllocated);
-	LuaSetTableFunction(L, Index, 'IsRightToLeft', @VCLua_Menu_IsRightToLeft);
-	LuaSetTableFunction(L, Index, 'UseRightToLeftAlignment', @VCLua_Menu_UseRightToLeftAlignment);
-	LuaSetTableFunction(L, Index, 'UseRightToLeftReading', @VCLua_Menu_UseRightToLeftReading);
-	LuaSetTableFunction(L, Index, 'HandleNeeded', @VCLua_Menu_HandleNeeded);
-	LuaSetTableFunction(L, Index, 'DispatchCommand', @VCLua_Menu_DispatchCommand);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TMenu');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -765,9 +770,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'PopUp', @VCLua_PopupMenu_PopUp);
-	LuaSetTableFunction(L, Index, 'PopUp2', @VCLua_PopupMenu_PopUp2);
-	LuaSetTableFunction(L, Index, 'Close', @VCLua_PopupMenu_Close);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TPopupMenu');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -814,40 +822,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Find', @VCLua_MenuItem_Find);
-	LuaSetTableFunction(L, Index, 'GetImageList', @VCLua_MenuItem_GetImageList);
-	LuaSetTableFunction(L, Index, 'GetImageList2', @VCLua_MenuItem_GetImageList2);
-	LuaSetTableFunction(L, Index, 'GetParentComponent', @VCLua_MenuItem_GetParentComponent);
-	LuaSetTableFunction(L, Index, 'GetParentMenu', @VCLua_MenuItem_GetParentMenu);
-	LuaSetTableFunction(L, Index, 'GetMergedParentMenu', @VCLua_MenuItem_GetMergedParentMenu);
-	LuaSetTableFunction(L, Index, 'GetIsRightToLeft', @VCLua_MenuItem_GetIsRightToLeft);
-	LuaSetTableFunction(L, Index, 'HandleAllocated', @VCLua_MenuItem_HandleAllocated);
-	LuaSetTableFunction(L, Index, 'HasIcon', @VCLua_MenuItem_HasIcon);
-	LuaSetTableFunction(L, Index, 'HasParent', @VCLua_MenuItem_HasParent);
-	LuaSetTableFunction(L, Index, 'InitiateAction', @VCLua_MenuItem_InitiateAction);
-	LuaSetTableFunction(L, Index, 'IntfDoSelect', @VCLua_MenuItem_IntfDoSelect);
-	LuaSetTableFunction(L, Index, 'IndexOf', @VCLua_MenuItem_IndexOf);
-	LuaSetTableFunction(L, Index, 'IndexOfCaption', @VCLua_MenuItem_IndexOfCaption);
-	LuaSetTableFunction(L, Index, 'InvalidateMergedItems', @VCLua_MenuItem_InvalidateMergedItems);
-	LuaSetTableFunction(L, Index, 'VisibleIndexOf', @VCLua_MenuItem_VisibleIndexOf);
-	LuaSetTableFunction(L, Index, 'Add', @VCLua_MenuItem_Add);
-	LuaSetTableFunction(L, Index, 'Add2', @VCLua_MenuItem_Add2);
-	LuaSetTableFunction(L, Index, 'AddSeparator', @VCLua_MenuItem_AddSeparator);
-	LuaSetTableFunction(L, Index, 'Click', @VCLua_MenuItem_Click);
-	LuaSetTableFunction(L, Index, 'Delete', @VCLua_MenuItem_Delete);
-	LuaSetTableFunction(L, Index, 'HandleNeeded', @VCLua_MenuItem_HandleNeeded);
-	LuaSetTableFunction(L, Index, 'Insert', @VCLua_MenuItem_Insert);
-	LuaSetTableFunction(L, Index, 'RecreateHandle', @VCLua_MenuItem_RecreateHandle);
-	LuaSetTableFunction(L, Index, 'Remove', @VCLua_MenuItem_Remove);
-	LuaSetTableFunction(L, Index, 'UpdateImage', @VCLua_MenuItem_UpdateImage);
-	LuaSetTableFunction(L, Index, 'UpdateImages', @VCLua_MenuItem_UpdateImages);
-	LuaSetTableFunction(L, Index, 'IsCheckItem', @VCLua_MenuItem_IsCheckItem);
-	LuaSetTableFunction(L, Index, 'IsLine', @VCLua_MenuItem_IsLine);
-	LuaSetTableFunction(L, Index, 'IsInMenuBar', @VCLua_MenuItem_IsInMenuBar);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_MenuItem_Clear);
-	LuaSetTableFunction(L, Index, 'HasBitmap', @VCLua_MenuItem_HasBitmap);
-	LuaSetTableFunction(L, Index, 'MenuVisibleIndex', @VCLua_MenuItem_MenuVisibleIndex);
-	LuaSetTableFunction(L, Index, 'WriteDebugReport', @VCLua_MenuItem_WriteDebugReport);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TMenuItem');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -894,9 +874,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Merge', @VCLua_MainMenu_Merge);
-	LuaSetTableFunction(L, Index, 'Unmerge', @VCLua_MainMenu_Unmerge);
-	LuaSetTableFunction(L, Index, 'Add', @VCLua_MenuItem_Add);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TMainMenu');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -914,5 +897,118 @@ begin
 	MainMenuToTable(L, -1, lMainMenu);
 	Result := 1;
 end;
+
+begin
+	SetLength(MenuFuncs, 9+1);
+	MenuFuncs[0].name:='DestroyHandle';
+	MenuFuncs[0].func:=@VCLua_Menu_DestroyHandle;
+	MenuFuncs[1].name:='FindItem';
+	MenuFuncs[1].func:=@VCLua_Menu_FindItem;
+	MenuFuncs[2].name:='GetHelpContext';
+	MenuFuncs[2].func:=@VCLua_Menu_GetHelpContext;
+	MenuFuncs[3].name:='HandleAllocated';
+	MenuFuncs[3].func:=@VCLua_Menu_HandleAllocated;
+	MenuFuncs[4].name:='IsRightToLeft';
+	MenuFuncs[4].func:=@VCLua_Menu_IsRightToLeft;
+	MenuFuncs[5].name:='UseRightToLeftAlignment';
+	MenuFuncs[5].func:=@VCLua_Menu_UseRightToLeftAlignment;
+	MenuFuncs[6].name:='UseRightToLeftReading';
+	MenuFuncs[6].func:=@VCLua_Menu_UseRightToLeftReading;
+	MenuFuncs[7].name:='HandleNeeded';
+	MenuFuncs[7].func:=@VCLua_Menu_HandleNeeded;
+	MenuFuncs[8].name:='DispatchCommand';
+	MenuFuncs[8].func:=@VCLua_Menu_DispatchCommand;
+	MenuFuncs[9].name:=nil;
+	MenuFuncs[9].func:=nil;
+
+	SetLength(PopupMenuFuncs, 3+1);
+	PopupMenuFuncs[0].name:='PopUp';
+	PopupMenuFuncs[0].func:=@VCLua_PopupMenu_PopUp;
+	PopupMenuFuncs[1].name:='PopUp2';
+	PopupMenuFuncs[1].func:=@VCLua_PopupMenu_PopUp2;
+	PopupMenuFuncs[2].name:='Close';
+	PopupMenuFuncs[2].func:=@VCLua_PopupMenu_Close;
+	PopupMenuFuncs[3].name:=nil;
+	PopupMenuFuncs[3].func:=nil;
+
+	SetLength(MenuItemFuncs, 34+1);
+	MenuItemFuncs[0].name:='Find';
+	MenuItemFuncs[0].func:=@VCLua_MenuItem_Find;
+	MenuItemFuncs[1].name:='GetImageList';
+	MenuItemFuncs[1].func:=@VCLua_MenuItem_GetImageList;
+	MenuItemFuncs[2].name:='GetImageList2';
+	MenuItemFuncs[2].func:=@VCLua_MenuItem_GetImageList2;
+	MenuItemFuncs[3].name:='GetParentComponent';
+	MenuItemFuncs[3].func:=@VCLua_MenuItem_GetParentComponent;
+	MenuItemFuncs[4].name:='GetParentMenu';
+	MenuItemFuncs[4].func:=@VCLua_MenuItem_GetParentMenu;
+	MenuItemFuncs[5].name:='GetMergedParentMenu';
+	MenuItemFuncs[5].func:=@VCLua_MenuItem_GetMergedParentMenu;
+	MenuItemFuncs[6].name:='GetIsRightToLeft';
+	MenuItemFuncs[6].func:=@VCLua_MenuItem_GetIsRightToLeft;
+	MenuItemFuncs[7].name:='HandleAllocated';
+	MenuItemFuncs[7].func:=@VCLua_MenuItem_HandleAllocated;
+	MenuItemFuncs[8].name:='HasIcon';
+	MenuItemFuncs[8].func:=@VCLua_MenuItem_HasIcon;
+	MenuItemFuncs[9].name:='HasParent';
+	MenuItemFuncs[9].func:=@VCLua_MenuItem_HasParent;
+	MenuItemFuncs[10].name:='InitiateAction';
+	MenuItemFuncs[10].func:=@VCLua_MenuItem_InitiateAction;
+	MenuItemFuncs[11].name:='IntfDoSelect';
+	MenuItemFuncs[11].func:=@VCLua_MenuItem_IntfDoSelect;
+	MenuItemFuncs[12].name:='IndexOf';
+	MenuItemFuncs[12].func:=@VCLua_MenuItem_IndexOf;
+	MenuItemFuncs[13].name:='IndexOfCaption';
+	MenuItemFuncs[13].func:=@VCLua_MenuItem_IndexOfCaption;
+	MenuItemFuncs[14].name:='InvalidateMergedItems';
+	MenuItemFuncs[14].func:=@VCLua_MenuItem_InvalidateMergedItems;
+	MenuItemFuncs[15].name:='VisibleIndexOf';
+	MenuItemFuncs[15].func:=@VCLua_MenuItem_VisibleIndexOf;
+	MenuItemFuncs[16].name:='Add';
+	MenuItemFuncs[16].func:=@VCLua_MenuItem_Add;
+	MenuItemFuncs[17].name:='Add2';
+	MenuItemFuncs[17].func:=@VCLua_MenuItem_Add2;
+	MenuItemFuncs[18].name:='AddSeparator';
+	MenuItemFuncs[18].func:=@VCLua_MenuItem_AddSeparator;
+	MenuItemFuncs[19].name:='Click';
+	MenuItemFuncs[19].func:=@VCLua_MenuItem_Click;
+	MenuItemFuncs[20].name:='Delete';
+	MenuItemFuncs[20].func:=@VCLua_MenuItem_Delete;
+	MenuItemFuncs[21].name:='HandleNeeded';
+	MenuItemFuncs[21].func:=@VCLua_MenuItem_HandleNeeded;
+	MenuItemFuncs[22].name:='Insert';
+	MenuItemFuncs[22].func:=@VCLua_MenuItem_Insert;
+	MenuItemFuncs[23].name:='RecreateHandle';
+	MenuItemFuncs[23].func:=@VCLua_MenuItem_RecreateHandle;
+	MenuItemFuncs[24].name:='Remove';
+	MenuItemFuncs[24].func:=@VCLua_MenuItem_Remove;
+	MenuItemFuncs[25].name:='UpdateImage';
+	MenuItemFuncs[25].func:=@VCLua_MenuItem_UpdateImage;
+	MenuItemFuncs[26].name:='UpdateImages';
+	MenuItemFuncs[26].func:=@VCLua_MenuItem_UpdateImages;
+	MenuItemFuncs[27].name:='IsCheckItem';
+	MenuItemFuncs[27].func:=@VCLua_MenuItem_IsCheckItem;
+	MenuItemFuncs[28].name:='IsLine';
+	MenuItemFuncs[28].func:=@VCLua_MenuItem_IsLine;
+	MenuItemFuncs[29].name:='IsInMenuBar';
+	MenuItemFuncs[29].func:=@VCLua_MenuItem_IsInMenuBar;
+	MenuItemFuncs[30].name:='Clear';
+	MenuItemFuncs[30].func:=@VCLua_MenuItem_Clear;
+	MenuItemFuncs[31].name:='HasBitmap';
+	MenuItemFuncs[31].func:=@VCLua_MenuItem_HasBitmap;
+	MenuItemFuncs[32].name:='MenuVisibleIndex';
+	MenuItemFuncs[32].func:=@VCLua_MenuItem_MenuVisibleIndex;
+	MenuItemFuncs[33].name:='WriteDebugReport';
+	MenuItemFuncs[33].func:=@VCLua_MenuItem_WriteDebugReport;
+	MenuItemFuncs[34].name:=nil;
+	MenuItemFuncs[34].func:=nil;
+
+	SetLength(MainMenuFuncs, 2+1);
+	MainMenuFuncs[0].name:='Merge';
+	MainMenuFuncs[0].func:=@VCLua_MainMenu_Merge;
+	MainMenuFuncs[1].name:='Unmerge';
+	MainMenuFuncs[1].func:=@VCLua_MainMenu_Unmerge;
+	MainMenuFuncs[2].name:=nil;
+	MainMenuFuncs[2].func:=nil;
 
 end.

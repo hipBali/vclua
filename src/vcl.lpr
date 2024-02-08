@@ -16,6 +16,8 @@ uses
   Controls,
   Dialogs,
   runtimetypeinfocontrols,
+  TypInfo,
+  FGL,
   Lua in 'lua.pas',
   LuaHelper in 'LuaHelper.pas',
   LuaController in 'LuaController.pas',
@@ -44,8 +46,12 @@ uses
   (name:nil;func:nil)
   );
 
+type Map = specialize TFPGMap<string, aoluaL_Reg>;
 function luaopen_vcl_core(L: Plua_State): Integer; cdecl;
 var res:string;
+  pti: PTypeInfo;
+  i,j:integer;
+  funcs,funcsSorted:Map;
 begin
   // luaL_openlib is deprecated?
   {$IFNDEF LUA51}
@@ -100,9 +106,45 @@ begin
   luaL_newlib(L, as_funcs);
   lua_setfield(L, -2, 'as');
 
-  res := CheckOrderOfPushObject();
+  res := CheckOrderOfPushObject(vcluaPtis);
   if not res.IsEmpty then
      luaL_error(L, PChar(res));
+  res := CheckOrderOfPushObject(metaPtis);
+  if not res.IsEmpty then
+     luaL_error(L, PChar(res));
+
+  funcs := Map.Create;
+  i:=0;
+  {$i init_map.inc}
+
+  funcsSorted:=Map.Create;
+  funcsSorted.Assign(funcs);
+  funcsSorted.OnKeyCompare:=@CompareText;
+  funcsSorted.Sorted := true;
+
+  for i := High(metaPtis) downto 0 do begin
+      pti := metaPtis[i];
+      if funcs.Keys[i] <> pti^.Name then
+         luaL_error(L, PChar(format('Meta generator bug at %d: %s<>%s, check order of both init_map and meta_srcs', [i, funcs.Keys[i], pti^.Name])));
+      luaL_newmetatable(L,PChar(string(pti^.Name)));
+      {$IFDEF LUA51}
+      lua_pushliteral(L,'__name');
+      lua_pushstring(L,pti^.Name);
+      lua_rawset(L,-3);
+      {$ENDIF}
+      lua_pushliteral(L,'__index');
+      luaL_newlib(L, funcs.Data[i]);
+      repeat
+        pti := GetTypeData(pti)^.ParentInfo;
+      until (pti = nil) or (funcsSorted.Find(pti^.Name, j));
+      if pti <> nil then begin
+         if luaL_newmetatable(L,PChar(string((pti^.Name)))) = 1 then
+            luaL_error(L, PChar(format('Meta generator bug at %d %p, shouldn''t create metatable here but did, check CheckOrderOfPushObject(metaPtis) call', [i, pti])));
+         lua_setmetatable(L,-2);
+      end;
+      lua_rawset(L,-3);
+      lua_pop(L,1);
+  end;
 
   result := 1;
 end;

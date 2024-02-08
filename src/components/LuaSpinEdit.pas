@@ -20,6 +20,8 @@ type
     TLuaSpinEdit = class(TSpinEdit)
         LuaCtl: TVCLuaControl;
     end;
+var
+    SpinEditFuncs: aoluaL_Reg;
 
 
 implementation
@@ -54,7 +56,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TSpinEdit');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -72,5 +79,11 @@ begin
 	SpinEditToTable(L, -1, lSpinEdit);
 	Result := 1;
 end;
+
+begin
+	SetLength(SpinEditFuncs, 0+1);
+	
+	SpinEditFuncs[0].name:=nil;
+	SpinEditFuncs[0].func:=nil;
 
 end.

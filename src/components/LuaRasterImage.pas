@@ -20,6 +20,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    RasterImageFuncs: aoluaL_Reg;
 
 
 implementation
@@ -289,26 +291,55 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_RasterImage_Assign);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_RasterImage_Clear);
-	LuaSetTableFunction(L, Index, 'BeginUpdate', @VCLua_RasterImage_BeginUpdate);
-	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_RasterImage_EndUpdate);
-	LuaSetTableFunction(L, Index, 'FreeImage', @VCLua_RasterImage_FreeImage);
-	LuaSetTableFunction(L, Index, 'BitmapHandleAllocated', @VCLua_RasterImage_BitmapHandleAllocated);
-	LuaSetTableFunction(L, Index, 'MaskHandleAllocated', @VCLua_RasterImage_MaskHandleAllocated);
-	LuaSetTableFunction(L, Index, 'PaletteAllocated', @VCLua_RasterImage_PaletteAllocated);
-	LuaSetTableFunction(L, Index, 'LoadFromStream', @VCLua_RasterImage_LoadFromStream);
-	LuaSetTableFunction(L, Index, 'LoadFromStream2', @VCLua_RasterImage_LoadFromStream2);
-	LuaSetTableFunction(L, Index, 'LoadFromMimeStream', @VCLua_RasterImage_LoadFromMimeStream);
-	LuaSetTableFunction(L, Index, 'SaveToStream', @VCLua_RasterImage_SaveToStream);
-	LuaSetTableFunction(L, Index, 'GetSupportedSourceMimeTypes', @VCLua_RasterImage_GetSupportedSourceMimeTypes);
-	LuaSetTableFunction(L, Index, 'GetSize', @VCLua_RasterImage_GetSize);
-	LuaSetTableFunction(L, Index, 'Mask', @VCLua_RasterImage_Mask);
-	LuaSetTableFunction(L, Index, 'ReleaseBitmapHandle', @VCLua_RasterImage_ReleaseBitmapHandle);
-	LuaSetTableFunction(L, Index, 'ReleaseMaskHandle', @VCLua_RasterImage_ReleaseMaskHandle);
-	LuaSetTableFunction(L, Index, 'HandleAllocated', @VCLua_RasterImage_HandleAllocated);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TRasterImage');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
+
+begin
+	SetLength(RasterImageFuncs, 18+1);
+	RasterImageFuncs[0].name:='Assign';
+	RasterImageFuncs[0].func:=@VCLua_RasterImage_Assign;
+	RasterImageFuncs[1].name:='Clear';
+	RasterImageFuncs[1].func:=@VCLua_RasterImage_Clear;
+	RasterImageFuncs[2].name:='BeginUpdate';
+	RasterImageFuncs[2].func:=@VCLua_RasterImage_BeginUpdate;
+	RasterImageFuncs[3].name:='EndUpdate';
+	RasterImageFuncs[3].func:=@VCLua_RasterImage_EndUpdate;
+	RasterImageFuncs[4].name:='FreeImage';
+	RasterImageFuncs[4].func:=@VCLua_RasterImage_FreeImage;
+	RasterImageFuncs[5].name:='BitmapHandleAllocated';
+	RasterImageFuncs[5].func:=@VCLua_RasterImage_BitmapHandleAllocated;
+	RasterImageFuncs[6].name:='MaskHandleAllocated';
+	RasterImageFuncs[6].func:=@VCLua_RasterImage_MaskHandleAllocated;
+	RasterImageFuncs[7].name:='PaletteAllocated';
+	RasterImageFuncs[7].func:=@VCLua_RasterImage_PaletteAllocated;
+	RasterImageFuncs[8].name:='LoadFromStream';
+	RasterImageFuncs[8].func:=@VCLua_RasterImage_LoadFromStream;
+	RasterImageFuncs[9].name:='LoadFromStream2';
+	RasterImageFuncs[9].func:=@VCLua_RasterImage_LoadFromStream2;
+	RasterImageFuncs[10].name:='LoadFromMimeStream';
+	RasterImageFuncs[10].func:=@VCLua_RasterImage_LoadFromMimeStream;
+	RasterImageFuncs[11].name:='SaveToStream';
+	RasterImageFuncs[11].func:=@VCLua_RasterImage_SaveToStream;
+	RasterImageFuncs[12].name:='GetSupportedSourceMimeTypes';
+	RasterImageFuncs[12].func:=@VCLua_RasterImage_GetSupportedSourceMimeTypes;
+	RasterImageFuncs[13].name:='GetSize';
+	RasterImageFuncs[13].func:=@VCLua_RasterImage_GetSize;
+	RasterImageFuncs[14].name:='Mask';
+	RasterImageFuncs[14].func:=@VCLua_RasterImage_Mask;
+	RasterImageFuncs[15].name:='ReleaseBitmapHandle';
+	RasterImageFuncs[15].func:=@VCLua_RasterImage_ReleaseBitmapHandle;
+	RasterImageFuncs[16].name:='ReleaseMaskHandle';
+	RasterImageFuncs[16].func:=@VCLua_RasterImage_ReleaseMaskHandle;
+	RasterImageFuncs[17].name:='HandleAllocated';
+	RasterImageFuncs[17].func:=@VCLua_RasterImage_HandleAllocated;
+	RasterImageFuncs[18].name:=nil;
+	RasterImageFuncs[18].func:=nil;
 
 end.

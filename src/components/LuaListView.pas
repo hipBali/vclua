@@ -20,6 +20,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    ListItemFuncs: aoluaL_Reg;
 
 function IsListItems(L: Plua_State): Integer; cdecl;
 function AsListItems(L: Plua_State): Integer; cdecl;
@@ -31,6 +33,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    ListItemsFuncs: aoluaL_Reg;
 
 function CreateListView(L: Plua_State): Integer; cdecl;
 function IsListView(L: Plua_State): Integer; cdecl;
@@ -42,6 +46,8 @@ type
     TLuaListView = class(TListView)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomListViewFuncs: aoluaL_Reg;
 
 
 implementation
@@ -573,12 +579,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_ListItem_Assign);
-	LuaSetTableFunction(L, Index, 'Delete', @VCLua_ListItem_Delete);
-	LuaSetTableFunction(L, Index, 'MakeVisible', @VCLua_ListItem_MakeVisible);
-	LuaSetTableFunction(L, Index, 'DisplayRect', @VCLua_ListItem_DisplayRect);
-	LuaSetTableFunction(L, Index, 'DisplayRectSubItem', @VCLua_ListItem_DisplayRectSubItem);
-	LuaSetTableFunction(L, Index, 'EditCaption', @VCLua_ListItem_EditCaption);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TListItem');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -611,20 +617,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Add', @VCLua_ListItems_Add);
-	LuaSetTableFunction(L, Index, 'AddItem', @VCLua_ListItems_AddItem);
-	LuaSetTableFunction(L, Index, 'BeginUpdate', @VCLua_ListItems_BeginUpdate);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_ListItems_Clear);
-	LuaSetTableFunction(L, Index, 'Delete', @VCLua_ListItems_Delete);
-	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_ListItems_EndUpdate);
-	LuaSetTableFunction(L, Index, 'Exchange', @VCLua_ListItems_Exchange);
-	LuaSetTableFunction(L, Index, 'Move', @VCLua_ListItems_Move);
-	LuaSetTableFunction(L, Index, 'FindCaption', @VCLua_ListItems_FindCaption);
-	LuaSetTableFunction(L, Index, 'FindData', @VCLua_ListItems_FindData);
-	LuaSetTableFunction(L, Index, 'FindData2', @VCLua_ListItems_FindData2);
-	LuaSetTableFunction(L, Index, 'IndexOf', @VCLua_ListItems_IndexOf);
-	LuaSetTableFunction(L, Index, 'Insert', @VCLua_ListItems_Insert);
-	LuaSetTableFunction(L, Index, 'InsertItem', @VCLua_ListItems_InsertItem);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TListItems');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -657,20 +655,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'AddItem', @VCLua_ListView_AddItem);
-	LuaSetTableFunction(L, Index, 'Sort', @VCLua_ListView_Sort);
-	LuaSetTableFunction(L, Index, 'CustomSort', @VCLua_ListView_CustomSort);
-	LuaSetTableFunction(L, Index, 'BeginUpdate', @VCLua_ListView_BeginUpdate);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_ListView_Clear);
-	LuaSetTableFunction(L, Index, 'EndUpdate', @VCLua_ListView_EndUpdate);
-	LuaSetTableFunction(L, Index, 'Repaint', @VCLua_ListView_Repaint);
-	LuaSetTableFunction(L, Index, 'FindCaption', @VCLua_ListView_FindCaption);
-	LuaSetTableFunction(L, Index, 'FindData', @VCLua_ListView_FindData);
-	LuaSetTableFunction(L, Index, 'GetItemAt', @VCLua_ListView_GetItemAt);
-	LuaSetTableFunction(L, Index, 'GetNearestItem', @VCLua_ListView_GetNearestItem);
-	LuaSetTableFunction(L, Index, 'GetNextItem', @VCLua_ListView_GetNextItem);
-	LuaSetTableFunction(L, Index, 'ClearSelection', @VCLua_ListView_ClearSelection);
-	LuaSetTableFunction(L, Index, 'SelectAll', @VCLua_ListView_SelectAll);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomListView');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -688,5 +678,86 @@ begin
 	ListViewToTable(L, -1, lListView);
 	Result := 1;
 end;
+
+begin
+	SetLength(ListItemFuncs, 6+1);
+	ListItemFuncs[0].name:='Assign';
+	ListItemFuncs[0].func:=@VCLua_ListItem_Assign;
+	ListItemFuncs[1].name:='Delete';
+	ListItemFuncs[1].func:=@VCLua_ListItem_Delete;
+	ListItemFuncs[2].name:='MakeVisible';
+	ListItemFuncs[2].func:=@VCLua_ListItem_MakeVisible;
+	ListItemFuncs[3].name:='DisplayRect';
+	ListItemFuncs[3].func:=@VCLua_ListItem_DisplayRect;
+	ListItemFuncs[4].name:='DisplayRectSubItem';
+	ListItemFuncs[4].func:=@VCLua_ListItem_DisplayRectSubItem;
+	ListItemFuncs[5].name:='EditCaption';
+	ListItemFuncs[5].func:=@VCLua_ListItem_EditCaption;
+	ListItemFuncs[6].name:=nil;
+	ListItemFuncs[6].func:=nil;
+
+	SetLength(ListItemsFuncs, 14+1);
+	ListItemsFuncs[0].name:='Add';
+	ListItemsFuncs[0].func:=@VCLua_ListItems_Add;
+	ListItemsFuncs[1].name:='AddItem';
+	ListItemsFuncs[1].func:=@VCLua_ListItems_AddItem;
+	ListItemsFuncs[2].name:='BeginUpdate';
+	ListItemsFuncs[2].func:=@VCLua_ListItems_BeginUpdate;
+	ListItemsFuncs[3].name:='Clear';
+	ListItemsFuncs[3].func:=@VCLua_ListItems_Clear;
+	ListItemsFuncs[4].name:='Delete';
+	ListItemsFuncs[4].func:=@VCLua_ListItems_Delete;
+	ListItemsFuncs[5].name:='EndUpdate';
+	ListItemsFuncs[5].func:=@VCLua_ListItems_EndUpdate;
+	ListItemsFuncs[6].name:='Exchange';
+	ListItemsFuncs[6].func:=@VCLua_ListItems_Exchange;
+	ListItemsFuncs[7].name:='Move';
+	ListItemsFuncs[7].func:=@VCLua_ListItems_Move;
+	ListItemsFuncs[8].name:='FindCaption';
+	ListItemsFuncs[8].func:=@VCLua_ListItems_FindCaption;
+	ListItemsFuncs[9].name:='FindData';
+	ListItemsFuncs[9].func:=@VCLua_ListItems_FindData;
+	ListItemsFuncs[10].name:='FindData2';
+	ListItemsFuncs[10].func:=@VCLua_ListItems_FindData2;
+	ListItemsFuncs[11].name:='IndexOf';
+	ListItemsFuncs[11].func:=@VCLua_ListItems_IndexOf;
+	ListItemsFuncs[12].name:='Insert';
+	ListItemsFuncs[12].func:=@VCLua_ListItems_Insert;
+	ListItemsFuncs[13].name:='InsertItem';
+	ListItemsFuncs[13].func:=@VCLua_ListItems_InsertItem;
+	ListItemsFuncs[14].name:=nil;
+	ListItemsFuncs[14].func:=nil;
+
+	SetLength(CustomListViewFuncs, 14+1);
+	CustomListViewFuncs[0].name:='AddItem';
+	CustomListViewFuncs[0].func:=@VCLua_ListView_AddItem;
+	CustomListViewFuncs[1].name:='Sort';
+	CustomListViewFuncs[1].func:=@VCLua_ListView_Sort;
+	CustomListViewFuncs[2].name:='CustomSort';
+	CustomListViewFuncs[2].func:=@VCLua_ListView_CustomSort;
+	CustomListViewFuncs[3].name:='BeginUpdate';
+	CustomListViewFuncs[3].func:=@VCLua_ListView_BeginUpdate;
+	CustomListViewFuncs[4].name:='Clear';
+	CustomListViewFuncs[4].func:=@VCLua_ListView_Clear;
+	CustomListViewFuncs[5].name:='EndUpdate';
+	CustomListViewFuncs[5].func:=@VCLua_ListView_EndUpdate;
+	CustomListViewFuncs[6].name:='Repaint';
+	CustomListViewFuncs[6].func:=@VCLua_ListView_Repaint;
+	CustomListViewFuncs[7].name:='FindCaption';
+	CustomListViewFuncs[7].func:=@VCLua_ListView_FindCaption;
+	CustomListViewFuncs[8].name:='FindData';
+	CustomListViewFuncs[8].func:=@VCLua_ListView_FindData;
+	CustomListViewFuncs[9].name:='GetItemAt';
+	CustomListViewFuncs[9].func:=@VCLua_ListView_GetItemAt;
+	CustomListViewFuncs[10].name:='GetNearestItem';
+	CustomListViewFuncs[10].func:=@VCLua_ListView_GetNearestItem;
+	CustomListViewFuncs[11].name:='GetNextItem';
+	CustomListViewFuncs[11].func:=@VCLua_ListView_GetNextItem;
+	CustomListViewFuncs[12].name:='ClearSelection';
+	CustomListViewFuncs[12].func:=@VCLua_ListView_ClearSelection;
+	CustomListViewFuncs[13].name:='SelectAll';
+	CustomListViewFuncs[13].func:=@VCLua_ListView_SelectAll;
+	CustomListViewFuncs[14].name:=nil;
+	CustomListViewFuncs[14].func:=nil;
 
 end.

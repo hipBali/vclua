@@ -22,6 +22,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    ShapeFuncs: aoluaL_Reg;
 
 
 implementation
@@ -79,8 +81,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Paint', @VCLua_Shape_Paint);
-	LuaSetTableFunction(L, Index, 'StyleChanged', @VCLua_Shape_StyleChanged);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TShape');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -98,5 +104,14 @@ begin
 	ShapeToTable(L, -1, lShape);
 	Result := 1;
 end;
+
+begin
+	SetLength(ShapeFuncs, 2+1);
+	ShapeFuncs[0].name:='Paint';
+	ShapeFuncs[0].func:=@VCLua_Shape_Paint;
+	ShapeFuncs[1].name:='StyleChanged';
+	ShapeFuncs[1].func:=@VCLua_Shape_StyleChanged;
+	ShapeFuncs[2].name:=nil;
+	ShapeFuncs[2].func:=nil;
 
 end.

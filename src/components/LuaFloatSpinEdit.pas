@@ -20,6 +20,8 @@ type
     TLuaFloatSpinEdit = class(TFloatSpinEdit)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomFloatSpinEditFuncs: aoluaL_Reg;
 
 
 implementation
@@ -98,9 +100,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'GetLimitedValue', @VCLua_FloatSpinEdit_GetLimitedValue);
-	LuaSetTableFunction(L, Index, 'ValueToStr', @VCLua_FloatSpinEdit_ValueToStr);
-	LuaSetTableFunction(L, Index, 'StrToValue', @VCLua_FloatSpinEdit_StrToValue);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomFloatSpinEdit');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -118,5 +123,16 @@ begin
 	FloatSpinEditToTable(L, -1, lFloatSpinEdit);
 	Result := 1;
 end;
+
+begin
+	SetLength(CustomFloatSpinEditFuncs, 3+1);
+	CustomFloatSpinEditFuncs[0].name:='GetLimitedValue';
+	CustomFloatSpinEditFuncs[0].func:=@VCLua_FloatSpinEdit_GetLimitedValue;
+	CustomFloatSpinEditFuncs[1].name:='ValueToStr';
+	CustomFloatSpinEditFuncs[1].func:=@VCLua_FloatSpinEdit_ValueToStr;
+	CustomFloatSpinEditFuncs[2].name:='StrToValue';
+	CustomFloatSpinEditFuncs[2].func:=@VCLua_FloatSpinEdit_StrToValue;
+	CustomFloatSpinEditFuncs[3].name:=nil;
+	CustomFloatSpinEditFuncs[3].func:=nil;
 
 end.

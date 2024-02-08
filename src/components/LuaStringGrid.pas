@@ -20,6 +20,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    GridColumnFuncs: aoluaL_Reg;
 
 function IsGridColumns(L: Plua_State): Integer; cdecl;
 function AsGridColumns(L: Plua_State): Integer; cdecl;
@@ -31,6 +33,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    GridColumnsFuncs: aoluaL_Reg;
 
 function CreateStringGrid(L: Plua_State): Integer; cdecl;
 function IsStringGrid(L: Plua_State): Integer; cdecl;
@@ -44,6 +48,8 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomStringGridFuncs: aoluaL_Reg;
 
 
 implementation
@@ -485,22 +491,6 @@ begin
   lua_pushnumber(L,r);
   Result := 2;
 end;
-function VCLua_StringGrid_GridDrawCell(L: Plua_State): Integer; cdecl;
-var
-  strGrid:TLuaStringGrid;
-  c,r:Integer;
-  rect:TRect;
-  aState:TGridDrawState;
-begin
-  CheckArg(L, 5);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
-  c := lua_tointeger(L,2);
-  r := lua_tointeger(L,3);
-  rect := lua_toTRect(L,4);
-  aState := TGridDrawState(GetEnumValue(TypeInfo(TGridDrawState),lua_tostring(L,5)));
-  strGrid.defaultdrawcell(c,r,rect,aState);
-  Result := 0;
-end;
 function IsGridColumn(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -529,11 +519,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_GridColumn_Assign);
-	LuaSetTableFunction(L, Index, 'FillDefaultFont', @VCLua_GridColumn_FillDefaultFont);
-	LuaSetTableFunction(L, Index, 'FixDesignFontsPPI', @VCLua_GridColumn_FixDesignFontsPPI);
-	LuaSetTableFunction(L, Index, 'ScaleFontsPPI', @VCLua_GridColumn_ScaleFontsPPI);
-	LuaSetTableFunction(L, Index, 'IsDefault', @VCLua_GridColumn_IsDefault);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TGridColumn');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -566,14 +557,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Add', @VCLua_GridColumns_Add);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_GridColumns_Clear);
-	LuaSetTableFunction(L, Index, 'ColumnByTitle', @VCLua_GridColumns_ColumnByTitle);
-	LuaSetTableFunction(L, Index, 'RealIndex', @VCLua_GridColumns_RealIndex);
-	LuaSetTableFunction(L, Index, 'IndexOf', @VCLua_GridColumns_IndexOf);
-	LuaSetTableFunction(L, Index, 'IsDefault', @VCLua_GridColumns_IsDefault);
-	LuaSetTableFunction(L, Index, 'HasIndex', @VCLua_GridColumns_HasIndex);
-	LuaSetTableFunction(L, Index, 'VisibleIndex', @VCLua_GridColumns_VisibleIndex);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TGridColumns');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -606,24 +595,12 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'AutoSizeColumn', @VCLua_StringGrid_AutoSizeColumn);
-	LuaSetTableFunction(L, Index, 'AutoSizeColumns', @VCLua_StringGrid_AutoSizeColumns);
-	LuaSetTableFunction(L, Index, 'Clean', @VCLua_StringGrid_Clean);
-	LuaSetTableFunction(L, Index, 'Clean2', @VCLua_StringGrid_Clean2);
-	LuaSetTableFunction(L, Index, 'Clean3', @VCLua_StringGrid_Clean3);
-	LuaSetTableFunction(L, Index, 'Clean4', @VCLua_StringGrid_Clean4);
-	LuaSetTableFunction(L, Index, 'CopyToClipboard', @VCLua_StringGrid_CopyToClipboard);
-	LuaSetTableFunction(L, Index, 'InsertRowWithValues', @VCLua_StringGrid_InsertRowWithValues);
-	LuaSetTableFunction(L, Index, 'LoadFromCSVStream', @VCLua_StringGrid_LoadFromCSVStream);
-	LuaSetTableFunction(L, Index, 'LoadFromCSVFile', @VCLua_StringGrid_LoadFromCSVFile);
-	LuaSetTableFunction(L, Index, 'SaveToCSVStream', @VCLua_StringGrid_SaveToCSVStream);
-	LuaSetTableFunction(L, Index, 'SaveToCSVFile', @VCLua_StringGrid_SaveToCSVFile);
-	LuaSetTableFunction(L, Index, 'GetCells', @VCLua_StringGrid_GridCellsGet);
-	LuaSetTableFunction(L, Index, 'SetCells', @VCLua_StringGrid_GridCellsSet);
-	LuaSetTableFunction(L, Index, 'GetCellRect', @VCLua_StringGrid_GridCellRectGet);
-	LuaSetTableFunction(L, Index, 'GetSelectedCell', @VCLua_StringGrid_GridGetSelectedCell);
-	LuaSetTableFunction(L, Index, 'MouseToCell', @VCLua_StringGrid_GridMouseToCell);
-	LuaSetTableFunction(L, Index, 'DrawCell', @VCLua_StringGrid_GridDrawCell);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TCustomStringGrid');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -641,5 +618,78 @@ begin
 	StringGridToTable(L, -1, lStringGrid);
 	Result := 1;
 end;
+
+begin
+	SetLength(GridColumnFuncs, 5+1);
+	GridColumnFuncs[0].name:='Assign';
+	GridColumnFuncs[0].func:=@VCLua_GridColumn_Assign;
+	GridColumnFuncs[1].name:='FillDefaultFont';
+	GridColumnFuncs[1].func:=@VCLua_GridColumn_FillDefaultFont;
+	GridColumnFuncs[2].name:='FixDesignFontsPPI';
+	GridColumnFuncs[2].func:=@VCLua_GridColumn_FixDesignFontsPPI;
+	GridColumnFuncs[3].name:='ScaleFontsPPI';
+	GridColumnFuncs[3].func:=@VCLua_GridColumn_ScaleFontsPPI;
+	GridColumnFuncs[4].name:='IsDefault';
+	GridColumnFuncs[4].func:=@VCLua_GridColumn_IsDefault;
+	GridColumnFuncs[5].name:=nil;
+	GridColumnFuncs[5].func:=nil;
+
+	SetLength(GridColumnsFuncs, 8+1);
+	GridColumnsFuncs[0].name:='Add';
+	GridColumnsFuncs[0].func:=@VCLua_GridColumns_Add;
+	GridColumnsFuncs[1].name:='Clear';
+	GridColumnsFuncs[1].func:=@VCLua_GridColumns_Clear;
+	GridColumnsFuncs[2].name:='ColumnByTitle';
+	GridColumnsFuncs[2].func:=@VCLua_GridColumns_ColumnByTitle;
+	GridColumnsFuncs[3].name:='RealIndex';
+	GridColumnsFuncs[3].func:=@VCLua_GridColumns_RealIndex;
+	GridColumnsFuncs[4].name:='IndexOf';
+	GridColumnsFuncs[4].func:=@VCLua_GridColumns_IndexOf;
+	GridColumnsFuncs[5].name:='IsDefault';
+	GridColumnsFuncs[5].func:=@VCLua_GridColumns_IsDefault;
+	GridColumnsFuncs[6].name:='HasIndex';
+	GridColumnsFuncs[6].func:=@VCLua_GridColumns_HasIndex;
+	GridColumnsFuncs[7].name:='VisibleIndex';
+	GridColumnsFuncs[7].func:=@VCLua_GridColumns_VisibleIndex;
+	GridColumnsFuncs[8].name:=nil;
+	GridColumnsFuncs[8].func:=nil;
+
+	SetLength(CustomStringGridFuncs, 17+1);
+	CustomStringGridFuncs[0].name:='AutoSizeColumn';
+	CustomStringGridFuncs[0].func:=@VCLua_StringGrid_AutoSizeColumn;
+	CustomStringGridFuncs[1].name:='AutoSizeColumns';
+	CustomStringGridFuncs[1].func:=@VCLua_StringGrid_AutoSizeColumns;
+	CustomStringGridFuncs[2].name:='Clean';
+	CustomStringGridFuncs[2].func:=@VCLua_StringGrid_Clean;
+	CustomStringGridFuncs[3].name:='Clean2';
+	CustomStringGridFuncs[3].func:=@VCLua_StringGrid_Clean2;
+	CustomStringGridFuncs[4].name:='Clean3';
+	CustomStringGridFuncs[4].func:=@VCLua_StringGrid_Clean3;
+	CustomStringGridFuncs[5].name:='Clean4';
+	CustomStringGridFuncs[5].func:=@VCLua_StringGrid_Clean4;
+	CustomStringGridFuncs[6].name:='CopyToClipboard';
+	CustomStringGridFuncs[6].func:=@VCLua_StringGrid_CopyToClipboard;
+	CustomStringGridFuncs[7].name:='InsertRowWithValues';
+	CustomStringGridFuncs[7].func:=@VCLua_StringGrid_InsertRowWithValues;
+	CustomStringGridFuncs[8].name:='LoadFromCSVStream';
+	CustomStringGridFuncs[8].func:=@VCLua_StringGrid_LoadFromCSVStream;
+	CustomStringGridFuncs[9].name:='LoadFromCSVFile';
+	CustomStringGridFuncs[9].func:=@VCLua_StringGrid_LoadFromCSVFile;
+	CustomStringGridFuncs[10].name:='SaveToCSVStream';
+	CustomStringGridFuncs[10].func:=@VCLua_StringGrid_SaveToCSVStream;
+	CustomStringGridFuncs[11].name:='SaveToCSVFile';
+	CustomStringGridFuncs[11].func:=@VCLua_StringGrid_SaveToCSVFile;
+	CustomStringGridFuncs[12].name:='GetCells';
+	CustomStringGridFuncs[12].func:=@VCLua_StringGrid_GridCellsGet;
+	CustomStringGridFuncs[13].name:='SetCells';
+	CustomStringGridFuncs[13].func:=@VCLua_StringGrid_GridCellsSet;
+	CustomStringGridFuncs[14].name:='GetCellRect';
+	CustomStringGridFuncs[14].func:=@VCLua_StringGrid_GridCellRectGet;
+	CustomStringGridFuncs[15].name:='GetSelectedCell';
+	CustomStringGridFuncs[15].func:=@VCLua_StringGrid_GridGetSelectedCell;
+	CustomStringGridFuncs[16].name:='MouseToCell';
+	CustomStringGridFuncs[16].func:=@VCLua_StringGrid_GridMouseToCell;
+	CustomStringGridFuncs[17].name:=nil;
+	CustomStringGridFuncs[17].func:=nil;
 
 end.

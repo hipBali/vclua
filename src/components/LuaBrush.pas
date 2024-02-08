@@ -20,6 +20,8 @@ type
     public
       L:Plua_State;
     end;
+var
+    BrushFuncs: aoluaL_Reg;
 
 
 implementation
@@ -81,10 +83,23 @@ begin
 		Exit;
 	end;
 	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Brush_Assign);
-	LuaSetTableFunction(L, Index, 'EqualsBrush', @VCLua_Brush_EqualsBrush);
+	lua_pushliteral(L,'vmt');
+	luaL_getmetatable(L,'TBrush');
+	lua_pushliteral(L,'__index');
+	lua_rawget(L,-2);
+	lua_remove(L,-2);
+	lua_rawset(L,-3);
 	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
 	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
+
+begin
+	SetLength(BrushFuncs, 2+1);
+	BrushFuncs[0].name:='Assign';
+	BrushFuncs[0].func:=@VCLua_Brush_Assign;
+	BrushFuncs[1].name:='EqualsBrush';
+	BrushFuncs[1].func:=@VCLua_Brush_EqualsBrush;
+	BrushFuncs[2].name:=nil;
+	BrushFuncs[2].func:=nil;
 
 end.

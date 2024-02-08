@@ -13,11 +13,15 @@ uses
   Lua,
   {$i luaobject_uses.inc};
 
+type aopti = array of PTypeInfo;
+
+var
+  vcluaPtis, metaPtis: aopti;
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);overload;
 procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
 procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo = nil);overload; inline;
 
-function CheckOrderOfPushObject():string;
+function CheckOrderOfPushObject(ptis: aopti):string;
 
 // TStrings
 procedure lua_pushStrings(L: Plua_State; ItemOwner:TPersistent);
@@ -32,8 +36,6 @@ implementation
 uses
   LuaProxy, LuaController;
 
-type aopti = array of PTypeInfo;
-
 function Ancestry(pti:PTypeInfo):TStringList;
 begin
      Result := TStringList.Create;
@@ -43,15 +45,11 @@ begin
      end;
 end;
 
-function CheckOrderOfPushObject():string;
+function CheckOrderOfPushObject(ptis: aopti):string;
 var
   sl : array of TStringList;
-  ptis : aopti;
   i,j:Integer;
 begin
-  ptis := aopti.Create(
-  {$i luaobject_push_check.inc}
-  );
   SetLength(sl, Length(ptis));
   for i := 0 to High(sl) do begin
     sl[i] := ancestry(ptis[i]);
@@ -244,5 +242,12 @@ begin
   result := 0;
 end;
 
+begin
+  vcluaPtis := aopti.Create(
+  {$i luaobject_push_check.inc}
+  );
+  metaPtis := aopti.Create(
+  {$i meta_srcs.inc}
+  );
 end.
 
