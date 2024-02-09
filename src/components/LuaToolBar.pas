@@ -14,7 +14,6 @@ function CreateToolButton(L: Plua_State): Integer; cdecl;
 function IsToolButton(L: Plua_State): Integer; cdecl;
 function AsToolButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TToolButton; pti: PTypeInfo = nil); overload; inline;
-procedure ToolButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaToolButton = class(TToolButton)
@@ -27,7 +26,6 @@ function CreateToolBar(L: Plua_State): Integer; cdecl;
 function IsToolBar(L: Plua_State): Integer; cdecl;
 function AsToolBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TToolBar; pti: PTypeInfo = nil); overload; inline;
-procedure ToolBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaToolBar = class(TToolBar)
@@ -237,23 +235,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TToolButton; pti: PTypeInfo);
 begin
-	ToolButtonToTable(L,-1,v);
-end;
-procedure ToolButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TToolButton');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TToolButton',v);
 end;
 function CreateToolButton(L: Plua_State): Integer; cdecl;
 var
@@ -264,9 +246,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToolButton := TLuaToolButton.Create(Parent);
 	lToolButton.Parent := TWinControl(Parent);
-	lToolButton.LuaCtl := TVCLuaControl.Create(lToolButton as TComponent,L,@ToolButtonToTable);
+	lToolButton.LuaCtl := TVCLuaControl.Create(lToolButton as TComponent,L,nil,'TToolButton');
 	InitControl(L,lToolButton,Name);
-	ToolButtonToTable(L, -1, lToolButton);
+	CreateTableForKnownType(L,'TToolButton',lToolButton);
 	Result := 1;
 end;
 
@@ -289,23 +271,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TToolBar; pti: PTypeInfo);
 begin
-	ToolBarToTable(L,-1,v);
-end;
-procedure ToolBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TToolBar');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TToolBar',v);
 end;
 function CreateToolBar(L: Plua_State): Integer; cdecl;
 var
@@ -316,9 +282,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToolBar := TLuaToolBar.Create(Parent);
 	lToolBar.Parent := TWinControl(Parent);
-	lToolBar.LuaCtl := TVCLuaControl.Create(lToolBar as TComponent,L,@ToolBarToTable);
+	lToolBar.LuaCtl := TVCLuaControl.Create(lToolBar as TComponent,L,nil,'TToolBar');
 	InitControl(L,lToolBar,Name);
-	ToolBarToTable(L, -1, lToolBar);
+	CreateTableForKnownType(L,'TToolBar',lToolBar);
 	Result := 1;
 end;
 

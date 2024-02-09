@@ -14,7 +14,6 @@ function CreateBevel(L: Plua_State): Integer; cdecl;
 function IsBevel(L: Plua_State): Integer; cdecl;
 function AsBevel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBevel; pti: PTypeInfo = nil); overload; inline;
-procedure BevelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaBevel = class(TBevel)
@@ -59,23 +58,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TBevel; pti: PTypeInfo);
 begin
-	BevelToTable(L,-1,v);
-end;
-procedure BevelToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TBevel');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TBevel',v);
 end;
 function CreateBevel(L: Plua_State): Integer; cdecl;
 var
@@ -86,9 +69,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBevel := TLuaBevel.Create(Parent);
 	lBevel.Parent := TWinControl(Parent);
-	lBevel.LuaCtl := TVCLuaControl.Create(lBevel as TComponent,L,@BevelToTable);
+	lBevel.LuaCtl := TVCLuaControl.Create(lBevel as TComponent,L,nil,'TBevel');
 	InitControl(L,lBevel,Name);
-	BevelToTable(L, -1, lBevel);
+	CreateTableForKnownType(L,'TBevel',lBevel);
 	Result := 1;
 end;
 

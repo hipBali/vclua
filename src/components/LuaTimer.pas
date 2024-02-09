@@ -14,7 +14,6 @@ function CreateTimer(L: Plua_State): Integer; cdecl;
 function IsTimer(L: Plua_State): Integer; cdecl;
 function AsTimer(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTimer; pti: PTypeInfo = nil); overload; inline;
-procedure TimerToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaTimer = class(TTimer)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TTimer; pti: PTypeInfo);
 begin
-	TimerToTable(L,-1,v);
-end;
-procedure TimerToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TTimer');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TTimer',v);
 end;
 function CreateTimer(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTimer := TLuaTimer.Create(Parent);
 	// := TWinControl(Parent);
-	lTimer.LuaCtl := TVCLuaControl.Create(lTimer as TComponent,L,@TimerToTable);
+	lTimer.LuaCtl := TVCLuaControl.Create(lTimer as TComponent,L,nil,'TTimer');
 	InitControl(L,lTimer,Name);
-	TimerToTable(L, -1, lTimer);
+	CreateTableForKnownType(L,'TTimer',lTimer);
 	Result := 1;
 end;
 

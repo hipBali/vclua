@@ -504,10 +504,7 @@ begin
           tkClass:
             begin
               pComp := TComponent(GetInt64Prop(Comp,PropName));
-              if (pComp<>nil) then
-                lua_pushobject(L, -1, pComp)
-              else
-                lua_pushnil(L);
+              lua_pushobject(L, -1, pComp)
             end;
           tkInteger,
           tkInt64,

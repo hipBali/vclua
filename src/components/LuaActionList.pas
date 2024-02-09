@@ -14,7 +14,6 @@ function CreateContainedAction(L: Plua_State): Integer; cdecl;
 function IsContainedAction(L: Plua_State): Integer; cdecl;
 function AsContainedAction(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TContainedAction; pti: PTypeInfo = nil); overload; inline;
-procedure ContainedActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaContainedAction = class(TContainedAction)
@@ -27,7 +26,6 @@ function CreateAction(L: Plua_State): Integer; cdecl;
 function IsAction(L: Plua_State): Integer; cdecl;
 function AsAction(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TAction; pti: PTypeInfo = nil); overload; inline;
-procedure ActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaAction = class(TAction)
@@ -40,7 +38,6 @@ function CreateActionList(L: Plua_State): Integer; cdecl;
 function IsActionList(L: Plua_State): Integer; cdecl;
 function AsActionList(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TActionList; pti: PTypeInfo = nil); overload; inline;
-procedure ActionListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaActionList = class(TActionList)
@@ -227,23 +224,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TContainedAction; pti: PTypeInfo);
 begin
-	ContainedActionToTable(L,-1,v);
-end;
-procedure ContainedActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TContainedAction');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TContainedAction',v);
 end;
 function CreateContainedAction(L: Plua_State): Integer; cdecl;
 var
@@ -254,9 +235,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lContainedAction := TLuaContainedAction.Create(Parent);
 	// := TWinControl(Parent);
-	lContainedAction.LuaCtl := TVCLuaControl.Create(lContainedAction as TComponent,L,@ContainedActionToTable);
+	lContainedAction.LuaCtl := TVCLuaControl.Create(lContainedAction as TComponent,L,nil,'TContainedAction');
 	InitControl(L,lContainedAction,Name);
-	ContainedActionToTable(L, -1, lContainedAction);
+	CreateTableForKnownType(L,'TContainedAction',lContainedAction);
 	Result := 1;
 end;
 
@@ -279,23 +260,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TAction; pti: PTypeInfo);
 begin
-	ActionToTable(L,-1,v);
-end;
-procedure ActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomAction');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomAction',v);
 end;
 function CreateAction(L: Plua_State): Integer; cdecl;
 var
@@ -306,9 +271,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lAction := TLuaAction.Create(Parent);
 	// := TWinControl(Parent);
-	lAction.LuaCtl := TVCLuaControl.Create(lAction as TComponent,L,@ActionToTable);
+	lAction.LuaCtl := TVCLuaControl.Create(lAction as TComponent,L,nil,'TCustomAction');
 	InitControl(L,lAction,Name);
-	ActionToTable(L, -1, lAction);
+	CreateTableForKnownType(L,'TCustomAction',lAction);
 	Result := 1;
 end;
 
@@ -331,23 +296,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TActionList; pti: PTypeInfo);
 begin
-	ActionListToTable(L,-1,v);
-end;
-procedure ActionListToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomActionList');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomActionList',v);
 end;
 function CreateActionList(L: Plua_State): Integer; cdecl;
 var
@@ -358,9 +307,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lActionList := TLuaActionList.Create(Parent);
 	// := TWinControl(Parent);
-	lActionList.LuaCtl := TVCLuaControl.Create(lActionList as TComponent,L,@ActionListToTable);
+	lActionList.LuaCtl := TVCLuaControl.Create(lActionList as TComponent,L,nil,'TCustomActionList');
 	InitControl(L,lActionList,Name);
-	ActionListToTable(L, -1, lActionList);
+	CreateTableForKnownType(L,'TCustomActionList',lActionList);
 	Result := 1;
 end;
 

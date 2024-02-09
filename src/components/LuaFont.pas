@@ -13,7 +13,6 @@ Uses Classes, Lua, LuaController, Graphics, TypInfo;
 function IsFont(L: Plua_State): Integer; cdecl;
 function AsFont(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFont; pti: PTypeInfo = nil); overload; inline;
-procedure FontToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaFont = class(TFont)
@@ -133,23 +132,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TFont; pti: PTypeInfo);
 begin
-	FontToTable(L,-1,v);
-end;
-procedure FontToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TFont');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TFont',v);
 end;
 
 begin

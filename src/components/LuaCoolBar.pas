@@ -14,7 +14,6 @@ function CreateCoolBar(L: Plua_State): Integer; cdecl;
 function IsCoolBar(L: Plua_State): Integer; cdecl;
 function AsCoolBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCoolBar; pti: PTypeInfo = nil); overload; inline;
-procedure CoolBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaCoolBar = class(TCoolBar)
@@ -127,23 +126,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TCoolBar; pti: PTypeInfo);
 begin
-	CoolBarToTable(L,-1,v);
-end;
-procedure CoolBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomCoolBar');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomCoolBar',v);
 end;
 function CreateCoolBar(L: Plua_State): Integer; cdecl;
 var
@@ -154,9 +137,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCoolBar := TLuaCoolBar.Create(Parent);
 	lCoolBar.Parent := TWinControl(Parent);
-	lCoolBar.LuaCtl := TVCLuaControl.Create(lCoolBar as TComponent,L,@CoolBarToTable);
+	lCoolBar.LuaCtl := TVCLuaControl.Create(lCoolBar as TComponent,L,nil,'TCustomCoolBar');
 	InitControl(L,lCoolBar,Name);
-	CoolBarToTable(L, -1, lCoolBar);
+	CreateTableForKnownType(L,'TCustomCoolBar',lCoolBar);
 	Result := 1;
 end;
 

@@ -14,7 +14,6 @@ function CreateShape(L: Plua_State): Integer; cdecl;
 function IsShape(L: Plua_State): Integer; cdecl;
 function AsShape(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TShape; pti: PTypeInfo = nil); overload; inline;
-procedure ShapeToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaShape = class(TShape)
@@ -72,23 +71,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TShape; pti: PTypeInfo);
 begin
-	ShapeToTable(L,-1,v);
-end;
-procedure ShapeToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TShape');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TShape',v);
 end;
 function CreateShape(L: Plua_State): Integer; cdecl;
 var
@@ -99,9 +82,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lShape := TLuaShape.Create(Parent);
 	lShape.Parent := TWinControl(Parent);
-	lShape.LuaCtl := TVCLuaControl.Create(lShape as TComponent,L,@ShapeToTable);
+	lShape.LuaCtl := TVCLuaControl.Create(lShape as TComponent,L,nil,'TShape');
 	InitControl(L,lShape,Name);
-	ShapeToTable(L, -1, lShape);
+	CreateTableForKnownType(L,'TShape',lShape);
 	Result := 1;
 end;
 

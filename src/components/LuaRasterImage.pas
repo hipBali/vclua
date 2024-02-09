@@ -13,7 +13,6 @@ Uses Classes, Lua, LuaController, Graphics, LCLType, Types, TypInfo;
 function IsRasterImage(L: Plua_State): Integer; cdecl;
 function AsRasterImage(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TRasterImage; pti: PTypeInfo = nil); overload; inline;
-procedure RasterImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaRasterImage = class(TRasterImage)
@@ -282,23 +281,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TRasterImage; pti: PTypeInfo);
 begin
-	RasterImageToTable(L,-1,v);
-end;
-procedure RasterImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TRasterImage');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TRasterImage',v);
 end;
 
 begin

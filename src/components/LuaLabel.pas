@@ -14,7 +14,6 @@ function CreateLabel(L: Plua_State): Integer; cdecl;
 function IsLabel(L: Plua_State): Integer; cdecl;
 function AsLabel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo = nil); overload; inline;
-procedure LabelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaLabel = class(TLabel)
@@ -128,23 +127,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo);
 begin
-	LabelToTable(L,-1,v);
-end;
-procedure LabelToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomLabel');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomLabel',v);
 end;
 function CreateLabel(L: Plua_State): Integer; cdecl;
 var
@@ -155,9 +138,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lLabel := TLuaLabel.Create(Parent);
 	lLabel.Parent := TWinControl(Parent);
-	lLabel.LuaCtl := TVCLuaControl.Create(lLabel as TComponent,L,@LabelToTable);
+	lLabel.LuaCtl := TVCLuaControl.Create(lLabel as TComponent,L,nil,'TCustomLabel');
 	InitControl(L,lLabel,Name);
-	LabelToTable(L, -1, lLabel);
+	CreateTableForKnownType(L,'TCustomLabel',lLabel);
 	Result := 1;
 end;
 

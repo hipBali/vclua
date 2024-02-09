@@ -14,7 +14,6 @@ function CreateRadioGroup(L: Plua_State): Integer; cdecl;
 function IsRadioGroup(L: Plua_State): Integer; cdecl;
 function AsRadioGroup(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TRadioGroup; pti: PTypeInfo = nil); overload; inline;
-procedure RadioGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaRadioGroup = class(TRadioGroup)
@@ -85,23 +84,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TRadioGroup; pti: PTypeInfo);
 begin
-	RadioGroupToTable(L,-1,v);
-end;
-procedure RadioGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomRadioGroup');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomRadioGroup',v);
 end;
 function CreateRadioGroup(L: Plua_State): Integer; cdecl;
 var
@@ -112,9 +95,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lRadioGroup := TLuaRadioGroup.Create(Parent);
 	lRadioGroup.Parent := TWinControl(Parent);
-	lRadioGroup.LuaCtl := TVCLuaControl.Create(lRadioGroup as TComponent,L,@RadioGroupToTable);
+	lRadioGroup.LuaCtl := TVCLuaControl.Create(lRadioGroup as TComponent,L,nil,'TCustomRadioGroup');
 	InitControl(L,lRadioGroup,Name);
-	RadioGroupToTable(L, -1, lRadioGroup);
+	CreateTableForKnownType(L,'TCustomRadioGroup',lRadioGroup);
 	Result := 1;
 end;
 

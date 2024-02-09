@@ -12,7 +12,6 @@ function CreateStringList(L: Plua_State): Integer; cdecl;
 function IsStringList(L: Plua_State): Integer; cdecl;
 function AsStringList(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStringList; pti: PTypeInfo = nil); overload; inline;
-procedure StringListToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStringList = class(TStringList)
@@ -169,30 +168,14 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TStringList; pti: PTypeInfo);
 begin
-	StringListToTable(L,-1,v);
-end;
-procedure StringListToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TStringList');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TStringList',v);
 end;
 function CreateStringList(L: Plua_State): Integer; cdecl;
 var
 	lStringList:TLuaStringList;
 begin
 	lStringList := TLuaStringList.Create;
-	StringListToTable(L, -1, lStringList);
+	CreateTableForKnownType(L,'TStringList',lStringList);
 	Result := 1;
 end;
 begin

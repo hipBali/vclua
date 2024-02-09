@@ -14,7 +14,6 @@ function CreateArrow(L: Plua_State): Integer; cdecl;
 function IsArrow(L: Plua_State): Integer; cdecl;
 function AsArrow(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TArrow; pti: PTypeInfo = nil); overload; inline;
-procedure ArrowToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaArrow = class(TArrow)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TArrow; pti: PTypeInfo);
 begin
-	ArrowToTable(L,-1,v);
-end;
-procedure ArrowToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TArrow');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TArrow',v);
 end;
 function CreateArrow(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lArrow := TLuaArrow.Create(Parent);
 	lArrow.Parent := TWinControl(Parent);
-	lArrow.LuaCtl := TVCLuaControl.Create(lArrow as TComponent,L,@ArrowToTable);
+	lArrow.LuaCtl := TVCLuaControl.Create(lArrow as TComponent,L,nil,'TArrow');
 	InitControl(L,lArrow,Name);
-	ArrowToTable(L, -1, lArrow);
+	CreateTableForKnownType(L,'TArrow',lArrow);
 	Result := 1;
 end;
 

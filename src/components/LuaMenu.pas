@@ -14,7 +14,6 @@ function CreateMenu(L: Plua_State): Integer; cdecl;
 function IsMenu(L: Plua_State): Integer; cdecl;
 function AsMenu(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMenu; pti: PTypeInfo = nil); overload; inline;
-procedure MenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaMenu = class(TMenu)
@@ -27,7 +26,6 @@ function CreatePopupMenu(L: Plua_State): Integer; cdecl;
 function IsPopupMenu(L: Plua_State): Integer; cdecl;
 function AsPopupMenu(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPopupMenu; pti: PTypeInfo = nil); overload; inline;
-procedure PopupMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPopupMenu = class(TPopupMenu)
@@ -40,7 +38,6 @@ function CreateMenuItem(L: Plua_State): Integer; cdecl;
 function IsMenuItem(L: Plua_State): Integer; cdecl;
 function AsMenuItem(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMenuItem; pti: PTypeInfo = nil); overload; inline;
-procedure MenuItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaMenuItem = class(TMenuItem)
@@ -53,7 +50,6 @@ function CreateMainMenu(L: Plua_State): Integer; cdecl;
 function IsMainMenu(L: Plua_State): Integer; cdecl;
 function AsMainMenu(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMainMenu; pti: PTypeInfo = nil); overload; inline;
-procedure MainMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaMainMenu = class(TMainMenu)
@@ -709,23 +705,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TMenu; pti: PTypeInfo);
 begin
-	MenuToTable(L,-1,v);
-end;
-procedure MenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TMenu');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TMenu',v);
 end;
 function CreateMenu(L: Plua_State): Integer; cdecl;
 var
@@ -736,9 +716,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMenu := TLuaMenu.Create(Parent);
 	lMenu.Parent := TWinControl(Parent);
-	lMenu.LuaCtl := TVCLuaControl.Create(lMenu as TComponent,L,@MenuToTable);
+	lMenu.LuaCtl := TVCLuaControl.Create(lMenu as TComponent,L,nil,'TMenu');
 	InitControl(L,lMenu,Name);
-	MenuToTable(L, -1, lMenu);
+	CreateTableForKnownType(L,'TMenu',lMenu);
 	Result := 1;
 end;
 
@@ -761,23 +741,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TPopupMenu; pti: PTypeInfo);
 begin
-	PopupMenuToTable(L,-1,v);
-end;
-procedure PopupMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TPopupMenu');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TPopupMenu',v);
 end;
 function CreatePopupMenu(L: Plua_State): Integer; cdecl;
 var
@@ -788,9 +752,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPopupMenu := TLuaPopupMenu.Create(Parent);
 	lPopupMenu.Parent := TWinControl(Parent);
-	lPopupMenu.LuaCtl := TVCLuaControl.Create(lPopupMenu as TComponent,L,@PopupMenuToTable);
+	lPopupMenu.LuaCtl := TVCLuaControl.Create(lPopupMenu as TComponent,L,nil,'TPopupMenu');
 	InitControl(L,lPopupMenu,Name);
-	PopupMenuToTable(L, -1, lPopupMenu);
+	CreateTableForKnownType(L,'TPopupMenu',lPopupMenu);
 	Result := 1;
 end;
 
@@ -813,23 +777,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TMenuItem; pti: PTypeInfo);
 begin
-	MenuItemToTable(L,-1,v);
-end;
-procedure MenuItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TMenuItem');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TMenuItem',v);
 end;
 function CreateMenuItem(L: Plua_State): Integer; cdecl;
 var
@@ -840,9 +788,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMenuItem := TLuaMenuItem.Create(Parent);
 	// := TWinControl(Parent);
-	lMenuItem.LuaCtl := TVCLuaControl.Create(lMenuItem as TComponent,L,@MenuItemToTable);
+	lMenuItem.LuaCtl := TVCLuaControl.Create(lMenuItem as TComponent,L,nil,'TMenuItem');
 	InitControl(L,lMenuItem,Name);
-	MenuItemToTable(L, -1, lMenuItem);
+	CreateTableForKnownType(L,'TMenuItem',lMenuItem);
 	Result := 1;
 end;
 
@@ -865,23 +813,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TMainMenu; pti: PTypeInfo);
 begin
-	MainMenuToTable(L,-1,v);
-end;
-procedure MainMenuToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TMainMenu');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TMainMenu',v);
 end;
 function CreateMainMenu(L: Plua_State): Integer; cdecl;
 var
@@ -892,9 +824,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMainMenu := TLuaMainMenu.Create(Parent);
 	lMainMenu.Parent := TWinControl(Parent);
-	lMainMenu.LuaCtl := TVCLuaControl.Create(lMainMenu as TComponent,L,@MainMenuToTable);
+	lMainMenu.LuaCtl := TVCLuaControl.Create(lMainMenu as TComponent,L,nil,'TMainMenu');
 	InitControl(L,lMainMenu,Name);
-	MainMenuToTable(L, -1, lMainMenu);
+	CreateTableForKnownType(L,'TMainMenu',lMainMenu);
 	Result := 1;
 end;
 

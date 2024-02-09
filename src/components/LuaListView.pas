@@ -13,7 +13,6 @@ Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 function IsListItem(L: Plua_State): Integer; cdecl;
 function AsListItem(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo = nil); overload; inline;
-procedure ListItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaListItem = class(TListItem)
@@ -26,7 +25,6 @@ var
 function IsListItems(L: Plua_State): Integer; cdecl;
 function AsListItems(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListItems; pti: PTypeInfo = nil); overload; inline;
-procedure ListItemsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaListItems = class(TListItems)
@@ -40,7 +38,6 @@ function CreateListView(L: Plua_State): Integer; cdecl;
 function IsListView(L: Plua_State): Integer; cdecl;
 function AsListView(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListView; pti: PTypeInfo = nil); overload; inline;
-procedure ListViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaListView = class(TListView)
@@ -570,23 +567,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo);
 begin
-	ListItemToTable(L,-1,v);
-end;
-procedure ListItemToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TListItem');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TListItem',v);
 end;
 
 function IsListItems(L: Plua_State): Integer; cdecl;
@@ -608,23 +589,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TListItems; pti: PTypeInfo);
 begin
-	ListItemsToTable(L,-1,v);
-end;
-procedure ListItemsToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TListItems');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TListItems',v);
 end;
 
 function IsListView(L: Plua_State): Integer; cdecl;
@@ -646,23 +611,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TListView; pti: PTypeInfo);
 begin
-	ListViewToTable(L,-1,v);
-end;
-procedure ListViewToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomListView');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomListView',v);
 end;
 function CreateListView(L: Plua_State): Integer; cdecl;
 var
@@ -673,9 +622,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lListView := TLuaListView.Create(Parent);
 	lListView.Parent := TWinControl(Parent);
-	lListView.LuaCtl := TVCLuaControl.Create(lListView as TComponent,L,@ListViewToTable);
+	lListView.LuaCtl := TVCLuaControl.Create(lListView as TComponent,L,nil,'TCustomListView');
 	InitControl(L,lListView,Name);
-	ListViewToTable(L, -1, lListView);
+	CreateTableForKnownType(L,'TCustomListView',lListView);
 	Result := 1;
 end;
 

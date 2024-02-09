@@ -106,15 +106,11 @@ begin
   luaL_newlib(L, as_funcs);
   lua_setfield(L, -2, 'as');
 
-  res := CheckOrderOfPushObject(vcluaPtis);
-  if not res.IsEmpty then
-     luaL_error(L, PChar(res));
   res := CheckOrderOfPushObject(metaPtis);
   if not res.IsEmpty then
      luaL_error(L, PChar(res));
 
   funcs := Map.Create;
-  i:=0;
   {$i init_map.inc}
 
   funcsSorted:=Map.Create;

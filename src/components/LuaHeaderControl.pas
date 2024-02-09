@@ -14,7 +14,6 @@ function CreateHeaderControl(L: Plua_State): Integer; cdecl;
 function IsHeaderControl(L: Plua_State): Integer; cdecl;
 function AsHeaderControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: THeaderControl; pti: PTypeInfo = nil); overload; inline;
-procedure HeaderControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaHeaderControl = class(THeaderControl)
@@ -122,23 +121,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: THeaderControl; pti: PTypeInfo);
 begin
-	HeaderControlToTable(L,-1,v);
-end;
-procedure HeaderControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomHeaderControl');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomHeaderControl',v);
 end;
 function CreateHeaderControl(L: Plua_State): Integer; cdecl;
 var
@@ -149,9 +132,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lHeaderControl := TLuaHeaderControl.Create(Parent);
 	lHeaderControl.Parent := TWinControl(Parent);
-	lHeaderControl.LuaCtl := TVCLuaControl.Create(lHeaderControl as TComponent,L,@HeaderControlToTable);
+	lHeaderControl.LuaCtl := TVCLuaControl.Create(lHeaderControl as TComponent,L,nil,'TCustomHeaderControl');
 	InitControl(L,lHeaderControl,Name);
-	HeaderControlToTable(L, -1, lHeaderControl);
+	CreateTableForKnownType(L,'TCustomHeaderControl',lHeaderControl);
 	Result := 1;
 end;
 

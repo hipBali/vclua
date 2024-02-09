@@ -584,8 +584,6 @@ local vclinc = VCLUA_INC
 local pasSrc={}
 local luaLibs={}
 local pasRefs = {}
-local luaobject_push = {}
-local luaobject_push_check = {}
 local meta_srcs = {}
 local luaobject_cast = {}
 local libcount = 0
@@ -593,9 +591,6 @@ initedSrcs = {}
 local init = {}
 local function processCdef(cdef)
   local pName = cdef.name
-  local s = VCLUA_OBJECT_PUSH:gsub("#CNAME",pName)
-  table.insert(luaobject_push, s)
-  table.insert(luaobject_push_check, 'T'..pName..'.ClassInfo')
   table.insert(luaobject_cast, "(name:'"..pName.."'; func:@As"..pName.."),")
   if cdef.nocreate==nil then
     table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")
@@ -648,8 +643,6 @@ vclinc = vclinc:gsub("#LUALIBS",table.concat(luaLibs,"\n\t\t"),1)
 vclinc = vclinc:gsub("#LIBCOUNT",libcount,1)
 saveTextToFile(HDR_INFO .. vclinc,out_path.."src/vcl.inc")
 saveTextToFile(HDR_INFO .. table.concat(luaobject_uses,",\n"),out_path.."src/luaobject_uses.inc")
-saveTextToFile(HDR_INFO .. table.concat(table.reverse(luaobject_push),"\n"),out_path.."src/luaobject_push.inc")
-saveTextToFile(HDR_INFO .. table.concat(table.reverse(luaobject_push_check),",\n"),out_path.."src/luaobject_push_check.inc")
 saveTextToFile(HDR_INFO .. "\n\t" .. pasSrcStr,out_path.."src/luacontroller_uses.inc")
 saveTextToFile(HDR_INFO .. "\n\t" .. funcs:gsub('@As','@Is'),out_path.."src/is_funcs.inc")
 saveTextToFile(HDR_INFO .. "\n\t" .. funcs,out_path.."src/as_funcs.inc")

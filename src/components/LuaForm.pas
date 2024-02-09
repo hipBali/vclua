@@ -14,7 +14,6 @@ function CreateForm(L: Plua_State): Integer; cdecl;
 function IsForm(L: Plua_State): Integer; cdecl;
 function AsForm(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TForm; pti: PTypeInfo = nil); overload; inline;
-procedure FormToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaForm = class(TForm)
@@ -504,23 +503,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TForm; pti: PTypeInfo);
 begin
-	FormToTable(L,-1,v);
-end;
-procedure FormToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomForm');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomForm',v);
 end;
 function CreateForm(L: Plua_State): Integer; cdecl;
 var
@@ -531,9 +514,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lForm := TLuaForm.CreateNew(Parent);
 	lForm.Parent := TWinControl(Parent);
-	lForm.LuaCtl := TVCLuaControl.Create(lForm as TComponent,L,@FormToTable);
+	lForm.LuaCtl := TVCLuaControl.Create(lForm as TComponent,L,nil,'TCustomForm');
 	InitControl(L,lForm,Name);
-	FormToTable(L, -1, lForm);
+	CreateTableForKnownType(L,'TCustomForm',lForm);
 	Result := 1;
 end;
 

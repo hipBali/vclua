@@ -14,7 +14,6 @@ function CreateCalendar(L: Plua_State): Integer; cdecl;
 function IsCalendar(L: Plua_State): Integer; cdecl;
 function AsCalendar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCalendar; pti: PTypeInfo = nil); overload; inline;
-procedure CalendarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaCalendar = class(TCalendar)
@@ -74,23 +73,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TCalendar; pti: PTypeInfo);
 begin
-	CalendarToTable(L,-1,v);
-end;
-procedure CalendarToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomCalendar');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomCalendar',v);
 end;
 function CreateCalendar(L: Plua_State): Integer; cdecl;
 var
@@ -101,9 +84,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCalendar := TLuaCalendar.Create(Parent);
 	lCalendar.Parent := TWinControl(Parent);
-	lCalendar.LuaCtl := TVCLuaControl.Create(lCalendar as TComponent,L,@CalendarToTable);
+	lCalendar.LuaCtl := TVCLuaControl.Create(lCalendar as TComponent,L,nil,'TCustomCalendar');
 	InitControl(L,lCalendar,Name);
-	CalendarToTable(L, -1, lCalendar);
+	CreateTableForKnownType(L,'TCustomCalendar',lCalendar);
 	Result := 1;
 end;
 

@@ -14,7 +14,6 @@ function CreateMemo(L: Plua_State): Integer; cdecl;
 function IsMemo(L: Plua_State): Integer; cdecl;
 function AsMemo(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMemo; pti: PTypeInfo = nil); overload; inline;
-procedure MemoToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaMemo = class(TMemo)
@@ -74,23 +73,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TMemo; pti: PTypeInfo);
 begin
-	MemoToTable(L,-1,v);
-end;
-procedure MemoToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomMemo');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomMemo',v);
 end;
 function CreateMemo(L: Plua_State): Integer; cdecl;
 var
@@ -101,9 +84,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMemo := TLuaMemo.Create(Parent);
 	lMemo.Parent := TWinControl(Parent);
-	lMemo.LuaCtl := TVCLuaControl.Create(lMemo as TComponent,L,@MemoToTable);
+	lMemo.LuaCtl := TVCLuaControl.Create(lMemo as TComponent,L,nil,'TCustomMemo');
 	InitControl(L,lMemo,Name);
-	MemoToTable(L, -1, lMemo);
+	CreateTableForKnownType(L,'TCustomMemo',lMemo);
 	Result := 1;
 end;
 

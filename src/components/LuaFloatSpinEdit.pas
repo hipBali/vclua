@@ -14,7 +14,6 @@ function CreateFloatSpinEdit(L: Plua_State): Integer; cdecl;
 function IsFloatSpinEdit(L: Plua_State): Integer; cdecl;
 function AsFloatSpinEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFloatSpinEdit; pti: PTypeInfo = nil); overload; inline;
-procedure FloatSpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaFloatSpinEdit = class(TFloatSpinEdit)
@@ -91,23 +90,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TFloatSpinEdit; pti: PTypeInfo);
 begin
-	FloatSpinEditToTable(L,-1,v);
-end;
-procedure FloatSpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomFloatSpinEdit');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomFloatSpinEdit',v);
 end;
 function CreateFloatSpinEdit(L: Plua_State): Integer; cdecl;
 var
@@ -118,9 +101,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFloatSpinEdit := TLuaFloatSpinEdit.Create(Parent);
 	lFloatSpinEdit.Parent := TWinControl(Parent);
-	lFloatSpinEdit.LuaCtl := TVCLuaControl.Create(lFloatSpinEdit as TComponent,L,@FloatSpinEditToTable);
+	lFloatSpinEdit.LuaCtl := TVCLuaControl.Create(lFloatSpinEdit as TComponent,L,nil,'TCustomFloatSpinEdit');
 	InitControl(L,lFloatSpinEdit,Name);
-	FloatSpinEditToTable(L, -1, lFloatSpinEdit);
+	CreateTableForKnownType(L,'TCustomFloatSpinEdit',lFloatSpinEdit);
 	Result := 1;
 end;
 

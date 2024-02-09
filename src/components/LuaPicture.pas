@@ -12,7 +12,6 @@ function CreatePicture(L: Plua_State): Integer; cdecl;
 function IsPicture(L: Plua_State): Integer; cdecl;
 function AsPicture(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPicture; pti: PTypeInfo = nil); overload; inline;
-procedure PictureToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPicture = class(TPicture)
@@ -153,30 +152,14 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TPicture; pti: PTypeInfo);
 begin
-	PictureToTable(L,-1,v);
-end;
-procedure PictureToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TPicture');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TPicture',v);
 end;
 function CreatePicture(L: Plua_State): Integer; cdecl;
 var
 	lPicture:TLuaPicture;
 begin
 	lPicture := TLuaPicture.Create;
-	PictureToTable(L, -1, lPicture);
+	CreateTableForKnownType(L,'TPicture',lPicture);
 	Result := 1;
 end;
 begin

@@ -13,7 +13,6 @@ Uses Classes, Lua, LuaController, Graphics, GraphType, TypInfo;
 function IsCanvas(L: Plua_State): Integer; cdecl;
 function AsCanvas(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCanvas; pti: PTypeInfo = nil); overload; inline;
-procedure CanvasToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaCanvas = class(TCanvas)
@@ -844,23 +843,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TCanvas; pti: PTypeInfo);
 begin
-	CanvasToTable(L,-1,v);
-end;
-procedure CanvasToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCanvas');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCanvas',v);
 end;
 
 begin

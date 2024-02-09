@@ -14,7 +14,6 @@ function CreateEditButton(L: Plua_State): Integer; cdecl;
 function IsEditButton(L: Plua_State): Integer; cdecl;
 function AsEditButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TEditButton; pti: PTypeInfo = nil); overload; inline;
-procedure EditButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaEditButton = class(TEditButton)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TEditButton; pti: PTypeInfo);
 begin
-	EditButtonToTable(L,-1,v);
-end;
-procedure EditButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomEditButton');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomEditButton',v);
 end;
 function CreateEditButton(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lEditButton := TLuaEditButton.Create(Parent);
 	lEditButton.Parent := TWinControl(Parent);
-	lEditButton.LuaCtl := TVCLuaControl.Create(lEditButton as TComponent,L,@EditButtonToTable);
+	lEditButton.LuaCtl := TVCLuaControl.Create(lEditButton as TComponent,L,nil,'TCustomEditButton');
 	InitControl(L,lEditButton,Name);
-	EditButtonToTable(L, -1, lEditButton);
+	CreateTableForKnownType(L,'TCustomEditButton',lEditButton);
 	Result := 1;
 end;
 

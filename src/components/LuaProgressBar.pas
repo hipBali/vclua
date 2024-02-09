@@ -14,7 +14,6 @@ function CreateProgressBar(L: Plua_State): Integer; cdecl;
 function IsProgressBar(L: Plua_State): Integer; cdecl;
 function AsProgressBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TProgressBar; pti: PTypeInfo = nil); overload; inline;
-procedure ProgressBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaProgressBar = class(TProgressBar)
@@ -70,23 +69,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TProgressBar; pti: PTypeInfo);
 begin
-	ProgressBarToTable(L,-1,v);
-end;
-procedure ProgressBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomProgressBar');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomProgressBar',v);
 end;
 function CreateProgressBar(L: Plua_State): Integer; cdecl;
 var
@@ -97,9 +80,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lProgressBar := TLuaProgressBar.Create(Parent);
 	lProgressBar.Parent := TWinControl(Parent);
-	lProgressBar.LuaCtl := TVCLuaControl.Create(lProgressBar as TComponent,L,@ProgressBarToTable);
+	lProgressBar.LuaCtl := TVCLuaControl.Create(lProgressBar as TComponent,L,nil,'TCustomProgressBar');
 	InitControl(L,lProgressBar,Name);
-	ProgressBarToTable(L, -1, lProgressBar);
+	CreateTableForKnownType(L,'TCustomProgressBar',lProgressBar);
 	Result := 1;
 end;
 

@@ -14,7 +14,6 @@ function CreateNotebook(L: Plua_State): Integer; cdecl;
 function IsNotebook(L: Plua_State): Integer; cdecl;
 function AsNotebook(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TNotebook; pti: PTypeInfo = nil); overload; inline;
-procedure NotebookToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaNotebook = class(TNotebook)
@@ -74,23 +73,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TNotebook; pti: PTypeInfo);
 begin
-	NotebookToTable(L,-1,v);
-end;
-procedure NotebookToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TNotebook');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TNotebook',v);
 end;
 function CreateNotebook(L: Plua_State): Integer; cdecl;
 var
@@ -101,9 +84,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lNotebook := TLuaNotebook.Create(Parent);
 	lNotebook.Parent := TWinControl(Parent);
-	lNotebook.LuaCtl := TVCLuaControl.Create(lNotebook as TComponent,L,@NotebookToTable);
+	lNotebook.LuaCtl := TVCLuaControl.Create(lNotebook as TComponent,L,nil,'TNotebook');
 	InitControl(L,lNotebook,Name);
-	NotebookToTable(L, -1, lNotebook);
+	CreateTableForKnownType(L,'TNotebook',lNotebook);
 	Result := 1;
 end;
 

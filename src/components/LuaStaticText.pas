@@ -14,7 +14,6 @@ function CreateStaticText(L: Plua_State): Integer; cdecl;
 function IsStaticText(L: Plua_State): Integer; cdecl;
 function AsStaticText(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStaticText; pti: PTypeInfo = nil); overload; inline;
-procedure StaticTextToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStaticText = class(TStaticText)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TStaticText; pti: PTypeInfo);
 begin
-	StaticTextToTable(L,-1,v);
-end;
-procedure StaticTextToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomStaticText');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomStaticText',v);
 end;
 function CreateStaticText(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStaticText := TLuaStaticText.Create(Parent);
 	lStaticText.Parent := TWinControl(Parent);
-	lStaticText.LuaCtl := TVCLuaControl.Create(lStaticText as TComponent,L,@StaticTextToTable);
+	lStaticText.LuaCtl := TVCLuaControl.Create(lStaticText as TComponent,L,nil,'TCustomStaticText');
 	InitControl(L,lStaticText,Name);
-	StaticTextToTable(L, -1, lStaticText);
+	CreateTableForKnownType(L,'TCustomStaticText',lStaticText);
 	Result := 1;
 end;
 

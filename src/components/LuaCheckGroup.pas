@@ -14,7 +14,6 @@ function CreateCheckGroup(L: Plua_State): Integer; cdecl;
 function IsCheckGroup(L: Plua_State): Integer; cdecl;
 function AsCheckGroup(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCheckGroup; pti: PTypeInfo = nil); overload; inline;
-procedure CheckGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaCheckGroup = class(TCheckGroup)
@@ -72,23 +71,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TCheckGroup; pti: PTypeInfo);
 begin
-	CheckGroupToTable(L,-1,v);
-end;
-procedure CheckGroupToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomCheckGroup');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomCheckGroup',v);
 end;
 function CreateCheckGroup(L: Plua_State): Integer; cdecl;
 var
@@ -99,9 +82,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCheckGroup := TLuaCheckGroup.Create(Parent);
 	lCheckGroup.Parent := TWinControl(Parent);
-	lCheckGroup.LuaCtl := TVCLuaControl.Create(lCheckGroup as TComponent,L,@CheckGroupToTable);
+	lCheckGroup.LuaCtl := TVCLuaControl.Create(lCheckGroup as TComponent,L,nil,'TCustomCheckGroup');
 	InitControl(L,lCheckGroup,Name);
-	CheckGroupToTable(L, -1, lCheckGroup);
+	CreateTableForKnownType(L,'TCustomCheckGroup',lCheckGroup);
 	Result := 1;
 end;
 

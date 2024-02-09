@@ -16,9 +16,9 @@ uses
 type aopti = array of PTypeInfo;
 
 var
-  vcluaPtis, metaPtis: aopti;
+  metaPtis: aopti;
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);overload;
-procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
+procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);
 procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo = nil);overload; inline;
 
 function CheckOrderOfPushObject(ptis: aopti):string;
@@ -84,36 +84,41 @@ begin
     lua_pushnil(L);
     exit
   end;
-  ttp := @lua_pushobject;
-  // 'fast' path, check if we are pushing component with precomputed TTable
+  // 'fast' path, check if we are pushing component with precomputed TypeName/TTable
   if v is TComponent then begin
     luactl := GetLuaControl(v);
     // events can send objects which were not created with our Lua API, e.g. container items
     // code not checked! (what if typecast to TVCLuaControl changes what 'is' (=InheritsFrom) returns?)
-    if luactl is TVCLuaControl then
-       ttp := luactl.TTable
-    else
+    if luactl is TVCLuaControl then begin
+       luactl.PushObject(L, v);
+       Exit;
+    end else
        ShowMessage('Component has no TTable: '+v.QualifiedClassName);
   end;
-  ttp(L, -1, v);
+  lua_pushobject(L, -1, v);
 end;
 
-procedure _lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
+// CreateTableForUnknownType?
+procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);
+var cName: String = '';
+    pti: PTypeInfo;
 begin
-    lua_newtable(L);
-    LuaSetTableLightUserData(L, index, HandleStr, Pointer(Comp));
-    LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-    LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
-end;
-
-procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);overload;
-var cName: String;
-begin
-    // GENERATED STUFF
-    {$i luaobject_push.inc}
-    begin
-          _lua_pushobject(L,index,Comp);
-    end
+  if Comp = nil then begin
+    lua_pushnil(L);
+    exit
+  end;
+  pti := Comp.ClassInfo;
+  repeat
+    luaL_getmetatable(L,PChar(String(pti^.Name)));
+    if lua_istable(L,-1) then Break;
+    pti := GetTypeData(pti)^.ParentInfo;
+    lua_pop(L,1);
+  until pti = nil;
+  if pti <> nil then begin
+     cName := pti^.Name;
+     lua_pop(L,1);
+  end;
+  CreateTableForKnownType(L, cName, Comp);
 end;
 
 procedure lua_pushStrings(L: Plua_State; ItemOwner:TPersistent);
@@ -243,9 +248,6 @@ begin
 end;
 
 begin
-  vcluaPtis := aopti.Create(
-  {$i luaobject_push_check.inc}
-  );
   metaPtis := aopti.Create(
   {$i meta_srcs.inc}
   );

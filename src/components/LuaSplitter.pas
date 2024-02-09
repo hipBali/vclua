@@ -14,7 +14,6 @@ function CreateSplitter(L: Plua_State): Integer; cdecl;
 function IsSplitter(L: Plua_State): Integer; cdecl;
 function AsSplitter(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TSplitter; pti: PTypeInfo = nil); overload; inline;
-procedure SplitterToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaSplitter = class(TSplitter)
@@ -115,23 +114,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TSplitter; pti: PTypeInfo);
 begin
-	SplitterToTable(L,-1,v);
-end;
-procedure SplitterToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomSplitter');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomSplitter',v);
 end;
 function CreateSplitter(L: Plua_State): Integer; cdecl;
 var
@@ -142,9 +125,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSplitter := TLuaSplitter.Create(Parent);
 	lSplitter.Parent := TWinControl(Parent);
-	lSplitter.LuaCtl := TVCLuaControl.Create(lSplitter as TComponent,L,@SplitterToTable);
+	lSplitter.LuaCtl := TVCLuaControl.Create(lSplitter as TComponent,L,nil,'TCustomSplitter');
 	InitControl(L,lSplitter,Name);
-	SplitterToTable(L, -1, lSplitter);
+	CreateTableForKnownType(L,'TCustomSplitter',lSplitter);
 	Result := 1;
 end;
 

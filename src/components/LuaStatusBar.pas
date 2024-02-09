@@ -13,7 +13,6 @@ Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
 function IsStatusPanel(L: Plua_State): Integer; cdecl;
 function AsStatusPanel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStatusPanel; pti: PTypeInfo = nil); overload; inline;
-procedure StatusPanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStatusPanel = class(TStatusPanel)
@@ -26,7 +25,6 @@ var
 function IsStatusPanels(L: Plua_State): Integer; cdecl;
 function AsStatusPanels(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStatusPanels; pti: PTypeInfo = nil); overload; inline;
-procedure StatusPanelsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStatusPanels = class(TStatusPanels)
@@ -40,7 +38,6 @@ function CreateStatusBar(L: Plua_State): Integer; cdecl;
 function IsStatusBar(L: Plua_State): Integer; cdecl;
 function AsStatusBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStatusBar; pti: PTypeInfo = nil); overload; inline;
-procedure StatusBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStatusBar = class(TStatusBar)
@@ -206,23 +203,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TStatusPanel; pti: PTypeInfo);
 begin
-	StatusPanelToTable(L,-1,v);
-end;
-procedure StatusPanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TStatusPanel');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TStatusPanel',v);
 end;
 
 function IsStatusPanels(L: Plua_State): Integer; cdecl;
@@ -244,23 +225,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TStatusPanels; pti: PTypeInfo);
 begin
-	StatusPanelsToTable(L,-1,v);
-end;
-procedure StatusPanelsToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TStatusPanels');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TStatusPanels',v);
 end;
 
 function IsStatusBar(L: Plua_State): Integer; cdecl;
@@ -282,23 +247,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TStatusBar; pti: PTypeInfo);
 begin
-	StatusBarToTable(L,-1,v);
-end;
-procedure StatusBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TStatusBar');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TStatusBar',v);
 end;
 function CreateStatusBar(L: Plua_State): Integer; cdecl;
 var
@@ -309,9 +258,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStatusBar := TLuaStatusBar.Create(Parent);
 	lStatusBar.Parent := TWinControl(Parent);
-	lStatusBar.LuaCtl := TVCLuaControl.Create(lStatusBar as TComponent,L,@StatusBarToTable);
+	lStatusBar.LuaCtl := TVCLuaControl.Create(lStatusBar as TComponent,L,nil,'TStatusBar');
 	InitControl(L,lStatusBar,Name);
-	StatusBarToTable(L, -1, lStatusBar);
+	CreateTableForKnownType(L,'TStatusBar',lStatusBar);
 	Result := 1;
 end;
 

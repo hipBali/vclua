@@ -14,7 +14,6 @@ function CreateColorButton(L: Plua_State): Integer; cdecl;
 function IsColorButton(L: Plua_State): Integer; cdecl;
 function AsColorButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TColorButton; pti: PTypeInfo = nil); overload; inline;
-procedure ColorButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaColorButton = class(TColorButton)
@@ -27,7 +26,6 @@ function CreateOpenDialog(L: Plua_State): Integer; cdecl;
 function IsOpenDialog(L: Plua_State): Integer; cdecl;
 function AsOpenDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TOpenDialog; pti: PTypeInfo = nil); overload; inline;
-procedure OpenDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaOpenDialog = class(TOpenDialog)
@@ -40,7 +38,6 @@ function CreateSaveDialog(L: Plua_State): Integer; cdecl;
 function IsSaveDialog(L: Plua_State): Integer; cdecl;
 function AsSaveDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TSaveDialog; pti: PTypeInfo = nil); overload; inline;
-procedure SaveDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaSaveDialog = class(TSaveDialog)
@@ -53,7 +50,6 @@ function CreateSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
 function IsSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
 function AsSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TSelectDirectoryDialog; pti: PTypeInfo = nil); overload; inline;
-procedure SelectDirectoryDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaSelectDirectoryDialog = class(TSelectDirectoryDialog)
@@ -66,7 +62,6 @@ function CreateColorDialog(L: Plua_State): Integer; cdecl;
 function IsColorDialog(L: Plua_State): Integer; cdecl;
 function AsColorDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TColorDialog; pti: PTypeInfo = nil); overload; inline;
-procedure ColorDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaColorDialog = class(TColorDialog)
@@ -79,7 +74,6 @@ function CreateFontDialog(L: Plua_State): Integer; cdecl;
 function IsFontDialog(L: Plua_State): Integer; cdecl;
 function AsFontDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFontDialog; pti: PTypeInfo = nil); overload; inline;
-procedure FontDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaFontDialog = class(TFontDialog)
@@ -92,7 +86,6 @@ function CreateFindDialog(L: Plua_State): Integer; cdecl;
 function IsFindDialog(L: Plua_State): Integer; cdecl;
 function AsFindDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFindDialog; pti: PTypeInfo = nil); overload; inline;
-procedure FindDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaFindDialog = class(TFindDialog)
@@ -105,7 +98,6 @@ function CreateReplaceDialog(L: Plua_State): Integer; cdecl;
 function IsReplaceDialog(L: Plua_State): Integer; cdecl;
 function AsReplaceDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TReplaceDialog; pti: PTypeInfo = nil); overload; inline;
-procedure ReplaceDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaReplaceDialog = class(TReplaceDialog)
@@ -313,23 +305,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TColorButton; pti: PTypeInfo);
 begin
-	ColorButtonToTable(L,-1,v);
-end;
-procedure ColorButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TColorButton');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TColorButton',v);
 end;
 function CreateColorButton(L: Plua_State): Integer; cdecl;
 var
@@ -340,9 +316,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorButton := TLuaColorButton.Create(Parent);
 	lColorButton.Parent := TWinControl(Parent);
-	lColorButton.LuaCtl := TVCLuaControl.Create(lColorButton as TComponent,L,@ColorButtonToTable);
+	lColorButton.LuaCtl := TVCLuaControl.Create(lColorButton as TComponent,L,nil,'TColorButton');
 	InitControl(L,lColorButton,Name);
-	ColorButtonToTable(L, -1, lColorButton);
+	CreateTableForKnownType(L,'TColorButton',lColorButton);
 	Result := 1;
 end;
 
@@ -365,23 +341,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TOpenDialog; pti: PTypeInfo);
 begin
-	OpenDialogToTable(L,-1,v);
-end;
-procedure OpenDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TOpenDialog');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TOpenDialog',v);
 end;
 function CreateOpenDialog(L: Plua_State): Integer; cdecl;
 var
@@ -392,9 +352,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lOpenDialog := TLuaOpenDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lOpenDialog.LuaCtl := TVCLuaControl.Create(lOpenDialog as TComponent,L,@OpenDialogToTable);
+	lOpenDialog.LuaCtl := TVCLuaControl.Create(lOpenDialog as TComponent,L,nil,'TOpenDialog');
 	InitControl(L,lOpenDialog,Name);
-	OpenDialogToTable(L, -1, lOpenDialog);
+	CreateTableForKnownType(L,'TOpenDialog',lOpenDialog);
 	Result := 1;
 end;
 
@@ -417,23 +377,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TSaveDialog; pti: PTypeInfo);
 begin
-	SaveDialogToTable(L,-1,v);
-end;
-procedure SaveDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TSaveDialog');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TSaveDialog',v);
 end;
 function CreateSaveDialog(L: Plua_State): Integer; cdecl;
 var
@@ -444,9 +388,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSaveDialog := TLuaSaveDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lSaveDialog.LuaCtl := TVCLuaControl.Create(lSaveDialog as TComponent,L,@SaveDialogToTable);
+	lSaveDialog.LuaCtl := TVCLuaControl.Create(lSaveDialog as TComponent,L,nil,'TSaveDialog');
 	InitControl(L,lSaveDialog,Name);
-	SaveDialogToTable(L, -1, lSaveDialog);
+	CreateTableForKnownType(L,'TSaveDialog',lSaveDialog);
 	Result := 1;
 end;
 
@@ -469,23 +413,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TSelectDirectoryDialog; pti: PTypeInfo);
 begin
-	SelectDirectoryDialogToTable(L,-1,v);
-end;
-procedure SelectDirectoryDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TSelectDirectoryDialog');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TSelectDirectoryDialog',v);
 end;
 function CreateSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
 var
@@ -496,9 +424,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSelectDirectoryDialog := TLuaSelectDirectoryDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lSelectDirectoryDialog.LuaCtl := TVCLuaControl.Create(lSelectDirectoryDialog as TComponent,L,@SelectDirectoryDialogToTable);
+	lSelectDirectoryDialog.LuaCtl := TVCLuaControl.Create(lSelectDirectoryDialog as TComponent,L,nil,'TSelectDirectoryDialog');
 	InitControl(L,lSelectDirectoryDialog,Name);
-	SelectDirectoryDialogToTable(L, -1, lSelectDirectoryDialog);
+	CreateTableForKnownType(L,'TSelectDirectoryDialog',lSelectDirectoryDialog);
 	Result := 1;
 end;
 
@@ -521,23 +449,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TColorDialog; pti: PTypeInfo);
 begin
-	ColorDialogToTable(L,-1,v);
-end;
-procedure ColorDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TColorDialog');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TColorDialog',v);
 end;
 function CreateColorDialog(L: Plua_State): Integer; cdecl;
 var
@@ -548,9 +460,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorDialog := TLuaColorDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lColorDialog.LuaCtl := TVCLuaControl.Create(lColorDialog as TComponent,L,@ColorDialogToTable);
+	lColorDialog.LuaCtl := TVCLuaControl.Create(lColorDialog as TComponent,L,nil,'TColorDialog');
 	InitControl(L,lColorDialog,Name);
-	ColorDialogToTable(L, -1, lColorDialog);
+	CreateTableForKnownType(L,'TColorDialog',lColorDialog);
 	Result := 1;
 end;
 
@@ -573,23 +485,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TFontDialog; pti: PTypeInfo);
 begin
-	FontDialogToTable(L,-1,v);
-end;
-procedure FontDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TFontDialog');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TFontDialog',v);
 end;
 function CreateFontDialog(L: Plua_State): Integer; cdecl;
 var
@@ -600,9 +496,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFontDialog := TLuaFontDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lFontDialog.LuaCtl := TVCLuaControl.Create(lFontDialog as TComponent,L,@FontDialogToTable);
+	lFontDialog.LuaCtl := TVCLuaControl.Create(lFontDialog as TComponent,L,nil,'TFontDialog');
 	InitControl(L,lFontDialog,Name);
-	FontDialogToTable(L, -1, lFontDialog);
+	CreateTableForKnownType(L,'TFontDialog',lFontDialog);
 	Result := 1;
 end;
 
@@ -625,23 +521,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TFindDialog; pti: PTypeInfo);
 begin
-	FindDialogToTable(L,-1,v);
-end;
-procedure FindDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TFindDialog');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TFindDialog',v);
 end;
 function CreateFindDialog(L: Plua_State): Integer; cdecl;
 var
@@ -652,9 +532,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFindDialog := TLuaFindDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lFindDialog.LuaCtl := TVCLuaControl.Create(lFindDialog as TComponent,L,@FindDialogToTable);
+	lFindDialog.LuaCtl := TVCLuaControl.Create(lFindDialog as TComponent,L,nil,'TFindDialog');
 	InitControl(L,lFindDialog,Name);
-	FindDialogToTable(L, -1, lFindDialog);
+	CreateTableForKnownType(L,'TFindDialog',lFindDialog);
 	Result := 1;
 end;
 
@@ -677,23 +557,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TReplaceDialog; pti: PTypeInfo);
 begin
-	ReplaceDialogToTable(L,-1,v);
-end;
-procedure ReplaceDialogToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TFindDialog');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TFindDialog',v);
 end;
 function CreateReplaceDialog(L: Plua_State): Integer; cdecl;
 var
@@ -704,9 +568,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lReplaceDialog := TLuaReplaceDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lReplaceDialog.LuaCtl := TVCLuaControl.Create(lReplaceDialog as TComponent,L,@ReplaceDialogToTable);
+	lReplaceDialog.LuaCtl := TVCLuaControl.Create(lReplaceDialog as TComponent,L,nil,'TFindDialog');
 	InitControl(L,lReplaceDialog,Name);
-	ReplaceDialogToTable(L, -1, lReplaceDialog);
+	CreateTableForKnownType(L,'TFindDialog',lReplaceDialog);
 	Result := 1;
 end;
 

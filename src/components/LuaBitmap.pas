@@ -13,7 +13,6 @@ Uses Classes, Lua, LuaController, Graphics, LCLType, TypInfo;
 function IsCustomBitmap(L: Plua_State): Integer; cdecl;
 function AsCustomBitmap(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCustomBitmap; pti: PTypeInfo = nil); overload; inline;
-procedure CustomBitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaCustomBitmap = class(TCustomBitmap)
@@ -27,7 +26,6 @@ function CreateBitmap(L: Plua_State): Integer; cdecl;
 function IsBitmap(L: Plua_State): Integer; cdecl;
 function AsBitmap(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBitmap; pti: PTypeInfo = nil); overload; inline;
-procedure BitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaBitmap = class(TBitmap)
@@ -220,23 +218,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TCustomBitmap; pti: PTypeInfo);
 begin
-	CustomBitmapToTable(L,-1,v);
-end;
-procedure CustomBitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomBitmap');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomBitmap',v);
 end;
 
 function IsBitmap(L: Plua_State): Integer; cdecl;
@@ -258,30 +240,14 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TBitmap; pti: PTypeInfo);
 begin
-	BitmapToTable(L,-1,v);
-end;
-procedure BitmapToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TBitmap');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TBitmap',v);
 end;
 function CreateBitmap(L: Plua_State): Integer; cdecl;
 var
 	lBitmap:TLuaBitmap;
 begin
 	lBitmap := TLuaBitmap.Create;
-	BitmapToTable(L, -1, lBitmap);
+	CreateTableForKnownType(L,'TBitmap',lBitmap);
 	Result := 1;
 end;
 begin

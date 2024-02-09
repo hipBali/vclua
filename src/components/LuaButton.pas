@@ -14,7 +14,6 @@ function CreateButton(L: Plua_State): Integer; cdecl;
 function IsButton(L: Plua_State): Integer; cdecl;
 function AsButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TButton; pti: PTypeInfo = nil); overload; inline;
-procedure ButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaButton = class(TButton)
@@ -116,23 +115,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TButton; pti: PTypeInfo);
 begin
-	ButtonToTable(L,-1,v);
-end;
-procedure ButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomButton');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomButton',v);
 end;
 function CreateButton(L: Plua_State): Integer; cdecl;
 var
@@ -143,9 +126,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lButton := TLuaButton.Create(Parent);
 	lButton.Parent := TWinControl(Parent);
-	lButton.LuaCtl := TVCLuaControl.Create(lButton as TComponent,L,@ButtonToTable);
+	lButton.LuaCtl := TVCLuaControl.Create(lButton as TComponent,L,nil,'TCustomButton');
 	InitControl(L,lButton,Name);
-	ButtonToTable(L, -1, lButton);
+	CreateTableForKnownType(L,'TCustomButton',lButton);
 	Result := 1;
 end;
 

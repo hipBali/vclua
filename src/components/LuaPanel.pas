@@ -14,7 +14,6 @@ function CreatePanel(L: Plua_State): Integer; cdecl;
 function IsPanel(L: Plua_State): Integer; cdecl;
 function AsPanel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPanel; pti: PTypeInfo = nil); overload; inline;
-procedure PanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPanel = class(TPanel)
@@ -49,23 +48,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TPanel; pti: PTypeInfo);
 begin
-	PanelToTable(L,-1,v);
-end;
-procedure PanelToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomPanel');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomPanel',v);
 end;
 function CreatePanel(L: Plua_State): Integer; cdecl;
 var
@@ -76,9 +59,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPanel := TLuaPanel.Create(Parent);
 	lPanel.Parent := TWinControl(Parent);
-	lPanel.LuaCtl := TVCLuaControl.Create(lPanel as TComponent,L,@PanelToTable);
+	lPanel.LuaCtl := TVCLuaControl.Create(lPanel as TComponent,L,nil,'TCustomPanel');
 	InitControl(L,lPanel,Name);
-	PanelToTable(L, -1, lPanel);
+	CreateTableForKnownType(L,'TCustomPanel',lPanel);
 	Result := 1;
 end;
 

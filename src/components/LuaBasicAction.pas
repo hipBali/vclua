@@ -14,7 +14,6 @@ function CreateBasicAction(L: Plua_State): Integer; cdecl;
 function IsBasicAction(L: Plua_State): Integer; cdecl;
 function AsBasicAction(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBasicAction; pti: PTypeInfo = nil); overload; inline;
-procedure BasicActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaBasicAction = class(TBasicAction)
@@ -113,23 +112,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TBasicAction; pti: PTypeInfo);
 begin
-	BasicActionToTable(L,-1,v);
-end;
-procedure BasicActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TBasicAction');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TBasicAction',v);
 end;
 function CreateBasicAction(L: Plua_State): Integer; cdecl;
 var
@@ -140,9 +123,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBasicAction := TLuaBasicAction.Create(Parent);
 	// := TWinControl(Parent);
-	lBasicAction.LuaCtl := TVCLuaControl.Create(lBasicAction as TComponent,L,@BasicActionToTable);
+	lBasicAction.LuaCtl := TVCLuaControl.Create(lBasicAction as TComponent,L,nil,'TBasicAction');
 	InitControl(L,lBasicAction,Name);
-	BasicActionToTable(L, -1, lBasicAction);
+	CreateTableForKnownType(L,'TBasicAction',lBasicAction);
 	Result := 1;
 end;
 

@@ -14,7 +14,6 @@ function CreateUpDown(L: Plua_State): Integer; cdecl;
 function IsUpDown(L: Plua_State): Integer; cdecl;
 function AsUpDown(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TUpDown; pti: PTypeInfo = nil); overload; inline;
-procedure UpDownToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaUpDown = class(TUpDown)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TUpDown; pti: PTypeInfo);
 begin
-	UpDownToTable(L,-1,v);
-end;
-procedure UpDownToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TUpDown');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TUpDown',v);
 end;
 function CreateUpDown(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lUpDown := TLuaUpDown.Create(Parent);
 	lUpDown.Parent := TWinControl(Parent);
-	lUpDown.LuaCtl := TVCLuaControl.Create(lUpDown as TComponent,L,@UpDownToTable);
+	lUpDown.LuaCtl := TVCLuaControl.Create(lUpDown as TComponent,L,nil,'TUpDown');
 	InitControl(L,lUpDown,Name);
-	UpDownToTable(L, -1, lUpDown);
+	CreateTableForKnownType(L,'TUpDown',lUpDown);
 	Result := 1;
 end;
 

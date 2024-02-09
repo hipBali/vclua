@@ -47,7 +47,6 @@ function Create#CNAME(L: Plua_State): Integer; cdecl;
 function Is#CNAME(L: Plua_State): Integer; cdecl;
 function As#CNAME(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
-procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLua#CNAME = class(T#CNAME)
@@ -60,7 +59,6 @@ function Create#CNAME(L: Plua_State): Integer; cdecl;
 function Is#CNAME(L: Plua_State): Integer; cdecl;
 function As#CNAME(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
-procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLua#CNAME = class(T#CNAME)
@@ -74,7 +72,6 @@ VCLua_CDEF_INTFCE_NOCREATE = [[
 function Is#CNAME(L: Plua_State): Integer; cdecl;
 function As#CNAME(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
-procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLua#CNAME = class(T#CNAME)
@@ -118,31 +115,15 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo);
 begin
-	#CNAMEToTable(L,-1,v);
-end;
-procedure #CNAMEToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'#CSRC');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'#CSRC',v);
 end;
 ]]
 
 VCLua_CDEF_SUFFIX = [[
 	l#CNAME.#PARENT := #PARENTCLASS(Parent);
-	l#CNAME.LuaCtl := TVCLuaControl.Create(l#CNAME as TComponent,L,@#CNAMEToTable);
+	l#CNAME.LuaCtl := TVCLuaControl.Create(l#CNAME as TComponent,L,nil,'#CSRC');
 	InitControl(L,l#CNAME,Name);
-	#CNAMEToTable(L, -1, l#CNAME);
+	CreateTableForKnownType(L,'#CSRC',l#CNAME);
 	Result := 1;
 end;
 ]]
@@ -175,7 +156,7 @@ var
 	l#CNAME:TLua#CNAME;
 begin
 	l#CNAME := TLua#CNAME.Create;
-	#CNAMEToTable(L, -1, l#CNAME);
+	CreateTableForKnownType(L,'#CSRC',l#CNAME);
 	Result := 1;
 end;]]
 
@@ -186,8 +167,8 @@ var
 	Name:String;
 begin
 	l#CNAME := TLua#CNAME.Create;
-	l#CNAME.LuaCtl := TVCLuaControl.Create(TComponent(l#CNAME),L,@#CNAMEToTable);
-	#CNAMEToTable(L, -1, l#CNAME);
+	l#CNAME.LuaCtl := TVCLuaControl.Create(TComponent(l#CNAME),L,nil,'#CSRC'); // although it's not a TComponent
+	CreateTableForKnownType(L,'#CSRC',l#CNAME);
 	Result := 1;
 end;
 ]]
@@ -202,11 +183,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	l#CNAME := TLua#CNAME.Create(Parent, #WCLASS);
 ]]..VCLua_CDEF_SUFFIX
-
-VCLUA_OBJECT_PUSH = [[
-if (comp.InheritsFrom(T#CNAME)) then
-	#CNAMEToTable(L,index,Comp)
-else]]
 
 VCLUA_INC = [[
 	
@@ -237,7 +213,5 @@ VCLUA_INIT = [[
 ]]
 
 VCLUA_ADD_MAP = [[
-  assert(metaPtis[i]^.Name = 'T#CSRC');
-  Inc(i);
   funcs.Add('T#CSRC', #CSRCFuncs);
 ]]

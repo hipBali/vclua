@@ -14,7 +14,6 @@ function CreateFileNameEdit(L: Plua_State): Integer; cdecl;
 function IsFileNameEdit(L: Plua_State): Integer; cdecl;
 function AsFileNameEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFileNameEdit; pti: PTypeInfo = nil); overload; inline;
-procedure FileNameEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaFileNameEdit = class(TFileNameEdit)
@@ -45,23 +44,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TFileNameEdit; pti: PTypeInfo);
 begin
-	FileNameEditToTable(L,-1,v);
-end;
-procedure FileNameEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomEditButton');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomEditButton',v);
 end;
 function CreateFileNameEdit(L: Plua_State): Integer; cdecl;
 var
@@ -72,9 +55,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFileNameEdit := TLuaFileNameEdit.Create(Parent);
 	lFileNameEdit.Parent := TWinControl(Parent);
-	lFileNameEdit.LuaCtl := TVCLuaControl.Create(lFileNameEdit as TComponent,L,@FileNameEditToTable);
+	lFileNameEdit.LuaCtl := TVCLuaControl.Create(lFileNameEdit as TComponent,L,nil,'TCustomEditButton');
 	InitControl(L,lFileNameEdit,Name);
-	FileNameEditToTable(L, -1, lFileNameEdit);
+	CreateTableForKnownType(L,'TCustomEditButton',lFileNameEdit);
 	Result := 1;
 end;
 

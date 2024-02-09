@@ -14,7 +14,6 @@ function CreateCalcEdit(L: Plua_State): Integer; cdecl;
 function IsCalcEdit(L: Plua_State): Integer; cdecl;
 function AsCalcEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo = nil); overload; inline;
-procedure CalcEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaCalcEdit = class(TCalcEdit)
@@ -45,23 +44,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo);
 begin
-	CalcEditToTable(L,-1,v);
-end;
-procedure CalcEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomEditButton');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomEditButton',v);
 end;
 function CreateCalcEdit(L: Plua_State): Integer; cdecl;
 var
@@ -72,9 +55,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCalcEdit := TLuaCalcEdit.Create(Parent);
 	lCalcEdit.Parent := TWinControl(Parent);
-	lCalcEdit.LuaCtl := TVCLuaControl.Create(lCalcEdit as TComponent,L,@CalcEditToTable);
+	lCalcEdit.LuaCtl := TVCLuaControl.Create(lCalcEdit as TComponent,L,nil,'TCustomEditButton');
 	InitControl(L,lCalcEdit,Name);
-	CalcEditToTable(L, -1, lCalcEdit);
+	CreateTableForKnownType(L,'TCustomEditButton',lCalcEdit);
 	Result := 1;
 end;
 

@@ -14,7 +14,6 @@ function CreateImage(L: Plua_State): Integer; cdecl;
 function IsImage(L: Plua_State): Integer; cdecl;
 function AsImage(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TImage; pti: PTypeInfo = nil); overload; inline;
-procedure ImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaImage = class(TImage)
@@ -72,23 +71,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TImage; pti: PTypeInfo);
 begin
-	ImageToTable(L,-1,v);
-end;
-procedure ImageToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomImage');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomImage',v);
 end;
 function CreateImage(L: Plua_State): Integer; cdecl;
 var
@@ -99,9 +82,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lImage := TLuaImage.Create(Parent);
 	lImage.Parent := TWinControl(Parent);
-	lImage.LuaCtl := TVCLuaControl.Create(lImage as TComponent,L,@ImageToTable);
+	lImage.LuaCtl := TVCLuaControl.Create(lImage as TComponent,L,nil,'TCustomImage');
 	InitControl(L,lImage,Name);
-	ImageToTable(L, -1, lImage);
+	CreateTableForKnownType(L,'TCustomImage',lImage);
 	Result := 1;
 end;
 

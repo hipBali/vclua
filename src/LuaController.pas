@@ -27,12 +27,14 @@ type
 
     TVCLuaControl = class(TComponent)
 
-        constructor Create(AOwner:TComponent; LL: Plua_State; T:ToTableProc);
+        constructor Create(AOwner:TComponent; LL: Plua_State; T:ToTableProc; ATypeName:String = '');
         public
             function PushEvent(var L:Plua_State; Sender: TObject; EFn:TLuaCFunction):Boolean; inline;
+            procedure PushObject(L: Plua_State; Sender: TObject); inline;
         public
             L: Plua_State;
             TTable: ToTableProc;
+            TypeName:String;
         private
           // LUA Event Strings
           fOnLuaCreate_Func,
@@ -427,6 +429,7 @@ type
 procedure GetControlParents(L: Plua_State; var Parent:TWinControl; var Name:String);
 procedure InitControl(L: Plua_State; luaObj:TObject; var Name:String);
 procedure SetDefaultMethods(L: Plua_State; Index:Integer; Sender:TObject);
+procedure CreateTableForKnownType(L: Plua_State; TypeName:String; Sender:TObject);inline;
 procedure SetAsMainForm(aForm:TForm);
 
 // extended properties
@@ -540,6 +543,27 @@ begin
            LuaSetTableFunction(L, index, 'EndUpdateBounds', @ControlEndUpdateBounds);
            LuaSetTableFunction(L, index, 'BeginUpdateBounds', @ControlBeginUpdateBounds);
         end;
+end;
+
+procedure CreateTableForKnownType(L: Plua_State; TypeName:String; Sender:TObject);
+var top:integer;
+begin
+  if Sender = nil then begin
+    lua_pushnil(L);
+    Exit;
+  end;
+  SetDefaultMethods(L,-1,Sender);
+  top := lua_gettop(L);
+  if TypeName <> '' then begin
+    lua_pushliteral(L,'vmt');
+    luaL_getmetatable(L,PChar(TypeName));
+    lua_pushliteral(L,'__index');
+    lua_rawget(L,-2);
+    lua_remove(L,-2);
+    lua_rawset(L,top);
+  end;
+  LuaSetMetaFunction(L, top, '__index', @LuaGetProperty);
+  LuaSetMetaFunction(L, top, '__newindex', @LuaSetProperty);
 end;
 
 // -----------------------------------------------------------------------------
@@ -682,11 +706,12 @@ begin
   Pointer(P^) := aForm;
 end;
 
-constructor TVCLuaControl.Create(AOwner:TComponent; LL: Plua_State; T:ToTableProc);
+constructor TVCLuaControl.Create(AOwner:TComponent; LL: Plua_State; T:ToTableProc; ATypeName:String);
 begin
      inherited Create(AOwner);
      L := LL;
      TTable := T;
+     TypeName := ATypeName;
      ComponentIndex := 0;
 end;
 
@@ -744,9 +769,14 @@ begin
     L := GetLuaState(Sender);
     Result := CheckEvent(L, Sender, EFn);
     if Result then
-       // Sender in events is always a non-nil TVCLuaControl instance since these event handlers are called only when set in Lua
-       // and they can only be set to a TVCLuaControl instance. So it's safe to use GetLuaControl directly instead of general object push
-       GetLuaControl(Sender).TTable(L, -1, Sender);
+       PushObject(L, Sender);
+end;
+procedure TVCLuaControl.PushObject(L: Plua_State; Sender: TObject);
+begin
+  if @TTable <> nil then
+     TTable(L, -1, Sender)
+  else
+    CreateTableForKnownType(L, TypeName, Sender);
 end;
 
 procedure TVCLuaControl.NotifyEventHandler(Sender: TObject; EventCFunc: TLuaCFunction);

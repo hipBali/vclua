@@ -14,7 +14,6 @@ function CreateTrackBar(L: Plua_State): Integer; cdecl;
 function IsTrackBar(L: Plua_State): Integer; cdecl;
 function AsTrackBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTrackBar; pti: PTypeInfo = nil); overload; inline;
-procedure TrackBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaTrackBar = class(TTrackBar)
@@ -59,23 +58,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TTrackBar; pti: PTypeInfo);
 begin
-	TrackBarToTable(L,-1,v);
-end;
-procedure TrackBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomTrackBar');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomTrackBar',v);
 end;
 function CreateTrackBar(L: Plua_State): Integer; cdecl;
 var
@@ -86,9 +69,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTrackBar := TLuaTrackBar.Create(Parent);
 	lTrackBar.Parent := TWinControl(Parent);
-	lTrackBar.LuaCtl := TVCLuaControl.Create(lTrackBar as TComponent,L,@TrackBarToTable);
+	lTrackBar.LuaCtl := TVCLuaControl.Create(lTrackBar as TComponent,L,nil,'TCustomTrackBar');
 	InitControl(L,lTrackBar,Name);
-	TrackBarToTable(L, -1, lTrackBar);
+	CreateTableForKnownType(L,'TCustomTrackBar',lTrackBar);
 	Result := 1;
 end;
 

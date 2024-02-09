@@ -14,7 +14,6 @@ function CreateValueListEditor(L: Plua_State): Integer; cdecl;
 function IsValueListEditor(L: Plua_State): Integer; cdecl;
 function AsValueListEditor(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo = nil); overload; inline;
-procedure ValueListEditorToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaValueListEditor = class(TValueListEditor)
@@ -291,23 +290,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo);
 begin
-	ValueListEditorToTable(L,-1,v);
-end;
-procedure ValueListEditorToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TValueListEditor');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TValueListEditor',v);
 end;
 function CreateValueListEditor(L: Plua_State): Integer; cdecl;
 var
@@ -318,9 +301,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lValueListEditor := TLuaValueListEditor.Create(Parent);
 	lValueListEditor.Parent := TWinControl(Parent);
-	lValueListEditor.LuaCtl := TVCLuaControl.Create(lValueListEditor as TComponent,L,@ValueListEditorToTable);
+	lValueListEditor.LuaCtl := TVCLuaControl.Create(lValueListEditor as TComponent,L,nil,'TValueListEditor');
 	InitControl(L,lValueListEditor,Name);
-	ValueListEditorToTable(L, -1, lValueListEditor);
+	CreateTableForKnownType(L,'TValueListEditor',lValueListEditor);
 	Result := 1;
 end;
 

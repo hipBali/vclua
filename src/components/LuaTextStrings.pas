@@ -12,7 +12,6 @@ function CreateTextStrings(L: Plua_State): Integer; cdecl;
 function IsTextStrings(L: Plua_State): Integer; cdecl;
 function AsTextStrings(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTextStrings; pti: PTypeInfo = nil); overload; inline;
-procedure TextStringsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaTextStrings = class(TTextStrings)
@@ -259,30 +258,14 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TTextStrings; pti: PTypeInfo);
 begin
-	TextStringsToTable(L,-1,v);
-end;
-procedure TextStringsToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TTextStrings');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TTextStrings',v);
 end;
 function CreateTextStrings(L: Plua_State): Integer; cdecl;
 var
 	lTextStrings:TLuaTextStrings;
 begin
 	lTextStrings := TLuaTextStrings.Create;
-	TextStringsToTable(L, -1, lTextStrings);
+	CreateTableForKnownType(L,'TTextStrings',lTextStrings);
 	Result := 1;
 end;
 begin

@@ -14,7 +14,6 @@ function CreateSpinEdit(L: Plua_State): Integer; cdecl;
 function IsSpinEdit(L: Plua_State): Integer; cdecl;
 function AsSpinEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TSpinEdit; pti: PTypeInfo = nil); overload; inline;
-procedure SpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaSpinEdit = class(TSpinEdit)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TSpinEdit; pti: PTypeInfo);
 begin
-	SpinEditToTable(L,-1,v);
-end;
-procedure SpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TSpinEdit');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TSpinEdit',v);
 end;
 function CreateSpinEdit(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSpinEdit := TLuaSpinEdit.Create(Parent);
 	lSpinEdit.Parent := TWinControl(Parent);
-	lSpinEdit.LuaCtl := TVCLuaControl.Create(lSpinEdit as TComponent,L,@SpinEditToTable);
+	lSpinEdit.LuaCtl := TVCLuaControl.Create(lSpinEdit as TComponent,L,nil,'TSpinEdit');
 	InitControl(L,lSpinEdit,Name);
-	SpinEditToTable(L, -1, lSpinEdit);
+	CreateTableForKnownType(L,'TSpinEdit',lSpinEdit);
 	Result := 1;
 end;
 

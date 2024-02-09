@@ -13,7 +13,6 @@ Uses Classes, Lua, LuaController, Grids, Controls, TypInfo;
 function IsGridColumn(L: Plua_State): Integer; cdecl;
 function AsGridColumn(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo = nil); overload; inline;
-procedure GridColumnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaGridColumn = class(TGridColumn)
@@ -26,7 +25,6 @@ var
 function IsGridColumns(L: Plua_State): Integer; cdecl;
 function AsGridColumns(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TGridColumns; pti: PTypeInfo = nil); overload; inline;
-procedure GridColumnsToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaGridColumns = class(TGridColumns)
@@ -40,7 +38,6 @@ function CreateStringGrid(L: Plua_State): Integer; cdecl;
 function IsStringGrid(L: Plua_State): Integer; cdecl;
 function AsStringGrid(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo = nil); overload; inline;
-procedure StringGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaStringGrid = class(TStringGrid)
@@ -482,23 +479,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo);
 begin
-	GridColumnToTable(L,-1,v);
-end;
-procedure GridColumnToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TGridColumn');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TGridColumn',v);
 end;
 
 function IsGridColumns(L: Plua_State): Integer; cdecl;
@@ -520,23 +501,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TGridColumns; pti: PTypeInfo);
 begin
-	GridColumnsToTable(L,-1,v);
-end;
-procedure GridColumnsToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TGridColumns');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TGridColumns',v);
 end;
 
 function IsStringGrid(L: Plua_State): Integer; cdecl;
@@ -558,23 +523,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo);
 begin
-	StringGridToTable(L,-1,v);
-end;
-procedure StringGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomStringGrid');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomStringGrid',v);
 end;
 function CreateStringGrid(L: Plua_State): Integer; cdecl;
 var
@@ -585,9 +534,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStringGrid := TLuaStringGrid.Create(Parent);
 	lStringGrid.Parent := TWinControl(Parent);
-	lStringGrid.LuaCtl := TVCLuaControl.Create(lStringGrid as TComponent,L,@StringGridToTable);
+	lStringGrid.LuaCtl := TVCLuaControl.Create(lStringGrid as TComponent,L,nil,'TCustomStringGrid');
 	InitControl(L,lStringGrid,Name);
-	StringGridToTable(L, -1, lStringGrid);
+	CreateTableForKnownType(L,'TCustomStringGrid',lStringGrid);
 	Result := 1;
 end;
 

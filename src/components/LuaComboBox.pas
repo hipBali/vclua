@@ -14,7 +14,6 @@ function CreateComboBox(L: Plua_State): Integer; cdecl;
 function IsComboBox(L: Plua_State): Integer; cdecl;
 function AsComboBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TComboBox; pti: PTypeInfo = nil); overload; inline;
-procedure ComboBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaComboBox = class(TComboBox)
@@ -134,23 +133,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TComboBox; pti: PTypeInfo);
 begin
-	ComboBoxToTable(L,-1,v);
-end;
-procedure ComboBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomComboBox');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomComboBox',v);
 end;
 function CreateComboBox(L: Plua_State): Integer; cdecl;
 var
@@ -161,9 +144,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lComboBox := TLuaComboBox.Create(Parent);
 	lComboBox.Parent := TWinControl(Parent);
-	lComboBox.LuaCtl := TVCLuaControl.Create(lComboBox as TComponent,L,@ComboBoxToTable);
+	lComboBox.LuaCtl := TVCLuaControl.Create(lComboBox as TComponent,L,nil,'TCustomComboBox');
 	InitControl(L,lComboBox,Name);
-	ComboBoxToTable(L, -1, lComboBox);
+	CreateTableForKnownType(L,'TCustomComboBox',lComboBox);
 	Result := 1;
 end;
 

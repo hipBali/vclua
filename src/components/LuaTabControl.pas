@@ -14,7 +14,6 @@ function CreateTabSheet(L: Plua_State): Integer; cdecl;
 function IsTabSheet(L: Plua_State): Integer; cdecl;
 function AsTabSheet(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTabSheet; pti: PTypeInfo = nil); overload; inline;
-procedure TabSheetToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaTabSheet = class(TTabSheet)
@@ -27,7 +26,6 @@ function CreateTabControl(L: Plua_State): Integer; cdecl;
 function IsTabControl(L: Plua_State): Integer; cdecl;
 function AsTabControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTabControl; pti: PTypeInfo = nil); overload; inline;
-procedure TabControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaTabControl = class(TTabControl)
@@ -40,7 +38,6 @@ function CreatePageControl(L: Plua_State): Integer; cdecl;
 function IsPageControl(L: Plua_State): Integer; cdecl;
 function AsPageControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPageControl; pti: PTypeInfo = nil); overload; inline;
-procedure PageControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPageControl = class(TPageControl)
@@ -350,23 +347,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TTabSheet; pti: PTypeInfo);
 begin
-	TabSheetToTable(L,-1,v);
-end;
-procedure TabSheetToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TTabSheet');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TTabSheet',v);
 end;
 function CreateTabSheet(L: Plua_State): Integer; cdecl;
 var
@@ -377,9 +358,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTabSheet := TLuaTabSheet.Create(Parent);
 	lTabSheet.Parent := TWinControl(Parent);
-	lTabSheet.LuaCtl := TVCLuaControl.Create(lTabSheet as TComponent,L,@TabSheetToTable);
+	lTabSheet.LuaCtl := TVCLuaControl.Create(lTabSheet as TComponent,L,nil,'TTabSheet');
 	InitControl(L,lTabSheet,Name);
-	TabSheetToTable(L, -1, lTabSheet);
+	CreateTableForKnownType(L,'TTabSheet',lTabSheet);
 	Result := 1;
 end;
 
@@ -402,23 +383,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TTabControl; pti: PTypeInfo);
 begin
-	TabControlToTable(L,-1,v);
-end;
-procedure TabControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomTabControl');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomTabControl',v);
 end;
 function CreateTabControl(L: Plua_State): Integer; cdecl;
 var
@@ -429,9 +394,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTabControl := TLuaTabControl.Create(Parent);
 	lTabControl.Parent := TWinControl(Parent);
-	lTabControl.LuaCtl := TVCLuaControl.Create(lTabControl as TComponent,L,@TabControlToTable);
+	lTabControl.LuaCtl := TVCLuaControl.Create(lTabControl as TComponent,L,nil,'TCustomTabControl');
 	InitControl(L,lTabControl,Name);
-	TabControlToTable(L, -1, lTabControl);
+	CreateTableForKnownType(L,'TCustomTabControl',lTabControl);
 	Result := 1;
 end;
 
@@ -454,23 +419,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TPageControl; pti: PTypeInfo);
 begin
-	PageControlToTable(L,-1,v);
-end;
-procedure PageControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TPageControl');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TPageControl',v);
 end;
 function CreatePageControl(L: Plua_State): Integer; cdecl;
 var
@@ -481,9 +430,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPageControl := TLuaPageControl.Create(Parent);
 	lPageControl.Parent := TWinControl(Parent);
-	lPageControl.LuaCtl := TVCLuaControl.Create(lPageControl as TComponent,L,@PageControlToTable);
+	lPageControl.LuaCtl := TVCLuaControl.Create(lPageControl as TComponent,L,nil,'TPageControl');
 	InitControl(L,lPageControl,Name);
-	PageControlToTable(L, -1, lPageControl);
+	CreateTableForKnownType(L,'TPageControl',lPageControl);
 	Result := 1;
 end;
 

@@ -14,7 +14,6 @@ function CreateEdit(L: Plua_State): Integer; cdecl;
 function IsEdit(L: Plua_State): Integer; cdecl;
 function AsEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TEdit; pti: PTypeInfo = nil); overload; inline;
-procedure EditToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaEdit = class(TEdit)
@@ -136,23 +135,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TEdit; pti: PTypeInfo);
 begin
-	EditToTable(L,-1,v);
-end;
-procedure EditToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomEdit');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomEdit',v);
 end;
 function CreateEdit(L: Plua_State): Integer; cdecl;
 var
@@ -163,9 +146,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lEdit := TLuaEdit.Create(Parent);
 	lEdit.Parent := TWinControl(Parent);
-	lEdit.LuaCtl := TVCLuaControl.Create(lEdit as TComponent,L,@EditToTable);
+	lEdit.LuaCtl := TVCLuaControl.Create(lEdit as TComponent,L,nil,'TCustomEdit');
 	InitControl(L,lEdit,Name);
-	EditToTable(L, -1, lEdit);
+	CreateTableForKnownType(L,'TCustomEdit',lEdit);
 	Result := 1;
 end;
 

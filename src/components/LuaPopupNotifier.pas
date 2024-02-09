@@ -14,7 +14,6 @@ function CreatePopupNotifier(L: Plua_State): Integer; cdecl;
 function IsPopupNotifier(L: Plua_State): Integer; cdecl;
 function AsPopupNotifier(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPopupNotifier; pti: PTypeInfo = nil); overload; inline;
-procedure PopupNotifierToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPopupNotifier = class(TPopupNotifier)
@@ -83,23 +82,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TPopupNotifier; pti: PTypeInfo);
 begin
-	PopupNotifierToTable(L,-1,v);
-end;
-procedure PopupNotifierToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TPopupNotifier');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TPopupNotifier',v);
 end;
 function CreatePopupNotifier(L: Plua_State): Integer; cdecl;
 var
@@ -110,9 +93,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPopupNotifier := TLuaPopupNotifier.Create(Parent);
 	// := TWinControl(Parent);
-	lPopupNotifier.LuaCtl := TVCLuaControl.Create(lPopupNotifier as TComponent,L,@PopupNotifierToTable);
+	lPopupNotifier.LuaCtl := TVCLuaControl.Create(lPopupNotifier as TComponent,L,nil,'TPopupNotifier');
 	InitControl(L,lPopupNotifier,Name);
-	PopupNotifierToTable(L, -1, lPopupNotifier);
+	CreateTableForKnownType(L,'TPopupNotifier',lPopupNotifier);
 	Result := 1;
 end;
 

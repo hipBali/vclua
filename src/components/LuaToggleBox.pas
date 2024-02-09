@@ -14,7 +14,6 @@ function CreateToggleBox(L: Plua_State): Integer; cdecl;
 function IsToggleBox(L: Plua_State): Integer; cdecl;
 function AsToggleBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TToggleBox; pti: PTypeInfo = nil); overload; inline;
-procedure ToggleBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaToggleBox = class(TToggleBox)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TToggleBox; pti: PTypeInfo);
 begin
-	ToggleBoxToTable(L,-1,v);
-end;
-procedure ToggleBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TToggleBox');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TToggleBox',v);
 end;
 function CreateToggleBox(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToggleBox := TLuaToggleBox.Create(Parent);
 	lToggleBox.Parent := TWinControl(Parent);
-	lToggleBox.LuaCtl := TVCLuaControl.Create(lToggleBox as TComponent,L,@ToggleBoxToTable);
+	lToggleBox.LuaCtl := TVCLuaControl.Create(lToggleBox as TComponent,L,nil,'TToggleBox');
 	InitControl(L,lToggleBox,Name);
-	ToggleBoxToTable(L, -1, lToggleBox);
+	CreateTableForKnownType(L,'TToggleBox',lToggleBox);
 	Result := 1;
 end;
 

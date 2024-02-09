@@ -14,7 +14,6 @@ function CreateBitBtn(L: Plua_State): Integer; cdecl;
 function IsBitBtn(L: Plua_State): Integer; cdecl;
 function AsBitBtn(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBitBtn; pti: PTypeInfo = nil); overload; inline;
-procedure BitBtnToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaBitBtn = class(TBitBtn)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TBitBtn; pti: PTypeInfo);
 begin
-	BitBtnToTable(L,-1,v);
-end;
-procedure BitBtnToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TBitBtn');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TBitBtn',v);
 end;
 function CreateBitBtn(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBitBtn := TLuaBitBtn.Create(Parent);
 	lBitBtn.Parent := TWinControl(Parent);
-	lBitBtn.LuaCtl := TVCLuaControl.Create(lBitBtn as TComponent,L,@BitBtnToTable);
+	lBitBtn.LuaCtl := TVCLuaControl.Create(lBitBtn as TComponent,L,nil,'TBitBtn');
 	InitControl(L,lBitBtn,Name);
-	BitBtnToTable(L, -1, lBitBtn);
+	CreateTableForKnownType(L,'TBitBtn',lBitBtn);
 	Result := 1;
 end;
 

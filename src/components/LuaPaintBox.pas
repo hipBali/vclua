@@ -14,7 +14,6 @@ function CreatePaintBox(L: Plua_State): Integer; cdecl;
 function IsPaintBox(L: Plua_State): Integer; cdecl;
 function AsPaintBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPaintBox; pti: PTypeInfo = nil); overload; inline;
-procedure PaintBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaPaintBox = class(TPaintBox)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TPaintBox; pti: PTypeInfo);
 begin
-	PaintBoxToTable(L,-1,v);
-end;
-procedure PaintBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TPaintBox');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TPaintBox',v);
 end;
 function CreatePaintBox(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPaintBox := TLuaPaintBox.Create(Parent);
 	lPaintBox.Parent := TWinControl(Parent);
-	lPaintBox.LuaCtl := TVCLuaControl.Create(lPaintBox as TComponent,L,@PaintBoxToTable);
+	lPaintBox.LuaCtl := TVCLuaControl.Create(lPaintBox as TComponent,L,nil,'TPaintBox');
 	InitControl(L,lPaintBox,Name);
-	PaintBoxToTable(L, -1, lPaintBox);
+	CreateTableForKnownType(L,'TPaintBox',lPaintBox);
 	Result := 1;
 end;
 

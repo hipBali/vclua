@@ -14,7 +14,6 @@ function CreateIdleTimer(L: Plua_State): Integer; cdecl;
 function IsIdleTimer(L: Plua_State): Integer; cdecl;
 function AsIdleTimer(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TIdleTimer; pti: PTypeInfo = nil); overload; inline;
-procedure IdleTimerToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaIdleTimer = class(TIdleTimer)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TIdleTimer; pti: PTypeInfo);
 begin
-	IdleTimerToTable(L,-1,v);
-end;
-procedure IdleTimerToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomIdleTimer');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomIdleTimer',v);
 end;
 function CreateIdleTimer(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lIdleTimer := TLuaIdleTimer.Create(Parent);
 	// := TWinControl(Parent);
-	lIdleTimer.LuaCtl := TVCLuaControl.Create(lIdleTimer as TComponent,L,@IdleTimerToTable);
+	lIdleTimer.LuaCtl := TVCLuaControl.Create(lIdleTimer as TComponent,L,nil,'TCustomIdleTimer');
 	InitControl(L,lIdleTimer,Name);
-	IdleTimerToTable(L, -1, lIdleTimer);
+	CreateTableForKnownType(L,'TCustomIdleTimer',lIdleTimer);
 	Result := 1;
 end;
 

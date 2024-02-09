@@ -14,7 +14,6 @@ function CreateScrollBox(L: Plua_State): Integer; cdecl;
 function IsScrollBox(L: Plua_State): Integer; cdecl;
 function AsScrollBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TScrollBox; pti: PTypeInfo = nil); overload; inline;
-procedure ScrollBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaScrollBox = class(TScrollBox)
@@ -49,23 +48,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TScrollBox; pti: PTypeInfo);
 begin
-	ScrollBoxToTable(L,-1,v);
-end;
-procedure ScrollBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TScrollBox');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TScrollBox',v);
 end;
 function CreateScrollBox(L: Plua_State): Integer; cdecl;
 var
@@ -76,9 +59,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lScrollBox := TLuaScrollBox.Create(Parent);
 	lScrollBox.Parent := TWinControl(Parent);
-	lScrollBox.LuaCtl := TVCLuaControl.Create(lScrollBox as TComponent,L,@ScrollBoxToTable);
+	lScrollBox.LuaCtl := TVCLuaControl.Create(lScrollBox as TComponent,L,nil,'TScrollBox');
 	InitControl(L,lScrollBox,Name);
-	ScrollBoxToTable(L, -1, lScrollBox);
+	CreateTableForKnownType(L,'TScrollBox',lScrollBox);
 	Result := 1;
 end;
 

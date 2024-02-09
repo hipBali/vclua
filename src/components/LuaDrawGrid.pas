@@ -13,7 +13,6 @@ Uses Classes, Lua, LuaController, Grids, Controls, LCLType, TypInfo;
 function IsCustomGrid(L: Plua_State): Integer; cdecl;
 function AsCustomGrid(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCustomGrid; pti: PTypeInfo = nil); overload; inline;
-procedure CustomGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaCustomGrid = class(TCustomGrid)
@@ -27,7 +26,6 @@ function CreateDrawGrid(L: Plua_State): Integer; cdecl;
 function IsDrawGrid(L: Plua_State): Integer; cdecl;
 function AsDrawGrid(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo = nil); overload; inline;
-procedure DrawGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaDrawGrid = class(TDrawGrid)
@@ -852,23 +850,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TCustomGrid; pti: PTypeInfo);
 begin
-	CustomGridToTable(L,-1,v);
-end;
-procedure CustomGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomGrid');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomGrid',v);
 end;
 
 function IsDrawGrid(L: Plua_State): Integer; cdecl;
@@ -890,23 +872,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo);
 begin
-	DrawGridToTable(L,-1,v);
-end;
-procedure DrawGridToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TCustomDrawGrid');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomDrawGrid',v);
 end;
 function CreateDrawGrid(L: Plua_State): Integer; cdecl;
 var
@@ -917,9 +883,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDrawGrid := TLuaDrawGrid.Create(Parent);
 	lDrawGrid.Parent := TWinControl(Parent);
-	lDrawGrid.LuaCtl := TVCLuaControl.Create(lDrawGrid as TComponent,L,@DrawGridToTable);
+	lDrawGrid.LuaCtl := TVCLuaControl.Create(lDrawGrid as TComponent,L,nil,'TCustomDrawGrid');
 	InitControl(L,lDrawGrid,Name);
-	DrawGridToTable(L, -1, lDrawGrid);
+	CreateTableForKnownType(L,'TCustomDrawGrid',lDrawGrid);
 	Result := 1;
 end;
 

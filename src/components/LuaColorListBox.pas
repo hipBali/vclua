@@ -14,7 +14,6 @@ function CreateColorListBox(L: Plua_State): Integer; cdecl;
 function IsColorListBox(L: Plua_State): Integer; cdecl;
 function AsColorListBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo = nil); overload; inline;
-procedure ColorListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
 
 type
     TLuaColorListBox = class(TColorListBox)
@@ -47,23 +46,7 @@ begin
 end;
 procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo);
 begin
-	ColorListBoxToTable(L,-1,v);
-end;
-procedure ColorListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
-begin
-	if Sender = nil then begin
-		lua_pushnil(L);
-		Exit;
-	end;
-	SetDefaultMethods(L,Index,Sender);
-	lua_pushliteral(L,'vmt');
-	luaL_getmetatable(L,'TColorListBox');
-	lua_pushliteral(L,'__index');
-	lua_rawget(L,-2);
-	lua_remove(L,-2);
-	lua_rawset(L,-3);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TColorListBox',v);
 end;
 function CreateColorListBox(L: Plua_State): Integer; cdecl;
 var
@@ -74,9 +57,9 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorListBox := TLuaColorListBox.Create(Parent);
 	lColorListBox.Parent := TWinControl(Parent);
-	lColorListBox.LuaCtl := TVCLuaControl.Create(lColorListBox as TComponent,L,@ColorListBoxToTable);
+	lColorListBox.LuaCtl := TVCLuaControl.Create(lColorListBox as TComponent,L,nil,'TColorListBox');
 	InitControl(L,lColorListBox,Name);
-	ColorListBoxToTable(L, -1, lColorListBox);
+	CreateTableForKnownType(L,'TColorListBox',lColorListBox);
 	Result := 1;
 end;
 
