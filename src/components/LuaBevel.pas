@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaBevel;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -33,7 +33,7 @@ var
 begin
 	CheckArg(L, 2);
 	lBevel := TLuaBevel(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Source);
 	lBevel.Assign(Source);
 	
 	Result := 0;

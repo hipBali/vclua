@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaHeaderControl;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -81,7 +81,7 @@ var
 begin
 	CheckArg(L, 2);
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lHeaderControl.PaintSection(Index);
 	
 	Result := 0;
@@ -95,8 +95,8 @@ var
 begin
 	CheckArg(L, 3);
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
-	M := lua_tointeger(L,2);
-	D := lua_tointeger(L,3);
+	luaL_check(L,2,@M);
+	luaL_check(L,3,@D);
 	lHeaderControl.ChangeScale(M,D);
 	
 	Result := 0;

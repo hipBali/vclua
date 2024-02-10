@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaGraphic;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -33,7 +33,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ASource := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@ASource);
 	lGraphic.Assign(ASource);
 	
 	Result := 0;
@@ -58,7 +58,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Obj := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Obj);
 	ret := lGraphic.Equals(Obj);
 	lua_push(L,ret);
 	
@@ -100,7 +100,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@Stream);
 	lGraphic.LoadFromStream(Stream);
 	
 	Result := 0;
@@ -114,7 +114,7 @@ var
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	AMimeType := lua_toStringCP(L,3);
 	lGraphic.LoadFromMimeStream(AStream,AMimeType);
 	
@@ -142,7 +142,7 @@ var
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Instance := THandle(lua_tointeger(L,2));
+	luaL_check(L,2,@Instance);
 	ResName := lua_toStringCP(L,3);
 	lGraphic.LoadFromResourceName(Instance,ResName);
 	
@@ -157,8 +157,8 @@ var
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Instance := THandle(lua_tointeger(L,2));
-	ResID := lua_tointeger(L,3);
+	luaL_check(L,2,@Instance);
+	luaL_check(L,3,@ResID);
 	lGraphic.LoadFromResourceID(Instance,ResID);
 	
 	Result := 0;
@@ -171,7 +171,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	FormatID := TClipboardFormat(GetLuaObject(L,2));
+	luaL_check(L,2,@FormatID);
 	lGraphic.LoadFromClipboardFormat(FormatID);
 	
 	Result := 0;
@@ -185,8 +185,8 @@ var
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ClipboardType := TClipboardType(GetLuaObject(L,2));
-	FormatID := TClipboardFormat(GetLuaObject(L,3));
+	luaL_check(L,2,@ClipboardType,TypeInfo(TClipboardType));
+	luaL_check(L,3,@FormatID);
 	lGraphic.LoadFromClipboardFormatID(ClipboardType,FormatID);
 	
 	Result := 0;
@@ -212,7 +212,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@Stream);
 	lGraphic.SaveToStream(Stream);
 	
 	Result := 0;
@@ -225,7 +225,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	FormatID := TClipboardFormat(GetLuaObject(L,2));
+	luaL_check(L,2,@FormatID);
 	lGraphic.SaveToClipboardFormat(FormatID);
 	
 	Result := 0;
@@ -239,8 +239,8 @@ var
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ClipboardType := TClipboardType(GetLuaObject(L,2));
-	FormatID := TClipboardFormat(GetLuaObject(L,3));
+	luaL_check(L,2,@ClipboardType,TypeInfo(TClipboardType));
+	luaL_check(L,3,@FormatID);
 	lGraphic.SaveToClipboardFormatID(ClipboardType,FormatID);
 	
 	Result := 0;
@@ -253,7 +253,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	List := TStrings(GetLuaObject(L,2));
+	luaL_check(L,2,@List);
 	lGraphic.GetSupportedSourceMimeTypes(List);
 	
 	Result := 0;

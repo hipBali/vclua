@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaRadioGroup;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -46,7 +46,7 @@ var
 begin
 	CheckArg(L, 2);
 	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
-	AllLevels := lua_toboolean(L,2);
+	luaL_check(L,2,@AllLevels);
 	lRadioGroup.FlipChildren(AllLevels);
 	
 	Result := 0;

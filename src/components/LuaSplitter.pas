@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaSplitter;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -36,8 +36,8 @@ var
 begin
 	CheckArg(L, 3);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	Kind := TAnchorKind(GetLuaObject(L,2));
-	AControl := TControl(GetLuaObject(L,3));
+	luaL_check(L,2,@Kind,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@AControl);
 	lSplitter.AnchorSplitter(Kind,AControl);
 	
 	Result := 0;
@@ -63,7 +63,7 @@ var
 begin
 	CheckArg(L, 2);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	Offset := lua_tointeger(L,2);
+	luaL_check(L,2,@Offset);
 	lSplitter.MoveSplitter(Offset);
 	
 	Result := 0;
@@ -76,7 +76,7 @@ var
 begin
 	CheckArg(L, 2);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	NewPosition := lua_tointeger(L,2);
+	luaL_check(L,2,@NewPosition);
 	lSplitter.SetSplitterPosition(NewPosition);
 	
 	Result := 0;

@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -110,7 +110,7 @@ var
 begin
 	CheckArg(L, 2);
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
-	AnObject := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@AnObject);
 	lEdit.RemoveAllHandlersOfObject(AnObject);
 	
 	Result := 0;

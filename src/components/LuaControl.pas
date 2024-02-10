@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaControl;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -35,9 +35,9 @@ var
 begin
 	CheckArg(L, 4);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Source := TObject(GetLuaObject(L,2));
-	X := lua_tointeger(L,3);
-	Y := lua_tointeger(L,4);
+	luaL_check(L,2,@Source);
+	luaL_check(L,3,@X);
+	luaL_check(L,4,@Y);
 	lControl.DragDrop(Source,X,Y);
 	
 	Result := 0;
@@ -51,7 +51,7 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	NewDockSite := TWinControl(GetLuaObject(L,2));
+	luaL_check(L,2,@NewDockSite);
 	ARect := lua_toTRect(L,3);
 	lControl.Dock(NewDockSite,ARect);
 	
@@ -69,9 +69,9 @@ var
 begin
 	CheckArg(L, -1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	NewDockSite := TWinControl(GetLuaObject(L,2));
-	DropControl := TControl(GetLuaObject(L,3));
-	ControlSide := TAlign(GetLuaObject(L,4));
+	luaL_check(L,2,@NewDockSite);
+	luaL_check(L,3,@DropControl);
+	luaL_check(L,4,@ControlSide,TypeInfo(TAlign));
 	KeepDockSiteSize := luaL_optbool(L,5,true);
 	ret := lControl.ManualDock(NewDockSite,DropControl,ControlSide,KeepDockSiteSize);
 	lua_push(L,ret);
@@ -107,10 +107,10 @@ var
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Control := TControl(GetLuaObject(L,2));
-	NewDockSite := TWinControl(GetLuaObject(L,3));
-	DropControl := TControl(GetLuaObject(L,4));
-	ControlSide := TAlign(GetLuaObject(L,5));
+	luaL_check(L,2,@Control);
+	luaL_check(L,3,@NewDockSite);
+	luaL_check(L,4,@DropControl);
+	luaL_check(L,5,@ControlSide,TypeInfo(TAlign));
 	ret := lControl.ReplaceDockedControl(Control,NewDockSite,DropControl,ControlSide);
 	lua_push(L,ret);
 	
@@ -151,7 +151,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.ScaleDesignToForm(ASize);
 	lua_push(L,ret);
 	
@@ -166,7 +166,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.ScaleFormToDesign(ASize);
 	lua_push(L,ret);
 	
@@ -181,7 +181,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.Scale96ToForm(ASize);
 	lua_push(L,ret);
 	
@@ -196,7 +196,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.ScaleFormTo96(ASize);
 	lua_push(L,ret);
 	
@@ -211,7 +211,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.Scale96ToFont(ASize);
 	lua_push(L,ret);
 	
@@ -226,7 +226,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.ScaleFontTo96(ASize);
 	lua_push(L,ret);
 	
@@ -241,7 +241,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.ScaleScreenToFont(ASize);
 	lua_push(L,ret);
 	
@@ -256,7 +256,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.ScaleFontToScreen(ASize);
 	lua_push(L,ret);
 	
@@ -271,7 +271,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.Scale96ToScreen(ASize);
 	lua_push(L,ret);
 	
@@ -286,7 +286,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
+	luaL_check(L,2,@ASize);
 	ret := lControl.ScaleScreenTo96(ASize);
 	lua_push(L,ret);
 	
@@ -302,9 +302,9 @@ var
 begin
 	CheckArg(L, 4);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
-	Space := TSpacingSize(GetLuaObject(L,3));
-	Sibling := TControl(GetLuaObject(L,4));
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@Space);
+	luaL_check(L,4,@Sibling);
 	lControl.AnchorToNeighbour(Side,Space,Sibling);
 	
 	Result := 0;
@@ -319,9 +319,9 @@ var
 begin
 	CheckArg(L, 4);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
-	Space := TSpacingSize(GetLuaObject(L,3));
-	Sibling := TControl(GetLuaObject(L,4));
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@Space);
+	luaL_check(L,4,@Sibling);
 	lControl.AnchorParallel(Side,Space,Sibling);
 	
 	Result := 0;
@@ -334,7 +334,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Sibling := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@Sibling);
 	lControl.AnchorHorizontalCenterTo(Sibling);
 	
 	Result := 0;
@@ -347,7 +347,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Sibling := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@Sibling);
 	lControl.AnchorVerticalCenterTo(Sibling);
 	
 	Result := 0;
@@ -363,9 +363,9 @@ var
 begin
 	CheckArg(L, -1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
-	Space := TSpacingSize(GetLuaObject(L,3));
-	Sibling := TControl(GetLuaObject(L,4));
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@Space);
+	luaL_check(L,4,@Sibling);
 	FreeCompositeSide := luaL_optbool(L,5,true);
 	lControl.AnchorToCompanion(Side,Space,Sibling,FreeCompositeSide);
 	
@@ -380,8 +380,8 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
-	Sibling := TControl(GetLuaObject(L,3));
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@Sibling);
 	lControl.AnchorSame(Side,Sibling);
 	
 	Result := 0;
@@ -395,8 +395,8 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	TheAlign := TAlign(GetLuaObject(L,2));
-	Space := TSpacingSize(GetLuaObject(L,3));
+	luaL_check(L,2,@TheAlign,TypeInfo(TAlign));
+	luaL_check(L,3,@Space);
 	lControl.AnchorAsAlign(TheAlign,Space);
 	
 	Result := 0;
@@ -409,7 +409,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Space := TSpacingSize(GetLuaObject(L,2));
+	luaL_check(L,2,@Space);
 	lControl.AnchorClient(Space);
 	
 	Result := 0;
@@ -438,10 +438,10 @@ var
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	aLeft := lua_tointeger(L,2);
-	aTop := lua_tointeger(L,3);
-	aWidth := lua_tointeger(L,4);
-	aHeight := lua_tointeger(L,5);
+	luaL_check(L,2,@aLeft);
+	luaL_check(L,3,@aTop);
+	luaL_check(L,4,@aWidth);
+	luaL_check(L,5,@aHeight);
 	lControl.SetBounds(aLeft,aTop,aWidth,aHeight);
 	
 	Result := 0;
@@ -457,10 +457,10 @@ var
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	aLeft := lua_tointeger(L,2);
-	aTop := lua_tointeger(L,3);
-	aWidth := lua_tointeger(L,4);
-	aHeight := lua_tointeger(L,5);
+	luaL_check(L,2,@aLeft);
+	luaL_check(L,3,@aTop);
+	luaL_check(L,4,@aWidth);
+	luaL_check(L,5,@aHeight);
 	lControl.SetInitialBounds(aLeft,aTop,aWidth,aHeight);
 	
 	Result := 0;
@@ -476,10 +476,10 @@ var
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	aLeft := lua_tointeger(L,2);
-	aTop := lua_tointeger(L,3);
-	aWidth := lua_tointeger(L,4);
-	aHeight := lua_tointeger(L,5);
+	luaL_check(L,2,@aLeft);
+	luaL_check(L,3,@aTop);
+	luaL_check(L,4,@aWidth);
+	luaL_check(L,5,@aHeight);
 	lControl.SetBoundsKeepBase(aLeft,aTop,aWidth,aHeight);
 	
 	Result := 0;
@@ -513,8 +513,8 @@ var
 begin
 	CheckArg(L, -1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	PreferredWidth := lua_tointeger(L,2);
-	PreferredHeight := lua_tointeger(L,3);
+	luaL_check(L,2,@PreferredWidth);
+	luaL_check(L,3,@PreferredHeight);
 	Raw := luaL_optbool(L,4,false);
 	WithThemeSpace := luaL_optbool(L,5,true);
 	lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
@@ -570,7 +570,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	DefaultColorType := TDefaultColorType(GetLuaObject(L,2));
+	luaL_check(L,2,@DefaultColorType,TypeInfo(TDefaultColorType));
 	ret := lControl.GetDefaultColor(DefaultColorType);
 	lua_push(L,ret);
 	
@@ -611,7 +611,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
 	ret := lControl.GetSidePosition(Side);
 	lua_push(L,ret);
 	
@@ -649,9 +649,9 @@ var
 begin
 	CheckArg(L, 4);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	StoreBounds := lua_toboolean(L,2);
-	StoreParentClientSize := lua_toboolean(L,3);
-	UseLoadedValues := lua_toboolean(L,4);
+	luaL_check(L,2,@StoreBounds);
+	luaL_check(L,3,@StoreParentClientSize);
+	luaL_check(L,4,@UseLoadedValues);
 	lControl.UpdateBaseBounds(StoreBounds,StoreParentClientSize,UseLoadedValues);
 	
 	Result := 0;
@@ -680,8 +680,8 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	AWidth := lua_toboolean(L,2);
-	AHeight := lua_toboolean(L,3);
+	luaL_check(L,2,@AWidth);
+	luaL_check(L,3,@AHeight);
 	lControl.ShouldAutoAdjust(AWidth,AHeight);
 	lua_push(L,AWidth);
 	lua_push(L,AHeight);
@@ -695,7 +695,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ADesignTimePPI := lua_tointeger(L,2);
+	luaL_check(L,2,@ADesignTimePPI);
 	lControl.FixDesignFontsPPI(ADesignTimePPI);
 	
 	Result := 0;
@@ -709,8 +709,8 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	AToPPI := lua_tointeger(L,2);
-	AProportion := lua_tonumber(L,3);
+	luaL_check(L,2,@AToPPI);
+	luaL_check(L,3,@AProportion);
 	lControl.ScaleFontsPPI(AToPPI,AProportion);
 	
 	Result := 0;
@@ -768,7 +768,7 @@ var
 begin
 	CheckArg(L, -1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Immediate := lua_toboolean(L,2);
+	luaL_check(L,2,@Immediate);
 	Threshold := luaL_optint(L,3,-1);
 	lControl.BeginDrag(Immediate,Threshold);
 	
@@ -782,7 +782,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Drop := lua_toboolean(L,2);
+	luaL_check(L,2,@Drop);
 	lControl.EndDrag(Drop);
 	
 	Result := 0;
@@ -833,7 +833,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	AControl := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@AControl);
 	ret := lControl.IsParentOf(AControl);
 	lua_push(L,ret);
 	
@@ -956,7 +956,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Value := TCursor(lua_tointeger(L,2));
+	luaL_check(L,2,@Value);
 	lControl.SetTempCursor(Value);
 	
 	Result := 0;
@@ -980,7 +980,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	NewControl := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@NewControl);
 	lControl.ActiveDefaultControlChanged(NewControl);
 	
 	Result := 0;
@@ -996,7 +996,7 @@ begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	Buffer := PChar(lua_toStringCP(L,2));
-	BufSize := lua_tointeger(L,3);
+	luaL_check(L,3,@BufSize);
 	ret := lControl.GetTextBuf(Buffer,BufSize);
 	lua_push(L,ret);
 	
@@ -1099,7 +1099,7 @@ begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	Point := lua_toTPoint(L,2);
-	AParent := TWinControl(GetLuaObject(L,3));
+	luaL_check(L,3,@AParent);
 	ret := lControl.ClientToParent(Point,AParent);
 	lua_push(L,ret);
 	
@@ -1116,7 +1116,7 @@ begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	Point := lua_toTPoint(L,2);
-	AParent := TWinControl(GetLuaObject(L,3));
+	luaL_check(L,3,@AParent);
 	ret := lControl.ParentToClient(Point,AParent);
 	lua_push(L,ret);
 	
@@ -1131,7 +1131,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Scrolled := lua_toboolean(L,2);
+	luaL_check(L,2,@Scrolled);
 	ret := lControl.GetChildrenRect(Scrolled);
 	lua_push(L,ret);
 	

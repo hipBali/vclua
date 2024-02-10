@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaDrawGrid;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -119,8 +119,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	ACol := lua_tointeger(L,2);
-	ARow := lua_tointeger(L,3);
+	luaL_check(L,2,@ACol);
+	luaL_check(L,3,@ARow);
 	ret := lCustomGrid.CellRect(ACol,ARow);
 	lua_push(L,ret);
 	
@@ -136,8 +136,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	aCol := lua_tointeger(L,2);
-	aRow := lua_tointeger(L,3);
+	luaL_check(L,2,@aCol);
+	luaL_check(L,3,@aRow);
 	ret := lCustomGrid.CellToGridZone(aCol,aRow);
 	lua_push(L,ret,TypeInfo(ret));
 	
@@ -211,7 +211,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Style := TColumnButtonStyle(GetLuaObject(L,2));
+	luaL_check(L,2,@Style,TypeInfo(TColumnButtonStyle));
 	ret := lCustomGrid.EditorByStyle(Style);
 	lua_push(L,ret,TypeInfo(ret));
 	
@@ -227,8 +227,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
-	Shift := TShiftState(GetEnumValue(TypeInfo(TShiftState),lua_tostring(L,3)));
+	luaL_check(L,2,@Sender);
+	luaL_checkSet(L,3,@Shift,TypeInfo(TShiftState));
 	lCustomGrid.EditorKeyDown(Sender,Key,Shift);
 	lua_push(L,Key);
 	Result := 1;
@@ -243,9 +243,9 @@ var
 begin
 	CheckArg(L, 4);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
-	Key := Word(lua_tointeger(L,3));
-	Shift := TShiftState(GetEnumValue(TypeInfo(TShiftState),lua_tostring(L,4)));
+	luaL_check(L,2,@Sender);
+	luaL_check(L,3,@Key);
+	luaL_checkSet(L,4,@Shift,TypeInfo(TShiftState));
 	lCustomGrid.EditorKeyDown(Sender,Key,Shift);
 	lua_push(L,Key);
 	Result := 1;
@@ -259,7 +259,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Sender);
 	lCustomGrid.EditorKeyPress(Sender,Key);
 	lua_push(L,Key);
 	Result := 1;
@@ -273,7 +273,7 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Sender);
 	Key := Char(lua_tostring(L,3));
 	lCustomGrid.EditorKeyPress(Sender,Key);
 	lua_push(L,Key);
@@ -288,7 +288,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Sender);
 	lCustomGrid.EditorUTF8KeyPress(Sender,UTF8Key);
 	lua_push(L,UTF8Key);
 	Result := 1;
@@ -302,7 +302,7 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Sender);
 	UTF8Key := TUTF8Char(lua_tostring(L,3));
 	lCustomGrid.EditorUTF8KeyPress(Sender,UTF8Key);
 	lua_push(L,UTF8Key);
@@ -318,8 +318,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
-	shift := TShiftState(GetEnumValue(TypeInfo(TShiftState),lua_tostring(L,3)));
+	luaL_check(L,2,@Sender);
+	luaL_checkSet(L,3,@shift,TypeInfo(TShiftState));
 	lCustomGrid.EditorKeyUp(Sender,key,shift);
 	lua_push(L,key);
 	Result := 1;
@@ -334,9 +334,9 @@ var
 begin
 	CheckArg(L, 4);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
-	key := Word(lua_tointeger(L,3));
-	shift := TShiftState(GetEnumValue(TypeInfo(TShiftState),lua_tostring(L,4)));
+	luaL_check(L,2,@Sender);
+	luaL_check(L,3,@key);
+	luaL_checkSet(L,4,@shift,TypeInfo(TShiftState));
 	lCustomGrid.EditorKeyUp(Sender,key,shift);
 	lua_push(L,key);
 	Result := 1;
@@ -351,8 +351,8 @@ var
 begin
 	CheckArg(L, 4);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	aCol := lua_tointeger(L,2);
-	aRow := lua_tointeger(L,3);
+	luaL_check(L,2,@aCol);
+	luaL_check(L,3,@aRow);
 	aText := lua_toStringCP(L,4);
 	lCustomGrid.EditorTextChanged(aCol,aRow,aText);
 	
@@ -379,7 +379,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	ADesignTimePPI := lua_tointeger(L,2);
+	luaL_check(L,2,@ADesignTimePPI);
 	lCustomGrid.FixDesignFontsPPI(ADesignTimePPI);
 	
 	Result := 0;
@@ -430,8 +430,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	aCol := lua_tointeger(L,2);
-	aRow := lua_tointeger(L,3);
+	luaL_check(L,2,@aCol);
+	luaL_check(L,3,@aRow);
 	lCustomGrid.InvalidateCell(aCol,aRow);
 	
 	Result := 0;
@@ -444,7 +444,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	ACol := lua_tointeger(L,2);
+	luaL_check(L,2,@ACol);
 	lCustomGrid.InvalidateCol(ACol);
 	
 	Result := 0;
@@ -470,7 +470,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	ARow := lua_tointeger(L,2);
+	luaL_check(L,2,@ARow);
 	lCustomGrid.InvalidateRow(ARow);
 	
 	Result := 0;
@@ -485,8 +485,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	aCol := lua_tointeger(L,2);
-	aRow := lua_tointeger(L,3);
+	luaL_check(L,2,@aCol);
+	luaL_check(L,3,@aRow);
 	ret := lCustomGrid.IsCellVisible(aCol,aRow);
 	lua_push(L,ret);
 	
@@ -502,8 +502,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	aCol := lua_tointeger(L,2);
-	aRow := lua_tointeger(L,3);
+	luaL_check(L,2,@aCol);
+	luaL_check(L,3,@aRow);
 	ret := lCustomGrid.IsFixedCellVisible(aCol,aRow);
 	lua_push(L,ret);
 	
@@ -530,7 +530,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	lCustomGrid.LoadFromStream(AStream);
 	
 	Result := 0;
@@ -545,8 +545,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	ret := lCustomGrid.MouseCoord(X,Y);
 	lua_push(L,ret);
 	
@@ -578,8 +578,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	lCustomGrid.MouseToCell(X,Y,ACol,ARow);
 	lua_push(L,ACol);
 	lua_push(L,ARow);
@@ -610,8 +610,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	ret := lCustomGrid.MouseToGridZone(X,Y);
 	lua_push(L,ret,TypeInfo(ret));
 	
@@ -638,7 +638,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	lCustomGrid.SaveToStream(AStream);
 	
 	Result := 0;
@@ -652,8 +652,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	AToPPI := lua_tointeger(L,2);
-	AProportion := lua_tonumber(L,3);
+	luaL_check(L,2,@AToPPI);
+	luaL_check(L,3,@AProportion);
 	lCustomGrid.ScaleFontsPPI(AToPPI,AProportion);
 	
 	Result := 0;
@@ -678,8 +678,8 @@ var
 begin
 	CheckArg(L, 3);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	index := lua_tointeger(L,3);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@index);
 	lDrawGrid.DeleteColRow(IsColumn,index);
 	
 	Result := 0;
@@ -692,7 +692,7 @@ var
 begin
 	CheckArg(L, 2);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lDrawGrid.DeleteCol(Index);
 	
 	Result := 0;
@@ -705,7 +705,7 @@ var
 begin
 	CheckArg(L, 2);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lDrawGrid.DeleteRow(Index);
 	
 	Result := 0;
@@ -720,9 +720,9 @@ var
 begin
 	CheckArg(L, 4);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	index := lua_tointeger(L,3);
-	WithIndex := lua_tointeger(L,4);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@index);
+	luaL_check(L,4,@WithIndex);
 	lDrawGrid.ExchangeColRow(IsColumn,index,WithIndex);
 	
 	Result := 0;
@@ -736,8 +736,8 @@ var
 begin
 	CheckArg(L, 3);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	index := lua_tointeger(L,3);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@index);
 	lDrawGrid.InsertColRow(IsColumn,index);
 	
 	Result := 0;
@@ -752,9 +752,9 @@ var
 begin
 	CheckArg(L, 4);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	FromIndex := lua_tointeger(L,3);
-	ToIndex := lua_tointeger(L,4);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@FromIndex);
+	luaL_check(L,4,@ToIndex);
 	lDrawGrid.MoveColRow(IsColumn,FromIndex,ToIndex);
 	
 	Result := 0;
@@ -768,8 +768,8 @@ var
 begin
 	CheckArg(L, 3);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	index := lua_tointeger(L,3);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@index);
 	lDrawGrid.SortColRow(IsColumn,index);
 	
 	Result := 0;
@@ -785,10 +785,10 @@ var
 begin
 	CheckArg(L, 5);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	Index := lua_tointeger(L,3);
-	FromIndex := lua_tointeger(L,4);
-	ToIndex := lua_tointeger(L,5);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@Index);
+	luaL_check(L,4,@FromIndex);
+	luaL_check(L,5,@ToIndex);
 	lDrawGrid.SortColRow(IsColumn,Index,FromIndex,ToIndex);
 	
 	Result := 0;
@@ -804,9 +804,9 @@ var
 begin
 	CheckArg(L, 4);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	aCol := lua_tointeger(L,2);
-	aRow := lua_tointeger(L,3);
-	aState := TGridDrawState(GetEnumValue(TypeInfo(TGridDrawState),lua_tostring(L,4)));
+	luaL_check(L,2,@aCol);
+	luaL_check(L,3,@aRow);
+	luaL_checkSet(L,4,@aState,TypeInfo(TGridDrawState));
 	lDrawGrid.DefaultDrawCell(aCol,aRow,aRect,aState);
 	lua_push(L,aRect);
 	Result := 1;
@@ -822,10 +822,10 @@ var
 begin
 	CheckArg(L, 5);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
-	aCol := lua_tointeger(L,2);
-	aRow := lua_tointeger(L,3);
+	luaL_check(L,2,@aCol);
+	luaL_check(L,3,@aRow);
 	aRect := lua_toTRect(L,4);
-	aState := TGridDrawState(GetEnumValue(TypeInfo(TGridDrawState),lua_tostring(L,5)));
+	luaL_checkSet(L,5,@aState,TypeInfo(TGridDrawState));
 	lDrawGrid.DefaultDrawCell(aCol,aRow,aRect,aState);
 	lua_push(L,aRect);
 	Result := 1;

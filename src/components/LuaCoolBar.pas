@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaCoolBar;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -69,8 +69,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	AControl := TControl(GetLuaObject(L,2));
-	Index := lua_tointeger(L,3);
+	luaL_check(L,2,@AControl);
+	luaL_check(L,3,@Index);
 	lCoolBar.InsertControl(AControl,Index);
 	
 	Result := 0;
@@ -86,8 +86,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	lCoolBar.MouseToBandPos(X,Y,ABand,AGrabber);
 	lua_push(L,ABand);
 	lua_push(L,AGrabber);
@@ -101,7 +101,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	AControl := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@AControl);
 	lCoolBar.RemoveControl(AControl);
 	
 	Result := 0;

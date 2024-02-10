@@ -1,6 +1,6 @@
 unit LuaProxy;
 
-{$mode Delphi}{$H+}
+{$mode Delphi}{$H+}{$T+}
 
 interface
 
@@ -43,6 +43,22 @@ function lua_toTShiftState(L: Plua_State; Index: Integer; default:TShiftState ):
 // TString descenant properties
 function GetTStringsProperty(L: Plua_State; Comp:TStrings; pn:String):boolean;
 
+// compile all users with T+ (typed address operator)
+procedure luaL_check(L: Plua_State; i: Integer; v: PBoolean; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt8; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt16; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt32; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt64; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt8; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt16; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt32; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt64; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil); overload; inline;
+function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo):PChar; inline;
+procedure luaL_checkSet(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo); inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo); overload; inline;
+
 procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:Int64  ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:QWord  ; pti : PTypeInfo = nil); overload; inline;
@@ -50,8 +66,8 @@ procedure lua_push(L: Plua_State; v:Double ; pti : PTypeInfo = nil); overload; i
 procedure lua_push(L: Plua_State; v:Char   ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:TUTF8Char; pti : PTypeInfo = nil); overload; inline;
-procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil); overload; inline;
-procedure lua_push(L: Plua_State; const v:TRect ; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil); overload;
+procedure lua_push(L: Plua_State; const v:TRect ; pti : PTypeInfo = nil); overload;
 procedure lua_push(L: Plua_State; const v       ; pti : PTypeInfo);       overload; inline;
 procedure lua_pushSet(L: Plua_State; v:LongInt; pti : PTypeInfo);overload; inline;// LongInt as per TypInfo
 procedure lua_pushSet(L: Plua_State; v:Pointer; pti : PTypeInfo);overload; inline;
@@ -62,6 +78,86 @@ procedure lua_pushArray<T>(L: Plua_State; const v:array of T; pti : PTypeInfo = 
 implementation
 
 uses LuaObject, LazUtf8;
+
+// check overloads
+procedure luaL_check(L: Plua_State; i: Integer; v: PBoolean; pti : PTypeInfo = nil);
+begin
+  // CheckArg checks for argument elsewhere, no other check needed
+  v^ := lua_toboolean(L, i);
+end;
+
+function luaL_checkInt64(L: Plua_State; i: Integer; pti : PTypeInfo):Int64; inline;
+{$ifdef LUA51}
+var
+  temp:Double;
+begin
+  luaL_check(L, i, @temp, pti);
+  Result := Trunc(temp);
+  if Result <> temp then
+     LuaTypeError(L, i, pti);
+end;
+{$else}
+var
+  temp:LongBool;
+begin
+  Result := lua_tointegerx(L, i, @temp);
+  if not temp then
+    LuaTypeError(L, i, pti);
+end;
+{$endif}
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt8; pti : PTypeInfo = nil);   begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt16; pti : PTypeInfo = nil);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt32; pti : PTypeInfo = nil);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt64; pti : PTypeInfo = nil);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt8; pti : PTypeInfo = nil);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt16; pti : PTypeInfo = nil); begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt32; pti : PTypeInfo = nil); begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt64; pti : PTypeInfo = nil); begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
+
+procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil);
+begin
+  v^ := lua_tonumber(L, i);
+  if (v^ = 0) and not lua_isnumber(L, i) then begin
+    if pti = nil then pti := TypeInfo(v^);
+    LuaTypeError(L, i, pti);
+  end;
+end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil);
+var temp:Double;
+begin
+  luaL_check(L, i, @temp, TypeInfo(Single));
+  v^ := temp;
+end;
+
+function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo):PChar;
+begin
+  Result := lua_tostring(L, i);
+  if Result = nil then
+    LuaTypeError(L, i, pti);
+end;
+
+procedure luaL_checkSet(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo);
+begin
+  StringToSet(pti, luaL_checkPChar(L, i, pti), v);
+end;
+function luaL_checkEnum(L: Plua_State; i: Integer; pti : PTypeInfo):Integer; inline;  // Integer as per TypInfo
+begin
+  Result := GetEnumValue(pti, luaL_checkPChar(L, i, pti));
+end;
+procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo);
+begin
+  case pti.Kind of
+    tkSet: luaL_checkSet(L, i, v, pti);
+    tkEnumeration:
+      case GetTypeData(pti).OrdType of
+          otSByte,otUByte: PByte(v)^ := luaL_checkEnum(L, i, pti);
+          otSWord,otUWord: PWord(v)^ := luaL_checkEnum(L, i, pti);
+          otSLong,otULong: PCardinal(v)^ := luaL_checkEnum(L, i, pti);
+      end;
+  else
+    LuaError(L, 'Don''t know how to get type from Lua stack', pti.name);
+  end;
+end;
 
 // push overloads
 procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil);
@@ -128,10 +224,10 @@ begin
     tkSet: lua_pushSet(L, @v, pti);
     tkEnumeration:
       begin
-        case Sizeof(GetTypeData(pti).OrdType) of
-            1: i := PByte(@v)^;
-            2: i := PWord(@v)^;
-            4: i := PCardinal(@v)^;
+        case GetTypeData(pti).OrdType of
+            otSByte,otUByte: i := PByte(@v)^;
+            otSWord,otUWord: i := PWord(@v)^;
+            otSLong,otULong: i := PCardinal(@v)^;
         end;
         lua_pushEnum(L, i, pti);
       end

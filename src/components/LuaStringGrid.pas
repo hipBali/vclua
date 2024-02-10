@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaStringGrid;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -59,7 +59,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Source);
 	lGridColumn.Assign(Source);
 	
 	Result := 0;
@@ -83,7 +83,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
-	ADesignTimePPI := lua_tointeger(L,2);
+	luaL_check(L,2,@ADesignTimePPI);
 	lGridColumn.FixDesignFontsPPI(ADesignTimePPI);
 	
 	Result := 0;
@@ -97,8 +97,8 @@ var
 begin
 	CheckArg(L, 3);
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
-	AToPPI := lua_tointeger(L,2);
-	AProportion := lua_tonumber(L,3);
+	luaL_check(L,2,@AToPPI);
+	luaL_check(L,3,@AProportion);
 	lGridColumn.ScaleFontsPPI(AToPPI,AProportion);
 	
 	Result := 0;
@@ -164,7 +164,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	ret := lGridColumns.RealIndex(Index);
 	lua_push(L,ret);
 	
@@ -179,7 +179,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
-	Column := TGridColumn(GetLuaObject(L,2));
+	luaL_check(L,2,@Column);
 	ret := lGridColumns.IndexOf(Column);
 	lua_push(L,ret);
 	
@@ -207,7 +207,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	ret := lGridColumns.HasIndex(Index);
 	lua_push(L,ret);
 	
@@ -222,7 +222,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	ret := lGridColumns.VisibleIndex(Index);
 	lua_push(L,ret);
 	
@@ -236,7 +236,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	aCol := lua_tointeger(L,2);
+	luaL_check(L,2,@aCol);
 	lStringGrid.AutoSizeColumn(aCol);
 	
 	Result := 0;
@@ -271,7 +271,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	CleanOptions := TGridZoneSet(GetEnumValue(TypeInfo(TGridZoneSet),lua_tostring(L,2)));
+	luaL_checkSet(L,2,@CleanOptions,TypeInfo(TGridZoneSet));
 	lStringGrid.Clean(CleanOptions);
 	
 	Result := 0;
@@ -286,7 +286,7 @@ begin
 	CheckArg(L, 3);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	aRect := lua_toTRect(L,2);
-	CleanOptions := TGridZoneSet(GetEnumValue(TypeInfo(TGridZoneSet),lua_tostring(L,3)));
+	luaL_checkSet(L,3,@CleanOptions,TypeInfo(TGridZoneSet));
 	lStringGrid.Clean(aRect,CleanOptions);
 	
 	Result := 0;
@@ -303,11 +303,11 @@ var
 begin
 	CheckArg(L, 6);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	StartCol := lua_tointeger(L,2);
-	StartRow := lua_tointeger(L,3);
-	EndCol := lua_tointeger(L,4);
-	EndRow := lua_tointeger(L,5);
-	CleanOptions := TGridZoneSet(GetEnumValue(TypeInfo(TGridZoneSet),lua_tostring(L,6)));
+	luaL_check(L,2,@StartCol);
+	luaL_check(L,3,@StartRow);
+	luaL_check(L,4,@EndCol);
+	luaL_check(L,5,@EndRow);
+	luaL_checkSet(L,6,@CleanOptions,TypeInfo(TGridZoneSet));
 	lStringGrid.Clean(StartCol,StartRow,EndCol,EndRow,CleanOptions);
 	
 	Result := 0;
@@ -334,7 +334,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	Values := lua_toStringArray(L,3);
 	lStringGrid.InsertRowWithValues(Index,Values);
 	
@@ -352,7 +352,7 @@ var
 begin
 	CheckArg(L, -1);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	ADelimiter := char(luaL_optstring(L,3,','));
 	UseTitles := luaL_optbool(L,4,true);
 	FromLine := luaL_optint(L,5,0);
@@ -393,7 +393,7 @@ var
 begin
 	CheckArg(L, -1);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	ADelimiter := char(luaL_optstring(L,3,','));
 	WriteTitles := luaL_optbool(L,4,true);
 	VisibleColumnsOnly := luaL_optbool(L,5,false);

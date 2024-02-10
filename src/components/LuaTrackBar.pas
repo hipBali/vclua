@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaTrackBar;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -33,7 +33,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTrackBar := TLuaTrackBar(GetLuaObject(L, 1));
-	Value := lua_tointeger(L,2);
+	luaL_check(L,2,@Value);
 	lTrackBar.SetTick(Value);
 	
 	Result := 0;

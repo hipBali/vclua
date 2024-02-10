@@ -17,7 +17,7 @@ const
 function RunSeparate(L: Plua_State):integer;cdecl;
 
 procedure LuaError(L: Plua_State; text: String; err: String);
-procedure LuaTypeError(L: Plua_State; pti: PTypeInfo; index: Integer); inline;
+procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo); inline;
 procedure DoScript(L: Plua_State; fileName: String);
 procedure DoCall(L: Plua_State; paramCount:integer);
 
@@ -163,7 +163,7 @@ begin
      // Halt;
 end;
 
-procedure LuaTypeError(L: Plua_State; pti: PTypeInfo; index: Integer);
+procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo);
 var t,v:string;
 begin
   index := LuaAbsIndex(L, index);

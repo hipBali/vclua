@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaFont;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -33,7 +33,7 @@ var
 begin
 	CheckArg(L, 2);
 	lFont := TLuaFont(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Source);
 	lFont.Assign(Source);
 	
 	Result := 0;
@@ -95,7 +95,7 @@ var
 begin
 	CheckArg(L, 2);
 	lFont := TLuaFont(GetLuaObject(L, 1));
-	AFont := TFont(GetLuaObject(L,2));
+	luaL_check(L,2,@AFont);
 	ret := lFont.IsEqual(AFont);
 	lua_push(L,ret);
 	

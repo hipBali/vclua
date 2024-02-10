@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaCheckListBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -34,7 +34,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lCheckListBox.MeasureItem(Index,TheHeight);
 	lua_push(L,TheHeight);
 	Result := 1;
@@ -48,8 +48,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	TheHeight := lua_tointeger(L,3);
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@TheHeight);
 	lCheckListBox.MeasureItem(Index,TheHeight);
 	lua_push(L,TheHeight);
 	Result := 1;
@@ -62,7 +62,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@AIndex);
 	lCheckListBox.Toggle(AIndex);
 	
 	Result := 0;
@@ -77,7 +77,7 @@ var
 begin
 	CheckArg(L, -1);
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
-	AState := TCheckBoxState(GetLuaObject(L,2));
+	luaL_check(L,2,@AState,TypeInfo(TCheckBoxState));
 	aAllowGrayed := luaL_optbool(L,3,True);
 	aAllowDisabled := luaL_optbool(L,4,True);
 	lCheckListBox.CheckAll(AState,aAllowGrayed,aAllowDisabled);
@@ -93,8 +93,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
-	AIndex1 := lua_tointeger(L,2);
-	AIndex2 := lua_tointeger(L,3);
+	luaL_check(L,2,@AIndex1);
+	luaL_check(L,3,@AIndex2);
 	lCheckListBox.Exchange(AIndex1,AIndex2);
 	
 	Result := 0;

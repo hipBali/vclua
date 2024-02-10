@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaPopupNotifier;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -56,8 +56,8 @@ var
 begin
 	CheckArg(L, 3);
 	lPopupNotifier := TLuaPopupNotifier(GetLuaObject(L, 1));
-	x := lua_tointeger(L,2);
-	y := lua_tointeger(L,3);
+	luaL_check(L,2,@x);
+	luaL_check(L,3,@y);
 	lPopupNotifier.ShowAtPos(x,y);
 	
 	Result := 0;

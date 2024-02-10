@@ -393,13 +393,13 @@ function createUnitBody(cdef, ref)
           for i=1,#ppp do
             idx = idx + 1
             varName = ppp[i]
-            if varValue and VCLUA_FROMLUA["def_"..varType:lower()] then
-              table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA["def_"..varType:lower()]:gsub("#IDX",idx):gsub("#DEF",varValue))
+            local vtLower = varType:lower()
+            if varValue and VCLUA_FROMLUA["def_"..vtLower] then
+              table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA["def_"..vtLower]:gsub("#IDX",idx):gsub("#DEF",varValue))
               defVars = true
-            elseif VCLUA_FROMLUA[varType:lower()] then
-              table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA[varType:lower()]:gsub("#",idx))
             else
-              table.insert(varsFromLua,varName .. " := "..varType.."(GetLuaObject(L," .. idx .. "));" )
+              local templ = VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
+              table.insert(varsFromLua, (templ:gsub('#VAR',varName,1):gsub('#TYP',varType):gsub("#",idx)))
             end
           end
         end

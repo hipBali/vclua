@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaImageList;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -33,7 +33,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Dest := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Dest);
 	lImageList.AssignTo(Dest);
 	
 	Result := 0;
@@ -46,7 +46,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Source);
 	lImageList.Assign(Source);
 	
 	Result := 0;
@@ -59,7 +59,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	lImageList.WriteData(AStream);
 	
 	Result := 0;
@@ -72,7 +72,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	lImageList.ReadData(AStream);
 	
 	Result := 0;
@@ -85,7 +85,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	lImageList.WriteAdvData(AStream);
 	
 	Result := 0;
@@ -98,7 +98,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	lImageList.ReadAdvData(AStream);
 	
 	Result := 0;
@@ -112,7 +112,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Obj := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Obj);
 	ret := lImageList.Equals(Obj);
 	lua_push(L,ret);
 	
@@ -150,8 +150,8 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Image := TCustomBitmap(GetLuaObject(L,2));
-	Mask := TCustomBitmap(GetLuaObject(L,3));
+	luaL_check(L,2,@Image);
+	luaL_check(L,3,@Mask);
 	ret := lImageList.Add(Image,Mask);
 	lua_push(L,ret);
 	
@@ -168,9 +168,9 @@ var
 begin
 	CheckArg(L, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Image := TCustomBitmap(GetLuaObject(L,2));
-	AHorizontalCount := lua_tointeger(L,3);
-	AVerticalCount := lua_tointeger(L,4);
+	luaL_check(L,2,@Image);
+	luaL_check(L,3,@AHorizontalCount);
+	luaL_check(L,4,@AVerticalCount);
 	ret := lImageList.AddSliced(Image,AHorizontalCount,AVerticalCount);
 	lua_push(L,ret);
 	
@@ -186,7 +186,7 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Image := TCustomBitmap(GetLuaObject(L,2));
+	luaL_check(L,2,@Image);
 	AImageRect := lua_toTRect(L,3);
 	ret := lImageList.AddSlice(Image,AImageRect);
 	lua_push(L,ret);
@@ -202,7 +202,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Image := TCustomBitmap(GetLuaObject(L,2));
+	luaL_check(L,2,@Image);
 	ret := lImageList.AddSliceCentered(Image);
 	lua_push(L,ret);
 	
@@ -217,7 +217,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Image := TCustomIcon(GetLuaObject(L,2));
+	luaL_check(L,2,@Image);
 	ret := lImageList.AddIcon(Image);
 	lua_push(L,ret);
 	
@@ -231,7 +231,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AValue := TCustomImageList(GetLuaObject(L,2));
+	luaL_check(L,2,@AValue);
 	lImageList.AddImages(AValue);
 	
 	Result := 0;
@@ -246,8 +246,8 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Image := TBitmap(GetLuaObject(L,2));
-	MaskColor := TColor(lua_tointeger(L,3));
+	luaL_check(L,2,@Image);
+	luaL_check(L,3,@MaskColor);
 	ret := lImageList.AddMasked(Image,MaskColor);
 	lua_push(L,ret);
 	
@@ -264,7 +264,7 @@ begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	ResourceName := lua_toStringCP(L,2);
-	MaskColor := TColor(lua_tointeger(L,3));
+	luaL_check(L,3,@MaskColor);
 	ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
 	lua_push(L,ret);
 	
@@ -281,9 +281,9 @@ var
 begin
 	CheckArg(L, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Instance := THandle(lua_tointeger(L,2));
+	luaL_check(L,2,@Instance);
 	ResourceName := lua_toStringCP(L,3);
-	MaskColor := TColor(lua_tointeger(L,4));
+	luaL_check(L,4,@MaskColor);
 	ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
 	lua_push(L,ret);
 	
@@ -319,7 +319,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@AIndex);
 	lImageList.Delete(AIndex);
 	
 	Result := 0;
@@ -336,10 +336,10 @@ var
 begin
 	CheckArg(L, -1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACanvas := TCanvas(GetLuaObject(L,2));
-	AX := lua_tointeger(L,3);
-	AY := lua_tointeger(L,4);
-	AIndex := lua_tointeger(L,5);
+	luaL_check(L,2,@ACanvas);
+	luaL_check(L,3,@AX);
+	luaL_check(L,4,@AY);
+	luaL_check(L,5,@AIndex);
 	AEnabled := luaL_optbool(L,6,True);
 	lImageList.Draw(ACanvas,AX,AY,AIndex,AEnabled);
 	
@@ -357,11 +357,11 @@ var
 begin
 	CheckArg(L, 6);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACanvas := TCanvas(GetLuaObject(L,2));
-	AX := lua_tointeger(L,3);
-	AY := lua_tointeger(L,4);
-	AIndex := lua_tointeger(L,5);
-	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,6));
+	luaL_check(L,2,@ACanvas);
+	luaL_check(L,3,@AX);
+	luaL_check(L,4,@AY);
+	luaL_check(L,5,@AIndex);
+	luaL_check(L,6,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawEffect);
 	
 	Result := 0;
@@ -380,12 +380,12 @@ var
 begin
 	CheckArg(L, -1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACanvas := TCanvas(GetLuaObject(L,2));
-	AX := lua_tointeger(L,3);
-	AY := lua_tointeger(L,4);
-	AIndex := lua_tointeger(L,5);
-	ADrawingStyle := TDrawingStyle(GetLuaObject(L,6));
-	AImageType := TImageType(GetLuaObject(L,7));
+	luaL_check(L,2,@ACanvas);
+	luaL_check(L,3,@AX);
+	luaL_check(L,4,@AY);
+	luaL_check(L,5,@AIndex);
+	luaL_check(L,6,@ADrawingStyle,TypeInfo(TDrawingStyle));
+	luaL_check(L,7,@AImageType,TypeInfo(TImageType));
 	AEnabled := luaL_optbool(L,8,True);
 	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,AEnabled);
 	
@@ -405,13 +405,13 @@ var
 begin
 	CheckArg(L, 8);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACanvas := TCanvas(GetLuaObject(L,2));
-	AX := lua_tointeger(L,3);
-	AY := lua_tointeger(L,4);
-	AIndex := lua_tointeger(L,5);
-	ADrawingStyle := TDrawingStyle(GetLuaObject(L,6));
-	AImageType := TImageType(GetLuaObject(L,7));
-	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,8));
+	luaL_check(L,2,@ACanvas);
+	luaL_check(L,3,@AX);
+	luaL_check(L,4,@AY);
+	luaL_check(L,5,@AIndex);
+	luaL_check(L,6,@ADrawingStyle,TypeInfo(TDrawingStyle));
+	luaL_check(L,7,@AImageType,TypeInfo(TImageType));
+	luaL_check(L,8,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,ADrawEffect);
 	
 	Result := 0;
@@ -431,13 +431,13 @@ var
 begin
 	CheckArg(L, -1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACanvas := TCanvas(GetLuaObject(L,2));
-	AX := lua_tointeger(L,3);
-	AY := lua_tointeger(L,4);
-	AIndex := lua_tointeger(L,5);
-	AImageWidthAt96PPI := lua_tointeger(L,6);
-	ATargetPPI := lua_tointeger(L,7);
-	ACanvasFactor := lua_tonumber(L,8);
+	luaL_check(L,2,@ACanvas);
+	luaL_check(L,3,@AX);
+	luaL_check(L,4,@AY);
+	luaL_check(L,5,@AIndex);
+	luaL_check(L,6,@AImageWidthAt96PPI);
+	luaL_check(L,7,@ATargetPPI);
+	luaL_check(L,8,@ACanvasFactor);
 	AEnabled := luaL_optbool(L,9,True);
 	lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,AEnabled);
 	
@@ -458,14 +458,14 @@ var
 begin
 	CheckArg(L, 9);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACanvas := TCanvas(GetLuaObject(L,2));
-	AX := lua_tointeger(L,3);
-	AY := lua_tointeger(L,4);
-	AIndex := lua_tointeger(L,5);
-	AImageWidthAt96PPI := lua_tointeger(L,6);
-	ATargetPPI := lua_tointeger(L,7);
-	ACanvasFactor := lua_tonumber(L,8);
-	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,9));
+	luaL_check(L,2,@ACanvas);
+	luaL_check(L,3,@AX);
+	luaL_check(L,4,@AY);
+	luaL_check(L,5,@AIndex);
+	luaL_check(L,6,@AImageWidthAt96PPI);
+	luaL_check(L,7,@ATargetPPI);
+	luaL_check(L,8,@ACanvasFactor);
+	luaL_check(L,9,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,ADrawEffect);
 	
 	Result := 0;
@@ -483,11 +483,11 @@ var
 begin
 	CheckArg(L, -1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACanvas := TCanvas(GetLuaObject(L,2));
-	AX := lua_tointeger(L,3);
-	AY := lua_tointeger(L,4);
-	AIndex := lua_tointeger(L,5);
-	AOverlay := lua_tointeger(L,6);
+	luaL_check(L,2,@ACanvas);
+	luaL_check(L,3,@AX);
+	luaL_check(L,4,@AY);
+	luaL_check(L,5,@AIndex);
+	luaL_check(L,6,@AOverlay);
 	AEnabled := luaL_optbool(L,7,True);
 	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,AEnabled);
 	
@@ -506,12 +506,12 @@ var
 begin
 	CheckArg(L, 7);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACanvas := TCanvas(GetLuaObject(L,2));
-	AX := lua_tointeger(L,3);
-	AY := lua_tointeger(L,4);
-	AIndex := lua_tointeger(L,5);
-	AOverlay := lua_tointeger(L,6);
-	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,7));
+	luaL_check(L,2,@ACanvas);
+	luaL_check(L,3,@AX);
+	luaL_check(L,4,@AY);
+	luaL_check(L,5,@AIndex);
+	luaL_check(L,6,@AOverlay);
+	luaL_check(L,7,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawEffect);
 	
 	Result := 0;
@@ -531,14 +531,14 @@ var
 begin
 	CheckArg(L, 9);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACanvas := TCanvas(GetLuaObject(L,2));
-	AX := lua_tointeger(L,3);
-	AY := lua_tointeger(L,4);
-	AIndex := lua_tointeger(L,5);
-	AOverlay := lua_tointeger(L,6);
-	ADrawingStyle := TDrawingStyle(GetLuaObject(L,7));
-	AImageType := TImageType(GetLuaObject(L,8));
-	ADrawEffect := TGraphicsDrawEffect(GetLuaObject(L,9));
+	luaL_check(L,2,@ACanvas);
+	luaL_check(L,3,@AX);
+	luaL_check(L,4,@AY);
+	luaL_check(L,5,@AIndex);
+	luaL_check(L,6,@AOverlay);
+	luaL_check(L,7,@ADrawingStyle,TypeInfo(TDrawingStyle));
+	luaL_check(L,8,@AImageType,TypeInfo(TImageType));
+	luaL_check(L,9,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawingStyle,AImageType,ADrawEffect);
 	
 	Result := 0;
@@ -552,8 +552,8 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	Image := TCustomBitmap(GetLuaObject(L,3));
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@Image);
 	lImageList.GetBitmap(Index,Image);
 	
 	Result := 0;
@@ -568,9 +568,9 @@ var
 begin
 	CheckArg(L, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	Image := TCustomBitmap(GetLuaObject(L,3));
-	AEffect := TGraphicsDrawEffect(GetLuaObject(L,4));
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@Image);
+	luaL_check(L,4,@AEffect,TypeInfo(TGraphicsDrawEffect));
 	lImageList.GetBitmap(Index,Image,AEffect);
 	
 	Result := 0;
@@ -584,8 +584,8 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Image := TCustomBitmap(GetLuaObject(L,2));
-	AEffect := TGraphicsDrawEffect(GetLuaObject(L,3));
+	luaL_check(L,2,@Image);
+	luaL_check(L,3,@AEffect,TypeInfo(TGraphicsDrawEffect));
 	lImageList.GetFullBitmap(Image,AEffect);
 	
 	Result := 0;
@@ -600,9 +600,9 @@ var
 begin
 	CheckArg(L, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	Image := TIcon(GetLuaObject(L,3));
-	AEffect := TGraphicsDrawEffect(GetLuaObject(L,4));
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@Image);
+	luaL_check(L,4,@AEffect,TypeInfo(TGraphicsDrawEffect));
 	lImageList.GetIcon(Index,Image,AEffect);
 	
 	Result := 0;
@@ -616,8 +616,8 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	Image := TIcon(GetLuaObject(L,3));
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@Image);
 	lImageList.GetIcon(Index,Image);
 	
 	Result := 0;
@@ -645,9 +645,9 @@ var
 begin
 	CheckArg(L, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
-	AImage := TCustomBitmap(GetLuaObject(L,3));
-	AMask := TCustomBitmap(GetLuaObject(L,4));
+	luaL_check(L,2,@AIndex);
+	luaL_check(L,3,@AImage);
+	luaL_check(L,4,@AMask);
 	lImageList.Insert(AIndex,AImage,AMask);
 	
 	Result := 0;
@@ -661,8 +661,8 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
-	AIcon := TCustomIcon(GetLuaObject(L,3));
+	luaL_check(L,2,@AIndex);
+	luaL_check(L,3,@AIcon);
 	lImageList.InsertIcon(AIndex,AIcon);
 	
 	Result := 0;
@@ -677,9 +677,9 @@ var
 begin
 	CheckArg(L, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	AImage := TCustomBitmap(GetLuaObject(L,3));
-	MaskColor := TColor(lua_tointeger(L,4));
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@AImage);
+	luaL_check(L,4,@MaskColor);
 	lImageList.InsertMasked(Index,AImage,MaskColor);
 	
 	Result := 0;
@@ -693,8 +693,8 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ACurIndex := lua_tointeger(L,2);
-	ANewIndex := lua_tointeger(L,3);
+	luaL_check(L,2,@ACurIndex);
+	luaL_check(L,3,@ANewIndex);
 	lImageList.Move(ACurIndex,ANewIndex);
 	
 	Result := 0;
@@ -708,8 +708,8 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
-	Overlay := lua_tointeger(L,3);
+	luaL_check(L,2,@AIndex);
+	luaL_check(L,3,@Overlay);
 	lImageList.Overlay(AIndex,Overlay);
 	
 	Result := 0;
@@ -725,9 +725,9 @@ var
 begin
 	CheckArg(L, -1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
-	AImage := TCustomBitmap(GetLuaObject(L,3));
-	AMask := TCustomBitmap(GetLuaObject(L,4));
+	luaL_check(L,2,@AIndex);
+	luaL_check(L,3,@AImage);
+	luaL_check(L,4,@AMask);
 	AllResolutions := luaL_optbool(L,5,True);
 	lImageList.Replace(AIndex,AImage,AMask,AllResolutions);
 	
@@ -744,8 +744,8 @@ var
 begin
 	CheckArg(L, -1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
-	Image := TCustomBitmap(GetLuaObject(L,3));
+	luaL_check(L,2,@AIndex);
+	luaL_check(L,3,@Image);
 	AImageRect := lua_toTRect(L,4);
 	AllResolutions := luaL_optbool(L,5,True);
 	lImageList.ReplaceSlice(AIndex,Image,AImageRect,AllResolutions);
@@ -763,9 +763,9 @@ var
 begin
 	CheckArg(L, -1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
-	AImageWidth := lua_tointeger(L,3);
-	Image := TCustomBitmap(GetLuaObject(L,4));
+	luaL_check(L,2,@AIndex);
+	luaL_check(L,3,@AImageWidth);
+	luaL_check(L,4,@Image);
 	AllResolutions := luaL_optbool(L,5,True);
 	lImageList.ReplaceSliceCentered(AIndex,AImageWidth,Image,AllResolutions);
 	
@@ -780,8 +780,8 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
-	AIcon := TCustomIcon(GetLuaObject(L,3));
+	luaL_check(L,2,@AIndex);
+	luaL_check(L,3,@AIcon);
 	lImageList.ReplaceIcon(AIndex,AIcon);
 	
 	Result := 0;
@@ -797,9 +797,9 @@ var
 begin
 	CheckArg(L, -1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	NewImage := TCustomBitmap(GetLuaObject(L,3));
-	MaskColor := TColor(lua_tointeger(L,4));
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@NewImage);
+	luaL_check(L,4,@MaskColor);
 	AllResolutions := luaL_optbool(L,5,True);
 	lImageList.ReplaceMasked(Index,NewImage,MaskColor,AllResolutions);
 	
@@ -813,7 +813,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Value := TChangeLink(GetLuaObject(L,2));
+	luaL_check(L,2,@Value);
 	lImageList.RegisterChanges(Value);
 	
 	Result := 0;
@@ -829,8 +829,8 @@ var
 begin
 	CheckArg(L, -1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Canvas := TCanvas(GetLuaObject(L,2));
-	Index := lua_tointeger(L,3);
+	luaL_check(L,2,@Canvas);
+	luaL_check(L,3,@Index);
 	ARect := lua_toTRect(L,4);
 	Enabled := luaL_optbool(L,5,True);
 	lImageList.StretchDraw(Canvas,Index,ARect,Enabled);
@@ -845,7 +845,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	Value := TChangeLink(GetLuaObject(L,2));
+	luaL_check(L,2,@Value);
 	lImageList.UnRegisterChanges(Value);
 	
 	Result := 0;
@@ -858,7 +858,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	AWidth := lua_tointeger(L,2);
+	luaL_check(L,2,@AWidth);
 	lImageList.DeleteResolution(AWidth);
 	
 	Result := 0;

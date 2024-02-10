@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaToolBar;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -99,9 +99,9 @@ var
 begin
 	CheckArg(L, 4);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
-	ImageList := TCustomImageList(GetLuaObject(L,2));
-	TheIndex := lua_tointeger(L,3);
-	TheEffect := TGraphicsDrawEffect(GetLuaObject(L,4));
+	luaL_check(L,2,@ImageList);
+	luaL_check(L,3,@TheIndex);
+	luaL_check(L,4,@TheEffect,TypeInfo(TGraphicsDrawEffect));
 	lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
 	lua_push(L,ImageList,TypeInfo(ImageList));
 	lua_push(L,TheIndex);
@@ -137,8 +137,8 @@ var
 begin
 	CheckArg(L, -1);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
-	PreferredWidth := lua_tointeger(L,2);
-	PreferredHeight := lua_tointeger(L,3);
+	luaL_check(L,2,@PreferredWidth);
+	luaL_check(L,3,@PreferredHeight);
 	Raw := luaL_optbool(L,4,false);
 	WithThemeSpace := luaL_optbool(L,5,true);
 	lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
@@ -156,8 +156,8 @@ var
 begin
 	CheckArg(L, 3);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	ret := lToolButton.PointInArrow(X,Y);
 	lua_push(L,ret);
 	
@@ -182,7 +182,7 @@ var
 begin
 	CheckArg(L, 2);
 	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
-	AllLevels := lua_toboolean(L,2);
+	luaL_check(L,2,@AllLevels);
 	lToolBar.FlipChildren(AllLevels);
 	
 	Result := 0;
@@ -196,8 +196,8 @@ var
 begin
 	CheckArg(L, 3);
 	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
-	NewButtonWidth := lua_tointeger(L,2);
-	NewButtonHeight := lua_tointeger(L,3);
+	luaL_check(L,2,@NewButtonWidth);
+	luaL_check(L,3,@NewButtonHeight);
 	lToolBar.SetButtonSize(NewButtonWidth,NewButtonHeight);
 	
 	Result := 0;

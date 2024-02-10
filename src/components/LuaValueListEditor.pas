@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaValueListEditor;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -47,8 +47,8 @@ var
 begin
 	CheckArg(L, 3);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	index := lua_tointeger(L,3);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@index);
 	lValueListEditor.DeleteColRow(IsColumn,index);
 	
 	Result := 0;
@@ -61,7 +61,7 @@ var
 begin
 	CheckArg(L, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lValueListEditor.DeleteRow(Index);
 	
 	Result := 0;
@@ -74,7 +74,7 @@ var
 begin
 	CheckArg(L, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lValueListEditor.DeleteCol(Index);
 	
 	Result := 0;
@@ -104,8 +104,8 @@ var
 begin
 	CheckArg(L, 3);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	index := lua_tointeger(L,3);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@index);
 	lValueListEditor.InsertColRow(IsColumn,index);
 	
 	Result := 0;
@@ -123,7 +123,7 @@ begin
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	KeyName := lua_toStringCP(L,2);
 	Value := lua_toStringCP(L,3);
-	Append := lua_toboolean(L,4);
+	luaL_check(L,4,@Append);
 	ret := lValueListEditor.InsertRow(KeyName,Value,Append);
 	lua_push(L,ret);
 	
@@ -138,7 +138,7 @@ var
 begin
 	CheckArg(L, 3);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	Values := lua_toStringArray(L,3);
 	lValueListEditor.InsertRowWithValues(Index,Values);
 	
@@ -154,9 +154,9 @@ var
 begin
 	CheckArg(L, 4);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	index := lua_tointeger(L,3);
-	WithIndex := lua_tointeger(L,4);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@index);
+	luaL_check(L,4,@WithIndex);
 	lValueListEditor.ExchangeColRow(IsColumn,index,WithIndex);
 	
 	Result := 0;
@@ -183,7 +183,7 @@ var
 begin
 	CheckArg(L, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	aRow := lua_tointeger(L,2);
+	luaL_check(L,2,@aRow);
 	ret := lValueListEditor.IsEmptyRow(aRow);
 	lua_push(L,ret);
 	
@@ -201,7 +201,7 @@ var
 begin
 	CheckArg(L, -1);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	ADelimiter := char(luaL_optstring(L,3,','));
 	UseTitles := luaL_optbool(L,4,true);
 	FromLine := luaL_optint(L,5,0);
@@ -220,9 +220,9 @@ var
 begin
 	CheckArg(L, 4);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	IsColumn := lua_toboolean(L,2);
-	FromIndex := lua_tointeger(L,3);
-	ToIndex := lua_tointeger(L,4);
+	luaL_check(L,2,@IsColumn);
+	luaL_check(L,3,@FromIndex);
+	luaL_check(L,4,@ToIndex);
 	lValueListEditor.MoveColRow(IsColumn,FromIndex,ToIndex);
 	
 	Result := 0;
@@ -250,9 +250,9 @@ var
 begin
 	CheckArg(L, 4);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	IndxFrom := lua_tointeger(L,3);
-	IndxTo := lua_tointeger(L,4);
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@IndxFrom);
+	luaL_check(L,4,@IndxTo);
 	lValueListEditor.Sort(Index,IndxFrom,IndxTo);
 	
 	Result := 0;
@@ -265,7 +265,7 @@ var
 begin
 	CheckArg(L, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	ACol := TVleSortCol(GetLuaObject(L,2));
+	luaL_check(L,2,@ACol,TypeInfo(TVleSortCol));
 	lValueListEditor.Sort(ACol);
 	
 	Result := 0;

@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaListBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -37,7 +37,7 @@ begin
 	CheckArg(L, 3);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	Item := lua_toStringCP(L,2);
-	AnObject := TObject(GetLuaObject(L,3));
+	luaL_check(L,3,@AnObject);
 	lListBox.AddItem(Item,AnObject);
 	
 	Result := 0;
@@ -74,8 +74,8 @@ var
 begin
 	CheckArg(L, 3);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	ret := lListBox.GetIndexAtXY(X,Y);
 	lua_push(L,ret);
 	
@@ -90,7 +90,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	Y := lua_tointeger(L,2);
+	luaL_check(L,2,@Y);
 	ret := lListBox.GetIndexAtY(Y);
 	lua_push(L,ret);
 	
@@ -120,7 +120,7 @@ begin
 	CheckArg(L, 3);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	Pos := lua_toTPoint(L,2);
-	Existing := lua_toboolean(L,3);
+	luaL_check(L,3,@Existing);
 	ret := lListBox.ItemAtPos(Pos,Existing);
 	lua_push(L,ret);
 	
@@ -135,7 +135,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	ret := lListBox.ItemRect(Index);
 	lua_push(L,ret);
 	
@@ -150,7 +150,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	ret := lListBox.ItemVisible(Index);
 	lua_push(L,ret);
 	
@@ -165,7 +165,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	ret := lListBox.ItemFullyVisible(Index);
 	lua_push(L,ret);
 	
@@ -202,7 +202,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lListBox.MeasureItem(Index,TheHeight);
 	lua_push(L,TheHeight);
 	Result := 1;
@@ -216,8 +216,8 @@ var
 begin
 	CheckArg(L, 3);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	TheHeight := lua_tointeger(L,3);
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@TheHeight);
 	lListBox.MeasureItem(Index,TheHeight);
 	lua_push(L,TheHeight);
 	Result := 1;
@@ -243,9 +243,9 @@ var
 begin
 	CheckArg(L, 4);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	ALow := lua_tointeger(L,2);
-	AHigh := lua_tointeger(L,3);
-	ASelected := lua_toboolean(L,4);
+	luaL_check(L,2,@ALow);
+	luaL_check(L,3,@AHigh);
+	luaL_check(L,4,@ASelected);
 	lListBox.SelectRange(ALow,AHigh,ASelected);
 	
 	Result := 0;

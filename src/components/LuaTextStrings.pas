@@ -4,6 +4,8 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaTextStrings;	
 
+{$T+}
+
 interface
 
 Uses Classes, Lua, LuaController, TextStrings, TypInfo;
@@ -57,7 +59,7 @@ var
 begin
 	CheckArg(L, 3);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	S := lua_toStringCP(L,3);
 	lTextStrings.Insert(Index,S);
 	
@@ -71,7 +73,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lTextStrings.Delete(Index);
 	
 	Result := 0;
@@ -85,8 +87,8 @@ var
 begin
 	CheckArg(L, 3);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	Index1 := lua_tointeger(L,2);
-	Index2 := lua_tointeger(L,3);
+	luaL_check(L,2,@Index1);
+	luaL_check(L,3,@Index2);
 	lTextStrings.Exchange(Index1,Index2);
 	
 	Result := 0;
@@ -100,8 +102,8 @@ var
 begin
 	CheckArg(L, 3);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	CurIndex := lua_tointeger(L,2);
-	NewIndex := lua_tointeger(L,3);
+	luaL_check(L,2,@CurIndex);
+	luaL_check(L,3,@NewIndex);
 	lTextStrings.Move(CurIndex,NewIndex);
 	
 	Result := 0;
@@ -193,7 +195,7 @@ begin
 	CheckArg(L, 3);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
-	AObject := TObject(GetLuaObject(L,3));
+	luaL_check(L,3,@AObject);
 	ret := lTextStrings.AddObject(S,AObject);
 	lua_push(L,ret);
 	
@@ -207,7 +209,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	TheStrings := TStrings(GetLuaObject(L,2));
+	luaL_check(L,2,@TheStrings);
 	lTextStrings.AddStrings(TheStrings);
 	
 	Result := 0;

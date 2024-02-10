@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaBasicAction;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -34,7 +34,7 @@ var
 begin
 	CheckArg(L, 2);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	Target := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Target);
 	ret := lBasicAction.HandlesTarget(Target);
 	lua_push(L,ret);
 	
@@ -48,7 +48,7 @@ var
 begin
 	CheckArg(L, 2);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	Target := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Target);
 	lBasicAction.UpdateTarget(Target);
 	
 	Result := 0;
@@ -61,7 +61,7 @@ var
 begin
 	CheckArg(L, 2);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	Target := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Target);
 	lBasicAction.ExecuteTarget(Target);
 	
 	Result := 0;

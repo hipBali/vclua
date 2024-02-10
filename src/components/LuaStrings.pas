@@ -4,6 +4,8 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaStrings;	
 
+{$T+}
+
 interface
 
 Uses Classes, Lua, LuaController, TypInfo;
@@ -50,7 +52,7 @@ begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
-	AObject := TObject(GetLuaObject(L,3));
+	luaL_check(L,3,@AObject);
 	ret := lStrings.AddObject(S,AObject);
 	lua_push(L,ret);
 	
@@ -86,7 +88,7 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	AName := lua_toStringCP(L,2);
 	AValue := lua_toStringCP(L,3);
-	AObject := TObject(GetLuaObject(L,4));
+	luaL_check(L,4,@AObject);
 	ret := lStrings.AddPair(AName,AValue,AObject);
 	lua_push(L,ret);
 	
@@ -100,7 +102,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStrings := TStrings(GetLuaObject(L,2));
+	luaL_check(L,2,@TheStrings);
 	lStrings.AddStrings(TheStrings);
 	
 	Result := 0;
@@ -114,8 +116,8 @@ var
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStrings := TStrings(GetLuaObject(L,2));
-	ClearFirst := lua_toboolean(L,3);
+	luaL_check(L,2,@TheStrings);
+	luaL_check(L,3,@ClearFirst);
 	lStrings.AddStrings(TheStrings,ClearFirst);
 	
 	Result := 0;
@@ -143,7 +145,7 @@ begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	TheStrings := lua_toStringArray(L,2);
-	ClearFirst := lua_toboolean(L,3);
+	luaL_check(L,3,@ClearFirst);
 	lStrings.AddStrings(TheStrings,ClearFirst);
 	
 	Result := 0;
@@ -156,7 +158,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStrings := TStrings(GetLuaObject(L,2));
+	luaL_check(L,2,@TheStrings);
 	lStrings.SetStrings(TheStrings);
 	
 	Result := 0;
@@ -199,7 +201,7 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
 	ADelimiter := Char(lua_tostring(L,3));
-	AStrictDelimiter := lua_toboolean(L,4);
+	luaL_check(L,4,@AStrictDelimiter);
 	lStrings.AddDelimitedText(S,ADelimiter,AStrictDelimiter);
 	
 	Result := 0;
@@ -238,7 +240,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Source);
 	lStrings.Assign(Source);
 	
 	Result := 0;
@@ -273,7 +275,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lStrings.Delete(Index);
 	
 	Result := 0;
@@ -298,7 +300,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Obj := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Obj);
 	ret := lStrings.Equals(Obj);
 	lua_push(L,ret);
 	
@@ -313,7 +315,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStrings := TStrings(GetLuaObject(L,2));
+	luaL_check(L,2,@TheStrings);
 	ret := lStrings.Equals(TheStrings);
 	lua_push(L,ret);
 	
@@ -328,8 +330,8 @@ var
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Index1 := lua_tointeger(L,2);
-	Index2 := lua_tointeger(L,3);
+	luaL_check(L,2,@Index1);
+	luaL_check(L,3,@Index2);
 	lStrings.Exchange(Index1,Index2);
 	
 	Result := 0;
@@ -359,7 +361,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lStrings.GetNameValue(Index,AName,AValue);
 	lua_push(L,AName);
 	lua_push(L,AValue);
@@ -404,7 +406,7 @@ begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
-	aStart := lua_tointeger(L,3);
+	luaL_check(L,3,@aStart);
 	ret := lStrings.IndexOf(S,aStart);
 	lua_push(L,ret);
 	
@@ -434,7 +436,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	AObject := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@AObject);
 	ret := lStrings.IndexOfObject(AObject);
 	lua_push(L,ret);
 	
@@ -449,7 +451,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	S := lua_toStringCP(L,3);
 	lStrings.Insert(Index,S);
 	
@@ -465,9 +467,9 @@ var
 begin
 	CheckArg(L, 4);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	S := lua_toStringCP(L,3);
-	AObject := TObject(GetLuaObject(L,4));
+	luaL_check(L,4,@AObject);
 	lStrings.InsertObject(Index,S,AObject);
 	
 	Result := 0;
@@ -483,7 +485,7 @@ begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	S := lua_toStringCP(L,2);
-	aStart := lua_tointeger(L,3);
+	luaL_check(L,3,@aStart);
 	ret := lStrings.LastIndexOf(S,aStart);
 	lua_push(L,ret);
 	
@@ -527,7 +529,7 @@ begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	FileName := lua_toStringCP(L,2);
-	IgnoreEncoding := lua_toboolean(L,3);
+	luaL_check(L,3,@IgnoreEncoding);
 	lStrings.LoadFromFile(FileName,IgnoreEncoding);
 	
 	Result := 0;
@@ -540,7 +542,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@Stream);
 	lStrings.LoadFromStream(Stream);
 	
 	Result := 0;
@@ -554,8 +556,8 @@ var
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
-	IgnoreEncoding := lua_toboolean(L,3);
+	luaL_check(L,2,@Stream);
+	luaL_check(L,3,@IgnoreEncoding);
 	lStrings.LoadFromStream(Stream,IgnoreEncoding);
 	
 	Result := 0;
@@ -569,8 +571,8 @@ var
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	CurIndex := lua_tointeger(L,2);
-	NewIndex := lua_tointeger(L,3);
+	luaL_check(L,2,@CurIndex);
+	luaL_check(L,3,@NewIndex);
 	lStrings.Move(CurIndex,NewIndex);
 	
 	Result := 0;
@@ -598,7 +600,7 @@ begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	FileName := lua_toStringCP(L,2);
-	IgnoreEncoding := lua_toboolean(L,3);
+	luaL_check(L,3,@IgnoreEncoding);
 	lStrings.SaveToFile(FileName,IgnoreEncoding);
 	
 	Result := 0;
@@ -611,7 +613,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@Stream);
 	lStrings.SaveToStream(Stream);
 	
 	Result := 0;
@@ -625,8 +627,8 @@ var
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
-	IgnoreEncoding := lua_toboolean(L,3);
+	luaL_check(L,2,@Stream);
+	luaL_check(L,3,@IgnoreEncoding);
 	lStrings.SaveToStream(Stream,IgnoreEncoding);
 	
 	Result := 0;

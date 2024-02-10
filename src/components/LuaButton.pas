@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaButton;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -66,7 +66,7 @@ var
 begin
 	CheckArg(L, 2);
 	lButton := TLuaButton(GetLuaObject(L, 1));
-	NewControl := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@NewControl);
 	lButton.ActiveDefaultControlChanged(NewControl);
 	
 	Result := 0;

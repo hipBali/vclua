@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaCommonDialogs;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -139,7 +139,7 @@ var
 begin
 	CheckArg(L, 2);
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
-	CanClose := lua_toboolean(L,2);
+	luaL_check(L,2,@CanClose);
 	lOpenDialog.DoCanClose(CanClose);
 	lua_push(L,CanClose);
 	Result := 1;
@@ -175,8 +175,8 @@ var
 begin
 	CheckArg(L, 3);
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
-	AOption := TOpenOption(GetLuaObject(L,2));
-	AValue := lua_toboolean(L,3);
+	luaL_check(L,2,@AOption,TypeInfo(TOpenOption));
+	luaL_check(L,3,@AValue);
 	lOpenDialog.IntfSetOption(AOption,AValue);
 	
 	Result := 0;

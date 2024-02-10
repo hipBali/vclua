@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaFloatSpinEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -34,7 +34,7 @@ var
 begin
 	CheckArg(L, 2);
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
-	AValue := lua_tonumber(L,2);
+	luaL_check(L,2,@AValue);
 	ret := lFloatSpinEdit.GetLimitedValue(AValue);
 	lua_push(L,ret);
 	
@@ -49,7 +49,7 @@ var
 begin
 	CheckArg(L, 2);
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
-	AValue := lua_tonumber(L,2);
+	luaL_check(L,2,@AValue);
 	ret := lFloatSpinEdit.ValueToStr(AValue);
 	lua_push(L,ret);
 	

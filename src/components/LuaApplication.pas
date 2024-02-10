@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaApplication;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -61,7 +61,7 @@ var
 begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	AControl := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@AControl);
 	lApplication.ControlDestroyed(AControl);
 	
 	Result := 0;
@@ -104,20 +104,6 @@ begin
 	Result := 0;
 end;
 
-function VCLua_Application_CreateForm(L: Plua_State): Integer; cdecl;
-var
-	lApplication:TLuaApplication;
-	InstanceClass:TComponentClass;
-	Reference:Pointer;
-begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	InstanceClass := TComponentClass(GetLuaObject(L,2));
-	lApplication.CreateForm(InstanceClass,Reference);
-	lua_pushlightuserdata(L,Reference);
-	Result := 1;
-end;
-
 function VCLua_Application_UpdateMainForm(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
@@ -125,7 +111,7 @@ var
 begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	AForm := TForm(GetLuaObject(L,2));
+	luaL_check(L,2,@AForm);
 	lApplication.UpdateMainForm(AForm);
 	
 	Result := 0;
@@ -138,7 +124,7 @@ var
 begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	AComponent := TComponent(GetLuaObject(L,2));
+	luaL_check(L,2,@AComponent);
 	lApplication.ReleaseComponent(AComponent);
 	
 	Result := 0;
@@ -151,7 +137,7 @@ var
 begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Sender);
 	lApplication.HandleException(Sender);
 	
 	Result := 0;
@@ -270,8 +256,8 @@ var
 begin
 	CheckArg(L, 3);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	AComponent := TComponent(GetLuaObject(L,2));
-	Operation := TOperation(GetLuaObject(L,3));
+	luaL_check(L,2,@AComponent);
+	luaL_check(L,3,@Operation,TypeInfo(TOperation));
 	lApplication.Notification(AComponent,Operation);
 	
 	Result := 0;
@@ -295,7 +281,7 @@ var
 begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	Wait := lua_toboolean(L,2);
+	luaL_check(L,2,@Wait);
 	lApplication.Idle(Wait);
 	
 	Result := 0;
@@ -360,7 +346,7 @@ begin
 end;
 
 begin
-	SetLength(ApplicationFuncs, 24+1);
+	SetLength(ApplicationFuncs, 23+1);
 	ApplicationFuncs[0].name:='ActivateHint';
 	ApplicationFuncs[0].func:=@VCLua_Application_ActivateHint;
 	ApplicationFuncs[1].name:='GetControlAtMouse';
@@ -373,43 +359,41 @@ begin
 	ApplicationFuncs[4].func:=@VCLua_Application_SmallIconHandle;
 	ApplicationFuncs[5].name:='BringToFront';
 	ApplicationFuncs[5].func:=@VCLua_Application_BringToFront;
-	ApplicationFuncs[6].name:='CreateForm';
-	ApplicationFuncs[6].func:=@VCLua_Application_CreateForm;
-	ApplicationFuncs[7].name:='UpdateMainForm';
-	ApplicationFuncs[7].func:=@VCLua_Application_UpdateMainForm;
-	ApplicationFuncs[8].name:='ReleaseComponent';
-	ApplicationFuncs[8].func:=@VCLua_Application_ReleaseComponent;
-	ApplicationFuncs[9].name:='HandleException';
-	ApplicationFuncs[9].func:=@VCLua_Application_HandleException;
-	ApplicationFuncs[10].name:='HandleMessage';
-	ApplicationFuncs[10].func:=@VCLua_Application_HandleMessage;
-	ApplicationFuncs[11].name:='RemoveStayOnTop';
-	ApplicationFuncs[11].func:=@VCLua_Application_RemoveStayOnTop;
-	ApplicationFuncs[12].name:='RestoreStayOnTop';
-	ApplicationFuncs[12].func:=@VCLua_Application_RestoreStayOnTop;
-	ApplicationFuncs[13].name:='IsWaiting';
-	ApplicationFuncs[13].func:=@VCLua_Application_IsWaiting;
-	ApplicationFuncs[14].name:='Initialize';
-	ApplicationFuncs[14].func:=@VCLua_Application_Initialize;
-	ApplicationFuncs[15].name:='Minimize';
-	ApplicationFuncs[15].func:=@VCLua_Application_Minimize;
-	ApplicationFuncs[16].name:='ModalStarted';
-	ApplicationFuncs[16].func:=@VCLua_Application_ModalStarted;
-	ApplicationFuncs[17].name:='ModalFinished';
-	ApplicationFuncs[17].func:=@VCLua_Application_ModalFinished;
-	ApplicationFuncs[18].name:='Restore';
-	ApplicationFuncs[18].func:=@VCLua_Application_Restore;
-	ApplicationFuncs[19].name:='Notification';
-	ApplicationFuncs[19].func:=@VCLua_Application_Notification;
-	ApplicationFuncs[20].name:='ProcessMessages';
-	ApplicationFuncs[20].func:=@VCLua_Application_ProcessMessages;
-	ApplicationFuncs[21].name:='Idle';
-	ApplicationFuncs[21].func:=@VCLua_Application_Idle;
-	ApplicationFuncs[22].name:='Run';
-	ApplicationFuncs[22].func:=@VCLua_Application_Run;
-	ApplicationFuncs[23].name:='Terminate';
-	ApplicationFuncs[23].func:=@VCLua_Application_Terminate;
-	ApplicationFuncs[24].name:=nil;
-	ApplicationFuncs[24].func:=nil;
+	ApplicationFuncs[6].name:='UpdateMainForm';
+	ApplicationFuncs[6].func:=@VCLua_Application_UpdateMainForm;
+	ApplicationFuncs[7].name:='ReleaseComponent';
+	ApplicationFuncs[7].func:=@VCLua_Application_ReleaseComponent;
+	ApplicationFuncs[8].name:='HandleException';
+	ApplicationFuncs[8].func:=@VCLua_Application_HandleException;
+	ApplicationFuncs[9].name:='HandleMessage';
+	ApplicationFuncs[9].func:=@VCLua_Application_HandleMessage;
+	ApplicationFuncs[10].name:='RemoveStayOnTop';
+	ApplicationFuncs[10].func:=@VCLua_Application_RemoveStayOnTop;
+	ApplicationFuncs[11].name:='RestoreStayOnTop';
+	ApplicationFuncs[11].func:=@VCLua_Application_RestoreStayOnTop;
+	ApplicationFuncs[12].name:='IsWaiting';
+	ApplicationFuncs[12].func:=@VCLua_Application_IsWaiting;
+	ApplicationFuncs[13].name:='Initialize';
+	ApplicationFuncs[13].func:=@VCLua_Application_Initialize;
+	ApplicationFuncs[14].name:='Minimize';
+	ApplicationFuncs[14].func:=@VCLua_Application_Minimize;
+	ApplicationFuncs[15].name:='ModalStarted';
+	ApplicationFuncs[15].func:=@VCLua_Application_ModalStarted;
+	ApplicationFuncs[16].name:='ModalFinished';
+	ApplicationFuncs[16].func:=@VCLua_Application_ModalFinished;
+	ApplicationFuncs[17].name:='Restore';
+	ApplicationFuncs[17].func:=@VCLua_Application_Restore;
+	ApplicationFuncs[18].name:='Notification';
+	ApplicationFuncs[18].func:=@VCLua_Application_Notification;
+	ApplicationFuncs[19].name:='ProcessMessages';
+	ApplicationFuncs[19].func:=@VCLua_Application_ProcessMessages;
+	ApplicationFuncs[20].name:='Idle';
+	ApplicationFuncs[20].func:=@VCLua_Application_Idle;
+	ApplicationFuncs[21].name:='Run';
+	ApplicationFuncs[21].func:=@VCLua_Application_Run;
+	ApplicationFuncs[22].name:='Terminate';
+	ApplicationFuncs[22].func:=@VCLua_Application_Terminate;
+	ApplicationFuncs[23].name:=nil;
+	ApplicationFuncs[23].func:=nil;
 
 end.

@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaCalendar;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 

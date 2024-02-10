@@ -7,7 +7,7 @@ Generated with Lua-fpc parser/generator
 VCLua_CLASSDEF = [[
 unit Lua#CNAME;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -26,6 +26,8 @@ end.
 
 VCLua_CLASSDEF_NV = [[
 unit Lua#CNAME;	
+
+{$T+}
 
 interface
 

@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaIdleTimer;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 

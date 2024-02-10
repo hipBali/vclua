@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaTabControl;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -59,7 +59,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@AIndex);
 	ret := lTabControl.TabRect(AIndex);
 	lua_push(L,ret);
 	
@@ -74,7 +74,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	ThePageIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@ThePageIndex);
 	ret := lTabControl.GetImageIndex(ThePageIndex);
 	lua_push(L,ret);
 	
@@ -89,7 +89,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	APage := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@APage);
 	ret := lTabControl.IndexOf(APage);
 	lua_push(L,ret);
 	
@@ -104,7 +104,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	ret := lTabControl.CustomPage(Index);
 	lua_push(L,ret,TypeInfo(ret));
 	
@@ -158,7 +158,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@AIndex);
 	ret := lTabControl.TabToPageIndex(AIndex);
 	lua_push(L,ret);
 	
@@ -173,7 +173,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@AIndex);
 	ret := lTabControl.PageToTabIndex(AIndex);
 	lua_push(L,ret);
 	
@@ -187,7 +187,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	APage := TCustomPage(GetLuaObject(L,2));
+	luaL_check(L,2,@APage);
 	lTabControl.DoCloseTabClicked(APage);
 	
 	Result := 0;
@@ -214,9 +214,9 @@ var
 begin
 	CheckArg(L, 4);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
-	CurPage := TTabSheet(GetLuaObject(L,2));
-	GoForward := lua_toboolean(L,3);
-	CheckTabVisible := lua_toboolean(L,4);
+	luaL_check(L,2,@CurPage);
+	luaL_check(L,3,@GoForward);
+	luaL_check(L,4,@CheckTabVisible);
 	ret := lPageControl.FindNextPage(CurPage,GoForward,CheckTabVisible);
 	lua_push(L,ret);
 	
@@ -230,7 +230,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
-	GoForward := lua_toboolean(L,2);
+	luaL_check(L,2,@GoForward);
 	lPageControl.SelectNextPage(GoForward);
 	
 	Result := 0;
@@ -244,8 +244,8 @@ var
 begin
 	CheckArg(L, 3);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
-	GoForward := lua_toboolean(L,2);
-	CheckTabVisible := lua_toboolean(L,3);
+	luaL_check(L,2,@GoForward);
+	luaL_check(L,3,@CheckTabVisible);
 	lPageControl.SelectNextPage(GoForward,CheckTabVisible);
 	
 	Result := 0;
@@ -260,8 +260,8 @@ var
 begin
 	CheckArg(L, 3);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	ret := lPageControl.IndexOfTabAt(X,Y);
 	lua_push(L,ret);
 	
@@ -292,8 +292,8 @@ var
 begin
 	CheckArg(L, 3);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	ret := lPageControl.IndexOfPageAt(X,Y);
 	lua_push(L,ret);
 	

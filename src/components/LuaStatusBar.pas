@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaStatusBar;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -57,7 +57,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStatusPanel := TLuaStatusPanel(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Source);
 	lStatusPanel.Assign(Source);
 	
 	Result := 0;
@@ -97,8 +97,8 @@ var
 begin
 	CheckArg(L, 3);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
-	PanelIndex := lua_tointeger(L,2);
-	PanelParts := TPanelParts(GetEnumValue(TypeInfo(TPanelParts),lua_tostring(L,3)));
+	luaL_check(L,2,@PanelIndex);
+	luaL_checkSet(L,3,@PanelParts,TypeInfo(TPanelParts));
 	lStatusBar.InvalidatePanel(PanelIndex,PanelParts);
 	
 	Result := 0;
@@ -134,7 +134,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
-	ExeAction := TBasicAction(GetLuaObject(L,2));
+	luaL_check(L,2,@ExeAction);
 	ret := lStatusBar.ExecuteAction(ExeAction);
 	lua_push(L,ret);
 	
@@ -150,8 +150,8 @@ var
 begin
 	CheckArg(L, 3);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	ret := lStatusBar.GetPanelIndexAt(X,Y);
 	lua_push(L,ret);
 	

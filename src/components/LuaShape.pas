@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaShape;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -46,7 +46,7 @@ var
 begin
 	CheckArg(L, 2);
 	lShape := TLuaShape(GetLuaObject(L, 1));
-	Sender := TObject(GetLuaObject(L,2));
+	luaL_check(L,2,@Sender);
 	lShape.StyleChanged(Sender);
 	
 	Result := 0;

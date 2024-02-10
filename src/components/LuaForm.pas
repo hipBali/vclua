@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaForm;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -95,8 +95,8 @@ var
 begin
 	CheckArg(L, 3);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	Control := TWinControl(GetLuaObject(L,2));
-	Removing := lua_toboolean(L,3);
+	luaL_check(L,2,@Control);
+	luaL_check(L,3,@Removing);
 	lForm.DefocusControl(Control,Removing);
 	
 	Result := 0;
@@ -133,7 +133,7 @@ var
 begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	WinControl := TWinControl(GetLuaObject(L,2));
+	luaL_check(L,2,@WinControl);
 	lForm.FocusControl(WinControl);
 	
 	Result := 0;
@@ -173,7 +173,7 @@ var
 begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	AControl := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@AControl);
 	ret := lForm.GetRolesForControl(AControl);
 	lua_push(L,ret,TypeInfo(ret));
 	
@@ -224,7 +224,7 @@ var
 begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	AComponent := TComponent(GetLuaObject(L,2));
+	luaL_check(L,2,@AComponent);
 	lForm.IntfHelp(AComponent);
 	
 	Result := 0;
@@ -238,7 +238,7 @@ var
 begin
 	CheckArg(L, -1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	AMonitor := TMonitor(GetLuaObject(L,2));
+	luaL_check(L,2,@AMonitor);
 	UseWorkarea := luaL_optbool(L,3,False);
 	lForm.MakeFullyVisible(AMonitor,UseWorkarea);
 	
@@ -286,8 +286,8 @@ var
 begin
 	CheckArg(L, -1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	PreferredWidth := lua_tointeger(L,2);
-	PreferredHeight := lua_tointeger(L,3);
+	luaL_check(L,2,@PreferredWidth);
+	luaL_check(L,3,@PreferredHeight);
 	Raw := luaL_optbool(L,4,false);
 	WithThemeSpace := luaL_optbool(L,5,true);
 	lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
@@ -339,7 +339,7 @@ var
 begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	Control := TWinControl(GetLuaObject(L,2));
+	luaL_check(L,2,@Control);
 	ret := lForm.SetFocusedControl(Control);
 	lua_push(L,ret);
 	
@@ -357,10 +357,10 @@ var
 begin
 	CheckArg(L, -1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ALeft := lua_tointeger(L,2);
-	ATop := lua_tointeger(L,3);
-	AWidth := lua_tointeger(L,4);
-	AHeight := lua_tointeger(L,5);
+	luaL_check(L,2,@ALeft);
+	luaL_check(L,3,@ATop);
+	luaL_check(L,4,@AWidth);
+	luaL_check(L,5,@AHeight);
 	ADefaultPosition := luaL_optbool(L,6,False);
 	lForm.SetRestoredBounds(ALeft,ATop,AWidth,AHeight,ADefaultPosition);
 	
@@ -436,7 +436,7 @@ var
 begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@AIndex);
 	ret := lForm.GetMDIChildren(AIndex);
 	lua_push(L,ret,TypeInfo(ret));
 	
@@ -464,7 +464,7 @@ var
 begin
 	CheckArg(L, 3);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	NewDockSite := TWinControl(GetLuaObject(L,2));
+	luaL_check(L,2,@NewDockSite);
 	ARect := lua_toTRect(L,3);
 	lForm.Dock(NewDockSite,ARect);
 	
@@ -478,7 +478,7 @@ var
 begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	Exclude := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@Exclude);
 	lForm.UpdateDockCaption(Exclude);
 	
 	Result := 0;

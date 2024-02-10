@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaRasterImage;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -33,7 +33,7 @@ var
 begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Source);
 	lRasterImage.Assign(Source);
 	
 	Result := 0;
@@ -133,7 +133,7 @@ var
 begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	lRasterImage.LoadFromStream(AStream);
 	
 	Result := 0;
@@ -147,8 +147,8 @@ var
 begin
 	CheckArg(L, 3);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
-	ASize := lua_tointeger(L,3);
+	luaL_check(L,2,@AStream);
+	luaL_check(L,3,@ASize);
 	lRasterImage.LoadFromStream(AStream,ASize);
 	
 	Result := 0;
@@ -162,7 +162,7 @@ var
 begin
 	CheckArg(L, 3);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	AMimeType := lua_toStringCP(L,3);
 	lRasterImage.LoadFromMimeStream(AStream,AMimeType);
 	
@@ -176,7 +176,7 @@ var
 begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@AStream);
 	lRasterImage.SaveToStream(AStream);
 	
 	Result := 0;
@@ -189,7 +189,7 @@ var
 begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	List := TStrings(GetLuaObject(L,2));
+	luaL_check(L,2,@List);
 	lRasterImage.GetSupportedSourceMimeTypes(List);
 	
 	Result := 0;
@@ -217,7 +217,7 @@ var
 begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	ATransparentColor := TColor(lua_tointeger(L,2));
+	luaL_check(L,2,@ATransparentColor);
 	lRasterImage.Mask(ATransparentColor);
 	
 	Result := 0;

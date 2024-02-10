@@ -1,6 +1,6 @@
 unit LuaObject;
 
-{$mode objfpc}{$H+}
+{$mode objfpc}{$H+}{$T+}
 
 interface
 
@@ -13,10 +13,13 @@ uses
   Lua,
   {$i luaobject_uses.inc};
 
-type aopti = array of PTypeInfo;
+type
+  aopti = array of PTypeInfo;
+  PObject = ^TObject;
 
 var
   metaPtis: aopti;
+procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);overload;
 procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);
 procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo = nil);overload; inline;
@@ -61,6 +64,30 @@ begin
         Result:=format('%s precedes %s and hence can''t be pushed to stack properly', [ptis[i]^.Name, ptis[j]^.Name]);
         Exit;
       end;
+end;
+
+function GetPti(const v: TObject; pti : PTypeInfo = nil):PTypeInfo;
+begin
+  if pti <> nil then Result := pti
+  else if v <> nil then Result := v.ClassInfo
+  else Result := TypeInfo(TObject);
+end;
+
+procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil);
+begin
+  i := LuaAbsIndex(L, i);
+  if lua_isnil(L, i) then begin
+    v^ := nil;
+    Exit;
+  end;
+  if not lua_istable(L, i) then
+     LuaTypeError(L, i, GetPti(v^, pti));
+  lua_pushstring(L, HandleStr);
+  lua_rawget(L, i);
+  v^ := TObject(lua_touserdata(L, -1));
+  if v^ = nil then
+     LuaTypeError(L, i, GetPti(v^, pti));
+  lua_pop(L, 1);
 end;
 
 procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo);

@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaProgressBar;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -44,7 +44,7 @@ var
 begin
 	CheckArg(L, 2);
 	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
-	Delta := lua_tointeger(L,2);
+	luaL_check(L,2,@Delta);
 	lProgressBar.StepBy(Delta);
 	
 	Result := 0;

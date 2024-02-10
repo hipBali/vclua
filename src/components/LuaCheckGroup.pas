@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaCheckGroup;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -33,7 +33,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
-	AllLevels := lua_toboolean(L,2);
+	luaL_check(L,2,@AllLevels);
 	lCheckGroup.FlipChildren(AllLevels);
 	
 	Result := 0;

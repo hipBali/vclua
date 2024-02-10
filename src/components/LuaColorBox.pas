@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaColorBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 

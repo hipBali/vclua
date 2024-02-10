@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaNotebook;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -33,7 +33,7 @@ var
 begin
 	CheckArg(L, 2);
 	lNotebook := TLuaNotebook(GetLuaObject(L, 1));
-	AControl := TControl(GetLuaObject(L,2));
+	luaL_check(L,2,@AControl);
 	lNotebook.ShowControl(AControl);
 	
 	Result := 0;
@@ -47,7 +47,7 @@ var
 begin
 	CheckArg(L, 2);
 	lNotebook := TLuaNotebook(GetLuaObject(L, 1));
-	APage := TPage(GetLuaObject(L,2));
+	luaL_check(L,2,@APage);
 	ret := lNotebook.IndexOf(APage);
 	lua_push(L,ret);
 	

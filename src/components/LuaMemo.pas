@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaMemo;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -47,8 +47,8 @@ var
 begin
 	CheckArg(L, 3);
 	lMemo := TLuaMemo(GetLuaObject(L, 1));
-	DeltaX := lua_tointeger(L,2);
-	DeltaY := lua_tointeger(L,3);
+	luaL_check(L,2,@DeltaX);
+	luaL_check(L,3,@DeltaY);
 	lMemo.ScrollBy(DeltaX,DeltaY);
 	
 	Result := 0;

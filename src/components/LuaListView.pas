@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaListView;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -57,7 +57,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
-	ASource := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@ASource);
 	lListItem.Assign(ASource);
 	
 	Result := 0;
@@ -81,7 +81,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
-	PartialOK := lua_toboolean(L,2);
+	luaL_check(L,2,@PartialOK);
 	lListItem.MakeVisible(PartialOK);
 	
 	Result := 0;
@@ -95,7 +95,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
-	Code := TDisplayCode(GetLuaObject(L,2));
+	luaL_check(L,2,@Code,TypeInfo(TDisplayCode));
 	ret := lListItem.DisplayRect(Code);
 	lua_push(L,ret);
 	
@@ -111,8 +111,8 @@ var
 begin
 	CheckArg(L, 3);
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
-	subItem := lua_tointeger(L,2);
-	Code := TDisplayCode(GetLuaObject(L,3));
+	luaL_check(L,2,@subItem);
+	luaL_check(L,3,@Code,TypeInfo(TDisplayCode));
 	ret := lListItem.DisplayRectSubItem(subItem,Code);
 	lua_push(L,ret);
 	
@@ -152,7 +152,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AItem := TListItem(GetLuaObject(L,2));
+	luaL_check(L,2,@AItem);
 	lListItems.AddItem(AItem);
 	
 	Result := 0;
@@ -187,7 +187,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@AIndex);
 	lListItems.Delete(AIndex);
 	
 	Result := 0;
@@ -212,8 +212,8 @@ var
 begin
 	CheckArg(L, 3);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AIndex1 := lua_tointeger(L,2);
-	AIndex2 := lua_tointeger(L,3);
+	luaL_check(L,2,@AIndex1);
+	luaL_check(L,3,@AIndex2);
 	lListItems.Exchange(AIndex1,AIndex2);
 	
 	Result := 0;
@@ -227,8 +227,8 @@ var
 begin
 	CheckArg(L, 3);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AFromIndex := lua_tointeger(L,2);
-	AToIndex := lua_tointeger(L,3);
+	luaL_check(L,2,@AFromIndex);
+	luaL_check(L,3,@AToIndex);
 	lListItems.Move(AFromIndex,AToIndex);
 	
 	Result := 0;
@@ -247,11 +247,11 @@ var
 begin
 	CheckArg(L, -1);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	StartIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@StartIndex);
 	Value := lua_toStringCP(L,3);
-	Partial := lua_toboolean(L,4);
-	Inclusive := lua_toboolean(L,5);
-	Wrap := lua_toboolean(L,6);
+	luaL_check(L,4,@Partial);
+	luaL_check(L,5,@Inclusive);
+	luaL_check(L,6,@Wrap);
 	PartStart := luaL_optbool(L,7,True);
 	ret := lListItems.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
 	lua_push(L,ret);
@@ -285,10 +285,10 @@ var
 begin
 	CheckArg(L, 5);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	StartIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@StartIndex);
 	Value := Pointer(lua_touserdata(L,3));
-	Inclusive := lua_toboolean(L,4);
-	Wrap := lua_toboolean(L,5);
+	luaL_check(L,4,@Inclusive);
+	luaL_check(L,5,@Wrap);
 	ret := lListItems.FindData(StartIndex,Value,Inclusive,Wrap);
 	lua_push(L,ret);
 	
@@ -303,7 +303,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AItem := TListItem(GetLuaObject(L,2));
+	luaL_check(L,2,@AItem);
 	ret := lListItems.IndexOf(AItem);
 	lua_push(L,ret);
 	
@@ -318,7 +318,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@AIndex);
 	ret := lListItems.Insert(AIndex);
 	lua_push(L,ret);
 	
@@ -333,8 +333,8 @@ var
 begin
 	CheckArg(L, 3);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AItem := TListItem(GetLuaObject(L,2));
-	AIndex := lua_tointeger(L,3);
+	luaL_check(L,2,@AItem);
+	luaL_check(L,3,@AIndex);
 	lListItems.InsertItem(AItem,AIndex);
 	
 	Result := 0;
@@ -349,7 +349,7 @@ begin
 	CheckArg(L, 3);
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	Item := lua_toStringCP(L,2);
-	AObject := TObject(GetLuaObject(L,3));
+	luaL_check(L,3,@AObject);
 	lListView.AddItem(Item,AObject);
 	
 	Result := 0;
@@ -364,23 +364,6 @@ begin
 	lListView.Sort();
 	
 	Result := 0;
-end;
-
-function VCLua_ListView_CustomSort(L: Plua_State): Integer; cdecl;
-var
-	lListView:TLuaListView;
-	ASortProc:TLVCompare;
-	AOptionalParam:PtrInt;
-	ret:Boolean;
-begin
-	CheckArg(L, 3);
-	lListView := TLuaListView(GetLuaObject(L, 1));
-	ASortProc := TLVCompare(GetLuaObject(L,2));
-	AOptionalParam := lua_tointeger(L,3);
-	ret := lListView.CustomSort(ASortProc,AOptionalParam);
-	lua_push(L,ret);
-	
-	Result := 1;
 end;
 
 function VCLua_ListView_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -440,11 +423,11 @@ var
 begin
 	CheckArg(L, -1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	StartIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@StartIndex);
 	Value := lua_toStringCP(L,3);
-	Partial := lua_toboolean(L,4);
-	Inclusive := lua_toboolean(L,5);
-	Wrap := lua_toboolean(L,6);
+	luaL_check(L,4,@Partial);
+	luaL_check(L,5,@Inclusive);
+	luaL_check(L,6,@Wrap);
 	PartStart := luaL_optbool(L,7,True);
 	ret := lListView.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
 	lua_push(L,ret);
@@ -463,10 +446,10 @@ var
 begin
 	CheckArg(L, 5);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	StartIndex := lua_tointeger(L,2);
+	luaL_check(L,2,@StartIndex);
 	Value := Pointer(lua_touserdata(L,3));
-	Inclusive := lua_toboolean(L,4);
-	Wrap := lua_toboolean(L,5);
+	luaL_check(L,4,@Inclusive);
+	luaL_check(L,5,@Wrap);
 	ret := lListView.FindData(StartIndex,Value,Inclusive,Wrap);
 	lua_push(L,ret);
 	
@@ -482,8 +465,8 @@ var
 begin
 	CheckArg(L, 3);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	x := lua_tointeger(L,2);
-	y := lua_tointeger(L,3);
+	luaL_check(L,2,@x);
+	luaL_check(L,3,@y);
 	ret := lListView.GetItemAt(x,y);
 	lua_push(L,ret);
 	
@@ -500,7 +483,7 @@ begin
 	CheckArg(L, 3);
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	APoint := lua_toTPoint(L,2);
-	Direction := TSearchDirection(GetLuaObject(L,3));
+	luaL_check(L,3,@Direction,TypeInfo(TSearchDirection));
 	ret := lListView.GetNearestItem(APoint,Direction);
 	lua_push(L,ret);
 	
@@ -517,9 +500,9 @@ var
 begin
 	CheckArg(L, 4);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	StartItem := TListItem(GetLuaObject(L,2));
-	Direction := TSearchDirection(GetLuaObject(L,3));
-	States := TListItemStates(GetEnumValue(TypeInfo(TListItemStates),lua_tostring(L,4)));
+	luaL_check(L,2,@StartItem);
+	luaL_check(L,3,@Direction,TypeInfo(TSearchDirection));
+	luaL_checkSet(L,4,@States,TypeInfo(TListItemStates));
 	ret := lListView.GetNextItem(StartItem,Direction,States);
 	lua_push(L,ret);
 	
@@ -677,36 +660,34 @@ begin
 	ListItemsFuncs[14].name:=nil;
 	ListItemsFuncs[14].func:=nil;
 
-	SetLength(CustomListViewFuncs, 14+1);
+	SetLength(CustomListViewFuncs, 13+1);
 	CustomListViewFuncs[0].name:='AddItem';
 	CustomListViewFuncs[0].func:=@VCLua_ListView_AddItem;
 	CustomListViewFuncs[1].name:='Sort';
 	CustomListViewFuncs[1].func:=@VCLua_ListView_Sort;
-	CustomListViewFuncs[2].name:='CustomSort';
-	CustomListViewFuncs[2].func:=@VCLua_ListView_CustomSort;
-	CustomListViewFuncs[3].name:='BeginUpdate';
-	CustomListViewFuncs[3].func:=@VCLua_ListView_BeginUpdate;
-	CustomListViewFuncs[4].name:='Clear';
-	CustomListViewFuncs[4].func:=@VCLua_ListView_Clear;
-	CustomListViewFuncs[5].name:='EndUpdate';
-	CustomListViewFuncs[5].func:=@VCLua_ListView_EndUpdate;
-	CustomListViewFuncs[6].name:='Repaint';
-	CustomListViewFuncs[6].func:=@VCLua_ListView_Repaint;
-	CustomListViewFuncs[7].name:='FindCaption';
-	CustomListViewFuncs[7].func:=@VCLua_ListView_FindCaption;
-	CustomListViewFuncs[8].name:='FindData';
-	CustomListViewFuncs[8].func:=@VCLua_ListView_FindData;
-	CustomListViewFuncs[9].name:='GetItemAt';
-	CustomListViewFuncs[9].func:=@VCLua_ListView_GetItemAt;
-	CustomListViewFuncs[10].name:='GetNearestItem';
-	CustomListViewFuncs[10].func:=@VCLua_ListView_GetNearestItem;
-	CustomListViewFuncs[11].name:='GetNextItem';
-	CustomListViewFuncs[11].func:=@VCLua_ListView_GetNextItem;
-	CustomListViewFuncs[12].name:='ClearSelection';
-	CustomListViewFuncs[12].func:=@VCLua_ListView_ClearSelection;
-	CustomListViewFuncs[13].name:='SelectAll';
-	CustomListViewFuncs[13].func:=@VCLua_ListView_SelectAll;
-	CustomListViewFuncs[14].name:=nil;
-	CustomListViewFuncs[14].func:=nil;
+	CustomListViewFuncs[2].name:='BeginUpdate';
+	CustomListViewFuncs[2].func:=@VCLua_ListView_BeginUpdate;
+	CustomListViewFuncs[3].name:='Clear';
+	CustomListViewFuncs[3].func:=@VCLua_ListView_Clear;
+	CustomListViewFuncs[4].name:='EndUpdate';
+	CustomListViewFuncs[4].func:=@VCLua_ListView_EndUpdate;
+	CustomListViewFuncs[5].name:='Repaint';
+	CustomListViewFuncs[5].func:=@VCLua_ListView_Repaint;
+	CustomListViewFuncs[6].name:='FindCaption';
+	CustomListViewFuncs[6].func:=@VCLua_ListView_FindCaption;
+	CustomListViewFuncs[7].name:='FindData';
+	CustomListViewFuncs[7].func:=@VCLua_ListView_FindData;
+	CustomListViewFuncs[8].name:='GetItemAt';
+	CustomListViewFuncs[8].func:=@VCLua_ListView_GetItemAt;
+	CustomListViewFuncs[9].name:='GetNearestItem';
+	CustomListViewFuncs[9].func:=@VCLua_ListView_GetNearestItem;
+	CustomListViewFuncs[10].name:='GetNextItem';
+	CustomListViewFuncs[10].func:=@VCLua_ListView_GetNextItem;
+	CustomListViewFuncs[11].name:='ClearSelection';
+	CustomListViewFuncs[11].func:=@VCLua_ListView_ClearSelection;
+	CustomListViewFuncs[12].name:='SelectAll';
+	CustomListViewFuncs[12].func:=@VCLua_ListView_SelectAll;
+	CustomListViewFuncs[13].name:=nil;
+	CustomListViewFuncs[13].func:=nil;
 
 end.

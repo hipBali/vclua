@@ -37,6 +37,35 @@ VCLUA_TOLUA = {
 }
 end
 
+if checkTypeSupport then
+
+VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR);"
+
+-- enums and sets
+VCLUA_FROMLUA_ES = {
+"TVleSortCol",
+"TNodeAttachMode",
+"TTreeViewInsertMarkType",
+"TGraphicsDrawEffect",
+"TAnchorKind",
+"TFindItemKind",
+"TDisplayCode",
+"TSearchDirection",
+"TDrawingStyle",
+"TImageType",
+"TClipboardType",
+"TColumnButtonStyle",
+"TOpenOption",
+"TVleSortCol",
+"TCheckBoxState",
+"TFillStyle",
+"TGraphicsBevelCut",
+"TGradientDirection",
+"TOperation",
+"TAlign",
+"TDefaultColorType",
+}
+
 VCLUA_FROMLUA = {
 
 	-- default values
@@ -48,44 +77,33 @@ VCLUA_FROMLUA = {
 	["def_tshiftstate"] = "lua_toTShiftState(L,#IDX,#DEF);",
 	
 	-- String UTF-8 cp
-	["string"] = "lua_toStringCP(L,#);",
-	["pchar"] = "PChar(lua_toStringCP(L,#));",
+	["string"] = "#VAR := lua_toStringCP(L,#);",
+	["pchar"] = "#VAR := PChar(lua_toStringCP(L,#));",
 	
-	["array of string"] = "lua_toStringArray(L,#);",
-	["char"] = "Char(lua_tostring(L,#));",
-	["integer"] = "lua_tointeger(L,#);",
-	["boolean"] = "lua_toboolean(L,#);",
-	["pointer"] = "Pointer(lua_touserdata(L,#));",
-	["longint"] = "lua_tointeger(L,#);",
-	["cardinal"] = "lua_tointeger(L,#);",
-	["double"] = "lua_tonumber(L,#);",
-	["longword"] = "lua_tointeger(L,#);",
-	["single"] = "lua_tonumber(L,#);",
-	["word"] = "Word(lua_tointeger(L,#));",
-	["qword"] = "QWord(lua_tointeger(L,#));",
-	["byte"] = "Byte(lua_tointeger(L,#));",
-	["int64"] = "Int64(lua_tonumber(L,#));",
-	["thandle"] = "THandle(lua_tointeger(L,#));",
-	["ptrint"] = "lua_tointeger(L,#);",
-	["tcolor"] = "TColor(lua_tointeger(L,#));",
-	["tcursor"] = "TCursor(lua_tointeger(L,#));",
-	["hicon"] = "THandle(lua_tointeger(L,#));",
-	["hbitmap"] = "lua_tointeger(L,#);",
-	["toverlay"] = "lua_tointeger(L,#);",
-	["tpenpattern"] = "lua_toLongWordArray(L,#);",
-	["tutf8char"] = "TUTF8Char(lua_tostring(L,#));",
+	["array of string"] = "#VAR := lua_toStringArray(L,#);",
+	["char"] = "#VAR := Char(lua_tostring(L,#));",
+	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
+	["tpenpattern"] = "#VAR := lua_toLongWordArray(L,#);",
+	["tutf8char"] = "#VAR := TUTF8Char(lua_tostring(L,#));",
 	
 	-- LuaProxy 
-	["tpoint"] = "lua_toTPoint(L,#);",
-	["array of tpoint"] = "lua_toTPointArray(L,#);",
-	["trect"] = "lua_toTRect(L,#);",
-	["tsize"] = "lua_toTSize(L,#);",
-	["array of tmenuitem"] = "lua_toTMenuItem(L,#);",
-	["array of ttreenode"] = "lua_toTTreeNode(L,#);",
-	["ttextstyle"] = "lua_toTextStyle(L,#);",
-	["tshiftstate"] = "lua_toTShiftState(L,#);",
-		
+	["tpoint"] = "#VAR := lua_toTPoint(L,#);",
+	["array of tpoint"] = "#VAR := lua_toTPointArray(L,#);",
+	["trect"] = "#VAR := lua_toTRect(L,#);",
+	["tsize"] = "#VAR := lua_toTSize(L,#);",
+	["array of tmenuitem"] = "#VAR := lua_toTMenuItem(L,#);",
+	["array of ttreenode"] = "#VAR := lua_toTTreeNode(L,#);",
+	["ttextstyle"] = "#VAR := lua_toTextStyle(L,#);",
 }
 
+for _,t in pairs(VCLUA_FROMLUA_ES) do VCLUA_FROMLUA[t:lower()] = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));" end
+
+else
+VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));"
+
+VCLUA_FROMLUA = {
+}
+end
+
 -- Generic 'set' template
-VCLUA_TOSET_TEMP = "%s(GetEnumValue(TypeInfo(%s),lua_tostring(L,#)));"
+VCLUA_TOSET_TEMP = "luaL_checkSet(L,#,@#VAR,TypeInfo(#TYP));"

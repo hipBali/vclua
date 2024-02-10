@@ -862,7 +862,7 @@ begin
              AValue := lua_tonumber(LL,i);
           end
           else begin
-             LuaTypeError(LL, TypeInfo(AValue), i);
+             LuaTypeError(LL, i, TypeInfo(AValue));
           end;
        end;
        if i < newTop then begin
@@ -870,7 +870,7 @@ begin
          if lua_isboolean(LL,i) then
             Accept := lua_toboolean(LL,i)
          else
-            LuaTypeError(LL, TypeInfo(Accept), i);
+            LuaTypeError(LL, i, TypeInfo(Accept));
        end;
     end;
 end;

@@ -4,6 +4,8 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaStringList;	
 
+{$T+}
+
 interface
 
 Uses Classes, Lua, LuaController, TypInfo;
@@ -58,7 +60,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lStringList.Delete(Index);
 	
 	Result := 0;
@@ -72,8 +74,8 @@ var
 begin
 	CheckArg(L, 3);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	Index1 := lua_tointeger(L,2);
-	Index2 := lua_tointeger(L,3);
+	luaL_check(L,2,@Index1);
+	luaL_check(L,3,@Index2);
 	lStringList.Exchange(Index1,Index2);
 	
 	Result := 0;
@@ -118,7 +120,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	S := lua_toStringCP(L,3);
 	lStringList.Insert(Index,S);
 	
@@ -132,19 +134,6 @@ begin
 	CheckArg(L, 1);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	lStringList.Sort();
-	
-	Result := 0;
-end;
-
-function VCLua_StringList_CustomSort(L: Plua_State): Integer; cdecl;
-var
-	lStringList:TLuaStringList;
-	CompareFn:TStringListSortCompare;
-begin
-	CheckArg(L, 2);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	CompareFn := TStringListSortCompare(GetLuaObject(L,2));
-	lStringList.CustomSort(CompareFn);
 	
 	Result := 0;
 end;
@@ -179,7 +168,7 @@ begin
 	Result := 1;
 end;
 begin
-	SetLength(StringListFuncs, 9+1);
+	SetLength(StringListFuncs, 8+1);
 	StringListFuncs[0].name:='Add';
 	StringListFuncs[0].func:=@VCLua_StringList_Add;
 	StringListFuncs[1].name:='Clear';
@@ -196,9 +185,7 @@ begin
 	StringListFuncs[6].func:=@VCLua_StringList_Insert;
 	StringListFuncs[7].name:='Sort';
 	StringListFuncs[7].func:=@VCLua_StringList_Sort;
-	StringListFuncs[8].name:='CustomSort';
-	StringListFuncs[8].func:=@VCLua_StringList_CustomSort;
-	StringListFuncs[9].name:=nil;
-	StringListFuncs[9].func:=nil;
+	StringListFuncs[8].name:=nil;
+	StringListFuncs[8].func:=nil;
 
 end.

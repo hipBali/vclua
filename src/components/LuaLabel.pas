@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaLabel;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -42,8 +42,8 @@ begin
 	CheckArg(L, 4);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
 	TheText := lua_toStringCP(L,2);
-	MaxWidth := lua_tointeger(L,3);
-	MaxHeight := lua_tointeger(L,4);
+	luaL_check(L,3,@MaxWidth);
+	luaL_check(L,4,@MaxHeight);
 	ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight,NeededWidth,NeededHeight);
 	lua_push(L,ret);
 	lua_push(L,FontHeight);
@@ -99,10 +99,10 @@ var
 begin
 	CheckArg(L, 5);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	aLeft := lua_tointeger(L,2);
-	aTop := lua_tointeger(L,3);
-	aWidth := lua_tointeger(L,4);
-	aHeight := lua_tointeger(L,5);
+	luaL_check(L,2,@aLeft);
+	luaL_check(L,3,@aTop);
+	luaL_check(L,4,@aWidth);
+	luaL_check(L,5,@aHeight);
 	lLabel.SetBounds(aLeft,aTop,aWidth,aHeight);
 	
 	Result := 0;

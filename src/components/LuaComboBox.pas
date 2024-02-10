@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaComboBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -46,7 +46,7 @@ begin
 	CheckArg(L, 3);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
 	Item := lua_toStringCP(L,2);
-	AnObject := TObject(GetLuaObject(L,3));
+	luaL_check(L,3,@AnObject);
 	lComboBox.AddItem(Item,AnObject);
 	
 	Result := 0;
@@ -63,9 +63,9 @@ begin
 	CheckArg(L, 5);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
 	Item := lua_toStringCP(L,2);
-	MaxHistoryCount := lua_tointeger(L,3);
-	SetAsText := lua_toboolean(L,4);
-	CaseSensitive := lua_toboolean(L,5);
+	luaL_check(L,3,@MaxHistoryCount);
+	luaL_check(L,4,@SetAsText);
+	luaL_check(L,5,@CaseSensitive);
 	lComboBox.AddHistoryItem(Item,MaxHistoryCount,SetAsText,CaseSensitive);
 	
 	Result := 0;
@@ -83,10 +83,10 @@ begin
 	CheckArg(L, 6);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
 	Item := lua_toStringCP(L,2);
-	AnObject := TObject(GetLuaObject(L,3));
-	MaxHistoryCount := lua_tointeger(L,4);
-	SetAsText := lua_toboolean(L,5);
-	CaseSensitive := lua_toboolean(L,6);
+	luaL_check(L,3,@AnObject);
+	luaL_check(L,4,@MaxHistoryCount);
+	luaL_check(L,5,@SetAsText);
+	luaL_check(L,6,@CaseSensitive);
 	lComboBox.AddHistoryItem(Item,AnObject,MaxHistoryCount,SetAsText,CaseSensitive);
 	
 	Result := 0;

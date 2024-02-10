@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaActionList;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -168,7 +168,7 @@ var
 begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
-	Action := TBasicAction(GetLuaObject(L,2));
+	luaL_check(L,2,@Action);
 	ret := lActionList.ExecuteAction(Action);
 	lua_push(L,ret);
 	
@@ -198,7 +198,7 @@ var
 begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
-	Action := TBasicAction(GetLuaObject(L,2));
+	luaL_check(L,2,@Action);
 	ret := lActionList.UpdateAction(Action);
 	lua_push(L,ret);
 	

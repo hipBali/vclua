@@ -4,6 +4,8 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaPicture;	
 
+{$T+}
+
 interface
 
 Uses Classes, Lua, LuaController, Graphics, TypInfo;
@@ -56,7 +58,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@Stream);
 	lPicture.LoadFromStream(Stream);
 	
 	Result := 0;
@@ -70,7 +72,7 @@ var
 begin
 	CheckArg(L, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@Stream);
 	FileExt := lua_toStringCP(L,3);
 	lPicture.LoadFromStreamWithFileExt(Stream,FileExt);
 	
@@ -99,7 +101,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@Stream);
 	lPicture.SaveToStream(Stream);
 	
 	Result := 0;
@@ -113,7 +115,7 @@ var
 begin
 	CheckArg(L, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
+	luaL_check(L,2,@Stream);
 	FileExt := lua_toStringCP(L,3);
 	lPicture.SaveToStreamWithFileExt(Stream,FileExt);
 	
@@ -127,7 +129,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Source);
 	lPicture.Assign(Source);
 	
 	Result := 0;

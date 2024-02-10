@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaDateEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 

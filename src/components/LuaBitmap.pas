@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaBitmap;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -46,7 +46,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
+	luaL_check(L,2,@Source);
 	lCustomBitmap.Assign(Source);
 	
 	Result := 0;
@@ -149,8 +149,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	ABitmap := lua_tointeger(L,2);
-	AMask := lua_tointeger(L,3);
+	luaL_check(L,2,@ABitmap);
+	luaL_check(L,3,@AMask);
 	lCustomBitmap.SetHandles(ABitmap,AMask);
 	
 	Result := 0;
@@ -164,8 +164,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	AWidth := lua_tointeger(L,2);
-	AHeight := lua_tointeger(L,3);
+	luaL_check(L,2,@AWidth);
+	luaL_check(L,3,@AHeight);
 	lCustomBitmap.SetSize(AWidth,AHeight);
 	
 	Result := 0;
@@ -192,8 +192,8 @@ var
 begin
 	CheckArg(L, 3);
 	lBitmap := TLuaBitmap(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
-	ASize := lua_tointeger(L,3);
+	luaL_check(L,2,@AStream);
+	luaL_check(L,3,@ASize);
 	lBitmap.LoadFromStream(AStream,ASize);
 	
 	Result := 0;

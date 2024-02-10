@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaCanvas;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -128,12 +128,12 @@ var
 begin
 	CheckArg(L, 7);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ALeft := lua_tointeger(L,2);
-	ATop := lua_tointeger(L,3);
-	ARight := lua_tointeger(L,4);
-	ABottom := lua_tointeger(L,5);
-	Angle16Deg := lua_tointeger(L,6);
-	Angle16DegLength := lua_tointeger(L,7);
+	luaL_check(L,2,@ALeft);
+	luaL_check(L,3,@ATop);
+	luaL_check(L,4,@ARight);
+	luaL_check(L,5,@ABottom);
+	luaL_check(L,6,@Angle16Deg);
+	luaL_check(L,7,@Angle16DegLength);
 	lCanvas.Arc(ALeft,ATop,ARight,ABottom,Angle16Deg,Angle16DegLength);
 	
 	Result := 0;
@@ -153,14 +153,14 @@ var
 begin
 	CheckArg(L, 9);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ALeft := lua_tointeger(L,2);
-	ATop := lua_tointeger(L,3);
-	ARight := lua_tointeger(L,4);
-	ABottom := lua_tointeger(L,5);
-	SX := lua_tointeger(L,6);
-	SY := lua_tointeger(L,7);
-	EX := lua_tointeger(L,8);
-	EY := lua_tointeger(L,9);
+	luaL_check(L,2,@ALeft);
+	luaL_check(L,3,@ATop);
+	luaL_check(L,4,@ARight);
+	luaL_check(L,5,@ABottom);
+	luaL_check(L,6,@SX);
+	luaL_check(L,7,@SY);
+	luaL_check(L,8,@EX);
+	luaL_check(L,9,@EY);
 	lCanvas.Arc(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY);
 	
 	Result := 0;
@@ -177,11 +177,11 @@ var
 begin
 	CheckArg(L, 6);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
-	Radius := lua_tointeger(L,4);
-	StartAngle := lua_tonumber(L,5);
-	SweepAngle := lua_tonumber(L,6);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
+	luaL_check(L,4,@Radius);
+	luaL_check(L,5,@StartAngle);
+	luaL_check(L,6,@SweepAngle);
 	lCanvas.AngleArc(X,Y,Radius,StartAngle,SweepAngle);
 	
 	Result := 0;
@@ -198,9 +198,9 @@ begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	ADestRect := lua_toTRect(L,2);
-	ABitmap := TBitmap(GetLuaObject(L,3));
+	luaL_check(L,3,@ABitmap);
 	ASourceRect := lua_toTRect(L,4);
-	ATransparentColor := TColor(lua_tointeger(L,5));
+	luaL_check(L,5,@ATransparentColor);
 	lCanvas.BrushCopy(ADestRect,ABitmap,ASourceRect,ATransparentColor);
 	
 	Result := 0;
@@ -218,12 +218,12 @@ var
 begin
 	CheckArg(L, 7);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	x1 := lua_tointeger(L,2);
-	y1 := lua_tointeger(L,3);
-	x2 := lua_tointeger(L,4);
-	y2 := lua_tointeger(L,5);
-	Angle16Deg := lua_tointeger(L,6);
-	Angle16DegLength := lua_tointeger(L,7);
+	luaL_check(L,2,@x1);
+	luaL_check(L,3,@y1);
+	luaL_check(L,4,@x2);
+	luaL_check(L,5,@y2);
+	luaL_check(L,6,@Angle16Deg);
+	luaL_check(L,7,@Angle16DegLength);
 	lCanvas.Chord(x1,y1,x2,y2,Angle16Deg,Angle16DegLength);
 	
 	Result := 0;
@@ -243,14 +243,14 @@ var
 begin
 	CheckArg(L, 9);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	x1 := lua_tointeger(L,2);
-	y1 := lua_tointeger(L,3);
-	x2 := lua_tointeger(L,4);
-	y2 := lua_tointeger(L,5);
-	SX := lua_tointeger(L,6);
-	SY := lua_tointeger(L,7);
-	EX := lua_tointeger(L,8);
-	EY := lua_tointeger(L,9);
+	luaL_check(L,2,@x1);
+	luaL_check(L,3,@y1);
+	luaL_check(L,4,@x2);
+	luaL_check(L,5,@y2);
+	luaL_check(L,6,@SX);
+	luaL_check(L,7,@SY);
+	luaL_check(L,8,@EX);
+	luaL_check(L,9,@EY);
 	lCanvas.Chord(x1,y1,x2,y2,SX,SY,EX,EY);
 	
 	Result := 0;
@@ -266,7 +266,7 @@ begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Dest := lua_toTRect(L,2);
-	SrcCanvas := TCanvas(GetLuaObject(L,3));
+	luaL_check(L,3,@SrcCanvas);
 	Source := lua_toTRect(L,4);
 	lCanvas.CopyRect(Dest,SrcCanvas,Source);
 	
@@ -282,9 +282,9 @@ var
 begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
-	SrcGraphic := TGraphic(GetLuaObject(L,4));
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
+	luaL_check(L,4,@SrcGraphic);
 	lCanvas.Draw(X,Y,SrcGraphic);
 	
 	Result := 0;
@@ -312,7 +312,7 @@ begin
 	CheckArg(L, 3);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	DestRect := lua_toTRect(L,2);
-	SrcGraphic := TGraphic(GetLuaObject(L,3));
+	luaL_check(L,3,@SrcGraphic);
 	lCanvas.StretchDraw(DestRect,SrcGraphic);
 	
 	Result := 0;
@@ -341,10 +341,10 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	x1 := lua_tointeger(L,2);
-	y1 := lua_tointeger(L,3);
-	x2 := lua_tointeger(L,4);
-	y2 := lua_tointeger(L,5);
+	luaL_check(L,2,@x1);
+	luaL_check(L,3,@y1);
+	luaL_check(L,4,@x2);
+	luaL_check(L,5,@y2);
 	lCanvas.Ellipse(x1,y1,x2,y2);
 	
 	Result := 0;
@@ -373,10 +373,10 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X1 := lua_tointeger(L,2);
-	Y1 := lua_tointeger(L,3);
-	X2 := lua_tointeger(L,4);
-	Y2 := lua_tointeger(L,5);
+	luaL_check(L,2,@X1);
+	luaL_check(L,3,@Y1);
+	luaL_check(L,4,@X2);
+	luaL_check(L,5,@Y2);
 	lCanvas.FillRect(X1,Y1,X2,Y2);
 	
 	Result := 0;
@@ -392,10 +392,10 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
-	FillColor := TColor(lua_tointeger(L,4));
-	FillStyle := TFillStyle(GetLuaObject(L,5));
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
+	luaL_check(L,4,@FillColor);
+	luaL_check(L,5,@FillStyle,TypeInfo(TFillStyle));
 	lCanvas.FloodFill(X,Y,FillColor,FillStyle);
 	
 	Result := 0;
@@ -410,8 +410,8 @@ var
 begin
 	CheckArg(L, 3);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	FrameWidth := lua_tointeger(L,2);
-	Style := TGraphicsBevelCut(GetLuaObject(L,3));
+	luaL_check(L,2,@FrameWidth);
+	luaL_check(L,3,@Style,TypeInfo(TGraphicsBevelCut));
 	lCanvas.Frame3d(ARect,FrameWidth,Style);
 	lua_push(L,ARect);
 	Result := 1;
@@ -427,8 +427,8 @@ begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	ARect := lua_toTRect(L,2);
-	FrameWidth := lua_tointeger(L,3);
-	Style := TGraphicsBevelCut(GetLuaObject(L,4));
+	luaL_check(L,3,@FrameWidth);
+	luaL_check(L,4,@Style,TypeInfo(TGraphicsBevelCut));
 	lCanvas.Frame3d(ARect,FrameWidth,Style);
 	lua_push(L,ARect);
 	Result := 1;
@@ -444,9 +444,9 @@ var
 begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	TopColor := TColor(lua_tointeger(L,2));
-	BottomColor := TColor(lua_tointeger(L,3));
-	FrameWidth := lua_tointeger(L,4);
+	luaL_check(L,2,@TopColor);
+	luaL_check(L,3,@BottomColor);
+	luaL_check(L,4,@FrameWidth);
 	lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
 	lua_push(L,ARect);
 	Result := 1;
@@ -463,9 +463,9 @@ begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	ARect := lua_toTRect(L,2);
-	TopColor := TColor(lua_tointeger(L,3));
-	BottomColor := TColor(lua_tointeger(L,4));
-	FrameWidth := lua_tointeger(L,5);
+	luaL_check(L,3,@TopColor);
+	luaL_check(L,4,@BottomColor);
+	luaL_check(L,5,@FrameWidth);
 	lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
 	lua_push(L,ARect);
 	Result := 1;
@@ -482,9 +482,9 @@ begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	ARect := lua_toTRect(L,2);
-	AStart := TColor(lua_tointeger(L,3));
-	AStop := TColor(lua_tointeger(L,4));
-	ADirection := TGradientDirection(GetLuaObject(L,5));
+	luaL_check(L,3,@AStart);
+	luaL_check(L,4,@AStop);
+	luaL_check(L,5,@ADirection,TypeInfo(TGradientDirection));
 	lCanvas.GradientFill(ARect,AStart,AStop,ADirection);
 	
 	Result := 0;
@@ -502,12 +502,12 @@ var
 begin
 	CheckArg(L, 7);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	x1 := lua_tointeger(L,2);
-	y1 := lua_tointeger(L,3);
-	x2 := lua_tointeger(L,4);
-	y2 := lua_tointeger(L,5);
-	StartAngle16Deg := lua_tointeger(L,6);
-	Angle16DegLength := lua_tointeger(L,7);
+	luaL_check(L,2,@x1);
+	luaL_check(L,3,@y1);
+	luaL_check(L,4,@x2);
+	luaL_check(L,5,@y2);
+	luaL_check(L,6,@StartAngle16Deg);
+	luaL_check(L,7,@Angle16DegLength);
 	lCanvas.RadialPie(x1,y1,x2,y2,StartAngle16Deg,Angle16DegLength);
 	
 	Result := 0;
@@ -527,14 +527,14 @@ var
 begin
 	CheckArg(L, 9);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	EllipseX1 := lua_tointeger(L,2);
-	EllipseY1 := lua_tointeger(L,3);
-	EllipseX2 := lua_tointeger(L,4);
-	EllipseY2 := lua_tointeger(L,5);
-	StartX := lua_tointeger(L,6);
-	StartY := lua_tointeger(L,7);
-	EndX := lua_tointeger(L,8);
-	EndY := lua_tointeger(L,9);
+	luaL_check(L,2,@EllipseX1);
+	luaL_check(L,3,@EllipseY1);
+	luaL_check(L,4,@EllipseX2);
+	luaL_check(L,5,@EllipseY2);
+	luaL_check(L,6,@StartX);
+	luaL_check(L,7,@StartY);
+	luaL_check(L,8,@EndX);
+	luaL_check(L,9,@EndY);
 	lCanvas.Pie(EllipseX1,EllipseY1,EllipseX2,EllipseY2,StartX,StartY,EndX,EndY);
 	
 	Result := 0;
@@ -568,7 +568,7 @@ begin
 	CheckArg(L, -1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
-	Winding := lua_toboolean(L,3);
+	luaL_check(L,3,@Winding);
 	StartIndex := luaL_optint(L,4,0);
 	NumPts := luaL_optint(L,5,-1);
 	lCanvas.Polygon(Points,Winding,StartIndex,NumPts);
@@ -599,7 +599,7 @@ begin
 	CheckArg(L, -1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
-	StartIndex := lua_tointeger(L,3);
+	luaL_check(L,3,@StartIndex);
 	NumPts := luaL_optint(L,4,-1);
 	lCanvas.Polyline(Points,StartIndex,NumPts);
 	
@@ -629,10 +629,10 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X1 := lua_tointeger(L,2);
-	Y1 := lua_tointeger(L,3);
-	X2 := lua_tointeger(L,4);
-	Y2 := lua_tointeger(L,5);
+	luaL_check(L,2,@X1);
+	luaL_check(L,3,@Y1);
+	luaL_check(L,4,@X2);
+	luaL_check(L,5,@Y2);
 	lCanvas.Rectangle(X1,Y1,X2,Y2);
 	
 	Result := 0;
@@ -663,12 +663,12 @@ var
 begin
 	CheckArg(L, 7);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X1 := lua_tointeger(L,2);
-	Y1 := lua_tointeger(L,3);
-	X2 := lua_tointeger(L,4);
-	Y2 := lua_tointeger(L,5);
-	RX := lua_tointeger(L,6);
-	RY := lua_tointeger(L,7);
+	luaL_check(L,2,@X1);
+	luaL_check(L,3,@Y1);
+	luaL_check(L,4,@X2);
+	luaL_check(L,5,@Y2);
+	luaL_check(L,6,@RX);
+	luaL_check(L,7,@RY);
 	lCanvas.RoundRect(X1,Y1,X2,Y2,RX,RY);
 	
 	Result := 0;
@@ -684,8 +684,8 @@ begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Rect := lua_toTRect(L,2);
-	RX := lua_tointeger(L,3);
-	RY := lua_tointeger(L,4);
+	luaL_check(L,3,@RX);
+	luaL_check(L,4,@RY);
 	lCanvas.RoundRect(Rect,RX,RY);
 	
 	Result := 0;
@@ -700,8 +700,8 @@ var
 begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	Text := lua_toStringCP(L,4);
 	lCanvas.TextOut(X,Y,Text);
 	
@@ -719,8 +719,8 @@ begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	ARect := lua_toTRect(L,2);
-	X := lua_tointeger(L,3);
-	Y := lua_tointeger(L,4);
+	luaL_check(L,3,@X);
+	luaL_check(L,4,@Y);
 	Text := lua_toStringCP(L,5);
 	lCanvas.TextRect(ARect,X,Y,Text);
 	
@@ -739,8 +739,8 @@ begin
 	CheckArg(L, 6);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	ARect := lua_toTRect(L,2);
-	X := lua_tointeger(L,3);
-	Y := lua_tointeger(L,4);
+	luaL_check(L,3,@X);
+	luaL_check(L,4,@Y);
 	Text := lua_toStringCP(L,5);
 	Style := lua_toTextStyle(L,6);
 	lCanvas.TextRect(ARect,X,Y,Text,Style);
@@ -788,7 +788,7 @@ begin
 	CheckArg(L, 3);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Text := lua_toStringCP(L,2);
-	MaxWidth := lua_tointeger(L,3);
+	luaL_check(L,3,@MaxWidth);
 	ret := lCanvas.TextFitInfo(Text,MaxWidth);
 	lua_push(L,ret);
 	

@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaMenu;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -82,8 +82,8 @@ var
 begin
 	CheckArg(L, 3);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
-	AValue := lua_tointeger(L,2);
-	Kind := TFindItemKind(GetLuaObject(L,3));
+	luaL_check(L,2,@AValue);
+	luaL_check(L,3,@Kind,TypeInfo(TFindItemKind));
 	ret := lMenu.FindItem(AValue,Kind);
 	lua_push(L,ret);
 	
@@ -99,8 +99,8 @@ var
 begin
 	CheckArg(L, 3);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
-	AValue := lua_tointeger(L,2);
-	ByCommand := lua_toboolean(L,3);
+	luaL_check(L,2,@AValue);
+	luaL_check(L,3,@ByCommand);
 	ret := lMenu.GetHelpContext(AValue,ByCommand);
 	lua_push(L,ret);
 	
@@ -178,7 +178,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
-	ACommand := Word(lua_tointeger(L,2));
+	luaL_check(L,2,@ACommand);
 	ret := lMenu.DispatchCommand(ACommand);
 	lua_push(L,ret);
 	
@@ -204,8 +204,8 @@ var
 begin
 	CheckArg(L, 3);
 	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
 	lPopupMenu.PopUp(X,Y);
 	
 	Result := 0;
@@ -386,7 +386,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	Item := TMenuItem(GetLuaObject(L,2));
+	luaL_check(L,2,@Item);
 	ret := lMenuItem.IndexOf(Item);
 	lua_push(L,ret);
 	
@@ -427,7 +427,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	Item := TMenuItem(GetLuaObject(L,2));
+	luaL_check(L,2,@Item);
 	ret := lMenuItem.VisibleIndexOf(Item);
 	lua_push(L,ret);
 	
@@ -441,7 +441,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	Item := TMenuItem(GetLuaObject(L,2));
+	luaL_check(L,2,@Item);
 	lMenuItem.Add(Item);
 	
 	Result := 0;
@@ -489,7 +489,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
+	luaL_check(L,2,@Index);
 	lMenuItem.Delete(Index);
 	
 	Result := 0;
@@ -514,8 +514,8 @@ var
 begin
 	CheckArg(L, 3);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	Index := lua_tointeger(L,2);
-	Item := TMenuItem(GetLuaObject(L,3));
+	luaL_check(L,2,@Index);
+	luaL_check(L,3,@Item);
 	lMenuItem.Insert(Index,Item);
 	
 	Result := 0;
@@ -539,7 +539,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	Item := TMenuItem(GetLuaObject(L,2));
+	luaL_check(L,2,@Item);
 	lMenuItem.Remove(Item);
 	
 	Result := 0;
@@ -667,7 +667,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMainMenu := TLuaMainMenu(GetLuaObject(L, 1));
-	Menu := TMainMenu(GetLuaObject(L,2));
+	luaL_check(L,2,@Menu);
 	lMainMenu.Merge(Menu);
 	
 	Result := 0;
@@ -680,7 +680,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMainMenu := TLuaMainMenu(GetLuaObject(L, 1));
-	Menu := TMainMenu(GetLuaObject(L,2));
+	luaL_check(L,2,@Menu);
 	lMainMenu.Unmerge(Menu);
 	
 	Result := 0;
