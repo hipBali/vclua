@@ -702,7 +702,7 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	Text := lua_toStringCP(L,4);
+	luaL_check(L,4,@Text);
 	lCanvas.TextOut(X,Y,Text);
 	
 	Result := 0;
@@ -721,7 +721,7 @@ begin
 	ARect := lua_toTRect(L,2);
 	luaL_check(L,3,@X);
 	luaL_check(L,4,@Y);
-	Text := lua_toStringCP(L,5);
+	luaL_check(L,5,@Text);
 	lCanvas.TextRect(ARect,X,Y,Text);
 	
 	Result := 0;
@@ -741,7 +741,7 @@ begin
 	ARect := lua_toTRect(L,2);
 	luaL_check(L,3,@X);
 	luaL_check(L,4,@Y);
-	Text := lua_toStringCP(L,5);
+	luaL_check(L,5,@Text);
 	Style := lua_toTextStyle(L,6);
 	lCanvas.TextRect(ARect,X,Y,Text,Style);
 	
@@ -756,7 +756,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Text := lua_toStringCP(L,2);
+	luaL_check(L,2,@Text);
 	ret := lCanvas.TextHeight(Text);
 	lua_push(L,ret);
 	
@@ -771,7 +771,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Text := lua_toStringCP(L,2);
+	luaL_check(L,2,@Text);
 	ret := lCanvas.TextWidth(Text);
 	lua_push(L,ret);
 	
@@ -787,7 +787,7 @@ var
 begin
 	CheckArg(L, 3);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Text := lua_toStringCP(L,2);
+	luaL_check(L,2,@Text);
 	luaL_check(L,3,@MaxWidth);
 	ret := lCanvas.TextFitInfo(Text,MaxWidth);
 	lua_push(L,ret);

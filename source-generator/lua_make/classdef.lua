@@ -76,15 +76,9 @@ VCLUA_FROMLUA = {
 	["def_integer"] = "luaL_optint(L,#IDX,#DEF);",
 	["def_tshiftstate"] = "lua_toTShiftState(L,#IDX,#DEF);",
 	
-	-- String UTF-8 cp
-	["string"] = "#VAR := lua_toStringCP(L,#);",
-	["pchar"] = "#VAR := PChar(lua_toStringCP(L,#));",
-	
 	["array of string"] = "#VAR := lua_toStringArray(L,#);",
-	["char"] = "#VAR := Char(lua_tostring(L,#));",
 	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
 	["tpenpattern"] = "#VAR := lua_toLongWordArray(L,#);",
-	["tutf8char"] = "#VAR := TUTF8Char(lua_tostring(L,#));",
 	
 	-- LuaProxy 
 	["tpoint"] = "#VAR := lua_toTPoint(L,#);",

@@ -82,7 +82,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	ResourceType := lua_toStringCP(L,2);
+	luaL_check(L,2,@ResourceType);
 	ret := lCustomBitmap.LazarusResourceTypeValid(ResourceType);
 	lua_push(L,ret);
 	

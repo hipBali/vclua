@@ -45,7 +45,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	TheText := PChar(lua_toStringCP(L,2));
+	luaL_check(L,2,@TheText);
 	lTextStrings.SetText(TheText);
 	
 	Result := 0;
@@ -60,7 +60,7 @@ begin
 	CheckArg(L, 3);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	lTextStrings.Insert(Index,S);
 	
 	Result := 0;
@@ -163,7 +163,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	S := lua_toStringCP(L,2);
+	luaL_check(L,2,@S);
 	ret := lTextStrings.IndexOf(S);
 	lua_push(L,ret);
 	
@@ -178,7 +178,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	S := lua_toStringCP(L,2);
+	luaL_check(L,2,@S);
 	ret := lTextStrings.Add(S);
 	lua_push(L,ret);
 	
@@ -194,7 +194,7 @@ var
 begin
 	CheckArg(L, 3);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	S := lua_toStringCP(L,2);
+	luaL_check(L,2,@S);
 	luaL_check(L,3,@AObject);
 	ret := lTextStrings.AddObject(S,AObject);
 	lua_push(L,ret);
@@ -222,7 +222,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	FileName := lua_toStringCP(L,2);
+	luaL_check(L,2,@FileName);
 	lTextStrings.LoadFromFile(FileName);
 	
 	Result := 0;
@@ -235,7 +235,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	FileName := lua_toStringCP(L,2);
+	luaL_check(L,2,@FileName);
 	lTextStrings.SaveToFile(FileName);
 	
 	Result := 0;

@@ -73,7 +73,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	AResourceType := lua_toStringCP(L,2);
+	luaL_check(L,2,@AResourceType);
 	ret := lGraphic.LazarusResourceTypeValid(AResourceType);
 	lua_push(L,ret);
 	
@@ -87,7 +87,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Filename := lua_toStringCP(L,2);
+	luaL_check(L,2,@Filename);
 	lGraphic.LoadFromFile(Filename);
 	
 	Result := 0;
@@ -115,7 +115,7 @@ begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	AMimeType := lua_toStringCP(L,3);
+	luaL_check(L,3,@AMimeType);
 	lGraphic.LoadFromMimeStream(AStream,AMimeType);
 	
 	Result := 0;
@@ -128,7 +128,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ResName := lua_toStringCP(L,2);
+	luaL_check(L,2,@ResName);
 	lGraphic.LoadFromLazarusResource(ResName);
 	
 	Result := 0;
@@ -143,7 +143,7 @@ begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@Instance);
-	ResName := lua_toStringCP(L,3);
+	luaL_check(L,3,@ResName);
 	lGraphic.LoadFromResourceName(Instance,ResName);
 	
 	Result := 0;
@@ -199,7 +199,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Filename := lua_toStringCP(L,2);
+	luaL_check(L,2,@Filename);
 	lGraphic.SaveToFile(Filename);
 	
 	Result := 0;

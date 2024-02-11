@@ -89,7 +89,7 @@ var
 begin
 	CheckArg(L, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	KeyName := lua_toStringCP(L,2);
+	luaL_check(L,2,@KeyName);
 	ret := lValueListEditor.FindRow(KeyName,aRow);
 	lua_push(L,ret);
 	lua_push(L,aRow);
@@ -121,8 +121,8 @@ var
 begin
 	CheckArg(L, 4);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	KeyName := lua_toStringCP(L,2);
-	Value := lua_toStringCP(L,3);
+	luaL_check(L,2,@KeyName);
+	luaL_check(L,3,@Value);
 	luaL_check(L,4,@Append);
 	ret := lValueListEditor.InsertRow(KeyName,Value,Append);
 	lua_push(L,ret);

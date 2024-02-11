@@ -36,7 +36,7 @@ var
 begin
 	CheckArg(L, 3);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	Item := lua_toStringCP(L,2);
+	luaL_check(L,2,@Item);
 	luaL_check(L,3,@AnObject);
 	lListBox.AddItem(Item,AnObject);
 	

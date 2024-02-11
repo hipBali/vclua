@@ -248,7 +248,7 @@ begin
 	CheckArg(L, -1);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@StartIndex);
-	Value := lua_toStringCP(L,3);
+	luaL_check(L,3,@Value);
 	luaL_check(L,4,@Partial);
 	luaL_check(L,5,@Inclusive);
 	luaL_check(L,6,@Wrap);
@@ -348,7 +348,7 @@ var
 begin
 	CheckArg(L, 3);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	Item := lua_toStringCP(L,2);
+	luaL_check(L,2,@Item);
 	luaL_check(L,3,@AObject);
 	lListView.AddItem(Item,AObject);
 	
@@ -424,7 +424,7 @@ begin
 	CheckArg(L, -1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	luaL_check(L,2,@StartIndex);
-	Value := lua_toStringCP(L,3);
+	luaL_check(L,3,@Value);
 	luaL_check(L,4,@Partial);
 	luaL_check(L,5,@Inclusive);
 	luaL_check(L,6,@Wrap);

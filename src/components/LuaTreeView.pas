@@ -61,7 +61,7 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@SiblingNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	ret := lTreeNodes.Add(SiblingNode,S);
 	lua_push(L,ret);
 	
@@ -78,7 +78,7 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@ParentNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	ret := lTreeNodes.AddChild(ParentNode,S);
 	lua_push(L,ret);
 	
@@ -95,7 +95,7 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@ParentNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	ret := lTreeNodes.AddChildFirst(ParentNode,S);
 	lua_push(L,ret);
 	
@@ -113,7 +113,7 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@ParentNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddChildObject(ParentNode,S,Data);
 	lua_push(L,ret);
@@ -132,7 +132,7 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@ParentNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddChildObjectFirst(ParentNode,S,Data);
 	lua_push(L,ret);
@@ -150,7 +150,7 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@SiblingNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	ret := lTreeNodes.AddFirst(SiblingNode,S);
 	lua_push(L,ret);
 	
@@ -171,7 +171,7 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@Node);
 	luaL_check(L,3,@Relative);
-	S := lua_toStringCP(L,4);
+	luaL_check(L,4,@S);
 	Ptr := Pointer(lua_touserdata(L,5));
 	luaL_check(L,6,@Method,TypeInfo(TNodeAttachMode));
 	ret := lTreeNodes.AddNode(Node,Relative,S,Ptr,Method);
@@ -191,7 +191,7 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@SiblingNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddObject(SiblingNode,S,Data);
 	lua_push(L,ret);
@@ -210,7 +210,7 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@SiblingNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.AddObjectFirst(SiblingNode,S,Data);
 	lua_push(L,ret);
@@ -241,7 +241,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	NodeText := lua_toStringCP(L,2);
+	luaL_check(L,2,@NodeText);
 	ret := lTreeNodes.FindNodeWithText(NodeText);
 	lua_push(L,ret);
 	
@@ -256,7 +256,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	TextPath := lua_toStringCP(L,2);
+	luaL_check(L,2,@TextPath);
 	ret := lTreeNodes.FindNodeWithTextPath(TextPath);
 	lua_push(L,ret);
 	
@@ -271,7 +271,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	NodeText := lua_toStringCP(L,2);
+	luaL_check(L,2,@NodeText);
 	ret := lTreeNodes.FindTopLvlNode(NodeText);
 	lua_push(L,ret);
 	
@@ -342,7 +342,7 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@NextNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	ret := lTreeNodes.Insert(NextNode,S);
 	lua_push(L,ret);
 	
@@ -359,7 +359,7 @@ begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@PrevNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	ret := lTreeNodes.InsertBehind(PrevNode,S);
 	lua_push(L,ret);
 	
@@ -377,7 +377,7 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@NextNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.InsertObject(NextNode,S,Data);
 	lua_push(L,ret);
@@ -396,7 +396,7 @@ begin
 	CheckArg(L, 4);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@PrevNode);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
 	ret := lTreeNodes.InsertObjectBehind(PrevNode,S,Data);
 	lua_push(L,ret);
@@ -562,7 +562,7 @@ var
 begin
 	CheckArg(L, 3);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	Prefix := lua_toStringCP(L,2);
+	luaL_check(L,2,@Prefix);
 	luaL_check(L,3,@AllNodes);
 	lTreeNodes.WriteDebugReport(Prefix,AllNodes);
 	
@@ -780,7 +780,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	FileName := lua_toStringCP(L,2);
+	luaL_check(L,2,@FileName);
 	lTreeView.LoadFromFile(FileName);
 	
 	Result := 0;
@@ -806,7 +806,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	FileName := lua_toStringCP(L,2);
+	luaL_check(L,2,@FileName);
 	lTreeView.SaveToFile(FileName);
 	
 	Result := 0;
@@ -833,7 +833,7 @@ var
 begin
 	CheckArg(L, 3);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	Prefix := lua_toStringCP(L,2);
+	luaL_check(L,2,@Prefix);
 	luaL_check(L,3,@AllNodes);
 	lTreeView.WriteDebugReport(Prefix,AllNodes);
 	

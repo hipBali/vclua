@@ -14,6 +14,7 @@ type
   aoftp = array of TPoint;
   aofmi = array of TMenuItem;
   aoftn = array of TTreeNode;
+  PTUTF8Char = ^TUTF8Char;
 
 // UTF8 Codepage conversion
 function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
@@ -55,7 +56,12 @@ procedure luaL_check(L: Plua_State; i: Integer; v: PUInt32; pti : PTypeInfo = ni
 procedure luaL_check(L: Plua_State; i: Integer; v: PUInt64; pti : PTypeInfo = nil); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil); overload; inline;
-function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo):PChar; inline;
+function luaL_checkCP(L: Plua_State; i: Integer; pti : PTypeInfo):String; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil); overload; inline;
+// single char, no conversion
+procedure luaL_check(L: Plua_State; i: Integer; v: PChar; pti : PTypeInfo = nil); overload; inline;
 procedure luaL_checkSet(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo); inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo); overload; inline;
 
@@ -129,11 +135,29 @@ begin
   v^ := temp;
 end;
 
-function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo):PChar;
+function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo):PChar; inline;
 begin
   Result := lua_tostring(L, i);
   if Result = nil then
     LuaTypeError(L, i, pti);
+end;
+function luaL_checkCP(L: Plua_State; i: Integer; pti : PTypeInfo):String;
+begin
+  Result := luaL_checkPChar(L, i, pti);
+  if (is_vclua_utf8_conv) then
+    Result := WinCPToUTF8(Result);
+end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil);    begin v^ :=           luaL_checkCP(L, i, TypeInfo(v^)) ; end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil);     begin v^ :=     PChar(luaL_checkCP(L, i, TypeInfo(v^))); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil); begin v^ := TUTF8Char(luaL_checkCP(L, i, TypeInfo(v^))); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PChar; pti : PTypeInfo = nil);
+var s:String;
+begin
+  if pti = nil then pti := TypeInfo(v^);
+  s := luaL_checkPChar(L, i, pti);
+  if Length(s) <> 1 then
+     LuaTypeError(L, i, pti);
+  v^ := s[1];
 end;
 
 procedure luaL_checkSet(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo);

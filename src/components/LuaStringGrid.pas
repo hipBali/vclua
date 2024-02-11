@@ -149,7 +149,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
-	aTitle := lua_toStringCP(L,2);
+	luaL_check(L,2,@aTitle);
 	ret := lGridColumns.ColumnByTitle(aTitle);
 	lua_push(L,ret);
 	
@@ -373,7 +373,7 @@ var
 begin
 	CheckArg(L, -1);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	AFilename := lua_toStringCP(L,2);
+	luaL_check(L,2,@AFilename);
 	ADelimiter := char(luaL_optstring(L,3,','));
 	UseTitles := luaL_optbool(L,4,true);
 	FromLine := luaL_optint(L,5,0);
@@ -412,7 +412,7 @@ var
 begin
 	CheckArg(L, -1);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	AFileName := lua_toStringCP(L,2);
+	luaL_check(L,2,@AFileName);
 	ADelimiter := char(luaL_optstring(L,3,','));
 	WriteTitles := luaL_optbool(L,4,true);
 	VisibleColumnsOnly := luaL_optbool(L,5,false);

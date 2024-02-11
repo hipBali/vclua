@@ -45,7 +45,7 @@ var
 begin
 	CheckArg(L, 3);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	Item := lua_toStringCP(L,2);
+	luaL_check(L,2,@Item);
 	luaL_check(L,3,@AnObject);
 	lComboBox.AddItem(Item,AnObject);
 	
@@ -62,7 +62,7 @@ var
 begin
 	CheckArg(L, 5);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	Item := lua_toStringCP(L,2);
+	luaL_check(L,2,@Item);
 	luaL_check(L,3,@MaxHistoryCount);
 	luaL_check(L,4,@SetAsText);
 	luaL_check(L,5,@CaseSensitive);
@@ -82,7 +82,7 @@ var
 begin
 	CheckArg(L, 6);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	Item := lua_toStringCP(L,2);
+	luaL_check(L,2,@Item);
 	luaL_check(L,3,@AnObject);
 	luaL_check(L,4,@MaxHistoryCount);
 	luaL_check(L,5,@SetAsText);

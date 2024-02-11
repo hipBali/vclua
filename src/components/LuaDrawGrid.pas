@@ -274,7 +274,7 @@ begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
-	Key := Char(lua_tostring(L,3));
+	luaL_check(L,3,@Key);
 	lCustomGrid.EditorKeyPress(Sender,Key);
 	lua_push(L,Key);
 	Result := 1;
@@ -303,7 +303,7 @@ begin
 	CheckArg(L, 3);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
-	UTF8Key := TUTF8Char(lua_tostring(L,3));
+	luaL_check(L,3,@UTF8Key);
 	lCustomGrid.EditorUTF8KeyPress(Sender,UTF8Key);
 	lua_push(L,UTF8Key);
 	Result := 1;
@@ -353,7 +353,7 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@aCol);
 	luaL_check(L,3,@aRow);
-	aText := lua_toStringCP(L,4);
+	luaL_check(L,4,@aText);
 	lCustomGrid.EditorTextChanged(aCol,aRow,aText);
 	
 	Result := 0;
@@ -517,7 +517,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	FileName := lua_toStringCP(L,2);
+	luaL_check(L,2,@FileName);
 	lCustomGrid.LoadFromFile(FileName);
 	
 	Result := 0;
@@ -625,7 +625,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	FileName := lua_toStringCP(L,2);
+	luaL_check(L,2,@FileName);
 	lCustomGrid.SaveToFile(FileName);
 	
 	Result := 0;

@@ -125,7 +125,7 @@ var
 begin
 	CheckArg(L, 2);
 	lAction := TLuaAction(GetLuaObject(L, 1));
-	HintStr := lua_toStringCP(L,2);
+	luaL_check(L,2,@HintStr);
 	ret := lAction.DoHint(HintStr);
 	lua_push(L,ret);
 	lua_push(L,HintStr);
@@ -153,7 +153,7 @@ var
 begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
-	ActionName := lua_toStringCP(L,2);
+	luaL_check(L,2,@ActionName);
 	ret := lActionList.ActionByName(ActionName);
 	lua_push(L,ret);
 	
@@ -183,7 +183,7 @@ var
 begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
-	ActionName := lua_toStringCP(L,2);
+	luaL_check(L,2,@ActionName);
 	ret := lActionList.IndexOfName(ActionName);
 	lua_push(L,ret);
 	

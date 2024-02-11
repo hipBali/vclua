@@ -33,7 +33,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMemo := TLuaMemo(GetLuaObject(L, 1));
-	AValue := lua_toStringCP(L,2);
+	luaL_check(L,2,@AValue);
 	lMemo.Append(AValue);
 	
 	Result := 0;

@@ -35,7 +35,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	S := lua_toStringCP(L,2);
+	luaL_check(L,2,@S);
 	ret := lStringList.Add(S);
 	lua_push(L,ret);
 	
@@ -90,7 +90,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	S := lua_toStringCP(L,2);
+	luaL_check(L,2,@S);
 	ret := lStringList.Find(S,Index);
 	lua_push(L,ret);
 	lua_push(L,Index);
@@ -105,7 +105,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	S := lua_toStringCP(L,2);
+	luaL_check(L,2,@S);
 	ret := lStringList.IndexOf(S);
 	lua_push(L,ret);
 	
@@ -121,7 +121,7 @@ begin
 	CheckArg(L, 3);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	S := lua_toStringCP(L,3);
+	luaL_check(L,3,@S);
 	lStringList.Insert(Index,S);
 	
 	Result := 0;

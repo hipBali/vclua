@@ -263,7 +263,7 @@ var
 begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ResourceName := lua_toStringCP(L,2);
+	luaL_check(L,2,@ResourceName);
 	luaL_check(L,3,@MaskColor);
 	ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
 	lua_push(L,ret);
@@ -282,7 +282,7 @@ begin
 	CheckArg(L, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Instance);
-	ResourceName := lua_toStringCP(L,3);
+	luaL_check(L,3,@ResourceName);
 	luaL_check(L,4,@MaskColor);
 	ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
 	lua_push(L,ret);

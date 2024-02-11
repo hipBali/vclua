@@ -45,7 +45,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Filename := lua_toStringCP(L,2);
+	luaL_check(L,2,@Filename);
 	lPicture.LoadFromFile(Filename);
 	
 	Result := 0;
@@ -73,7 +73,7 @@ begin
 	CheckArg(L, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	FileExt := lua_toStringCP(L,3);
+	luaL_check(L,3,@FileExt);
 	lPicture.LoadFromStreamWithFileExt(Stream,FileExt);
 	
 	Result := 0;
@@ -87,7 +87,7 @@ var
 begin
 	CheckArg(L, -1);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Filename := lua_toStringCP(L,2);
+	luaL_check(L,2,@Filename);
 	FileExt := luaL_optstring(L,3,'');
 	lPicture.SaveToFile(Filename,FileExt);
 	
@@ -116,7 +116,7 @@ begin
 	CheckArg(L, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	FileExt := lua_toStringCP(L,3);
+	luaL_check(L,3,@FileExt);
 	lPicture.SaveToStreamWithFileExt(Stream,FileExt);
 	
 	Result := 0;

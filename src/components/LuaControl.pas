@@ -861,7 +861,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	AName := lua_toStringCP(L,2);
+	luaL_check(L,2,@AName);
 	ret := lControl.FindSubComponent(AName);
 	lua_push(L,ret,TypeInfo(ret));
 	
@@ -995,7 +995,7 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Buffer := PChar(lua_toStringCP(L,2));
+	luaL_check(L,2,@Buffer);
 	luaL_check(L,3,@BufSize);
 	ret := lControl.GetTextBuf(Buffer,BufSize);
 	lua_push(L,ret);
@@ -1023,7 +1023,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Buffer := PChar(lua_toStringCP(L,2));
+	luaL_check(L,2,@Buffer);
 	lControl.SetTextBuf(Buffer);
 	
 	Result := 0;

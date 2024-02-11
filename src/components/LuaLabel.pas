@@ -41,7 +41,7 @@ var
 begin
 	CheckArg(L, 4);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	TheText := lua_toStringCP(L,2);
+	luaL_check(L,2,@TheText);
 	luaL_check(L,3,@MaxWidth);
 	luaL_check(L,4,@MaxHeight);
 	ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight,NeededWidth,NeededHeight);
