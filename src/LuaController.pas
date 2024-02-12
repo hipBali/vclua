@@ -29,7 +29,7 @@ type
 
         constructor Create(AOwner:TComponent; LL: Plua_State; T:ToTableProc; ATypeName:String = '');
         public
-            function PushEvent(var L:Plua_State; Sender: TObject; EFn:TLuaCFunction):Boolean; inline;
+            function PushEvent(out L:Plua_State; Sender: TObject; EFn:TLuaCFunction):Boolean; inline;
             procedure PushObject(L: Plua_State; Sender: TObject); inline;
         public
             L: Plua_State;
@@ -764,7 +764,7 @@ begin
     lua_rawgeti(L, LUA_REGISTRYINDEX, EFn);
     Result := True;
 end;
-function TVCLuaControl.PushEvent(var L: Plua_State; Sender: TObject; EFn: TLuaCFunction): Boolean;
+function TVCLuaControl.PushEvent(out L: Plua_State; Sender: TObject; EFn: TLuaCFunction): Boolean;
 begin
     L := GetLuaState(Sender);
     Result := CheckEvent(L, Sender, EFn);
