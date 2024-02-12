@@ -34,7 +34,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
+	luaL_check(L,2,@APoint);
 	ret := lCalendar.HitTest(APoint);
 	lua_push(L,ret,TypeInfo(ret));
 	

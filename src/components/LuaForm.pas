@@ -465,7 +465,7 @@ begin
 	CheckArg(L, 3);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewDockSite);
-	ARect := lua_toTRect(L,3);
+	luaL_check(L,3,@ARect);
 	lForm.Dock(NewDockSite,ARect);
 	
 	Result := 0;

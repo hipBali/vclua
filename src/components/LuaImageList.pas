@@ -187,7 +187,7 @@ begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Image);
-	AImageRect := lua_toTRect(L,3);
+	luaL_check(L,3,@AImageRect);
 	ret := lImageList.AddSlice(Image,AImageRect);
 	lua_push(L,ret);
 	
@@ -746,7 +746,7 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@Image);
-	AImageRect := lua_toTRect(L,4);
+	luaL_check(L,4,@AImageRect);
 	AllResolutions := luaL_optbool(L,5,True);
 	lImageList.ReplaceSlice(AIndex,Image,AImageRect,AllResolutions);
 	
@@ -831,7 +831,7 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Canvas);
 	luaL_check(L,3,@Index);
-	ARect := lua_toTRect(L,4);
+	luaL_check(L,4,@ARect);
 	Enabled := luaL_optbool(L,5,True);
 	lImageList.StretchDraw(Canvas,Index,ARect,Enabled);
 	

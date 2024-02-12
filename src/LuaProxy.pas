@@ -15,6 +15,7 @@ type
   aofmi = array of TMenuItem;
   aoftn = array of TTreeNode;
   PTUTF8Char = ^TUTF8Char;
+  PTextStyle = ^TTextStyle;
 
 // UTF8 Codepage conversion
 function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
@@ -27,16 +28,10 @@ function lua_toStringArray(L: Plua_State; Index: Integer):aofs;
 function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
 // --------------------
 
-function lua_toTPoint(L: Plua_State; Index: Integer):TPoint;
-function lua_toTRect(L: Plua_State; Index: Integer):TRect;
-function lua_toTSize(L: Plua_State; Index: Integer):TSize;
-
 function lua_toLongWordArray(L: Plua_State; Index: Integer):aoflw;
 function lua_toTPointArray(L: Plua_State; Index: Integer):aoftp;
 function lua_toTMenuItem(L: Plua_State; Index: Integer):aofmi;
 function lua_toTTreeNode(L: Plua_State; Index: Integer):aoftn;
-
-function lua_toTextStyle(L: Plua_State; Index: Integer):TTextStyle;
 
 function lua_toTShiftState(L: Plua_State; Index: Integer):TShiftState; overload;
 function lua_toTShiftState(L: Plua_State; Index: Integer; default:TShiftState ):TShiftState; overload;
@@ -64,6 +59,10 @@ procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo =
 procedure luaL_check(L: Plua_State; i: Integer; v: PChar; pti : PTypeInfo = nil); overload; inline;
 procedure luaL_checkSet(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo); inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PPoint; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PSize; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PRect; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PTextStyle; pti : PTypeInfo = nil); overload; inline;
 
 procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:Int64  ; pti : PTypeInfo = nil); overload; inline;
@@ -181,6 +180,82 @@ begin
   else
     LuaError(L, 'Don''t know how to get type from Lua stack', pti.name);
   end;
+end;
+
+procedure luaL_checkRecord<PT>(L: Plua_State; i: Integer; LoNames: array of string; addrs: array of PT; pti : PTypeInfo); inline;
+var
+  f:String;
+  j:Integer = 0;
+  k:Integer;
+begin
+  assert(High(LoNames)=High(addrs),'check names and addresses number and order');
+  i := LuaAbsIndex(L, i);
+  if lua_istable(L, i) then begin
+    // fast path, assume record was pushed by API
+    luaL_checkstack(L, Length(LoNames), 'luaL_checkRecord');
+    while j <= High(LoNames) do begin
+      lua_pushstring(L, LoNames[j]);
+      Inc(j);
+      lua_rawget(L, i);
+      if lua_isnil(L, -1) then Break;
+      luaL_check(L, -1, addrs[j-1]);
+    end;
+    lua_pop(L,j);
+    if j = Length(LoNames) then Exit;
+    // slow path, field #(j-1) in lowercase isn't found
+    Dec(j);
+    lua_pushnil(L);
+    while (lua_next(L,i)<>0) do begin
+      if (lua_type(L,-2)=LUA_TSTRING) then begin
+         f := lowercase(lua_tostring(L, -2));
+         for k := j to High(LoNames) do
+             if (f=LoNames[k]) then begin
+                luaL_check(L, -1, addrs[k]);
+                Break;
+             end;
+      end;
+      lua_pop(L, 1);
+    end;
+  end else
+    LuaTypeError(L, i, pti);
+end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PPoint; pti : PTypeInfo = nil);
+begin
+  luaL_checkRecord<PLongint>(L, i, ['x','y'], [@v^.x, @v^.y], TypeInfo(v^));
+end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PSize; pti : PTypeInfo = nil);
+begin
+  luaL_checkRecord<PLongint>(L, i, ['width','height'], [@v^.Width, @v^.Height], TypeInfo(v^));
+end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PRect; pti : PTypeInfo = nil);
+begin
+  luaL_checkRecord<PLongint>(L, i, ['left','top','right','bottom'], [@v^.Left, @v^.Top, @v^.Right, @v^.Bottom], TypeInfo(v^));
+end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PTextStyle; pti : PTypeInfo = nil);
+var f:string;
+begin
+  if lua_istable(L, i) then begin
+    v^ := Default(TTextStyle); // allow to pass incomplete record from Lua
+    lua_pushnil(L);
+    while (lua_next(L,i)<>0) do begin
+      if (lua_type(L,-2)=LUA_TSTRING) then begin
+         f := lowercase(lua_tostring(L, -2));
+         if      (f='singleline') then luaL_check(L, -1, @v^.SingleLine)
+         else if (f='clipping') then luaL_check(L, -1, @v^.Clipping)
+         else if (f='expandtabs') then luaL_check(L, -1, @v^.ExpandTabs)
+         else if (f='showprefix') then luaL_check(L, -1, @v^.ShowPrefix)
+         else if (f='wordbreak') then luaL_check(L, -1, @v^.Wordbreak)
+         else if (f='opaque') then luaL_check(L, -1, @v^.Opaque)
+         else if (f='systemfont') then luaL_check(L, -1, @v^.SystemFont)
+         else if (f='righttoleft') then luaL_check(L, -1, @v^.RightToLeft)
+         else if (f='endellipsis') then luaL_check(L, -1, @v^.EndEllipsis)
+         else if (f='layout') then luaL_check(L, -1, @v^.Layout, TypeInfo(v^.Layout))
+         else if (f='alignment') then luaL_check(L, -1, @v^.Alignment, TypeInfo(v^.Alignment));
+      end;
+      lua_pop(L, 1);
+    end;
+  end else
+    LuaTypeError(L, i, TypeInfo(v^));
 end;
 
 // push overloads
@@ -340,104 +415,6 @@ begin
          result := lua_toTShiftState(L, Index);
 end;
 
-function lua_toTextStyle(L: Plua_State; Index: Integer):TTextStyle;
-var
-  ts:TTextStyle;
-begin
-  if lua_istable(L,Index) then begin
-    lua_pushnil(L);
-    while (lua_next(L, Index) <> 0) do begin
-      if (lowercase(lua_tostring(L,-2))='SingleLine') then
-         ts.SingleLine :=  lua_toboolean(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='Clipping') then
-         ts.Clipping :=  lua_toboolean(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='ExpandTabs') then
-         ts.ExpandTabs :=  lua_toboolean(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='ShowPrefix') then
-         ts.ShowPrefix :=  lua_toboolean(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='Wordbreak') then
-         ts.Wordbreak :=  lua_toboolean(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='Opaque') then
-         ts.Opaque :=  lua_toboolean(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='SystemFont') then
-         ts.SystemFont :=  lua_toboolean(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='RightToLeft') then
-         ts.RightToLeft :=  lua_toboolean(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='EndEllipsis') then
-         ts.EndEllipsis :=  lua_toboolean(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='Layout') then
-         ts.Layout :=  TTextLayout(GetEnumValue(TypeInfo(TTextLayout),lua_tostring(L,-1)))
-      else if (lowercase(lua_tostring(L,-2))='Alignment') then
-         ts.Alignment :=  TAlignment(GetEnumValue(TypeInfo(TAlignment),lua_tostring(L,-1)));
-      lua_pop(L, 1);
-    end;
-  end;
-  result := ts;
-end;
-
-function lua_toTPoint(L: Plua_State; Index: Integer):TPoint;
-var
-  point:TPoint;
-  s:AnsiString;
-begin
-  if lua_istable(L,Index) then begin
-    lua_pushnil(L);
-    while (lua_next(L, Index) <> 0) do begin
-      if (lua_type(L, -2) = LUA_TSTRING) then begin
-        s := lowercase(lua_tostring(L,-2));
-        if (s='x') then
-           point.x :=  lua_tointeger(L, -1)
-        else if (s='y') then
-           point.y :=  lua_tointeger(L, -1);
-      end;
-      lua_pop(L, 1);
-    end;
-  end;
-  result := point;
-end;
-
-function lua_toTRect(L: Plua_State; Index: Integer):TRect;
-var
-  rect:TRect;
-  s:AnsiString;
-begin
-  if lua_istable(L,Index) then begin
-    lua_pushnil(L);
-    while (lua_next(L, Index) <> 0) do begin
-      if (lua_type(L, -2) = LUA_TSTRING) then begin
-        s := lowercase(lua_tostring(L,-2));
-        if (s='left') then
-           rect.Left :=  lua_tointeger(L, -1)
-        else if (s='top') then
-           rect.Top :=  lua_tointeger(L, -1)
-        else if (s='right') then
-           rect.Right :=  lua_tointeger(L, -1)
-        else if (s='bottom') then
-           rect.Bottom :=  lua_tointeger(L, -1);
-      end;
-      lua_pop(L, 1);
-    end;
-  end;
-  result := rect;
-end;
-
-function lua_toTSize(L: Plua_State; Index: Integer):TSize;
-var
-  size:TSize;
-begin
-  if lua_istable(L,Index) then begin
-    lua_pushnil(L);
-    while (lua_next(L, Index) <> 0) do begin
-      if (lowercase(lua_tostring(L,-2))='width') then
-         size.Width :=  lua_tointeger(L, -1)
-      else if (lowercase(lua_tostring(L,-2))='height') then
-         size.Height :=  lua_tointeger(L, -1);
-      lua_pop(L, 1);
-    end;
-  end;
-  result := size;
-end;
-
 function lua_toStringArray(L: Plua_State; Index: Integer):aofs;
 var
   arr: array of string;
@@ -513,7 +490,7 @@ begin
     lua_pushnil(L);
     while (lua_next(L, Index) <> 0) do begin
       if (lua_istable(L, -1)) then begin
-         p := lua_toTPoint(L,-1);
+         luaL_check(L,-1,@p);
          SetLength(arr,n+1);
          arr[n] := p;
          n := n + 1;

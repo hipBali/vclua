@@ -52,7 +52,7 @@ begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewDockSite);
-	ARect := lua_toTRect(L,3);
+	luaL_check(L,3,@ARect);
 	lControl.Dock(NewDockSite,ARect);
 	
 	Result := 0;
@@ -88,7 +88,7 @@ var
 begin
 	CheckArg(L, -1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	TheScreenRect := lua_toTRect(L,2);
+	luaL_check(L,2,@TheScreenRect);
 	KeepDockSiteSize := luaL_optbool(L,3,true);
 	ret := lControl.ManualFloat(TheScreenRect,KeepDockSiteSize);
 	lua_push(L,ret);
@@ -1037,7 +1037,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
+	luaL_check(L,2,@APoint);
 	ret := lControl.ScreenToClient(APoint);
 	lua_push(L,ret);
 	
@@ -1052,7 +1052,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
+	luaL_check(L,2,@APoint);
 	ret := lControl.ClientToScreen(APoint);
 	lua_push(L,ret);
 	
@@ -1067,7 +1067,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
+	luaL_check(L,2,@APoint);
 	ret := lControl.ScreenToControl(APoint);
 	lua_push(L,ret);
 	
@@ -1082,7 +1082,7 @@ var
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
+	luaL_check(L,2,@APoint);
 	ret := lControl.ControlToScreen(APoint);
 	lua_push(L,ret);
 	
@@ -1098,7 +1098,7 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Point := lua_toTPoint(L,2);
+	luaL_check(L,2,@Point);
 	luaL_check(L,3,@AParent);
 	ret := lControl.ClientToParent(Point,AParent);
 	lua_push(L,ret);
@@ -1115,7 +1115,7 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Point := lua_toTPoint(L,2);
+	luaL_check(L,2,@Point);
 	luaL_check(L,3,@AParent);
 	ret := lControl.ParentToClient(Point,AParent);
 	lua_push(L,ret);

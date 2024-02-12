@@ -56,7 +56,7 @@ var
 begin
 	CheckArg(L, 2);
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
-	P := lua_toTPoint(L,2);
+	luaL_check(L,2,@P);
 	ret := lHeaderControl.GetSectionAt(P);
 	lua_push(L,ret);
 	

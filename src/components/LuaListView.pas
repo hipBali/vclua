@@ -482,7 +482,7 @@ var
 begin
 	CheckArg(L, 3);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
+	luaL_check(L,2,@APoint);
 	luaL_check(L,3,@Direction,TypeInfo(TSearchDirection));
 	ret := lListView.GetNearestItem(APoint,Direction);
 	lua_push(L,ret);

@@ -34,7 +34,7 @@ var
 begin
 	CheckArg(L, -1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	CursorPos := lua_toTPoint(L,2);
+	luaL_check(L,2,@CursorPos);
 	CheckHintControlChange := luaL_optbool(L,3,False);
 	lApplication.ActivateHint(CursorPos,CheckHintControlChange);
 	

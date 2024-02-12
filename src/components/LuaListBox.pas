@@ -119,7 +119,7 @@ var
 begin
 	CheckArg(L, 3);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	Pos := lua_toTPoint(L,2);
+	luaL_check(L,2,@Pos);
 	luaL_check(L,3,@Existing);
 	ret := lListBox.ItemAtPos(Pos,Existing);
 	lua_push(L,ret);

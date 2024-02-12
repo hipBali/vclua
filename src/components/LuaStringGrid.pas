@@ -285,7 +285,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	aRect := lua_toTRect(L,2);
+	luaL_check(L,2,@aRect);
 	luaL_checkSet(L,3,@CleanOptions,TypeInfo(TGridZoneSet));
 	lStringGrid.Clean(aRect,CleanOptions);
 	

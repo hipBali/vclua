@@ -82,7 +82,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	ARect := lua_toTRect(L,2);
+	luaL_check(L,2,@ARect);
 	lCustomGrid.AdjustInnerCellRect(ARect);
 	lua_push(L,ARect);
 	Result := 1;
@@ -457,7 +457,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	aRange := lua_toTRect(L,2);
+	luaL_check(L,2,@aRange);
 	lCustomGrid.InvalidateRange(aRange);
 	
 	Result := 0;
@@ -561,7 +561,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Mouse := lua_toTPoint(L,2);
+	luaL_check(L,2,@Mouse);
 	ret := lCustomGrid.MouseToCell(Mouse);
 	lua_push(L,ret);
 	
@@ -594,7 +594,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	Mouse := lua_toTPoint(L,2);
+	luaL_check(L,2,@Mouse);
 	ret := lCustomGrid.MouseToLogcell(Mouse);
 	lua_push(L,ret);
 	
@@ -824,7 +824,7 @@ begin
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@aCol);
 	luaL_check(L,3,@aRow);
-	aRect := lua_toTRect(L,4);
+	luaL_check(L,4,@aRect);
 	luaL_checkSet(L,5,@aState,TypeInfo(TGridDrawState));
 	lDrawGrid.DefaultDrawCell(aCol,aRow,aRect,aState);
 	lua_push(L,aRect);

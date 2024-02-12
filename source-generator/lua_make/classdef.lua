@@ -81,13 +81,9 @@ VCLUA_FROMLUA = {
 	["tpenpattern"] = "#VAR := lua_toLongWordArray(L,#);",
 	
 	-- LuaProxy 
-	["tpoint"] = "#VAR := lua_toTPoint(L,#);",
 	["array of tpoint"] = "#VAR := lua_toTPointArray(L,#);",
-	["trect"] = "#VAR := lua_toTRect(L,#);",
-	["tsize"] = "#VAR := lua_toTSize(L,#);",
 	["array of tmenuitem"] = "#VAR := lua_toTMenuItem(L,#);",
 	["array of ttreenode"] = "#VAR := lua_toTTreeNode(L,#);",
-	["ttextstyle"] = "#VAR := lua_toTextStyle(L,#);",
 }
 
 for _,t in pairs(VCLUA_FROMLUA_ES) do VCLUA_FROMLUA[t:lower()] = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));" end

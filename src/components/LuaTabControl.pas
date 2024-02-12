@@ -276,7 +276,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
-	P := lua_toTPoint(L,2);
+	luaL_check(L,2,@P);
 	ret := lPageControl.IndexOfTabAt(P);
 	lua_push(L,ret);
 	
@@ -308,7 +308,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
-	P := lua_toTPoint(L,2);
+	luaL_check(L,2,@P);
 	ret := lPageControl.IndexOfPageAt(P);
 	lua_push(L,ret);
 	
