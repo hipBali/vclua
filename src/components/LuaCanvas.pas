@@ -547,7 +547,7 @@ var
 	Filled:boolean;
 	Continuous:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
 	Filled := luaL_optbool(L,3,False);
@@ -565,7 +565,7 @@ var
 	StartIndex:Integer;
 	NumPts:Integer;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 3, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
 	luaL_check(L,3,@Winding);
@@ -596,7 +596,7 @@ var
 	StartIndex:Integer;
 	NumPts:Integer;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 3, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	Points := lua_toTPointArray(L,2);
 	luaL_check(L,3,@StartIndex);

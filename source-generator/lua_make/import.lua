@@ -396,7 +396,7 @@ function createUnitBody(cdef, ref)
             local vtLower = varType:lower()
             if varValue and VCLUA_FROMLUA["def_"..vtLower] then
               table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA["def_"..vtLower]:gsub("#IDX",idx):gsub("#DEF",varValue))
-              defVars = true
+              if not defVars then defVars = idx - 1 end
             else
               local templ = VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
               table.insert(varsFromLua, (templ:gsub('#VAR',varName,1):gsub('#TYP',varType):gsub("#",idx)))
@@ -405,7 +405,7 @@ function createUnitBody(cdef, ref)
         end
         -- input params checking
         if defVars then
-          s = s:gsub("#VARCOUNT",-1,1)
+          s = s:gsub("#VARCOUNT",defVars..", "..idx,1)
         else
           s = s:gsub("#VARCOUNT",idx,1)
         end

@@ -67,7 +67,7 @@ var
 	KeepDockSiteSize:Boolean;
 	ret:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 4, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewDockSite);
 	luaL_check(L,3,@DropControl);
@@ -86,7 +86,7 @@ var
 	KeepDockSiteSize:Boolean;
 	ret:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheScreenRect);
 	KeepDockSiteSize := luaL_optbool(L,3,true);
@@ -361,7 +361,7 @@ var
 	Sibling:TControl;
 	FreeCompositeSide:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 4, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
 	luaL_check(L,3,@Space);
@@ -493,7 +493,7 @@ var
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	Raw := luaL_optbool(L,2,false);
 	WithThemeSpace := luaL_optbool(L,3,true);
@@ -511,7 +511,7 @@ var
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 3, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@PreferredWidth);
 	luaL_check(L,3,@PreferredHeight);
@@ -766,7 +766,7 @@ var
 	Immediate:Boolean;
 	Threshold:Integer;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Immediate);
 	Threshold := luaL_optint(L,3,-1);

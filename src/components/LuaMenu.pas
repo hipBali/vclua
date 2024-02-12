@@ -550,7 +550,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	forced:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	forced := luaL_optbool(L,2,false);
 	lMenuItem.UpdateImage(forced);
@@ -563,7 +563,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	forced:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	forced := luaL_optbool(L,2,false);
 	lMenuItem.UpdateImages(forced);

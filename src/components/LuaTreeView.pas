@@ -457,7 +457,7 @@ var
 	lTreeNodes:TLuaTreeNodes;
 	ClearSelected:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	ClearSelected := luaL_optbool(L,2,false);
 	lTreeNodes.ClearMultiSelection(ClearSelected);
@@ -587,7 +587,7 @@ var
 	lTreeView:TLuaTreeView;
 	KeepPrimary:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	KeepPrimary := luaL_optbool(L,2,false);
 	lTreeView.ClearSelection(KeepPrimary);
@@ -894,7 +894,7 @@ var
 	Node:TTreeNode;
 	ShiftState:TShiftState;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@Node);
 	ShiftState := lua_toTShiftState(L,3,[]);
@@ -983,7 +983,7 @@ var
 	ASelection:TStringList;
 	FreeList:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASelection);
 	FreeList := luaL_optbool(L,3,True);
@@ -997,7 +997,7 @@ var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MoveToNextNode(ASelect);
@@ -1010,7 +1010,7 @@ var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MoveToPrevNode(ASelect);
@@ -1023,7 +1023,7 @@ var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MovePageDown(ASelect);
@@ -1036,7 +1036,7 @@ var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MovePageUp(ASelect);
@@ -1049,7 +1049,7 @@ var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MoveHome(ASelect);
@@ -1062,7 +1062,7 @@ var
 	lTreeView:TLuaTreeView;
 	ASelect:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	ASelect := luaL_optbool(L,2,False);
 	lTreeView.MoveEnd(ASelect);

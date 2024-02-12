@@ -55,7 +55,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	ACanvasOnly:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	ACanvasOnly := luaL_optbool(L,2,False);
 	lRasterImage.BeginUpdate(ACanvasOnly);
@@ -68,7 +68,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	AStreamIsValid:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	AStreamIsValid := luaL_optbool(L,2,False);
 	lRasterImage.EndUpdate(AStreamIsValid);

@@ -318,7 +318,7 @@ var
 	lStringGrid:TLuaStringGrid;
 	AUseSelection:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	AUseSelection := luaL_optbool(L,2,false);
 	lStringGrid.CopyToClipboard(AUseSelection);
@@ -350,7 +350,7 @@ var
 	FromLine:Integer;
 	SkipEmptyLines:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 6);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
 	ADelimiter := char(luaL_optstring(L,3,','));
@@ -371,7 +371,7 @@ var
 	FromLine:Integer;
 	SkipEmptyLines:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 6);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AFilename);
 	ADelimiter := char(luaL_optstring(L,3,','));
@@ -391,7 +391,7 @@ var
 	WriteTitles:boolean;
 	VisibleColumnsOnly:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 5);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
 	ADelimiter := char(luaL_optstring(L,3,','));
@@ -410,7 +410,7 @@ var
 	WriteTitles:boolean;
 	VisibleColumnsOnly:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 5);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AFileName);
 	ADelimiter := char(luaL_optstring(L,3,','));

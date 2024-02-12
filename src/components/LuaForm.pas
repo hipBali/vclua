@@ -118,7 +118,7 @@ var
 	lForm:TLuaForm;
 	AMoveToTop:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	AMoveToTop := luaL_optbool(L,2,True);
 	lForm.EnsureVisible(AMoveToTop);
@@ -236,7 +236,7 @@ var
 	AMonitor:TMonitor;
 	UseWorkarea:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@AMonitor);
 	UseWorkarea := luaL_optbool(L,3,False);
@@ -266,7 +266,7 @@ var
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 3);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	Raw := luaL_optbool(L,2,false);
 	WithThemeSpace := luaL_optbool(L,3,true);
@@ -284,7 +284,7 @@ var
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 3, 5);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@PreferredWidth);
 	luaL_check(L,3,@PreferredHeight);
@@ -355,7 +355,7 @@ var
 	AHeight:integer;
 	ADefaultPosition:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 5, 6);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@ALeft);
 	luaL_check(L,3,@ATop);

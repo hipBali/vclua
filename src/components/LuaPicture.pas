@@ -85,7 +85,7 @@ var
 	Filename:string;
 	FileExt:string;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Filename);
 	FileExt := luaL_optstring(L,3,'');

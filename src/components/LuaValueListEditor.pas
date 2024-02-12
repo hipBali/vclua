@@ -199,7 +199,7 @@ var
 	FromLine:Integer;
 	SkipEmptyLines:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 6);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
 	ADelimiter := char(luaL_optstring(L,3,','));

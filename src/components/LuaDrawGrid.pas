@@ -364,7 +364,7 @@ var
 	lCustomGrid:TLuaCustomGrid;
 	aRefresh:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	aRefresh := luaL_optbool(L,2,true);
 	lCustomGrid.EndUpdate(aRefresh);

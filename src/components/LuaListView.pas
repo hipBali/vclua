@@ -245,7 +245,7 @@ var
 	PartStart:Boolean;
 	ret:TListItem;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 6, 7);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@StartIndex);
 	luaL_check(L,3,@Value);
@@ -421,7 +421,7 @@ var
 	PartStart:Boolean;
 	ret:TListItem;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 6, 7);
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	luaL_check(L,2,@StartIndex);
 	luaL_check(L,3,@Value);

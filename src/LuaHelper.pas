@@ -21,7 +21,8 @@ procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo); inline;
 procedure DoScript(L: Plua_State; fileName: String);
 procedure DoCall(L: Plua_State; paramCount:integer);
 
-procedure CheckArg(L: Plua_State; N: Integer);
+procedure CheckArg(L: Plua_State; N: Integer);overload;
+procedure CheckArg(L: Plua_State; N,M: Integer);overload;
 function GetLuaObject(L: Plua_State; Index: Integer): TObject;
 function GetLuaUserData(L: Plua_State; Index: Integer): Pointer;
 function LuaGetTableLightUserData(L: Plua_State; TableIndex: Integer; const Key: string): Pointer;
@@ -290,6 +291,14 @@ procedure CheckArg(L: Plua_State; N: Integer);
 begin
   if ((lua_gettop(L) <> N) and (N<>-1)) then
     LuaError(L, 'BAD parameter call!', IntToStr(N)+ ' params required!');
+end;
+procedure CheckArg(L: Plua_State; N,M: Integer);
+var
+  top:Integer;
+begin
+  top := lua_gettop(L);
+  if ((top < N) and (N<>-1)) or (top > M) then
+    LuaError(L, 'BAD parameter call!', Format('From %d to %d params required!', [N, M]));
 end;
 
 procedure LuaRawSetTableFunction(L: Plua_State; TableIndex: Integer; const Key: string; F: lua_CFunction);

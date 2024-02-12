@@ -32,7 +32,7 @@ var
 	CursorPos:TPoint;
 	CheckHintControlChange:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	luaL_check(L,2,@CursorPos);
 	CheckHintControlChange := luaL_optbool(L,3,False);
@@ -159,7 +159,7 @@ var
 	lApplication:TLuaApplication;
 	ASystemTopAlso:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	ASystemTopAlso := luaL_optbool(L,2,False);
 	lApplication.RemoveStayOnTop(ASystemTopAlso);
@@ -172,7 +172,7 @@ var
 	lApplication:TLuaApplication;
 	ASystemTopAlso:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	ASystemTopAlso := luaL_optbool(L,2,False);
 	lApplication.RestoreStayOnTop(ASystemTopAlso);

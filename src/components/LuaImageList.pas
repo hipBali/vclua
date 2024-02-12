@@ -334,7 +334,7 @@ var
 	AIndex:Integer;
 	AEnabled:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 5, 6);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACanvas);
 	luaL_check(L,3,@AX);
@@ -378,7 +378,7 @@ var
 	AImageType:TImageType;
 	AEnabled:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 7, 8);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACanvas);
 	luaL_check(L,3,@AX);
@@ -429,7 +429,7 @@ var
 	ACanvasFactor:Double;
 	AEnabled:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 8, 9);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACanvas);
 	luaL_check(L,3,@AX);
@@ -481,7 +481,7 @@ var
 	AOverlay:TOverlay;
 	AEnabled:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 6, 7);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACanvas);
 	luaL_check(L,3,@AX);
@@ -723,7 +723,7 @@ var
 	AMask:TCustomBitmap;
 	AllResolutions:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 4, 5);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@AImage);
@@ -742,7 +742,7 @@ var
 	AImageRect:TRect;
 	AllResolutions:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 4, 5);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@Image);
@@ -761,7 +761,7 @@ var
 	Image:TCustomBitmap;
 	AllResolutions:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 4, 5);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@AImageWidth);
@@ -795,7 +795,7 @@ var
 	MaskColor:TColor;
 	AllResolutions:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 4, 5);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@NewImage);
@@ -827,7 +827,7 @@ var
 	ARect:TRect;
 	Enabled:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 4, 5);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Canvas);
 	luaL_check(L,3,@Index);

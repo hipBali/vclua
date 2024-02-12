@@ -117,7 +117,7 @@ var
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 3);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	Raw := luaL_optbool(L,2,false);
 	WithThemeSpace := luaL_optbool(L,3,true);
@@ -135,7 +135,7 @@ var
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 3, 5);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	luaL_check(L,2,@PreferredWidth);
 	luaL_check(L,3,@PreferredHeight);

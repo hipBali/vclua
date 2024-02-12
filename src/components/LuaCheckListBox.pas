@@ -75,7 +75,7 @@ var
 	aAllowGrayed:Boolean;
 	aAllowDisabled:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 4);
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@AState,TypeInfo(TCheckBoxState));
 	aAllowGrayed := luaL_optbool(L,3,True);
