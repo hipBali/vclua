@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaStrings;	
 
-{$T+}
+{$MODE Delphi}{$T+}
 
 interface
 
@@ -130,7 +130,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStrings := lua_toStringArray(L,2);
+	TTrait<string>.luaL_checkArray(L, 2, @TheStrings);
 	lStrings.AddStrings(TheStrings);
 	
 	Result := 0;
@@ -144,7 +144,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStrings := lua_toStringArray(L,2);
+	TTrait<string>.luaL_checkArray(L, 2, @TheStrings);
 	luaL_check(L,3,@ClearFirst);
 	lStrings.AddStrings(TheStrings,ClearFirst);
 	
@@ -171,7 +171,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStrings := lua_toStringArray(L,2);
+	TTrait<string>.luaL_checkArray(L, 2, @TheStrings);
 	lStrings.SetStrings(TheStrings);
 	
 	Result := 0;

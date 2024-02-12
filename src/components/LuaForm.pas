@@ -211,7 +211,7 @@ var
 begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	FileNames := lua_toStringArray(L,2);
+	TTrait<String>.luaL_checkArray(L, 2, @FileNames);
 	lForm.IntfDropFiles(FileNames);
 	
 	Result := 0;

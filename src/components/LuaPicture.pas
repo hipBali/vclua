@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaPicture;	
 
-{$T+}
+{$MODE Delphi}{$T+}
 
 interface
 

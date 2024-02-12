@@ -435,7 +435,7 @@ procedure lua_getglobal(L : Plua_State; s : PChar);
 
 function lua_tostring(L : Plua_State; idx : Integer) : PChar;
 
-
+function lua_rawlen(L: Plua_State; idx: Integer): size_t;
 (*
 ** compatibility macros and functions
 *)
@@ -898,6 +898,11 @@ end;
 function lua_tostring(L : Plua_State; idx : Integer) : PChar;
 begin
   result := lua_tolstring(L, idx, nil);
+end;
+
+function lua_rawlen(L: Plua_State; idx: Integer): size_t;
+begin
+  result := lua_objlen(L, idx);
 end;
 
 function lua_open : Plua_State;

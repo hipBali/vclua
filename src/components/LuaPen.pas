@@ -46,7 +46,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPen := TLuaPen(GetLuaObject(L, 1));
-	APattern := lua_toLongWordArray(L,2);
+	TTrait<LongWord>.luaL_checkArray(L, 2, @APattern);
 	lPen.SetPattern(APattern);
 	
 	Result := 0;

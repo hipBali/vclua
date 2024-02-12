@@ -4,7 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaStringList;	
 
-{$T+}
+{$MODE Delphi}{$T+}
 
 interface
 

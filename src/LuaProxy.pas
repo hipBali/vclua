@@ -5,15 +5,10 @@ unit LuaProxy;
 interface
 
 uses
-  Classes, Types, Controls, Menus, ComCtrls, SysUtils, Graphics, TypInfo, LCLType,
+  Classes, Types, SysUtils, Graphics, TypInfo, LCLType, LuaObject,
   LuaHelper, Lua;
 
 type
-  aofs = array of string;
-  aoflw = array of LongWord;
-  aoftp = array of TPoint;
-  aofmi = array of TMenuItem;
-  aoftn = array of TTreeNode;
   PTUTF8Char = ^TUTF8Char;
   PTextStyle = ^TTextStyle;
 
@@ -24,14 +19,8 @@ function is_vclua_utf8_conv:boolean; // internal
 // String UTF-8 support
 function lua_toStringCP(L: Plua_State; Index: Integer):string;
 procedure lua_pushStringCP(L: Plua_State; const str:string);
-function lua_toStringArray(L: Plua_State; Index: Integer):aofs;
 function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
 // --------------------
-
-function lua_toLongWordArray(L: Plua_State; Index: Integer):aoflw;
-function lua_toTPointArray(L: Plua_State; Index: Integer):aoftp;
-function lua_toTMenuItem(L: Plua_State; Index: Integer):aofmi;
-function lua_toTTreeNode(L: Plua_State; Index: Integer):aoftn;
 
 function lua_toTShiftState(L: Plua_State; Index: Integer):TShiftState; overload;
 function lua_toTShiftState(L: Plua_State; Index: Integer; default:TShiftState ):TShiftState; overload;
@@ -64,6 +53,17 @@ procedure luaL_check(L: Plua_State; i: Integer; v: PSize; pti : PTypeInfo = nil)
 procedure luaL_check(L: Plua_State; i: Integer; v: PRect; pti : PTypeInfo = nil); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PTextStyle; pti : PTypeInfo = nil); overload; inline;
 
+// it's out of trait to allow calling luaL_check for different type than T, e.g. for TObject instead of TMenuItem
+procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT);
+type
+  TTrait<T> = class
+    type
+        PT = ^T;
+        aoT = array of T;
+        PaoT = ^aoT;
+    class procedure luaL_checkArray(L: Plua_State; i: Integer; v: PaoT);
+  end;
+
 procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:Int64  ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:QWord  ; pti : PTypeInfo = nil); overload; inline;
@@ -82,7 +82,7 @@ procedure lua_pushArray<T>(L: Plua_State; const v:array of T; pti : PTypeInfo = 
 
 implementation
 
-uses LuaObject, LazUtf8;
+uses LazUtf8;
 
 // check overloads
 procedure luaL_check(L: Plua_State; i: Integer; v: PBoolean; pti : PTypeInfo = nil);
@@ -258,6 +258,27 @@ begin
     LuaTypeError(L, i, TypeInfo(v^));
 end;
 
+procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT);
+begin
+    luaL_check(L, -1, addr);
+end;
+class procedure TTrait<T>.luaL_checkArray(L: Plua_State; i: Integer; v: PaoT);
+//type Ptr = TTrait<T>.PT;
+var j,len: size_t;
+begin
+  if lua_istable(L, i) then begin
+    len := lua_rawlen(L, i);
+    SetLength(v^, len);
+    luaL_checkstack(L, len, 'luaL_checkArray');
+    for j := 1 to len do begin
+      lua_rawgeti(L, i, j);
+      luaL_checkProxy<PT>(L, -1, @v^[j-1]);
+    end;
+    lua_pop(L, len);
+  end else
+    LuaTypeError(L, i, TypeInfo(v^));
+end;
+
 // push overloads
 procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil);
 begin
@@ -415,28 +436,6 @@ begin
          result := lua_toTShiftState(L, Index);
 end;
 
-function lua_toStringArray(L: Plua_State; Index: Integer):aofs;
-var
-  arr: array of string;
-  s: string;
-  n: integer;
-begin
-  n := 0;
-  if lua_istable(L,Index) then begin
-    lua_pushnil(L);
-    while (lua_next(L, Index) <> 0) do begin
-      if (lua_isstring(L, -1)) then begin
-         s := lua_toStringCP(L, -1);
-         SetLength(arr,n+1);
-         arr[n] := s;
-         n := n + 1;
-      end;
-      lua_pop(L, 1);
-    end;
-  end;
-  result := arr;
-end;
-
 function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
 var
   s: string;
@@ -455,94 +454,6 @@ begin
       lua_pop(L, 1);
     end;
   end;
-end;
-
-function lua_toLongWordArray(L: Plua_State; Index: Integer):aoflw;
-var
-  arr: array of LongWord;
-  lw: LongWord;
-  n: integer;
-begin
-  n := 0;
-  if lua_istable(L,Index) then begin
-    lua_pushnil(L);
-    while (lua_next(L, Index) <> 0) do begin
-      if (lua_isnumber(L, -1)) then begin
-         lw := LongWord(lua_tointeger(L, -1));
-         SetLength(arr,n+1);
-         arr[n] := lw;
-         n := n + 1;
-      end;
-      lua_pop(L, 1);
-    end;
-  end;
-  result := arr;
-end;
-
-function lua_toTPointArray(L: Plua_State; Index: Integer):aoftp;
-var
-  arr: array of TPoint;
-  p: TPoint;
-  n: integer;
-begin
-   n := 0;
-  if lua_istable(L,Index) then begin
-    lua_pushnil(L);
-    while (lua_next(L, Index) <> 0) do begin
-      if (lua_istable(L, -1)) then begin
-         luaL_check(L,-1,@p);
-         SetLength(arr,n+1);
-         arr[n] := p;
-         n := n + 1;
-      end;
-      lua_pop(L, 1);
-    end;
-  end;
-  result := arr;
-end;
-
-function lua_toTMenuItem(L: Plua_State; Index: Integer):aofmi;
-var
-  arr: aofmi;
-  mi: TMenuItem;
-  n: integer;
-begin
-   n := 0;
-  if lua_istable(L,Index) then begin
-    lua_pushnil(L);
-    while (lua_next(L, Index) <> 0) do begin
-      if (lua_istable(L, -1)) then begin
-         mi := TMenuItem(GetLuaObject(L, -1));
-         SetLength(arr,n+1);
-         arr[n] := mi;
-         n := n + 1;
-      end;
-      lua_pop(L, 1);
-    end;
-  end;
-  result := arr;
-end;
-
-function lua_toTTreeNode(L: Plua_State; Index: Integer):aoftn;
-var
-  arr: aoftn;
-  tn: TTreeNode;
-  n: integer;
-begin
-   n := 0;
-  if lua_istable(L,Index) then begin
-    lua_pushnil(L);
-    while (lua_next(L, Index) <> 0) do begin
-      if (lua_istable(L, -1)) then begin
-         tn := TTreeNode(GetLuaObject(L, -1));
-         SetLength(arr,n+1);
-         arr[n] := tn;
-         n := n + 1;
-      end;
-      lua_pop(L, 1);
-    end;
-  end;
-  result := arr;
 end;
 
 end.

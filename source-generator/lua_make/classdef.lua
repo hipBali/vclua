@@ -76,14 +76,7 @@ VCLUA_FROMLUA = {
 	["def_integer"] = "luaL_optint(L,#IDX,#DEF);",
 	["def_tshiftstate"] = "lua_toTShiftState(L,#IDX,#DEF);",
 	
-	["array of string"] = "#VAR := lua_toStringArray(L,#);",
 	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
-	["tpenpattern"] = "#VAR := lua_toLongWordArray(L,#);",
-	
-	-- LuaProxy 
-	["array of tpoint"] = "#VAR := lua_toTPointArray(L,#);",
-	["array of tmenuitem"] = "#VAR := lua_toTMenuItem(L,#);",
-	["array of ttreenode"] = "#VAR := lua_toTTreeNode(L,#);",
 }
 
 for _,t in pairs(VCLUA_FROMLUA_ES) do VCLUA_FROMLUA[t:lower()] = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));" end
@@ -95,5 +88,6 @@ VCLUA_FROMLUA = {
 }
 end
 
--- Generic 'set' template
-VCLUA_TOSET_TEMP = "luaL_checkSet(L,#,@#VAR,TypeInfo(#TYP));"
+-- Generic templates
+VCLUA_TOSET = "luaL_checkSet(L,#,@#VAR,TypeInfo(#TYP));"
+VCLUA_TOARRAY = "TTrait<#TYP>.luaL_checkArray(L, #, @#VAR);"

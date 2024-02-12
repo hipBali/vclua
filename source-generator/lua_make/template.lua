@@ -27,7 +27,7 @@ end.
 VCLua_CLASSDEF_NV = [[
 unit Lua#CNAME;	
 
-{$T+}
+{$MODE Delphi}{$T+}
 
 interface
 

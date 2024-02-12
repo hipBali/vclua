@@ -910,7 +910,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	Nodes := lua_toTTreeNode(L,2);
+	TTrait<TTreeNode>.luaL_checkArray(L, 2, @Nodes);
 	lTreeView.Select(Nodes);
 	
 	Result := 0;

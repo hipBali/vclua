@@ -454,7 +454,7 @@ var
 begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	AItems := lua_toTMenuItem(L,2);
+	TTrait<TMenuItem>.luaL_checkArray(L, 2, @AItems);
 	lMenuItem.Add(AItems);
 	
 	Result := 0;

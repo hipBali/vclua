@@ -173,11 +173,17 @@ local function processClass(def,cdef)
 			ln[index] = value
 			index = index + 1
 		end
-		-- test against 'set of', generate source from VCLUA_TOSET_TEMP
-		local _,_,c,cc = line:find("(%a+)%s*=%s*set of%s*")
+		-- test against 'set of', generate source from VCLUA_TOSET
+		local _,_,c = line:find("(%a+)%s*=%s*set%s+of%s*")
 		if c then
-			VCLUA_FROMLUA[c:lower()] = string.format(VCLUA_TOSET_TEMP,c,c)
+			VCLUA_FROMLUA[c:lower()] = VCLUA_TOSET
 			cLog(string.format("SET FOUND %s LINE:%d",c, n),"INFO")
+		end
+		-- test against 'array of', generate source from VCLUA_TOARRAY
+		local _,_,c,cc = line:find("([_%w]+)%s*=%s*array%s+of%s+([_%w]+)")
+		if c then
+			VCLUA_FROMLUA[c:lower()] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
+			cLog(string.format("ARRAY FOUND %s LINE:%d",c, n),"INFO")
 		end
 		-- parse class
 		local _,_,c = line:find("([_%w]+)%s*=%s*class%s*%([_%w]+%s*")
@@ -398,8 +404,9 @@ function createUnitBody(cdef, ref)
               table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA["def_"..vtLower]:gsub("#IDX",idx):gsub("#DEF",varValue))
               if not defVars then defVars = idx - 1 end
             else
-              local templ = VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
-              table.insert(varsFromLua, (templ:gsub('#VAR',varName,1):gsub('#TYP',varType):gsub("#",idx)))
+              local arrayType = varType:match('array%s+of%s+([_%w]+)')
+              local templ = (arrayType and VCLUA_TOARRAY) or VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
+              table.insert(varsFromLua, (templ:gsub('#VAR',varName,1):gsub('#TYP',arrayType or varType):gsub("#",idx)))
             end
           end
         end

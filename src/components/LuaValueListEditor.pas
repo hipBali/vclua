@@ -139,7 +139,7 @@ begin
 	CheckArg(L, 3);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	Values := lua_toStringArray(L,3);
+	TTrait<String>.luaL_checkArray(L, 3, @Values);
 	lValueListEditor.InsertRowWithValues(Index,Values);
 	
 	Result := 0;
