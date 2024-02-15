@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_FloatSpinEdit_GetLimitedValue(L: Plua_State): Integer; cdecl;
 var
@@ -35,7 +35,13 @@ begin
 	CheckArg(L, 2);
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
 	luaL_check(L,2,@AValue);
-	ret := lFloatSpinEdit.GetLimitedValue(AValue);
+	try
+		ret := lFloatSpinEdit.GetLimitedValue(AValue);
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'GetLimitedValue', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -50,7 +56,13 @@ begin
 	CheckArg(L, 2);
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
 	luaL_check(L,2,@AValue);
-	ret := lFloatSpinEdit.ValueToStr(AValue);
+	try
+		ret := lFloatSpinEdit.ValueToStr(AValue);
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'ValueToStr', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -65,7 +77,13 @@ begin
 	CheckArg(L, 2);
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lFloatSpinEdit.StrToValue(S);
+	try
+		ret := lFloatSpinEdit.StrToValue(S);
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'StrToValue', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

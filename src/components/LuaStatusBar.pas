@@ -48,7 +48,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_StatusPanel_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -58,7 +58,13 @@ begin
 	CheckArg(L, 2);
 	lStatusPanel := TLuaStatusPanel(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lStatusPanel.Assign(Source);
+	try
+		lStatusPanel.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'StatusPanel', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -70,7 +76,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStatusPanel := TLuaStatusPanel(GetLuaObject(L, 1));
-	ret := lStatusPanel.StatusBar();
+	try
+		ret := lStatusPanel.StatusBar();
+	except
+		on E: Exception do
+			CallError(L, 'StatusPanel', 'StatusBar', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -83,7 +95,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStatusPanels := TLuaStatusPanels(GetLuaObject(L, 1));
-	ret := lStatusPanels.Add();
+	try
+		ret := lStatusPanels.Add();
+	except
+		on E: Exception do
+			CallError(L, 'StatusPanels', 'Add', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -99,7 +117,13 @@ begin
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@PanelIndex);
 	luaL_checkSet(L,3,@PanelParts,TypeInfo(TPanelParts));
-	lStatusBar.InvalidatePanel(PanelIndex,PanelParts);
+	try
+		lStatusBar.InvalidatePanel(PanelIndex,PanelParts);
+	except
+		on E: Exception do
+			CallError(L, 'StatusBar', 'InvalidatePanel', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -110,7 +134,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
-	lStatusBar.BeginUpdate();
+	try
+		lStatusBar.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'StatusBar', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -121,7 +151,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
-	lStatusBar.EndUpdate();
+	try
+		lStatusBar.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'StatusBar', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -135,7 +171,13 @@ begin
 	CheckArg(L, 2);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@ExeAction);
-	ret := lStatusBar.ExecuteAction(ExeAction);
+	try
+		ret := lStatusBar.ExecuteAction(ExeAction);
+	except
+		on E: Exception do
+			CallError(L, 'StatusBar', 'ExecuteAction', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -152,7 +194,13 @@ begin
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	ret := lStatusBar.GetPanelIndexAt(X,Y);
+	try
+		ret := lStatusBar.GetPanelIndexAt(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'StatusBar', 'GetPanelIndexAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -165,7 +213,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
-	ret := lStatusBar.SizeGripEnabled();
+	try
+		ret := lStatusBar.SizeGripEnabled();
+	except
+		on E: Exception do
+			CallError(L, 'StatusBar', 'SizeGripEnabled', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -178,7 +232,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
-	ret := lStatusBar.UpdatingStatusBar();
+	try
+		ret := lStatusBar.UpdatingStatusBar();
+	except
+		on E: Exception do
+			CallError(L, 'StatusBar', 'UpdatingStatusBar', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

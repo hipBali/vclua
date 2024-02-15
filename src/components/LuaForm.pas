@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Form_AfterConstruction(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	lForm.AfterConstruction();
+	try
+		lForm.AfterConstruction();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'AfterConstruction', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -45,7 +51,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	lForm.BeforeDestruction();
+	try
+		lForm.BeforeDestruction();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'BeforeDestruction', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -57,7 +69,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.BigIconHandle();
+	try
+		ret := lForm.BigIconHandle();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'BigIconHandle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -69,7 +87,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	lForm.Close();
+	try
+		lForm.Close();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Close', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -81,7 +105,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.CloseQuery();
+	try
+		ret := lForm.CloseQuery();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'CloseQuery', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -97,7 +127,13 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@Control);
 	luaL_check(L,3,@Removing);
-	lForm.DefocusControl(Control,Removing);
+	try
+		lForm.DefocusControl(Control,Removing);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'DefocusControl', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -108,7 +144,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	lForm.DestroyWnd();
+	try
+		lForm.DestroyWnd();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'DestroyWnd', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -121,7 +163,13 @@ begin
 	CheckArg(L, 1, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @AMoveToTop, True);
-	lForm.EnsureVisible(AMoveToTop);
+	try
+		lForm.EnsureVisible(AMoveToTop);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'EnsureVisible', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -134,7 +182,13 @@ begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@WinControl);
-	lForm.FocusControl(WinControl);
+	try
+		lForm.FocusControl(WinControl);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'FocusControl', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -146,7 +200,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.FormIsUpdating();
+	try
+		ret := lForm.FormIsUpdating();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'FormIsUpdating', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -159,7 +219,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.GetFormImage();
+	try
+		ret := lForm.GetFormImage();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'GetFormImage', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -174,7 +240,13 @@ begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@AControl);
-	ret := lForm.GetRolesForControl(AControl);
+	try
+		ret := lForm.GetRolesForControl(AControl);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'GetRolesForControl', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -187,7 +259,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.GetRealPopupParent();
+	try
+		ret := lForm.GetRealPopupParent();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'GetRealPopupParent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -199,7 +277,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	lForm.Hide();
+	try
+		lForm.Hide();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Hide', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -212,7 +296,13 @@ begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	TTrait<String>.luaL_checkArray(L, 2, @FileNames);
-	lForm.IntfDropFiles(FileNames);
+	try
+		lForm.IntfDropFiles(FileNames);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'IntfDropFiles', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -225,7 +315,13 @@ begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@AComponent);
-	lForm.IntfHelp(AComponent);
+	try
+		lForm.IntfHelp(AComponent);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'IntfHelp', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -240,7 +336,13 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	TTrait<TMonitor>.luaL_optcheck(L, 2, @AMonitor, nil);
 	TTrait<Boolean>.luaL_optcheck(L, 3, @UseWorkarea, False);
-	lForm.MakeFullyVisible(AMonitor,UseWorkarea);
+	try
+		lForm.MakeFullyVisible(AMonitor,UseWorkarea);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'MakeFullyVisible', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -252,7 +354,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.AutoSizeDelayedHandle();
+	try
+		ret := lForm.AutoSizeDelayedHandle();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'AutoSizeDelayedHandle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -270,7 +378,13 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
 	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
-	lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	try
+		lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'GetPreferredSize', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -290,7 +404,13 @@ begin
 	luaL_check(L,3,@PreferredHeight);
 	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
 	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
-	lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	try
+		lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'GetPreferredSize', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -302,7 +422,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	lForm.Release();
+	try
+		lForm.Release();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Release', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -314,7 +440,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.CanFocus();
+	try
+		ret := lForm.CanFocus();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'CanFocus', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -326,7 +458,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	lForm.SetFocus();
+	try
+		lForm.SetFocus();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'SetFocus', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -340,7 +478,13 @@ begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@Control);
-	ret := lForm.SetFocusedControl(Control);
+	try
+		ret := lForm.SetFocusedControl(Control);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'SetFocusedControl', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -362,7 +506,13 @@ begin
 	luaL_check(L,4,@AWidth);
 	luaL_check(L,5,@AHeight);
 	TTrait<Boolean>.luaL_optcheck(L, 6, @ADefaultPosition, False);
-	lForm.SetRestoredBounds(ALeft,ATop,AWidth,AHeight,ADefaultPosition);
+	try
+		lForm.SetRestoredBounds(ALeft,ATop,AWidth,AHeight,ADefaultPosition);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'SetRestoredBounds', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -373,7 +523,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	lForm.Show();
+	try
+		lForm.Show();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Show', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -385,7 +541,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.ShowModal();
+	try
+		ret := lForm.ShowModal();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ShowModal', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -397,7 +559,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	lForm.ShowOnTop();
+	try
+		lForm.ShowOnTop();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ShowOnTop', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -409,7 +577,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.SmallIconHandle();
+	try
+		ret := lForm.SmallIconHandle();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'SmallIconHandle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -422,7 +596,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.ActiveMDIChild();
+	try
+		ret := lForm.ActiveMDIChild();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ActiveMDIChild', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -437,7 +617,13 @@ begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
-	ret := lForm.GetMDIChildren(AIndex);
+	try
+		ret := lForm.GetMDIChildren(AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'GetMDIChildren', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -450,7 +636,13 @@ var
 begin
 	CheckArg(L, 1);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	ret := lForm.MDIChildCount();
+	try
+		ret := lForm.MDIChildCount();
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'MDIChildCount', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -466,7 +658,13 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewDockSite);
 	luaL_check(L,3,@ARect);
-	lForm.Dock(NewDockSite,ARect);
+	try
+		lForm.Dock(NewDockSite,ARect);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Dock', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -479,7 +677,13 @@ begin
 	CheckArg(L, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@Exclude);
-	lForm.UpdateDockCaption(Exclude);
+	try
+		lForm.UpdateDockCaption(Exclude);
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'UpdateDockCaption', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

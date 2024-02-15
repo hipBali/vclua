@@ -38,7 +38,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_CustomGrid_Invalidate(L: Plua_State): Integer; cdecl;
 var
@@ -46,7 +46,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	lCustomGrid.Invalidate();
+	try
+		lCustomGrid.Invalidate();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'Invalidate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -57,7 +63,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	lCustomGrid.EditingDone();
+	try
+		lCustomGrid.EditingDone();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditingDone', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -70,7 +82,13 @@ begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	
-	lCustomGrid.AdjustInnerCellRect(ARect);
+	try
+		lCustomGrid.AdjustInnerCellRect(ARect);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'AdjustInnerCellRect', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -83,7 +101,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@ARect);
-	lCustomGrid.AdjustInnerCellRect(ARect);
+	try
+		lCustomGrid.AdjustInnerCellRect(ARect);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'AdjustInnerCellRect', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -94,7 +118,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	lCustomGrid.AutoAdjustColumns();
+	try
+		lCustomGrid.AutoAdjustColumns();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'AutoAdjustColumns', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -105,7 +135,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	lCustomGrid.BeginUpdate();
+	try
+		lCustomGrid.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -121,7 +157,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACol);
 	luaL_check(L,3,@ARow);
-	ret := lCustomGrid.CellRect(ACol,ARow);
+	try
+		ret := lCustomGrid.CellRect(ACol,ARow);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'CellRect', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -138,7 +180,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@aCol);
 	luaL_check(L,3,@aRow);
-	ret := lCustomGrid.CellToGridZone(aCol,aRow);
+	try
+		ret := lCustomGrid.CellToGridZone(aCol,aRow);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'CellToGridZone', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -150,7 +198,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	lCustomGrid.CheckPosition();
+	try
+		lCustomGrid.CheckPosition();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'CheckPosition', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -162,7 +216,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	ret := lCustomGrid.ClearCols();
+	try
+		ret := lCustomGrid.ClearCols();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'ClearCols', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -175,7 +235,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	ret := lCustomGrid.ClearRows();
+	try
+		ret := lCustomGrid.ClearRows();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'ClearRows', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -187,7 +253,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	lCustomGrid.Clear();
+	try
+		lCustomGrid.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -198,7 +270,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	lCustomGrid.ClearSelections();
+	try
+		lCustomGrid.ClearSelections();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'ClearSelections', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -212,7 +290,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Style,TypeInfo(TColumnButtonStyle));
-	ret := lCustomGrid.EditorByStyle(Style);
+	try
+		ret := lCustomGrid.EditorByStyle(Style);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorByStyle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -229,7 +313,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
 	luaL_checkSet(L,3,@Shift,TypeInfo(TShiftState));
-	lCustomGrid.EditorKeyDown(Sender,Key,Shift);
+	try
+		lCustomGrid.EditorKeyDown(Sender,Key,Shift);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorKeyDown', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,Key);
 	Result := 1;
 end;
@@ -246,7 +336,13 @@ begin
 	luaL_check(L,2,@Sender);
 	luaL_check(L,3,@Key);
 	luaL_checkSet(L,4,@Shift,TypeInfo(TShiftState));
-	lCustomGrid.EditorKeyDown(Sender,Key,Shift);
+	try
+		lCustomGrid.EditorKeyDown(Sender,Key,Shift);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorKeyDown', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,Key);
 	Result := 1;
 end;
@@ -260,7 +356,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
-	lCustomGrid.EditorKeyPress(Sender,Key);
+	try
+		lCustomGrid.EditorKeyPress(Sender,Key);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorKeyPress', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,Key);
 	Result := 1;
 end;
@@ -275,7 +377,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
 	luaL_check(L,3,@Key);
-	lCustomGrid.EditorKeyPress(Sender,Key);
+	try
+		lCustomGrid.EditorKeyPress(Sender,Key);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorKeyPress', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,Key);
 	Result := 1;
 end;
@@ -289,7 +397,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
-	lCustomGrid.EditorUTF8KeyPress(Sender,UTF8Key);
+	try
+		lCustomGrid.EditorUTF8KeyPress(Sender,UTF8Key);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorUTF8KeyPress', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,UTF8Key);
 	Result := 1;
 end;
@@ -304,7 +418,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
 	luaL_check(L,3,@UTF8Key);
-	lCustomGrid.EditorUTF8KeyPress(Sender,UTF8Key);
+	try
+		lCustomGrid.EditorUTF8KeyPress(Sender,UTF8Key);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorUTF8KeyPress', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,UTF8Key);
 	Result := 1;
 end;
@@ -320,7 +440,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
 	luaL_checkSet(L,3,@shift,TypeInfo(TShiftState));
-	lCustomGrid.EditorKeyUp(Sender,key,shift);
+	try
+		lCustomGrid.EditorKeyUp(Sender,key,shift);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorKeyUp', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,key);
 	Result := 1;
 end;
@@ -337,7 +463,13 @@ begin
 	luaL_check(L,2,@Sender);
 	luaL_check(L,3,@key);
 	luaL_checkSet(L,4,@shift,TypeInfo(TShiftState));
-	lCustomGrid.EditorKeyUp(Sender,key,shift);
+	try
+		lCustomGrid.EditorKeyUp(Sender,key,shift);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorKeyUp', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,key);
 	Result := 1;
 end;
@@ -354,7 +486,13 @@ begin
 	luaL_check(L,2,@aCol);
 	luaL_check(L,3,@aRow);
 	luaL_check(L,4,@aText);
-	lCustomGrid.EditorTextChanged(aCol,aRow,aText);
+	try
+		lCustomGrid.EditorTextChanged(aCol,aRow,aText);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EditorTextChanged', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -367,7 +505,13 @@ begin
 	CheckArg(L, 1, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @aRefresh, true);
-	lCustomGrid.EndUpdate(aRefresh);
+	try
+		lCustomGrid.EndUpdate(aRefresh);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -380,7 +524,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@ADesignTimePPI);
-	lCustomGrid.FixDesignFontsPPI(ADesignTimePPI);
+	try
+		lCustomGrid.FixDesignFontsPPI(ADesignTimePPI);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'FixDesignFontsPPI', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -392,7 +542,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	ret := lCustomGrid.Focused();
+	try
+		ret := lCustomGrid.Focused();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'Focused', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -405,7 +561,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	ret := lCustomGrid.HasMultiSelection();
+	try
+		ret := lCustomGrid.HasMultiSelection();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'HasMultiSelection', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -417,7 +579,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	lCustomGrid.HideSortArrow();
+	try
+		lCustomGrid.HideSortArrow();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'HideSortArrow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -432,7 +600,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@aCol);
 	luaL_check(L,3,@aRow);
-	lCustomGrid.InvalidateCell(aCol,aRow);
+	try
+		lCustomGrid.InvalidateCell(aCol,aRow);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'InvalidateCell', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -445,7 +619,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACol);
-	lCustomGrid.InvalidateCol(ACol);
+	try
+		lCustomGrid.InvalidateCol(ACol);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'InvalidateCol', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -458,7 +638,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@aRange);
-	lCustomGrid.InvalidateRange(aRange);
+	try
+		lCustomGrid.InvalidateRange(aRange);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'InvalidateRange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -471,7 +657,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@ARow);
-	lCustomGrid.InvalidateRow(ARow);
+	try
+		lCustomGrid.InvalidateRow(ARow);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'InvalidateRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -487,7 +679,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@aCol);
 	luaL_check(L,3,@aRow);
-	ret := lCustomGrid.IsCellVisible(aCol,aRow);
+	try
+		ret := lCustomGrid.IsCellVisible(aCol,aRow);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'IsCellVisible', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -504,7 +702,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@aCol);
 	luaL_check(L,3,@aRow);
-	ret := lCustomGrid.IsFixedCellVisible(aCol,aRow);
+	try
+		ret := lCustomGrid.IsFixedCellVisible(aCol,aRow);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'IsFixedCellVisible', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -518,7 +722,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
-	lCustomGrid.LoadFromFile(FileName);
+	try
+		lCustomGrid.LoadFromFile(FileName);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'LoadFromFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -531,7 +741,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	lCustomGrid.LoadFromStream(AStream);
+	try
+		lCustomGrid.LoadFromStream(AStream);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -547,7 +763,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	ret := lCustomGrid.MouseCoord(X,Y);
+	try
+		ret := lCustomGrid.MouseCoord(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'MouseCoord', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -562,7 +784,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Mouse);
-	ret := lCustomGrid.MouseToCell(Mouse);
+	try
+		ret := lCustomGrid.MouseToCell(Mouse);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'MouseToCell', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -580,7 +808,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	lCustomGrid.MouseToCell(X,Y,ACol,ARow);
+	try
+		lCustomGrid.MouseToCell(X,Y,ACol,ARow);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'MouseToCell', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ACol);
 	lua_push(L,ARow);
 	Result := 2;
@@ -595,7 +829,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Mouse);
-	ret := lCustomGrid.MouseToLogcell(Mouse);
+	try
+		ret := lCustomGrid.MouseToLogcell(Mouse);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'MouseToLogcell', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -612,7 +852,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	ret := lCustomGrid.MouseToGridZone(X,Y);
+	try
+		ret := lCustomGrid.MouseToGridZone(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'MouseToGridZone', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -626,7 +872,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
-	lCustomGrid.SaveToFile(FileName);
+	try
+		lCustomGrid.SaveToFile(FileName);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'SaveToFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -639,7 +891,13 @@ begin
 	CheckArg(L, 2);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	lCustomGrid.SaveToStream(AStream);
+	try
+		lCustomGrid.SaveToStream(AStream);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'SaveToStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -654,7 +912,13 @@ begin
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AToPPI);
 	luaL_check(L,3,@AProportion);
-	lCustomGrid.ScaleFontsPPI(AToPPI,AProportion);
+	try
+		lCustomGrid.ScaleFontsPPI(AToPPI,AProportion);
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'ScaleFontsPPI', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -665,7 +929,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	lCustomGrid.SetFocus();
+	try
+		lCustomGrid.SetFocus();
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'SetFocus', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -680,7 +950,13 @@ begin
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@IsColumn);
 	luaL_check(L,3,@index);
-	lDrawGrid.DeleteColRow(IsColumn,index);
+	try
+		lDrawGrid.DeleteColRow(IsColumn,index);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'DeleteColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -693,7 +969,13 @@ begin
 	CheckArg(L, 2);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lDrawGrid.DeleteCol(Index);
+	try
+		lDrawGrid.DeleteCol(Index);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'DeleteCol', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -706,7 +988,13 @@ begin
 	CheckArg(L, 2);
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lDrawGrid.DeleteRow(Index);
+	try
+		lDrawGrid.DeleteRow(Index);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'DeleteRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -723,7 +1011,13 @@ begin
 	luaL_check(L,2,@IsColumn);
 	luaL_check(L,3,@index);
 	luaL_check(L,4,@WithIndex);
-	lDrawGrid.ExchangeColRow(IsColumn,index,WithIndex);
+	try
+		lDrawGrid.ExchangeColRow(IsColumn,index,WithIndex);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'ExchangeColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -738,7 +1032,13 @@ begin
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@IsColumn);
 	luaL_check(L,3,@index);
-	lDrawGrid.InsertColRow(IsColumn,index);
+	try
+		lDrawGrid.InsertColRow(IsColumn,index);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'InsertColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -755,7 +1055,13 @@ begin
 	luaL_check(L,2,@IsColumn);
 	luaL_check(L,3,@FromIndex);
 	luaL_check(L,4,@ToIndex);
-	lDrawGrid.MoveColRow(IsColumn,FromIndex,ToIndex);
+	try
+		lDrawGrid.MoveColRow(IsColumn,FromIndex,ToIndex);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'MoveColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -770,7 +1076,13 @@ begin
 	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@IsColumn);
 	luaL_check(L,3,@index);
-	lDrawGrid.SortColRow(IsColumn,index);
+	try
+		lDrawGrid.SortColRow(IsColumn,index);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'SortColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -789,7 +1101,13 @@ begin
 	luaL_check(L,3,@Index);
 	luaL_check(L,4,@FromIndex);
 	luaL_check(L,5,@ToIndex);
-	lDrawGrid.SortColRow(IsColumn,Index,FromIndex,ToIndex);
+	try
+		lDrawGrid.SortColRow(IsColumn,Index,FromIndex,ToIndex);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'SortColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -807,7 +1125,13 @@ begin
 	luaL_check(L,2,@aCol);
 	luaL_check(L,3,@aRow);
 	luaL_checkSet(L,4,@aState,TypeInfo(TGridDrawState));
-	lDrawGrid.DefaultDrawCell(aCol,aRow,aRect,aState);
+	try
+		lDrawGrid.DefaultDrawCell(aCol,aRow,aRect,aState);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'DefaultDrawCell', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,aRect);
 	Result := 1;
 end;
@@ -826,7 +1150,13 @@ begin
 	luaL_check(L,3,@aRow);
 	luaL_check(L,4,@aRect);
 	luaL_checkSet(L,5,@aState,TypeInfo(TGridDrawState));
-	lDrawGrid.DefaultDrawCell(aCol,aRow,aRect,aState);
+	try
+		lDrawGrid.DefaultDrawCell(aCol,aRow,aRect,aState);
+	except
+		on E: Exception do
+			CallError(L, 'DrawGrid', 'DefaultDrawCell', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,aRect);
 	Result := 1;
 end;

@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_CheckListBox_MeasureItem(L: Plua_State): Integer; cdecl;
 var
@@ -35,7 +35,13 @@ begin
 	CheckArg(L, 2);
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lCheckListBox.MeasureItem(Index,TheHeight);
+	try
+		lCheckListBox.MeasureItem(Index,TheHeight);
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'MeasureItem', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,TheHeight);
 	Result := 1;
 end;
@@ -50,7 +56,13 @@ begin
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@TheHeight);
-	lCheckListBox.MeasureItem(Index,TheHeight);
+	try
+		lCheckListBox.MeasureItem(Index,TheHeight);
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'MeasureItem', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,TheHeight);
 	Result := 1;
 end;
@@ -63,7 +75,13 @@ begin
 	CheckArg(L, 2);
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
-	lCheckListBox.Toggle(AIndex);
+	try
+		lCheckListBox.Toggle(AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'Toggle', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -80,7 +98,13 @@ begin
 	luaL_check(L,2,@AState,TypeInfo(TCheckBoxState));
 	TTrait<Boolean>.luaL_optcheck(L, 3, @aAllowGrayed, True);
 	TTrait<Boolean>.luaL_optcheck(L, 4, @aAllowDisabled, True);
-	lCheckListBox.CheckAll(AState,aAllowGrayed,aAllowDisabled);
+	try
+		lCheckListBox.CheckAll(AState,aAllowGrayed,aAllowDisabled);
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'CheckAll', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -95,7 +119,13 @@ begin
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex1);
 	luaL_check(L,3,@AIndex2);
-	lCheckListBox.Exchange(AIndex1,AIndex2);
+	try
+		lCheckListBox.Exchange(AIndex1,AIndex2);
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'Exchange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

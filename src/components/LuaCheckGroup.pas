@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_CheckGroup_FlipChildren(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
 	luaL_check(L,2,@AllLevels);
-	lCheckGroup.FlipChildren(AllLevels);
+	try
+		lCheckGroup.FlipChildren(AllLevels);
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'FlipChildren', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -46,7 +52,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
-	ret := lCheckGroup.Rows();
+	try
+		ret := lCheckGroup.Rows();
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'Rows', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

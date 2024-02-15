@@ -106,7 +106,7 @@ type
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_ColorButton_Click(L: Plua_State): Integer; cdecl;
 var
@@ -114,7 +114,13 @@ var
 begin
 	CheckArg(L, 1);
 	lColorButton := TLuaColorButton(GetLuaObject(L, 1));
-	lColorButton.Click();
+	try
+		lColorButton.Click();
+	except
+		on E: Exception do
+			CallError(L, 'ColorButton', 'Click', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -127,7 +133,13 @@ begin
 	CheckArg(L, 1);
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
 	
-	lOpenDialog.DoCanClose(CanClose);
+	try
+		lOpenDialog.DoCanClose(CanClose);
+	except
+		on E: Exception do
+			CallError(L, 'OpenDialog', 'DoCanClose', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,CanClose);
 	Result := 1;
 end;
@@ -140,7 +152,13 @@ begin
 	CheckArg(L, 2);
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
 	luaL_check(L,2,@CanClose);
-	lOpenDialog.DoCanClose(CanClose);
+	try
+		lOpenDialog.DoCanClose(CanClose);
+	except
+		on E: Exception do
+			CallError(L, 'OpenDialog', 'DoCanClose', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,CanClose);
 	Result := 1;
 end;
@@ -151,7 +169,13 @@ var
 begin
 	CheckArg(L, 1);
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
-	lOpenDialog.DoFolderChange();
+	try
+		lOpenDialog.DoFolderChange();
+	except
+		on E: Exception do
+			CallError(L, 'OpenDialog', 'DoFolderChange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -162,7 +186,13 @@ var
 begin
 	CheckArg(L, 1);
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
-	lOpenDialog.DoSelectionChange();
+	try
+		lOpenDialog.DoSelectionChange();
+	except
+		on E: Exception do
+			CallError(L, 'OpenDialog', 'DoSelectionChange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -177,7 +207,13 @@ begin
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
 	luaL_check(L,2,@AOption,TypeInfo(TOpenOption));
 	luaL_check(L,3,@AValue);
-	lOpenDialog.IntfSetOption(AOption,AValue);
+	try
+		lOpenDialog.IntfSetOption(AOption,AValue);
+	except
+		on E: Exception do
+			CallError(L, 'OpenDialog', 'IntfSetOption', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -224,7 +260,13 @@ var
 begin
 	CheckArg(L, 1);
 	lFontDialog := TLuaFontDialog(GetLuaObject(L, 1));
-	lFontDialog.ApplyClicked();
+	try
+		lFontDialog.ApplyClicked();
+	except
+		on E: Exception do
+			CallError(L, 'FontDialog', 'ApplyClicked', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -244,7 +286,13 @@ var
 begin
 	CheckArg(L, 1);
 	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
-	lFindDialog.CloseDialog();
+	try
+		lFindDialog.CloseDialog();
+	except
+		on E: Exception do
+			CallError(L, 'FindDialog', 'CloseDialog', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -256,7 +304,13 @@ var
 begin
 	CheckArg(L, 1);
 	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
-	ret := lFindDialog.Execute();
+	try
+		ret := lFindDialog.Execute();
+	except
+		on E: Exception do
+			CallError(L, 'FindDialog', 'Execute', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -268,7 +322,13 @@ var
 begin
 	CheckArg(L, 1);
 	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
-	lReplaceDialog.CloseDialog();
+	try
+		lReplaceDialog.CloseDialog();
+	except
+		on E: Exception do
+			CallError(L, 'ReplaceDialog', 'CloseDialog', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -280,7 +340,13 @@ var
 begin
 	CheckArg(L, 1);
 	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
-	ret := lReplaceDialog.Execute();
+	try
+		ret := lReplaceDialog.Execute();
+	except
+		on E: Exception do
+			CallError(L, 'ReplaceDialog', 'Execute', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

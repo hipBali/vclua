@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Pen_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lPen := TLuaPen(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lPen.Assign(Source);
+	try
+		lPen.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'Pen', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -47,7 +53,13 @@ begin
 	CheckArg(L, 2);
 	lPen := TLuaPen(GetLuaObject(L, 1));
 	TTrait<LongWord>.luaL_checkArray(L, 2, @APattern);
-	lPen.SetPattern(APattern);
+	try
+		lPen.SetPattern(APattern);
+	except
+		on E: Exception do
+			CallError(L, 'Pen', 'SetPattern', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

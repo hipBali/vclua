@@ -60,7 +60,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
 var
@@ -68,7 +68,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
-	lMenu.DestroyHandle();
+	try
+		lMenu.DestroyHandle();
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'DestroyHandle', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -84,7 +90,13 @@ begin
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	luaL_check(L,2,@AValue);
 	luaL_check(L,3,@Kind,TypeInfo(TFindItemKind));
-	ret := lMenu.FindItem(AValue,Kind);
+	try
+		ret := lMenu.FindItem(AValue,Kind);
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'FindItem', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -101,7 +113,13 @@ begin
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	luaL_check(L,2,@AValue);
 	luaL_check(L,3,@ByCommand);
-	ret := lMenu.GetHelpContext(AValue,ByCommand);
+	try
+		ret := lMenu.GetHelpContext(AValue,ByCommand);
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'GetHelpContext', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -114,7 +132,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
-	ret := lMenu.HandleAllocated();
+	try
+		ret := lMenu.HandleAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'HandleAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -127,7 +151,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
-	ret := lMenu.IsRightToLeft();
+	try
+		ret := lMenu.IsRightToLeft();
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'IsRightToLeft', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -140,7 +170,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
-	ret := lMenu.UseRightToLeftAlignment();
+	try
+		ret := lMenu.UseRightToLeftAlignment();
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'UseRightToLeftAlignment', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -153,7 +189,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
-	ret := lMenu.UseRightToLeftReading();
+	try
+		ret := lMenu.UseRightToLeftReading();
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'UseRightToLeftReading', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -165,7 +207,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
-	lMenu.HandleNeeded();
+	try
+		lMenu.HandleNeeded();
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'HandleNeeded', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -179,7 +227,13 @@ begin
 	CheckArg(L, 2);
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACommand);
-	ret := lMenu.DispatchCommand(ACommand);
+	try
+		ret := lMenu.DispatchCommand(ACommand);
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'DispatchCommand', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -191,7 +245,13 @@ var
 begin
 	CheckArg(L, 1);
 	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
-	lPopupMenu.PopUp();
+	try
+		lPopupMenu.PopUp();
+	except
+		on E: Exception do
+			CallError(L, 'PopupMenu', 'PopUp', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -206,7 +266,13 @@ begin
 	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	lPopupMenu.PopUp(X,Y);
+	try
+		lPopupMenu.PopUp(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'PopupMenu', 'PopUp', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -217,7 +283,13 @@ var
 begin
 	CheckArg(L, 1);
 	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
-	lPopupMenu.Close();
+	try
+		lPopupMenu.Close();
+	except
+		on E: Exception do
+			CallError(L, 'PopupMenu', 'Close', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -231,7 +303,13 @@ begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACaption);
-	ret := lMenuItem.Find(ACaption);
+	try
+		ret := lMenuItem.Find(ACaption);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'Find', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -246,7 +324,13 @@ begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	
-	lMenuItem.GetImageList(aImages,aImagesWidth);
+	try
+		lMenuItem.GetImageList(aImages,aImagesWidth);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'GetImageList', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,aImages,TypeInfo(aImages));
 	lua_push(L,aImagesWidth);
 	Result := 2;
@@ -259,7 +343,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.GetImageList();
+	try
+		ret := lMenuItem.GetImageList();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'GetImageList', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -272,7 +362,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.GetParentComponent();
+	try
+		ret := lMenuItem.GetParentComponent();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'GetParentComponent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -285,7 +381,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.GetParentMenu();
+	try
+		ret := lMenuItem.GetParentMenu();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'GetParentMenu', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -298,7 +400,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.GetMergedParentMenu();
+	try
+		ret := lMenuItem.GetMergedParentMenu();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'GetMergedParentMenu', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -311,7 +419,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.GetIsRightToLeft();
+	try
+		ret := lMenuItem.GetIsRightToLeft();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'GetIsRightToLeft', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -324,7 +438,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.HandleAllocated();
+	try
+		ret := lMenuItem.HandleAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'HandleAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -337,7 +457,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.HasIcon();
+	try
+		ret := lMenuItem.HasIcon();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'HasIcon', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -350,7 +476,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.HasParent();
+	try
+		ret := lMenuItem.HasParent();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'HasParent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -362,7 +494,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	lMenuItem.InitiateAction();
+	try
+		lMenuItem.InitiateAction();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'InitiateAction', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -373,7 +511,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	lMenuItem.IntfDoSelect();
+	try
+		lMenuItem.IntfDoSelect();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'IntfDoSelect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -387,7 +531,13 @@ begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@Item);
-	ret := lMenuItem.IndexOf(Item);
+	try
+		ret := lMenuItem.IndexOf(Item);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'IndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -402,7 +552,13 @@ begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACaption);
-	ret := lMenuItem.IndexOfCaption(ACaption);
+	try
+		ret := lMenuItem.IndexOfCaption(ACaption);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'IndexOfCaption', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -414,7 +570,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	lMenuItem.InvalidateMergedItems();
+	try
+		lMenuItem.InvalidateMergedItems();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'InvalidateMergedItems', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -428,7 +590,13 @@ begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@Item);
-	ret := lMenuItem.VisibleIndexOf(Item);
+	try
+		ret := lMenuItem.VisibleIndexOf(Item);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'VisibleIndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -442,7 +610,13 @@ begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@Item);
-	lMenuItem.Add(Item);
+	try
+		lMenuItem.Add(Item);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'Add', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -455,7 +629,13 @@ begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	TTrait<TMenuItem>.luaL_checkArray(L, 2, @AItems);
-	lMenuItem.Add(AItems);
+	try
+		lMenuItem.Add(AItems);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'Add', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -466,7 +646,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	lMenuItem.AddSeparator();
+	try
+		lMenuItem.AddSeparator();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'AddSeparator', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -477,7 +663,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	lMenuItem.Click();
+	try
+		lMenuItem.Click();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'Click', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -490,7 +682,13 @@ begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lMenuItem.Delete(Index);
+	try
+		lMenuItem.Delete(Index);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'Delete', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -501,7 +699,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	lMenuItem.HandleNeeded();
+	try
+		lMenuItem.HandleNeeded();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'HandleNeeded', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -516,7 +720,13 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@Item);
-	lMenuItem.Insert(Index,Item);
+	try
+		lMenuItem.Insert(Index,Item);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'Insert', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -527,7 +737,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	lMenuItem.RecreateHandle();
+	try
+		lMenuItem.RecreateHandle();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'RecreateHandle', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -540,7 +756,13 @@ begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@Item);
-	lMenuItem.Remove(Item);
+	try
+		lMenuItem.Remove(Item);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'Remove', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -553,7 +775,13 @@ begin
 	CheckArg(L, 1, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @forced, false);
-	lMenuItem.UpdateImage(forced);
+	try
+		lMenuItem.UpdateImage(forced);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'UpdateImage', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -566,7 +794,13 @@ begin
 	CheckArg(L, 1, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @forced, false);
-	lMenuItem.UpdateImages(forced);
+	try
+		lMenuItem.UpdateImages(forced);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'UpdateImages', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -578,7 +812,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.IsCheckItem();
+	try
+		ret := lMenuItem.IsCheckItem();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'IsCheckItem', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -591,7 +831,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.IsLine();
+	try
+		ret := lMenuItem.IsLine();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'IsLine', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -604,7 +850,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.IsInMenuBar();
+	try
+		ret := lMenuItem.IsInMenuBar();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'IsInMenuBar', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -616,7 +868,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	lMenuItem.Clear();
+	try
+		lMenuItem.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -628,7 +886,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.HasBitmap();
+	try
+		ret := lMenuItem.HasBitmap();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'HasBitmap', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -641,7 +905,13 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	ret := lMenuItem.MenuVisibleIndex();
+	try
+		ret := lMenuItem.MenuVisibleIndex();
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'MenuVisibleIndex', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -655,7 +925,13 @@ begin
 	CheckArg(L, 2);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@Prefix);
-	lMenuItem.WriteDebugReport(Prefix);
+	try
+		lMenuItem.WriteDebugReport(Prefix);
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'WriteDebugReport', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -668,7 +944,13 @@ begin
 	CheckArg(L, 2);
 	lMainMenu := TLuaMainMenu(GetLuaObject(L, 1));
 	luaL_check(L,2,@Menu);
-	lMainMenu.Merge(Menu);
+	try
+		lMainMenu.Merge(Menu);
+	except
+		on E: Exception do
+			CallError(L, 'MainMenu', 'Merge', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -681,7 +963,13 @@ begin
 	CheckArg(L, 2);
 	lMainMenu := TLuaMainMenu(GetLuaObject(L, 1));
 	luaL_check(L,2,@Menu);
-	lMainMenu.Unmerge(Menu);
+	try
+		lMainMenu.Unmerge(Menu);
+	except
+		on E: Exception do
+			CallError(L, 'MainMenu', 'Unmerge', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Splitter_AnchorSplitter(L: Plua_State): Integer; cdecl;
 var
@@ -38,7 +38,13 @@ begin
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
 	luaL_check(L,2,@Kind,TypeInfo(TAnchorKind));
 	luaL_check(L,3,@AControl);
-	lSplitter.AnchorSplitter(Kind,AControl);
+	try
+		lSplitter.AnchorSplitter(Kind,AControl);
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'AnchorSplitter', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -50,7 +56,13 @@ var
 begin
 	CheckArg(L, 1);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	ret := lSplitter.GetOtherResizeControl();
+	try
+		ret := lSplitter.GetOtherResizeControl();
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'GetOtherResizeControl', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -64,7 +76,13 @@ begin
 	CheckArg(L, 2);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
 	luaL_check(L,2,@Offset);
-	lSplitter.MoveSplitter(Offset);
+	try
+		lSplitter.MoveSplitter(Offset);
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'MoveSplitter', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -77,7 +95,13 @@ begin
 	CheckArg(L, 2);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewPosition);
-	lSplitter.SetSplitterPosition(NewPosition);
+	try
+		lSplitter.SetSplitterPosition(NewPosition);
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'SetSplitterPosition', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -89,7 +113,13 @@ var
 begin
 	CheckArg(L, 1);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	ret := lSplitter.GetSplitterPosition();
+	try
+		ret := lSplitter.GetSplitterPosition();
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'GetSplitterPosition', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Notebook_ShowControl(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lNotebook := TLuaNotebook(GetLuaObject(L, 1));
 	luaL_check(L,2,@AControl);
-	lNotebook.ShowControl(AControl);
+	try
+		lNotebook.ShowControl(AControl);
+	except
+		on E: Exception do
+			CallError(L, 'Notebook', 'ShowControl', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -48,7 +54,13 @@ begin
 	CheckArg(L, 2);
 	lNotebook := TLuaNotebook(GetLuaObject(L, 1));
 	luaL_check(L,2,@APage);
-	ret := lNotebook.IndexOf(APage);
+	try
+		ret := lNotebook.IndexOf(APage);
+	except
+		on E: Exception do
+			CallError(L, 'Notebook', 'IndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

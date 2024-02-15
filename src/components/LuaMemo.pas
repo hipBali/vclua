@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Memo_Append(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lMemo := TLuaMemo(GetLuaObject(L, 1));
 	luaL_check(L,2,@AValue);
-	lMemo.Append(AValue);
+	try
+		lMemo.Append(AValue);
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'Append', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -49,7 +55,13 @@ begin
 	lMemo := TLuaMemo(GetLuaObject(L, 1));
 	luaL_check(L,2,@DeltaX);
 	luaL_check(L,3,@DeltaY);
-	lMemo.ScrollBy(DeltaX,DeltaY);
+	try
+		lMemo.ScrollBy(DeltaX,DeltaY);
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'ScrollBy', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

@@ -50,7 +50,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_GridColumn_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -60,7 +60,13 @@ begin
 	CheckArg(L, 2);
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lGridColumn.Assign(Source);
+	try
+		lGridColumn.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'GridColumn', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -71,7 +77,13 @@ var
 begin
 	CheckArg(L, 1);
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
-	lGridColumn.FillDefaultFont();
+	try
+		lGridColumn.FillDefaultFont();
+	except
+		on E: Exception do
+			CallError(L, 'GridColumn', 'FillDefaultFont', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -84,7 +96,13 @@ begin
 	CheckArg(L, 2);
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
 	luaL_check(L,2,@ADesignTimePPI);
-	lGridColumn.FixDesignFontsPPI(ADesignTimePPI);
+	try
+		lGridColumn.FixDesignFontsPPI(ADesignTimePPI);
+	except
+		on E: Exception do
+			CallError(L, 'GridColumn', 'FixDesignFontsPPI', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -99,7 +117,13 @@ begin
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
 	luaL_check(L,2,@AToPPI);
 	luaL_check(L,3,@AProportion);
-	lGridColumn.ScaleFontsPPI(AToPPI,AProportion);
+	try
+		lGridColumn.ScaleFontsPPI(AToPPI,AProportion);
+	except
+		on E: Exception do
+			CallError(L, 'GridColumn', 'ScaleFontsPPI', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -111,7 +135,13 @@ var
 begin
 	CheckArg(L, 1);
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
-	ret := lGridColumn.IsDefault();
+	try
+		ret := lGridColumn.IsDefault();
+	except
+		on E: Exception do
+			CallError(L, 'GridColumn', 'IsDefault', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -124,7 +154,13 @@ var
 begin
 	CheckArg(L, 1);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
-	ret := lGridColumns.Add();
+	try
+		ret := lGridColumns.Add();
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'Add', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -136,7 +172,13 @@ var
 begin
 	CheckArg(L, 1);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
-	lGridColumns.Clear();
+	try
+		lGridColumns.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -150,7 +192,13 @@ begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	luaL_check(L,2,@aTitle);
-	ret := lGridColumns.ColumnByTitle(aTitle);
+	try
+		ret := lGridColumns.ColumnByTitle(aTitle);
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'ColumnByTitle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -165,7 +213,13 @@ begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	ret := lGridColumns.RealIndex(Index);
+	try
+		ret := lGridColumns.RealIndex(Index);
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'RealIndex', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -180,7 +234,13 @@ begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	luaL_check(L,2,@Column);
-	ret := lGridColumns.IndexOf(Column);
+	try
+		ret := lGridColumns.IndexOf(Column);
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'IndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -193,7 +253,13 @@ var
 begin
 	CheckArg(L, 1);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
-	ret := lGridColumns.IsDefault();
+	try
+		ret := lGridColumns.IsDefault();
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'IsDefault', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -208,7 +274,13 @@ begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	ret := lGridColumns.HasIndex(Index);
+	try
+		ret := lGridColumns.HasIndex(Index);
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'HasIndex', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -223,7 +295,13 @@ begin
 	CheckArg(L, 2);
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	ret := lGridColumns.VisibleIndex(Index);
+	try
+		ret := lGridColumns.VisibleIndex(Index);
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'VisibleIndex', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -237,7 +315,13 @@ begin
 	CheckArg(L, 2);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@aCol);
-	lStringGrid.AutoSizeColumn(aCol);
+	try
+		lStringGrid.AutoSizeColumn(aCol);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'AutoSizeColumn', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -248,7 +332,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	lStringGrid.AutoSizeColumns();
+	try
+		lStringGrid.AutoSizeColumns();
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'AutoSizeColumns', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -259,7 +349,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	lStringGrid.Clean();
+	try
+		lStringGrid.Clean();
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -272,7 +368,13 @@ begin
 	CheckArg(L, 2);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_checkSet(L,2,@CleanOptions,TypeInfo(TGridZoneSet));
-	lStringGrid.Clean(CleanOptions);
+	try
+		lStringGrid.Clean(CleanOptions);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -287,7 +389,13 @@ begin
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@aRect);
 	luaL_checkSet(L,3,@CleanOptions,TypeInfo(TGridZoneSet));
-	lStringGrid.Clean(aRect,CleanOptions);
+	try
+		lStringGrid.Clean(aRect,CleanOptions);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -308,7 +416,13 @@ begin
 	luaL_check(L,4,@EndCol);
 	luaL_check(L,5,@EndRow);
 	luaL_checkSet(L,6,@CleanOptions,TypeInfo(TGridZoneSet));
-	lStringGrid.Clean(StartCol,StartRow,EndCol,EndRow,CleanOptions);
+	try
+		lStringGrid.Clean(StartCol,StartRow,EndCol,EndRow,CleanOptions);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -321,7 +435,13 @@ begin
 	CheckArg(L, 1, 2);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @AUseSelection, false);
-	lStringGrid.CopyToClipboard(AUseSelection);
+	try
+		lStringGrid.CopyToClipboard(AUseSelection);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'CopyToClipboard', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -336,7 +456,13 @@ begin
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	TTrait<String>.luaL_checkArray(L, 3, @Values);
-	lStringGrid.InsertRowWithValues(Index,Values);
+	try
+		lStringGrid.InsertRowWithValues(Index,Values);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'InsertRowWithValues', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -357,7 +483,13 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
 	TTrait<Integer>.luaL_optcheck(L, 5, @FromLine, 0);
 	TTrait<Boolean>.luaL_optcheck(L, 6, @SkipEmptyLines, true);
-	lStringGrid.LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
+	try
+		lStringGrid.LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'LoadFromCSVStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -378,7 +510,13 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
 	TTrait<Integer>.luaL_optcheck(L, 5, @FromLine, 0);
 	TTrait<Boolean>.luaL_optcheck(L, 6, @SkipEmptyLines, true);
-	lStringGrid.LoadFromCSVFile(AFilename,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
+	try
+		lStringGrid.LoadFromCSVFile(AFilename,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'LoadFromCSVFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -397,7 +535,13 @@ begin
 	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
 	TTrait<boolean>.luaL_optcheck(L, 4, @WriteTitles, true);
 	TTrait<boolean>.luaL_optcheck(L, 5, @VisibleColumnsOnly, false);
-	lStringGrid.SaveToCSVStream(AStream,ADelimiter,WriteTitles,VisibleColumnsOnly);
+	try
+		lStringGrid.SaveToCSVStream(AStream,ADelimiter,WriteTitles,VisibleColumnsOnly);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'SaveToCSVStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -416,7 +560,13 @@ begin
 	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
 	TTrait<boolean>.luaL_optcheck(L, 4, @WriteTitles, true);
 	TTrait<boolean>.luaL_optcheck(L, 5, @VisibleColumnsOnly, false);
-	lStringGrid.SaveToCSVFile(AFileName,ADelimiter,WriteTitles,VisibleColumnsOnly);
+	try
+		lStringGrid.SaveToCSVFile(AFileName,ADelimiter,WriteTitles,VisibleColumnsOnly);
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'SaveToCSVFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

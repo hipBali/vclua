@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Calendar_HitTest(L: Plua_State): Integer; cdecl;
 var
@@ -35,7 +35,13 @@ begin
 	CheckArg(L, 2);
 	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
 	luaL_check(L,2,@APoint);
-	ret := lCalendar.HitTest(APoint);
+	try
+		ret := lCalendar.HitTest(APoint);
+	except
+		on E: Exception do
+			CallError(L, 'Calendar', 'HitTest', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -48,7 +54,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
-	ret := lCalendar.GetCalendarView();
+	try
+		ret := lCalendar.GetCalendarView();
+	except
+		on E: Exception do
+			CallError(L, 'Calendar', 'GetCalendarView', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;

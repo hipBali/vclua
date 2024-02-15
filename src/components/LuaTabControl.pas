@@ -48,7 +48,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 
 function VCLua_TabControl_TabRect(L: Plua_State): Integer; cdecl;
@@ -60,7 +60,13 @@ begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
-	ret := lTabControl.TabRect(AIndex);
+	try
+		ret := lTabControl.TabRect(AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'TabRect', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -75,7 +81,13 @@ begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ThePageIndex);
-	ret := lTabControl.GetImageIndex(ThePageIndex);
+	try
+		ret := lTabControl.GetImageIndex(ThePageIndex);
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'GetImageIndex', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -90,7 +102,13 @@ begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@APage);
-	ret := lTabControl.IndexOf(APage);
+	try
+		ret := lTabControl.IndexOf(APage);
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'IndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -105,7 +123,13 @@ begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	ret := lTabControl.CustomPage(Index);
+	try
+		ret := lTabControl.CustomPage(Index);
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'CustomPage', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -118,7 +142,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	ret := lTabControl.CanChangePageIndex();
+	try
+		ret := lTabControl.CanChangePageIndex();
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'CanChangePageIndex', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -131,7 +161,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	ret := lTabControl.GetMinimumTabWidth();
+	try
+		ret := lTabControl.GetMinimumTabWidth();
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'GetMinimumTabWidth', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -144,7 +180,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
-	ret := lTabControl.GetMinimumTabHeight();
+	try
+		ret := lTabControl.GetMinimumTabHeight();
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'GetMinimumTabHeight', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -159,7 +201,13 @@ begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
-	ret := lTabControl.TabToPageIndex(AIndex);
+	try
+		ret := lTabControl.TabToPageIndex(AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'TabToPageIndex', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -174,7 +222,13 @@ begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
-	ret := lTabControl.PageToTabIndex(AIndex);
+	try
+		ret := lTabControl.PageToTabIndex(AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'PageToTabIndex', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -188,7 +242,13 @@ begin
 	CheckArg(L, 2);
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@APage);
-	lTabControl.DoCloseTabClicked(APage);
+	try
+		lTabControl.DoCloseTabClicked(APage);
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'DoCloseTabClicked', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -199,7 +259,13 @@ var
 begin
 	CheckArg(L, 1);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
-	lPageControl.Clear();
+	try
+		lPageControl.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -217,7 +283,13 @@ begin
 	luaL_check(L,2,@CurPage);
 	luaL_check(L,3,@GoForward);
 	luaL_check(L,4,@CheckTabVisible);
-	ret := lPageControl.FindNextPage(CurPage,GoForward,CheckTabVisible);
+	try
+		ret := lPageControl.FindNextPage(CurPage,GoForward,CheckTabVisible);
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'FindNextPage', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -231,7 +303,13 @@ begin
 	CheckArg(L, 2);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@GoForward);
-	lPageControl.SelectNextPage(GoForward);
+	try
+		lPageControl.SelectNextPage(GoForward);
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'SelectNextPage', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -246,7 +324,13 @@ begin
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@GoForward);
 	luaL_check(L,3,@CheckTabVisible);
-	lPageControl.SelectNextPage(GoForward,CheckTabVisible);
+	try
+		lPageControl.SelectNextPage(GoForward,CheckTabVisible);
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'SelectNextPage', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -262,7 +346,13 @@ begin
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	ret := lPageControl.IndexOfTabAt(X,Y);
+	try
+		ret := lPageControl.IndexOfTabAt(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'IndexOfTabAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -277,7 +367,13 @@ begin
 	CheckArg(L, 2);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@P);
-	ret := lPageControl.IndexOfTabAt(P);
+	try
+		ret := lPageControl.IndexOfTabAt(P);
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'IndexOfTabAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -294,7 +390,13 @@ begin
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	ret := lPageControl.IndexOfPageAt(X,Y);
+	try
+		ret := lPageControl.IndexOfPageAt(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'IndexOfPageAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -309,7 +411,13 @@ begin
 	CheckArg(L, 2);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@P);
-	ret := lPageControl.IndexOfPageAt(P);
+	try
+		ret := lPageControl.IndexOfPageAt(P);
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'IndexOfPageAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -322,7 +430,13 @@ var
 begin
 	CheckArg(L, 1);
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
-	ret := lPageControl.AddTabSheet();
+	try
+		ret := lPageControl.AddTabSheet();
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'AddTabSheet', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

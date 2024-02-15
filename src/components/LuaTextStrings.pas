@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_TextStrings_Clear(L: Plua_State): Integer; cdecl;
 var
@@ -33,7 +33,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	lTextStrings.Clear();
+	try
+		lTextStrings.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -46,7 +52,13 @@ begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheText);
-	lTextStrings.SetText(TheText);
+	try
+		lTextStrings.SetText(TheText);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'SetText', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -61,7 +73,13 @@ begin
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@S);
-	lTextStrings.Insert(Index,S);
+	try
+		lTextStrings.Insert(Index,S);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'Insert', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -74,7 +92,13 @@ begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lTextStrings.Delete(Index);
+	try
+		lTextStrings.Delete(Index);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'Delete', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -89,7 +113,13 @@ begin
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index1);
 	luaL_check(L,3,@Index2);
-	lTextStrings.Exchange(Index1,Index2);
+	try
+		lTextStrings.Exchange(Index1,Index2);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'Exchange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -104,7 +134,13 @@ begin
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@CurIndex);
 	luaL_check(L,3,@NewIndex);
-	lTextStrings.Move(CurIndex,NewIndex);
+	try
+		lTextStrings.Move(CurIndex,NewIndex);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'Move', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -115,7 +151,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	lTextStrings.MakeTextBufferUnique();
+	try
+		lTextStrings.MakeTextBufferUnique();
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'MakeTextBufferUnique', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -126,7 +168,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	lTextStrings.BeginUpdate();
+	try
+		lTextStrings.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -137,7 +185,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	lTextStrings.EndUpdate();
+	try
+		lTextStrings.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -149,7 +203,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	ret := lTextStrings.GetText();
+	try
+		ret := lTextStrings.GetText();
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'GetText', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -164,7 +224,13 @@ begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lTextStrings.IndexOf(S);
+	try
+		ret := lTextStrings.IndexOf(S);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'IndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -179,7 +245,13 @@ begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lTextStrings.Add(S);
+	try
+		ret := lTextStrings.Add(S);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'Add', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -196,7 +268,13 @@ begin
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
 	luaL_check(L,3,@AObject);
-	ret := lTextStrings.AddObject(S,AObject);
+	try
+		ret := lTextStrings.AddObject(S,AObject);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'AddObject', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -210,7 +288,13 @@ begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheStrings);
-	lTextStrings.AddStrings(TheStrings);
+	try
+		lTextStrings.AddStrings(TheStrings);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'AddStrings', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -223,7 +307,13 @@ begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
-	lTextStrings.LoadFromFile(FileName);
+	try
+		lTextStrings.LoadFromFile(FileName);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'LoadFromFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -236,7 +326,13 @@ begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
-	lTextStrings.SaveToFile(FileName);
+	try
+		lTextStrings.SaveToFile(FileName);
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'SaveToFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

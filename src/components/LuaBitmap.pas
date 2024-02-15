@@ -37,7 +37,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_CustomBitmap_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -47,7 +47,13 @@ begin
 	CheckArg(L, 2);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lCustomBitmap.Assign(Source);
+	try
+		lCustomBitmap.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -58,7 +64,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	lCustomBitmap.Clear();
+	try
+		lCustomBitmap.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -69,7 +81,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	lCustomBitmap.FreeImage();
+	try
+		lCustomBitmap.FreeImage();
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'FreeImage', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -83,7 +101,13 @@ begin
 	CheckArg(L, 2);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	luaL_check(L,2,@ResourceType);
-	ret := lCustomBitmap.LazarusResourceTypeValid(ResourceType);
+	try
+		ret := lCustomBitmap.LazarusResourceTypeValid(ResourceType);
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'LazarusResourceTypeValid', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -96,7 +120,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	ret := lCustomBitmap.BitmapHandleAllocated();
+	try
+		ret := lCustomBitmap.BitmapHandleAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'BitmapHandleAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -109,7 +139,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	ret := lCustomBitmap.MaskHandleAllocated();
+	try
+		ret := lCustomBitmap.MaskHandleAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'MaskHandleAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -122,7 +158,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	ret := lCustomBitmap.PaletteAllocated();
+	try
+		ret := lCustomBitmap.PaletteAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'PaletteAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -135,7 +177,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
-	ret := lCustomBitmap.ReleaseHandle();
+	try
+		ret := lCustomBitmap.ReleaseHandle();
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'ReleaseHandle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -151,7 +199,13 @@ begin
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	luaL_check(L,2,@ABitmap);
 	luaL_check(L,3,@AMask);
-	lCustomBitmap.SetHandles(ABitmap,AMask);
+	try
+		lCustomBitmap.SetHandles(ABitmap,AMask);
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'SetHandles', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -166,7 +220,13 @@ begin
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	luaL_check(L,2,@AWidth);
 	luaL_check(L,3,@AHeight);
-	lCustomBitmap.SetSize(AWidth,AHeight);
+	try
+		lCustomBitmap.SetSize(AWidth,AHeight);
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'SetSize', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -178,7 +238,13 @@ var
 begin
 	CheckArg(L, 1);
 	lBitmap := TLuaBitmap(GetLuaObject(L, 1));
-	ret := lBitmap.GetResourceType();
+	try
+		ret := lBitmap.GetResourceType();
+	except
+		on E: Exception do
+			CallError(L, 'Bitmap', 'GetResourceType', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -194,7 +260,13 @@ begin
 	lBitmap := TLuaBitmap(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
 	luaL_check(L,3,@ASize);
-	lBitmap.LoadFromStream(AStream,ASize);
+	try
+		lBitmap.LoadFromStream(AStream,ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Bitmap', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

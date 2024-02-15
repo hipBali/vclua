@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Control_DragDrop(L: Plua_State): Integer; cdecl;
 var
@@ -38,7 +38,13 @@ begin
 	luaL_check(L,2,@Source);
 	luaL_check(L,3,@X);
 	luaL_check(L,4,@Y);
-	lControl.DragDrop(Source,X,Y);
+	try
+		lControl.DragDrop(Source,X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'DragDrop', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -53,7 +59,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewDockSite);
 	luaL_check(L,3,@ARect);
-	lControl.Dock(NewDockSite,ARect);
+	try
+		lControl.Dock(NewDockSite,ARect);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Dock', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -73,7 +85,13 @@ begin
 	TTrait<TControl>.luaL_optcheck(L, 3, @DropControl, nil);
 	TTraitPti<TAlign>.luaL_optcheck(L, 4, @ControlSide, alNone, TypeInfo(TAlign));
 	TTrait<Boolean>.luaL_optcheck(L, 5, @KeepDockSiteSize, true);
-	ret := lControl.ManualDock(NewDockSite,DropControl,ControlSide,KeepDockSiteSize);
+	try
+		ret := lControl.ManualDock(NewDockSite,DropControl,ControlSide,KeepDockSiteSize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ManualDock', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -90,7 +108,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheScreenRect);
 	TTrait<Boolean>.luaL_optcheck(L, 3, @KeepDockSiteSize, true);
-	ret := lControl.ManualFloat(TheScreenRect,KeepDockSiteSize);
+	try
+		ret := lControl.ManualFloat(TheScreenRect,KeepDockSiteSize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ManualFloat', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -111,7 +135,13 @@ begin
 	luaL_check(L,3,@NewDockSite);
 	luaL_check(L,4,@DropControl);
 	luaL_check(L,5,@ControlSide,TypeInfo(TAlign));
-	ret := lControl.ReplaceDockedControl(Control,NewDockSite,DropControl,ControlSide);
+	try
+		ret := lControl.ReplaceDockedControl(Control,NewDockSite,DropControl,ControlSide);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ReplaceDockedControl', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -124,7 +154,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.Docked();
+	try
+		ret := lControl.Docked();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Docked', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -137,7 +173,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.Dragging();
+	try
+		ret := lControl.Dragging();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Dragging', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -152,7 +194,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.ScaleDesignToForm(ASize);
+	try
+		ret := lControl.ScaleDesignToForm(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleDesignToForm', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -167,7 +215,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.ScaleFormToDesign(ASize);
+	try
+		ret := lControl.ScaleFormToDesign(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFormToDesign', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -182,7 +236,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.Scale96ToForm(ASize);
+	try
+		ret := lControl.Scale96ToForm(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Scale96ToForm', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -197,7 +257,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.ScaleFormTo96(ASize);
+	try
+		ret := lControl.ScaleFormTo96(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFormTo96', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -212,7 +278,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.Scale96ToFont(ASize);
+	try
+		ret := lControl.Scale96ToFont(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Scale96ToFont', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -227,7 +299,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.ScaleFontTo96(ASize);
+	try
+		ret := lControl.ScaleFontTo96(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFontTo96', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -242,7 +320,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.ScaleScreenToFont(ASize);
+	try
+		ret := lControl.ScaleScreenToFont(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleScreenToFont', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -257,7 +341,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.ScaleFontToScreen(ASize);
+	try
+		ret := lControl.ScaleFontToScreen(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFontToScreen', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -272,7 +362,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.Scale96ToScreen(ASize);
+	try
+		ret := lControl.Scale96ToScreen(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Scale96ToScreen', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -287,7 +383,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASize);
-	ret := lControl.ScaleScreenTo96(ASize);
+	try
+		ret := lControl.ScaleScreenTo96(ASize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleScreenTo96', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -305,7 +407,13 @@ begin
 	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
 	luaL_check(L,3,@Space);
 	luaL_check(L,4,@Sibling);
-	lControl.AnchorToNeighbour(Side,Space,Sibling);
+	try
+		lControl.AnchorToNeighbour(Side,Space,Sibling);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorToNeighbour', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -322,7 +430,13 @@ begin
 	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
 	luaL_check(L,3,@Space);
 	luaL_check(L,4,@Sibling);
-	lControl.AnchorParallel(Side,Space,Sibling);
+	try
+		lControl.AnchorParallel(Side,Space,Sibling);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorParallel', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -335,7 +449,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sibling);
-	lControl.AnchorHorizontalCenterTo(Sibling);
+	try
+		lControl.AnchorHorizontalCenterTo(Sibling);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorHorizontalCenterTo', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -348,7 +468,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sibling);
-	lControl.AnchorVerticalCenterTo(Sibling);
+	try
+		lControl.AnchorVerticalCenterTo(Sibling);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorVerticalCenterTo', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -367,7 +493,13 @@ begin
 	luaL_check(L,3,@Space);
 	luaL_check(L,4,@Sibling);
 	TTrait<boolean>.luaL_optcheck(L, 5, @FreeCompositeSide, true);
-	lControl.AnchorToCompanion(Side,Space,Sibling,FreeCompositeSide);
+	try
+		lControl.AnchorToCompanion(Side,Space,Sibling,FreeCompositeSide);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorToCompanion', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -382,7 +514,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
 	luaL_check(L,3,@Sibling);
-	lControl.AnchorSame(Side,Sibling);
+	try
+		lControl.AnchorSame(Side,Sibling);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorSame', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -397,7 +535,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheAlign,TypeInfo(TAlign));
 	luaL_check(L,3,@Space);
-	lControl.AnchorAsAlign(TheAlign,Space);
+	try
+		lControl.AnchorAsAlign(TheAlign,Space);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorAsAlign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -410,7 +554,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Space);
-	lControl.AnchorClient(Space);
+	try
+		lControl.AnchorClient(Space);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorClient', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -422,7 +572,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.AnchoredControlCount();
+	try
+		ret := lControl.AnchoredControlCount();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchoredControlCount', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -442,7 +598,13 @@ begin
 	luaL_check(L,3,@aTop);
 	luaL_check(L,4,@aWidth);
 	luaL_check(L,5,@aHeight);
-	lControl.SetBounds(aLeft,aTop,aWidth,aHeight);
+	try
+		lControl.SetBounds(aLeft,aTop,aWidth,aHeight);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetBounds', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -461,7 +623,13 @@ begin
 	luaL_check(L,3,@aTop);
 	luaL_check(L,4,@aWidth);
 	luaL_check(L,5,@aHeight);
-	lControl.SetInitialBounds(aLeft,aTop,aWidth,aHeight);
+	try
+		lControl.SetInitialBounds(aLeft,aTop,aWidth,aHeight);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetInitialBounds', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -480,7 +648,13 @@ begin
 	luaL_check(L,3,@aTop);
 	luaL_check(L,4,@aWidth);
 	luaL_check(L,5,@aHeight);
-	lControl.SetBoundsKeepBase(aLeft,aTop,aWidth,aHeight);
+	try
+		lControl.SetBoundsKeepBase(aLeft,aTop,aWidth,aHeight);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetBoundsKeepBase', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -497,7 +671,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
 	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
-	lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	try
+		lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetPreferredSize', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -517,7 +697,13 @@ begin
 	luaL_check(L,3,@PreferredHeight);
 	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
 	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
-	lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	try
+		lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetPreferredSize', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -530,7 +716,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetCanvasScaleFactor();
+	try
+		ret := lControl.GetCanvasScaleFactor();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetCanvasScaleFactor', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -543,7 +735,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetDefaultWidth();
+	try
+		ret := lControl.GetDefaultWidth();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetDefaultWidth', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -556,7 +754,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetDefaultHeight();
+	try
+		ret := lControl.GetDefaultHeight();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetDefaultHeight', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -571,7 +775,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@DefaultColorType,TypeInfo(TDefaultColorType));
-	ret := lControl.GetDefaultColor(DefaultColorType);
+	try
+		ret := lControl.GetDefaultColor(DefaultColorType);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetDefaultColor', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -584,7 +794,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetColorResolvingParent();
+	try
+		ret := lControl.GetColorResolvingParent();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetColorResolvingParent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -597,7 +813,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetRGBColorResolvingParent();
+	try
+		ret := lControl.GetRGBColorResolvingParent();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetRGBColorResolvingParent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -612,7 +834,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
-	ret := lControl.GetSidePosition(Side);
+	try
+		ret := lControl.GetSidePosition(Side);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetSidePosition', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -624,7 +852,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.CNPreferredSizeChanged();
+	try
+		lControl.CNPreferredSizeChanged();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'CNPreferredSizeChanged', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -635,7 +869,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.InvalidatePreferredSize();
+	try
+		lControl.InvalidatePreferredSize();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'InvalidatePreferredSize', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -652,7 +892,13 @@ begin
 	luaL_check(L,2,@StoreBounds);
 	luaL_check(L,3,@StoreParentClientSize);
 	luaL_check(L,4,@UseLoadedValues);
-	lControl.UpdateBaseBounds(StoreBounds,StoreParentClientSize,UseLoadedValues);
+	try
+		lControl.UpdateBaseBounds(StoreBounds,StoreParentClientSize,UseLoadedValues);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'UpdateBaseBounds', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -666,7 +912,13 @@ begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	
-	lControl.ShouldAutoAdjust(AWidth,AHeight);
+	try
+		lControl.ShouldAutoAdjust(AWidth,AHeight);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ShouldAutoAdjust', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,AWidth);
 	lua_push(L,AHeight);
 	Result := 2;
@@ -682,7 +934,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@AWidth);
 	luaL_check(L,3,@AHeight);
-	lControl.ShouldAutoAdjust(AWidth,AHeight);
+	try
+		lControl.ShouldAutoAdjust(AWidth,AHeight);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ShouldAutoAdjust', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,AWidth);
 	lua_push(L,AHeight);
 	Result := 2;
@@ -696,7 +954,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@ADesignTimePPI);
-	lControl.FixDesignFontsPPI(ADesignTimePPI);
+	try
+		lControl.FixDesignFontsPPI(ADesignTimePPI);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'FixDesignFontsPPI', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -711,7 +975,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@AToPPI);
 	luaL_check(L,3,@AProportion);
-	lControl.ScaleFontsPPI(AToPPI,AProportion);
+	try
+		lControl.ScaleFontsPPI(AToPPI,AProportion);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFontsPPI', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -722,7 +992,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.BeforeDestruction();
+	try
+		lControl.BeforeDestruction();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BeforeDestruction', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -733,7 +1009,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.EditingDone();
+	try
+		lControl.EditingDone();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'EditingDone', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -744,7 +1026,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.ExecuteDefaultAction();
+	try
+		lControl.ExecuteDefaultAction();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ExecuteDefaultAction', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -755,7 +1043,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.ExecuteCancelAction();
+	try
+		lControl.ExecuteCancelAction();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ExecuteCancelAction', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -770,7 +1064,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Immediate);
 	TTrait<Integer>.luaL_optcheck(L, 3, @Threshold, -1);
-	lControl.BeginDrag(Immediate,Threshold);
+	try
+		lControl.BeginDrag(Immediate,Threshold);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BeginDrag', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -783,7 +1083,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Drop);
-	lControl.EndDrag(Drop);
+	try
+		lControl.EndDrag(Drop);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'EndDrag', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -794,7 +1100,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.BringToFront();
+	try
+		lControl.BringToFront();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BringToFront', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -806,7 +1118,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.HasParent();
+	try
+		ret := lControl.HasParent();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'HasParent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -819,7 +1137,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetParentComponent();
+	try
+		ret := lControl.GetParentComponent();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetParentComponent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -834,7 +1158,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@AControl);
-	ret := lControl.IsParentOf(AControl);
+	try
+		ret := lControl.IsParentOf(AControl);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'IsParentOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -847,7 +1177,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetTopParent();
+	try
+		ret := lControl.GetTopParent();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetTopParent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -862,7 +1198,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@AName);
-	ret := lControl.FindSubComponent(AName);
+	try
+		ret := lControl.FindSubComponent(AName);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'FindSubComponent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -875,7 +1217,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.FormIsUpdating();
+	try
+		ret := lControl.FormIsUpdating();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'FormIsUpdating', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -888,7 +1236,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.IsProcessingPaintMsg();
+	try
+		ret := lControl.IsProcessingPaintMsg();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'IsProcessingPaintMsg', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -900,7 +1254,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Hide();
+	try
+		lControl.Hide();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Hide', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -911,7 +1271,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Refresh();
+	try
+		lControl.Refresh();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Refresh', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -922,7 +1288,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Repaint();
+	try
+		lControl.Repaint();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Repaint', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -933,7 +1305,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Invalidate();
+	try
+		lControl.Invalidate();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Invalidate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -944,7 +1322,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.SendToBack();
+	try
+		lControl.SendToBack();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SendToBack', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -957,7 +1341,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Value);
-	lControl.SetTempCursor(Value);
+	try
+		lControl.SetTempCursor(Value);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetTempCursor', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -968,7 +1358,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.UpdateRolesForForm();
+	try
+		lControl.UpdateRolesForForm();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'UpdateRolesForForm', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -981,7 +1377,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewControl);
-	lControl.ActiveDefaultControlChanged(NewControl);
+	try
+		lControl.ActiveDefaultControlChanged(NewControl);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ActiveDefaultControlChanged', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -997,7 +1399,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Buffer);
 	luaL_check(L,3,@BufSize);
-	ret := lControl.GetTextBuf(Buffer,BufSize);
+	try
+		ret := lControl.GetTextBuf(Buffer,BufSize);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetTextBuf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1010,7 +1418,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetTextLen();
+	try
+		ret := lControl.GetTextLen();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetTextLen', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1024,7 +1438,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Buffer);
-	lControl.SetTextBuf(Buffer);
+	try
+		lControl.SetTextBuf(Buffer);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetTextBuf', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1038,7 +1458,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@APoint);
-	ret := lControl.ScreenToClient(APoint);
+	try
+		ret := lControl.ScreenToClient(APoint);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScreenToClient', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1053,7 +1479,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@APoint);
-	ret := lControl.ClientToScreen(APoint);
+	try
+		ret := lControl.ClientToScreen(APoint);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientToScreen', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1068,7 +1500,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@APoint);
-	ret := lControl.ScreenToControl(APoint);
+	try
+		ret := lControl.ScreenToControl(APoint);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScreenToControl', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1083,7 +1521,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@APoint);
-	ret := lControl.ControlToScreen(APoint);
+	try
+		ret := lControl.ControlToScreen(APoint);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ControlToScreen', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1100,7 +1544,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Point);
 	TTrait<TWinControl>.luaL_optcheck(L, 3, @AParent, nil);
-	ret := lControl.ClientToParent(Point,AParent);
+	try
+		ret := lControl.ClientToParent(Point,AParent);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientToParent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1117,7 +1567,13 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Point);
 	TTrait<TWinControl>.luaL_optcheck(L, 3, @AParent, nil);
-	ret := lControl.ParentToClient(Point,AParent);
+	try
+		ret := lControl.ParentToClient(Point,AParent);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ParentToClient', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1132,7 +1588,13 @@ begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Scrolled);
-	ret := lControl.GetChildrenRect(Scrolled);
+	try
+		ret := lControl.GetChildrenRect(Scrolled);
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetChildrenRect', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1144,7 +1606,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Show();
+	try
+		lControl.Show();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Show', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1155,7 +1623,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Update();
+	try
+		lControl.Update();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Update', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1167,7 +1641,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.HandleObjectShouldBeVisible();
+	try
+		ret := lControl.HandleObjectShouldBeVisible();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'HandleObjectShouldBeVisible', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1180,7 +1660,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.ParentDestroyingHandle();
+	try
+		ret := lControl.ParentDestroyingHandle();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ParentDestroyingHandle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1193,7 +1679,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.ParentHandlesAllocated();
+	try
+		ret := lControl.ParentHandlesAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ParentHandlesAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -1205,7 +1697,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.InitiateAction();
+	try
+		lControl.InitiateAction();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'InitiateAction', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1216,7 +1714,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.ShowHelp();
+	try
+		lControl.ShowHelp();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ShowHelp', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1228,7 +1732,13 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.HasHelp();
+	try
+		ret := lControl.HasHelp();
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'HasHelp', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

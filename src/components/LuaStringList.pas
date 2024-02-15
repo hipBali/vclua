@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_StringList_Add(L: Plua_State): Integer; cdecl;
 var
@@ -36,7 +36,13 @@ begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lStringList.Add(S);
+	try
+		ret := lStringList.Add(S);
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Add', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -48,7 +54,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	lStringList.Clear();
+	try
+		lStringList.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -61,7 +73,13 @@ begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lStringList.Delete(Index);
+	try
+		lStringList.Delete(Index);
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Delete', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -76,7 +94,13 @@ begin
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index1);
 	luaL_check(L,3,@Index2);
-	lStringList.Exchange(Index1,Index2);
+	try
+		lStringList.Exchange(Index1,Index2);
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Exchange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -91,7 +115,13 @@ begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lStringList.Find(S,Index);
+	try
+		ret := lStringList.Find(S,Index);
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Find', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	lua_push(L,Index);
 	Result := 2;
@@ -106,7 +136,13 @@ begin
 	CheckArg(L, 2);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lStringList.IndexOf(S);
+	try
+		ret := lStringList.IndexOf(S);
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'IndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -122,7 +158,13 @@ begin
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@S);
-	lStringList.Insert(Index,S);
+	try
+		lStringList.Insert(Index,S);
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Insert', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -133,7 +175,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
-	lStringList.Sort();
+	try
+		lStringList.Sort();
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Sort', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

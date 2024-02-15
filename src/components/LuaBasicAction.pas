@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_BasicAction_HandlesTarget(L: Plua_State): Integer; cdecl;
 var
@@ -35,7 +35,13 @@ begin
 	CheckArg(L, 2);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
 	luaL_check(L,2,@Target);
-	ret := lBasicAction.HandlesTarget(Target);
+	try
+		ret := lBasicAction.HandlesTarget(Target);
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'HandlesTarget', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -49,7 +55,13 @@ begin
 	CheckArg(L, 2);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
 	luaL_check(L,2,@Target);
-	lBasicAction.UpdateTarget(Target);
+	try
+		lBasicAction.UpdateTarget(Target);
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'UpdateTarget', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -62,7 +74,13 @@ begin
 	CheckArg(L, 2);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
 	luaL_check(L,2,@Target);
-	lBasicAction.ExecuteTarget(Target);
+	try
+		lBasicAction.ExecuteTarget(Target);
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'ExecuteTarget', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -74,7 +92,13 @@ var
 begin
 	CheckArg(L, 1);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	ret := lBasicAction.Execute();
+	try
+		ret := lBasicAction.Execute();
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'Execute', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -87,7 +111,13 @@ var
 begin
 	CheckArg(L, 1);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	ret := lBasicAction.Update();
+	try
+		ret := lBasicAction.Update();
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'Update', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_ComboBox_IntfGetItems(L: Plua_State): Integer; cdecl;
 var
@@ -32,7 +32,13 @@ var
 begin
 	CheckArg(L, 1);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	lComboBox.IntfGetItems();
+	try
+		lComboBox.IntfGetItems();
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'IntfGetItems', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -47,7 +53,13 @@ begin
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Item);
 	luaL_check(L,3,@AnObject);
-	lComboBox.AddItem(Item,AnObject);
+	try
+		lComboBox.AddItem(Item,AnObject);
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AddItem', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -66,7 +78,13 @@ begin
 	luaL_check(L,3,@MaxHistoryCount);
 	luaL_check(L,4,@SetAsText);
 	luaL_check(L,5,@CaseSensitive);
-	lComboBox.AddHistoryItem(Item,MaxHistoryCount,SetAsText,CaseSensitive);
+	try
+		lComboBox.AddHistoryItem(Item,MaxHistoryCount,SetAsText,CaseSensitive);
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AddHistoryItem', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -87,7 +105,13 @@ begin
 	luaL_check(L,4,@MaxHistoryCount);
 	luaL_check(L,5,@SetAsText);
 	luaL_check(L,6,@CaseSensitive);
-	lComboBox.AddHistoryItem(Item,AnObject,MaxHistoryCount,SetAsText,CaseSensitive);
+	try
+		lComboBox.AddHistoryItem(Item,AnObject,MaxHistoryCount,SetAsText,CaseSensitive);
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AddHistoryItem', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -98,7 +122,13 @@ var
 begin
 	CheckArg(L, 1);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	lComboBox.Clear();
+	try
+		lComboBox.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -109,7 +139,13 @@ var
 begin
 	CheckArg(L, 1);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	lComboBox.SelectAll();
+	try
+		lComboBox.SelectAll();
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'SelectAll', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

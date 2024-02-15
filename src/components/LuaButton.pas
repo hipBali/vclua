@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Button_Click(L: Plua_State): Integer; cdecl;
 var
@@ -32,7 +32,13 @@ var
 begin
 	CheckArg(L, 1);
 	lButton := TLuaButton(GetLuaObject(L, 1));
-	lButton.Click();
+	try
+		lButton.Click();
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'Click', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -43,7 +49,13 @@ var
 begin
 	CheckArg(L, 1);
 	lButton := TLuaButton(GetLuaObject(L, 1));
-	lButton.ExecuteDefaultAction();
+	try
+		lButton.ExecuteDefaultAction();
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'ExecuteDefaultAction', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -54,7 +66,13 @@ var
 begin
 	CheckArg(L, 1);
 	lButton := TLuaButton(GetLuaObject(L, 1));
-	lButton.ExecuteCancelAction();
+	try
+		lButton.ExecuteCancelAction();
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'ExecuteCancelAction', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -67,7 +85,13 @@ begin
 	CheckArg(L, 2);
 	lButton := TLuaButton(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewControl);
-	lButton.ActiveDefaultControlChanged(NewControl);
+	try
+		lButton.ActiveDefaultControlChanged(NewControl);
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'ActiveDefaultControlChanged', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -78,7 +102,13 @@ var
 begin
 	CheckArg(L, 1);
 	lButton := TLuaButton(GetLuaObject(L, 1));
-	lButton.UpdateRolesForForm();
+	try
+		lButton.UpdateRolesForForm();
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'UpdateRolesForForm', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -90,7 +120,13 @@ var
 begin
 	CheckArg(L, 1);
 	lButton := TLuaButton(GetLuaObject(L, 1));
-	ret := lButton.UseRightToLeftAlignment();
+	try
+		ret := lButton.UseRightToLeftAlignment();
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'UseRightToLeftAlignment', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

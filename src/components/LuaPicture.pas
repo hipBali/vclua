@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Picture_Clear(L: Plua_State): Integer; cdecl;
 var
@@ -33,7 +33,13 @@ var
 begin
 	CheckArg(L, 1);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	lPicture.Clear();
+	try
+		lPicture.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -46,7 +52,13 @@ begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Filename);
-	lPicture.LoadFromFile(Filename);
+	try
+		lPicture.LoadFromFile(Filename);
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'LoadFromFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -59,7 +71,13 @@ begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	lPicture.LoadFromStream(Stream);
+	try
+		lPicture.LoadFromStream(Stream);
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -74,7 +92,13 @@ begin
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
 	luaL_check(L,3,@FileExt);
-	lPicture.LoadFromStreamWithFileExt(Stream,FileExt);
+	try
+		lPicture.LoadFromStreamWithFileExt(Stream,FileExt);
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'LoadFromStreamWithFileExt', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -89,7 +113,13 @@ begin
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Filename);
 	TTrait<string>.luaL_optcheck(L, 3, @FileExt, '');
-	lPicture.SaveToFile(Filename,FileExt);
+	try
+		lPicture.SaveToFile(Filename,FileExt);
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'SaveToFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -102,7 +132,13 @@ begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	lPicture.SaveToStream(Stream);
+	try
+		lPicture.SaveToStream(Stream);
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'SaveToStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -117,7 +153,13 @@ begin
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
 	luaL_check(L,3,@FileExt);
-	lPicture.SaveToStreamWithFileExt(Stream,FileExt);
+	try
+		lPicture.SaveToStreamWithFileExt(Stream,FileExt);
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'SaveToStreamWithFileExt', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -130,7 +172,13 @@ begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lPicture.Assign(Source);
+	try
+		lPicture.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

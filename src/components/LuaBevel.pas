@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Bevel_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lBevel := TLuaBevel(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lBevel.Assign(Source);
+	try
+		lBevel.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'Bevel', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

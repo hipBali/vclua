@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_TrackBar_SetTick(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lTrackBar := TLuaTrackBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@Value);
-	lTrackBar.SetTick(Value);
+	try
+		lTrackBar.SetTick(Value);
+	except
+		on E: Exception do
+			CallError(L, 'TrackBar', 'SetTick', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

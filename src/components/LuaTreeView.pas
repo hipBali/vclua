@@ -48,7 +48,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 
 function VCLua_TreeNodes_Add(L: Plua_State): Integer; cdecl;
@@ -62,7 +62,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@SiblingNode);
 	luaL_check(L,3,@S);
-	ret := lTreeNodes.Add(SiblingNode,S);
+	try
+		ret := lTreeNodes.Add(SiblingNode,S);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'Add', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -79,7 +85,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@ParentNode);
 	luaL_check(L,3,@S);
-	ret := lTreeNodes.AddChild(ParentNode,S);
+	try
+		ret := lTreeNodes.AddChild(ParentNode,S);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'AddChild', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -96,7 +108,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@ParentNode);
 	luaL_check(L,3,@S);
-	ret := lTreeNodes.AddChildFirst(ParentNode,S);
+	try
+		ret := lTreeNodes.AddChildFirst(ParentNode,S);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'AddChildFirst', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -115,7 +133,13 @@ begin
 	luaL_check(L,2,@ParentNode);
 	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
-	ret := lTreeNodes.AddChildObject(ParentNode,S,Data);
+	try
+		ret := lTreeNodes.AddChildObject(ParentNode,S,Data);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'AddChildObject', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -134,7 +158,13 @@ begin
 	luaL_check(L,2,@ParentNode);
 	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
-	ret := lTreeNodes.AddChildObjectFirst(ParentNode,S,Data);
+	try
+		ret := lTreeNodes.AddChildObjectFirst(ParentNode,S,Data);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'AddChildObjectFirst', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -151,7 +181,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@SiblingNode);
 	luaL_check(L,3,@S);
-	ret := lTreeNodes.AddFirst(SiblingNode,S);
+	try
+		ret := lTreeNodes.AddFirst(SiblingNode,S);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'AddFirst', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -174,7 +210,13 @@ begin
 	luaL_check(L,4,@S);
 	Ptr := Pointer(lua_touserdata(L,5));
 	luaL_check(L,6,@Method,TypeInfo(TNodeAttachMode));
-	ret := lTreeNodes.AddNode(Node,Relative,S,Ptr,Method);
+	try
+		ret := lTreeNodes.AddNode(Node,Relative,S,Ptr,Method);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'AddNode', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -193,7 +235,13 @@ begin
 	luaL_check(L,2,@SiblingNode);
 	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
-	ret := lTreeNodes.AddObject(SiblingNode,S,Data);
+	try
+		ret := lTreeNodes.AddObject(SiblingNode,S,Data);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'AddObject', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -212,7 +260,13 @@ begin
 	luaL_check(L,2,@SiblingNode);
 	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
-	ret := lTreeNodes.AddObjectFirst(SiblingNode,S,Data);
+	try
+		ret := lTreeNodes.AddObjectFirst(SiblingNode,S,Data);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'AddObjectFirst', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -227,7 +281,13 @@ begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	NodeData := Pointer(lua_touserdata(L,2));
-	ret := lTreeNodes.FindNodeWithData(NodeData);
+	try
+		ret := lTreeNodes.FindNodeWithData(NodeData);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'FindNodeWithData', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -242,7 +302,13 @@ begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@NodeText);
-	ret := lTreeNodes.FindNodeWithText(NodeText);
+	try
+		ret := lTreeNodes.FindNodeWithText(NodeText);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'FindNodeWithText', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -257,7 +323,13 @@ begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@TextPath);
-	ret := lTreeNodes.FindNodeWithTextPath(TextPath);
+	try
+		ret := lTreeNodes.FindNodeWithTextPath(TextPath);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'FindNodeWithTextPath', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -272,7 +344,13 @@ begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@NodeText);
-	ret := lTreeNodes.FindTopLvlNode(NodeText);
+	try
+		ret := lTreeNodes.FindTopLvlNode(NodeText);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'FindTopLvlNode', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -285,7 +363,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	ret := lTreeNodes.GetFirstNode();
+	try
+		ret := lTreeNodes.GetFirstNode();
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'GetFirstNode', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -298,7 +382,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	ret := lTreeNodes.GetFirstVisibleNode();
+	try
+		ret := lTreeNodes.GetFirstVisibleNode();
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'GetFirstVisibleNode', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -311,7 +401,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	ret := lTreeNodes.GetLastVisibleNode();
+	try
+		ret := lTreeNodes.GetLastVisibleNode();
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'GetLastVisibleNode', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -326,7 +422,13 @@ begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
-	ret := lTreeNodes.GetSelections(AIndex);
+	try
+		ret := lTreeNodes.GetSelections(AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'GetSelections', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -343,7 +445,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@NextNode);
 	luaL_check(L,3,@S);
-	ret := lTreeNodes.Insert(NextNode,S);
+	try
+		ret := lTreeNodes.Insert(NextNode,S);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'Insert', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -360,7 +468,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@PrevNode);
 	luaL_check(L,3,@S);
-	ret := lTreeNodes.InsertBehind(PrevNode,S);
+	try
+		ret := lTreeNodes.InsertBehind(PrevNode,S);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'InsertBehind', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -379,7 +493,13 @@ begin
 	luaL_check(L,2,@NextNode);
 	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
-	ret := lTreeNodes.InsertObject(NextNode,S,Data);
+	try
+		ret := lTreeNodes.InsertObject(NextNode,S,Data);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'InsertObject', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -398,7 +518,13 @@ begin
 	luaL_check(L,2,@PrevNode);
 	luaL_check(L,3,@S);
 	Data := Pointer(lua_touserdata(L,4));
-	ret := lTreeNodes.InsertObjectBehind(PrevNode,S,Data);
+	try
+		ret := lTreeNodes.InsertObjectBehind(PrevNode,S,Data);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'InsertObjectBehind', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -411,7 +537,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	ret := lTreeNodes.IsMultiSelection();
+	try
+		ret := lTreeNodes.IsMultiSelection();
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'IsMultiSelection', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -425,7 +557,13 @@ begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lTreeNodes.Assign(Source);
+	try
+		lTreeNodes.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -436,7 +574,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	lTreeNodes.BeginUpdate();
+	try
+		lTreeNodes.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -447,7 +591,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	lTreeNodes.Clear();
+	try
+		lTreeNodes.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -460,7 +610,13 @@ begin
 	CheckArg(L, 1, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @ClearSelected, false);
-	lTreeNodes.ClearMultiSelection(ClearSelected);
+	try
+		lTreeNodes.ClearMultiSelection(ClearSelected);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'ClearMultiSelection', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -471,7 +627,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	lTreeNodes.ConsistencyCheck();
+	try
+		lTreeNodes.ConsistencyCheck();
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'ConsistencyCheck', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -484,7 +646,13 @@ begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@Node);
-	lTreeNodes.Delete(Node);
+	try
+		lTreeNodes.Delete(Node);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'Delete', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -495,7 +663,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	lTreeNodes.EndUpdate();
+	try
+		lTreeNodes.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -506,7 +680,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	lTreeNodes.FreeAllNodeData();
+	try
+		lTreeNodes.FreeAllNodeData();
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'FreeAllNodeData', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -521,7 +701,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@ANode);
 	luaL_check(L,3,@AIsSelected);
-	lTreeNodes.SelectionsChanged(ANode,AIsSelected);
+	try
+		lTreeNodes.SelectionsChanged(ANode,AIsSelected);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'SelectionsChanged', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -534,7 +720,13 @@ begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@Node);
-	lTreeNodes.SelectOnlyThis(Node);
+	try
+		lTreeNodes.SelectOnlyThis(Node);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'SelectOnlyThis', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -549,7 +741,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@Node);
 	luaL_check(L,3,@ClearWholeSelection);
-	lTreeNodes.MultiSelect(Node,ClearWholeSelection);
+	try
+		lTreeNodes.MultiSelect(Node,ClearWholeSelection);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'MultiSelect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -564,7 +762,13 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@Prefix);
 	luaL_check(L,3,@AllNodes);
-	lTreeNodes.WriteDebugReport(Prefix,AllNodes);
+	try
+		lTreeNodes.WriteDebugReport(Prefix,AllNodes);
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'WriteDebugReport', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -576,7 +780,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ret := lTreeView.AlphaSort();
+	try
+		ret := lTreeView.AlphaSort();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'AlphaSort', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -590,7 +800,13 @@ begin
 	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @KeepPrimary, false);
-	lTreeView.ClearSelection(KeepPrimary);
+	try
+		lTreeView.ClearSelection(KeepPrimary);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'ClearSelection', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -601,7 +817,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.ConsistencyCheck();
+	try
+		lTreeView.ConsistencyCheck();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'ConsistencyCheck', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -617,7 +839,13 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@Node1);
 	luaL_check(L,3,@Node2);
-	ret := lTreeView.DefaultTreeViewSort(Node1,Node2);
+	try
+		ret := lTreeView.DefaultTreeViewSort(Node1,Node2);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'DefaultTreeViewSort', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -634,7 +862,13 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	ret := lTreeView.GetNodeAt(X,Y);
+	try
+		ret := lTreeView.GetNodeAt(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'GetNodeAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -651,7 +885,13 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	ret := lTreeView.GetNodeWithExpandSignAt(X,Y);
+	try
+		ret := lTreeView.GetNodeWithExpandSignAt(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'GetNodeWithExpandSignAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -669,7 +909,13 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	lTreeView.GetInsertMarkAt(X,Y,AnInsertMarkNode,AnInsertMarkType);
+	try
+		lTreeView.GetInsertMarkAt(X,Y,AnInsertMarkNode,AnInsertMarkType);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'GetInsertMarkAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,AnInsertMarkNode);
 	lua_push(L,AnInsertMarkType,TypeInfo(AnInsertMarkType));
 	Result := 2;
@@ -685,7 +931,13 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@AnInsertMarkNode);
 	luaL_check(L,3,@AnInsertMarkType,TypeInfo(TTreeViewInsertMarkType));
-	lTreeView.SetInsertMark(AnInsertMarkNode,AnInsertMarkType);
+	try
+		lTreeView.SetInsertMark(AnInsertMarkNode,AnInsertMarkType);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'SetInsertMark', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -700,7 +952,13 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	lTreeView.SetInsertMarkAt(X,Y);
+	try
+		lTreeView.SetInsertMarkAt(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'SetInsertMarkAt', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -711,7 +969,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.Invalidate();
+	try
+		lTreeView.Invalidate();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'Invalidate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -723,7 +987,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ret := lTreeView.IsEditing();
+	try
+		ret := lTreeView.IsEditing();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'IsEditing', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -735,7 +1005,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.BeginUpdate();
+	try
+		lTreeView.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -746,7 +1022,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.EndUpdate();
+	try
+		lTreeView.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -757,7 +1039,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.FullCollapse();
+	try
+		lTreeView.FullCollapse();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'FullCollapse', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -768,7 +1056,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.FullExpand();
+	try
+		lTreeView.FullExpand();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'FullExpand', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -781,7 +1075,13 @@ begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
-	lTreeView.LoadFromFile(FileName);
+	try
+		lTreeView.LoadFromFile(FileName);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'LoadFromFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -794,7 +1094,13 @@ begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	lTreeView.LoadFromStream(Stream);
+	try
+		lTreeView.LoadFromStream(Stream);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -807,7 +1113,13 @@ begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
-	lTreeView.SaveToFile(FileName);
+	try
+		lTreeView.SaveToFile(FileName);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'SaveToFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -820,7 +1132,13 @@ begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	lTreeView.SaveToStream(Stream);
+	try
+		lTreeView.SaveToStream(Stream);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'SaveToStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -835,7 +1153,13 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@Prefix);
 	luaL_check(L,3,@AllNodes);
-	lTreeView.WriteDebugReport(Prefix,AllNodes);
+	try
+		lTreeView.WriteDebugReport(Prefix,AllNodes);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'WriteDebugReport', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -846,7 +1170,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.LockSelectionChangeEvent();
+	try
+		lTreeView.LockSelectionChangeEvent();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'LockSelectionChangeEvent', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -857,7 +1187,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.UnlockSelectionChangeEvent();
+	try
+		lTreeView.UnlockSelectionChangeEvent();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'UnlockSelectionChangeEvent', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -869,7 +1205,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ret := lTreeView.GetFirstMultiSelected();
+	try
+		ret := lTreeView.GetFirstMultiSelected();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'GetFirstMultiSelected', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -882,7 +1224,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ret := lTreeView.GetLastMultiSelected();
+	try
+		ret := lTreeView.GetLastMultiSelected();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'GetLastMultiSelected', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -898,7 +1246,13 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@Node);
 	TTraitPti<TShiftState>.luaL_optcheck(L, 3, @ShiftState, [], TypeInfo(TShiftState));
-	lTreeView.Select(Node,ShiftState);
+	try
+		lTreeView.Select(Node,ShiftState);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'Select', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -911,7 +1265,13 @@ begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	TTrait<TTreeNode>.luaL_checkArray(L, 2, @Nodes);
-	lTreeView.Select(Nodes);
+	try
+		lTreeView.Select(Nodes);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'Select', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -924,7 +1284,13 @@ begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@Nodes);
-	lTreeView.Select(Nodes);
+	try
+		lTreeView.Select(Nodes);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'Select', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -936,7 +1302,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ret := lTreeView.SelectionVisible();
+	try
+		ret := lTreeView.SelectionVisible();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'SelectionVisible', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -948,7 +1320,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.MakeSelectionVisible();
+	try
+		lTreeView.MakeSelectionVisible();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MakeSelectionVisible', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -959,7 +1337,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	lTreeView.ClearInvisibleSelection();
+	try
+		lTreeView.ClearInvisibleSelection();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'ClearInvisibleSelection', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -971,7 +1355,13 @@ var
 begin
 	CheckArg(L, 1);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	ret := lTreeView.StoreCurrentSelection();
+	try
+		ret := lTreeView.StoreCurrentSelection();
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'StoreCurrentSelection', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -987,7 +1377,13 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASelection);
 	TTrait<boolean>.luaL_optcheck(L, 3, @FreeList, True);
-	lTreeView.ApplyStoredSelection(ASelection,FreeList);
+	try
+		lTreeView.ApplyStoredSelection(ASelection,FreeList);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'ApplyStoredSelection', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1000,7 +1396,13 @@ begin
 	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
-	lTreeView.MoveToNextNode(ASelect);
+	try
+		lTreeView.MoveToNextNode(ASelect);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MoveToNextNode', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1013,7 +1415,13 @@ begin
 	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
-	lTreeView.MoveToPrevNode(ASelect);
+	try
+		lTreeView.MoveToPrevNode(ASelect);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MoveToPrevNode', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1026,7 +1434,13 @@ begin
 	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
-	lTreeView.MovePageDown(ASelect);
+	try
+		lTreeView.MovePageDown(ASelect);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MovePageDown', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1039,7 +1453,13 @@ begin
 	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
-	lTreeView.MovePageUp(ASelect);
+	try
+		lTreeView.MovePageUp(ASelect);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MovePageUp', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1052,7 +1472,13 @@ begin
 	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
-	lTreeView.MoveHome(ASelect);
+	try
+		lTreeView.MoveHome(ASelect);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MoveHome', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -1065,7 +1491,13 @@ begin
 	CheckArg(L, 1, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
-	lTreeView.MoveEnd(ASelect);
+	try
+		lTreeView.MoveEnd(ASelect);
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MoveEnd', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

@@ -36,7 +36,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_ToolButton_CheckMenuDropdown(L: Plua_State): Integer; cdecl;
 var
@@ -45,7 +45,13 @@ var
 begin
 	CheckArg(L, 1);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
-	ret := lToolButton.CheckMenuDropdown();
+	try
+		ret := lToolButton.CheckMenuDropdown();
+	except
+		on E: Exception do
+			CallError(L, 'ToolButton', 'CheckMenuDropdown', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -57,7 +63,13 @@ var
 begin
 	CheckArg(L, 1);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
-	lToolButton.Click();
+	try
+		lToolButton.Click();
+	except
+		on E: Exception do
+			CallError(L, 'ToolButton', 'Click', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -68,7 +80,13 @@ var
 begin
 	CheckArg(L, 1);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
-	lToolButton.ArrowClick();
+	try
+		lToolButton.ArrowClick();
+	except
+		on E: Exception do
+			CallError(L, 'ToolButton', 'ArrowClick', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -83,7 +101,13 @@ begin
 	CheckArg(L, 1);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	
-	lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
+	try
+		lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ToolButton', 'GetCurrentIcon', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ImageList,TypeInfo(ImageList));
 	lua_push(L,TheIndex);
 	lua_push(L,TheEffect,TypeInfo(TheEffect));
@@ -102,7 +126,13 @@ begin
 	luaL_check(L,2,@ImageList);
 	luaL_check(L,3,@TheIndex);
 	luaL_check(L,4,@TheEffect,TypeInfo(TGraphicsDrawEffect));
-	lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
+	try
+		lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ToolButton', 'GetCurrentIcon', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ImageList,TypeInfo(ImageList));
 	lua_push(L,TheIndex);
 	lua_push(L,TheEffect,TypeInfo(TheEffect));
@@ -121,7 +151,13 @@ begin
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
 	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
-	lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	try
+		lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	except
+		on E: Exception do
+			CallError(L, 'ToolButton', 'GetPreferredSize', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -141,7 +177,13 @@ begin
 	luaL_check(L,3,@PreferredHeight);
 	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
 	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
-	lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	try
+		lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+	except
+		on E: Exception do
+			CallError(L, 'ToolButton', 'GetPreferredSize', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -158,7 +200,13 @@ begin
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	ret := lToolButton.PointInArrow(X,Y);
+	try
+		ret := lToolButton.PointInArrow(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'ToolButton', 'PointInArrow', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -170,7 +218,13 @@ var
 begin
 	CheckArg(L, 1);
 	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
-	lToolBar.EndUpdate();
+	try
+		lToolBar.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'ToolBar', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -183,7 +237,13 @@ begin
 	CheckArg(L, 2);
 	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@AllLevels);
-	lToolBar.FlipChildren(AllLevels);
+	try
+		lToolBar.FlipChildren(AllLevels);
+	except
+		on E: Exception do
+			CallError(L, 'ToolBar', 'FlipChildren', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -198,7 +258,13 @@ begin
 	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewButtonWidth);
 	luaL_check(L,3,@NewButtonHeight);
-	lToolBar.SetButtonSize(NewButtonWidth,NewButtonHeight);
+	try
+		lToolBar.SetButtonSize(NewButtonWidth,NewButtonHeight);
+	except
+		on E: Exception do
+			CallError(L, 'ToolBar', 'SetButtonSize', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -210,7 +276,13 @@ var
 begin
 	CheckArg(L, 1);
 	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
-	ret := lToolBar.CanFocus();
+	try
+		ret := lToolBar.CanFocus();
+	except
+		on E: Exception do
+			CallError(L, 'ToolBar', 'CanFocus', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

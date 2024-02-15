@@ -420,15 +420,23 @@ function createUnitBody(cdef, ref)
         s = s:gsub("#VARCOUNT",1,1)
         s = s:gsub("#TOVCLUA","",1)
       end
+      local call = ([[
+	try
+		%sl%s.%s(%s);
+	except
+		on E: Exception do
+			CallError(L, '%s', '%s', E.ClassName, E.Message);
+	end;
+]]):format(ret and "ret := " or "", className, mName, fParams, className, mName)
       if ret then
         local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
-        s = s:gsub("#FUNC","\n\tret := l"..className.."."..mName.."("..fParams..");",1)
+        s = s:gsub("#FUNC","\n"..call,1)
         s = s:gsub("#PUSHTOLUA","\n\t"..rtype,1)
         s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\n\t"))
         s = s:gsub("#RETVAR","\n\tret:"..reto,1)
         s = s:gsub("#RETCOUNT",retCount)
       else
-        s = s:gsub("#FUNC","\n\tl"..className.."."..mName.."("..fParams..");",1)
+        s = s:gsub("#FUNC","\n"..call,1)
         s = s:gsub("#PUSHTOLUA","",1)
         s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\n\t"))
         s = s:gsub("#RETVAR;","",1)

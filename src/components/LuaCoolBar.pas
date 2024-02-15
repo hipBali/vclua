@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_CoolBar_AutosizeBands(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	lCoolBar.AutosizeBands();
+	try
+		lCoolBar.AutosizeBands();
+	except
+		on E: Exception do
+			CallError(L, 'CoolBar', 'AutosizeBands', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -45,7 +51,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	lCoolBar.EndUpdate();
+	try
+		lCoolBar.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'CoolBar', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -56,7 +68,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	lCoolBar.Invalidate();
+	try
+		lCoolBar.Invalidate();
+	except
+		on E: Exception do
+			CallError(L, 'CoolBar', 'Invalidate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -71,7 +89,13 @@ begin
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@AControl);
 	luaL_check(L,3,@Index);
-	lCoolBar.InsertControl(AControl,Index);
+	try
+		lCoolBar.InsertControl(AControl,Index);
+	except
+		on E: Exception do
+			CallError(L, 'CoolBar', 'InsertControl', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -88,7 +112,13 @@ begin
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	lCoolBar.MouseToBandPos(X,Y,ABand,AGrabber);
+	try
+		lCoolBar.MouseToBandPos(X,Y,ABand,AGrabber);
+	except
+		on E: Exception do
+			CallError(L, 'CoolBar', 'MouseToBandPos', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ABand);
 	lua_push(L,AGrabber);
 	Result := 2;
@@ -102,7 +132,13 @@ begin
 	CheckArg(L, 2);
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@AControl);
-	lCoolBar.RemoveControl(AControl);
+	try
+		lCoolBar.RemoveControl(AControl);
+	except
+		on E: Exception do
+			CallError(L, 'CoolBar', 'RemoveControl', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

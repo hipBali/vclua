@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Canvas_Lock(L: Plua_State): Integer; cdecl;
 var
@@ -32,7 +32,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Lock();
+	try
+		lCanvas.Lock();
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Lock', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -44,7 +50,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ret := lCanvas.TryLock();
+	try
+		ret := lCanvas.TryLock();
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TryLock', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -56,7 +68,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Unlock();
+	try
+		lCanvas.Unlock();
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Unlock', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -67,7 +85,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Refresh();
+	try
+		lCanvas.Refresh();
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Refresh', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -78,7 +102,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Changing();
+	try
+		lCanvas.Changing();
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Changing', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -89,7 +119,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Changed();
+	try
+		lCanvas.Changed();
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Changed', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -100,7 +136,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.SaveHandleState();
+	try
+		lCanvas.SaveHandleState();
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'SaveHandleState', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -111,7 +153,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.RestoreHandleState();
+	try
+		lCanvas.RestoreHandleState();
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'RestoreHandleState', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -134,7 +182,13 @@ begin
 	luaL_check(L,5,@ABottom);
 	luaL_check(L,6,@Angle16Deg);
 	luaL_check(L,7,@Angle16DegLength);
-	lCanvas.Arc(ALeft,ATop,ARight,ABottom,Angle16Deg,Angle16DegLength);
+	try
+		lCanvas.Arc(ALeft,ATop,ARight,ABottom,Angle16Deg,Angle16DegLength);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Arc', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -161,7 +215,13 @@ begin
 	luaL_check(L,7,@SY);
 	luaL_check(L,8,@EX);
 	luaL_check(L,9,@EY);
-	lCanvas.Arc(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY);
+	try
+		lCanvas.Arc(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Arc', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -182,7 +242,13 @@ begin
 	luaL_check(L,4,@Radius);
 	luaL_check(L,5,@StartAngle);
 	luaL_check(L,6,@SweepAngle);
-	lCanvas.AngleArc(X,Y,Radius,StartAngle,SweepAngle);
+	try
+		lCanvas.AngleArc(X,Y,Radius,StartAngle,SweepAngle);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'AngleArc', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -201,7 +267,13 @@ begin
 	luaL_check(L,3,@ABitmap);
 	luaL_check(L,4,@ASourceRect);
 	luaL_check(L,5,@ATransparentColor);
-	lCanvas.BrushCopy(ADestRect,ABitmap,ASourceRect,ATransparentColor);
+	try
+		lCanvas.BrushCopy(ADestRect,ABitmap,ASourceRect,ATransparentColor);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'BrushCopy', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -224,7 +296,13 @@ begin
 	luaL_check(L,5,@y2);
 	luaL_check(L,6,@Angle16Deg);
 	luaL_check(L,7,@Angle16DegLength);
-	lCanvas.Chord(x1,y1,x2,y2,Angle16Deg,Angle16DegLength);
+	try
+		lCanvas.Chord(x1,y1,x2,y2,Angle16Deg,Angle16DegLength);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Chord', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -251,7 +329,13 @@ begin
 	luaL_check(L,7,@SY);
 	luaL_check(L,8,@EX);
 	luaL_check(L,9,@EY);
-	lCanvas.Chord(x1,y1,x2,y2,SX,SY,EX,EY);
+	try
+		lCanvas.Chord(x1,y1,x2,y2,SX,SY,EX,EY);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Chord', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -268,7 +352,13 @@ begin
 	luaL_check(L,2,@Dest);
 	luaL_check(L,3,@SrcCanvas);
 	luaL_check(L,4,@Source);
-	lCanvas.CopyRect(Dest,SrcCanvas,Source);
+	try
+		lCanvas.CopyRect(Dest,SrcCanvas,Source);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'CopyRect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -285,7 +375,13 @@ begin
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
 	luaL_check(L,4,@SrcGraphic);
-	lCanvas.Draw(X,Y,SrcGraphic);
+	try
+		lCanvas.Draw(X,Y,SrcGraphic);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Draw', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -298,7 +394,13 @@ begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@ARect);
-	lCanvas.DrawFocusRect(ARect);
+	try
+		lCanvas.DrawFocusRect(ARect);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'DrawFocusRect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -313,7 +415,13 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@DestRect);
 	luaL_check(L,3,@SrcGraphic);
-	lCanvas.StretchDraw(DestRect,SrcGraphic);
+	try
+		lCanvas.StretchDraw(DestRect,SrcGraphic);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'StretchDraw', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -326,7 +434,13 @@ begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@ARect);
-	lCanvas.Ellipse(ARect);
+	try
+		lCanvas.Ellipse(ARect);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Ellipse', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -345,7 +459,13 @@ begin
 	luaL_check(L,3,@y1);
 	luaL_check(L,4,@x2);
 	luaL_check(L,5,@y2);
-	lCanvas.Ellipse(x1,y1,x2,y2);
+	try
+		lCanvas.Ellipse(x1,y1,x2,y2);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Ellipse', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -358,7 +478,13 @@ begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@ARect);
-	lCanvas.FillRect(ARect);
+	try
+		lCanvas.FillRect(ARect);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'FillRect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -377,7 +503,13 @@ begin
 	luaL_check(L,3,@Y1);
 	luaL_check(L,4,@X2);
 	luaL_check(L,5,@Y2);
-	lCanvas.FillRect(X1,Y1,X2,Y2);
+	try
+		lCanvas.FillRect(X1,Y1,X2,Y2);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'FillRect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -396,7 +528,13 @@ begin
 	luaL_check(L,3,@Y);
 	luaL_check(L,4,@FillColor);
 	luaL_check(L,5,@FillStyle,TypeInfo(TFillStyle));
-	lCanvas.FloodFill(X,Y,FillColor,FillStyle);
+	try
+		lCanvas.FloodFill(X,Y,FillColor,FillStyle);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'FloodFill', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -412,7 +550,13 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@FrameWidth);
 	luaL_check(L,3,@Style,TypeInfo(TGraphicsBevelCut));
-	lCanvas.Frame3d(ARect,FrameWidth,Style);
+	try
+		lCanvas.Frame3d(ARect,FrameWidth,Style);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame3d', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -429,7 +573,13 @@ begin
 	luaL_check(L,2,@ARect);
 	luaL_check(L,3,@FrameWidth);
 	luaL_check(L,4,@Style,TypeInfo(TGraphicsBevelCut));
-	lCanvas.Frame3d(ARect,FrameWidth,Style);
+	try
+		lCanvas.Frame3d(ARect,FrameWidth,Style);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame3d', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -447,7 +597,13 @@ begin
 	luaL_check(L,2,@TopColor);
 	luaL_check(L,3,@BottomColor);
 	luaL_check(L,4,@FrameWidth);
-	lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
+	try
+		lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame3D', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -466,7 +622,13 @@ begin
 	luaL_check(L,3,@TopColor);
 	luaL_check(L,4,@BottomColor);
 	luaL_check(L,5,@FrameWidth);
-	lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
+	try
+		lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame3D', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -485,7 +647,13 @@ begin
 	luaL_check(L,3,@AStart);
 	luaL_check(L,4,@AStop);
 	luaL_check(L,5,@ADirection,TypeInfo(TGradientDirection));
-	lCanvas.GradientFill(ARect,AStart,AStop,ADirection);
+	try
+		lCanvas.GradientFill(ARect,AStart,AStop,ADirection);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'GradientFill', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -508,7 +676,13 @@ begin
 	luaL_check(L,5,@y2);
 	luaL_check(L,6,@StartAngle16Deg);
 	luaL_check(L,7,@Angle16DegLength);
-	lCanvas.RadialPie(x1,y1,x2,y2,StartAngle16Deg,Angle16DegLength);
+	try
+		lCanvas.RadialPie(x1,y1,x2,y2,StartAngle16Deg,Angle16DegLength);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'RadialPie', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -535,7 +709,13 @@ begin
 	luaL_check(L,7,@StartY);
 	luaL_check(L,8,@EndX);
 	luaL_check(L,9,@EndY);
-	lCanvas.Pie(EllipseX1,EllipseY1,EllipseX2,EllipseY2,StartX,StartY,EndX,EndY);
+	try
+		lCanvas.Pie(EllipseX1,EllipseY1,EllipseX2,EllipseY2,StartX,StartY,EndX,EndY);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Pie', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -552,7 +732,13 @@ begin
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
 	TTrait<boolean>.luaL_optcheck(L, 3, @Filled, False);
 	TTrait<boolean>.luaL_optcheck(L, 4, @Continuous, True);
-	lCanvas.PolyBezier(Points,Filled,Continuous);
+	try
+		lCanvas.PolyBezier(Points,Filled,Continuous);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'PolyBezier', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -571,7 +757,13 @@ begin
 	luaL_check(L,3,@Winding);
 	TTrait<Integer>.luaL_optcheck(L, 4, @StartIndex, 0);
 	TTrait<Integer>.luaL_optcheck(L, 5, @NumPts, -1);
-	lCanvas.Polygon(Points,Winding,StartIndex,NumPts);
+	try
+		lCanvas.Polygon(Points,Winding,StartIndex,NumPts);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Polygon', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -584,7 +776,13 @@ begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
-	lCanvas.Polygon(Points);
+	try
+		lCanvas.Polygon(Points);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Polygon', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -601,7 +799,13 @@ begin
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
 	luaL_check(L,3,@StartIndex);
 	TTrait<Integer>.luaL_optcheck(L, 4, @NumPts, -1);
-	lCanvas.Polyline(Points,StartIndex,NumPts);
+	try
+		lCanvas.Polyline(Points,StartIndex,NumPts);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Polyline', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -614,7 +818,13 @@ begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
-	lCanvas.Polyline(Points);
+	try
+		lCanvas.Polyline(Points);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Polyline', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -633,7 +843,13 @@ begin
 	luaL_check(L,3,@Y1);
 	luaL_check(L,4,@X2);
 	luaL_check(L,5,@Y2);
-	lCanvas.Rectangle(X1,Y1,X2,Y2);
+	try
+		lCanvas.Rectangle(X1,Y1,X2,Y2);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Rectangle', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -646,7 +862,13 @@ begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@ARect);
-	lCanvas.Rectangle(ARect);
+	try
+		lCanvas.Rectangle(ARect);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Rectangle', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -669,7 +891,13 @@ begin
 	luaL_check(L,5,@Y2);
 	luaL_check(L,6,@RX);
 	luaL_check(L,7,@RY);
-	lCanvas.RoundRect(X1,Y1,X2,Y2,RX,RY);
+	try
+		lCanvas.RoundRect(X1,Y1,X2,Y2,RX,RY);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'RoundRect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -686,7 +914,13 @@ begin
 	luaL_check(L,2,@Rect);
 	luaL_check(L,3,@RX);
 	luaL_check(L,4,@RY);
-	lCanvas.RoundRect(Rect,RX,RY);
+	try
+		lCanvas.RoundRect(Rect,RX,RY);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'RoundRect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -703,7 +937,13 @@ begin
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
 	luaL_check(L,4,@Text);
-	lCanvas.TextOut(X,Y,Text);
+	try
+		lCanvas.TextOut(X,Y,Text);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextOut', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -722,7 +962,13 @@ begin
 	luaL_check(L,3,@X);
 	luaL_check(L,4,@Y);
 	luaL_check(L,5,@Text);
-	lCanvas.TextRect(ARect,X,Y,Text);
+	try
+		lCanvas.TextRect(ARect,X,Y,Text);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextRect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -743,7 +989,13 @@ begin
 	luaL_check(L,4,@Y);
 	luaL_check(L,5,@Text);
 	luaL_check(L,6,@Style);
-	lCanvas.TextRect(ARect,X,Y,Text,Style);
+	try
+		lCanvas.TextRect(ARect,X,Y,Text,Style);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextRect', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -757,7 +1009,13 @@ begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@Text);
-	ret := lCanvas.TextHeight(Text);
+	try
+		ret := lCanvas.TextHeight(Text);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextHeight', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -772,7 +1030,13 @@ begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@Text);
-	ret := lCanvas.TextWidth(Text);
+	try
+		ret := lCanvas.TextWidth(Text);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextWidth', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -789,7 +1053,13 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@Text);
 	luaL_check(L,3,@MaxWidth);
-	ret := lCanvas.TextFitInfo(Text,MaxWidth);
+	try
+		ret := lCanvas.TextFitInfo(Text,MaxWidth);
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextFitInfo', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -802,7 +1072,13 @@ var
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ret := lCanvas.HandleAllocated();
+	try
+		ret := lCanvas.HandleAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'HandleAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Image_DestRect(L: Plua_State): Integer; cdecl;
 var
@@ -35,7 +35,13 @@ var
 begin
 	CheckArg(L, 1);
 	lImage := TLuaImage(GetLuaObject(L, 1));
-	ret := lImage.DestRect();
+	try
+		ret := lImage.DestRect();
+	except
+		on E: Exception do
+			CallError(L, 'Image', 'DestRect', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -47,7 +53,13 @@ var
 begin
 	CheckArg(L, 1);
 	lImage := TLuaImage(GetLuaObject(L, 1));
-	lImage.Invalidate();
+	try
+		lImage.Invalidate();
+	except
+		on E: Exception do
+			CallError(L, 'Image', 'Invalidate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

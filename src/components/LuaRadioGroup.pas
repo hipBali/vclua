@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_RadioGroup_CanModify(L: Plua_State): Integer; cdecl;
 var
@@ -33,7 +33,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
-	ret := lRadioGroup.CanModify();
+	try
+		ret := lRadioGroup.CanModify();
+	except
+		on E: Exception do
+			CallError(L, 'RadioGroup', 'CanModify', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -47,7 +53,13 @@ begin
 	CheckArg(L, 2);
 	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
 	luaL_check(L,2,@AllLevels);
-	lRadioGroup.FlipChildren(AllLevels);
+	try
+		lRadioGroup.FlipChildren(AllLevels);
+	except
+		on E: Exception do
+			CallError(L, 'RadioGroup', 'FlipChildren', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -59,7 +71,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
-	ret := lRadioGroup.Rows();
+	try
+		ret := lRadioGroup.Rows();
+	except
+		on E: Exception do
+			CallError(L, 'RadioGroup', 'Rows', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

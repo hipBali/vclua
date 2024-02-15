@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Edit_Clear(L: Plua_State): Integer; cdecl;
 var
@@ -32,7 +32,13 @@ var
 begin
 	CheckArg(L, 1);
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
-	lEdit.Clear();
+	try
+		lEdit.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'Edit', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -43,7 +49,13 @@ var
 begin
 	CheckArg(L, 1);
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
-	lEdit.SelectAll();
+	try
+		lEdit.SelectAll();
+	except
+		on E: Exception do
+			CallError(L, 'Edit', 'SelectAll', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -54,7 +66,13 @@ var
 begin
 	CheckArg(L, 1);
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
-	lEdit.ClearSelection();
+	try
+		lEdit.ClearSelection();
+	except
+		on E: Exception do
+			CallError(L, 'Edit', 'ClearSelection', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -65,7 +83,13 @@ var
 begin
 	CheckArg(L, 1);
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
-	lEdit.CopyToClipboard();
+	try
+		lEdit.CopyToClipboard();
+	except
+		on E: Exception do
+			CallError(L, 'Edit', 'CopyToClipboard', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -76,7 +100,13 @@ var
 begin
 	CheckArg(L, 1);
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
-	lEdit.CutToClipboard();
+	try
+		lEdit.CutToClipboard();
+	except
+		on E: Exception do
+			CallError(L, 'Edit', 'CutToClipboard', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -87,7 +117,13 @@ var
 begin
 	CheckArg(L, 1);
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
-	lEdit.PasteFromClipboard();
+	try
+		lEdit.PasteFromClipboard();
+	except
+		on E: Exception do
+			CallError(L, 'Edit', 'PasteFromClipboard', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -98,7 +134,13 @@ var
 begin
 	CheckArg(L, 1);
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
-	lEdit.Undo();
+	try
+		lEdit.Undo();
+	except
+		on E: Exception do
+			CallError(L, 'Edit', 'Undo', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -111,7 +153,13 @@ begin
 	CheckArg(L, 2);
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
 	luaL_check(L,2,@AnObject);
-	lEdit.RemoveAllHandlersOfObject(AnObject);
+	try
+		lEdit.RemoveAllHandlersOfObject(AnObject);
+	except
+		on E: Exception do
+			CallError(L, 'Edit', 'RemoveAllHandlersOfObject', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

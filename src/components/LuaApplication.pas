@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Application_ActivateHint(L: Plua_State): Integer; cdecl;
 var
@@ -36,7 +36,13 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	luaL_check(L,2,@CursorPos);
 	TTrait<Boolean>.luaL_optcheck(L, 3, @CheckHintControlChange, False);
-	lApplication.ActivateHint(CursorPos,CheckHintControlChange);
+	try
+		lApplication.ActivateHint(CursorPos,CheckHintControlChange);
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'ActivateHint', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -48,7 +54,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	ret := lApplication.GetControlAtMouse();
+	try
+		ret := lApplication.GetControlAtMouse();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'GetControlAtMouse', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -62,7 +74,13 @@ begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	luaL_check(L,2,@AControl);
-	lApplication.ControlDestroyed(AControl);
+	try
+		lApplication.ControlDestroyed(AControl);
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'ControlDestroyed', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -74,7 +92,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	ret := lApplication.BigIconHandle();
+	try
+		ret := lApplication.BigIconHandle();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'BigIconHandle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -87,7 +111,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	ret := lApplication.SmallIconHandle();
+	try
+		ret := lApplication.SmallIconHandle();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'SmallIconHandle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -99,7 +129,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.BringToFront();
+	try
+		lApplication.BringToFront();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'BringToFront', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -112,7 +148,13 @@ begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	luaL_check(L,2,@AForm);
-	lApplication.UpdateMainForm(AForm);
+	try
+		lApplication.UpdateMainForm(AForm);
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'UpdateMainForm', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -125,7 +167,13 @@ begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	luaL_check(L,2,@AComponent);
-	lApplication.ReleaseComponent(AComponent);
+	try
+		lApplication.ReleaseComponent(AComponent);
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'ReleaseComponent', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -138,7 +186,13 @@ begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
-	lApplication.HandleException(Sender);
+	try
+		lApplication.HandleException(Sender);
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'HandleException', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -149,7 +203,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.HandleMessage();
+	try
+		lApplication.HandleMessage();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'HandleMessage', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -162,7 +222,13 @@ begin
 	CheckArg(L, 1, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASystemTopAlso, False);
-	lApplication.RemoveStayOnTop(ASystemTopAlso);
+	try
+		lApplication.RemoveStayOnTop(ASystemTopAlso);
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'RemoveStayOnTop', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -175,7 +241,13 @@ begin
 	CheckArg(L, 1, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASystemTopAlso, False);
-	lApplication.RestoreStayOnTop(ASystemTopAlso);
+	try
+		lApplication.RestoreStayOnTop(ASystemTopAlso);
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'RestoreStayOnTop', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -187,7 +259,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	ret := lApplication.IsWaiting();
+	try
+		ret := lApplication.IsWaiting();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'IsWaiting', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -199,7 +277,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.Initialize();
+	try
+		lApplication.Initialize();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'Initialize', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -210,7 +294,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.Minimize();
+	try
+		lApplication.Minimize();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'Minimize', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -221,7 +311,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.ModalStarted();
+	try
+		lApplication.ModalStarted();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'ModalStarted', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -232,7 +328,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.ModalFinished();
+	try
+		lApplication.ModalFinished();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'ModalFinished', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -243,7 +345,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.Restore();
+	try
+		lApplication.Restore();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'Restore', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -258,7 +366,13 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	luaL_check(L,2,@AComponent);
 	luaL_check(L,3,@Operation,TypeInfo(TOperation));
-	lApplication.Notification(AComponent,Operation);
+	try
+		lApplication.Notification(AComponent,Operation);
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'Notification', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -269,7 +383,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.ProcessMessages();
+	try
+		lApplication.ProcessMessages();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'ProcessMessages', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -282,7 +402,13 @@ begin
 	CheckArg(L, 2);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	luaL_check(L,2,@Wait);
-	lApplication.Idle(Wait);
+	try
+		lApplication.Idle(Wait);
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'Idle', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -293,7 +419,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.Run();
+	try
+		lApplication.Run();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'Run', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -304,7 +436,13 @@ var
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	lApplication.Terminate();
+	try
+		lApplication.Terminate();
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'Terminate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

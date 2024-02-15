@@ -17,6 +17,7 @@ const
 function RunSeparate(L: Plua_State):integer;cdecl;
 
 procedure LuaError(L: Plua_State; text: String; err: String);
+procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
 procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo); inline;
 procedure DoScript(L: Plua_State; fileName: String);
 procedure DoCall(L: Plua_State; paramCount:integer);
@@ -162,6 +163,12 @@ begin
         writeln('LUA Error:'+#10#13+err+#10#13+text);
      luaL_error(L, 'VCLua Error');
      // Halt;
+end;
+
+procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
+begin
+  ShowMessage(Format('LCL Error:'+#13+'calling %s.%s got %s:'+#13+err, [className, methodName, text]));
+  luaL_error(L, 'LCL Error');
 end;
 
 procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo);

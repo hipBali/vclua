@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Brush_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lBrush := TLuaBrush(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lBrush.Assign(Source);
+	try
+		lBrush.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'Brush', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -48,7 +54,13 @@ begin
 	CheckArg(L, 2);
 	lBrush := TLuaBrush(GetLuaObject(L, 1));
 	luaL_check(L,2,@ABrush);
-	ret := lBrush.EqualsBrush(ABrush);
+	try
+		ret := lBrush.EqualsBrush(ABrush);
+	except
+		on E: Exception do
+			CallError(L, 'Brush', 'EqualsBrush', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

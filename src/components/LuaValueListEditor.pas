@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_ValueListEditor_Clear(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ var
 begin
 	CheckArg(L, 1);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	lValueListEditor.Clear();
+	try
+		lValueListEditor.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -49,7 +55,13 @@ begin
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@IsColumn);
 	luaL_check(L,3,@index);
-	lValueListEditor.DeleteColRow(IsColumn,index);
+	try
+		lValueListEditor.DeleteColRow(IsColumn,index);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'DeleteColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -62,7 +74,13 @@ begin
 	CheckArg(L, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lValueListEditor.DeleteRow(Index);
+	try
+		lValueListEditor.DeleteRow(Index);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'DeleteRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -75,7 +93,13 @@ begin
 	CheckArg(L, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lValueListEditor.DeleteCol(Index);
+	try
+		lValueListEditor.DeleteCol(Index);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'DeleteCol', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -90,7 +114,13 @@ begin
 	CheckArg(L, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@KeyName);
-	ret := lValueListEditor.FindRow(KeyName,aRow);
+	try
+		ret := lValueListEditor.FindRow(KeyName,aRow);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'FindRow', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	lua_push(L,aRow);
 	Result := 2;
@@ -106,7 +136,13 @@ begin
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@IsColumn);
 	luaL_check(L,3,@index);
-	lValueListEditor.InsertColRow(IsColumn,index);
+	try
+		lValueListEditor.InsertColRow(IsColumn,index);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'InsertColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -124,7 +160,13 @@ begin
 	luaL_check(L,2,@KeyName);
 	luaL_check(L,3,@Value);
 	luaL_check(L,4,@Append);
-	ret := lValueListEditor.InsertRow(KeyName,Value,Append);
+	try
+		ret := lValueListEditor.InsertRow(KeyName,Value,Append);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'InsertRow', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -140,7 +182,13 @@ begin
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	TTrait<String>.luaL_checkArray(L, 3, @Values);
-	lValueListEditor.InsertRowWithValues(Index,Values);
+	try
+		lValueListEditor.InsertRowWithValues(Index,Values);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'InsertRowWithValues', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -157,7 +205,13 @@ begin
 	luaL_check(L,2,@IsColumn);
 	luaL_check(L,3,@index);
 	luaL_check(L,4,@WithIndex);
-	lValueListEditor.ExchangeColRow(IsColumn,index,WithIndex);
+	try
+		lValueListEditor.ExchangeColRow(IsColumn,index,WithIndex);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'ExchangeColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -169,7 +223,13 @@ var
 begin
 	CheckArg(L, 1);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	ret := lValueListEditor.IsEmptyRow();
+	try
+		ret := lValueListEditor.IsEmptyRow();
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'IsEmptyRow', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -184,7 +244,13 @@ begin
 	CheckArg(L, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@aRow);
-	ret := lValueListEditor.IsEmptyRow(aRow);
+	try
+		ret := lValueListEditor.IsEmptyRow(aRow);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'IsEmptyRow', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -206,7 +272,13 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
 	TTrait<Integer>.luaL_optcheck(L, 5, @FromLine, 0);
 	TTrait<Boolean>.luaL_optcheck(L, 6, @SkipEmptyLines, true);
-	lValueListEditor.LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
+	try
+		lValueListEditor.LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'LoadFromCSVStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -223,7 +295,13 @@ begin
 	luaL_check(L,2,@IsColumn);
 	luaL_check(L,3,@FromIndex);
 	luaL_check(L,4,@ToIndex);
-	lValueListEditor.MoveColRow(IsColumn,FromIndex,ToIndex);
+	try
+		lValueListEditor.MoveColRow(IsColumn,FromIndex,ToIndex);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'MoveColRow', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -235,7 +313,13 @@ var
 begin
 	CheckArg(L, 1);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	ret := lValueListEditor.RestoreCurrentRow();
+	try
+		ret := lValueListEditor.RestoreCurrentRow();
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'RestoreCurrentRow', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -253,7 +337,13 @@ begin
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@IndxFrom);
 	luaL_check(L,4,@IndxTo);
-	lValueListEditor.Sort(Index,IndxFrom,IndxTo);
+	try
+		lValueListEditor.Sort(Index,IndxFrom,IndxTo);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'Sort', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -266,7 +356,13 @@ begin
 	CheckArg(L, 1, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	TTraitPti<TVleSortCol>.luaL_optcheck(L, 2, @ACol, colKey, TypeInfo(TVleSortCol));
-	lValueListEditor.Sort(ACol);
+	try
+		lValueListEditor.Sort(ACol);
+	except
+		on E: Exception do
+			CallError(L, 'ValueListEditor', 'Sort', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

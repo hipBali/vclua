@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_ProgressBar_StepIt(L: Plua_State): Integer; cdecl;
 var
@@ -32,7 +32,13 @@ var
 begin
 	CheckArg(L, 1);
 	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
-	lProgressBar.StepIt();
+	try
+		lProgressBar.StepIt();
+	except
+		on E: Exception do
+			CallError(L, 'ProgressBar', 'StepIt', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -45,7 +51,13 @@ begin
 	CheckArg(L, 2);
 	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
 	luaL_check(L,2,@Delta);
-	lProgressBar.StepBy(Delta);
+	try
+		lProgressBar.StepBy(Delta);
+	except
+		on E: Exception do
+			CallError(L, 'ProgressBar', 'StepBy', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

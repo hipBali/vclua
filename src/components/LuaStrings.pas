@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Strings_Add(L: Plua_State): Integer; cdecl;
 var
@@ -36,7 +36,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lStrings.Add(S);
+	try
+		ret := lStrings.Add(S);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Add', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -53,7 +59,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
 	luaL_check(L,3,@AObject);
-	ret := lStrings.AddObject(S,AObject);
+	try
+		ret := lStrings.AddObject(S,AObject);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddObject', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -70,7 +82,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@AName);
 	luaL_check(L,3,@AValue);
-	ret := lStrings.AddPair(AName,AValue);
+	try
+		ret := lStrings.AddPair(AName,AValue);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddPair', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -89,7 +107,13 @@ begin
 	luaL_check(L,2,@AName);
 	luaL_check(L,3,@AValue);
 	luaL_check(L,4,@AObject);
-	ret := lStrings.AddPair(AName,AValue,AObject);
+	try
+		ret := lStrings.AddPair(AName,AValue,AObject);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddPair', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -103,7 +127,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheStrings);
-	lStrings.AddStrings(TheStrings);
+	try
+		lStrings.AddStrings(TheStrings);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -118,7 +148,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheStrings);
 	luaL_check(L,3,@ClearFirst);
-	lStrings.AddStrings(TheStrings,ClearFirst);
+	try
+		lStrings.AddStrings(TheStrings,ClearFirst);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -131,7 +167,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	TTrait<string>.luaL_checkArray(L, 2, @TheStrings);
-	lStrings.AddStrings(TheStrings);
+	try
+		lStrings.AddStrings(TheStrings);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -146,7 +188,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	TTrait<string>.luaL_checkArray(L, 2, @TheStrings);
 	luaL_check(L,3,@ClearFirst);
-	lStrings.AddStrings(TheStrings,ClearFirst);
+	try
+		lStrings.AddStrings(TheStrings,ClearFirst);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -159,7 +207,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheStrings);
-	lStrings.SetStrings(TheStrings);
+	try
+		lStrings.SetStrings(TheStrings);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'SetStrings', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -172,7 +226,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	TTrait<string>.luaL_checkArray(L, 2, @TheStrings);
-	lStrings.SetStrings(TheStrings);
+	try
+		lStrings.SetStrings(TheStrings);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'SetStrings', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -185,7 +245,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	lStrings.AddCommaText(S);
+	try
+		lStrings.AddCommaText(S);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddCommaText', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -202,7 +268,13 @@ begin
 	luaL_check(L,2,@S);
 	luaL_check(L,3,@ADelimiter);
 	luaL_check(L,4,@AStrictDelimiter);
-	lStrings.AddDelimitedText(S,ADelimiter,AStrictDelimiter);
+	try
+		lStrings.AddDelimitedText(S,ADelimiter,AStrictDelimiter);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddDelimitedText', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -215,7 +287,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	lStrings.AddDelimitedtext(S);
+	try
+		lStrings.AddDelimitedtext(S);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddDelimitedtext', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -228,7 +306,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	lStrings.Append(S);
+	try
+		lStrings.Append(S);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Append', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -241,7 +325,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lStrings.Assign(Source);
+	try
+		lStrings.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -252,7 +342,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	lStrings.BeginUpdate();
+	try
+		lStrings.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -263,7 +359,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	lStrings.Clear();
+	try
+		lStrings.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -276,7 +378,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lStrings.Delete(Index);
+	try
+		lStrings.Delete(Index);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Delete', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -287,7 +395,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	lStrings.EndUpdate();
+	try
+		lStrings.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -301,7 +415,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Obj);
-	ret := lStrings.Equals(Obj);
+	try
+		ret := lStrings.Equals(Obj);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Equals', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -316,7 +436,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheStrings);
-	ret := lStrings.Equals(TheStrings);
+	try
+		ret := lStrings.Equals(TheStrings);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Equals', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -332,7 +458,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index1);
 	luaL_check(L,3,@Index2);
-	lStrings.Exchange(Index1,Index2);
+	try
+		lStrings.Exchange(Index1,Index2);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Exchange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -346,7 +478,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lStrings.ExtractName(S);
+	try
+		ret := lStrings.ExtractName(S);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'ExtractName', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -362,7 +500,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lStrings.GetNameValue(Index,AName,AValue);
+	try
+		lStrings.GetNameValue(Index,AName,AValue);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'GetNameValue', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,AName);
 	lua_push(L,AValue);
 	Result := 2;
@@ -375,7 +519,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	ret := lStrings.GetText();
+	try
+		ret := lStrings.GetText();
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'GetText', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -390,7 +540,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lStrings.IndexOf(S);
+	try
+		ret := lStrings.IndexOf(S);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'IndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -407,7 +563,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
 	luaL_check(L,3,@aStart);
-	ret := lStrings.IndexOf(S,aStart);
+	try
+		ret := lStrings.IndexOf(S,aStart);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'IndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -422,7 +584,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Name);
-	ret := lStrings.IndexOfName(Name);
+	try
+		ret := lStrings.IndexOfName(Name);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'IndexOfName', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -437,7 +605,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@AObject);
-	ret := lStrings.IndexOfObject(AObject);
+	try
+		ret := lStrings.IndexOfObject(AObject);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'IndexOfObject', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -453,7 +627,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@S);
-	lStrings.Insert(Index,S);
+	try
+		lStrings.Insert(Index,S);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Insert', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -470,7 +650,13 @@ begin
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@S);
 	luaL_check(L,4,@AObject);
-	lStrings.InsertObject(Index,S,AObject);
+	try
+		lStrings.InsertObject(Index,S,AObject);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'InsertObject', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -486,7 +672,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
 	luaL_check(L,3,@aStart);
-	ret := lStrings.LastIndexOf(S,aStart);
+	try
+		ret := lStrings.LastIndexOf(S,aStart);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'LastIndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -501,7 +693,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@S);
-	ret := lStrings.LastIndexOf(S);
+	try
+		ret := lStrings.LastIndexOf(S);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'LastIndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -515,7 +713,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
-	lStrings.LoadFromFile(FileName);
+	try
+		lStrings.LoadFromFile(FileName);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'LoadFromFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -530,7 +734,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
 	luaL_check(L,3,@IgnoreEncoding);
-	lStrings.LoadFromFile(FileName,IgnoreEncoding);
+	try
+		lStrings.LoadFromFile(FileName,IgnoreEncoding);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'LoadFromFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -543,7 +753,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	lStrings.LoadFromStream(Stream);
+	try
+		lStrings.LoadFromStream(Stream);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -558,7 +774,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
 	luaL_check(L,3,@IgnoreEncoding);
-	lStrings.LoadFromStream(Stream,IgnoreEncoding);
+	try
+		lStrings.LoadFromStream(Stream,IgnoreEncoding);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -573,7 +795,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@CurIndex);
 	luaL_check(L,3,@NewIndex);
-	lStrings.Move(CurIndex,NewIndex);
+	try
+		lStrings.Move(CurIndex,NewIndex);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Move', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -586,7 +814,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
-	lStrings.SaveToFile(FileName);
+	try
+		lStrings.SaveToFile(FileName);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'SaveToFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -601,7 +835,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@FileName);
 	luaL_check(L,3,@IgnoreEncoding);
-	lStrings.SaveToFile(FileName,IgnoreEncoding);
+	try
+		lStrings.SaveToFile(FileName,IgnoreEncoding);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'SaveToFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -614,7 +854,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	lStrings.SaveToStream(Stream);
+	try
+		lStrings.SaveToStream(Stream);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'SaveToStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -629,7 +875,13 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
 	luaL_check(L,3,@IgnoreEncoding);
-	lStrings.SaveToStream(Stream,IgnoreEncoding);
+	try
+		lStrings.SaveToStream(Stream,IgnoreEncoding);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'SaveToStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -641,7 +893,13 @@ var
 begin
 	CheckArg(L, 1);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	ret := lStrings.Shift();
+	try
+		ret := lStrings.Shift();
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Shift', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -655,7 +913,13 @@ begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheText);
-	lStrings.SetText(TheText);
+	try
+		lStrings.SetText(TheText);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'SetText', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

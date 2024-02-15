@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Label_CalcFittingFontHeight(L: Plua_State): Integer; cdecl;
 var
@@ -44,7 +44,13 @@ begin
 	luaL_check(L,2,@TheText);
 	luaL_check(L,3,@MaxWidth);
 	luaL_check(L,4,@MaxHeight);
-	ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight,NeededWidth,NeededHeight);
+	try
+		ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight,NeededWidth,NeededHeight);
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'CalcFittingFontHeight', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	lua_push(L,FontHeight);
 	lua_push(L,NeededWidth);
@@ -59,7 +65,13 @@ var
 begin
 	CheckArg(L, 1);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	ret := lLabel.ColorIsStored();
+	try
+		ret := lLabel.ColorIsStored();
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'ColorIsStored', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -72,7 +84,13 @@ var
 begin
 	CheckArg(L, 1);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	ret := lLabel.AdjustFontForOptimalFill();
+	try
+		ret := lLabel.AdjustFontForOptimalFill();
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'AdjustFontForOptimalFill', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -84,7 +102,13 @@ var
 begin
 	CheckArg(L, 1);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	lLabel.Paint();
+	try
+		lLabel.Paint();
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'Paint', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -103,7 +127,13 @@ begin
 	luaL_check(L,3,@aTop);
 	luaL_check(L,4,@aWidth);
 	luaL_check(L,5,@aHeight);
-	lLabel.SetBounds(aLeft,aTop,aWidth,aHeight);
+	try
+		lLabel.SetBounds(aLeft,aTop,aWidth,aHeight);
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'SetBounds', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

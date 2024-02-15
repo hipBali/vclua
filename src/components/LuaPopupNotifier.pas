@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_PopupNotifier_Hide(L: Plua_State): Integer; cdecl;
 var
@@ -32,7 +32,13 @@ var
 begin
 	CheckArg(L, 1);
 	lPopupNotifier := TLuaPopupNotifier(GetLuaObject(L, 1));
-	lPopupNotifier.Hide();
+	try
+		lPopupNotifier.Hide();
+	except
+		on E: Exception do
+			CallError(L, 'PopupNotifier', 'Hide', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -43,7 +49,13 @@ var
 begin
 	CheckArg(L, 1);
 	lPopupNotifier := TLuaPopupNotifier(GetLuaObject(L, 1));
-	lPopupNotifier.Show();
+	try
+		lPopupNotifier.Show();
+	except
+		on E: Exception do
+			CallError(L, 'PopupNotifier', 'Show', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -58,7 +70,13 @@ begin
 	lPopupNotifier := TLuaPopupNotifier(GetLuaObject(L, 1));
 	luaL_check(L,2,@x);
 	luaL_check(L,3,@y);
-	lPopupNotifier.ShowAtPos(x,y);
+	try
+		lPopupNotifier.ShowAtPos(x,y);
+	except
+		on E: Exception do
+			CallError(L, 'PopupNotifier', 'ShowAtPos', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

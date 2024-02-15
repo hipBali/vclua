@@ -22,7 +22,7 @@ type
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 
 function IsCalcEdit(L: Plua_State): Integer; cdecl;

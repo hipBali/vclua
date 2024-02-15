@@ -48,7 +48,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_ListItem_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -58,7 +58,13 @@ begin
 	CheckArg(L, 2);
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASource);
-	lListItem.Assign(ASource);
+	try
+		lListItem.Assign(ASource);
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -69,7 +75,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
-	lListItem.Delete();
+	try
+		lListItem.Delete();
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'Delete', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -82,7 +94,13 @@ begin
 	CheckArg(L, 2);
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@PartialOK);
-	lListItem.MakeVisible(PartialOK);
+	try
+		lListItem.MakeVisible(PartialOK);
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'MakeVisible', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -96,7 +114,13 @@ begin
 	CheckArg(L, 2);
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@Code,TypeInfo(TDisplayCode));
-	ret := lListItem.DisplayRect(Code);
+	try
+		ret := lListItem.DisplayRect(Code);
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'DisplayRect', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -113,7 +137,13 @@ begin
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
 	luaL_check(L,2,@subItem);
 	luaL_check(L,3,@Code,TypeInfo(TDisplayCode));
-	ret := lListItem.DisplayRectSubItem(subItem,Code);
+	try
+		ret := lListItem.DisplayRectSubItem(subItem,Code);
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'DisplayRectSubItem', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -126,7 +156,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
-	ret := lListItem.EditCaption();
+	try
+		ret := lListItem.EditCaption();
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'EditCaption', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -139,7 +175,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	ret := lListItems.Add();
+	try
+		ret := lListItems.Add();
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'Add', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -153,7 +195,13 @@ begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@AItem);
-	lListItems.AddItem(AItem);
+	try
+		lListItems.AddItem(AItem);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'AddItem', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -164,7 +212,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	lListItems.BeginUpdate();
+	try
+		lListItems.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -175,7 +229,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	lListItems.Clear();
+	try
+		lListItems.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -188,7 +248,13 @@ begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
-	lListItems.Delete(AIndex);
+	try
+		lListItems.Delete(AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'Delete', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -199,7 +265,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	lListItems.EndUpdate();
+	try
+		lListItems.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -214,7 +286,13 @@ begin
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex1);
 	luaL_check(L,3,@AIndex2);
-	lListItems.Exchange(AIndex1,AIndex2);
+	try
+		lListItems.Exchange(AIndex1,AIndex2);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'Exchange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -229,7 +307,13 @@ begin
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@AFromIndex);
 	luaL_check(L,3,@AToIndex);
-	lListItems.Move(AFromIndex,AToIndex);
+	try
+		lListItems.Move(AFromIndex,AToIndex);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'Move', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -253,7 +337,13 @@ begin
 	luaL_check(L,5,@Inclusive);
 	luaL_check(L,6,@Wrap);
 	TTrait<Boolean>.luaL_optcheck(L, 7, @PartStart, True);
-	ret := lListItems.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
+	try
+		ret := lListItems.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'FindCaption', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -268,7 +358,13 @@ begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	AData := Pointer(lua_touserdata(L,2));
-	ret := lListItems.FindData(AData);
+	try
+		ret := lListItems.FindData(AData);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'FindData', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -289,7 +385,13 @@ begin
 	Value := Pointer(lua_touserdata(L,3));
 	luaL_check(L,4,@Inclusive);
 	luaL_check(L,5,@Wrap);
-	ret := lListItems.FindData(StartIndex,Value,Inclusive,Wrap);
+	try
+		ret := lListItems.FindData(StartIndex,Value,Inclusive,Wrap);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'FindData', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -304,7 +406,13 @@ begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@AItem);
-	ret := lListItems.IndexOf(AItem);
+	try
+		ret := lListItems.IndexOf(AItem);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'IndexOf', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -319,7 +427,13 @@ begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
-	ret := lListItems.Insert(AIndex);
+	try
+		ret := lListItems.Insert(AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'Insert', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -335,7 +449,13 @@ begin
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@AItem);
 	luaL_check(L,3,@AIndex);
-	lListItems.InsertItem(AItem,AIndex);
+	try
+		lListItems.InsertItem(AItem,AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'InsertItem', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -350,7 +470,13 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	luaL_check(L,2,@Item);
 	luaL_check(L,3,@AObject);
-	lListView.AddItem(Item,AObject);
+	try
+		lListView.AddItem(Item,AObject);
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'AddItem', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -361,7 +487,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	lListView.Sort();
+	try
+		lListView.Sort();
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'Sort', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -372,7 +504,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	lListView.BeginUpdate();
+	try
+		lListView.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -383,7 +521,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	lListView.Clear();
+	try
+		lListView.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -394,7 +538,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	lListView.EndUpdate();
+	try
+		lListView.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -405,7 +555,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	lListView.Repaint();
+	try
+		lListView.Repaint();
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'Repaint', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -429,7 +585,13 @@ begin
 	luaL_check(L,5,@Inclusive);
 	luaL_check(L,6,@Wrap);
 	TTrait<Boolean>.luaL_optcheck(L, 7, @PartStart, True);
-	ret := lListView.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
+	try
+		ret := lListView.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'FindCaption', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -450,7 +612,13 @@ begin
 	Value := Pointer(lua_touserdata(L,3));
 	luaL_check(L,4,@Inclusive);
 	luaL_check(L,5,@Wrap);
-	ret := lListView.FindData(StartIndex,Value,Inclusive,Wrap);
+	try
+		ret := lListView.FindData(StartIndex,Value,Inclusive,Wrap);
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'FindData', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -467,7 +635,13 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	luaL_check(L,2,@x);
 	luaL_check(L,3,@y);
-	ret := lListView.GetItemAt(x,y);
+	try
+		ret := lListView.GetItemAt(x,y);
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'GetItemAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -484,7 +658,13 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	luaL_check(L,2,@APoint);
 	luaL_check(L,3,@Direction,TypeInfo(TSearchDirection));
-	ret := lListView.GetNearestItem(APoint,Direction);
+	try
+		ret := lListView.GetNearestItem(APoint,Direction);
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'GetNearestItem', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -503,7 +683,13 @@ begin
 	luaL_check(L,2,@StartItem);
 	luaL_check(L,3,@Direction,TypeInfo(TSearchDirection));
 	luaL_checkSet(L,4,@States,TypeInfo(TListItemStates));
-	ret := lListView.GetNextItem(StartItem,Direction,States);
+	try
+		ret := lListView.GetNextItem(StartItem,Direction,States);
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'GetNextItem', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -515,7 +701,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	lListView.ClearSelection();
+	try
+		lListView.ClearSelection();
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'ClearSelection', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -526,7 +718,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListView := TLuaListView(GetLuaObject(L, 1));
-	lListView.SelectAll();
+	try
+		lListView.SelectAll();
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'SelectAll', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

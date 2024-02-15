@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Shape_Paint(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ var
 begin
 	CheckArg(L, 1);
 	lShape := TLuaShape(GetLuaObject(L, 1));
-	lShape.Paint();
+	try
+		lShape.Paint();
+	except
+		on E: Exception do
+			CallError(L, 'Shape', 'Paint', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -47,7 +53,13 @@ begin
 	CheckArg(L, 2);
 	lShape := TLuaShape(GetLuaObject(L, 1));
 	luaL_check(L,2,@Sender);
-	lShape.StyleChanged(Sender);
+	try
+		lShape.StyleChanged(Sender);
+	except
+		on E: Exception do
+			CallError(L, 'Shape', 'StyleChanged', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

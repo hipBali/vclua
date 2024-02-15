@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Font_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lFont.Assign(Source);
+	try
+		lFont.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'Font', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -45,7 +51,13 @@ var
 begin
 	CheckArg(L, 1);
 	lFont := TLuaFont(GetLuaObject(L, 1));
-	lFont.BeginUpdate();
+	try
+		lFont.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'Font', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -56,7 +68,13 @@ var
 begin
 	CheckArg(L, 1);
 	lFont := TLuaFont(GetLuaObject(L, 1));
-	lFont.EndUpdate();
+	try
+		lFont.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'Font', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -68,7 +86,13 @@ var
 begin
 	CheckArg(L, 1);
 	lFont := TLuaFont(GetLuaObject(L, 1));
-	ret := lFont.HandleAllocated();
+	try
+		ret := lFont.HandleAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'Font', 'HandleAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -81,7 +105,13 @@ var
 begin
 	CheckArg(L, 1);
 	lFont := TLuaFont(GetLuaObject(L, 1));
-	ret := lFont.IsDefault();
+	try
+		ret := lFont.IsDefault();
+	except
+		on E: Exception do
+			CallError(L, 'Font', 'IsDefault', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -96,7 +126,13 @@ begin
 	CheckArg(L, 2);
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	luaL_check(L,2,@AFont);
-	ret := lFont.IsEqual(AFont);
+	try
+		ret := lFont.IsEqual(AFont);
+	except
+		on E: Exception do
+			CallError(L, 'Font', 'IsEqual', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -108,7 +144,13 @@ var
 begin
 	CheckArg(L, 1);
 	lFont := TLuaFont(GetLuaObject(L, 1));
-	lFont.SetDefault();
+	try
+		lFont.SetDefault();
+	except
+		on E: Exception do
+			CallError(L, 'Font', 'SetDefault', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

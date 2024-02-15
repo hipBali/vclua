@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_HeaderControl_Click(L: Plua_State): Integer; cdecl;
 var
@@ -32,7 +32,13 @@ var
 begin
 	CheckArg(L, 1);
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
-	lHeaderControl.Click();
+	try
+		lHeaderControl.Click();
+	except
+		on E: Exception do
+			CallError(L, 'HeaderControl', 'Click', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -43,7 +49,13 @@ var
 begin
 	CheckArg(L, 1);
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
-	lHeaderControl.DblClick();
+	try
+		lHeaderControl.DblClick();
+	except
+		on E: Exception do
+			CallError(L, 'HeaderControl', 'DblClick', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -57,7 +69,13 @@ begin
 	CheckArg(L, 2);
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@P);
-	ret := lHeaderControl.GetSectionAt(P);
+	try
+		ret := lHeaderControl.GetSectionAt(P);
+	except
+		on E: Exception do
+			CallError(L, 'HeaderControl', 'GetSectionAt', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -69,7 +87,13 @@ var
 begin
 	CheckArg(L, 1);
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
-	lHeaderControl.Paint();
+	try
+		lHeaderControl.Paint();
+	except
+		on E: Exception do
+			CallError(L, 'HeaderControl', 'Paint', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -82,7 +106,13 @@ begin
 	CheckArg(L, 2);
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lHeaderControl.PaintSection(Index);
+	try
+		lHeaderControl.PaintSection(Index);
+	except
+		on E: Exception do
+			CallError(L, 'HeaderControl', 'PaintSection', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -97,7 +127,13 @@ begin
 	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@M);
 	luaL_check(L,3,@D);
-	lHeaderControl.ChangeScale(M,D);
+	try
+		lHeaderControl.ChangeScale(M,D);
+	except
+		on E: Exception do
+			CallError(L, 'HeaderControl', 'ChangeScale', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

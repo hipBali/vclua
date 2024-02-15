@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_ListBox_AddItem(L: Plua_State): Integer; cdecl;
 var
@@ -38,7 +38,13 @@ begin
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Item);
 	luaL_check(L,3,@AnObject);
-	lListBox.AddItem(Item,AnObject);
+	try
+		lListBox.AddItem(Item,AnObject);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'AddItem', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -49,7 +55,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	lListBox.Clear();
+	try
+		lListBox.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -60,7 +72,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	lListBox.ClearSelection();
+	try
+		lListBox.ClearSelection();
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ClearSelection', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -76,7 +94,13 @@ begin
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	ret := lListBox.GetIndexAtXY(X,Y);
+	try
+		ret := lListBox.GetIndexAtXY(X,Y);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'GetIndexAtXY', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -91,7 +115,13 @@ begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Y);
-	ret := lListBox.GetIndexAtY(Y);
+	try
+		ret := lListBox.GetIndexAtY(Y);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'GetIndexAtY', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -104,7 +134,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	ret := lListBox.GetSelectedText();
+	try
+		ret := lListBox.GetSelectedText();
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'GetSelectedText', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -121,7 +157,13 @@ begin
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Pos);
 	luaL_check(L,3,@Existing);
-	ret := lListBox.ItemAtPos(Pos,Existing);
+	try
+		ret := lListBox.ItemAtPos(Pos,Existing);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ItemAtPos', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -136,7 +178,13 @@ begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	ret := lListBox.ItemRect(Index);
+	try
+		ret := lListBox.ItemRect(Index);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ItemRect', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -151,7 +199,13 @@ begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	ret := lListBox.ItemVisible(Index);
+	try
+		ret := lListBox.ItemVisible(Index);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ItemVisible', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -166,7 +220,13 @@ begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	ret := lListBox.ItemFullyVisible(Index);
+	try
+		ret := lListBox.ItemFullyVisible(Index);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ItemFullyVisible', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -178,7 +238,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	lListBox.LockSelectionChange();
+	try
+		lListBox.LockSelectionChange();
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'LockSelectionChange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -189,7 +255,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	lListBox.MakeCurrentVisible();
+	try
+		lListBox.MakeCurrentVisible();
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'MakeCurrentVisible', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -203,7 +275,13 @@ begin
 	CheckArg(L, 2);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
-	lListBox.MeasureItem(Index,TheHeight);
+	try
+		lListBox.MeasureItem(Index,TheHeight);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'MeasureItem', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,TheHeight);
 	Result := 1;
 end;
@@ -218,7 +296,13 @@ begin
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@TheHeight);
-	lListBox.MeasureItem(Index,TheHeight);
+	try
+		lListBox.MeasureItem(Index,TheHeight);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'MeasureItem', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,TheHeight);
 	Result := 1;
 end;
@@ -229,7 +313,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	lListBox.SelectAll();
+	try
+		lListBox.SelectAll();
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'SelectAll', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -246,7 +336,13 @@ begin
 	luaL_check(L,2,@ALow);
 	luaL_check(L,3,@AHigh);
 	luaL_check(L,4,@ASelected);
-	lListBox.SelectRange(ALow,AHigh,ASelected);
+	try
+		lListBox.SelectRange(ALow,AHigh,ASelected);
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'SelectRange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -257,7 +353,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	lListBox.DeleteSelected();
+	try
+		lListBox.DeleteSelected();
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'DeleteSelected', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -268,7 +370,13 @@ var
 begin
 	CheckArg(L, 1);
 	lListBox := TLuaListBox(GetLuaObject(L, 1));
-	lListBox.UnlockSelectionChange();
+	try
+		lListBox.UnlockSelectionChange();
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'UnlockSelectionChange', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;

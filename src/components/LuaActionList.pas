@@ -48,7 +48,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_ContainedAction_Execute(L: Plua_State): Integer; cdecl;
 var
@@ -57,7 +57,13 @@ var
 begin
 	CheckArg(L, 1);
 	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
-	ret := lContainedAction.Execute();
+	try
+		ret := lContainedAction.Execute();
+	except
+		on E: Exception do
+			CallError(L, 'ContainedAction', 'Execute', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -70,7 +76,13 @@ var
 begin
 	CheckArg(L, 1);
 	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
-	ret := lContainedAction.GetParentComponent();
+	try
+		ret := lContainedAction.GetParentComponent();
+	except
+		on E: Exception do
+			CallError(L, 'ContainedAction', 'GetParentComponent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret,TypeInfo(ret));
 	
 	Result := 1;
@@ -83,7 +95,13 @@ var
 begin
 	CheckArg(L, 1);
 	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
-	ret := lContainedAction.HasParent();
+	try
+		ret := lContainedAction.HasParent();
+	except
+		on E: Exception do
+			CallError(L, 'ContainedAction', 'HasParent', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -96,7 +114,13 @@ var
 begin
 	CheckArg(L, 1);
 	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
-	ret := lContainedAction.Update();
+	try
+		ret := lContainedAction.Update();
+	except
+		on E: Exception do
+			CallError(L, 'ContainedAction', 'Update', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -111,7 +135,13 @@ begin
 	CheckArg(L, 1);
 	lAction := TLuaAction(GetLuaObject(L, 1));
 	
-	ret := lAction.DoHint(HintStr);
+	try
+		ret := lAction.DoHint(HintStr);
+	except
+		on E: Exception do
+			CallError(L, 'Action', 'DoHint', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	lua_push(L,HintStr);
 	Result := 2;
@@ -126,7 +156,13 @@ begin
 	CheckArg(L, 2);
 	lAction := TLuaAction(GetLuaObject(L, 1));
 	luaL_check(L,2,@HintStr);
-	ret := lAction.DoHint(HintStr);
+	try
+		ret := lAction.DoHint(HintStr);
+	except
+		on E: Exception do
+			CallError(L, 'Action', 'DoHint', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	lua_push(L,HintStr);
 	Result := 2;
@@ -139,7 +175,13 @@ var
 begin
 	CheckArg(L, 1);
 	lAction := TLuaAction(GetLuaObject(L, 1));
-	ret := lAction.Execute();
+	try
+		ret := lAction.Execute();
+	except
+		on E: Exception do
+			CallError(L, 'Action', 'Execute', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -154,7 +196,13 @@ begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ActionName);
-	ret := lActionList.ActionByName(ActionName);
+	try
+		ret := lActionList.ActionByName(ActionName);
+	except
+		on E: Exception do
+			CallError(L, 'ActionList', 'ActionByName', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -169,7 +217,13 @@ begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Action);
-	ret := lActionList.ExecuteAction(Action);
+	try
+		ret := lActionList.ExecuteAction(Action);
+	except
+		on E: Exception do
+			CallError(L, 'ActionList', 'ExecuteAction', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -184,7 +238,13 @@ begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ActionName);
-	ret := lActionList.IndexOfName(ActionName);
+	try
+		ret := lActionList.IndexOfName(ActionName);
+	except
+		on E: Exception do
+			CallError(L, 'ActionList', 'IndexOfName', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -199,7 +259,13 @@ begin
 	CheckArg(L, 2);
 	lActionList := TLuaActionList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Action);
-	ret := lActionList.UpdateAction(Action);
+	try
+		ret := lActionList.UpdateAction(Action);
+	except
+		on E: Exception do
+			CallError(L, 'ActionList', 'UpdateAction', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

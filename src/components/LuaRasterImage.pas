@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_RasterImage_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lRasterImage.Assign(Source);
+	try
+		lRasterImage.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -45,7 +51,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	lRasterImage.Clear();
+	try
+		lRasterImage.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -58,7 +70,13 @@ begin
 	CheckArg(L, 1, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ACanvasOnly, False);
-	lRasterImage.BeginUpdate(ACanvasOnly);
+	try
+		lRasterImage.BeginUpdate(ACanvasOnly);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -71,7 +89,13 @@ begin
 	CheckArg(L, 1, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @AStreamIsValid, False);
-	lRasterImage.EndUpdate(AStreamIsValid);
+	try
+		lRasterImage.EndUpdate(AStreamIsValid);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -82,7 +106,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	lRasterImage.FreeImage();
+	try
+		lRasterImage.FreeImage();
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'FreeImage', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -94,7 +124,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	ret := lRasterImage.BitmapHandleAllocated();
+	try
+		ret := lRasterImage.BitmapHandleAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'BitmapHandleAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -107,7 +143,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	ret := lRasterImage.MaskHandleAllocated();
+	try
+		ret := lRasterImage.MaskHandleAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'MaskHandleAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -120,7 +162,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	ret := lRasterImage.PaletteAllocated();
+	try
+		ret := lRasterImage.PaletteAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'PaletteAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -134,7 +182,13 @@ begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	lRasterImage.LoadFromStream(AStream);
+	try
+		lRasterImage.LoadFromStream(AStream);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -149,7 +203,13 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
 	luaL_check(L,3,@ASize);
-	lRasterImage.LoadFromStream(AStream,ASize);
+	try
+		lRasterImage.LoadFromStream(AStream,ASize);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -164,7 +224,13 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
 	luaL_check(L,3,@AMimeType);
-	lRasterImage.LoadFromMimeStream(AStream,AMimeType);
+	try
+		lRasterImage.LoadFromMimeStream(AStream,AMimeType);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'LoadFromMimeStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -177,7 +243,13 @@ begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	lRasterImage.SaveToStream(AStream);
+	try
+		lRasterImage.SaveToStream(AStream);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'SaveToStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -190,7 +262,13 @@ begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	luaL_check(L,2,@List);
-	lRasterImage.GetSupportedSourceMimeTypes(List);
+	try
+		lRasterImage.GetSupportedSourceMimeTypes(List);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'GetSupportedSourceMimeTypes', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -204,7 +282,13 @@ begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	
-	lRasterImage.GetSize(AWidth,AHeight);
+	try
+		lRasterImage.GetSize(AWidth,AHeight);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'GetSize', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,AWidth);
 	lua_push(L,AHeight);
 	Result := 2;
@@ -218,7 +302,13 @@ begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	luaL_check(L,2,@ATransparentColor);
-	lRasterImage.Mask(ATransparentColor);
+	try
+		lRasterImage.Mask(ATransparentColor);
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'Mask', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -230,7 +320,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	ret := lRasterImage.ReleaseBitmapHandle();
+	try
+		ret := lRasterImage.ReleaseBitmapHandle();
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'ReleaseBitmapHandle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -243,7 +339,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	ret := lRasterImage.ReleaseMaskHandle();
+	try
+		ret := lRasterImage.ReleaseMaskHandle();
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'ReleaseMaskHandle', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -256,7 +358,13 @@ var
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	ret := lRasterImage.HandleAllocated();
+	try
+		ret := lRasterImage.HandleAllocated();
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'HandleAllocated', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

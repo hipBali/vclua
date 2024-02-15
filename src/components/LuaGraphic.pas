@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_Graphic_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@ASource);
-	lGraphic.Assign(ASource);
+	try
+		lGraphic.Assign(ASource);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -45,7 +51,13 @@ var
 begin
 	CheckArg(L, 1);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	lGraphic.Clear();
+	try
+		lGraphic.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -59,7 +71,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@Obj);
-	ret := lGraphic.Equals(Obj);
+	try
+		ret := lGraphic.Equals(Obj);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'Equals', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -74,7 +92,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@AResourceType);
-	ret := lGraphic.LazarusResourceTypeValid(AResourceType);
+	try
+		ret := lGraphic.LazarusResourceTypeValid(AResourceType);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LazarusResourceTypeValid', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -88,7 +112,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@Filename);
-	lGraphic.LoadFromFile(Filename);
+	try
+		lGraphic.LoadFromFile(Filename);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -101,7 +131,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	lGraphic.LoadFromStream(Stream);
+	try
+		lGraphic.LoadFromStream(Stream);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -116,7 +152,13 @@ begin
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
 	luaL_check(L,3,@AMimeType);
-	lGraphic.LoadFromMimeStream(AStream,AMimeType);
+	try
+		lGraphic.LoadFromMimeStream(AStream,AMimeType);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromMimeStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -129,7 +171,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@ResName);
-	lGraphic.LoadFromLazarusResource(ResName);
+	try
+		lGraphic.LoadFromLazarusResource(ResName);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromLazarusResource', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -144,7 +192,13 @@ begin
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@Instance);
 	luaL_check(L,3,@ResName);
-	lGraphic.LoadFromResourceName(Instance,ResName);
+	try
+		lGraphic.LoadFromResourceName(Instance,ResName);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromResourceName', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -159,7 +213,13 @@ begin
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@Instance);
 	luaL_check(L,3,@ResID);
-	lGraphic.LoadFromResourceID(Instance,ResID);
+	try
+		lGraphic.LoadFromResourceID(Instance,ResID);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromResourceID', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -172,7 +232,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@FormatID);
-	lGraphic.LoadFromClipboardFormat(FormatID);
+	try
+		lGraphic.LoadFromClipboardFormat(FormatID);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromClipboardFormat', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -187,7 +253,13 @@ begin
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@ClipboardType,TypeInfo(TClipboardType));
 	luaL_check(L,3,@FormatID);
-	lGraphic.LoadFromClipboardFormatID(ClipboardType,FormatID);
+	try
+		lGraphic.LoadFromClipboardFormatID(ClipboardType,FormatID);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromClipboardFormatID', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -200,7 +272,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@Filename);
-	lGraphic.SaveToFile(Filename);
+	try
+		lGraphic.SaveToFile(Filename);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SaveToFile', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -213,7 +291,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@Stream);
-	lGraphic.SaveToStream(Stream);
+	try
+		lGraphic.SaveToStream(Stream);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SaveToStream', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -226,7 +310,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@FormatID);
-	lGraphic.SaveToClipboardFormat(FormatID);
+	try
+		lGraphic.SaveToClipboardFormat(FormatID);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SaveToClipboardFormat', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -241,7 +331,13 @@ begin
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@ClipboardType,TypeInfo(TClipboardType));
 	luaL_check(L,3,@FormatID);
-	lGraphic.SaveToClipboardFormatID(ClipboardType,FormatID);
+	try
+		lGraphic.SaveToClipboardFormatID(ClipboardType,FormatID);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SaveToClipboardFormatID', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -254,7 +350,13 @@ begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
 	luaL_check(L,2,@List);
-	lGraphic.GetSupportedSourceMimeTypes(List);
+	try
+		lGraphic.GetSupportedSourceMimeTypes(List);
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetSupportedSourceMimeTypes', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -266,7 +368,13 @@ var
 begin
 	CheckArg(L, 1);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ret := lGraphic.GetResourceType();
+	try
+		ret := lGraphic.GetResourceType();
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetResourceType', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;

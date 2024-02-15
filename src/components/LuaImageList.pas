@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
 
 function VCLua_ImageList_AssignTo(L: Plua_State): Integer; cdecl;
 var
@@ -34,7 +34,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Dest);
-	lImageList.AssignTo(Dest);
+	try
+		lImageList.AssignTo(Dest);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AssignTo', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -47,7 +53,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Source);
-	lImageList.Assign(Source);
+	try
+		lImageList.Assign(Source);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Assign', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -60,7 +72,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	lImageList.WriteData(AStream);
+	try
+		lImageList.WriteData(AStream);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'WriteData', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -73,7 +91,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	lImageList.ReadData(AStream);
+	try
+		lImageList.ReadData(AStream);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ReadData', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -86,7 +110,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	lImageList.WriteAdvData(AStream);
+	try
+		lImageList.WriteAdvData(AStream);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'WriteAdvData', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -99,7 +129,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	lImageList.ReadAdvData(AStream);
+	try
+		lImageList.ReadAdvData(AStream);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ReadAdvData', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -113,7 +149,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Obj);
-	ret := lImageList.Equals(Obj);
+	try
+		ret := lImageList.Equals(Obj);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Equals', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -125,7 +167,13 @@ var
 begin
 	CheckArg(L, 1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	lImageList.BeginUpdate();
+	try
+		lImageList.BeginUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'BeginUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -136,7 +184,13 @@ var
 begin
 	CheckArg(L, 1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	lImageList.EndUpdate();
+	try
+		lImageList.EndUpdate();
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'EndUpdate', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -152,7 +206,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Image);
 	luaL_check(L,3,@Mask);
-	ret := lImageList.Add(Image,Mask);
+	try
+		ret := lImageList.Add(Image,Mask);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Add', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -171,7 +231,13 @@ begin
 	luaL_check(L,2,@Image);
 	luaL_check(L,3,@AHorizontalCount);
 	luaL_check(L,4,@AVerticalCount);
-	ret := lImageList.AddSliced(Image,AHorizontalCount,AVerticalCount);
+	try
+		ret := lImageList.AddSliced(Image,AHorizontalCount,AVerticalCount);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AddSliced', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -188,7 +254,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Image);
 	luaL_check(L,3,@AImageRect);
-	ret := lImageList.AddSlice(Image,AImageRect);
+	try
+		ret := lImageList.AddSlice(Image,AImageRect);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AddSlice', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -203,7 +275,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Image);
-	ret := lImageList.AddSliceCentered(Image);
+	try
+		ret := lImageList.AddSliceCentered(Image);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AddSliceCentered', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -218,7 +296,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Image);
-	ret := lImageList.AddIcon(Image);
+	try
+		ret := lImageList.AddIcon(Image);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AddIcon', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -232,7 +316,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AValue);
-	lImageList.AddImages(AValue);
+	try
+		lImageList.AddImages(AValue);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AddImages', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -248,7 +338,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Image);
 	luaL_check(L,3,@MaskColor);
-	ret := lImageList.AddMasked(Image,MaskColor);
+	try
+		ret := lImageList.AddMasked(Image,MaskColor);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AddMasked', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -265,7 +361,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ResourceName);
 	TTrait<TColor>.luaL_optcheck(L, 3, @MaskColor, clNone);
-	ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
+	try
+		ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AddLazarusResource', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -284,7 +386,13 @@ begin
 	luaL_check(L,2,@Instance);
 	luaL_check(L,3,@ResourceName);
 	TTrait<TColor>.luaL_optcheck(L, 4, @MaskColor, clNone);
-	ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
+	try
+		ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AddResourceName', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -296,7 +404,13 @@ var
 begin
 	CheckArg(L, 1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	lImageList.Change();
+	try
+		lImageList.Change();
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Change', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -307,7 +421,13 @@ var
 begin
 	CheckArg(L, 1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	lImageList.Clear();
+	try
+		lImageList.Clear();
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Clear', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -320,7 +440,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
-	lImageList.Delete(AIndex);
+	try
+		lImageList.Delete(AIndex);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Delete', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -341,7 +467,13 @@ begin
 	luaL_check(L,4,@AY);
 	luaL_check(L,5,@AIndex);
 	TTrait<Boolean>.luaL_optcheck(L, 6, @AEnabled, True);
-	lImageList.Draw(ACanvas,AX,AY,AIndex,AEnabled);
+	try
+		lImageList.Draw(ACanvas,AX,AY,AIndex,AEnabled);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -362,7 +494,13 @@ begin
 	luaL_check(L,4,@AY);
 	luaL_check(L,5,@AIndex);
 	luaL_check(L,6,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
-	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawEffect);
+	try
+		lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -387,7 +525,13 @@ begin
 	luaL_check(L,6,@ADrawingStyle,TypeInfo(TDrawingStyle));
 	luaL_check(L,7,@AImageType,TypeInfo(TImageType));
 	TTrait<Boolean>.luaL_optcheck(L, 8, @AEnabled, True);
-	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,AEnabled);
+	try
+		lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,AEnabled);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -412,7 +556,13 @@ begin
 	luaL_check(L,6,@ADrawingStyle,TypeInfo(TDrawingStyle));
 	luaL_check(L,7,@AImageType,TypeInfo(TImageType));
 	luaL_check(L,8,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
-	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,ADrawEffect);
+	try
+		lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,ADrawEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -439,7 +589,13 @@ begin
 	luaL_check(L,7,@ATargetPPI);
 	luaL_check(L,8,@ACanvasFactor);
 	TTrait<Boolean>.luaL_optcheck(L, 9, @AEnabled, True);
-	lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,AEnabled);
+	try
+		lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,AEnabled);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'DrawForPPI', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -466,7 +622,13 @@ begin
 	luaL_check(L,7,@ATargetPPI);
 	luaL_check(L,8,@ACanvasFactor);
 	luaL_check(L,9,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
-	lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,ADrawEffect);
+	try
+		lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,ADrawEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'DrawForPPI', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -489,7 +651,13 @@ begin
 	luaL_check(L,5,@AIndex);
 	luaL_check(L,6,@AOverlay);
 	TTrait<Boolean>.luaL_optcheck(L, 7, @AEnabled, True);
-	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,AEnabled);
+	try
+		lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,AEnabled);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'DrawOverlay', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -512,7 +680,13 @@ begin
 	luaL_check(L,5,@AIndex);
 	luaL_check(L,6,@AOverlay);
 	luaL_check(L,7,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
-	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawEffect);
+	try
+		lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'DrawOverlay', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -539,7 +713,13 @@ begin
 	luaL_check(L,7,@ADrawingStyle,TypeInfo(TDrawingStyle));
 	luaL_check(L,8,@AImageType,TypeInfo(TImageType));
 	luaL_check(L,9,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
-	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawingStyle,AImageType,ADrawEffect);
+	try
+		lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawingStyle,AImageType,ADrawEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'DrawOverlay', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -554,7 +734,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@Image);
-	lImageList.GetBitmap(Index,Image);
+	try
+		lImageList.GetBitmap(Index,Image);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'GetBitmap', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -571,7 +757,13 @@ begin
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@Image);
 	luaL_check(L,4,@AEffect,TypeInfo(TGraphicsDrawEffect));
-	lImageList.GetBitmap(Index,Image,AEffect);
+	try
+		lImageList.GetBitmap(Index,Image,AEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'GetBitmap', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -586,7 +778,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Image);
 	TTraitPti<TGraphicsDrawEffect>.luaL_optcheck(L, 3, @AEffect, gdeNormal, TypeInfo(TGraphicsDrawEffect));
-	lImageList.GetFullBitmap(Image,AEffect);
+	try
+		lImageList.GetFullBitmap(Image,AEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'GetFullBitmap', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -603,7 +801,13 @@ begin
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@Image);
 	luaL_check(L,4,@AEffect,TypeInfo(TGraphicsDrawEffect));
-	lImageList.GetIcon(Index,Image,AEffect);
+	try
+		lImageList.GetIcon(Index,Image,AEffect);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'GetIcon', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -618,7 +822,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@Image);
-	lImageList.GetIcon(Index,Image);
+	try
+		lImageList.GetIcon(Index,Image);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'GetIcon', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -630,7 +840,13 @@ var
 begin
 	CheckArg(L, 1);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	ret := lImageList.GetHotSpot();
+	try
+		ret := lImageList.GetHotSpot();
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'GetHotSpot', E.ClassName, E.Message);
+	end;
+
 	lua_push(L,ret);
 	
 	Result := 1;
@@ -648,7 +864,13 @@ begin
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@AImage);
 	luaL_check(L,4,@AMask);
-	lImageList.Insert(AIndex,AImage,AMask);
+	try
+		lImageList.Insert(AIndex,AImage,AMask);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Insert', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -663,7 +885,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@AIcon);
-	lImageList.InsertIcon(AIndex,AIcon);
+	try
+		lImageList.InsertIcon(AIndex,AIcon);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'InsertIcon', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -680,7 +908,13 @@ begin
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@AImage);
 	luaL_check(L,4,@MaskColor);
-	lImageList.InsertMasked(Index,AImage,MaskColor);
+	try
+		lImageList.InsertMasked(Index,AImage,MaskColor);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'InsertMasked', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -695,7 +929,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ACurIndex);
 	luaL_check(L,3,@ANewIndex);
-	lImageList.Move(ACurIndex,ANewIndex);
+	try
+		lImageList.Move(ACurIndex,ANewIndex);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Move', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -710,7 +950,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@Overlay);
-	lImageList.Overlay(AIndex,Overlay);
+	try
+		lImageList.Overlay(AIndex,Overlay);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Overlay', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -729,7 +975,13 @@ begin
 	luaL_check(L,3,@AImage);
 	luaL_check(L,4,@AMask);
 	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
-	lImageList.Replace(AIndex,AImage,AMask,AllResolutions);
+	try
+		lImageList.Replace(AIndex,AImage,AMask,AllResolutions);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Replace', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -748,7 +1000,13 @@ begin
 	luaL_check(L,3,@Image);
 	luaL_check(L,4,@AImageRect);
 	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
-	lImageList.ReplaceSlice(AIndex,Image,AImageRect,AllResolutions);
+	try
+		lImageList.ReplaceSlice(AIndex,Image,AImageRect,AllResolutions);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ReplaceSlice', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -767,7 +1025,13 @@ begin
 	luaL_check(L,3,@AImageWidth);
 	luaL_check(L,4,@Image);
 	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
-	lImageList.ReplaceSliceCentered(AIndex,AImageWidth,Image,AllResolutions);
+	try
+		lImageList.ReplaceSliceCentered(AIndex,AImageWidth,Image,AllResolutions);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ReplaceSliceCentered', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -782,7 +1046,13 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@AIcon);
-	lImageList.ReplaceIcon(AIndex,AIcon);
+	try
+		lImageList.ReplaceIcon(AIndex,AIcon);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ReplaceIcon', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -801,7 +1071,13 @@ begin
 	luaL_check(L,3,@NewImage);
 	luaL_check(L,4,@MaskColor);
 	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
-	lImageList.ReplaceMasked(Index,NewImage,MaskColor,AllResolutions);
+	try
+		lImageList.ReplaceMasked(Index,NewImage,MaskColor,AllResolutions);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ReplaceMasked', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -814,7 +1090,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Value);
-	lImageList.RegisterChanges(Value);
+	try
+		lImageList.RegisterChanges(Value);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'RegisterChanges', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -833,7 +1115,13 @@ begin
 	luaL_check(L,3,@Index);
 	luaL_check(L,4,@ARect);
 	TTrait<Boolean>.luaL_optcheck(L, 5, @Enabled, True);
-	lImageList.StretchDraw(Canvas,Index,ARect,Enabled);
+	try
+		lImageList.StretchDraw(Canvas,Index,ARect,Enabled);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'StretchDraw', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -846,7 +1134,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Value);
-	lImageList.UnRegisterChanges(Value);
+	try
+		lImageList.UnRegisterChanges(Value);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'UnRegisterChanges', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
@@ -859,7 +1153,13 @@ begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@AWidth);
-	lImageList.DeleteResolution(AWidth);
+	try
+		lImageList.DeleteResolution(AWidth);
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'DeleteResolution', E.ClassName, E.Message);
+	end;
+
 	
 	Result := 0;
 end;
