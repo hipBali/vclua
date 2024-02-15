@@ -120,7 +120,7 @@ var
 begin
 	CheckArg(L, 1, 2);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	AMoveToTop := luaL_optbool(L,2,True);
+	TTrait<Boolean>.luaL_optcheck(L, 2, @AMoveToTop, True);
 	lForm.EnsureVisible(AMoveToTop);
 	
 	Result := 0;
@@ -236,10 +236,10 @@ var
 	AMonitor:TMonitor;
 	UseWorkarea:Boolean;
 begin
-	CheckArg(L, 2, 3);
+	CheckArg(L, 1, 3);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	luaL_check(L,2,@AMonitor);
-	UseWorkarea := luaL_optbool(L,3,False);
+	TTrait<TMonitor>.luaL_optcheck(L, 2, @AMonitor, nil);
+	TTrait<Boolean>.luaL_optcheck(L, 3, @UseWorkarea, False);
 	lForm.MakeFullyVisible(AMonitor,UseWorkarea);
 	
 	Result := 0;
@@ -268,8 +268,8 @@ var
 begin
 	CheckArg(L, 1, 3);
 	lForm := TLuaForm(GetLuaObject(L, 1));
-	Raw := luaL_optbool(L,2,false);
-	WithThemeSpace := luaL_optbool(L,3,true);
+	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
+	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
 	lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
@@ -288,8 +288,8 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	luaL_check(L,2,@PreferredWidth);
 	luaL_check(L,3,@PreferredHeight);
-	Raw := luaL_optbool(L,4,false);
-	WithThemeSpace := luaL_optbool(L,5,true);
+	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
+	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
 	lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
@@ -361,7 +361,7 @@ begin
 	luaL_check(L,3,@ATop);
 	luaL_check(L,4,@AWidth);
 	luaL_check(L,5,@AHeight);
-	ADefaultPosition := luaL_optbool(L,6,False);
+	TTrait<Boolean>.luaL_optcheck(L, 6, @ADefaultPosition, False);
 	lForm.SetRestoredBounds(ALeft,ATop,AWidth,AHeight,ADefaultPosition);
 	
 	Result := 0;

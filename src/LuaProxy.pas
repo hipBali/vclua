@@ -54,14 +54,24 @@ procedure luaL_check(L: Plua_State; i: Integer; v: PRect; pti : PTypeInfo = nil)
 procedure luaL_check(L: Plua_State; i: Integer; v: PTextStyle; pti : PTypeInfo = nil); overload; inline;
 
 // it's out of trait to allow calling luaL_check for different type than T, e.g. for TObject instead of TMenuItem
-procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT);
+procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT); inline;
+procedure luaL_checkProxyPti<PT>(L: Plua_State; i: Integer; addr: PT; pti : PTypeInfo); inline;
 type
+  // this type must nor be instantiated for enums or it won't compile
   TTrait<T> = class
     type
         PT = ^T;
         aoT = array of T;
         PaoT = ^aoT;
-    class procedure luaL_checkArray(L: Plua_State; i: Integer; v: PaoT);
+    class procedure luaL_checkArray(L: Plua_State; i: Integer; v: PaoT); inline;
+    class procedure luaL_optcheck(L: Plua_State; i: Integer; v:PT; const dflt: T); inline;
+  end;
+  TTraitPti<T> = class
+    type
+        PT = ^T;
+        aoT = array of T;
+        PaoT = ^aoT;
+    class procedure luaL_optcheck(L: Plua_State; i: Integer; v:PT; const dflt: T; pti : PTypeInfo); inline;
   end;
 
 procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil); overload; inline;
@@ -260,10 +270,14 @@ end;
 
 procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT);
 begin
-    luaL_check(L, -1, addr);
+  luaL_check(L, -1, addr);
 end;
+procedure luaL_checkProxyPti<PT>(L: Plua_State; i: Integer; addr: PT; pti : PTypeInfo);
+begin
+  luaL_check(L, -1, addr, pti);
+end;
+
 class procedure TTrait<T>.luaL_checkArray(L: Plua_State; i: Integer; v: PaoT);
-//type Ptr = TTrait<T>.PT;
 var j,len: size_t;
 begin
   if lua_istable(L, i) then begin
@@ -277,6 +291,21 @@ begin
     lua_pop(L, len);
   end else
     LuaTypeError(L, i, TypeInfo(v^));
+end;
+
+class procedure TTrait<T>.luaL_optcheck(L: Plua_State; i: Integer; v: PT; const dflt: T);
+begin
+  if not lua_isnoneornil(L, i) then
+     luaL_checkProxy<PT>(L, i, v)
+  else
+     v^ := dflt;
+end;
+class procedure TTraitPti<T>.luaL_optcheck(L: Plua_State; i: Integer; v: PT; const dflt: T; pti : PTypeInfo);
+begin
+  if not lua_isnoneornil(L, i) then
+     luaL_checkProxyPti<PT>(L, i, v, pti)
+  else
+     v^ := dflt;
 end;
 
 // push overloads

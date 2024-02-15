@@ -202,10 +202,10 @@ begin
 	CheckArg(L, 2, 6);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	ADelimiter := char(luaL_optstring(L,3,','));
-	UseTitles := luaL_optbool(L,4,true);
-	FromLine := luaL_optint(L,5,0);
-	SkipEmptyLines := luaL_optbool(L,6,true);
+	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
+	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
+	TTrait<Integer>.luaL_optcheck(L, 5, @FromLine, 0);
+	TTrait<Boolean>.luaL_optcheck(L, 6, @SkipEmptyLines, true);
 	lValueListEditor.LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
 	
 	Result := 0;
@@ -263,9 +263,9 @@ var
 	lValueListEditor:TLuaValueListEditor;
 	ACol:TVleSortCol;
 begin
-	CheckArg(L, 2);
+	CheckArg(L, 1, 2);
 	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	luaL_check(L,2,@ACol,TypeInfo(TVleSortCol));
+	TTraitPti<TVleSortCol>.luaL_optcheck(L, 2, @ACol, colKey, TypeInfo(TVleSortCol));
 	lValueListEditor.Sort(ACol);
 	
 	Result := 0;

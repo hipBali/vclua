@@ -67,12 +67,12 @@ var
 	KeepDockSiteSize:Boolean;
 	ret:Boolean;
 begin
-	CheckArg(L, 4, 5);
+	CheckArg(L, 2, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@NewDockSite);
-	luaL_check(L,3,@DropControl);
-	luaL_check(L,4,@ControlSide,TypeInfo(TAlign));
-	KeepDockSiteSize := luaL_optbool(L,5,true);
+	TTrait<TControl>.luaL_optcheck(L, 3, @DropControl, nil);
+	TTraitPti<TAlign>.luaL_optcheck(L, 4, @ControlSide, alNone, TypeInfo(TAlign));
+	TTrait<Boolean>.luaL_optcheck(L, 5, @KeepDockSiteSize, true);
 	ret := lControl.ManualDock(NewDockSite,DropControl,ControlSide,KeepDockSiteSize);
 	lua_push(L,ret);
 	
@@ -89,7 +89,7 @@ begin
 	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@TheScreenRect);
-	KeepDockSiteSize := luaL_optbool(L,3,true);
+	TTrait<Boolean>.luaL_optcheck(L, 3, @KeepDockSiteSize, true);
 	ret := lControl.ManualFloat(TheScreenRect,KeepDockSiteSize);
 	lua_push(L,ret);
 	
@@ -366,7 +366,7 @@ begin
 	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
 	luaL_check(L,3,@Space);
 	luaL_check(L,4,@Sibling);
-	FreeCompositeSide := luaL_optbool(L,5,true);
+	TTrait<boolean>.luaL_optcheck(L, 5, @FreeCompositeSide, true);
 	lControl.AnchorToCompanion(Side,Space,Sibling,FreeCompositeSide);
 	
 	Result := 0;
@@ -495,8 +495,8 @@ var
 begin
 	CheckArg(L, 1, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Raw := luaL_optbool(L,2,false);
-	WithThemeSpace := luaL_optbool(L,3,true);
+	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
+	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
 	lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
@@ -515,8 +515,8 @@ begin
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@PreferredWidth);
 	luaL_check(L,3,@PreferredHeight);
-	Raw := luaL_optbool(L,4,false);
-	WithThemeSpace := luaL_optbool(L,5,true);
+	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
+	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
 	lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
@@ -769,7 +769,7 @@ begin
 	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Immediate);
-	Threshold := luaL_optint(L,3,-1);
+	TTrait<Integer>.luaL_optcheck(L, 3, @Threshold, -1);
 	lControl.BeginDrag(Immediate,Threshold);
 	
 	Result := 0;
@@ -1096,10 +1096,10 @@ var
 	AParent:TWinControl;
 	ret:TPoint;
 begin
-	CheckArg(L, 3);
+	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Point);
-	luaL_check(L,3,@AParent);
+	TTrait<TWinControl>.luaL_optcheck(L, 3, @AParent, nil);
 	ret := lControl.ClientToParent(Point,AParent);
 	lua_push(L,ret);
 	
@@ -1113,10 +1113,10 @@ var
 	AParent:TWinControl;
 	ret:TPoint;
 begin
-	CheckArg(L, 3);
+	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
 	luaL_check(L,2,@Point);
-	luaL_check(L,3,@AParent);
+	TTrait<TWinControl>.luaL_optcheck(L, 3, @AParent, nil);
 	ret := lControl.ParentToClient(Point,AParent);
 	lua_push(L,ret);
 	

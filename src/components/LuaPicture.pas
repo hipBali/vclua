@@ -88,7 +88,7 @@ begin
 	CheckArg(L, 2, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	luaL_check(L,2,@Filename);
-	FileExt := luaL_optstring(L,3,'');
+	TTrait<string>.luaL_optcheck(L, 3, @FileExt, '');
 	lPicture.SaveToFile(Filename,FileExt);
 	
 	Result := 0;

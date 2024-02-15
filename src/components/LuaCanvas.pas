@@ -550,8 +550,8 @@ begin
 	CheckArg(L, 2, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
-	Filled := luaL_optbool(L,3,False);
-	Continuous := luaL_optbool(L,4,True);
+	TTrait<boolean>.luaL_optcheck(L, 3, @Filled, False);
+	TTrait<boolean>.luaL_optcheck(L, 4, @Continuous, True);
 	lCanvas.PolyBezier(Points,Filled,Continuous);
 	
 	Result := 0;
@@ -569,8 +569,8 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
 	luaL_check(L,3,@Winding);
-	StartIndex := luaL_optint(L,4,0);
-	NumPts := luaL_optint(L,5,-1);
+	TTrait<Integer>.luaL_optcheck(L, 4, @StartIndex, 0);
+	TTrait<Integer>.luaL_optcheck(L, 5, @NumPts, -1);
 	lCanvas.Polygon(Points,Winding,StartIndex,NumPts);
 	
 	Result := 0;
@@ -600,7 +600,7 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
 	luaL_check(L,3,@StartIndex);
-	NumPts := luaL_optint(L,4,-1);
+	TTrait<Integer>.luaL_optcheck(L, 4, @NumPts, -1);
 	lCanvas.Polyline(Points,StartIndex,NumPts);
 	
 	Result := 0;

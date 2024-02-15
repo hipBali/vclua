@@ -252,7 +252,7 @@ begin
 	luaL_check(L,4,@Partial);
 	luaL_check(L,5,@Inclusive);
 	luaL_check(L,6,@Wrap);
-	PartStart := luaL_optbool(L,7,True);
+	TTrait<Boolean>.luaL_optcheck(L, 7, @PartStart, True);
 	ret := lListItems.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
 	lua_push(L,ret);
 	
@@ -428,7 +428,7 @@ begin
 	luaL_check(L,4,@Partial);
 	luaL_check(L,5,@Inclusive);
 	luaL_check(L,6,@Wrap);
-	PartStart := luaL_optbool(L,7,True);
+	TTrait<Boolean>.luaL_optcheck(L, 7, @PartStart, True);
 	ret := lListView.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
 	lua_push(L,ret);
 	

@@ -320,7 +320,7 @@ var
 begin
 	CheckArg(L, 1, 2);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
-	AUseSelection := luaL_optbool(L,2,false);
+	TTrait<boolean>.luaL_optcheck(L, 2, @AUseSelection, false);
 	lStringGrid.CopyToClipboard(AUseSelection);
 	
 	Result := 0;
@@ -353,10 +353,10 @@ begin
 	CheckArg(L, 2, 6);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	ADelimiter := char(luaL_optstring(L,3,','));
-	UseTitles := luaL_optbool(L,4,true);
-	FromLine := luaL_optint(L,5,0);
-	SkipEmptyLines := luaL_optbool(L,6,true);
+	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
+	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
+	TTrait<Integer>.luaL_optcheck(L, 5, @FromLine, 0);
+	TTrait<Boolean>.luaL_optcheck(L, 6, @SkipEmptyLines, true);
 	lStringGrid.LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
 	
 	Result := 0;
@@ -374,10 +374,10 @@ begin
 	CheckArg(L, 2, 6);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AFilename);
-	ADelimiter := char(luaL_optstring(L,3,','));
-	UseTitles := luaL_optbool(L,4,true);
-	FromLine := luaL_optint(L,5,0);
-	SkipEmptyLines := luaL_optbool(L,6,true);
+	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
+	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
+	TTrait<Integer>.luaL_optcheck(L, 5, @FromLine, 0);
+	TTrait<Boolean>.luaL_optcheck(L, 6, @SkipEmptyLines, true);
 	lStringGrid.LoadFromCSVFile(AFilename,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
 	
 	Result := 0;
@@ -394,9 +394,9 @@ begin
 	CheckArg(L, 2, 5);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AStream);
-	ADelimiter := char(luaL_optstring(L,3,','));
-	WriteTitles := luaL_optbool(L,4,true);
-	VisibleColumnsOnly := luaL_optbool(L,5,false);
+	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
+	TTrait<boolean>.luaL_optcheck(L, 4, @WriteTitles, true);
+	TTrait<boolean>.luaL_optcheck(L, 5, @VisibleColumnsOnly, false);
 	lStringGrid.SaveToCSVStream(AStream,ADelimiter,WriteTitles,VisibleColumnsOnly);
 	
 	Result := 0;
@@ -413,9 +413,9 @@ begin
 	CheckArg(L, 2, 5);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	luaL_check(L,2,@AFileName);
-	ADelimiter := char(luaL_optstring(L,3,','));
-	WriteTitles := luaL_optbool(L,4,true);
-	VisibleColumnsOnly := luaL_optbool(L,5,false);
+	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
+	TTrait<boolean>.luaL_optcheck(L, 4, @WriteTitles, true);
+	TTrait<boolean>.luaL_optcheck(L, 5, @VisibleColumnsOnly, false);
 	lStringGrid.SaveToCSVFile(AFileName,ADelimiter,WriteTitles,VisibleColumnsOnly);
 	
 	Result := 0;

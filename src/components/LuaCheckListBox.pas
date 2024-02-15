@@ -78,8 +78,8 @@ begin
 	CheckArg(L, 2, 4);
 	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
 	luaL_check(L,2,@AState,TypeInfo(TCheckBoxState));
-	aAllowGrayed := luaL_optbool(L,3,True);
-	aAllowDisabled := luaL_optbool(L,4,True);
+	TTrait<Boolean>.luaL_optcheck(L, 3, @aAllowGrayed, True);
+	TTrait<Boolean>.luaL_optcheck(L, 4, @aAllowDisabled, True);
 	lCheckListBox.CheckAll(AState,aAllowGrayed,aAllowDisabled);
 	
 	Result := 0;

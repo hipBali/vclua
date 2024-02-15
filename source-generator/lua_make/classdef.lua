@@ -6,6 +6,8 @@
 --                                                      --
 -- **************************************************** --
 
+VCLUA_OPT_DEFAULT = "TTraitPti<#TYP>.luaL_optcheck(L, #, @#VAR, #DEF, TypeInfo(#TYP));"
+
 if checkTypeSupport then
 
 VCLUA_TOLUA_DEFAULT = "lua_push(L,ret);"
@@ -40,6 +42,7 @@ end
 if checkTypeSupport then
 
 VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR);"
+VCLUA_OPT = "TTrait<#TYP>.luaL_optcheck(L, #, @#VAR, #DEF);"
 
 -- enums and sets
 VCLUA_FROMLUA_ES = {
@@ -67,24 +70,22 @@ VCLUA_FROMLUA_ES = {
 }
 
 VCLUA_FROMLUA = {
-
-	-- default values
-	
-	["def_string"] = "luaL_optstring(L,#IDX,'#DEF');",
-	["def_char"] = "char(luaL_optstring(L,#IDX,'#DEF'));",
-	["def_boolean"] = "luaL_optbool(L,#IDX,#DEF);",
-	["def_integer"] = "luaL_optint(L,#IDX,#DEF);",
-	["def_tshiftstate"] = "lua_toTShiftState(L,#IDX,#DEF);",
-	
 	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
 }
 
-for _,t in pairs(VCLUA_FROMLUA_ES) do VCLUA_FROMLUA[t:lower()] = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));" end
+VCLUA_TOLUA_ES = {}
+for _,t in pairs(VCLUA_FROMLUA_ES) do
+  local tl = t:lower()
+  VCLUA_FROMLUA[tl] = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));"
+  VCLUA_TOLUA_ES[tl] = true
+end
 
 else
 VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));"
+VCLUA_OPT = VCLUA_OPT_DEFAULT
 
 VCLUA_FROMLUA = {
+	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
 }
 end
 

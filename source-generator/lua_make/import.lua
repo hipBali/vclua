@@ -177,6 +177,7 @@ local function processClass(def,cdef)
 		local _,_,c = line:find("(%a+)%s*=%s*set%s+of%s*")
 		if c then
 			VCLUA_FROMLUA[c:lower()] = VCLUA_TOSET
+			if VCLUA_TOLUA_ES then VCLUA_TOLUA_ES[c:lower()] = true end
 			cLog(string.format("SET FOUND %s LINE:%d",c, n),"INFO")
 		end
 		-- test against 'array of', generate source from VCLUA_TOARRAY
@@ -295,11 +296,7 @@ function processParams(s)
 			def = nil
 			local pp = varType:split("=") 	-- remove default value
 			if pp[2] then
-				def=pp[2]:gsub("'","")
-				if VCLUA_FROMLUA["def_"..pp[1]:trim():lower()]==nil then
-					cLog(string.format(" ** TODO: DEFAULT VALUE ** %s %s %s",varName,varType,def),"INFO")
-					
-				end
+				def=pp[2]
 			end
 			varType = pp[1]
 
@@ -400,8 +397,9 @@ function createUnitBody(cdef, ref)
             idx = idx + 1
             varName = ppp[i]
             local vtLower = varType:lower()
-            if varValue and VCLUA_FROMLUA["def_"..vtLower] then
-              table.insert(varsFromLua,varName .. " := " .. VCLUA_FROMLUA["def_"..vtLower]:gsub("#IDX",idx):gsub("#DEF",varValue))
+            if varValue then
+              local templ = (not VCLUA_TOLUA_ES or VCLUA_TOLUA_ES[vtLower]) and VCLUA_OPT_DEFAULT or VCLUA_OPT
+              table.insert(varsFromLua,(templ:gsub('#TYP',varType):gsub("#DEF",varValue,1):gsub('#VAR',varName,1):gsub("#",idx,1)))
               if not defVars then defVars = idx - 1 end
             else
               local arrayType = varType:match('array%s+of%s+([_%w]+)')

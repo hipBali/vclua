@@ -261,10 +261,10 @@ var
 	MaskColor:TColor;
 	ret:integer;
 begin
-	CheckArg(L, 3);
+	CheckArg(L, 2, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ResourceName);
-	luaL_check(L,3,@MaskColor);
+	TTrait<TColor>.luaL_optcheck(L, 3, @MaskColor, clNone);
 	ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
 	lua_push(L,ret);
 	
@@ -279,11 +279,11 @@ var
 	MaskColor:TColor;
 	ret:integer;
 begin
-	CheckArg(L, 4);
+	CheckArg(L, 3, 4);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Instance);
 	luaL_check(L,3,@ResourceName);
-	luaL_check(L,4,@MaskColor);
+	TTrait<TColor>.luaL_optcheck(L, 4, @MaskColor, clNone);
 	ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
 	lua_push(L,ret);
 	
@@ -340,7 +340,7 @@ begin
 	luaL_check(L,3,@AX);
 	luaL_check(L,4,@AY);
 	luaL_check(L,5,@AIndex);
-	AEnabled := luaL_optbool(L,6,True);
+	TTrait<Boolean>.luaL_optcheck(L, 6, @AEnabled, True);
 	lImageList.Draw(ACanvas,AX,AY,AIndex,AEnabled);
 	
 	Result := 0;
@@ -386,7 +386,7 @@ begin
 	luaL_check(L,5,@AIndex);
 	luaL_check(L,6,@ADrawingStyle,TypeInfo(TDrawingStyle));
 	luaL_check(L,7,@AImageType,TypeInfo(TImageType));
-	AEnabled := luaL_optbool(L,8,True);
+	TTrait<Boolean>.luaL_optcheck(L, 8, @AEnabled, True);
 	lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,AEnabled);
 	
 	Result := 0;
@@ -438,7 +438,7 @@ begin
 	luaL_check(L,6,@AImageWidthAt96PPI);
 	luaL_check(L,7,@ATargetPPI);
 	luaL_check(L,8,@ACanvasFactor);
-	AEnabled := luaL_optbool(L,9,True);
+	TTrait<Boolean>.luaL_optcheck(L, 9, @AEnabled, True);
 	lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,AEnabled);
 	
 	Result := 0;
@@ -488,7 +488,7 @@ begin
 	luaL_check(L,4,@AY);
 	luaL_check(L,5,@AIndex);
 	luaL_check(L,6,@AOverlay);
-	AEnabled := luaL_optbool(L,7,True);
+	TTrait<Boolean>.luaL_optcheck(L, 7, @AEnabled, True);
 	lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,AEnabled);
 	
 	Result := 0;
@@ -582,10 +582,10 @@ var
 	Image:TCustomBitmap;
 	AEffect:TGraphicsDrawEffect;
 begin
-	CheckArg(L, 3);
+	CheckArg(L, 2, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Image);
-	luaL_check(L,3,@AEffect,TypeInfo(TGraphicsDrawEffect));
+	TTraitPti<TGraphicsDrawEffect>.luaL_optcheck(L, 3, @AEffect, gdeNormal, TypeInfo(TGraphicsDrawEffect));
 	lImageList.GetFullBitmap(Image,AEffect);
 	
 	Result := 0;
@@ -728,7 +728,7 @@ begin
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@AImage);
 	luaL_check(L,4,@AMask);
-	AllResolutions := luaL_optbool(L,5,True);
+	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
 	lImageList.Replace(AIndex,AImage,AMask,AllResolutions);
 	
 	Result := 0;
@@ -747,7 +747,7 @@ begin
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@Image);
 	luaL_check(L,4,@AImageRect);
-	AllResolutions := luaL_optbool(L,5,True);
+	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
 	lImageList.ReplaceSlice(AIndex,Image,AImageRect,AllResolutions);
 	
 	Result := 0;
@@ -766,7 +766,7 @@ begin
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@AImageWidth);
 	luaL_check(L,4,@Image);
-	AllResolutions := luaL_optbool(L,5,True);
+	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
 	lImageList.ReplaceSliceCentered(AIndex,AImageWidth,Image,AllResolutions);
 	
 	Result := 0;
@@ -800,7 +800,7 @@ begin
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@NewImage);
 	luaL_check(L,4,@MaskColor);
-	AllResolutions := luaL_optbool(L,5,True);
+	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
 	lImageList.ReplaceMasked(Index,NewImage,MaskColor,AllResolutions);
 	
 	Result := 0;
@@ -832,7 +832,7 @@ begin
 	luaL_check(L,2,@Canvas);
 	luaL_check(L,3,@Index);
 	luaL_check(L,4,@ARect);
-	Enabled := luaL_optbool(L,5,True);
+	TTrait<Boolean>.luaL_optcheck(L, 5, @Enabled, True);
 	lImageList.StretchDraw(Canvas,Index,ARect,Enabled);
 	
 	Result := 0;

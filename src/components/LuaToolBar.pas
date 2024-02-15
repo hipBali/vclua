@@ -119,8 +119,8 @@ var
 begin
 	CheckArg(L, 1, 3);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
-	Raw := luaL_optbool(L,2,false);
-	WithThemeSpace := luaL_optbool(L,3,true);
+	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
+	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
 	lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
@@ -139,8 +139,8 @@ begin
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	luaL_check(L,2,@PreferredWidth);
 	luaL_check(L,3,@PreferredHeight);
-	Raw := luaL_optbool(L,4,false);
-	WithThemeSpace := luaL_optbool(L,5,true);
+	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
+	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
 	lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
