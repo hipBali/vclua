@@ -5,17 +5,8 @@ library vcl;
 {$R *.res}
 
 uses
-  // patched sources -----------
-  Graphics,
-  // ---------------------------
-  Classes,
   SysUtils,
   Interfaces,
-  InterfaceBase,
-  Forms,
-  Controls,
-  Dialogs,
-  runtimetypeinfocontrols,
   TypInfo,
   FGL,
   Lua in 'lua.pas',
