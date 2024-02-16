@@ -10,7 +10,7 @@ begin
   strGrid := TLuaStringGrid(GetLuaObject(L, 1));
   c := lua_tointeger(L,2);
   r := lua_tointeger(L,3);
-  lua_pushstring(L,pchar(strGrid.Cells[c,r]));
+  lua_pushstringCP(L,pchar(strGrid.Cells[c,r]));
   Result := 1;
 end;]],
 		finalMethodName="GetCells",
@@ -27,7 +27,7 @@ begin
   strGrid := TLuaStringGrid(GetLuaObject(L, 1));
   c := lua_tointeger(L,2);
   r := lua_tointeger(L,3);
-  strGrid.Cells[c,r] := lua_tostring(L,4);
+  strGrid.Cells[c,r] := lua_tostringCP(L,4);
   Result := 0;
 end;]],
 		finalMethodName="SetCells",
