@@ -11,18 +11,23 @@ end
 local add_img = function(imgList, fName)
 	if not file_exists(fName) then 
 		print(string.format("Image file '%s' not found!", fName))
+		-- comment this to see exception later
 		return -1 
 	end
 	-- Picture can load several formats, not just one
 	Picture = VCL.Picture()
 	Picture:LoadFromFile(fName)
 	-- ImageList needs a CustomBitmap descendant
-	SrcBmp = VCL.Bitmap()
+	local SrcBmp = VCL.Bitmap()
 	-- This converts the format (png->bmp)
 	-- Bitmap has no method named 'Assign', but CustomBitmap has it
 	SrcBmp:Assign(Picture.Graphic)
 	local idx = imgList:Add(SrcBmp, nil)
 	Picture:Free()
+	local destBmp = VCL.Bitmap()
+	-- test for passing optional enum, try removing 2nd param
+	imgList:GetFullBitmap(destBmp, 'gdeDisabled')
+	destBmp:SaveToFile('cancel.bmp')
 	return idx
 end
 
@@ -33,5 +38,8 @@ print("Image index is:",idx)
 local bSave = VCL.ToolButton(tbar,'b1',{Caption="Save",AutoSize=true, Style="tbsButton", Left = tbar.Left})
 VCL.ToolButton(tbar,'s1',{Style="tbsDivider", Left = tbar.Left})
 local bCancel = VCL.ToolButton(tbar,'b2',{ImageIndex=0, AutoSize=true, Style="tbsButton", Left = tbar.Left})
+-- test return of variable parameters
+local a,b,c = bCancel:GetCurrentIcon()
+print(a.classname, b, c)
 
 frm:ShowModal()

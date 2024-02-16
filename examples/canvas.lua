@@ -17,6 +17,10 @@ local function onPaint(sender)
 	Canvas.Brush.Color = 0x22DD44
 	Canvas.Brush.Style = 'bsSolid'
 	Canvas:Rectangle(100,50,160,110)
+	-- test for handling of rare types like Single and Word
+	Canvas:AngleArc(100,100,20,120.5,130.6)
+	-- test for passing arrays and records
+	Canvas:Polyline2({{x=0,y=0},{x=100,y=50},{x=50,y=100},{x=0,y=0}})
 end
 
 mainFrm.OnPaint = onPaint

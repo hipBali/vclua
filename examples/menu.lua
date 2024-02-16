@@ -35,6 +35,22 @@ function VCL.loadMenu(self,t,mId)
 	end
 end
 
+function VCL.toMenuItems(t, owner)
+    local res = {}
+    for i,tt in ipairs(t) do res[i] = VCL.toMenuItem(tt, owner) end
+    return res
+end
+function VCL.toMenuItem(t, owner)
+    local submenu = t.submenu
+    t.submenu = nil
+    local mi = VCL.MenuItem(owner, t)
+    if submenu then
+        t.submenu = submenu
+        mi:Add2(VCL.toMenuItems(submenu, owner))
+    end
+    return mi
+end
+
 local function menuClick(Sender)
 	VCL.ShowMessage(Sender.name)
 end
@@ -78,7 +94,9 @@ VCL.loadAction(mainActions, {
 local mainMenu = VCL.MainMenu(frmMain, "mmmainmenu")
 mainMenu.Images = toolImages
 mainMenu.showhint=true
-VCL.loadMenu(mainMenu, {
+--VCL.loadMenu(mainMenu, {
+--test for passing of array of objects
+mainMenu.Items:Add2(VCL.toMenuItems{
 	{caption="&File",   
 		submenu={
 			{action=mainActions["fileNew"]},	
