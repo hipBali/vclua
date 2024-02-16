@@ -17,3 +17,5 @@ TMessage
 TStringListSortCompare
 TLVCompare
 TComponentClass
+TStringsFilterMethod
+TStringsMapMethod

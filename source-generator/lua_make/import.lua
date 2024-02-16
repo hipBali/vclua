@@ -162,10 +162,10 @@ local function processClass(def,cdef)
 	local processed
 	local cname = cdef.name
 	local skip
-	local headers = {}
 	local exclude = loadMap("exclude/"..cname) or {}
 	for k, v in pairs(excludeFuncs) do exclude[k] = v end
-	for n, line in pairs(def) do
+
+	local function processLine(n, line)
 		-- find classdef
 		local ln = {}
 		local index = 1
@@ -173,6 +173,7 @@ local function processClass(def,cdef)
 			ln[index] = value
 			index = index + 1
 		end
+		if not ln[1] then return false end
 		-- test against 'set of', generate source from VCLUA_TOSET
 		local _,_,c = line:find("(%a+)%s*=%s*set%s+of%s*")
 		if c then
@@ -194,18 +195,16 @@ local function processClass(def,cdef)
 			stage="parse"
 			processed = true
 		end
-		if proc[ln[1]] then 
-			if stage~="scan" and proc[ln[1]]()  then 
-				break
-			end
+		local lword = ln[1]:lower()
+		if proc[lword] and stage~="scan" and proc[lword]() then
+			return true
 		end
 		if stage=="fill" and classTable[cname] then
-			if ln[1]=="procedure" or ln[1]=="function" then
-				local mId = ln[1].." "..ln[2]
+			if lword=="procedure" or lword=="function" then
+				local mId = lword.." "..ln[2]
 				if exclude[mId] then
 					cLog(" ** EXCLUDE:"..mId, "DEBUG")
 				else
-					table.insert(headers,mId)
 					-- test comment
 					line = removeIfdef(line)
 					line = removeInnerComment(line)
@@ -245,6 +244,10 @@ local function processClass(def,cdef)
 				end
 			end
 		end
+		return false
+	end
+	for n, line in pairs(def) do
+		if processLine(n, line) then break end
 	end
 	return processed
 end
@@ -343,7 +346,7 @@ function createUnitBody(cdef, ref)
 	for _,method in pairs(classTable[className]) do
 		-- parse params
 		local tmp = method:match("%w+%s*%w+"):split(" ") -- type, methodname
-		local mType = tmp[1]
+		local mType = tmp[1]:lower()
 		local mName = tmp[2]
 		local ret, reto
 		local retCount = 0

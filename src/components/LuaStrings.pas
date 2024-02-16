@@ -237,6 +237,25 @@ begin
 	Result := 0;
 end;
 
+function VCLua_Strings_AddText(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	S:String;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@S);
+	try
+		lStrings.AddText(S);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AddText', E.ClassName, E.Message);
+	end;
+
+	
+	Result := 0;
+end;
+
 function VCLua_Strings_AddCommaText(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
@@ -488,6 +507,29 @@ begin
 	lua_push(L,ret);
 	
 	Result := 1;
+end;
+
+function VCLua_Strings_Fill(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	aValue:String;
+	aStart:Integer;
+	aEnd:Integer;
+begin
+	CheckArg(L, 4);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@aValue);
+	luaL_check(L,3,@aStart);
+	luaL_check(L,4,@aEnd);
+	try
+		lStrings.Fill(aValue,aStart,aEnd);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Fill', E.ClassName, E.Message);
+	end;
+
+	
+	Result := 0;
 end;
 
 function VCLua_Strings_GetNameValue(L: Plua_State): Integer; cdecl;
@@ -806,6 +848,63 @@ begin
 	Result := 0;
 end;
 
+function VCLua_Strings_Pop(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:String;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.Pop();
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Pop', E.ClassName, E.Message);
+	end;
+
+	lua_push(L,ret);
+	
+	Result := 1;
+end;
+
+function VCLua_Strings_Reverse(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:TStrings;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.Reverse();
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Reverse', E.ClassName, E.Message);
+	end;
+
+	lua_push(L,ret);
+	
+	Result := 1;
+end;
+
+function VCLua_Strings_Reverse2(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	aList:TStrings;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@aList);
+	try
+		lStrings.Reverse(aList);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Reverse', E.ClassName, E.Message);
+	end;
+
+	
+	Result := 0;
+end;
+
 function VCLua_Strings_SaveToFile(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
@@ -905,6 +1004,48 @@ begin
 	Result := 1;
 end;
 
+function VCLua_Strings_Slice(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	fromIndex:integer;
+	aList:TStrings;
+begin
+	CheckArg(L, 3);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@fromIndex);
+	luaL_check(L,3,@aList);
+	try
+		lStrings.Slice(fromIndex,aList);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Slice', E.ClassName, E.Message);
+	end;
+
+	
+	Result := 0;
+end;
+
+function VCLua_Strings_Slice2(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	fromIndex:integer;
+	ret:TStrings;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@fromIndex);
+	try
+		ret := lStrings.Slice(fromIndex);
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Slice', E.ClassName, E.Message);
+	end;
+
+	lua_push(L,ret);
+	
+	Result := 1;
+end;
+
 function VCLua_Strings_SetText(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
@@ -963,7 +1104,7 @@ begin
 	Result := 1;
 end;
 begin
-	SetLength(StringsFuncs, 45+1);
+	SetLength(StringsFuncs, 52+1);
 	StringsFuncs[0].name:='Add';
 	StringsFuncs[0].func:=@VCLua_Strings_Add;
 	StringsFuncs[1].name:='AddObject';
@@ -984,77 +1125,91 @@ begin
 	StringsFuncs[8].func:=@VCLua_Strings_SetStrings;
 	StringsFuncs[9].name:='SetStrings2';
 	StringsFuncs[9].func:=@VCLua_Strings_SetStrings2;
-	StringsFuncs[10].name:='AddCommaText';
-	StringsFuncs[10].func:=@VCLua_Strings_AddCommaText;
-	StringsFuncs[11].name:='AddDelimitedText';
-	StringsFuncs[11].func:=@VCLua_Strings_AddDelimitedText;
-	StringsFuncs[12].name:='AddDelimitedtext2';
-	StringsFuncs[12].func:=@VCLua_Strings_AddDelimitedtext2;
-	StringsFuncs[13].name:='Append';
-	StringsFuncs[13].func:=@VCLua_Strings_Append;
-	StringsFuncs[14].name:='Assign';
-	StringsFuncs[14].func:=@VCLua_Strings_Assign;
-	StringsFuncs[15].name:='BeginUpdate';
-	StringsFuncs[15].func:=@VCLua_Strings_BeginUpdate;
-	StringsFuncs[16].name:='Clear';
-	StringsFuncs[16].func:=@VCLua_Strings_Clear;
-	StringsFuncs[17].name:='Delete';
-	StringsFuncs[17].func:=@VCLua_Strings_Delete;
-	StringsFuncs[18].name:='EndUpdate';
-	StringsFuncs[18].func:=@VCLua_Strings_EndUpdate;
-	StringsFuncs[19].name:='Equals';
-	StringsFuncs[19].func:=@VCLua_Strings_Equals;
-	StringsFuncs[20].name:='Equals2';
-	StringsFuncs[20].func:=@VCLua_Strings_Equals2;
-	StringsFuncs[21].name:='Exchange';
-	StringsFuncs[21].func:=@VCLua_Strings_Exchange;
-	StringsFuncs[22].name:='ExtractName';
-	StringsFuncs[22].func:=@VCLua_Strings_ExtractName;
-	StringsFuncs[23].name:='GetNameValue';
-	StringsFuncs[23].func:=@VCLua_Strings_GetNameValue;
-	StringsFuncs[24].name:='GetText';
-	StringsFuncs[24].func:=@VCLua_Strings_GetText;
-	StringsFuncs[25].name:='IndexOf';
-	StringsFuncs[25].func:=@VCLua_Strings_IndexOf;
-	StringsFuncs[26].name:='IndexOf2';
-	StringsFuncs[26].func:=@VCLua_Strings_IndexOf2;
-	StringsFuncs[27].name:='IndexOfName';
-	StringsFuncs[27].func:=@VCLua_Strings_IndexOfName;
-	StringsFuncs[28].name:='IndexOfObject';
-	StringsFuncs[28].func:=@VCLua_Strings_IndexOfObject;
-	StringsFuncs[29].name:='Insert';
-	StringsFuncs[29].func:=@VCLua_Strings_Insert;
-	StringsFuncs[30].name:='InsertObject';
-	StringsFuncs[30].func:=@VCLua_Strings_InsertObject;
-	StringsFuncs[31].name:='LastIndexOf';
-	StringsFuncs[31].func:=@VCLua_Strings_LastIndexOf;
-	StringsFuncs[32].name:='LastIndexOf2';
-	StringsFuncs[32].func:=@VCLua_Strings_LastIndexOf2;
-	StringsFuncs[33].name:='LoadFromFile';
-	StringsFuncs[33].func:=@VCLua_Strings_LoadFromFile;
-	StringsFuncs[34].name:='LoadFromFile2';
-	StringsFuncs[34].func:=@VCLua_Strings_LoadFromFile2;
-	StringsFuncs[35].name:='LoadFromStream';
-	StringsFuncs[35].func:=@VCLua_Strings_LoadFromStream;
-	StringsFuncs[36].name:='LoadFromStream2';
-	StringsFuncs[36].func:=@VCLua_Strings_LoadFromStream2;
-	StringsFuncs[37].name:='Move';
-	StringsFuncs[37].func:=@VCLua_Strings_Move;
-	StringsFuncs[38].name:='SaveToFile';
-	StringsFuncs[38].func:=@VCLua_Strings_SaveToFile;
-	StringsFuncs[39].name:='SaveToFile2';
-	StringsFuncs[39].func:=@VCLua_Strings_SaveToFile2;
-	StringsFuncs[40].name:='SaveToStream';
-	StringsFuncs[40].func:=@VCLua_Strings_SaveToStream;
-	StringsFuncs[41].name:='SaveToStream2';
-	StringsFuncs[41].func:=@VCLua_Strings_SaveToStream2;
-	StringsFuncs[42].name:='Shift';
-	StringsFuncs[42].func:=@VCLua_Strings_Shift;
-	StringsFuncs[43].name:='SetText';
-	StringsFuncs[43].func:=@VCLua_Strings_SetText;
-	StringsFuncs[44].name:='ToTable';
-	StringsFuncs[44].func:=@VCLua_Strings_ItemsToTable;
-	StringsFuncs[45].name:=nil;
-	StringsFuncs[45].func:=nil;
+	StringsFuncs[10].name:='AddText';
+	StringsFuncs[10].func:=@VCLua_Strings_AddText;
+	StringsFuncs[11].name:='AddCommaText';
+	StringsFuncs[11].func:=@VCLua_Strings_AddCommaText;
+	StringsFuncs[12].name:='AddDelimitedText';
+	StringsFuncs[12].func:=@VCLua_Strings_AddDelimitedText;
+	StringsFuncs[13].name:='AddDelimitedtext2';
+	StringsFuncs[13].func:=@VCLua_Strings_AddDelimitedtext2;
+	StringsFuncs[14].name:='Append';
+	StringsFuncs[14].func:=@VCLua_Strings_Append;
+	StringsFuncs[15].name:='Assign';
+	StringsFuncs[15].func:=@VCLua_Strings_Assign;
+	StringsFuncs[16].name:='BeginUpdate';
+	StringsFuncs[16].func:=@VCLua_Strings_BeginUpdate;
+	StringsFuncs[17].name:='Clear';
+	StringsFuncs[17].func:=@VCLua_Strings_Clear;
+	StringsFuncs[18].name:='Delete';
+	StringsFuncs[18].func:=@VCLua_Strings_Delete;
+	StringsFuncs[19].name:='EndUpdate';
+	StringsFuncs[19].func:=@VCLua_Strings_EndUpdate;
+	StringsFuncs[20].name:='Equals';
+	StringsFuncs[20].func:=@VCLua_Strings_Equals;
+	StringsFuncs[21].name:='Equals2';
+	StringsFuncs[21].func:=@VCLua_Strings_Equals2;
+	StringsFuncs[22].name:='Exchange';
+	StringsFuncs[22].func:=@VCLua_Strings_Exchange;
+	StringsFuncs[23].name:='ExtractName';
+	StringsFuncs[23].func:=@VCLua_Strings_ExtractName;
+	StringsFuncs[24].name:='Fill';
+	StringsFuncs[24].func:=@VCLua_Strings_Fill;
+	StringsFuncs[25].name:='GetNameValue';
+	StringsFuncs[25].func:=@VCLua_Strings_GetNameValue;
+	StringsFuncs[26].name:='GetText';
+	StringsFuncs[26].func:=@VCLua_Strings_GetText;
+	StringsFuncs[27].name:='IndexOf';
+	StringsFuncs[27].func:=@VCLua_Strings_IndexOf;
+	StringsFuncs[28].name:='IndexOf2';
+	StringsFuncs[28].func:=@VCLua_Strings_IndexOf2;
+	StringsFuncs[29].name:='IndexOfName';
+	StringsFuncs[29].func:=@VCLua_Strings_IndexOfName;
+	StringsFuncs[30].name:='IndexOfObject';
+	StringsFuncs[30].func:=@VCLua_Strings_IndexOfObject;
+	StringsFuncs[31].name:='Insert';
+	StringsFuncs[31].func:=@VCLua_Strings_Insert;
+	StringsFuncs[32].name:='InsertObject';
+	StringsFuncs[32].func:=@VCLua_Strings_InsertObject;
+	StringsFuncs[33].name:='LastIndexOf';
+	StringsFuncs[33].func:=@VCLua_Strings_LastIndexOf;
+	StringsFuncs[34].name:='LastIndexOf2';
+	StringsFuncs[34].func:=@VCLua_Strings_LastIndexOf2;
+	StringsFuncs[35].name:='LoadFromFile';
+	StringsFuncs[35].func:=@VCLua_Strings_LoadFromFile;
+	StringsFuncs[36].name:='LoadFromFile2';
+	StringsFuncs[36].func:=@VCLua_Strings_LoadFromFile2;
+	StringsFuncs[37].name:='LoadFromStream';
+	StringsFuncs[37].func:=@VCLua_Strings_LoadFromStream;
+	StringsFuncs[38].name:='LoadFromStream2';
+	StringsFuncs[38].func:=@VCLua_Strings_LoadFromStream2;
+	StringsFuncs[39].name:='Move';
+	StringsFuncs[39].func:=@VCLua_Strings_Move;
+	StringsFuncs[40].name:='Pop';
+	StringsFuncs[40].func:=@VCLua_Strings_Pop;
+	StringsFuncs[41].name:='Reverse';
+	StringsFuncs[41].func:=@VCLua_Strings_Reverse;
+	StringsFuncs[42].name:='Reverse2';
+	StringsFuncs[42].func:=@VCLua_Strings_Reverse2;
+	StringsFuncs[43].name:='SaveToFile';
+	StringsFuncs[43].func:=@VCLua_Strings_SaveToFile;
+	StringsFuncs[44].name:='SaveToFile2';
+	StringsFuncs[44].func:=@VCLua_Strings_SaveToFile2;
+	StringsFuncs[45].name:='SaveToStream';
+	StringsFuncs[45].func:=@VCLua_Strings_SaveToStream;
+	StringsFuncs[46].name:='SaveToStream2';
+	StringsFuncs[46].func:=@VCLua_Strings_SaveToStream2;
+	StringsFuncs[47].name:='Shift';
+	StringsFuncs[47].func:=@VCLua_Strings_Shift;
+	StringsFuncs[48].name:='Slice';
+	StringsFuncs[48].func:=@VCLua_Strings_Slice;
+	StringsFuncs[49].name:='Slice2';
+	StringsFuncs[49].func:=@VCLua_Strings_Slice2;
+	StringsFuncs[50].name:='SetText';
+	StringsFuncs[50].func:=@VCLua_Strings_SetText;
+	StringsFuncs[51].name:='ToTable';
+	StringsFuncs[51].func:=@VCLua_Strings_ItemsToTable;
+	StringsFuncs[52].name:=nil;
+	StringsFuncs[52].func:=nil;
 
 end.
