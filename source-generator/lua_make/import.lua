@@ -392,20 +392,16 @@ function createUnitBody(cdef, ref)
         local defVars
         for n,p in ipairs(vv) do
           local varName,varType,varValue = p.name,p.type,p.value
-          ppp = varName:split(",")	-- var1, var2, ...
-          for i=1,#ppp do
-            idx = idx + 1
-            varName = ppp[i]
-            local vtLower = varType:lower()
-            if varValue then
-              local templ = (not VCLUA_TOLUA_ES or VCLUA_TOLUA_ES[vtLower]) and VCLUA_OPT_DEFAULT or VCLUA_OPT
-              table.insert(varsFromLua,(templ:gsub('#TYP',varType):gsub("#DEF",varValue,1):gsub('#VAR',varName,1):gsub("#",idx,1)))
-              if not defVars then defVars = idx - 1 end
-            else
-              local arrayType = varType:match('array%s+of%s+([_%w]+)')
-              local templ = (arrayType and VCLUA_TOARRAY) or VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
-              table.insert(varsFromLua, (templ:gsub('#VAR',varName,1):gsub('#TYP',arrayType or varType):gsub("#",idx)))
-            end
+          idx = idx + 1
+          local vtLower = varType:lower()
+          if varValue then
+            local templ = (not VCLUA_TOLUA_ES or VCLUA_TOLUA_ES[vtLower]) and VCLUA_OPT_DEFAULT or VCLUA_OPT
+            table.insert(varsFromLua,(templ:gsub('#TYP',varType):gsub("#DEF",varValue,1):gsub('#VAR',varName,1):gsub("#",idx,1)))
+            if not defVars then defVars = idx - 1 end
+          else
+            local arrayType = varType:match('array%s+of%s+([_%w]+)')
+            local templ = (arrayType and VCLUA_TOARRAY) or VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
+            table.insert(varsFromLua, (templ:gsub('#VAR',varName,1):gsub('#TYP',arrayType or varType):gsub("#",idx)))
           end
         end
         -- input params checking
