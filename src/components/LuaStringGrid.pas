@@ -66,8 +66,6 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumn', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -83,8 +81,6 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumn', 'FillDefaultFont', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -102,8 +98,6 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumn', 'FixDesignFontsPPI', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -123,8 +117,6 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumn', 'ScaleFontsPPI', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -141,9 +133,7 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumn', 'IsDefault', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -160,9 +150,7 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumns', 'Add', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -178,8 +166,6 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumns', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -198,9 +184,7 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumns', 'ColumnByTitle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -219,9 +203,7 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumns', 'RealIndex', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -240,9 +222,7 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumns', 'IndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -259,9 +239,7 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumns', 'IsDefault', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -280,9 +258,7 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumns', 'HasIndex', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -301,9 +277,7 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumns', 'VisibleIndex', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -321,8 +295,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'AutoSizeColumn', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -338,8 +310,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'AutoSizeColumns', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -355,8 +325,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -374,8 +342,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -395,8 +361,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -422,8 +386,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -441,8 +403,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'CopyToClipboard', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -462,8 +422,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'InsertRowWithValues', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -489,8 +447,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'LoadFromCSVStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -516,8 +472,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'LoadFromCSVFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -541,8 +495,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'SaveToCSVStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -566,8 +518,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'SaveToCSVFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

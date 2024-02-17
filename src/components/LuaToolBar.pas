@@ -51,9 +51,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolButton', 'CheckMenuDropdown', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -69,8 +67,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolButton', 'Click', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -86,8 +82,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolButton', 'ArrowClick', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -100,14 +94,12 @@ var
 begin
 	CheckArg(L, 1);
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
-	
 	try
 		lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
 	except
 		on E: Exception do
 			CallError(L, 'ToolButton', 'GetCurrentIcon', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ImageList,TypeInfo(ImageList));
 	lua_push(L,TheIndex);
 	lua_push(L,TheEffect,TypeInfo(TheEffect));
@@ -132,7 +124,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolButton', 'GetCurrentIcon', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ImageList,TypeInfo(ImageList));
 	lua_push(L,TheIndex);
 	lua_push(L,TheEffect,TypeInfo(TheEffect));
@@ -157,7 +148,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolButton', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -183,7 +173,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolButton', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -206,9 +195,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolButton', 'PointInArrow', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -224,8 +211,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolBar', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -243,8 +228,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolBar', 'FlipChildren', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -264,8 +247,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolBar', 'SetButtonSize', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -282,9 +263,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolBar', 'CanFocus', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Memo', 'Append', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -61,8 +59,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Memo', 'ScrollBy', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

@@ -38,8 +38,6 @@ begin
 		on E: Exception do
 			CallError(L, 'PopupNotifier', 'Hide', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -55,8 +53,6 @@ begin
 		on E: Exception do
 			CallError(L, 'PopupNotifier', 'Show', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -76,8 +72,6 @@ begin
 		on E: Exception do
 			CallError(L, 'PopupNotifier', 'ShowAtPos', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

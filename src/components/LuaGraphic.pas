@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -57,8 +55,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -77,9 +73,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'Equals', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -98,9 +92,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'LazarusResourceTypeValid', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -118,8 +110,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -137,8 +127,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -158,8 +146,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'LoadFromMimeStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -177,8 +163,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'LoadFromLazarusResource', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -198,8 +182,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'LoadFromResourceName', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -219,8 +201,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'LoadFromResourceID', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -238,8 +218,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'LoadFromClipboardFormat', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -259,8 +237,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'LoadFromClipboardFormatID', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -278,8 +254,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'SaveToFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -297,8 +271,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'SaveToStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -316,8 +288,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'SaveToClipboardFormat', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -337,8 +307,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'SaveToClipboardFormatID', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -356,8 +324,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'GetSupportedSourceMimeTypes', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -374,9 +340,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'GetResourceType', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

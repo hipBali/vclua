@@ -38,8 +38,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ComboBox', 'IntfGetItems', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -59,8 +57,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ComboBox', 'AddItem', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -84,8 +80,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ComboBox', 'AddHistoryItem', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -111,8 +105,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ComboBox', 'AddHistoryItem', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -128,8 +120,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ComboBox', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -145,8 +135,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ComboBox', 'SelectAll', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

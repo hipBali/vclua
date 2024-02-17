@@ -41,9 +41,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Image', 'DestRect', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -59,8 +57,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Image', 'Invalidate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

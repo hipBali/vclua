@@ -41,7 +41,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'MeasureItem', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,TheHeight);
 	Result := 1;
 end;
@@ -62,7 +61,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'MeasureItem', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,TheHeight);
 	Result := 1;
 end;
@@ -81,8 +79,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'Toggle', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -104,8 +100,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'CheckAll', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -125,8 +119,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'Exchange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

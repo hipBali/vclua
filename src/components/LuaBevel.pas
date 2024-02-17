@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Bevel', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

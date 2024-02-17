@@ -41,9 +41,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Calendar', 'HitTest', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -60,9 +58,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Calendar', 'GetCalendarView', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 

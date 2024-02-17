@@ -50,7 +50,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Label', 'CalcFittingFontHeight', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
 	lua_push(L,FontHeight);
 	lua_push(L,NeededWidth);
@@ -71,9 +70,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Label', 'ColorIsStored', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -90,9 +87,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Label', 'AdjustFontForOptimalFill', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -108,8 +103,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Label', 'Paint', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -133,8 +126,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Label', 'SetBounds', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

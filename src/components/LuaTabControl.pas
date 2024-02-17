@@ -66,9 +66,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'TabRect', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -87,9 +85,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'GetImageIndex', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -108,9 +104,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'IndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -129,9 +123,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'CustomPage', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -148,9 +140,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'CanChangePageIndex', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -167,9 +157,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'GetMinimumTabWidth', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -186,9 +174,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'GetMinimumTabHeight', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -207,9 +193,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'TabToPageIndex', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -228,9 +212,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'PageToTabIndex', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -248,8 +230,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'DoCloseTabClicked', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -265,8 +245,6 @@ begin
 		on E: Exception do
 			CallError(L, 'PageControl', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -289,9 +267,7 @@ begin
 		on E: Exception do
 			CallError(L, 'PageControl', 'FindNextPage', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -309,8 +285,6 @@ begin
 		on E: Exception do
 			CallError(L, 'PageControl', 'SelectNextPage', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -330,8 +304,6 @@ begin
 		on E: Exception do
 			CallError(L, 'PageControl', 'SelectNextPage', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -352,9 +324,7 @@ begin
 		on E: Exception do
 			CallError(L, 'PageControl', 'IndexOfTabAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -373,9 +343,7 @@ begin
 		on E: Exception do
 			CallError(L, 'PageControl', 'IndexOfTabAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -396,9 +364,7 @@ begin
 		on E: Exception do
 			CallError(L, 'PageControl', 'IndexOfPageAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -417,9 +383,7 @@ begin
 		on E: Exception do
 			CallError(L, 'PageControl', 'IndexOfPageAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -436,9 +400,7 @@ begin
 		on E: Exception do
 			CallError(L, 'PageControl', 'AddTabSheet', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

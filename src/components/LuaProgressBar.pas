@@ -38,8 +38,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ProgressBar', 'StepIt', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -57,8 +55,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ProgressBar', 'StepBy', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

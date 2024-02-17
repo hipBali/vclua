@@ -39,8 +39,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -58,8 +56,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'SetText', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -79,8 +75,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Insert', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -98,8 +92,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Delete', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -119,8 +111,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Exchange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -140,8 +130,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Move', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -157,8 +145,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'MakeTextBufferUnique', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -174,8 +160,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -191,8 +175,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -209,9 +191,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'GetText', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -230,9 +210,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'IndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -251,9 +229,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Add', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -274,9 +250,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'AddObject', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -294,8 +268,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'AddStrings', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -313,8 +285,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -332,8 +302,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'SaveToFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

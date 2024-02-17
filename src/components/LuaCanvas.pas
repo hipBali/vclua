@@ -38,8 +38,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Lock', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -56,9 +54,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'TryLock', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -74,8 +70,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Unlock', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -91,8 +85,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Refresh', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -108,8 +100,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Changing', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -125,8 +115,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Changed', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -142,8 +130,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'SaveHandleState', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -159,8 +145,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'RestoreHandleState', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -188,8 +172,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Arc', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -221,8 +203,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Arc', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -248,8 +228,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'AngleArc', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -273,8 +251,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'BrushCopy', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -302,8 +278,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Chord', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -335,8 +309,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Chord', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -358,8 +330,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'CopyRect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -381,8 +351,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Draw', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -400,8 +368,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'DrawFocusRect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -421,8 +387,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'StretchDraw', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -440,8 +404,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Ellipse', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -465,8 +427,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Ellipse', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -484,8 +444,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'FillRect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -509,8 +467,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'FillRect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -534,8 +490,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'FloodFill', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -556,7 +510,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Frame3d', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -579,7 +532,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Frame3d', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -603,7 +555,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Frame3D', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -628,7 +579,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Frame3D', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -653,8 +603,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'GradientFill', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -682,8 +630,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'RadialPie', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -715,8 +661,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Pie', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -738,8 +682,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'PolyBezier', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -763,8 +705,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Polygon', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -782,8 +722,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Polygon', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -805,8 +743,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Polyline', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -824,8 +760,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Polyline', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -849,8 +783,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Rectangle', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -868,8 +800,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'Rectangle', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -897,8 +827,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'RoundRect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -920,8 +848,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'RoundRect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -943,8 +869,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextOut', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -968,8 +892,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextRect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -995,8 +917,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextRect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1015,9 +935,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextHeight', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1036,9 +954,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextWidth', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1059,9 +975,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextFitInfo', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1078,9 +992,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Canvas', 'HandleAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

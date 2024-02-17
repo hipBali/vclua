@@ -39,9 +39,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RadioGroup', 'CanModify', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -59,8 +57,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RadioGroup', 'FlipChildren', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -77,9 +73,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RadioGroup', 'Rows', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

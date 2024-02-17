@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'AssignTo', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -59,8 +57,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -78,8 +74,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'WriteData', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -97,8 +91,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReadData', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -116,8 +108,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'WriteAdvData', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -135,8 +125,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReadAdvData', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -155,9 +143,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Equals', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -173,8 +159,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -190,8 +174,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -212,9 +194,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Add', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -237,9 +217,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddSliced', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -260,9 +238,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddSlice', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -281,9 +257,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddSliceCentered', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -302,9 +276,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddIcon', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -322,8 +294,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddImages', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -344,9 +314,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddMasked', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -367,9 +335,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddLazarusResource', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -392,9 +358,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddResourceName', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -410,8 +374,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Change', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -427,8 +389,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -446,8 +406,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Delete', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -473,8 +431,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -500,8 +456,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -531,8 +485,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -562,8 +514,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -595,8 +545,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawForPPI', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -628,8 +576,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawForPPI', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -657,8 +603,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawOverlay', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -686,8 +630,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawOverlay', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -719,8 +661,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawOverlay', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -740,8 +680,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetBitmap', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -763,8 +701,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetBitmap', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -784,8 +720,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetFullBitmap', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -807,8 +741,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetIcon', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -828,8 +760,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetIcon', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -846,9 +776,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetHotSpot', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -870,8 +798,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Insert', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -891,8 +817,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'InsertIcon', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -914,8 +838,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'InsertMasked', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -935,8 +857,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Move', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -956,8 +876,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Overlay', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -981,8 +899,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'Replace', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1006,8 +922,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReplaceSlice', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1031,8 +945,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReplaceSliceCentered', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1052,8 +964,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReplaceIcon', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1077,8 +987,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReplaceMasked', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1096,8 +1004,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'RegisterChanges', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1121,8 +1027,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'StretchDraw', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1140,8 +1044,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'UnRegisterChanges', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1159,8 +1061,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'DeleteResolution', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

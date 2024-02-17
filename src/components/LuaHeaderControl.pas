@@ -38,8 +38,6 @@ begin
 		on E: Exception do
 			CallError(L, 'HeaderControl', 'Click', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -55,8 +53,6 @@ begin
 		on E: Exception do
 			CallError(L, 'HeaderControl', 'DblClick', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -75,9 +71,7 @@ begin
 		on E: Exception do
 			CallError(L, 'HeaderControl', 'GetSectionAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -93,8 +87,6 @@ begin
 		on E: Exception do
 			CallError(L, 'HeaderControl', 'Paint', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -112,8 +104,6 @@ begin
 		on E: Exception do
 			CallError(L, 'HeaderControl', 'PaintSection', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -133,8 +123,6 @@ begin
 		on E: Exception do
 			CallError(L, 'HeaderControl', 'ChangeScale', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

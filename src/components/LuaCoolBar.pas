@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CoolBar', 'AutosizeBands', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -57,8 +55,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CoolBar', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -74,8 +70,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CoolBar', 'Invalidate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -95,8 +89,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CoolBar', 'InsertControl', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -118,7 +110,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CoolBar', 'MouseToBandPos', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ABand);
 	lua_push(L,AGrabber);
 	Result := 2;
@@ -138,8 +129,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CoolBar', 'RemoveControl', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

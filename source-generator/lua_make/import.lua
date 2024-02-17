@@ -190,7 +190,7 @@ local function processClass(def,cdef)
 		-- parse class
 		local _,_,c = line:find("([_%w]+)%s*=%s*class%s*%([_%w]+%s*")
 		if c==cdef.src then
-			classTable[cname] = {} 
+			classTable[cname] = {}
 			cLog(string.format("PARSING %s %s LINE:%d",cname, c,n),"INFO")
 			stage="parse"
 			processed = true
@@ -413,7 +413,7 @@ function createUnitBody(cdef, ref)
         else
           s = s:gsub("#VARCOUNT",idx,1)
         end
-        s = s:gsub("#TOVCLUA","\n\t"..table.concat(varsFromLua,"\n\t"),1)
+        s = s:gsub("#TOVCLUA",varsFromLua[1] and "\n\t"..table.concat(varsFromLua,"\n\t") or '',1)
       else
         s = s:gsub("#VARS;","",1)
         s = s:gsub("#VARCOUNT",1,1)
@@ -425,19 +425,18 @@ function createUnitBody(cdef, ref)
 	except
 		on E: Exception do
 			CallError(L, '%s', '%s', E.ClassName, E.Message);
-	end;
-]]):format(ret and "ret := " or "", className, mName, fParams, className, mName)
+	end;]]):format(ret and "ret := " or "", className, mName, fParams, className, mName)
       if ret then
         local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
-        s = s:gsub("#FUNC","\n"..call,1)
+        s = s:gsub("#FUNC",call,1)
         s = s:gsub("#PUSHTOLUA","\n\t"..rtype,1)
-        s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\n\t"))
+        s = s:gsub("#PUSHOUTS",outStr[1] and "\n\t"..table.concat(outStr,"\n\t") or '')
         s = s:gsub("#RETVAR","\n\tret:"..reto,1)
         s = s:gsub("#RETCOUNT",retCount)
       else
-        s = s:gsub("#FUNC","\n"..call,1)
+        s = s:gsub("#FUNC",call,1)
         s = s:gsub("#PUSHTOLUA","",1)
-        s = s:gsub("#PUSHOUTS","\n\t"..table.concat(outStr,"\n\t"))
+        s = s:gsub("#PUSHOUTS",outStr[1] and "\n\t"..table.concat(outStr,"\n\t") or '')
         s = s:gsub("#RETVAR;","",1)
         s = s:gsub("#RETCOUNT",retCount,1)
       end

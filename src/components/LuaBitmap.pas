@@ -53,8 +53,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -70,8 +68,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -87,8 +83,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'FreeImage', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -107,9 +101,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'LazarusResourceTypeValid', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -126,9 +118,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'BitmapHandleAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -145,9 +135,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'MaskHandleAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -164,9 +152,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'PaletteAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -183,9 +169,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'ReleaseHandle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -205,8 +189,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'SetHandles', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -226,8 +208,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'SetSize', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -244,9 +224,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Bitmap', 'GetResourceType', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -266,8 +244,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Bitmap', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

@@ -64,8 +64,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusPanel', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -82,9 +80,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusPanel', 'StatusBar', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -101,9 +97,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusPanels', 'Add', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -123,8 +117,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusBar', 'InvalidatePanel', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -140,8 +132,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusBar', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -157,8 +147,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusBar', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -177,9 +165,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusBar', 'ExecuteAction', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -200,9 +186,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusBar', 'GetPanelIndexAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -219,9 +203,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusBar', 'SizeGripEnabled', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -238,9 +220,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusBar', 'UpdatingStatusBar', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

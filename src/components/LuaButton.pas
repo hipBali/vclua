@@ -38,8 +38,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Button', 'Click', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -55,8 +53,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Button', 'ExecuteDefaultAction', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -72,8 +68,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Button', 'ExecuteCancelAction', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -91,8 +85,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Button', 'ActiveDefaultControlChanged', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -108,8 +100,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Button', 'UpdateRolesForForm', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -126,9 +116,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Button', 'UseRightToLeftAlignment', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

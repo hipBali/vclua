@@ -120,8 +120,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ColorButton', 'Click', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -132,14 +130,12 @@ var
 begin
 	CheckArg(L, 1);
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
-	
 	try
 		lOpenDialog.DoCanClose(CanClose);
 	except
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'DoCanClose', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,CanClose);
 	Result := 1;
 end;
@@ -158,7 +154,6 @@ begin
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'DoCanClose', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,CanClose);
 	Result := 1;
 end;
@@ -175,8 +170,6 @@ begin
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'DoFolderChange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -192,8 +185,6 @@ begin
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'DoSelectionChange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -213,8 +204,6 @@ begin
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'IntfSetOption', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -266,8 +255,6 @@ begin
 		on E: Exception do
 			CallError(L, 'FontDialog', 'ApplyClicked', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -292,8 +279,6 @@ begin
 		on E: Exception do
 			CallError(L, 'FindDialog', 'CloseDialog', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -310,9 +295,7 @@ begin
 		on E: Exception do
 			CallError(L, 'FindDialog', 'Execute', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -328,8 +311,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ReplaceDialog', 'CloseDialog', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -346,9 +327,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ReplaceDialog', 'Execute', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

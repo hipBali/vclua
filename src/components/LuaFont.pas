@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Font', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -57,8 +55,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Font', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -74,8 +70,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Font', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -92,9 +86,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Font', 'HandleAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -111,9 +103,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Font', 'IsDefault', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -132,9 +122,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Font', 'IsEqual', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -150,8 +138,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Font', 'SetDefault', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

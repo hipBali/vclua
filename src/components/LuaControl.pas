@@ -44,8 +44,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'DragDrop', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -65,8 +63,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Dock', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -91,9 +87,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ManualDock', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -114,9 +108,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ManualFloat', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -141,9 +133,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ReplaceDockedControl', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -160,9 +150,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Docked', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -179,9 +167,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Dragging', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -200,9 +186,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScaleDesignToForm', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -221,9 +205,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScaleFormToDesign', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -242,9 +224,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Scale96ToForm', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -263,9 +243,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScaleFormTo96', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -284,9 +262,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Scale96ToFont', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -305,9 +281,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScaleFontTo96', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -326,9 +300,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScaleScreenToFont', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -347,9 +319,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScaleFontToScreen', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -368,9 +338,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Scale96ToScreen', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -389,9 +357,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScaleScreenTo96', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -413,8 +379,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'AnchorToNeighbour', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -436,8 +400,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'AnchorParallel', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -455,8 +417,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'AnchorHorizontalCenterTo', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -474,8 +434,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'AnchorVerticalCenterTo', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -499,8 +457,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'AnchorToCompanion', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -520,8 +476,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'AnchorSame', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -541,8 +495,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'AnchorAsAlign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -560,8 +512,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'AnchorClient', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -578,9 +528,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'AnchoredControlCount', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -604,8 +552,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'SetBounds', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -629,8 +575,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'SetInitialBounds', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -654,8 +598,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'SetBoundsKeepBase', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -677,7 +619,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -703,7 +644,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -722,9 +662,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetCanvasScaleFactor', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -741,9 +679,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetDefaultWidth', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -760,9 +696,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetDefaultHeight', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -781,9 +715,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetDefaultColor', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -800,9 +732,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetColorResolvingParent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -819,9 +749,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetRGBColorResolvingParent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -840,9 +768,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetSidePosition', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -858,8 +784,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'CNPreferredSizeChanged', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -875,8 +799,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'InvalidatePreferredSize', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -898,8 +820,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'UpdateBaseBounds', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -911,14 +831,12 @@ var
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	
 	try
 		lControl.ShouldAutoAdjust(AWidth,AHeight);
 	except
 		on E: Exception do
 			CallError(L, 'Control', 'ShouldAutoAdjust', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,AWidth);
 	lua_push(L,AHeight);
 	Result := 2;
@@ -940,7 +858,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ShouldAutoAdjust', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,AWidth);
 	lua_push(L,AHeight);
 	Result := 2;
@@ -960,8 +877,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'FixDesignFontsPPI', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -981,8 +896,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScaleFontsPPI', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -998,8 +911,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'BeforeDestruction', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1015,8 +926,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'EditingDone', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1032,8 +941,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ExecuteDefaultAction', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1049,8 +956,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ExecuteCancelAction', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1070,8 +975,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'BeginDrag', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1089,8 +992,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'EndDrag', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1106,8 +1007,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'BringToFront', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1124,9 +1023,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'HasParent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1143,9 +1040,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetParentComponent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -1164,9 +1059,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'IsParentOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1183,9 +1076,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetTopParent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1204,9 +1095,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'FindSubComponent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -1223,9 +1112,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'FormIsUpdating', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1242,9 +1129,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'IsProcessingPaintMsg', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1260,8 +1145,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Hide', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1277,8 +1160,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Refresh', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1294,8 +1175,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Repaint', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1311,8 +1190,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Invalidate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1328,8 +1205,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'SendToBack', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1347,8 +1222,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'SetTempCursor', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1364,8 +1237,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'UpdateRolesForForm', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1383,8 +1254,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ActiveDefaultControlChanged', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1405,9 +1274,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetTextBuf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1424,9 +1291,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetTextLen', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1444,8 +1309,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'SetTextBuf', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1464,9 +1327,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScreenToClient', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1485,9 +1346,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ClientToScreen', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1506,9 +1365,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ScreenToControl', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1527,9 +1384,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ControlToScreen', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1550,9 +1405,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ClientToParent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1573,9 +1426,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ParentToClient', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1594,9 +1445,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetChildrenRect', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1612,8 +1461,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Show', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1629,8 +1476,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'Update', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1647,9 +1492,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'HandleObjectShouldBeVisible', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1666,9 +1509,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ParentDestroyingHandle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1685,9 +1526,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ParentHandlesAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1703,8 +1542,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'InitiateAction', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1720,8 +1557,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'ShowHelp', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1738,9 +1573,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'HasHelp', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

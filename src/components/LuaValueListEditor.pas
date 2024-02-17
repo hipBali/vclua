@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -61,8 +59,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'DeleteColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -80,8 +76,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'DeleteRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -99,8 +93,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'DeleteCol', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -120,7 +112,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'FindRow', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
 	lua_push(L,aRow);
 	Result := 2;
@@ -142,8 +133,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'InsertColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -166,9 +155,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'InsertRow', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -188,8 +175,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'InsertRowWithValues', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -211,8 +196,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'ExchangeColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -229,9 +212,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'IsEmptyRow', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -250,9 +231,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'IsEmptyRow', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -278,8 +257,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'LoadFromCSVStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -301,8 +278,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'MoveColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -319,9 +294,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'RestoreCurrentRow', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -343,8 +316,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'Sort', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -362,8 +333,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ValueListEditor', 'Sort', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

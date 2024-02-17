@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -57,8 +55,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -76,8 +72,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -95,8 +89,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -112,8 +104,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'FreeImage', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -130,9 +120,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'BitmapHandleAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -149,9 +137,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'MaskHandleAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -168,9 +154,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'PaletteAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -188,8 +172,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -209,8 +191,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -230,8 +210,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'LoadFromMimeStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -249,8 +227,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'SaveToStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -268,8 +244,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'GetSupportedSourceMimeTypes', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -281,14 +255,12 @@ var
 begin
 	CheckArg(L, 1);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	
 	try
 		lRasterImage.GetSize(AWidth,AHeight);
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'GetSize', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,AWidth);
 	lua_push(L,AHeight);
 	Result := 2;
@@ -308,8 +280,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'Mask', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -326,9 +296,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'ReleaseBitmapHandle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -345,9 +313,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'ReleaseMaskHandle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -364,9 +330,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'HandleAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

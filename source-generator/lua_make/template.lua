@@ -92,7 +92,8 @@ var
 	l#CNAME:TLua#CNAME;#VARS;#RETVAR;
 begin
 	CheckArg(L, #VARCOUNT);
-	l#CNAME := TLua#CNAME(GetLuaObject(L, 1));#TOVCLUA#FUNC#PUSHTOLUA#PUSHOUTS
+	l#CNAME := TLua#CNAME(GetLuaObject(L, 1));#TOVCLUA
+#FUNC#PUSHTOLUA#PUSHOUTS
 	Result := #RETCOUNT;
 end;
 ]]

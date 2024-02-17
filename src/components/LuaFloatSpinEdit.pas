@@ -41,9 +41,7 @@ begin
 		on E: Exception do
 			CallError(L, 'FloatSpinEdit', 'GetLimitedValue', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -62,9 +60,7 @@ begin
 		on E: Exception do
 			CallError(L, 'FloatSpinEdit', 'ValueToStr', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -83,9 +79,7 @@ begin
 		on E: Exception do
 			CallError(L, 'FloatSpinEdit', 'StrToValue', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

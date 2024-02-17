@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Notebook', 'ShowControl', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -60,9 +58,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Notebook', 'IndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

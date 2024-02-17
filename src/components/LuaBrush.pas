@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Brush', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -60,9 +58,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Brush', 'EqualsBrush', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

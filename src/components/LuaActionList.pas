@@ -63,9 +63,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ContainedAction', 'Execute', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -82,9 +80,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ContainedAction', 'GetParentComponent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -101,9 +97,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ContainedAction', 'HasParent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -120,9 +114,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ContainedAction', 'Update', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -134,14 +126,12 @@ var
 begin
 	CheckArg(L, 1);
 	lAction := TLuaAction(GetLuaObject(L, 1));
-	
 	try
 		ret := lAction.DoHint(HintStr);
 	except
 		on E: Exception do
 			CallError(L, 'Action', 'DoHint', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
 	lua_push(L,HintStr);
 	Result := 2;
@@ -162,7 +152,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Action', 'DoHint', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
 	lua_push(L,HintStr);
 	Result := 2;
@@ -181,9 +170,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Action', 'Execute', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -202,9 +189,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ActionList', 'ActionByName', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -223,9 +208,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ActionList', 'ExecuteAction', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -244,9 +227,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ActionList', 'IndexOfName', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -265,9 +246,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ActionList', 'UpdateAction', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

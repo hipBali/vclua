@@ -38,8 +38,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Edit', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -55,8 +53,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Edit', 'SelectAll', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -72,8 +68,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Edit', 'ClearSelection', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -89,8 +83,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Edit', 'CopyToClipboard', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -106,8 +98,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Edit', 'CutToClipboard', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -123,8 +113,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Edit', 'PasteFromClipboard', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -140,8 +128,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Edit', 'Undo', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -159,8 +145,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Edit', 'RemoveAllHandlersOfObject', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

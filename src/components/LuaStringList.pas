@@ -42,9 +42,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StringList', 'Add', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -60,8 +58,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringList', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -79,8 +75,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringList', 'Delete', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -100,8 +94,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringList', 'Exchange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -121,7 +113,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringList', 'Find', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
 	lua_push(L,Index);
 	Result := 2;
@@ -142,9 +133,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StringList', 'IndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -164,8 +153,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringList', 'Insert', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -181,8 +168,6 @@ begin
 		on E: Exception do
 			CallError(L, 'StringList', 'Sort', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

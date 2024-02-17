@@ -44,8 +44,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'AddItem', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -61,8 +59,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -78,8 +74,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'ClearSelection', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -100,9 +94,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'GetIndexAtXY', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -121,9 +113,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'GetIndexAtY', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -140,9 +130,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'GetSelectedText', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -163,9 +151,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'ItemAtPos', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -184,9 +170,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'ItemRect', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -205,9 +189,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'ItemVisible', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -226,9 +208,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'ItemFullyVisible', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -244,8 +224,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'LockSelectionChange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -261,8 +239,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'MakeCurrentVisible', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -281,7 +257,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'MeasureItem', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,TheHeight);
 	Result := 1;
 end;
@@ -302,7 +277,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'MeasureItem', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,TheHeight);
 	Result := 1;
 end;
@@ -319,8 +293,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'SelectAll', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -342,8 +314,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'SelectRange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -359,8 +329,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'DeleteSelected', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -376,8 +344,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'UnlockSelectionChange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

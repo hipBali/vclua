@@ -42,8 +42,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'ActivateHint', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -60,9 +58,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'GetControlAtMouse', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -80,8 +76,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'ControlDestroyed', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -98,9 +92,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'BigIconHandle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -117,9 +109,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'SmallIconHandle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -135,8 +125,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'BringToFront', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -154,8 +142,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'UpdateMainForm', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -173,8 +159,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'ReleaseComponent', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -192,8 +176,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'HandleException', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -209,8 +191,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'HandleMessage', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -228,8 +208,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'RemoveStayOnTop', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -247,8 +225,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'RestoreStayOnTop', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -265,9 +241,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'IsWaiting', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -283,8 +257,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'Initialize', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -300,8 +272,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'Minimize', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -317,8 +287,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'ModalStarted', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -334,8 +302,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'ModalFinished', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -351,8 +317,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'Restore', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -372,8 +336,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'Notification', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -389,8 +351,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'ProcessMessages', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -408,8 +368,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'Idle', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -425,8 +383,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'Run', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -442,8 +398,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Application', 'Terminate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

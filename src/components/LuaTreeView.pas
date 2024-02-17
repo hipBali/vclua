@@ -68,9 +68,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Add', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -91,9 +89,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddChild', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -114,9 +110,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddChildFirst', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -139,9 +133,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddChildObject', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -164,9 +156,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddChildObjectFirst', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -187,9 +177,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddFirst', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -216,9 +204,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddNode', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -241,9 +227,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddObject', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -266,9 +250,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddObjectFirst', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -287,9 +269,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FindNodeWithData', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -308,9 +288,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FindNodeWithText', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -329,9 +307,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FindNodeWithTextPath', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -350,9 +326,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FindTopLvlNode', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -369,9 +343,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'GetFirstNode', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -388,9 +360,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'GetFirstVisibleNode', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -407,9 +377,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'GetLastVisibleNode', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -428,9 +396,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'GetSelections', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -451,9 +417,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Insert', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -474,9 +438,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'InsertBehind', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -499,9 +461,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'InsertObject', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -524,9 +484,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'InsertObjectBehind', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -543,9 +501,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'IsMultiSelection', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -563,8 +519,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -580,8 +534,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -597,8 +549,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -616,8 +566,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'ClearMultiSelection', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -633,8 +581,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'ConsistencyCheck', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -652,8 +598,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Delete', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -669,8 +613,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -686,8 +628,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FreeAllNodeData', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -707,8 +647,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'SelectionsChanged', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -726,8 +664,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'SelectOnlyThis', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -747,8 +683,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'MultiSelect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -768,8 +702,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'WriteDebugReport', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -786,9 +718,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'AlphaSort', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -806,8 +736,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'ClearSelection', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -823,8 +751,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'ConsistencyCheck', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -845,9 +771,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'DefaultTreeViewSort', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -868,9 +792,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetNodeAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -891,9 +813,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetNodeWithExpandSignAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -915,7 +835,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetInsertMarkAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,AnInsertMarkNode);
 	lua_push(L,AnInsertMarkType,TypeInfo(AnInsertMarkType));
 	Result := 2;
@@ -937,8 +856,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'SetInsertMark', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -958,8 +875,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'SetInsertMarkAt', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -975,8 +890,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'Invalidate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -993,9 +906,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'IsEditing', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1011,8 +922,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1028,8 +937,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1045,8 +952,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'FullCollapse', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1062,8 +967,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'FullExpand', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1081,8 +984,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1100,8 +1001,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1119,8 +1018,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'SaveToFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1138,8 +1035,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'SaveToStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1159,8 +1054,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'WriteDebugReport', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1176,8 +1069,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'LockSelectionChangeEvent', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1193,8 +1084,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'UnlockSelectionChangeEvent', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1211,9 +1100,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetFirstMultiSelected', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1230,9 +1117,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetLastMultiSelected', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1252,8 +1137,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'Select', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1271,8 +1154,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'Select', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1290,8 +1171,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'Select', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1308,9 +1187,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'SelectionVisible', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1326,8 +1203,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'MakeSelectionVisible', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1343,8 +1218,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'ClearInvisibleSelection', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1361,9 +1234,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'StoreCurrentSelection', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1383,8 +1254,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'ApplyStoredSelection', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1402,8 +1271,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'MoveToNextNode', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1421,8 +1288,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'MoveToPrevNode', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1440,8 +1305,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'MovePageDown', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1459,8 +1322,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'MovePageUp', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1478,8 +1339,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'MoveHome', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1497,8 +1356,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'MoveEnd', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

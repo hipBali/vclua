@@ -64,8 +64,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItem', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -81,8 +79,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItem', 'Delete', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -100,8 +96,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItem', 'MakeVisible', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -120,9 +114,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItem', 'DisplayRect', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -143,9 +135,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItem', 'DisplayRectSubItem', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -162,9 +152,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItem', 'EditCaption', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -181,9 +169,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'Add', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -201,8 +187,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'AddItem', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -218,8 +202,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -235,8 +217,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -254,8 +234,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'Delete', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -271,8 +249,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -292,8 +268,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'Exchange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -313,8 +287,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'Move', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -343,9 +315,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'FindCaption', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -364,9 +334,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'FindData', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -391,9 +359,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'FindData', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -412,9 +378,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'IndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -433,9 +397,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'Insert', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -455,8 +417,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItems', 'InsertItem', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -476,8 +436,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'AddItem', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -493,8 +451,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'Sort', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -510,8 +466,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -527,8 +481,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -544,8 +496,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -561,8 +511,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'Repaint', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -591,9 +539,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'FindCaption', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -618,9 +564,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'FindData', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -641,9 +585,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'GetItemAt', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -664,9 +606,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'GetNearestItem', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -689,9 +629,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'GetNextItem', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -707,8 +645,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'ClearSelection', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -724,8 +660,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'SelectAll', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

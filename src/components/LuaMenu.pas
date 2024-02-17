@@ -74,8 +74,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'DestroyHandle', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -96,9 +94,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'FindItem', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -119,9 +115,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'GetHelpContext', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -138,9 +132,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'HandleAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -157,9 +149,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'IsRightToLeft', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -176,9 +166,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'UseRightToLeftAlignment', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -195,9 +183,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'UseRightToLeftReading', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -213,8 +199,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'HandleNeeded', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -233,9 +217,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'DispatchCommand', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -251,8 +233,6 @@ begin
 		on E: Exception do
 			CallError(L, 'PopupMenu', 'PopUp', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -272,8 +252,6 @@ begin
 		on E: Exception do
 			CallError(L, 'PopupMenu', 'PopUp', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -289,8 +267,6 @@ begin
 		on E: Exception do
 			CallError(L, 'PopupMenu', 'Close', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -309,9 +285,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Find', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -323,14 +297,12 @@ var
 begin
 	CheckArg(L, 1);
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
-	
 	try
 		lMenuItem.GetImageList(aImages,aImagesWidth);
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetImageList', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,aImages,TypeInfo(aImages));
 	lua_push(L,aImagesWidth);
 	Result := 2;
@@ -349,9 +321,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetImageList', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -368,9 +338,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetParentComponent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -387,9 +355,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetParentMenu', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -406,9 +372,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetMergedParentMenu', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -425,9 +389,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetIsRightToLeft', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -444,9 +406,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HandleAllocated', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -463,9 +423,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HasIcon', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -482,9 +440,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HasParent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -500,8 +456,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'InitiateAction', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -517,8 +471,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IntfDoSelect', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -537,9 +489,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -558,9 +508,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IndexOfCaption', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -576,8 +524,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'InvalidateMergedItems', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -596,9 +542,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'VisibleIndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -616,8 +560,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Add', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -635,8 +577,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Add', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -652,8 +592,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'AddSeparator', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -669,8 +607,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Click', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -688,8 +624,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Delete', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -705,8 +639,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HandleNeeded', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -726,8 +658,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Insert', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -743,8 +673,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'RecreateHandle', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -762,8 +690,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Remove', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -781,8 +707,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'UpdateImage', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -800,8 +724,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'UpdateImages', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -818,9 +740,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IsCheckItem', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -837,9 +757,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IsLine', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -856,9 +774,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IsInMenuBar', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -874,8 +790,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -892,9 +806,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HasBitmap', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -911,9 +823,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'MenuVisibleIndex', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -931,8 +841,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'WriteDebugReport', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -950,8 +858,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MainMenu', 'Merge', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -969,8 +875,6 @@ begin
 		on E: Exception do
 			CallError(L, 'MainMenu', 'Unmerge', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

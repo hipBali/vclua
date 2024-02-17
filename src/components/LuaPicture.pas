@@ -39,8 +39,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Picture', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -58,8 +56,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Picture', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -77,8 +73,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Picture', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -98,8 +92,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Picture', 'LoadFromStreamWithFileExt', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -119,8 +111,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Picture', 'SaveToFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -138,8 +128,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Picture', 'SaveToStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -159,8 +147,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Picture', 'SaveToStreamWithFileExt', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -178,8 +164,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Picture', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

@@ -41,9 +41,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'Hide', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -60,9 +58,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'Show', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -78,8 +74,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'InternalUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -95,8 +89,6 @@ begin
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'ShowBalloonHint', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -113,9 +105,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'GetPosition', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 

@@ -52,8 +52,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'Invalidate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -69,8 +67,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditingDone', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -81,14 +77,12 @@ var
 begin
 	CheckArg(L, 1);
 	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	
 	try
 		lCustomGrid.AdjustInnerCellRect(ARect);
 	except
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'AdjustInnerCellRect', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -107,7 +101,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'AdjustInnerCellRect', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ARect);
 	Result := 1;
 end;
@@ -124,8 +117,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'AutoAdjustColumns', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -141,8 +132,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -163,9 +152,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'CellRect', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -186,9 +173,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'CellToGridZone', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -204,8 +189,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'CheckPosition', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -222,9 +205,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'ClearCols', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -241,9 +222,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'ClearRows', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -259,8 +238,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -276,8 +253,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'ClearSelections', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -296,9 +271,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorByStyle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -319,7 +292,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorKeyDown', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,Key);
 	Result := 1;
 end;
@@ -342,7 +314,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorKeyDown', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,Key);
 	Result := 1;
 end;
@@ -362,7 +333,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorKeyPress', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,Key);
 	Result := 1;
 end;
@@ -383,7 +353,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorKeyPress', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,Key);
 	Result := 1;
 end;
@@ -403,7 +372,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorUTF8KeyPress', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,UTF8Key);
 	Result := 1;
 end;
@@ -424,7 +392,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorUTF8KeyPress', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,UTF8Key);
 	Result := 1;
 end;
@@ -446,7 +413,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorKeyUp', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,key);
 	Result := 1;
 end;
@@ -469,7 +435,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorKeyUp', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,key);
 	Result := 1;
 end;
@@ -492,8 +457,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorTextChanged', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -511,8 +474,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -530,8 +491,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'FixDesignFontsPPI', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -548,9 +507,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'Focused', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -567,9 +524,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'HasMultiSelection', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -585,8 +540,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'HideSortArrow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -606,8 +559,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'InvalidateCell', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -625,8 +576,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'InvalidateCol', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -644,8 +593,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'InvalidateRange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -663,8 +610,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'InvalidateRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -685,9 +630,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'IsCellVisible', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -708,9 +651,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'IsFixedCellVisible', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -728,8 +669,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -747,8 +686,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -769,9 +706,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'MouseCoord', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -790,9 +725,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'MouseToCell', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -814,7 +747,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'MouseToCell', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ACol);
 	lua_push(L,ARow);
 	Result := 2;
@@ -835,9 +767,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'MouseToLogcell', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -858,9 +788,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'MouseToGridZone', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -878,8 +806,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'SaveToFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -897,8 +823,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'SaveToStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -918,8 +842,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'ScaleFontsPPI', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -935,8 +857,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'SetFocus', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -956,8 +876,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'DeleteColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -975,8 +893,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'DeleteCol', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -994,8 +910,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'DeleteRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1017,8 +931,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'ExchangeColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1038,8 +950,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'InsertColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1061,8 +971,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'MoveColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1082,8 +990,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'SortColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1107,8 +1013,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'SortColRow', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1131,7 +1035,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'DefaultDrawCell', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,aRect);
 	Result := 1;
 end;
@@ -1156,7 +1059,6 @@ begin
 		on E: Exception do
 			CallError(L, 'DrawGrid', 'DefaultDrawCell', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,aRect);
 	Result := 1;
 end;

@@ -42,9 +42,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Add', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -65,9 +63,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddObject', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -88,9 +84,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddPair', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -113,9 +107,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddPair', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -133,8 +125,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -154,8 +144,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -173,8 +161,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -194,8 +180,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -213,8 +197,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'SetStrings', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -232,8 +214,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'SetStrings', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -251,8 +231,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddText', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -270,8 +248,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddCommaText', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -293,8 +269,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddDelimitedText', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -312,8 +286,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddDelimitedtext', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -331,8 +303,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Append', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -350,8 +320,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Assign', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -367,8 +335,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -384,8 +350,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Clear', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -403,8 +367,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Delete', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -420,8 +382,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'EndUpdate', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -440,9 +400,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Equals', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -461,9 +419,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Equals', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -483,8 +439,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Exchange', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -503,9 +457,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'ExtractName', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -527,8 +479,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Fill', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -548,7 +498,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'GetNameValue', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,AName);
 	lua_push(L,AValue);
 	Result := 2;
@@ -567,9 +516,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'GetText', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -588,9 +535,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'IndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -611,9 +556,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'IndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -632,9 +575,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'IndexOfName', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -653,9 +594,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'IndexOfObject', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -675,8 +614,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Insert', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -698,8 +635,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'InsertObject', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -720,9 +655,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'LastIndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -741,9 +674,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'LastIndexOf', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -761,8 +692,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -782,8 +711,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -801,8 +728,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -822,8 +747,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -843,8 +766,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Move', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -861,9 +782,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Pop', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -880,9 +799,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Reverse', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -900,8 +817,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Reverse', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -919,8 +834,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'SaveToFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -940,8 +853,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'SaveToFile', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -959,8 +870,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'SaveToStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -980,8 +889,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'SaveToStream', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -998,9 +905,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Shift', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1020,8 +925,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Slice', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -1040,9 +943,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Slice', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -1060,8 +961,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'SetText', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

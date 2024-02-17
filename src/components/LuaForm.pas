@@ -40,8 +40,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'AfterConstruction', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -57,8 +55,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'BeforeDestruction', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -75,9 +71,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'BigIconHandle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -93,8 +87,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'Close', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -111,9 +103,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'CloseQuery', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -133,8 +123,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'DefocusControl', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -150,8 +138,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'DestroyWnd', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -169,8 +155,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'EnsureVisible', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -188,8 +172,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'FocusControl', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -206,9 +188,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'FormIsUpdating', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -225,9 +205,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'GetFormImage', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -246,9 +224,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'GetRolesForControl', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -265,9 +241,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'GetRealPopupParent', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -283,8 +257,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'Hide', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -302,8 +274,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'IntfDropFiles', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -321,8 +291,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'IntfHelp', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -342,8 +310,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'MakeFullyVisible', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -360,9 +326,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'AutoSizeDelayedHandle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -384,7 +348,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -410,7 +373,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
 	Result := 2;
@@ -428,8 +390,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'Release', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -446,9 +406,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'CanFocus', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -464,8 +422,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'SetFocus', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -484,9 +440,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'SetFocusedControl', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -512,8 +466,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'SetRestoredBounds', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -529,8 +481,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'Show', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -547,9 +497,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'ShowModal', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -565,8 +513,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'ShowOnTop', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -583,9 +529,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'SmallIconHandle', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -602,9 +546,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'ActiveMDIChild', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -623,9 +565,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'GetMDIChildren', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret,TypeInfo(ret));
-	
 	Result := 1;
 end;
 
@@ -642,9 +582,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'MDIChildCount', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -664,8 +602,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'Dock', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -683,8 +619,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'UpdateDockCaption', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 

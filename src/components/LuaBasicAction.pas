@@ -41,9 +41,7 @@ begin
 		on E: Exception do
 			CallError(L, 'BasicAction', 'HandlesTarget', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -61,8 +59,6 @@ begin
 		on E: Exception do
 			CallError(L, 'BasicAction', 'UpdateTarget', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -80,8 +76,6 @@ begin
 		on E: Exception do
 			CallError(L, 'BasicAction', 'ExecuteTarget', E.ClassName, E.Message);
 	end;
-
-	
 	Result := 0;
 end;
 
@@ -98,9 +92,7 @@ begin
 		on E: Exception do
 			CallError(L, 'BasicAction', 'Execute', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
@@ -117,9 +109,7 @@ begin
 		on E: Exception do
 			CallError(L, 'BasicAction', 'Update', E.ClassName, E.Message);
 	end;
-
 	lua_push(L,ret);
-	
 	Result := 1;
 end;
 
