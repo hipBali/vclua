@@ -43,6 +43,10 @@ fpcSrc = {
 	["TextStrings"] 	= LAZPATH.."/components/lazutils/textstrings.pas",
 }
 
+toInfer = {
+	["LCLType"]   = LAZPATH.."lcl/lcltype.pp",
+	["GraphType"] = LAZPATH.."components/lazutils/graphtype.pp",
+}
 
 -- name: vclua class name
 -- src:  source class name		parentclass: the owner/parent class
@@ -70,9 +74,6 @@ classes = {
 	{ name = "StringList", src = "TStringList", classparent="TStrings", nv=true, noparent=true },
 	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 
-	-- controls
-	{ name = "Control", src = "TControl", ref = "Controls, Graphics"},
-	
 	-- graphics    
 	{ name = "Graphic", src = "TGraphic", ref = "Graphics, LCLType", base=true, nocreate=true },
 	{ name = "Font", src = "TFont", ref = "Graphics", base=true, nocreate=true },
@@ -88,6 +89,9 @@ classes = {
 		}
 	},
 
+	-- controls
+	{ name = "Control", src = "TControl", ref = "Controls, Graphics"},
+	
 	-- forms
 	{ name = "Application", src = "TApplication", ref = "Forms, LCLType, LMessages, Controls, LuaControl", noparent=true  },
 	{ name = "Form", src = "TCustomForm", ref = "Forms, LCLType, LMessages, Controls, Graphics, LuaBitmap", canvas=true, form=true},

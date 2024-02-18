@@ -85,6 +85,7 @@ Generated with Lua-fpc parser/generator
   funcs.Add('TScrollBox', ScrollBoxFuncs);
   funcs.Add('TCustomForm', CustomFormFuncs);
   funcs.Add('TApplication', ApplicationFuncs);
+  funcs.Add('TControl', ControlFuncs);
   funcs.Add('TBitmap', BitmapFuncs);
   funcs.Add('TCustomBitmap', CustomBitmapFuncs);
   funcs.Add('TRasterImage', RasterImageFuncs);
@@ -94,7 +95,6 @@ Generated with Lua-fpc parser/generator
   funcs.Add('TPen', PenFuncs);
   funcs.Add('TFont', FontFuncs);
   funcs.Add('TGraphic', GraphicFuncs);
-  funcs.Add('TControl', ControlFuncs);
   funcs.Add('TTextStrings', TextStringsFuncs);
   funcs.Add('TStringList', StringListFuncs);
   funcs.Add('TStrings', StringsFuncs);

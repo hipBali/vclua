@@ -154,16 +154,55 @@ function testCEnd(l)
 	return 0
 end
 
+local function inferTypeKindFromLine(n, line, cfile)
+  local _, pos, typename = line:find("^%s*(T[_%w]+)%s*=%s*")
+  if not pos then return end
+  if pos == #line then
+    -- declaration starts on another string as in GraphType
+    local m = n + 1
+    while cfile[m] == '' do m = m + 1 end
+    line = line..cfile[m]
+  end
+  pos = pos + 1
+  if line:find("^%s*set%s+of%s*",pos) then
+    cLog(string.format("SET FOUND %s LINE:%d", typename, n),"INFO")
+    local c = typename:lower()
+    VCLUA_FROMLUA[c] = VCLUA_TOSET
+    if VCLUA_ES_CHECK then
+      VCLUA_ES_CHECK[c] = true
+      VCLUA_TOLUA[c] = VCLUA_TOLUA_FULL
+    end
+  else
+    local _,_,cc = line:find("^%s*array%s+of%s+([_%w]+)",pos)
+    if cc then
+      VCLUA_FROMLUA[typename:lower()] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
+      cLog(string.format("ARRAY FOUND %s LINE:%d", typename, n),"INFO")
+    elseif line:find("^%s*%(",pos) then
+      cLog(string.format("ENUM FOUND %s LINE:%d %s", typename, n, line),"INFO")
+      if VCLUA_ES_CHECK then
+        local c = typename:lower()
+        VCLUA_ES_CHECK[c] = true
+        VCLUA_FROMLUA[c] = VCLUA_FROMLUA_FULL
+        VCLUA_TOLUA[c] = VCLUA_TOLUA_FULL
+      end
+    end
+  end
+end
+
 local excludeType = loadMap("exclude/VarTypes")
 local excludeFuncs = loadMap("exclude/AnyClass")
 local initedSrcs = {}
+local parsedRefs = {}
 -- parser ------------------------------------------
-local function processClass(def,cdef)
+local function processClass(def,cdef,ref)
 	local processed
 	local cname = cdef.name
 	local skip
 	local exclude = loadMap("exclude/"..cname) or {}
 	for k, v in pairs(excludeFuncs) do exclude[k] = v end
+	local reparse = cdef.reparse or not parsedRefs[ref]
+	if reparse then cLog('Reparsing '..ref, 'DEBUG') end
+	parsedRefs[ref] = true
 
 	local function processLine(n, line)
 		-- find classdef
@@ -174,19 +213,7 @@ local function processClass(def,cdef)
 			index = index + 1
 		end
 		if not ln[1] then return false end
-		-- test against 'set of', generate source from VCLUA_TOSET
-		local _,_,c = line:find("(%a+)%s*=%s*set%s+of%s*")
-		if c then
-			VCLUA_FROMLUA[c:lower()] = VCLUA_TOSET
-			if VCLUA_TOLUA_ES then VCLUA_TOLUA_ES[c:lower()] = true end
-			cLog(string.format("SET FOUND %s LINE:%d",c, n),"INFO")
-		end
-		-- test against 'array of', generate source from VCLUA_TOARRAY
-		local _,_,c,cc = line:find("([_%w]+)%s*=%s*array%s+of%s+([_%w]+)")
-		if c then
-			VCLUA_FROMLUA[c:lower()] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
-			cLog(string.format("ARRAY FOUND %s LINE:%d",c, n),"INFO")
-		end
+		if reparse then inferTypeKindFromLine(n, line, def) end
 		-- parse class
 		local _,_,c = line:find("([_%w]+)%s*=%s*class%s*%([_%w]+%s*")
 		if c==cdef.src then
@@ -247,7 +274,7 @@ local function processClass(def,cdef)
 		return false
 	end
 	for n, line in pairs(def) do
-		if processLine(n, line) then break end
+		if processLine(n, line) and not reparse then break end
 	end
 	return processed
 end
@@ -398,7 +425,7 @@ function createUnitBody(cdef, ref)
           idx = idx + 1
           local vtLower = varType:lower()
           if varValue then
-            local templ = (not VCLUA_TOLUA_ES or VCLUA_TOLUA_ES[vtLower]) and VCLUA_OPT_DEFAULT or VCLUA_OPT
+            local templ = (not VCLUA_ES_CHECK or VCLUA_ES_CHECK[vtLower]) and VCLUA_OPT_DEFAULT or VCLUA_OPT
             table.insert(varsFromLua,(templ:gsub('#TYP',varType):gsub("#DEF",varValue,1):gsub('#VAR',varName,1):gsub("#",idx,1)))
             if not defVars then defVars = idx - 1 end
           else
@@ -511,6 +538,13 @@ end
 
 -- pascal source generator --------------------------
 local cfile
+for ref,filename in pairs(toInfer) do
+  cfile = loadTable(filename)
+  cLog(ref.." "..filename,"INFO")
+  for n, line in ipairs(cfile) do
+    inferTypeKindFromLine(n, line, cfile)
+  end
+end
 local fpcSrcPrev
 local createMap = {}
 for n,cdef in pairs(classes) do
@@ -535,7 +569,7 @@ for n,cdef in pairs(classes) do
 	if cdef.name then
 		className = cdef.name
 	-- single unit classes
-		if processClass(cfile,cdef)==nil then 
+		if processClass(cfile,cdef,ref)==nil then
 			cLog("*CLASS NOT FOUND:"..cdef.name,"ERROR")
 			break
 		else
@@ -546,7 +580,7 @@ for n,cdef in pairs(classes) do
 		className = cdef.unit
 	-- common unit classes
 		for _,ccdef in pairs(cdef.classes) do
-			local pc = processClass(cfile,ccdef)
+			local pc = processClass(cfile,ccdef,ref)
 			if pc==nil then 
 				cLog("*CLASS NOT FOUND:"..ccdef.name,"ERROR")
 				break
