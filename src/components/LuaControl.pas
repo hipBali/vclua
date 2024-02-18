@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Graphics;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Graphics;
 
 function VCLua_Control_DragDrop(L: Plua_State): Integer; cdecl;
 var

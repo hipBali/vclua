@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 function VCLua_RadioGroup_CanModify(L: Plua_State): Integer; cdecl;
 var

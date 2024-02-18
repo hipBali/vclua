@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, LCLType, LuaControl;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LCLType, LuaControl;
 
 function VCLua_Application_ActivateHint(L: Plua_State): Integer; cdecl;
 var

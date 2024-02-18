@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 function VCLua_CheckGroup_FlipChildren(L: Plua_State): Integer; cdecl;
 var

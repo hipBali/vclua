@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, LuaControl;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaControl;
 
 function VCLua_Splitter_AnchorSplitter(L: Plua_State): Integer; cdecl;
 var

@@ -16,7 +16,7 @@ Uses Classes, Lua, LuaController#REF, TypInfo;
 #INTFCE
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils#IMPLREF;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils#IMPLREF;
 
 #BODY
 #CREATE
@@ -36,7 +36,7 @@ Uses Classes, Lua, LuaController#REF, TypInfo;
 #INTFCE
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils#IMPLREF;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils#IMPLREF;
 
 #BODY
 #CREATE

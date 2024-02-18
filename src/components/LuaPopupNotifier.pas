@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 function VCLua_PopupNotifier_Hide(L: Plua_State): Integer; cdecl;
 var

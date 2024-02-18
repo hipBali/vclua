@@ -22,7 +22,7 @@ type
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 
 function IsFileNameEdit(L: Plua_State): Integer; cdecl;

@@ -48,7 +48,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 
 function VCLua_TabControl_TabRect(L: Plua_State): Integer; cdecl;

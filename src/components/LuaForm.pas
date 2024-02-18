@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, Graphics, LCLType, LuaBitmap;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LCLType, LuaBitmap;
 
 function VCLua_Form_AfterConstruction(L: Plua_State): Integer; cdecl;
 var

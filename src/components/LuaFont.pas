@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
 
 function VCLua_Font_Assign(L: Plua_State): Integer; cdecl;
 var

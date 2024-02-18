@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, GraphType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, GraphType;
 
 function VCLua_Canvas_Lock(L: Plua_State): Integer; cdecl;
 var

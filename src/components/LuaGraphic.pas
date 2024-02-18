@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LCLType;
 
 function VCLua_Graphic_Assign(L: Plua_State): Integer; cdecl;
 var

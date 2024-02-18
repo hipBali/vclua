@@ -36,7 +36,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, GraphType, ImgList, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, GraphType, ImgList, LuaImageList;
 
 function VCLua_ToolButton_CheckMenuDropdown(L: Plua_State): Integer; cdecl;
 var

@@ -48,7 +48,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 function VCLua_StatusPanel_Assign(L: Plua_State): Integer; cdecl;
 var

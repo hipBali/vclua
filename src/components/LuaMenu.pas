@@ -60,7 +60,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, ImgList, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, ImgList, LuaImageList;
 
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
 var

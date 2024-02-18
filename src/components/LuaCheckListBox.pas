@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, StdCtrls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, StdCtrls;
 
 function VCLua_CheckListBox_MeasureItem(L: Plua_State): Integer; cdecl;
 var

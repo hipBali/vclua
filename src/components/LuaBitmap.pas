@@ -37,7 +37,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LCLType;
 
 function VCLua_CustomBitmap_Assign(L: Plua_State): Integer; cdecl;
 var
