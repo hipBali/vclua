@@ -8,7 +8,7 @@ unit LuaCalcEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, Controls, TypInfo;
+Uses Classes, Lua, LuaController, EditBtn, TypInfo;
 
 function CreateCalcEdit(L: Plua_State): Integer; cdecl;
 function IsCalcEdit(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsCalcEdit(L: Plua_State): Integer; cdecl;

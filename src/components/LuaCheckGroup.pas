@@ -8,7 +8,7 @@ unit LuaCheckGroup;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
 
 function CreateCheckGroup(L: Plua_State): Integer; cdecl;
 function IsCheckGroup(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 function VCLua_CheckGroup_FlipChildren(L: Plua_State): Integer; cdecl;
 var

@@ -8,7 +8,7 @@ unit LuaUpDown;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
 
 function CreateUpDown(L: Plua_State): Integer; cdecl;
 function IsUpDown(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsUpDown(L: Plua_State): Integer; cdecl;

@@ -8,7 +8,7 @@ unit LuaSplitter;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls, LuaControl, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
 
 function CreateSplitter(L: Plua_State): Integer; cdecl;
 function IsSplitter(L: Plua_State): Integer; cdecl;
@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, LuaControl;
 
 function VCLua_Splitter_AnchorSplitter(L: Plua_State): Integer; cdecl;
 var

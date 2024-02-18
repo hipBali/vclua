@@ -8,7 +8,7 @@ unit LuaApplication;
 
 interface
 
-Uses Classes, Lua, LuaController, Forms, LCLType, LMessages, Controls, LuaControl, TypInfo;
+Uses Classes, Lua, LuaController, Forms, TypInfo;
 
 function CreateApplication(L: Plua_State): Integer; cdecl;
 function IsApplication(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, LCLType, LuaControl;
 
 function VCLua_Application_ActivateHint(L: Plua_State): Integer; cdecl;
 var

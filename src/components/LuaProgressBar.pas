@@ -8,7 +8,7 @@ unit LuaProgressBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
 
 function CreateProgressBar(L: Plua_State): Integer; cdecl;
 function IsProgressBar(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 function VCLua_ProgressBar_StepIt(L: Plua_State): Integer; cdecl;
 var

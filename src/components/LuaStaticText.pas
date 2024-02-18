@@ -8,7 +8,7 @@ unit LuaStaticText;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
 
 function CreateStaticText(L: Plua_State): Integer; cdecl;
 function IsStaticText(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsStaticText(L: Plua_State): Integer; cdecl;

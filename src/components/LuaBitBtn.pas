@@ -8,7 +8,7 @@ unit LuaBitBtn;
 
 interface
 
-Uses Classes, Lua, LuaController, Buttons, Controls, TypInfo;
+Uses Classes, Lua, LuaController, Buttons, TypInfo;
 
 function CreateBitBtn(L: Plua_State): Integer; cdecl;
 function IsBitBtn(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsBitBtn(L: Plua_State): Integer; cdecl;

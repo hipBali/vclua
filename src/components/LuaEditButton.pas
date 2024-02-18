@@ -8,7 +8,7 @@ unit LuaEditButton;
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, Controls, TypInfo;
+Uses Classes, Lua, LuaController, EditBtn, TypInfo;
 
 function CreateEditButton(L: Plua_State): Integer; cdecl;
 function IsEditButton(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsEditButton(L: Plua_State): Integer; cdecl;

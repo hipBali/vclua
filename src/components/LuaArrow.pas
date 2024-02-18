@@ -8,7 +8,7 @@ unit LuaArrow;
 
 interface
 
-Uses Classes, Lua, LuaController, Arrow, Controls, TypInfo;
+Uses Classes, Lua, LuaController, Arrow, TypInfo;
 
 function CreateArrow(L: Plua_State): Integer; cdecl;
 function IsArrow(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsArrow(L: Plua_State): Integer; cdecl;

@@ -8,7 +8,7 @@ unit LuaPanel;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
 
 function CreatePanel(L: Plua_State): Integer; cdecl;
 function IsPanel(L: Plua_State): Integer; cdecl;
@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsPanel(L: Plua_State): Integer; cdecl;

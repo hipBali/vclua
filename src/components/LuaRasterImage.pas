@@ -8,7 +8,7 @@ unit LuaRasterImage;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, LCLType, Types, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo;
 
 function IsRasterImage(L: Plua_State): Integer; cdecl;
 function AsRasterImage(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, LCLType;
 
 function VCLua_RasterImage_Assign(L: Plua_State): Integer; cdecl;
 var

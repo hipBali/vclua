@@ -8,7 +8,7 @@ unit LuaTreeView;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls, LuaStringList, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
 
 function IsTreeNode(L: Plua_State): Integer; cdecl;
 function AsTreeNode(L: Plua_State): Integer; cdecl;
@@ -48,7 +48,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, LuaStringList;
 
 
 function VCLua_TreeNodes_Add(L: Plua_State): Integer; cdecl;

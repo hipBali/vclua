@@ -8,7 +8,7 @@ unit LuaMemo;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
 
 function CreateMemo(L: Plua_State): Integer; cdecl;
 function IsMemo(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 function VCLua_Memo_Append(L: Plua_State): Integer; cdecl;
 var

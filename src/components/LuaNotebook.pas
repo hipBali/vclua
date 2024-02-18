@@ -8,7 +8,7 @@ unit LuaNotebook;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
 
 function CreateNotebook(L: Plua_State): Integer; cdecl;
 function IsNotebook(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 function VCLua_Notebook_ShowControl(L: Plua_State): Integer; cdecl;
 var

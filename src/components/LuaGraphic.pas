@@ -8,7 +8,7 @@ unit LuaGraphic;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, LCLType, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo;
 
 function IsGraphic(L: Plua_State): Integer; cdecl;
 function AsGraphic(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, LCLType;
 
 function VCLua_Graphic_Assign(L: Plua_State): Integer; cdecl;
 var

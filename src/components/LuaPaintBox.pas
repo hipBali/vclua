@@ -8,7 +8,7 @@ unit LuaPaintBox;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
 
 function CreatePaintBox(L: Plua_State): Integer; cdecl;
 function IsPaintBox(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsPaintBox(L: Plua_State): Integer; cdecl;

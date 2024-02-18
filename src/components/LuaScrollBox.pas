@@ -8,7 +8,7 @@ unit LuaScrollBox;
 
 interface
 
-Uses Classes, Lua, LuaController, Forms, Controls, TypInfo;
+Uses Classes, Lua, LuaController, Forms, TypInfo;
 
 function CreateScrollBox(L: Plua_State): Integer; cdecl;
 function IsScrollBox(L: Plua_State): Integer; cdecl;
@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsScrollBox(L: Plua_State): Integer; cdecl;

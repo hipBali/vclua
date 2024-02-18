@@ -8,7 +8,7 @@ unit LuaMaskEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, MaskEdit, Controls, TypInfo;
+Uses Classes, Lua, LuaController, MaskEdit, TypInfo;
 
 function CreateMaskEdit(L: Plua_State): Integer; cdecl;
 function IsMaskEdit(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsMaskEdit(L: Plua_State): Integer; cdecl;

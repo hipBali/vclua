@@ -8,7 +8,7 @@ unit LuaTabControl;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
 
 function CreateTabSheet(L: Plua_State): Integer; cdecl;
 function IsTabSheet(L: Plua_State): Integer; cdecl;
@@ -48,7 +48,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function VCLua_TabControl_TabRect(L: Plua_State): Integer; cdecl;

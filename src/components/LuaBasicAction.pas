@@ -8,7 +8,7 @@ unit LuaBasicAction;
 
 interface
 
-Uses Classes, Lua, LuaController, Controls, TypInfo;
+Uses Classes, Lua, LuaController, TypInfo;
 
 function CreateBasicAction(L: Plua_State): Integer; cdecl;
 function IsBasicAction(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 function VCLua_BasicAction_HandlesTarget(L: Plua_State): Integer; cdecl;
 var

@@ -75,14 +75,14 @@ classes = {
 	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 
 	-- graphics    
-	{ name = "Graphic", src = "TGraphic", ref = "Graphics, LCLType", base=true, nocreate=true },
+	{ name = "Graphic", src = "TGraphic", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Font", src = "TFont", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Pen", src = "TPen", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Brush", src = "TBrush", ref = "Graphics", base=true, nocreate=true },
-	{ name = "Canvas", src = "TCanvas", ref = "Graphics, GraphType", base=true, nocreate=true, impl = "SetPixel", },
+	{ name = "Canvas", src = "TCanvas", ref = "Graphics", base=true, nocreate=true, impl = "SetPixel", },
 	{ name = "Picture", src = "TPicture", ref = "Graphics", nv=true, noparent=true },
-	{ name = "RasterImage", src = "TRasterImage", ref = "Graphics, LCLType, Types", base=true, nocreate=true },
-	{ unit = "Bitmap", ref = "Graphics, LCLType",
+	{ name = "RasterImage", src = "TRasterImage", ref = "Graphics", implref = "LCLType", base=true, nocreate=true },
+	{ unit = "Bitmap", ref = "Graphics",
 		classes = {
 			{ name = "CustomBitmap", src = "TCustomBitmap", nv=true, noparent=true, nocreate=true },
 			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true },
@@ -90,15 +90,15 @@ classes = {
 	},
 
 	-- controls
-	{ name = "Control", src = "TControl", ref = "Controls, Graphics"},
+	{ name = "Control", src = "TControl", ref = "Controls"},
 	
 	-- forms
-	{ name = "Application", src = "TApplication", ref = "Forms, LCLType, LMessages, Controls, LuaControl", noparent=true  },
-	{ name = "Form", src = "TCustomForm", ref = "Forms, LCLType, LMessages, Controls, Graphics, LuaBitmap", canvas=true, form=true},
-	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms, Controls", canvas=true, },
+	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true  },
+	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", canvas=true, form=true},
+	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms", canvas=true, },
 	-- actions
-	{ name = "BasicAction", src = "TBasicAction", ref="Default, Controls", noparent=true},
-	{ unit = "ActionList", ref = "ActnList, Controls", -- include = "{$i src/inc/actionlist.inc}",
+	{ name = "BasicAction", src = "TBasicAction", ref="Default", noparent=true},
+	{ unit = "ActionList", ref = "ActnList", -- include = "{$i src/inc/actionlist.inc}",
 		classes = {
 			{ name = "ContainedAction", src = "TContainedAction",  noparent=true },
 			{ name = "Action", src = "TCustomAction",  noparent=true },
@@ -110,9 +110,9 @@ classes = {
 	
 	
 	-- imagelist
-	{ name = "ImageList", src = "TCustomImageList", ref = "ImgList, Controls, Graphics, GraphType", noparent=true},
+	{ name = "ImageList", src = "TCustomImageList", ref = "ImgList, Controls", noparent=true},
 	-- menus
-	{ unit = "Menu", ref = "Menus, Controls, ImgList, LuaImageList",
+	{ unit = "Menu", ref = "Menus",
 		classes = {
 			{ name = "Menu", src = "TMenu"},
 			{ name = "PopupMenu", src = "TPopupMenu"},
@@ -121,37 +121,37 @@ classes = {
 		}
 	},
 	-- standard controls
-	{ name = "ListBox", src = "TCustomListBox", ref = "StdCtrls, Controls", canvas=true,},
-	{ name = "ComboBox", src = "TCustomComboBox", ref = "StdCtrls, Controls" },
-	{ name = "Edit", src = "TCustomEdit", ref = "StdCtrls, Controls" },
-	{ name = "Memo", src = "TCustomMemo", ref = "StdCtrls, Controls" },
-	{ name = "StaticText", src = "TCustomStaticText", ref = "StdCtrls, Controls" },
-	{ name = "Button", src = "TCustomButton", ref = "StdCtrls, Controls" },
-	{ name = "CheckBox", src = "TCustomCheckBox", ref = "StdCtrls, Controls" },
-	{ name = "ToggleBox", src = "TToggleBox", ref = "StdCtrls, Controls" },
-	{ name = "GroupBox", src = "TGroupBox", ref = "StdCtrls, Controls" },
-	{ name = "RadioButton", src = "TRadioButton", ref = "StdCtrls, Controls" },
-	{ name = "Label", src = "TCustomLabel", ref = "StdCtrls, Controls", canvas=true, },
+	{ name = "ListBox", src = "TCustomListBox", ref = "StdCtrls", canvas=true,},
+	{ name = "ComboBox", src = "TCustomComboBox", ref = "StdCtrls" },
+	{ name = "Edit", src = "TCustomEdit", ref = "StdCtrls" },
+	{ name = "Memo", src = "TCustomMemo", ref = "StdCtrls" },
+	{ name = "StaticText", src = "TCustomStaticText", ref = "StdCtrls" },
+	{ name = "Button", src = "TCustomButton", ref = "StdCtrls" },
+	{ name = "CheckBox", src = "TCustomCheckBox", ref = "StdCtrls" },
+	{ name = "ToggleBox", src = "TToggleBox", ref = "StdCtrls" },
+	{ name = "GroupBox", src = "TGroupBox", ref = "StdCtrls" },
+	{ name = "RadioButton", src = "TRadioButton", ref = "StdCtrls" },
+	{ name = "Label", src = "TCustomLabel", ref = "StdCtrls", canvas=true, },
 	-- ext controls
-	{ name = "Notebook", src = "TNotebook", ref = "ExtCtrls, Controls" },
-	{ name = "Timer", src = "TTimer", ref = "ExtCtrls, Controls", noparent=true  },
-	{ name = "IdleTimer", src = "TCustomIdleTimer", ref = "ExtCtrls, Controls", noparent=true },
-	{ name = "Shape", src = "TShape", ref = "ExtCtrls, Controls", canvas=true, },
-	{ name = "Splitter", src = "TCustomSplitter", ref = "ExtCtrls, Controls, LuaControl", canvas=true, },
-	{ name = "PaintBox", src = "TPaintBox", ref = "ExtCtrls, Controls" },
-	{ name = "Image", src = "TCustomImage", ref = "ExtCtrls, Controls", canvas=true, },
-	{ name = "Bevel", src = "TBevel", ref = "ExtCtrls, Controls" },
-	{ name = "RadioGroup", src = "TCustomRadioGroup", ref = "ExtCtrls, Controls" },
-	{ name = "CheckGroup", src = "TCustomCheckGroup", ref = "ExtCtrls, Controls" },
-	{ name = "BoundLabel", src = "TBoundLabel", ref = "ExtCtrls, Controls" },
-	{ name = "LabeledEdit", src = "TCustomLabeledEdit", ref = "ExtCtrls, Controls" },	
-	{ name = "Panel", src = "TCustomPanel", ref = "ExtCtrls, Controls", canvas=true, },
-	{ name = "TrayIcon", src = "TCustomTrayIcon", ref = "ExtCtrls, Controls", noparent=true, canvas=true, },
+	{ name = "Notebook", src = "TNotebook", ref = "ExtCtrls" },
+	{ name = "Timer", src = "TTimer", ref = "ExtCtrls", noparent=true  },
+	{ name = "IdleTimer", src = "TCustomIdleTimer", ref = "ExtCtrls", noparent=true },
+	{ name = "Shape", src = "TShape", ref = "ExtCtrls", canvas=true, },
+	{ name = "Splitter", src = "TCustomSplitter", ref = "ExtCtrls", canvas=true, },
+	{ name = "PaintBox", src = "TPaintBox", ref = "ExtCtrls" },
+	{ name = "Image", src = "TCustomImage", ref = "ExtCtrls", canvas=true, },
+	{ name = "Bevel", src = "TBevel", ref = "ExtCtrls" },
+	{ name = "RadioGroup", src = "TCustomRadioGroup", ref = "ExtCtrls" },
+	{ name = "CheckGroup", src = "TCustomCheckGroup", ref = "ExtCtrls" },
+	{ name = "BoundLabel", src = "TBoundLabel", ref = "ExtCtrls" },
+	{ name = "LabeledEdit", src = "TCustomLabeledEdit", ref = "ExtCtrls" },
+	{ name = "Panel", src = "TCustomPanel", ref = "ExtCtrls", canvas=true, },
+	{ name = "TrayIcon", src = "TCustomTrayIcon", ref = "ExtCtrls", noparent=true, canvas=true, },
 	-- com controls
-	{ name = "TrackBar", src = "TCustomTrackBar", ref = "ComCtrls, Controls" },
-	{ name = "ProgressBar", src = "TCustomProgressBar", ref = "ComCtrls, Controls" },
+	{ name = "TrackBar", src = "TCustomTrackBar", ref = "ComCtrls" },
+	{ name = "ProgressBar", src = "TCustomProgressBar", ref = "ComCtrls" },
 	
-	{ unit = "StatusBar", ref = "ComCtrls, Controls",
+	{ unit = "StatusBar", ref = "ComCtrls",
 		classes = {
 			{ name = "StatusPanel", src = "TStatusPanel", noparent=true, nocreate=true},
 			{ name = "StatusPanels", src = "TStatusPanels", noparent=true, nocreate=true, parentclass="TStatusBar", wclass="TStatusPanel"},
@@ -159,31 +159,31 @@ classes = {
 		}
 	},
 	
-	{ unit = "ToolBar", ref = "ComCtrls, Controls, ImgList, GraphType, LuaImageList", canvas=true,
+	{ unit = "ToolBar", ref = "ComCtrls", canvas=true,
 		classes = {
 			{ name = "ToolButton", src = "TToolButton" },
 			{ name = "ToolBar", src = "TToolBar" },
 		}
 	},
-	{ name = "CoolBar", src = "TCustomCoolBar", ref = "ComCtrls, Controls", canvas=true, },
-	{ name = "UpDown", src = "TUpDown", ref = "ComCtrls, Controls" },
+	{ name = "CoolBar", src = "TCustomCoolBar", ref = "ComCtrls", canvas=true, },
+	{ name = "UpDown", src = "TUpDown", ref = "ComCtrls" },
 	
-	{ unit = "TabControl", ref = "ComCtrls, Controls", 
+	{ unit = "TabControl", ref = "ComCtrls",
 		classes = {
 			{ name = "TabSheet", src = "TTabSheet" },
 			{ name = "TabControl", src = "TCustomTabControl" },
 			{ name = "PageControl", src = "TPageControl" },
 		},
 	},
-	{ name = "HeaderControl", src = "TCustomHeaderControl", ref = "ComCtrls, Controls" },
-	{ unit = "TreeView", ref = "ComCtrls, Controls, LuaStringList", canvas=true,
+	{ name = "HeaderControl", src = "TCustomHeaderControl", ref = "ComCtrls" },
+	{ unit = "TreeView", ref = "ComCtrls", canvas=true,
 		classes = {
 			{ name = "TreeNode", src = "TTreeNode", noparent=true, parentclass="TTreeNodes", nocreate=true},
 			{ name = "TreeNodes", src = "TTreeNodes", noparent=true, parentclass="TCustomTreeView", nocreate=true},
 			{ name = "TreeView", src = "TCustomTreeView"},
 		},
 	},
-	{ unit = "ListView", ref = "ComCtrls, Controls", canvas=true,
+	{ unit = "ListView", ref = "ComCtrls", canvas=true,
 		classes = {
 			{ name = "ListItem", src = "TListItem", noparent=true, parentclass="TListItems", nocreate=true},
 			{ name = "ListItems", src = "TListItems", noparent=true, parentclass="TCustomListView", nocreate=true},
@@ -191,47 +191,47 @@ classes = {
 		},
 	},
 	-- buttons
-	{ name = "BitBtn", src = "TBitBtn", ref = "Buttons, Controls" },
-	{ name = "SpeedButton", src = "TSpeedButton", ref = "Buttons, Controls" },
+	{ name = "BitBtn", src = "TBitBtn", ref = "Buttons" },
+	{ name = "SpeedButton", src = "TSpeedButton", ref = "Buttons" },
 	-- maskedit
-	{ name = "MaskEdit", src = "TMaskEdit", ref = "MaskEdit, Controls" },
+	{ name = "MaskEdit", src = "TMaskEdit", ref = "MaskEdit" },
 	-- checklistbox
-	{ name = "CheckListBox", src = "TCustomCheckListBox", ref = "CheckLst, Controls, StdCtrls", 
+	{ name = "CheckListBox", src = "TCustomCheckListBox", ref = "CheckLst",
 		impl = "CheckListBoxGetChecked, CheckListBoxSetChecked" },
 	
 	
 	
 	-- popupnotifier
-	{ name = "PopupNotifier", src = "TPopupNotifier", ref = "PopupNotifier, Controls", noparent=true, },
+	{ name = "PopupNotifier", src = "TPopupNotifier", ref = "PopupNotifier", noparent=true, },
 	-- datetimepicker
-	{ name = "DateTimePicker", src = "TDateTimePicker", ref = "DateTimePicker, Controls" },
+	{ name = "DateTimePicker", src = "TDateTimePicker", ref = "DateTimePicker" },
 	-- spin
-	{ name = "FloatSpinEdit", src = "TCustomFloatSpinEdit", ref = "Spin, Controls" },
-	{ name = "SpinEdit", src = "TSpinEdit", ref = "Spin, Controls" },
+	{ name = "FloatSpinEdit", src = "TCustomFloatSpinEdit", ref = "Spin" },
+	{ name = "SpinEdit", src = "TSpinEdit", ref = "Spin" },
 	-- arrow
-	{ name = "Arrow", src = "TArrow", ref = "Arrow, Controls" },
+	{ name = "Arrow", src = "TArrow", ref = "Arrow" },
 	-- calendar
-	{ name = "Calendar", src = "TCustomCalendar", ref = "Calendar, Controls" },
+	{ name = "Calendar", src = "TCustomCalendar", ref = "Calendar" },
 	-- editbtn
-	{ name = "EditButton", src = "TCustomEditButton", ref = "EditBtn, Controls" },
-	{ name = "FileNameEdit", src = "TCustomEditButton", ref = "EditBtn, Controls" },
-	{ name = "DirectoryEdit", src = "TCustomEditButton", ref = "EditBtn, Controls" },
-	{ name = "DateEdit", src = "TCustomEditButton", ref = "EditBtn, Controls" },
-	{ name = "TimeEdit", src = "TCustomEditButton", ref = "EditBtn, Controls" },
-	{ name = "CalcEdit", src = "TCustomEditButton", ref = "EditBtn, Controls" },
+	{ name = "EditButton", src = "TCustomEditButton", ref = "EditBtn" },
+	{ name = "FileNameEdit", src = "TCustomEditButton", ref = "EditBtn" },
+	{ name = "DirectoryEdit", src = "TCustomEditButton", ref = "EditBtn" },
+	{ name = "DateEdit", src = "TCustomEditButton", ref = "EditBtn" },
+	{ name = "TimeEdit", src = "TCustomEditButton", ref = "EditBtn" },
+	{ name = "CalcEdit", src = "TCustomEditButton", ref = "EditBtn" },
 	-- filectrl
 	-- colorbox
-	{ name = "ColorBox", src = "TCustomColorBox", ref = "ColorBox, Controls" },
-	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox, Controls" },
+	{ name = "ColorBox", src = "TCustomColorBox", ref = "ColorBox" },
+	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox" },
 	
 	-- grids
-	{ unit = "DrawGrid", ref = "Grids, Controls, LCLType",
+	{ unit = "DrawGrid", ref = "Grids",
 		classes = {
 			{ name = "CustomGrid", src = "TCustomGrid", nocreate=true },
 			{ name = "DrawGrid", src = "TCustomDrawGrid", canvas=true },
 		},
 	},
-	{ unit = "StringGrid", ref = "Grids, Controls", 
+	{ unit = "StringGrid", ref = "Grids",
 		classes = {
 			{ name = "GridColumn", src = "TGridColumn", noparent=true, parentclass="TCollection", nocreate=true},
 			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", nocreate=true},--, wclass="TGridColumn"
@@ -241,9 +241,9 @@ classes = {
 	},
 	
 	-- valuelisteditor
-	{ name = "ValueListEditor", src = "TValueListEditor", ref = "ValEdit, Controls" , canvas=true},
+	{ name = "ValueListEditor", src = "TValueListEditor", ref = "ValEdit" , canvas=true},
 	-- dialogs
-	{ unit = "CommonDialogs", ref = "Dialogs, Controls",
+	{ unit = "CommonDialogs", ref = "Dialogs",
 		classes = {
 			{ name = "ColorButton", src = "TColorButton", },
 			{ name = "OpenDialog", src = "TOpenDialog", noparent=true, impl = "DialogExecute" },

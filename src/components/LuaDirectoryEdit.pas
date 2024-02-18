@@ -8,7 +8,7 @@ unit LuaDirectoryEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, Controls, TypInfo;
+Uses Classes, Lua, LuaController, EditBtn, TypInfo;
 
 function CreateDirectoryEdit(L: Plua_State): Integer; cdecl;
 function IsDirectoryEdit(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsDirectoryEdit(L: Plua_State): Integer; cdecl;

@@ -8,7 +8,7 @@ unit LuaCommonDialogs;
 
 interface
 
-Uses Classes, Lua, LuaController, Dialogs, Controls, TypInfo;
+Uses Classes, Lua, LuaController, Dialogs, TypInfo;
 
 function CreateColorButton(L: Plua_State): Integer; cdecl;
 function IsColorButton(L: Plua_State): Integer; cdecl;
@@ -106,7 +106,7 @@ type
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 function VCLua_ColorButton_Click(L: Plua_State): Integer; cdecl;
 var

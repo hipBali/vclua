@@ -8,7 +8,7 @@ unit LuaMenu;
 
 interface
 
-Uses Classes, Lua, LuaController, Menus, Controls, ImgList, LuaImageList, TypInfo;
+Uses Classes, Lua, LuaController, Menus, TypInfo;
 
 function CreateMenu(L: Plua_State): Integer; cdecl;
 function IsMenu(L: Plua_State): Integer; cdecl;
@@ -60,7 +60,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, ImgList, LuaImageList;
 
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
 var

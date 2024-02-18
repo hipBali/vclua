@@ -6,6 +6,10 @@
 --                                                      --
 -- **************************************************** --
 
+-- map of types to Refs
+typeRef = {}
+vcluaTypeRef = {}
+
 -- Generic templates
 VCLUA_TOSET = "luaL_checkSet(L,#,@#VAR,TypeInfo(#TYP));"
 VCLUA_TOARRAY = "TTrait<#TYP>.luaL_checkArray(L, #, @#VAR);"

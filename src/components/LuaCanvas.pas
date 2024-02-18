@@ -8,7 +8,7 @@ unit LuaCanvas;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, GraphType, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo;
 
 function IsCanvas(L: Plua_State): Integer; cdecl;
 function AsCanvas(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, GraphType;
 
 function VCLua_Canvas_Lock(L: Plua_State): Integer; cdecl;
 var

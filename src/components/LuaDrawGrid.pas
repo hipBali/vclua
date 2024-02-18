@@ -8,7 +8,7 @@ unit LuaDrawGrid;
 
 interface
 
-Uses Classes, Lua, LuaController, Grids, Controls, LCLType, TypInfo;
+Uses Classes, Lua, LuaController, Grids, TypInfo;
 
 function IsCustomGrid(L: Plua_State): Integer; cdecl;
 function AsCustomGrid(L: Plua_State): Integer; cdecl;
@@ -38,7 +38,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, LCLType;
 
 function VCLua_CustomGrid_Invalidate(L: Plua_State): Integer; cdecl;
 var

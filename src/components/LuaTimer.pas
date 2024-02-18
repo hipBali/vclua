@@ -8,7 +8,7 @@ unit LuaTimer;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
 
 function CreateTimer(L: Plua_State): Integer; cdecl;
 function IsTimer(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsTimer(L: Plua_State): Integer; cdecl;

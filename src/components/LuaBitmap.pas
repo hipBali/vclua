@@ -8,7 +8,7 @@ unit LuaBitmap;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, LCLType, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo;
 
 function IsCustomBitmap(L: Plua_State): Integer; cdecl;
 function AsCustomBitmap(L: Plua_State): Integer; cdecl;
@@ -37,7 +37,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls, LCLType;
 
 function VCLua_CustomBitmap_Assign(L: Plua_State): Integer; cdecl;
 var

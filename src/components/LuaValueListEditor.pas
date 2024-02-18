@@ -8,7 +8,7 @@ unit LuaValueListEditor;
 
 interface
 
-Uses Classes, Lua, LuaController, ValEdit, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ValEdit, TypInfo;
 
 function CreateValueListEditor(L: Plua_State): Integer; cdecl;
 function IsValueListEditor(L: Plua_State): Integer; cdecl;
@@ -26,7 +26,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 function VCLua_ValueListEditor_Clear(L: Plua_State): Integer; cdecl;
 var

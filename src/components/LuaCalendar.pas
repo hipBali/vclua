@@ -8,7 +8,7 @@ unit LuaCalendar;
 
 interface
 
-Uses Classes, Lua, LuaController, Calendar, Controls, TypInfo;
+Uses Classes, Lua, LuaController, Calendar, TypInfo;
 
 function CreateCalendar(L: Plua_State): Integer; cdecl;
 function IsCalendar(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 function VCLua_Calendar_HitTest(L: Plua_State): Integer; cdecl;
 var

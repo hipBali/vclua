@@ -154,9 +154,12 @@ function testCEnd(l)
 	return 0
 end
 
-local function inferTypeKindFromLine(n, line, cfile)
+local excludeType = loadMap("exclude/VarTypes")
+local function inferTypeKindFromLine(n, line, cfile, ref)
   local _, pos, typename = line:find("^%s*(T[_%w]+)%s*=%s*")
-  if not pos then return end
+  if not pos or excludeType[typename] then return end
+  local c = typename:lower()
+  typeRef[c] = ref
   if pos == #line then
     -- declaration starts on another string as in GraphType
     local m = n + 1
@@ -166,7 +169,6 @@ local function inferTypeKindFromLine(n, line, cfile)
   pos = pos + 1
   if line:find("^%s*set%s+of%s*",pos) then
     cLog(string.format("SET FOUND %s LINE:%d", typename, n),"INFO")
-    local c = typename:lower()
     VCLUA_FROMLUA[c] = VCLUA_TOSET
     if VCLUA_ES_CHECK then
       VCLUA_ES_CHECK[c] = true
@@ -175,12 +177,11 @@ local function inferTypeKindFromLine(n, line, cfile)
   else
     local _,_,cc = line:find("^%s*array%s+of%s+([_%w]+)",pos)
     if cc then
-      VCLUA_FROMLUA[typename:lower()] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
+      VCLUA_FROMLUA[c] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
       cLog(string.format("ARRAY FOUND %s LINE:%d", typename, n),"INFO")
     elseif line:find("^%s*%(",pos) then
       cLog(string.format("ENUM FOUND %s LINE:%d %s", typename, n, line),"INFO")
       if VCLUA_ES_CHECK then
-        local c = typename:lower()
         VCLUA_ES_CHECK[c] = true
         VCLUA_FROMLUA[c] = VCLUA_FROMLUA_FULL
         VCLUA_TOLUA[c] = VCLUA_TOLUA_FULL
@@ -189,7 +190,6 @@ local function inferTypeKindFromLine(n, line, cfile)
   end
 end
 
-local excludeType = loadMap("exclude/VarTypes")
 local excludeFuncs = loadMap("exclude/AnyClass")
 local initedSrcs = {}
 local parsedRefs = {}
@@ -203,6 +203,7 @@ local function processClass(def,cdef,ref)
 	local reparse = cdef.reparse or not parsedRefs[ref]
 	if reparse then cLog('Reparsing '..ref, 'DEBUG') end
 	parsedRefs[ref] = true
+	local refd = ref ~= 'Default' and ref or nil
 
 	local function processLine(n, line)
 		-- find classdef
@@ -213,7 +214,7 @@ local function processClass(def,cdef,ref)
 			index = index + 1
 		end
 		if not ln[1] then return false end
-		if reparse then inferTypeKindFromLine(n, line, def) end
+		if reparse then inferTypeKindFromLine(n, line, def, refd) end
 		-- parse class
 		local _,_,c = line:find("([_%w]+)%s*=%s*class%s*%([_%w]+%s*")
 		if c==cdef.src then
@@ -280,8 +281,9 @@ local function processClass(def,cdef,ref)
 end
 
 function processParams(s)
-	local vars,varlist,funcparams,out,def
+	local vars,varlist,funcparams,out,def,types,pushTypes
 	vars={{}}
+	types,pushTypes={},{}
 	if s:find("%(") then
 		vars[2] = {}
 		varlist={}
@@ -329,12 +331,14 @@ function processParams(s)
 				def=pp[2]
 			end
 			varType = pp[1]
+			types[varType] = true
 
 			-- should passed back?
 			local isVar = p[1]:find("[vV]ar%s+")
 			local isOut = p[1]:find("[oO]ut%s+")
 			if isVar or isOut then
 				table.insert(out, {name=varName, type=varType})
+				pushTypes[varType] = true
 			end
 			-- var parameters can actually be required, e.g. in TCustomDrawGrid.DefaultDrawCell, TCustomListBox.MeasureItem
 			-- so provide an overload
@@ -349,10 +353,10 @@ function processParams(s)
 		end
 	end
 	if vars[2] and #vars[2] == #vars[1] then vars[2] = nil end
-	return vars, varlist, funcparams, out
+	return vars, varlist, funcparams, out, types, pushTypes
 end
 
-function createUnitBody(cdef, ref)
+function createUnitBody(cdef, ref, refs)
 	local className = cdef.name
 	local classBody = {} 
 	local cMethods = {}
@@ -368,6 +372,17 @@ function createUnitBody(cdef, ref)
 				mIdx=mIdx+1
 			end
 	end
+	-- parenting needs TWinControl
+	if not cdef.nocreate then refs['Controls'] = true end
+	local function updRef(tp, pushed)
+		typ = tp:lower()
+		local r
+		if pushed then r = vcluaTypeRef[typ] else r = typeRef[typ] end
+		if r and not refs[r] then
+			refs[r] = true
+			cLog('Adding '..r..' to refs because of '..tp..' in '..className, 'INFO')
+		end
+	end
 	classDoc[className] = classDoc[className] or {}
 	classDoc[className]["reference"] = cdef.ref or cdef.name
 	for _,method in pairs(classTable[className]) do
@@ -377,10 +392,14 @@ function createUnitBody(cdef, ref)
 		local mName = tmp[2]
 		local ret, reto
 		local retCount = 0
-		local vars, varlist, funcparams, out = processParams(method)
+		local vars, varlist, funcparams, out, mtypes, pushTypes = processParams(md)
+		for typ,_ in pairs(mtypes) do updRef(typ) end
+		for typ,_ in pairs(pushTypes) do updRef(typ, true) end
 		if mType=="function" then
 			ret = method:split(":")
 			reto = ret[#ret]:match("%w+")
+			updRef(reto)
+			updRef(reto, true)
 			ret = reto:lower()
 			retCount = 1
 		end
@@ -541,8 +560,9 @@ local cfile
 for ref,filename in pairs(toInfer) do
   cfile = loadTable(filename)
   cLog(ref.." "..filename,"INFO")
+  local refd = ref ~= 'Default' and ref or nil
   for n, line in ipairs(cfile) do
-    inferTypeKindFromLine(n, line, cfile)
+    inferTypeKindFromLine(n, line, cfile, ref)
   end
 end
 local fpcSrcPrev
@@ -565,6 +585,7 @@ for n,cdef in pairs(classes) do
 	classTable = {}
 	classData = {}
 	local className
+	local unitRefs = {}
 	
 	if cdef.name then
 		className = cdef.name
@@ -573,8 +594,9 @@ for n,cdef in pairs(classes) do
 			cLog("*CLASS NOT FOUND:"..cdef.name,"ERROR")
 			break
 		else
-			local body,create,intf,init = createUnitBody(cdef, ref)
+			local body,create,intf,init = createUnitBody(cdef, ref, unitRefs)
 			table.insert(classData,{intf,body,create,init})
+			vcluaTypeRef[cdef.src:lower()] = 'Lua'..className
 		end
 	elseif cdef.classes and type(cdef.classes)=="table" then
 		className = cdef.unit
@@ -585,8 +607,12 @@ for n,cdef in pairs(classes) do
 				cLog("*CLASS NOT FOUND:"..ccdef.name,"ERROR")
 				break
 			end
-			local body,create,intf,init = createUnitBody(ccdef, ref)
+			local body,create,intf,init = createUnitBody(ccdef, ref, unitRefs)
 			table.insert(classData,{intf,body,create,init})
+		end
+		-- don't do this in the loop above to avoid self reference
+		for _,ccdef in pairs(cdef.classes) do
+			vcluaTypeRef[ccdef.src:lower()] = 'Lua'..className
 		end
 	else
 		cLog("*ERROR READING CONFIG AT LINE :"..n,"ERROR")
@@ -598,12 +624,19 @@ for n,cdef in pairs(classes) do
 		classSource = HDR_INFO .. VCLua_CLASSDEF_NV
 	end
 	classSource = classSource:gsub("#CNAME",className)
-	if cdef.ref then
-		cdef.ref = cdef.ref:gsub("Default[,%s]*","")
-		classSource = classSource:gsub("#REF",(cdef.ref ~= "" and ", "..cdef.ref) or "")
-	else
-		classSource = classSource:gsub("#REF","")
-	end
+
+	if cdef.ref then cdef.ref = cdef.ref:gsub("Default[,%s]*","") end
+	local refStr = cdef.ref or ""
+	classSource = classSource:gsub("#REF",(refStr ~= "" and ", "..refStr) or "")
+	local intfRefT = cdef.ref and cdef.ref:split(',') or {}
+	local intfRetChecker = {}
+	for _,r in ipairs(intfRefT) do intfRetChecker[r] = true end
+	local unitRefT = cdef.implref and cdef.implref:split(',') or {}
+	for r,_ in pairs(unitRefs) do if not intfRetChecker[r] then table.insert(unitRefT, r) end end
+	table.sort(unitRefT)
+	refStr = table.concat(unitRefT, ', ')
+	classSource = classSource:gsub("#IMPLREF",(refStr ~= "" and ", "..refStr) or "")
+
 	local intf, body, create, init = {},{},{},{"begin"}
 	-- manual code to include
 	if cdef.include then

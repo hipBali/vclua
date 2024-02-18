@@ -8,7 +8,7 @@ unit LuaColorBox;
 
 interface
 
-Uses Classes, Lua, LuaController, ColorBox, Controls, TypInfo;
+Uses Classes, Lua, LuaController, ColorBox, TypInfo;
 
 function CreateColorBox(L: Plua_State): Integer; cdecl;
 function IsColorBox(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, Controls;
 
 
 function IsColorBox(L: Plua_State): Integer; cdecl;

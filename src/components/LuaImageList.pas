@@ -8,7 +8,7 @@ unit LuaImageList;
 
 interface
 
-Uses Classes, Lua, LuaController, ImgList, Controls, Graphics, GraphType, TypInfo;
+Uses Classes, Lua, LuaController, ImgList, Controls, TypInfo;
 
 function CreateImageList(L: Plua_State): Integer; cdecl;
 function IsImageList(L: Plua_State): Integer; cdecl;
@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils;
+Uses LuaProperties, LuaProxy, LuaObject, LuaHelper, LCLClasses, SysUtils, GraphType, Graphics;
 
 function VCLua_ImageList_AssignTo(L: Plua_State): Integer; cdecl;
 var
