@@ -54,20 +54,6 @@ end;]],
 		vcluaMethodName="GridGetSelectedCell",
 },
 
-["ItemsToTable"] = {src = [[
-function #FNAME(L: Plua_State): Integer; cdecl;
-var
-  items: TStrings;
-begin
-  items := TStrings(GetLuaObject(L, 1));
-  lua_pushStrings(L, items); 
-  Result := 1;
-end;
-]],
-		finalMethodName="ToTable",
-		vcluaMethodName="ItemsToTable",
-},
-
 ["DialogExecute"] = {src = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var

@@ -1047,6 +1047,23 @@ begin
 	end;
 end;
 
+function VCLua_ImageList_RegisterResolutions(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	AResolutionWidths:array of Integer;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	TTrait<Integer>.luaL_checkArray(L, 2, @AResolutionWidths);
+	try
+		lImageList.RegisterResolutions(AResolutionWidths);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'RegisterResolutions', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_ImageList_DeleteResolution(L: Plua_State): Integer; cdecl;
 var
 	lImageList:TLuaImageList;
@@ -1183,7 +1200,7 @@ begin
 end;
 
 begin
-	SetLength(CustomImageListFuncs, 54+1);
+	SetLength(CustomImageListFuncs, 55+1);
 	CustomImageListFuncs[0].name:='AssignTo';
 	CustomImageListFuncs[0].func:=@VCLua_ImageList_AssignTo;
 	CustomImageListFuncs[1].name:='Assign';
@@ -1282,17 +1299,19 @@ begin
 	CustomImageListFuncs[47].func:=@VCLua_ImageList_StretchDraw;
 	CustomImageListFuncs[48].name:='UnRegisterChanges';
 	CustomImageListFuncs[48].func:=@VCLua_ImageList_UnRegisterChanges;
-	CustomImageListFuncs[49].name:='DeleteResolution';
-	CustomImageListFuncs[49].func:=@VCLua_ImageList_DeleteResolution;
-	CustomImageListFuncs[50].name:='HeightForPPI';
-	CustomImageListFuncs[50].func:=@VCLua_ImageList_HeightForPPI;
-	CustomImageListFuncs[51].name:='HeightForWidth';
-	CustomImageListFuncs[51].func:=@VCLua_ImageList_HeightForWidth;
-	CustomImageListFuncs[52].name:='WidthForPPI';
-	CustomImageListFuncs[52].func:=@VCLua_ImageList_WidthForPPI;
-	CustomImageListFuncs[53].name:='SizeForPPI';
-	CustomImageListFuncs[53].func:=@VCLua_ImageList_SizeForPPI;
-	CustomImageListFuncs[54].name:=nil;
-	CustomImageListFuncs[54].func:=nil;
+	CustomImageListFuncs[49].name:='RegisterResolutions';
+	CustomImageListFuncs[49].func:=@VCLua_ImageList_RegisterResolutions;
+	CustomImageListFuncs[50].name:='DeleteResolution';
+	CustomImageListFuncs[50].func:=@VCLua_ImageList_DeleteResolution;
+	CustomImageListFuncs[51].name:='HeightForPPI';
+	CustomImageListFuncs[51].func:=@VCLua_ImageList_HeightForPPI;
+	CustomImageListFuncs[52].name:='HeightForWidth';
+	CustomImageListFuncs[52].func:=@VCLua_ImageList_HeightForWidth;
+	CustomImageListFuncs[53].name:='WidthForPPI';
+	CustomImageListFuncs[53].func:=@VCLua_ImageList_WidthForPPI;
+	CustomImageListFuncs[54].name:='SizeForPPI';
+	CustomImageListFuncs[54].func:=@VCLua_ImageList_SizeForPPI;
+	CustomImageListFuncs[55].name:=nil;
+	CustomImageListFuncs[55].func:=nil;
 
 end.

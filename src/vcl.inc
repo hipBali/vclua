@@ -86,8 +86,7 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..85] of lual_reg = (
-		(name:'Strings'; func:@CreateStrings),
+	vcl_lib : array[0..84] of lual_reg = (
 		(name:'StringList'; func:@CreateStringList),
 		(name:'TextStrings'; func:@CreateTextStrings),
 		(name:'Picture'; func:@CreatePicture),

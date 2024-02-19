@@ -26,8 +26,6 @@ procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo = nil
 
 function CheckOrderOfPushObject(ptis: aopti):string;
 
-// TStrings
-procedure lua_pushStrings(L: Plua_State; ItemOwner:TPersistent);
 // getters -- e.g. StringGrid
 procedure lua_pushItems(L: Plua_State; ItemOwner:TCollection);
 procedure lua_pushCells(L: Plua_State; ItemOwner:TPersistent);
@@ -146,23 +144,6 @@ begin
      lua_pop(L,1);
   end;
   CreateTableForKnownType(L, cName, Comp);
-end;
-
-procedure lua_pushStrings(L: Plua_State; ItemOwner:TPersistent);
-var i,top:Integer;
-begin
-    lua_newtable(L);
-    top := lua_gettop(L);
-    for i:=0 to TStrings(ItemOwner).Count-1 do begin
-      lua_pushinteger(L, i + 1 );
-      lua_pushstring(L, PChar(TStrings(ItemOwner).Strings[i]));
-      lua_settable(L, top);
-    end;
-    if TStrings(ItemOwner).Count=0 then begin
-       lua_pushinteger(L, 1 );
-       lua_pushnil(L);
-       lua_settable(L, top);
-    end;
 end;
 
 procedure lua_pushItems(L: Plua_State; ItemOwner:TCollection);

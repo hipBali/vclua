@@ -198,6 +198,7 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
     local _,_,cc = line:find("^%s*array%s+of%s+([_%w]+)",pos)
     if cc then
       VCLUA_FROMLUA[c] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
+      VCLUA_TOLUA[c] = VCLUA_PUSHARRAY:gsub("#TYP",cc,1)
       cLog(string.format("ARRAY FOUND %s LINE:%d", typename, n),"INFO")
     elseif line:find("^%s*%(",pos) then
       cLog(string.format("ENUM FOUND %s LINE:%d %s", typename, n, line),"INFO")
@@ -456,7 +457,7 @@ function createUnitBody(cdef, ref, refs)
 		local outStr = {}
 		if out and #out>0 then
 			for i=1,#out do
-				local rtype = (VCLUA_TOLUA[out[i].type:lower():trim()] or VCLUA_TOLUA_DEFAULT):gsub("ret",out[i].name)
+				local rtype = (VCLUA_TOLUA[out[i].type:lower():trim()] or VCLUA_TOLUA_DEFAULT):gsub("#VAR",out[i].name)
 				table.insert(outStr, rtype)
 				retCount = retCount + 1
 			end
@@ -532,7 +533,7 @@ function createUnitBody(cdef, ref, refs)
       if ret then
         local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
         s = s:gsub("#FUNC",call,1)
-        s = s:gsub("#PUSHTOLUA","\n\t"..rtype,1)
+        s = s:gsub("#PUSHTOLUA","\n\t"..rtype:gsub('#VAR','ret'),1)
         s = s:gsub("#PUSHOUTS",outStr[1] and "\n\t"..table.concat(outStr,"\n\t") or '')
         s = s:gsub("#RETVAR","\n\tret:"..reto,1)
         s = s:gsub("#RETCOUNT",retCount)

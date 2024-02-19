@@ -43,6 +43,23 @@ begin
 	end;
 end;
 
+function VCLua_Pen_GetPattern(L: Plua_State): Integer; cdecl;
+var
+	lPen:TLuaPen;
+	ret:TPenPattern;
+begin
+	CheckArg(L, 1);
+	lPen := TLuaPen(GetLuaObject(L, 1));
+	try
+		ret := lPen.GetPattern();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Pen', 'GetPattern', E.ClassName, E.Message);
+	end;
+	lua_pushArray<LongWord>(L, ret);
+end;
+
 function VCLua_Pen_SetPattern(L: Plua_State): Integer; cdecl;
 var
 	lPen:TLuaPen;
@@ -83,12 +100,14 @@ begin
 end;
 
 begin
-	SetLength(PenFuncs, 2+1);
+	SetLength(PenFuncs, 3+1);
 	PenFuncs[0].name:='Assign';
 	PenFuncs[0].func:=@VCLua_Pen_Assign;
-	PenFuncs[1].name:='SetPattern';
-	PenFuncs[1].func:=@VCLua_Pen_SetPattern;
-	PenFuncs[2].name:=nil;
-	PenFuncs[2].func:=nil;
+	PenFuncs[1].name:='GetPattern';
+	PenFuncs[1].func:=@VCLua_Pen_GetPattern;
+	PenFuncs[2].name:='SetPattern';
+	PenFuncs[2].func:=@VCLua_Pen_SetPattern;
+	PenFuncs[3].name:=nil;
+	PenFuncs[3].func:=nil;
 
 end.

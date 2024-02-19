@@ -14,8 +14,9 @@ vcluaTypeRef = {}
 VCLUA_TOSET = "luaL_checkSet(L,#,@#VAR,TypeInfo(#TYP));"
 VCLUA_TOARRAY = "TTrait<#TYP>.luaL_checkArray(L, #, @#VAR);"
 VCLUA_OPT_DEFAULT = "TTraitPti<#TYP>.luaL_optcheck(L, #, @#VAR, #DEF, TypeInfo(#TYP));"
-VCLUA_TOLUA_FULL = "lua_push(L,ret,TypeInfo(ret));"
 VCLUA_FROMLUA_FULL = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));"
+VCLUA_PUSHARRAY = "lua_pushArray<#TYP>(L, #VAR);"
+VCLUA_TOLUA_FULL = "lua_push(L,#VAR,TypeInfo(#VAR));"
 
 if checkTypeSupport then
 
@@ -24,10 +25,10 @@ VCLUA_ES = {
 "TFillStyle",
 }
 
-VCLUA_TOLUA_DEFAULT = "lua_push(L,ret);"
+VCLUA_TOLUA_DEFAULT = "lua_push(L,#VAR);"
 
 VCLUA_TOLUA = {
-	["pointer"] = "lua_pushlightuserdata(L,ret);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
+	["pointer"] = "lua_pushlightuserdata(L,#VAR);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
 
 	-- if src ~= "T"..cdef.name
 	["tcustomimagelist"] = VCLUA_TOLUA_FULL,
@@ -62,7 +63,7 @@ else
 VCLUA_TOLUA_DEFAULT = VCLUA_TOLUA_FULL
 
 VCLUA_TOLUA = {
-	["pointer"] = "lua_pushlightuserdata(L,ret);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
+	["pointer"] = "lua_pushlightuserdata(L,#VAR);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
 }
 
 VCLUA_FROMLUA_DEFAULT = VCLUA_FROMLUA_FULL

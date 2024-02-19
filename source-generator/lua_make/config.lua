@@ -72,7 +72,7 @@ classes = {
 	-- { name = "Strings", src = "TStrings", nocreate=true },
 	------------------------------------------------------------------
 	-- TStrings and descenants
-	{ name = "Strings", src = "TStrings", nv=true, noparent=true, impl = "ItemsToTable" },
+	{ name = "Strings", src = "TStrings", nv=true, nocreate=true },
 	{ name = "StringList", src = "TStringList", classparent="TStrings", nv=true, noparent=true },
 	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 
