@@ -245,14 +245,17 @@ local function processClass(def,cdef,ref)
 					elseif lt == 0 then 
 						local l = line:gsub("^%s*", ""):trim()
 						-- join broken lines
-						if line:find("%(") and line:find("%)")==nil then
+						local function appendUntil(pattern, sep)
 							local m = n + 1
 							local bl
 							repeat 
 								bl = def[m]:gsub("^%s*", "") -- :trim()
-								l = l .. bl
+								l = l .. ' ' .. bl
 								m = m + 1
-							until bl:find("%)")
+							until bl:find(pattern)
+						end
+						if line:find("%(") and line:find("%)")==nil then
+							appendUntil("%)")
 						end
 						-- test exclusions
 						local ok=true
@@ -290,7 +293,7 @@ function processParams(s)
 		funcparams = {}
 		out={}
 		-- parse params, remove const flag
-		local s = s:match("%(([^%)]+)%)"):gsub("const%s*",""):gsub("Const%s*","")
+		local s = s:match("%(([^%)]+)%)"):gsub("[cC]onst%s+","")
 		-- test comma separated varlisting
 		local tmp = s:split(";")
 		local vart = {}
