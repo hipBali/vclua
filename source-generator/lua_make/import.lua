@@ -278,7 +278,7 @@ local function processClass(def,cdef,ref)
 		return false
 	end
 	for n, line in pairs(def) do
-		if processLine(n, line) and not reparse then break end
+		if (processLine(n, line) and not reparse) or line == 'implementation' then break end
 	end
 	return processed
 end
@@ -565,6 +565,7 @@ for ref,filename in pairs(toInfer) do
   cLog(ref.." "..filename,"INFO")
   local refd = ref ~= 'Default' and ref or nil
   for n, line in ipairs(cfile) do
+    if line == 'implementation' then break end
     inferTypeKindFromLine(n, line, cfile, ref)
   end
 end
