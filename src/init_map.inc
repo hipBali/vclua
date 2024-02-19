@@ -3,6 +3,8 @@ Generated with Lua-fpc parser/generator
 (C) 2018-2024 Hi-Project Ltd.
 *)
 
+  funcs.Add('TColorListBox', ColorListBoxFuncs);
+  funcs.Add('TCustomColorBox', CustomColorBoxFuncs);
   funcs.Add('TFindDialog', FindDialogFuncs);
   funcs.Add('TFontDialog', FontDialogFuncs);
   funcs.Add('TColorDialog', ColorDialogFuncs);
@@ -16,8 +18,6 @@ Generated with Lua-fpc parser/generator
   funcs.Add('TGridColumn', GridColumnFuncs);
   funcs.Add('TCustomDrawGrid', CustomDrawGridFuncs);
   funcs.Add('TCustomGrid', CustomGridFuncs);
-  funcs.Add('TColorListBox', ColorListBoxFuncs);
-  funcs.Add('TCustomColorBox', CustomColorBoxFuncs);
   funcs.Add('TCustomEditButton', CustomEditButtonFuncs);
   funcs.Add('TCustomCalendar', CustomCalendarFuncs);
   funcs.Add('TArrow', ArrowFuncs);
@@ -73,25 +73,25 @@ Generated with Lua-fpc parser/generator
   funcs.Add('TCustomEdit', CustomEditFuncs);
   funcs.Add('TCustomComboBox', CustomComboBoxFuncs);
   funcs.Add('TCustomListBox', CustomListBoxFuncs);
-  funcs.Add('TMainMenu', MainMenuFuncs);
-  funcs.Add('TMenuItem', MenuItemFuncs);
-  funcs.Add('TPopupMenu', PopupMenuFuncs);
-  funcs.Add('TMenu', MenuFuncs);
-  funcs.Add('TCustomImageList', CustomImageListFuncs);
-  funcs.Add('TCustomActionList', CustomActionListFuncs);
-  funcs.Add('TCustomAction', CustomActionFuncs);
-  funcs.Add('TContainedAction', ContainedActionFuncs);
-  funcs.Add('TBasicAction', BasicActionFuncs);
   funcs.Add('TScrollBox', ScrollBoxFuncs);
   funcs.Add('TCustomForm', CustomFormFuncs);
   funcs.Add('TApplication', ApplicationFuncs);
   funcs.Add('TControl', ControlFuncs);
+  funcs.Add('TMainMenu', MainMenuFuncs);
+  funcs.Add('TMenuItem', MenuItemFuncs);
+  funcs.Add('TPopupMenu', PopupMenuFuncs);
+  funcs.Add('TMenu', MenuFuncs);
+  funcs.Add('TCustomActionList', CustomActionListFuncs);
+  funcs.Add('TCustomAction', CustomActionFuncs);
+  funcs.Add('TContainedAction', ContainedActionFuncs);
+  funcs.Add('TBasicAction', BasicActionFuncs);
+  funcs.Add('TCustomImageList', CustomImageListFuncs);
+  funcs.Add('TBrush', BrushFuncs);
   funcs.Add('TBitmap', BitmapFuncs);
   funcs.Add('TCustomBitmap', CustomBitmapFuncs);
   funcs.Add('TRasterImage', RasterImageFuncs);
   funcs.Add('TPicture', PictureFuncs);
   funcs.Add('TCanvas', CanvasFuncs);
-  funcs.Add('TBrush', BrushFuncs);
   funcs.Add('TPen', PenFuncs);
   funcs.Add('TFont', FontFuncs);
   funcs.Add('TGraphic', GraphicFuncs);

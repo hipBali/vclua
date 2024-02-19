@@ -80,7 +80,6 @@ classes = {
 	{ name = "Graphic", src = "TGraphic", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Font", src = "TFont", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Pen", src = "TPen", ref = "Graphics", base=true, nocreate=true },
-	{ name = "Brush", src = "TBrush", ref = "Graphics", base=true, nocreate=true },
 	{ name = "Canvas", src = "TCanvas", ref = "Graphics", base=true, nocreate=true, impl = "SetPixel", },
 	{ name = "Picture", src = "TPicture", ref = "Graphics", nv=true, noparent=true },
 	{ name = "RasterImage", src = "TRasterImage", ref = "Graphics", implref = "LCLType", base=true, nocreate=true },
@@ -90,29 +89,21 @@ classes = {
 			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true },
 		}
 	},
+	{ name = "Brush", src = "TBrush", ref = "Graphics", base=true, nocreate=true },
 
-	-- controls
-	{ name = "Control", src = "TControl", ref = "Controls"},
-	
-	-- forms
-	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true  },
-	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", canvas=true, form=true},
-	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms", canvas=true, },
+	-- imagelist
+	{ name = "ImageList", src = "TCustomImageList", ref = "ImgList, Controls", noparent=true},
 	-- actions
 	{ name = "BasicAction", src = "TBasicAction", ref="Default", noparent=true},
 	{ unit = "ActionList", ref = "ActnList", -- include = "{$i src/inc/actionlist.inc}",
 		classes = {
 			{ name = "ContainedAction", src = "TContainedAction",  noparent=true },
 			{ name = "Action", src = "TCustomAction",  noparent=true },
-			{ name = "ActionList", src = "TCustomActionList",  noparent=true, 
-			  -- impl = "LoadFromTable,GetAction" 
+			{ name = "ActionList", src = "TCustomActionList",  noparent=true,
+			  -- impl = "LoadFromTable,GetAction"
 			},
 		}
 	},
-	
-	
-	-- imagelist
-	{ name = "ImageList", src = "TCustomImageList", ref = "ImgList, Controls", noparent=true},
 	-- menus
 	{ unit = "Menu", ref = "Menus",
 		classes = {
@@ -122,6 +113,15 @@ classes = {
 			{ name = "MainMenu", src = "TMainMenu"},
 		}
 	},
+
+	-- controls
+	{ name = "Control", src = "TControl", ref = "Controls"},
+
+	-- forms
+	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true  },
+	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", canvas=true, form=true},
+	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms", canvas=true, },
+
 	-- standard controls
 	{ name = "ListBox", src = "TCustomListBox", ref = "StdCtrls", canvas=true,},
 	{ name = "ComboBox", src = "TCustomComboBox", ref = "StdCtrls" },
@@ -222,9 +222,6 @@ classes = {
 	{ name = "TimeEdit", src = "TCustomEditButton", ref = "EditBtn" },
 	{ name = "CalcEdit", src = "TCustomEditButton", ref = "EditBtn" },
 	-- filectrl
-	-- colorbox
-	{ name = "ColorBox", src = "TCustomColorBox", ref = "ColorBox" },
-	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox" },
 	
 	-- grids
 	{ unit = "DrawGrid", ref = "Grids",
@@ -257,6 +254,9 @@ classes = {
 			{ name = "ReplaceDialog", src = "TFindDialog", noparent=true,  },
 		},
 	},
+	-- colorbox
+	{ name = "ColorBox", src = "TCustomColorBox", ref = "ColorBox" },
+	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox" },
 
 }	
 
