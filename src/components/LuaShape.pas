@@ -36,11 +36,11 @@ begin
 	lShape := TLuaShape(GetLuaObject(L, 1));
 	try
 		lShape.Paint();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Shape', 'Paint', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Shape_StyleChanged(L: Plua_State): Integer; cdecl;
@@ -53,11 +53,11 @@ begin
 	luaL_check(L,2,@Sender);
 	try
 		lShape.StyleChanged(Sender);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Shape', 'StyleChanged', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsShape(L: Plua_State): Integer; cdecl;

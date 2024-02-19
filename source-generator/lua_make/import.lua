@@ -99,6 +99,26 @@ function string:split(sep)
    return fields
 end
 
+local function propertyToProc(decl)
+  -- parsing 'property ident([indexing])?: type (read ident)? (write ident)? .* (default;)?
+  local propName, indexing, m, typeName
+  local canRead, canWrite = false, false
+  local _, n = decl:find('%a+%s+') -- skip 'property'
+  _, n, propName = decl:find('([_%w]+)', n + 1)
+  _, m, indexing = decl:find('%[([^]]+)%]', n + 1)
+  if not indexing then m = n end
+  _, n = decl:find(':%s*', m + 1)
+  if not n then return nil end -- no support for property override
+  _, n, typeName = decl:find('([_%w]+)', n + 1)
+  _, m = decl:find('[^_%w][rR]ead%s+[_%w]+', n + 1)
+  if m then canRead = true else m = n end
+  _, n = decl:find('[^_%w][wW]rite%s+[_%w]+', m + 1)
+  if n then canWrite = true else n = m end
+  _, n = decl:find('[^_%w][dD]efault%s*;', n + 1)
+  return {method=("procedure %s(%svar ret:%s)"):format(propName, indexing and (indexing..'; ') or '', typeName),
+    propInfo = {r=canRead,w=canWrite,d=n~=nil,i=indexing~=nil}}
+end
+
 function removeInnerComment(l)
 	local cstart = l:find("{")
 	local cend = l:find("}")
@@ -228,7 +248,8 @@ local function processClass(def,cdef,ref)
 			return true
 		end
 		if stage=="fill" and classTable[cname] then
-			if lword=="procedure" or lword=="function" then
+			local isProp = lword=="property"
+			if lword=="procedure" or lword=="function" or isProp then
 				local mId = lword.." "..ln[2]
 				if exclude[mId] then
 					cLog(" ** EXCLUDE:"..mId, "DEBUG")
@@ -254,7 +275,9 @@ local function processClass(def,cdef,ref)
 								m = m + 1
 							until bl:find(pattern)
 						end
-						if line:find("%(") and line:find("%)")==nil then
+						if isProp and line:find(";") == nil then
+							appendUntil(';')
+						elseif line:find("%(") and line:find("%)")==nil then
 							appendUntil("%)")
 						end
 						-- test exclusions
@@ -266,8 +289,16 @@ local function processClass(def,cdef,ref)
 								break
 							end
 						end
+						local propDesc
+						if isProp then
+							if ln[2]:find('^On%S') then ok = false
+							else
+								propDesc = propertyToProc(l)
+								if not propDesc or not propDesc.propInfo.i then ok = false end
+							end
+						end
 						if ok then
-							table.insert(classTable[cname],l)
+							table.insert(classTable[cname],not isProp and {method=l} or propDesc)
 						end
 					elseif lt == 2 then
 						skip = true
@@ -283,10 +314,11 @@ local function processClass(def,cdef,ref)
 	return processed
 end
 
-function processParams(s)
+function processParams(md)
 	local vars,varlist,funcparams,out,def,types,pushTypes
 	vars={{}}
 	types,pushTypes={},{}
+	local s = md.method
 	if s:find("%(") then
 		vars[2] = {}
 		varlist={}
@@ -355,8 +387,19 @@ function processParams(s)
 			table.insert(varlist, varName..":"..varType)
 		end
 	end
-	if vars[2] and #vars[2] == #vars[1] then vars[2] = nil end
+	if vars[2] then
+		if #vars[2] == #vars[1] then
+			vars[2] = nil
+		elseif md.propInfo then
+			vars[1] = vars[2]
+			vars[2] = nil
+		end
+	end
 	return vars, varlist, funcparams, out, types, pushTypes
+end
+
+local function getPropTempl(pi)
+  return pi.r and (pi.w and VCLua_PROP or VCLua_PROP_READ) or VCLua_PROP_WRITE
 end
 
 function createUnitBody(cdef, ref, refs)
@@ -388,8 +431,11 @@ function createUnitBody(cdef, ref, refs)
 	end
 	classDoc[className] = classDoc[className] or {}
 	classDoc[className]["reference"] = cdef.ref or cdef.name
-	for _,method in pairs(classTable[className]) do
+	for _,md in pairs(classTable[className]) do
 		-- parse params
+		local method = md.method
+		local pi = md.propInfo
+		local setProp, retProp
 		local tmp = method:match("%w+%s*%w+"):split(" ") -- type, methodname
 		local mType = tmp[1]:lower()
 		local mName = tmp[2]
@@ -415,6 +461,12 @@ function createUnitBody(cdef, ref, refs)
 				retCount = retCount + 1
 			end
 		end
+		if pi then
+			assert(#vars==1)
+			-- last param has special treatment
+			table.remove(funcparams)
+			retProp = table.remove(outStr)
+		end
 		local fParams = table.concat(funcparams or {},",")
 
     for _,vv in ipairs(vars) do
@@ -428,6 +480,7 @@ function createUnitBody(cdef, ref, refs)
         finalMethodName = mName..overLoads[mnLower]
         vcluaMethodName = finalMethodName
         overLoads[mnLower] = overLoads[mnLower] + 1
+        if pi then cLog('WARNING: property '..className..'.'..mName..' is overloaded', 'INFO') end
       else
         overLoads[mnLower] = 2
       end
@@ -436,11 +489,11 @@ function createUnitBody(cdef, ref, refs)
 
       s = s:gsub("#FNAME",vcluaMethodName):gsub("#CNAME",className)
 
+      local idx = 1
       if varlist then
         s = s:gsub("#VARS","\n\t"..table.concat(varlist,";\n\t"),1)
         -- processing parameters
         local varsFromLua = {}
-        local idx = 1
         local defVars
         for n,p in ipairs(vv) do
           local varName,varType,varValue = p.name,p.type,p.value
@@ -457,24 +510,25 @@ function createUnitBody(cdef, ref, refs)
           end
         end
         -- input params checking
-        if defVars then
+        defVars = pi and pi.r and (idx-1) or defVars
+        if pi and pi.r and not pi.w then
+          s = s:gsub("#VARCOUNT",defVars,1)
+        elseif defVars then
           s = s:gsub("#VARCOUNT",defVars..", "..idx,1)
         else
           s = s:gsub("#VARCOUNT",idx,1)
         end
+        setProp = pi and table.remove(varsFromLua,idx-1) or nil
         s = s:gsub("#TOVCLUA",varsFromLua[1] and "\n\t"..table.concat(varsFromLua,"\n\t") or '',1)
       else
         s = s:gsub("#VARS;","",1)
         s = s:gsub("#VARCOUNT",1,1)
         s = s:gsub("#TOVCLUA","",1)
       end
-      local call = ([[
-	try
-		%sl%s.%s(%s);
-	except
-		on E: Exception do
-			CallError(L, '%s', '%s', E.ClassName, E.Message);
-	end;]]):format(ret and "ret := " or "", className, mName, fParams, className, mName)
+      local func = pi and getPropTempl(pi):gsub('#PINDEX', fParams == '' and fParams or '['..fParams..']'):
+        gsub('#TOVCLUA',setProp,1):gsub('#PUSHOUT',retProp,1):gsub('#IDX',idx,1) or
+        VCLua_CALL:gsub('#PAR',fParams,1):gsub('#RET',ret and "ret := " or "",1)
+      local call = VCLua_TRY:gsub('#STMT',func,1):gsub('#CNAME',className):gsub('#MNAME',mName)
       if ret then
         local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
         s = s:gsub("#FUNC",call,1)

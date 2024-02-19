@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lBrush.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Brush', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Brush_EqualsBrush(L: Plua_State): Integer; cdecl;
@@ -54,12 +54,12 @@ begin
 	luaL_check(L,2,@ABrush);
 	try
 		ret := lBrush.EqualsBrush(ABrush);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Brush', 'EqualsBrush', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function IsBrush(L: Plua_State): Integer; cdecl;

@@ -34,11 +34,11 @@ begin
 	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
 	try
 		lProgressBar.StepIt();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ProgressBar', 'StepIt', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ProgressBar_StepBy(L: Plua_State): Integer; cdecl;
@@ -51,11 +51,11 @@ begin
 	luaL_check(L,2,@Delta);
 	try
 		lProgressBar.StepBy(Delta);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ProgressBar', 'StepBy', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsProgressBar(L: Plua_State): Integer; cdecl;

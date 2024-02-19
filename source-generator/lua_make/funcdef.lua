@@ -68,42 +68,6 @@ end;
 		vcluaMethodName="ItemsToTable",
 },
 
-["CheckListBoxSetChecked"] = {src = [[
-function #FNAME(L: Plua_State): Integer; cdecl;
-var
-  b: TCustomCheckListBox;
-  idx: Integer;
-  c: boolean;
-begin
-  CheckArg(L, 3);
-  b := TCustomCheckListBox(GetLuaObject(L, 1));
-  idx := lua_tointeger(L,2);
-  c := lua_toboolean(L,3);
-  b.Checked[idx] := c;
-  Result := 0;
-end;
-]],
-		finalMethodName="SetChecked",
-		vcluaMethodName="CheckListBoxSetChecked",
-},
-
-["CheckListBoxGetChecked"] = {src = [[
-function #FNAME(L: Plua_State): Integer; cdecl;
-var
-  b: TCustomCheckListBox;
-  idx: Integer;
-begin
-  CheckArg(L, 2);
-  b := TCustomCheckListBox(GetLuaObject(L, 1));
-  idx := lua_tointeger(L,2);
-  lua_pushboolean(L, b.Checked[idx]);
-  Result := 1;
-end;
-]],
-		finalMethodName="GetChecked",
-		vcluaMethodName="CheckListBoxGetChecked",
-},
-	
 ["DialogExecute"] = {src = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var

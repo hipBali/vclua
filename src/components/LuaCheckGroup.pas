@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@AllLevels);
 	try
 		lCheckGroup.FlipChildren(AllLevels);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CheckGroup', 'FlipChildren', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CheckGroup_Rows(L: Plua_State): Integer; cdecl;
@@ -52,12 +52,62 @@ begin
 	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
 	try
 		ret := lCheckGroup.Rows();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'CheckGroup', 'Rows', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
+end;
+
+function VCLua_CheckGroup_Checked(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	Index:integer;
+	ret:boolean;
+begin
+	CheckArg(L, 2, 3);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lCheckGroup.Checked[Index];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lCheckGroup.Checked[Index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'Checked', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckGroup_CheckEnabled(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	Index:integer;
+	ret:boolean;
+begin
+	CheckArg(L, 2, 3);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lCheckGroup.CheckEnabled[Index];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lCheckGroup.CheckEnabled[Index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'CheckEnabled', E.ClassName, E.Message);
+	end;
 end;
 
 function IsCheckGroup(L: Plua_State): Integer; cdecl;
@@ -97,12 +147,16 @@ begin
 end;
 
 begin
-	SetLength(CustomCheckGroupFuncs, 2+1);
+	SetLength(CustomCheckGroupFuncs, 4+1);
 	CustomCheckGroupFuncs[0].name:='FlipChildren';
 	CustomCheckGroupFuncs[0].func:=@VCLua_CheckGroup_FlipChildren;
 	CustomCheckGroupFuncs[1].name:='Rows';
 	CustomCheckGroupFuncs[1].func:=@VCLua_CheckGroup_Rows;
-	CustomCheckGroupFuncs[2].name:=nil;
-	CustomCheckGroupFuncs[2].func:=nil;
+	CustomCheckGroupFuncs[2].name:='Checked';
+	CustomCheckGroupFuncs[2].func:=@VCLua_CheckGroup_Checked;
+	CustomCheckGroupFuncs[3].name:='CheckEnabled';
+	CustomCheckGroupFuncs[3].func:=@VCLua_CheckGroup_CheckEnabled;
+	CustomCheckGroupFuncs[4].name:=nil;
+	CustomCheckGroupFuncs[4].func:=nil;
 
 end.

@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lBevel.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Bevel', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsBevel(L: Plua_State): Integer; cdecl;

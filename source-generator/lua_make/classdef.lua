@@ -34,8 +34,13 @@ VCLUA_TOLUA = {
 	["tcustompage"] = VCLUA_TOLUA_FULL,
 	["tcustomform"] = VCLUA_TOLUA_FULL,
 
+	["tobject"] = VCLUA_TOLUA_FULL,
 	["tcomponent"] = VCLUA_TOLUA_FULL,
 	["twincontrol"] = VCLUA_TOLUA_FULL,
+	["tpage"] = VCLUA_TOLUA_FULL,
+	["tlistcolumn"] = VCLUA_TOLUA_FULL,
+	["theadersection"] = VCLUA_TOLUA_FULL,
+	["tanchorside"] = VCLUA_TOLUA_FULL,
 }
 
 VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR);"

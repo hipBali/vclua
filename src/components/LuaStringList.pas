@@ -38,12 +38,12 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lStringList.Add(S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'StringList', 'Add', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_StringList_Clear(L: Plua_State): Integer; cdecl;
@@ -54,11 +54,11 @@ begin
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	try
 		lStringList.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringList', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringList_Delete(L: Plua_State): Integer; cdecl;
@@ -71,11 +71,11 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		lStringList.Delete(Index);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringList', 'Delete', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringList_Exchange(L: Plua_State): Integer; cdecl;
@@ -90,11 +90,11 @@ begin
 	luaL_check(L,3,@Index2);
 	try
 		lStringList.Exchange(Index1,Index2);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringList', 'Exchange', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringList_Find(L: Plua_State): Integer; cdecl;
@@ -109,13 +109,13 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lStringList.Find(S,Index);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'StringList', 'Find', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 	lua_push(L,Index);
-	Result := 2;
 end;
 
 function VCLua_StringList_IndexOf(L: Plua_State): Integer; cdecl;
@@ -129,12 +129,12 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lStringList.IndexOf(S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'StringList', 'IndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_StringList_Insert(L: Plua_State): Integer; cdecl;
@@ -149,11 +149,11 @@ begin
 	luaL_check(L,3,@S);
 	try
 		lStringList.Insert(Index,S);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringList', 'Insert', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringList_Sort(L: Plua_State): Integer; cdecl;
@@ -164,11 +164,11 @@ begin
 	lStringList := TLuaStringList(GetLuaObject(L, 1));
 	try
 		lStringList.Sort();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringList', 'Sort', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsStringList(L: Plua_State): Integer; cdecl;

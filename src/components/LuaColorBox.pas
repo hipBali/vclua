@@ -24,8 +24,45 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics;
 
+function VCLua_ColorBox_Colors(L: Plua_State): Integer; cdecl;
+var
+	lColorBox:TLuaColorBox;
+	Index:Integer;
+	ret:TColor;
+begin
+	CheckArg(L, 2);
+	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lColorBox.Colors[Index];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ColorBox', 'Colors', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ColorBox_ColorNames(L: Plua_State): Integer; cdecl;
+var
+	lColorBox:TLuaColorBox;
+	Index:Integer;
+	ret:string;
+begin
+	CheckArg(L, 2);
+	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lColorBox.ColorNames[Index];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ColorBox', 'ColorNames', E.ClassName, E.Message);
+	end;
+end;
 
 function IsColorBox(L: Plua_State): Integer; cdecl;
 begin
@@ -64,9 +101,12 @@ begin
 end;
 
 begin
-	SetLength(CustomColorBoxFuncs, 0+1);
-	
-	CustomColorBoxFuncs[0].name:=nil;
-	CustomColorBoxFuncs[0].func:=nil;
+	SetLength(CustomColorBoxFuncs, 2+1);
+	CustomColorBoxFuncs[0].name:='Colors';
+	CustomColorBoxFuncs[0].func:=@VCLua_ColorBox_Colors;
+	CustomColorBoxFuncs[1].name:='ColorNames';
+	CustomColorBoxFuncs[1].func:=@VCLua_ColorBox_ColorNames;
+	CustomColorBoxFuncs[2].name:=nil;
+	CustomColorBoxFuncs[2].func:=nil;
 
 end.

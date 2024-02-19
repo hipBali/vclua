@@ -35,12 +35,12 @@ begin
 	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
 	try
 		ret := lRadioGroup.CanModify();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'RadioGroup', 'CanModify', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_RadioGroup_FlipChildren(L: Plua_State): Integer; cdecl;
@@ -53,11 +53,11 @@ begin
 	luaL_check(L,2,@AllLevels);
 	try
 		lRadioGroup.FlipChildren(AllLevels);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RadioGroup', 'FlipChildren', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RadioGroup_Rows(L: Plua_State): Integer; cdecl;
@@ -69,12 +69,12 @@ begin
 	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
 	try
 		ret := lRadioGroup.Rows();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'RadioGroup', 'Rows', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function IsRadioGroup(L: Plua_State): Integer; cdecl;

@@ -37,12 +37,12 @@ begin
 	luaL_check(L,2,@APoint);
 	try
 		ret := lCalendar.HitTest(APoint);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Calendar', 'HitTest', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function VCLua_Calendar_GetCalendarView(L: Plua_State): Integer; cdecl;
@@ -54,12 +54,12 @@ begin
 	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
 	try
 		ret := lCalendar.GetCalendarView();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Calendar', 'GetCalendarView', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function IsCalendar(L: Plua_State): Integer; cdecl;

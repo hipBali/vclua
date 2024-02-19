@@ -37,12 +37,12 @@ begin
 	luaL_check(L,2,@AValue);
 	try
 		ret := lFloatSpinEdit.GetLimitedValue(AValue);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'FloatSpinEdit', 'GetLimitedValue', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_FloatSpinEdit_ValueToStr(L: Plua_State): Integer; cdecl;
@@ -56,12 +56,12 @@ begin
 	luaL_check(L,2,@AValue);
 	try
 		ret := lFloatSpinEdit.ValueToStr(AValue);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'FloatSpinEdit', 'ValueToStr', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_FloatSpinEdit_StrToValue(L: Plua_State): Integer; cdecl;
@@ -75,12 +75,12 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lFloatSpinEdit.StrToValue(S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'FloatSpinEdit', 'StrToValue', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function IsFloatSpinEdit(L: Plua_State): Integer; cdecl;

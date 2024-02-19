@@ -36,11 +36,11 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		lForm.AfterConstruction();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'AfterConstruction', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_BeforeDestruction(L: Plua_State): Integer; cdecl;
@@ -51,11 +51,11 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		lForm.BeforeDestruction();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'BeforeDestruction', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_BigIconHandle(L: Plua_State): Integer; cdecl;
@@ -67,12 +67,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.BigIconHandle();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'BigIconHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_Close(L: Plua_State): Integer; cdecl;
@@ -83,11 +83,11 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		lForm.Close();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'Close', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_CloseQuery(L: Plua_State): Integer; cdecl;
@@ -99,12 +99,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.CloseQuery();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'CloseQuery', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_DefocusControl(L: Plua_State): Integer; cdecl;
@@ -119,11 +119,11 @@ begin
 	luaL_check(L,3,@Removing);
 	try
 		lForm.DefocusControl(Control,Removing);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'DefocusControl', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_DestroyWnd(L: Plua_State): Integer; cdecl;
@@ -134,11 +134,11 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		lForm.DestroyWnd();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'DestroyWnd', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_EnsureVisible(L: Plua_State): Integer; cdecl;
@@ -151,11 +151,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @AMoveToTop, True);
 	try
 		lForm.EnsureVisible(AMoveToTop);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'EnsureVisible', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_FocusControl(L: Plua_State): Integer; cdecl;
@@ -168,11 +168,11 @@ begin
 	luaL_check(L,2,@WinControl);
 	try
 		lForm.FocusControl(WinControl);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'FocusControl', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_FormIsUpdating(L: Plua_State): Integer; cdecl;
@@ -184,12 +184,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.FormIsUpdating();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'FormIsUpdating', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_GetFormImage(L: Plua_State): Integer; cdecl;
@@ -201,12 +201,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.GetFormImage();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'GetFormImage', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_GetRolesForControl(L: Plua_State): Integer; cdecl;
@@ -220,12 +220,12 @@ begin
 	luaL_check(L,2,@AControl);
 	try
 		ret := lForm.GetRolesForControl(AControl);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'GetRolesForControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function VCLua_Form_GetRealPopupParent(L: Plua_State): Integer; cdecl;
@@ -237,12 +237,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.GetRealPopupParent();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'GetRealPopupParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function VCLua_Form_Hide(L: Plua_State): Integer; cdecl;
@@ -253,11 +253,11 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		lForm.Hide();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'Hide', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_IntfDropFiles(L: Plua_State): Integer; cdecl;
@@ -270,11 +270,11 @@ begin
 	TTrait<String>.luaL_checkArray(L, 2, @FileNames);
 	try
 		lForm.IntfDropFiles(FileNames);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'IntfDropFiles', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_IntfHelp(L: Plua_State): Integer; cdecl;
@@ -287,11 +287,11 @@ begin
 	luaL_check(L,2,@AComponent);
 	try
 		lForm.IntfHelp(AComponent);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'IntfHelp', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_MakeFullyVisible(L: Plua_State): Integer; cdecl;
@@ -306,11 +306,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 3, @UseWorkarea, False);
 	try
 		lForm.MakeFullyVisible(AMonitor,UseWorkarea);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'MakeFullyVisible', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_AutoSizeDelayedHandle(L: Plua_State): Integer; cdecl;
@@ -322,12 +322,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.AutoSizeDelayedHandle();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'AutoSizeDelayedHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_GetPreferredSize(L: Plua_State): Integer; cdecl;
@@ -344,13 +344,13 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
 	try
 		lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
-	Result := 2;
 end;
 
 function VCLua_Form_GetPreferredSize2(L: Plua_State): Integer; cdecl;
@@ -369,13 +369,13 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
 	try
 		lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
-	Result := 2;
 end;
 
 function VCLua_Form_Release(L: Plua_State): Integer; cdecl;
@@ -386,11 +386,11 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		lForm.Release();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'Release', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_CanFocus(L: Plua_State): Integer; cdecl;
@@ -402,12 +402,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.CanFocus();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'CanFocus', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_SetFocus(L: Plua_State): Integer; cdecl;
@@ -418,11 +418,11 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		lForm.SetFocus();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'SetFocus', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_SetFocusedControl(L: Plua_State): Integer; cdecl;
@@ -436,12 +436,12 @@ begin
 	luaL_check(L,2,@Control);
 	try
 		ret := lForm.SetFocusedControl(Control);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'SetFocusedControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_SetRestoredBounds(L: Plua_State): Integer; cdecl;
@@ -462,11 +462,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 6, @ADefaultPosition, False);
 	try
 		lForm.SetRestoredBounds(ALeft,ATop,AWidth,AHeight,ADefaultPosition);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'SetRestoredBounds', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_Show(L: Plua_State): Integer; cdecl;
@@ -477,11 +477,11 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		lForm.Show();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'Show', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_ShowModal(L: Plua_State): Integer; cdecl;
@@ -493,12 +493,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.ShowModal();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'ShowModal', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_ShowOnTop(L: Plua_State): Integer; cdecl;
@@ -509,11 +509,11 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		lForm.ShowOnTop();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'ShowOnTop', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_SmallIconHandle(L: Plua_State): Integer; cdecl;
@@ -525,12 +525,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.SmallIconHandle();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'SmallIconHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_ActiveMDIChild(L: Plua_State): Integer; cdecl;
@@ -542,12 +542,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.ActiveMDIChild();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'ActiveMDIChild', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function VCLua_Form_GetMDIChildren(L: Plua_State): Integer; cdecl;
@@ -561,12 +561,12 @@ begin
 	luaL_check(L,2,@AIndex);
 	try
 		ret := lForm.GetMDIChildren(AIndex);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'GetMDIChildren', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function VCLua_Form_MDIChildCount(L: Plua_State): Integer; cdecl;
@@ -578,12 +578,12 @@ begin
 	lForm := TLuaForm(GetLuaObject(L, 1));
 	try
 		ret := lForm.MDIChildCount();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'MDIChildCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Form_Dock(L: Plua_State): Integer; cdecl;
@@ -598,11 +598,11 @@ begin
 	luaL_check(L,3,@ARect);
 	try
 		lForm.Dock(NewDockSite,ARect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'Dock', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Form_UpdateDockCaption(L: Plua_State): Integer; cdecl;
@@ -615,11 +615,30 @@ begin
 	luaL_check(L,2,@Exclude);
 	try
 		lForm.UpdateDockCaption(Exclude);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'UpdateDockCaption', E.ClassName, E.Message);
 	end;
-	Result := 0;
+end;
+
+function VCLua_Form_MDIChildren(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	I:Integer;
+	ret:TCustomForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@I);
+	try
+		ret := lForm.MDIChildren[I];
+		lua_push(L,ret,TypeInfo(ret));
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'MDIChildren', E.ClassName, E.Message);
+	end;
 end;
 
 function IsForm(L: Plua_State): Integer; cdecl;
@@ -659,7 +678,7 @@ begin
 end;
 
 begin
-	SetLength(CustomFormFuncs, 34+1);
+	SetLength(CustomFormFuncs, 35+1);
 	CustomFormFuncs[0].name:='AfterConstruction';
 	CustomFormFuncs[0].func:=@VCLua_Form_AfterConstruction;
 	CustomFormFuncs[1].name:='BeforeDestruction';
@@ -728,7 +747,9 @@ begin
 	CustomFormFuncs[32].func:=@VCLua_Form_Dock;
 	CustomFormFuncs[33].name:='UpdateDockCaption';
 	CustomFormFuncs[33].func:=@VCLua_Form_UpdateDockCaption;
-	CustomFormFuncs[34].name:=nil;
-	CustomFormFuncs[34].func:=nil;
+	CustomFormFuncs[34].name:='MDIChildren';
+	CustomFormFuncs[34].func:=@VCLua_Form_MDIChildren;
+	CustomFormFuncs[35].name:=nil;
+	CustomFormFuncs[35].func:=nil;
 
 end.

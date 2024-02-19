@@ -37,12 +37,12 @@ begin
 	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
 	try
 		ret := lTrayIcon.Hide();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'Hide', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TrayIcon_Show(L: Plua_State): Integer; cdecl;
@@ -54,12 +54,12 @@ begin
 	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
 	try
 		ret := lTrayIcon.Show();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'Show', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TrayIcon_InternalUpdate(L: Plua_State): Integer; cdecl;
@@ -70,11 +70,11 @@ begin
 	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
 	try
 		lTrayIcon.InternalUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'InternalUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TrayIcon_ShowBalloonHint(L: Plua_State): Integer; cdecl;
@@ -85,11 +85,11 @@ begin
 	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
 	try
 		lTrayIcon.ShowBalloonHint();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'ShowBalloonHint', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TrayIcon_GetPosition(L: Plua_State): Integer; cdecl;
@@ -101,12 +101,12 @@ begin
 	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
 	try
 		ret := lTrayIcon.GetPosition();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TrayIcon', 'GetPosition', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function IsTrayIcon(L: Plua_State): Integer; cdecl;

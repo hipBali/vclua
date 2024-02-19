@@ -49,11 +49,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lCustomBitmap.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CustomBitmap_Clear(L: Plua_State): Integer; cdecl;
@@ -64,11 +64,11 @@ begin
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	try
 		lCustomBitmap.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CustomBitmap_FreeImage(L: Plua_State): Integer; cdecl;
@@ -79,11 +79,11 @@ begin
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	try
 		lCustomBitmap.FreeImage();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'FreeImage', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CustomBitmap_LazarusResourceTypeValid(L: Plua_State): Integer; cdecl;
@@ -97,12 +97,12 @@ begin
 	luaL_check(L,2,@ResourceType);
 	try
 		ret := lCustomBitmap.LazarusResourceTypeValid(ResourceType);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'LazarusResourceTypeValid', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_CustomBitmap_BitmapHandleAllocated(L: Plua_State): Integer; cdecl;
@@ -114,12 +114,12 @@ begin
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	try
 		ret := lCustomBitmap.BitmapHandleAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'BitmapHandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_CustomBitmap_MaskHandleAllocated(L: Plua_State): Integer; cdecl;
@@ -131,12 +131,12 @@ begin
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	try
 		ret := lCustomBitmap.MaskHandleAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'MaskHandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_CustomBitmap_PaletteAllocated(L: Plua_State): Integer; cdecl;
@@ -148,12 +148,12 @@ begin
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	try
 		ret := lCustomBitmap.PaletteAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'PaletteAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_CustomBitmap_ReleaseHandle(L: Plua_State): Integer; cdecl;
@@ -165,12 +165,12 @@ begin
 	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
 	try
 		ret := lCustomBitmap.ReleaseHandle();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'ReleaseHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_CustomBitmap_SetHandles(L: Plua_State): Integer; cdecl;
@@ -185,11 +185,11 @@ begin
 	luaL_check(L,3,@AMask);
 	try
 		lCustomBitmap.SetHandles(ABitmap,AMask);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'SetHandles', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CustomBitmap_SetSize(L: Plua_State): Integer; cdecl;
@@ -204,11 +204,11 @@ begin
 	luaL_check(L,3,@AHeight);
 	try
 		lCustomBitmap.SetSize(AWidth,AHeight);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CustomBitmap', 'SetSize', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Bitmap_GetResourceType(L: Plua_State): Integer; cdecl;
@@ -220,12 +220,12 @@ begin
 	lBitmap := TLuaBitmap(GetLuaObject(L, 1));
 	try
 		ret := lBitmap.GetResourceType();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Bitmap', 'GetResourceType', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Bitmap_LoadFromStream(L: Plua_State): Integer; cdecl;
@@ -240,11 +240,11 @@ begin
 	luaL_check(L,3,@ASize);
 	try
 		lBitmap.LoadFromStream(AStream,ASize);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Bitmap', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsCustomBitmap(L: Plua_State): Integer; cdecl;

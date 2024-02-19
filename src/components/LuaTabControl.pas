@@ -62,12 +62,12 @@ begin
 	luaL_check(L,2,@AIndex);
 	try
 		ret := lTabControl.TabRect(AIndex);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'TabRect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TabControl_GetImageIndex(L: Plua_State): Integer; cdecl;
@@ -81,12 +81,12 @@ begin
 	luaL_check(L,2,@ThePageIndex);
 	try
 		ret := lTabControl.GetImageIndex(ThePageIndex);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'GetImageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TabControl_IndexOf(L: Plua_State): Integer; cdecl;
@@ -100,12 +100,12 @@ begin
 	luaL_check(L,2,@APage);
 	try
 		ret := lTabControl.IndexOf(APage);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'IndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TabControl_CustomPage(L: Plua_State): Integer; cdecl;
@@ -119,12 +119,12 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		ret := lTabControl.CustomPage(Index);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'CustomPage', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function VCLua_TabControl_CanChangePageIndex(L: Plua_State): Integer; cdecl;
@@ -136,12 +136,12 @@ begin
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	try
 		ret := lTabControl.CanChangePageIndex();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'CanChangePageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TabControl_GetMinimumTabWidth(L: Plua_State): Integer; cdecl;
@@ -153,12 +153,12 @@ begin
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	try
 		ret := lTabControl.GetMinimumTabWidth();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'GetMinimumTabWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TabControl_GetMinimumTabHeight(L: Plua_State): Integer; cdecl;
@@ -170,12 +170,12 @@ begin
 	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
 	try
 		ret := lTabControl.GetMinimumTabHeight();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'GetMinimumTabHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TabControl_TabToPageIndex(L: Plua_State): Integer; cdecl;
@@ -189,12 +189,12 @@ begin
 	luaL_check(L,2,@AIndex);
 	try
 		ret := lTabControl.TabToPageIndex(AIndex);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'TabToPageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TabControl_PageToTabIndex(L: Plua_State): Integer; cdecl;
@@ -208,12 +208,12 @@ begin
 	luaL_check(L,2,@AIndex);
 	try
 		ret := lTabControl.PageToTabIndex(AIndex);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'PageToTabIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TabControl_DoCloseTabClicked(L: Plua_State): Integer; cdecl;
@@ -226,11 +226,30 @@ begin
 	luaL_check(L,2,@APage);
 	try
 		lTabControl.DoCloseTabClicked(APage);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TabControl', 'DoCloseTabClicked', E.ClassName, E.Message);
 	end;
-	Result := 0;
+end;
+
+function VCLua_TabControl_Page(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	Index:Integer;
+	ret:TCustomPage;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lTabControl.Page[Index];
+		lua_push(L,ret,TypeInfo(ret));
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'Page', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_PageControl_Clear(L: Plua_State): Integer; cdecl;
@@ -241,11 +260,11 @@ begin
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	try
 		lPageControl.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'PageControl', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_PageControl_FindNextPage(L: Plua_State): Integer; cdecl;
@@ -263,12 +282,12 @@ begin
 	luaL_check(L,4,@CheckTabVisible);
 	try
 		ret := lPageControl.FindNextPage(CurPage,GoForward,CheckTabVisible);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'PageControl', 'FindNextPage', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_PageControl_SelectNextPage(L: Plua_State): Integer; cdecl;
@@ -281,11 +300,11 @@ begin
 	luaL_check(L,2,@GoForward);
 	try
 		lPageControl.SelectNextPage(GoForward);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'PageControl', 'SelectNextPage', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_PageControl_SelectNextPage2(L: Plua_State): Integer; cdecl;
@@ -300,11 +319,11 @@ begin
 	luaL_check(L,3,@CheckTabVisible);
 	try
 		lPageControl.SelectNextPage(GoForward,CheckTabVisible);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'PageControl', 'SelectNextPage', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_PageControl_IndexOfTabAt(L: Plua_State): Integer; cdecl;
@@ -320,12 +339,12 @@ begin
 	luaL_check(L,3,@Y);
 	try
 		ret := lPageControl.IndexOfTabAt(X,Y);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'PageControl', 'IndexOfTabAt', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_PageControl_IndexOfTabAt2(L: Plua_State): Integer; cdecl;
@@ -339,12 +358,12 @@ begin
 	luaL_check(L,2,@P);
 	try
 		ret := lPageControl.IndexOfTabAt(P);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'PageControl', 'IndexOfTabAt', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_PageControl_IndexOfPageAt(L: Plua_State): Integer; cdecl;
@@ -360,12 +379,12 @@ begin
 	luaL_check(L,3,@Y);
 	try
 		ret := lPageControl.IndexOfPageAt(X,Y);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'PageControl', 'IndexOfPageAt', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_PageControl_IndexOfPageAt2(L: Plua_State): Integer; cdecl;
@@ -379,12 +398,12 @@ begin
 	luaL_check(L,2,@P);
 	try
 		ret := lPageControl.IndexOfPageAt(P);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'PageControl', 'IndexOfPageAt', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_PageControl_AddTabSheet(L: Plua_State): Integer; cdecl;
@@ -396,12 +415,31 @@ begin
 	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
 	try
 		ret := lPageControl.AddTabSheet();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'PageControl', 'AddTabSheet', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
+end;
+
+function VCLua_PageControl_Pages(L: Plua_State): Integer; cdecl;
+var
+	lPageControl:TLuaPageControl;
+	Index:Integer;
+	ret:TTabSheet;
+begin
+	CheckArg(L, 2);
+	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lPageControl.Pages[Index];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'Pages', E.ClassName, E.Message);
+	end;
 end;
 
 function IsTabSheet(L: Plua_State): Integer; cdecl;
@@ -518,7 +556,7 @@ begin
 	TabSheetFuncs[0].name:=nil;
 	TabSheetFuncs[0].func:=nil;
 
-	SetLength(CustomTabControlFuncs, 10+1);
+	SetLength(CustomTabControlFuncs, 11+1);
 	CustomTabControlFuncs[0].name:='TabRect';
 	CustomTabControlFuncs[0].func:=@VCLua_TabControl_TabRect;
 	CustomTabControlFuncs[1].name:='GetImageIndex';
@@ -539,10 +577,12 @@ begin
 	CustomTabControlFuncs[8].func:=@VCLua_TabControl_PageToTabIndex;
 	CustomTabControlFuncs[9].name:='DoCloseTabClicked';
 	CustomTabControlFuncs[9].func:=@VCLua_TabControl_DoCloseTabClicked;
-	CustomTabControlFuncs[10].name:=nil;
-	CustomTabControlFuncs[10].func:=nil;
+	CustomTabControlFuncs[10].name:='Page';
+	CustomTabControlFuncs[10].func:=@VCLua_TabControl_Page;
+	CustomTabControlFuncs[11].name:=nil;
+	CustomTabControlFuncs[11].func:=nil;
 
-	SetLength(PageControlFuncs, 9+1);
+	SetLength(PageControlFuncs, 10+1);
 	PageControlFuncs[0].name:='Clear';
 	PageControlFuncs[0].func:=@VCLua_PageControl_Clear;
 	PageControlFuncs[1].name:='FindNextPage';
@@ -561,7 +601,9 @@ begin
 	PageControlFuncs[7].func:=@VCLua_PageControl_IndexOfPageAt2;
 	PageControlFuncs[8].name:='AddTabSheet';
 	PageControlFuncs[8].func:=@VCLua_PageControl_AddTabSheet;
-	PageControlFuncs[9].name:=nil;
-	PageControlFuncs[9].func:=nil;
+	PageControlFuncs[9].name:='Pages';
+	PageControlFuncs[9].func:=@VCLua_PageControl_Pages;
+	PageControlFuncs[10].name:=nil;
+	PageControlFuncs[10].func:=nil;
 
 end.

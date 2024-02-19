@@ -59,12 +59,12 @@ begin
 	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
 	try
 		ret := lContainedAction.Execute();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ContainedAction', 'Execute', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ContainedAction_GetParentComponent(L: Plua_State): Integer; cdecl;
@@ -76,12 +76,12 @@ begin
 	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
 	try
 		ret := lContainedAction.GetParentComponent();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ContainedAction', 'GetParentComponent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function VCLua_ContainedAction_HasParent(L: Plua_State): Integer; cdecl;
@@ -93,12 +93,12 @@ begin
 	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
 	try
 		ret := lContainedAction.HasParent();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ContainedAction', 'HasParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ContainedAction_Update(L: Plua_State): Integer; cdecl;
@@ -110,12 +110,12 @@ begin
 	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
 	try
 		ret := lContainedAction.Update();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ContainedAction', 'Update', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Action_DoHint(L: Plua_State): Integer; cdecl;
@@ -128,13 +128,13 @@ begin
 	lAction := TLuaAction(GetLuaObject(L, 1));
 	try
 		ret := lAction.DoHint(HintStr);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'Action', 'DoHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 	lua_push(L,HintStr);
-	Result := 2;
 end;
 
 function VCLua_Action_DoHint2(L: Plua_State): Integer; cdecl;
@@ -148,13 +148,13 @@ begin
 	luaL_check(L,2,@HintStr);
 	try
 		ret := lAction.DoHint(HintStr);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'Action', 'DoHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 	lua_push(L,HintStr);
-	Result := 2;
 end;
 
 function VCLua_Action_Execute(L: Plua_State): Integer; cdecl;
@@ -166,12 +166,12 @@ begin
 	lAction := TLuaAction(GetLuaObject(L, 1));
 	try
 		ret := lAction.Execute();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Action', 'Execute', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ActionList_ActionByName(L: Plua_State): Integer; cdecl;
@@ -185,12 +185,12 @@ begin
 	luaL_check(L,2,@ActionName);
 	try
 		ret := lActionList.ActionByName(ActionName);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ActionList', 'ActionByName', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ActionList_ExecuteAction(L: Plua_State): Integer; cdecl;
@@ -204,12 +204,12 @@ begin
 	luaL_check(L,2,@Action);
 	try
 		ret := lActionList.ExecuteAction(Action);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ActionList', 'ExecuteAction', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ActionList_IndexOfName(L: Plua_State): Integer; cdecl;
@@ -223,12 +223,12 @@ begin
 	luaL_check(L,2,@ActionName);
 	try
 		ret := lActionList.IndexOfName(ActionName);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ActionList', 'IndexOfName', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ActionList_UpdateAction(L: Plua_State): Integer; cdecl;
@@ -242,12 +242,37 @@ begin
 	luaL_check(L,2,@Action);
 	try
 		ret := lActionList.UpdateAction(Action);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ActionList', 'UpdateAction', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
+end;
+
+function VCLua_ActionList_Actions(L: Plua_State): Integer; cdecl;
+var
+	lActionList:TLuaActionList;
+	Index:Integer;
+	ret:TContainedAction;
+begin
+	CheckArg(L, 2, 3);
+	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lActionList.Actions[Index];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lActionList.Actions[Index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'ActionList', 'Actions', E.ClassName, E.Message);
+	end;
 end;
 
 function IsContainedAction(L: Plua_State): Integer; cdecl;
@@ -381,7 +406,7 @@ begin
 	CustomActionFuncs[3].name:=nil;
 	CustomActionFuncs[3].func:=nil;
 
-	SetLength(CustomActionListFuncs, 4+1);
+	SetLength(CustomActionListFuncs, 5+1);
 	CustomActionListFuncs[0].name:='ActionByName';
 	CustomActionListFuncs[0].func:=@VCLua_ActionList_ActionByName;
 	CustomActionListFuncs[1].name:='ExecuteAction';
@@ -390,7 +415,9 @@ begin
 	CustomActionListFuncs[2].func:=@VCLua_ActionList_IndexOfName;
 	CustomActionListFuncs[3].name:='UpdateAction';
 	CustomActionListFuncs[3].func:=@VCLua_ActionList_UpdateAction;
-	CustomActionListFuncs[4].name:=nil;
-	CustomActionListFuncs[4].func:=nil;
+	CustomActionListFuncs[4].name:='Actions';
+	CustomActionListFuncs[4].func:=@VCLua_ActionList_Actions;
+	CustomActionListFuncs[5].name:=nil;
+	CustomActionListFuncs[5].func:=nil;
 
 end.

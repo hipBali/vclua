@@ -19,3 +19,7 @@ TLVCompare
 TComponentClass
 TStringsFilterMethod
 TStringsMapMethod
+Variant
+TWSCustomImageListReference
+TCustomImageListResolution
+TScaledImageListResolution

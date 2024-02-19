@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@AControl);
 	try
 		lNotebook.ShowControl(AControl);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Notebook', 'ShowControl', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Notebook_IndexOf(L: Plua_State): Integer; cdecl;
@@ -54,12 +54,31 @@ begin
 	luaL_check(L,2,@APage);
 	try
 		ret := lNotebook.IndexOf(APage);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Notebook', 'IndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
+end;
+
+function VCLua_Notebook_Page(L: Plua_State): Integer; cdecl;
+var
+	lNotebook:TLuaNotebook;
+	Index:Integer;
+	ret:TPage;
+begin
+	CheckArg(L, 2);
+	lNotebook := TLuaNotebook(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lNotebook.Page[Index];
+		lua_push(L,ret,TypeInfo(ret));
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Notebook', 'Page', E.ClassName, E.Message);
+	end;
 end;
 
 function IsNotebook(L: Plua_State): Integer; cdecl;
@@ -99,12 +118,14 @@ begin
 end;
 
 begin
-	SetLength(NotebookFuncs, 2+1);
+	SetLength(NotebookFuncs, 3+1);
 	NotebookFuncs[0].name:='ShowControl';
 	NotebookFuncs[0].func:=@VCLua_Notebook_ShowControl;
 	NotebookFuncs[1].name:='IndexOf';
 	NotebookFuncs[1].func:=@VCLua_Notebook_IndexOf;
-	NotebookFuncs[2].name:=nil;
-	NotebookFuncs[2].func:=nil;
+	NotebookFuncs[2].name:='Page';
+	NotebookFuncs[2].func:=@VCLua_Notebook_Page;
+	NotebookFuncs[3].name:=nil;
+	NotebookFuncs[3].func:=nil;
 
 end.

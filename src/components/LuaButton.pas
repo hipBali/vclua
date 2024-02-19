@@ -34,11 +34,11 @@ begin
 	lButton := TLuaButton(GetLuaObject(L, 1));
 	try
 		lButton.Click();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Button', 'Click', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Button_ExecuteDefaultAction(L: Plua_State): Integer; cdecl;
@@ -49,11 +49,11 @@ begin
 	lButton := TLuaButton(GetLuaObject(L, 1));
 	try
 		lButton.ExecuteDefaultAction();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Button', 'ExecuteDefaultAction', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Button_ExecuteCancelAction(L: Plua_State): Integer; cdecl;
@@ -64,11 +64,11 @@ begin
 	lButton := TLuaButton(GetLuaObject(L, 1));
 	try
 		lButton.ExecuteCancelAction();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Button', 'ExecuteCancelAction', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Button_ActiveDefaultControlChanged(L: Plua_State): Integer; cdecl;
@@ -81,11 +81,11 @@ begin
 	luaL_check(L,2,@NewControl);
 	try
 		lButton.ActiveDefaultControlChanged(NewControl);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Button', 'ActiveDefaultControlChanged', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Button_UpdateRolesForForm(L: Plua_State): Integer; cdecl;
@@ -96,11 +96,11 @@ begin
 	lButton := TLuaButton(GetLuaObject(L, 1));
 	try
 		lButton.UpdateRolesForForm();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Button', 'UpdateRolesForForm', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Button_UseRightToLeftAlignment(L: Plua_State): Integer; cdecl;
@@ -112,12 +112,12 @@ begin
 	lButton := TLuaButton(GetLuaObject(L, 1));
 	try
 		ret := lButton.UseRightToLeftAlignment();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Button', 'UseRightToLeftAlignment', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function IsButton(L: Plua_State): Integer; cdecl;

@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@AValue);
 	try
 		lMemo.Append(AValue);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Memo', 'Append', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Memo_ScrollBy(L: Plua_State): Integer; cdecl;
@@ -55,11 +55,11 @@ begin
 	luaL_check(L,3,@DeltaY);
 	try
 		lMemo.ScrollBy(DeltaX,DeltaY);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Memo', 'ScrollBy', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsMemo(L: Plua_State): Integer; cdecl;

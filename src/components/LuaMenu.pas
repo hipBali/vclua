@@ -70,11 +70,11 @@ begin
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	try
 		lMenu.DestroyHandle();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Menu', 'DestroyHandle', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Menu_FindItem(L: Plua_State): Integer; cdecl;
@@ -90,12 +90,12 @@ begin
 	luaL_check(L,3,@Kind,TypeInfo(TFindItemKind));
 	try
 		ret := lMenu.FindItem(AValue,Kind);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Menu', 'FindItem', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Menu_GetHelpContext(L: Plua_State): Integer; cdecl;
@@ -111,12 +111,12 @@ begin
 	luaL_check(L,3,@ByCommand);
 	try
 		ret := lMenu.GetHelpContext(AValue,ByCommand);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Menu', 'GetHelpContext', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Menu_HandleAllocated(L: Plua_State): Integer; cdecl;
@@ -128,12 +128,12 @@ begin
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	try
 		ret := lMenu.HandleAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Menu', 'HandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Menu_IsRightToLeft(L: Plua_State): Integer; cdecl;
@@ -145,12 +145,12 @@ begin
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	try
 		ret := lMenu.IsRightToLeft();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Menu', 'IsRightToLeft', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Menu_UseRightToLeftAlignment(L: Plua_State): Integer; cdecl;
@@ -162,12 +162,12 @@ begin
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	try
 		ret := lMenu.UseRightToLeftAlignment();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Menu', 'UseRightToLeftAlignment', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Menu_UseRightToLeftReading(L: Plua_State): Integer; cdecl;
@@ -179,12 +179,12 @@ begin
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	try
 		ret := lMenu.UseRightToLeftReading();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Menu', 'UseRightToLeftReading', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Menu_HandleNeeded(L: Plua_State): Integer; cdecl;
@@ -195,11 +195,11 @@ begin
 	lMenu := TLuaMenu(GetLuaObject(L, 1));
 	try
 		lMenu.HandleNeeded();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Menu', 'HandleNeeded', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Menu_DispatchCommand(L: Plua_State): Integer; cdecl;
@@ -213,12 +213,12 @@ begin
 	luaL_check(L,2,@ACommand);
 	try
 		ret := lMenu.DispatchCommand(ACommand);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Menu', 'DispatchCommand', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_PopupMenu_PopUp(L: Plua_State): Integer; cdecl;
@@ -229,11 +229,11 @@ begin
 	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
 	try
 		lPopupMenu.PopUp();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'PopupMenu', 'PopUp', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_PopupMenu_PopUp2(L: Plua_State): Integer; cdecl;
@@ -248,11 +248,11 @@ begin
 	luaL_check(L,3,@Y);
 	try
 		lPopupMenu.PopUp(X,Y);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'PopupMenu', 'PopUp', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_PopupMenu_Close(L: Plua_State): Integer; cdecl;
@@ -263,11 +263,11 @@ begin
 	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
 	try
 		lPopupMenu.Close();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'PopupMenu', 'Close', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_Find(L: Plua_State): Integer; cdecl;
@@ -281,12 +281,12 @@ begin
 	luaL_check(L,2,@ACaption);
 	try
 		ret := lMenuItem.Find(ACaption);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Find', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_GetImageList(L: Plua_State): Integer; cdecl;
@@ -299,13 +299,13 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		lMenuItem.GetImageList(aImages,aImagesWidth);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetImageList', E.ClassName, E.Message);
 	end;
 	lua_push(L,aImages,TypeInfo(aImages));
 	lua_push(L,aImagesWidth);
-	Result := 2;
 end;
 
 function VCLua_MenuItem_GetImageList2(L: Plua_State): Integer; cdecl;
@@ -317,12 +317,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.GetImageList();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetImageList', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function VCLua_MenuItem_GetParentComponent(L: Plua_State): Integer; cdecl;
@@ -334,12 +334,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.GetParentComponent();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetParentComponent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
-	Result := 1;
 end;
 
 function VCLua_MenuItem_GetParentMenu(L: Plua_State): Integer; cdecl;
@@ -351,12 +351,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.GetParentMenu();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetParentMenu', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_GetMergedParentMenu(L: Plua_State): Integer; cdecl;
@@ -368,12 +368,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.GetMergedParentMenu();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetMergedParentMenu', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_GetIsRightToLeft(L: Plua_State): Integer; cdecl;
@@ -385,12 +385,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.GetIsRightToLeft();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetIsRightToLeft', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_HandleAllocated(L: Plua_State): Integer; cdecl;
@@ -402,12 +402,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.HandleAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_HasIcon(L: Plua_State): Integer; cdecl;
@@ -419,12 +419,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.HasIcon();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HasIcon', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_HasParent(L: Plua_State): Integer; cdecl;
@@ -436,12 +436,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.HasParent();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HasParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_InitiateAction(L: Plua_State): Integer; cdecl;
@@ -452,11 +452,11 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		lMenuItem.InitiateAction();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'InitiateAction', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_IntfDoSelect(L: Plua_State): Integer; cdecl;
@@ -467,11 +467,11 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		lMenuItem.IntfDoSelect();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IntfDoSelect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_IndexOf(L: Plua_State): Integer; cdecl;
@@ -485,12 +485,12 @@ begin
 	luaL_check(L,2,@Item);
 	try
 		ret := lMenuItem.IndexOf(Item);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_IndexOfCaption(L: Plua_State): Integer; cdecl;
@@ -504,12 +504,12 @@ begin
 	luaL_check(L,2,@ACaption);
 	try
 		ret := lMenuItem.IndexOfCaption(ACaption);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IndexOfCaption', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_InvalidateMergedItems(L: Plua_State): Integer; cdecl;
@@ -520,11 +520,11 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		lMenuItem.InvalidateMergedItems();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'InvalidateMergedItems', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_VisibleIndexOf(L: Plua_State): Integer; cdecl;
@@ -538,12 +538,12 @@ begin
 	luaL_check(L,2,@Item);
 	try
 		ret := lMenuItem.VisibleIndexOf(Item);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'VisibleIndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_Add(L: Plua_State): Integer; cdecl;
@@ -556,11 +556,11 @@ begin
 	luaL_check(L,2,@Item);
 	try
 		lMenuItem.Add(Item);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Add', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_Add2(L: Plua_State): Integer; cdecl;
@@ -573,11 +573,11 @@ begin
 	TTrait<TMenuItem>.luaL_checkArray(L, 2, @AItems);
 	try
 		lMenuItem.Add(AItems);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Add', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_AddSeparator(L: Plua_State): Integer; cdecl;
@@ -588,11 +588,11 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		lMenuItem.AddSeparator();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'AddSeparator', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_Click(L: Plua_State): Integer; cdecl;
@@ -603,11 +603,11 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		lMenuItem.Click();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Click', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_Delete(L: Plua_State): Integer; cdecl;
@@ -620,11 +620,11 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		lMenuItem.Delete(Index);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Delete', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_HandleNeeded(L: Plua_State): Integer; cdecl;
@@ -635,11 +635,11 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		lMenuItem.HandleNeeded();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HandleNeeded', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_Insert(L: Plua_State): Integer; cdecl;
@@ -654,11 +654,11 @@ begin
 	luaL_check(L,3,@Item);
 	try
 		lMenuItem.Insert(Index,Item);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Insert', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_RecreateHandle(L: Plua_State): Integer; cdecl;
@@ -669,11 +669,11 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		lMenuItem.RecreateHandle();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'RecreateHandle', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_Remove(L: Plua_State): Integer; cdecl;
@@ -686,11 +686,11 @@ begin
 	luaL_check(L,2,@Item);
 	try
 		lMenuItem.Remove(Item);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Remove', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_UpdateImage(L: Plua_State): Integer; cdecl;
@@ -703,11 +703,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @forced, false);
 	try
 		lMenuItem.UpdateImage(forced);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'UpdateImage', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_UpdateImages(L: Plua_State): Integer; cdecl;
@@ -720,11 +720,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @forced, false);
 	try
 		lMenuItem.UpdateImages(forced);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'UpdateImages', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_IsCheckItem(L: Plua_State): Integer; cdecl;
@@ -736,12 +736,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.IsCheckItem();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IsCheckItem', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_IsLine(L: Plua_State): Integer; cdecl;
@@ -753,12 +753,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.IsLine();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IsLine', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_IsInMenuBar(L: Plua_State): Integer; cdecl;
@@ -770,12 +770,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.IsInMenuBar();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'IsInMenuBar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_Clear(L: Plua_State): Integer; cdecl;
@@ -786,11 +786,11 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		lMenuItem.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MenuItem_HasBitmap(L: Plua_State): Integer; cdecl;
@@ -802,12 +802,31 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.HasBitmap();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'HasBitmap', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
+end;
+
+function VCLua_MenuItem_Items(L: Plua_State): Integer; cdecl;
+var
+	lMenuItem:TLuaMenuItem;
+	Index:Integer;
+	ret:TMenuItem;
+begin
+	CheckArg(L, 2);
+	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lMenuItem.Items[Index];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'Items', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_MenuItem_MenuVisibleIndex(L: Plua_State): Integer; cdecl;
@@ -819,12 +838,12 @@ begin
 	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
 	try
 		ret := lMenuItem.MenuVisibleIndex();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'MenuVisibleIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_MenuItem_WriteDebugReport(L: Plua_State): Integer; cdecl;
@@ -837,11 +856,11 @@ begin
 	luaL_check(L,2,@Prefix);
 	try
 		lMenuItem.WriteDebugReport(Prefix);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MenuItem', 'WriteDebugReport', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MainMenu_Merge(L: Plua_State): Integer; cdecl;
@@ -854,11 +873,11 @@ begin
 	luaL_check(L,2,@Menu);
 	try
 		lMainMenu.Merge(Menu);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MainMenu', 'Merge', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_MainMenu_Unmerge(L: Plua_State): Integer; cdecl;
@@ -871,11 +890,11 @@ begin
 	luaL_check(L,2,@Menu);
 	try
 		lMainMenu.Unmerge(Menu);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'MainMenu', 'Unmerge', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsMenu(L: Plua_State): Integer; cdecl;
@@ -1055,7 +1074,7 @@ begin
 	PopupMenuFuncs[3].name:=nil;
 	PopupMenuFuncs[3].func:=nil;
 
-	SetLength(MenuItemFuncs, 34+1);
+	SetLength(MenuItemFuncs, 35+1);
 	MenuItemFuncs[0].name:='Find';
 	MenuItemFuncs[0].func:=@VCLua_MenuItem_Find;
 	MenuItemFuncs[1].name:='GetImageList';
@@ -1120,12 +1139,14 @@ begin
 	MenuItemFuncs[30].func:=@VCLua_MenuItem_Clear;
 	MenuItemFuncs[31].name:='HasBitmap';
 	MenuItemFuncs[31].func:=@VCLua_MenuItem_HasBitmap;
-	MenuItemFuncs[32].name:='MenuVisibleIndex';
-	MenuItemFuncs[32].func:=@VCLua_MenuItem_MenuVisibleIndex;
-	MenuItemFuncs[33].name:='WriteDebugReport';
-	MenuItemFuncs[33].func:=@VCLua_MenuItem_WriteDebugReport;
-	MenuItemFuncs[34].name:=nil;
-	MenuItemFuncs[34].func:=nil;
+	MenuItemFuncs[32].name:='Items';
+	MenuItemFuncs[32].func:=@VCLua_MenuItem_Items;
+	MenuItemFuncs[33].name:='MenuVisibleIndex';
+	MenuItemFuncs[33].func:=@VCLua_MenuItem_MenuVisibleIndex;
+	MenuItemFuncs[34].name:='WriteDebugReport';
+	MenuItemFuncs[34].func:=@VCLua_MenuItem_WriteDebugReport;
+	MenuItemFuncs[35].name:=nil;
+	MenuItemFuncs[35].func:=nil;
 
 	SetLength(MainMenuFuncs, 2+1);
 	MainMenuFuncs[0].name:='Merge';

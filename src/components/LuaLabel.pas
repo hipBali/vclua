@@ -46,6 +46,7 @@ begin
 	luaL_check(L,4,@MaxHeight);
 	try
 		ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight,NeededWidth,NeededHeight);
+		Result := 4;
 	except
 		on E: Exception do
 			CallError(L, 'Label', 'CalcFittingFontHeight', E.ClassName, E.Message);
@@ -54,7 +55,6 @@ begin
 	lua_push(L,FontHeight);
 	lua_push(L,NeededWidth);
 	lua_push(L,NeededHeight);
-	Result := 4;
 end;
 
 function VCLua_Label_ColorIsStored(L: Plua_State): Integer; cdecl;
@@ -66,12 +66,12 @@ begin
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
 	try
 		ret := lLabel.ColorIsStored();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Label', 'ColorIsStored', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Label_AdjustFontForOptimalFill(L: Plua_State): Integer; cdecl;
@@ -83,12 +83,12 @@ begin
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
 	try
 		ret := lLabel.AdjustFontForOptimalFill();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Label', 'AdjustFontForOptimalFill', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Label_Paint(L: Plua_State): Integer; cdecl;
@@ -99,11 +99,11 @@ begin
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
 	try
 		lLabel.Paint();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Label', 'Paint', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Label_SetBounds(L: Plua_State): Integer; cdecl;
@@ -122,11 +122,11 @@ begin
 	luaL_check(L,5,@aHeight);
 	try
 		lLabel.SetBounds(aLeft,aTop,aWidth,aHeight);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Label', 'SetBounds', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsLabel(L: Plua_State): Integer; cdecl;

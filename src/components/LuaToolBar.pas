@@ -47,12 +47,12 @@ begin
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	try
 		ret := lToolButton.CheckMenuDropdown();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ToolButton', 'CheckMenuDropdown', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ToolButton_Click(L: Plua_State): Integer; cdecl;
@@ -63,11 +63,11 @@ begin
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	try
 		lToolButton.Click();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ToolButton', 'Click', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ToolButton_ArrowClick(L: Plua_State): Integer; cdecl;
@@ -78,11 +78,11 @@ begin
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	try
 		lToolButton.ArrowClick();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ToolButton', 'ArrowClick', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ToolButton_GetCurrentIcon(L: Plua_State): Integer; cdecl;
@@ -96,6 +96,7 @@ begin
 	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
 	try
 		lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
+		Result := 3;
 	except
 		on E: Exception do
 			CallError(L, 'ToolButton', 'GetCurrentIcon', E.ClassName, E.Message);
@@ -103,7 +104,6 @@ begin
 	lua_push(L,ImageList,TypeInfo(ImageList));
 	lua_push(L,TheIndex);
 	lua_push(L,TheEffect,TypeInfo(TheEffect));
-	Result := 3;
 end;
 
 function VCLua_ToolButton_GetCurrentIcon2(L: Plua_State): Integer; cdecl;
@@ -120,6 +120,7 @@ begin
 	luaL_check(L,4,@TheEffect,TypeInfo(TGraphicsDrawEffect));
 	try
 		lToolButton.GetCurrentIcon(ImageList,TheIndex,TheEffect);
+		Result := 3;
 	except
 		on E: Exception do
 			CallError(L, 'ToolButton', 'GetCurrentIcon', E.ClassName, E.Message);
@@ -127,7 +128,6 @@ begin
 	lua_push(L,ImageList,TypeInfo(ImageList));
 	lua_push(L,TheIndex);
 	lua_push(L,TheEffect,TypeInfo(TheEffect));
-	Result := 3;
 end;
 
 function VCLua_ToolButton_GetPreferredSize(L: Plua_State): Integer; cdecl;
@@ -144,13 +144,13 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
 	try
 		lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'ToolButton', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
-	Result := 2;
 end;
 
 function VCLua_ToolButton_GetPreferredSize2(L: Plua_State): Integer; cdecl;
@@ -169,13 +169,13 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
 	try
 		lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'ToolButton', 'GetPreferredSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,PreferredWidth);
 	lua_push(L,PreferredHeight);
-	Result := 2;
 end;
 
 function VCLua_ToolButton_PointInArrow(L: Plua_State): Integer; cdecl;
@@ -191,12 +191,12 @@ begin
 	luaL_check(L,3,@Y);
 	try
 		ret := lToolButton.PointInArrow(X,Y);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ToolButton', 'PointInArrow', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ToolBar_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -207,11 +207,11 @@ begin
 	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
 	try
 		lToolBar.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ToolBar', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ToolBar_FlipChildren(L: Plua_State): Integer; cdecl;
@@ -224,11 +224,11 @@ begin
 	luaL_check(L,2,@AllLevels);
 	try
 		lToolBar.FlipChildren(AllLevels);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ToolBar', 'FlipChildren', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ToolBar_SetButtonSize(L: Plua_State): Integer; cdecl;
@@ -243,11 +243,11 @@ begin
 	luaL_check(L,3,@NewButtonHeight);
 	try
 		lToolBar.SetButtonSize(NewButtonWidth,NewButtonHeight);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ToolBar', 'SetButtonSize', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ToolBar_CanFocus(L: Plua_State): Integer; cdecl;
@@ -259,12 +259,31 @@ begin
 	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
 	try
 		ret := lToolBar.CanFocus();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ToolBar', 'CanFocus', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
+end;
+
+function VCLua_ToolBar_Buttons(L: Plua_State): Integer; cdecl;
+var
+	lToolBar:TLuaToolBar;
+	Index:Integer;
+	ret:TToolButton;
+begin
+	CheckArg(L, 2);
+	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lToolBar.Buttons[Index];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ToolBar', 'Buttons', E.ClassName, E.Message);
+	end;
 end;
 
 function IsToolButton(L: Plua_State): Integer; cdecl;
@@ -360,7 +379,7 @@ begin
 	ToolButtonFuncs[8].name:=nil;
 	ToolButtonFuncs[8].func:=nil;
 
-	SetLength(ToolBarFuncs, 4+1);
+	SetLength(ToolBarFuncs, 5+1);
 	ToolBarFuncs[0].name:='EndUpdate';
 	ToolBarFuncs[0].func:=@VCLua_ToolBar_EndUpdate;
 	ToolBarFuncs[1].name:='FlipChildren';
@@ -369,7 +388,9 @@ begin
 	ToolBarFuncs[2].func:=@VCLua_ToolBar_SetButtonSize;
 	ToolBarFuncs[3].name:='CanFocus';
 	ToolBarFuncs[3].func:=@VCLua_ToolBar_CanFocus;
-	ToolBarFuncs[4].name:=nil;
-	ToolBarFuncs[4].func:=nil;
+	ToolBarFuncs[4].name:='Buttons';
+	ToolBarFuncs[4].func:=@VCLua_ToolBar_Buttons;
+	ToolBarFuncs[5].name:=nil;
+	ToolBarFuncs[5].func:=nil;
 
 end.

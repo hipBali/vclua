@@ -116,11 +116,11 @@ begin
 	lColorButton := TLuaColorButton(GetLuaObject(L, 1));
 	try
 		lColorButton.Click();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ColorButton', 'Click', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_OpenDialog_DoCanClose(L: Plua_State): Integer; cdecl;
@@ -132,12 +132,12 @@ begin
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
 	try
 		lOpenDialog.DoCanClose(CanClose);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'DoCanClose', E.ClassName, E.Message);
 	end;
 	lua_push(L,CanClose);
-	Result := 1;
 end;
 
 function VCLua_OpenDialog_DoCanClose2(L: Plua_State): Integer; cdecl;
@@ -150,12 +150,12 @@ begin
 	luaL_check(L,2,@CanClose);
 	try
 		lOpenDialog.DoCanClose(CanClose);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'DoCanClose', E.ClassName, E.Message);
 	end;
 	lua_push(L,CanClose);
-	Result := 1;
 end;
 
 function VCLua_OpenDialog_DoFolderChange(L: Plua_State): Integer; cdecl;
@@ -166,11 +166,11 @@ begin
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
 	try
 		lOpenDialog.DoFolderChange();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'DoFolderChange', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_OpenDialog_DoSelectionChange(L: Plua_State): Integer; cdecl;
@@ -181,11 +181,11 @@ begin
 	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
 	try
 		lOpenDialog.DoSelectionChange();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'DoSelectionChange', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_OpenDialog_IntfSetOption(L: Plua_State): Integer; cdecl;
@@ -200,11 +200,11 @@ begin
 	luaL_check(L,3,@AValue);
 	try
 		lOpenDialog.IntfSetOption(AOption,AValue);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'OpenDialog', 'IntfSetOption', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_OpenDialog_DoExecute(L: Plua_State): Integer; cdecl;
@@ -251,11 +251,11 @@ begin
 	lFontDialog := TLuaFontDialog(GetLuaObject(L, 1));
 	try
 		lFontDialog.ApplyClicked();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'FontDialog', 'ApplyClicked', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_FontDialog_DoExecute(L: Plua_State): Integer; cdecl;
@@ -275,11 +275,11 @@ begin
 	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
 	try
 		lFindDialog.CloseDialog();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'FindDialog', 'CloseDialog', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_FindDialog_Execute(L: Plua_State): Integer; cdecl;
@@ -291,12 +291,12 @@ begin
 	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
 	try
 		ret := lFindDialog.Execute();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'FindDialog', 'Execute', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ReplaceDialog_CloseDialog(L: Plua_State): Integer; cdecl;
@@ -307,11 +307,11 @@ begin
 	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
 	try
 		lReplaceDialog.CloseDialog();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ReplaceDialog', 'CloseDialog', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ReplaceDialog_Execute(L: Plua_State): Integer; cdecl;
@@ -323,12 +323,12 @@ begin
 	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
 	try
 		ret := lReplaceDialog.Execute();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ReplaceDialog', 'Execute', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function IsColorButton(L: Plua_State): Integer; cdecl;

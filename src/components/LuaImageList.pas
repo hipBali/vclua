@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, GraphType, Graphics;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, GraphType, Graphics, Types;
 
 function VCLua_ImageList_AssignTo(L: Plua_State): Integer; cdecl;
 var
@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@Dest);
 	try
 		lImageList.AssignTo(Dest);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'AssignTo', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Assign(L: Plua_State): Integer; cdecl;
@@ -53,11 +53,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lImageList.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_WriteData(L: Plua_State): Integer; cdecl;
@@ -70,11 +70,11 @@ begin
 	luaL_check(L,2,@AStream);
 	try
 		lImageList.WriteData(AStream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'WriteData', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_ReadData(L: Plua_State): Integer; cdecl;
@@ -87,11 +87,11 @@ begin
 	luaL_check(L,2,@AStream);
 	try
 		lImageList.ReadData(AStream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReadData', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_WriteAdvData(L: Plua_State): Integer; cdecl;
@@ -104,11 +104,11 @@ begin
 	luaL_check(L,2,@AStream);
 	try
 		lImageList.WriteAdvData(AStream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'WriteAdvData', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_ReadAdvData(L: Plua_State): Integer; cdecl;
@@ -121,11 +121,11 @@ begin
 	luaL_check(L,2,@AStream);
 	try
 		lImageList.ReadAdvData(AStream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReadAdvData', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Equals(L: Plua_State): Integer; cdecl;
@@ -139,12 +139,12 @@ begin
 	luaL_check(L,2,@Obj);
 	try
 		ret := lImageList.Equals(Obj);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Equals', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -155,11 +155,11 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	try
 		lImageList.BeginUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -170,11 +170,11 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	try
 		lImageList.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Add(L: Plua_State): Integer; cdecl;
@@ -190,12 +190,12 @@ begin
 	luaL_check(L,3,@Mask);
 	try
 		ret := lImageList.Add(Image,Mask);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Add', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_AddSliced(L: Plua_State): Integer; cdecl;
@@ -213,12 +213,12 @@ begin
 	luaL_check(L,4,@AVerticalCount);
 	try
 		ret := lImageList.AddSliced(Image,AHorizontalCount,AVerticalCount);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddSliced', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_AddSlice(L: Plua_State): Integer; cdecl;
@@ -234,12 +234,12 @@ begin
 	luaL_check(L,3,@AImageRect);
 	try
 		ret := lImageList.AddSlice(Image,AImageRect);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddSlice', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_AddSliceCentered(L: Plua_State): Integer; cdecl;
@@ -253,12 +253,12 @@ begin
 	luaL_check(L,2,@Image);
 	try
 		ret := lImageList.AddSliceCentered(Image);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddSliceCentered', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_AddIcon(L: Plua_State): Integer; cdecl;
@@ -272,12 +272,12 @@ begin
 	luaL_check(L,2,@Image);
 	try
 		ret := lImageList.AddIcon(Image);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddIcon', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_AddImages(L: Plua_State): Integer; cdecl;
@@ -290,11 +290,11 @@ begin
 	luaL_check(L,2,@AValue);
 	try
 		lImageList.AddImages(AValue);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddImages', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_AddMasked(L: Plua_State): Integer; cdecl;
@@ -310,12 +310,12 @@ begin
 	luaL_check(L,3,@MaskColor);
 	try
 		ret := lImageList.AddMasked(Image,MaskColor);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddMasked', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_AddLazarusResource(L: Plua_State): Integer; cdecl;
@@ -331,12 +331,12 @@ begin
 	TTrait<TColor>.luaL_optcheck(L, 3, @MaskColor, clNone);
 	try
 		ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddLazarusResource', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_AddResourceName(L: Plua_State): Integer; cdecl;
@@ -354,12 +354,12 @@ begin
 	TTrait<TColor>.luaL_optcheck(L, 4, @MaskColor, clNone);
 	try
 		ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'AddResourceName', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_Change(L: Plua_State): Integer; cdecl;
@@ -370,11 +370,11 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	try
 		lImageList.Change();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Change', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Clear(L: Plua_State): Integer; cdecl;
@@ -385,11 +385,11 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	try
 		lImageList.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Delete(L: Plua_State): Integer; cdecl;
@@ -402,11 +402,11 @@ begin
 	luaL_check(L,2,@AIndex);
 	try
 		lImageList.Delete(AIndex);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Delete', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Draw(L: Plua_State): Integer; cdecl;
@@ -427,11 +427,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 6, @AEnabled, True);
 	try
 		lImageList.Draw(ACanvas,AX,AY,AIndex,AEnabled);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Draw2(L: Plua_State): Integer; cdecl;
@@ -452,11 +452,11 @@ begin
 	luaL_check(L,6,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	try
 		lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawEffect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Draw3(L: Plua_State): Integer; cdecl;
@@ -481,11 +481,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 8, @AEnabled, True);
 	try
 		lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,AEnabled);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Draw4(L: Plua_State): Integer; cdecl;
@@ -510,11 +510,11 @@ begin
 	luaL_check(L,8,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	try
 		lImageList.Draw(ACanvas,AX,AY,AIndex,ADrawingStyle,AImageType,ADrawEffect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Draw', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_DrawForPPI(L: Plua_State): Integer; cdecl;
@@ -541,11 +541,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 9, @AEnabled, True);
 	try
 		lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,AEnabled);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawForPPI', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_DrawForPPI2(L: Plua_State): Integer; cdecl;
@@ -572,11 +572,11 @@ begin
 	luaL_check(L,9,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	try
 		lImageList.DrawForPPI(ACanvas,AX,AY,AIndex,AImageWidthAt96PPI,ATargetPPI,ACanvasFactor,ADrawEffect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawForPPI', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_DrawOverlay(L: Plua_State): Integer; cdecl;
@@ -599,11 +599,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 7, @AEnabled, True);
 	try
 		lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,AEnabled);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawOverlay', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_DrawOverlay2(L: Plua_State): Integer; cdecl;
@@ -626,11 +626,11 @@ begin
 	luaL_check(L,7,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	try
 		lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawEffect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawOverlay', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_DrawOverlay3(L: Plua_State): Integer; cdecl;
@@ -657,11 +657,11 @@ begin
 	luaL_check(L,9,@ADrawEffect,TypeInfo(TGraphicsDrawEffect));
 	try
 		lImageList.DrawOverlay(ACanvas,AX,AY,AIndex,AOverlay,ADrawingStyle,AImageType,ADrawEffect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'DrawOverlay', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_GetBitmap(L: Plua_State): Integer; cdecl;
@@ -676,11 +676,11 @@ begin
 	luaL_check(L,3,@Image);
 	try
 		lImageList.GetBitmap(Index,Image);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetBitmap', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_GetBitmap2(L: Plua_State): Integer; cdecl;
@@ -697,11 +697,11 @@ begin
 	luaL_check(L,4,@AEffect,TypeInfo(TGraphicsDrawEffect));
 	try
 		lImageList.GetBitmap(Index,Image,AEffect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetBitmap', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_GetFullBitmap(L: Plua_State): Integer; cdecl;
@@ -716,11 +716,11 @@ begin
 	TTraitPti<TGraphicsDrawEffect>.luaL_optcheck(L, 3, @AEffect, gdeNormal, TypeInfo(TGraphicsDrawEffect));
 	try
 		lImageList.GetFullBitmap(Image,AEffect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetFullBitmap', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_GetIcon(L: Plua_State): Integer; cdecl;
@@ -737,11 +737,11 @@ begin
 	luaL_check(L,4,@AEffect,TypeInfo(TGraphicsDrawEffect));
 	try
 		lImageList.GetIcon(Index,Image,AEffect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetIcon', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_GetIcon2(L: Plua_State): Integer; cdecl;
@@ -756,11 +756,11 @@ begin
 	luaL_check(L,3,@Image);
 	try
 		lImageList.GetIcon(Index,Image);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetIcon', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_GetHotSpot(L: Plua_State): Integer; cdecl;
@@ -772,12 +772,12 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	try
 		ret := lImageList.GetHotSpot();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'GetHotSpot', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ImageList_Insert(L: Plua_State): Integer; cdecl;
@@ -794,11 +794,11 @@ begin
 	luaL_check(L,4,@AMask);
 	try
 		lImageList.Insert(AIndex,AImage,AMask);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Insert', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_InsertIcon(L: Plua_State): Integer; cdecl;
@@ -813,11 +813,11 @@ begin
 	luaL_check(L,3,@AIcon);
 	try
 		lImageList.InsertIcon(AIndex,AIcon);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'InsertIcon', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_InsertMasked(L: Plua_State): Integer; cdecl;
@@ -834,11 +834,11 @@ begin
 	luaL_check(L,4,@MaskColor);
 	try
 		lImageList.InsertMasked(Index,AImage,MaskColor);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'InsertMasked', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Move(L: Plua_State): Integer; cdecl;
@@ -853,11 +853,11 @@ begin
 	luaL_check(L,3,@ANewIndex);
 	try
 		lImageList.Move(ACurIndex,ANewIndex);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Move', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Overlay(L: Plua_State): Integer; cdecl;
@@ -872,11 +872,11 @@ begin
 	luaL_check(L,3,@Overlay);
 	try
 		lImageList.Overlay(AIndex,Overlay);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Overlay', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_Replace(L: Plua_State): Integer; cdecl;
@@ -895,11 +895,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
 	try
 		lImageList.Replace(AIndex,AImage,AMask,AllResolutions);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'Replace', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_ReplaceSlice(L: Plua_State): Integer; cdecl;
@@ -918,11 +918,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
 	try
 		lImageList.ReplaceSlice(AIndex,Image,AImageRect,AllResolutions);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReplaceSlice', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_ReplaceSliceCentered(L: Plua_State): Integer; cdecl;
@@ -941,11 +941,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
 	try
 		lImageList.ReplaceSliceCentered(AIndex,AImageWidth,Image,AllResolutions);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReplaceSliceCentered', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_ReplaceIcon(L: Plua_State): Integer; cdecl;
@@ -960,11 +960,11 @@ begin
 	luaL_check(L,3,@AIcon);
 	try
 		lImageList.ReplaceIcon(AIndex,AIcon);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReplaceIcon', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_ReplaceMasked(L: Plua_State): Integer; cdecl;
@@ -983,11 +983,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
 	try
 		lImageList.ReplaceMasked(Index,NewImage,MaskColor,AllResolutions);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'ReplaceMasked', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_RegisterChanges(L: Plua_State): Integer; cdecl;
@@ -1000,11 +1000,11 @@ begin
 	luaL_check(L,2,@Value);
 	try
 		lImageList.RegisterChanges(Value);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'RegisterChanges', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_StretchDraw(L: Plua_State): Integer; cdecl;
@@ -1023,11 +1023,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 5, @Enabled, True);
 	try
 		lImageList.StretchDraw(Canvas,Index,ARect,Enabled);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'StretchDraw', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_UnRegisterChanges(L: Plua_State): Integer; cdecl;
@@ -1040,11 +1040,11 @@ begin
 	luaL_check(L,2,@Value);
 	try
 		lImageList.UnRegisterChanges(Value);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'UnRegisterChanges', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ImageList_DeleteResolution(L: Plua_State): Integer; cdecl;
@@ -1057,11 +1057,93 @@ begin
 	luaL_check(L,2,@AWidth);
 	try
 		lImageList.DeleteResolution(AWidth);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ImageList', 'DeleteResolution', E.ClassName, E.Message);
 	end;
-	Result := 0;
+end;
+
+function VCLua_ImageList_HeightForPPI(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	AImageWidth:Integer;
+	APPI:Integer;
+	ret:Integer;
+begin
+	CheckArg(L, 3);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@AImageWidth);
+	luaL_check(L,3,@APPI);
+	try
+		ret := lImageList.HeightForPPI[AImageWidth,APPI];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'HeightForPPI', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_HeightForWidth(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	AWidth:Integer;
+	ret:Integer;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@AWidth);
+	try
+		ret := lImageList.HeightForWidth[AWidth];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'HeightForWidth', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_WidthForPPI(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	AImageWidth:Integer;
+	APPI:Integer;
+	ret:Integer;
+begin
+	CheckArg(L, 3);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@AImageWidth);
+	luaL_check(L,3,@APPI);
+	try
+		ret := lImageList.WidthForPPI[AImageWidth,APPI];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'WidthForPPI', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_SizeForPPI(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	AImageWidth:Integer;
+	APPI:Integer;
+	ret:TSize;
+begin
+	CheckArg(L, 3);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@AImageWidth);
+	luaL_check(L,3,@APPI);
+	try
+		ret := lImageList.SizeForPPI[AImageWidth,APPI];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'SizeForPPI', E.ClassName, E.Message);
+	end;
 end;
 
 function IsImageList(L: Plua_State): Integer; cdecl;
@@ -1101,7 +1183,7 @@ begin
 end;
 
 begin
-	SetLength(CustomImageListFuncs, 50+1);
+	SetLength(CustomImageListFuncs, 54+1);
 	CustomImageListFuncs[0].name:='AssignTo';
 	CustomImageListFuncs[0].func:=@VCLua_ImageList_AssignTo;
 	CustomImageListFuncs[1].name:='Assign';
@@ -1202,7 +1284,15 @@ begin
 	CustomImageListFuncs[48].func:=@VCLua_ImageList_UnRegisterChanges;
 	CustomImageListFuncs[49].name:='DeleteResolution';
 	CustomImageListFuncs[49].func:=@VCLua_ImageList_DeleteResolution;
-	CustomImageListFuncs[50].name:=nil;
-	CustomImageListFuncs[50].func:=nil;
+	CustomImageListFuncs[50].name:='HeightForPPI';
+	CustomImageListFuncs[50].func:=@VCLua_ImageList_HeightForPPI;
+	CustomImageListFuncs[51].name:='HeightForWidth';
+	CustomImageListFuncs[51].func:=@VCLua_ImageList_HeightForWidth;
+	CustomImageListFuncs[52].name:='WidthForPPI';
+	CustomImageListFuncs[52].func:=@VCLua_ImageList_WidthForPPI;
+	CustomImageListFuncs[53].name:='SizeForPPI';
+	CustomImageListFuncs[53].func:=@VCLua_ImageList_SizeForPPI;
+	CustomImageListFuncs[54].name:=nil;
+	CustomImageListFuncs[54].func:=nil;
 
 end.

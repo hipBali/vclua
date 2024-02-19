@@ -35,11 +35,11 @@ begin
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	try
 		lTextStrings.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_SetText(L: Plua_State): Integer; cdecl;
@@ -52,11 +52,11 @@ begin
 	luaL_check(L,2,@TheText);
 	try
 		lTextStrings.SetText(TheText);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'SetText', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_Insert(L: Plua_State): Integer; cdecl;
@@ -71,11 +71,11 @@ begin
 	luaL_check(L,3,@S);
 	try
 		lTextStrings.Insert(Index,S);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Insert', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_Delete(L: Plua_State): Integer; cdecl;
@@ -88,11 +88,11 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		lTextStrings.Delete(Index);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Delete', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_Exchange(L: Plua_State): Integer; cdecl;
@@ -107,11 +107,11 @@ begin
 	luaL_check(L,3,@Index2);
 	try
 		lTextStrings.Exchange(Index1,Index2);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Exchange', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_Move(L: Plua_State): Integer; cdecl;
@@ -126,11 +126,11 @@ begin
 	luaL_check(L,3,@NewIndex);
 	try
 		lTextStrings.Move(CurIndex,NewIndex);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Move', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_MakeTextBufferUnique(L: Plua_State): Integer; cdecl;
@@ -141,11 +141,11 @@ begin
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	try
 		lTextStrings.MakeTextBufferUnique();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'MakeTextBufferUnique', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -156,11 +156,11 @@ begin
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	try
 		lTextStrings.BeginUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -171,11 +171,11 @@ begin
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	try
 		lTextStrings.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_GetText(L: Plua_State): Integer; cdecl;
@@ -187,12 +187,12 @@ begin
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
 	try
 		ret := lTextStrings.GetText();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'GetText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TextStrings_IndexOf(L: Plua_State): Integer; cdecl;
@@ -206,12 +206,12 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lTextStrings.IndexOf(S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'IndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TextStrings_Add(L: Plua_State): Integer; cdecl;
@@ -225,12 +225,12 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lTextStrings.Add(S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'Add', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TextStrings_AddObject(L: Plua_State): Integer; cdecl;
@@ -246,12 +246,12 @@ begin
 	luaL_check(L,3,@AObject);
 	try
 		ret := lTextStrings.AddObject(S,AObject);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'AddObject', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TextStrings_AddStrings(L: Plua_State): Integer; cdecl;
@@ -264,11 +264,11 @@ begin
 	luaL_check(L,2,@TheStrings);
 	try
 		lTextStrings.AddStrings(TheStrings);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'AddStrings', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_LoadFromFile(L: Plua_State): Integer; cdecl;
@@ -281,11 +281,11 @@ begin
 	luaL_check(L,2,@FileName);
 	try
 		lTextStrings.LoadFromFile(FileName);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TextStrings_SaveToFile(L: Plua_State): Integer; cdecl;
@@ -298,11 +298,11 @@ begin
 	luaL_check(L,2,@FileName);
 	try
 		lTextStrings.SaveToFile(FileName);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TextStrings', 'SaveToFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsTextStrings(L: Plua_State): Integer; cdecl;

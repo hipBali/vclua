@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lPen.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Pen', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Pen_SetPattern(L: Plua_State): Integer; cdecl;
@@ -53,11 +53,11 @@ begin
 	TTrait<LongWord>.luaL_checkArray(L, 2, @APattern);
 	try
 		lPen.SetPattern(APattern);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Pen', 'SetPattern', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsPen(L: Plua_State): Integer; cdecl;

@@ -37,12 +37,12 @@ begin
 	luaL_check(L,2,@Target);
 	try
 		ret := lBasicAction.HandlesTarget(Target);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'BasicAction', 'HandlesTarget', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_BasicAction_UpdateTarget(L: Plua_State): Integer; cdecl;
@@ -55,11 +55,11 @@ begin
 	luaL_check(L,2,@Target);
 	try
 		lBasicAction.UpdateTarget(Target);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'BasicAction', 'UpdateTarget', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_BasicAction_ExecuteTarget(L: Plua_State): Integer; cdecl;
@@ -72,11 +72,11 @@ begin
 	luaL_check(L,2,@Target);
 	try
 		lBasicAction.ExecuteTarget(Target);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'BasicAction', 'ExecuteTarget', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_BasicAction_Execute(L: Plua_State): Integer; cdecl;
@@ -88,12 +88,12 @@ begin
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
 	try
 		ret := lBasicAction.Execute();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'BasicAction', 'Execute', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_BasicAction_Update(L: Plua_State): Integer; cdecl;
@@ -105,12 +105,12 @@ begin
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
 	try
 		ret := lBasicAction.Update();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'BasicAction', 'Update', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function IsBasicAction(L: Plua_State): Integer; cdecl;

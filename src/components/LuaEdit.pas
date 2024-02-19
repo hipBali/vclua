@@ -34,11 +34,11 @@ begin
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
 	try
 		lEdit.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Edit', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Edit_SelectAll(L: Plua_State): Integer; cdecl;
@@ -49,11 +49,11 @@ begin
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
 	try
 		lEdit.SelectAll();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Edit', 'SelectAll', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Edit_ClearSelection(L: Plua_State): Integer; cdecl;
@@ -64,11 +64,11 @@ begin
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
 	try
 		lEdit.ClearSelection();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Edit', 'ClearSelection', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Edit_CopyToClipboard(L: Plua_State): Integer; cdecl;
@@ -79,11 +79,11 @@ begin
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
 	try
 		lEdit.CopyToClipboard();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Edit', 'CopyToClipboard', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Edit_CutToClipboard(L: Plua_State): Integer; cdecl;
@@ -94,11 +94,11 @@ begin
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
 	try
 		lEdit.CutToClipboard();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Edit', 'CutToClipboard', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Edit_PasteFromClipboard(L: Plua_State): Integer; cdecl;
@@ -109,11 +109,11 @@ begin
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
 	try
 		lEdit.PasteFromClipboard();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Edit', 'PasteFromClipboard', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Edit_Undo(L: Plua_State): Integer; cdecl;
@@ -124,11 +124,11 @@ begin
 	lEdit := TLuaEdit(GetLuaObject(L, 1));
 	try
 		lEdit.Undo();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Edit', 'Undo', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Edit_RemoveAllHandlersOfObject(L: Plua_State): Integer; cdecl;
@@ -141,11 +141,11 @@ begin
 	luaL_check(L,2,@AnObject);
 	try
 		lEdit.RemoveAllHandlersOfObject(AnObject);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Edit', 'RemoveAllHandlersOfObject', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsEdit(L: Plua_State): Integer; cdecl;

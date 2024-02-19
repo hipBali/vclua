@@ -50,7 +50,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaStrings;
 
 function VCLua_GridColumn_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -62,11 +62,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lGridColumn.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumn', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_GridColumn_FillDefaultFont(L: Plua_State): Integer; cdecl;
@@ -77,11 +77,11 @@ begin
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
 	try
 		lGridColumn.FillDefaultFont();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumn', 'FillDefaultFont', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_GridColumn_FixDesignFontsPPI(L: Plua_State): Integer; cdecl;
@@ -94,11 +94,11 @@ begin
 	luaL_check(L,2,@ADesignTimePPI);
 	try
 		lGridColumn.FixDesignFontsPPI(ADesignTimePPI);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumn', 'FixDesignFontsPPI', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_GridColumn_ScaleFontsPPI(L: Plua_State): Integer; cdecl;
@@ -113,11 +113,11 @@ begin
 	luaL_check(L,3,@AProportion);
 	try
 		lGridColumn.ScaleFontsPPI(AToPPI,AProportion);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumn', 'ScaleFontsPPI', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_GridColumn_IsDefault(L: Plua_State): Integer; cdecl;
@@ -129,12 +129,12 @@ begin
 	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
 	try
 		ret := lGridColumn.IsDefault();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumn', 'IsDefault', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_GridColumns_Add(L: Plua_State): Integer; cdecl;
@@ -146,12 +146,12 @@ begin
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	try
 		ret := lGridColumns.Add();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumns', 'Add', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_GridColumns_Clear(L: Plua_State): Integer; cdecl;
@@ -162,11 +162,11 @@ begin
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	try
 		lGridColumns.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumns', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_GridColumns_ColumnByTitle(L: Plua_State): Integer; cdecl;
@@ -180,12 +180,12 @@ begin
 	luaL_check(L,2,@aTitle);
 	try
 		ret := lGridColumns.ColumnByTitle(aTitle);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumns', 'ColumnByTitle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_GridColumns_RealIndex(L: Plua_State): Integer; cdecl;
@@ -199,12 +199,12 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		ret := lGridColumns.RealIndex(Index);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumns', 'RealIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_GridColumns_IndexOf(L: Plua_State): Integer; cdecl;
@@ -218,12 +218,12 @@ begin
 	luaL_check(L,2,@Column);
 	try
 		ret := lGridColumns.IndexOf(Column);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumns', 'IndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_GridColumns_IsDefault(L: Plua_State): Integer; cdecl;
@@ -235,12 +235,12 @@ begin
 	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
 	try
 		ret := lGridColumns.IsDefault();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumns', 'IsDefault', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_GridColumns_HasIndex(L: Plua_State): Integer; cdecl;
@@ -254,12 +254,12 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		ret := lGridColumns.HasIndex(Index);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumns', 'HasIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_GridColumns_VisibleIndex(L: Plua_State): Integer; cdecl;
@@ -273,12 +273,37 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		ret := lGridColumns.VisibleIndex(Index);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'GridColumns', 'VisibleIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
+end;
+
+function VCLua_GridColumns_Items(L: Plua_State): Integer; cdecl;
+var
+	lGridColumns:TLuaGridColumns;
+	Index:Integer;
+	ret:TGridColumn;
+begin
+	CheckArg(L, 2, 3);
+	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lGridColumns.Items[Index];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lGridColumns.Items[Index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'Items', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_StringGrid_AutoSizeColumn(L: Plua_State): Integer; cdecl;
@@ -291,11 +316,11 @@ begin
 	luaL_check(L,2,@aCol);
 	try
 		lStringGrid.AutoSizeColumn(aCol);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'AutoSizeColumn', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_AutoSizeColumns(L: Plua_State): Integer; cdecl;
@@ -306,11 +331,11 @@ begin
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	try
 		lStringGrid.AutoSizeColumns();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'AutoSizeColumns', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_Clean(L: Plua_State): Integer; cdecl;
@@ -321,11 +346,11 @@ begin
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
 	try
 		lStringGrid.Clean();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_Clean2(L: Plua_State): Integer; cdecl;
@@ -338,11 +363,11 @@ begin
 	luaL_checkSet(L,2,@CleanOptions,TypeInfo(TGridZoneSet));
 	try
 		lStringGrid.Clean(CleanOptions);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_Clean3(L: Plua_State): Integer; cdecl;
@@ -357,11 +382,11 @@ begin
 	luaL_checkSet(L,3,@CleanOptions,TypeInfo(TGridZoneSet));
 	try
 		lStringGrid.Clean(aRect,CleanOptions);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_Clean4(L: Plua_State): Integer; cdecl;
@@ -382,11 +407,11 @@ begin
 	luaL_checkSet(L,6,@CleanOptions,TypeInfo(TGridZoneSet));
 	try
 		lStringGrid.Clean(StartCol,StartRow,EndCol,EndRow,CleanOptions);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Clean', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_CopyToClipboard(L: Plua_State): Integer; cdecl;
@@ -399,11 +424,11 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 2, @AUseSelection, false);
 	try
 		lStringGrid.CopyToClipboard(AUseSelection);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'CopyToClipboard', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_InsertRowWithValues(L: Plua_State): Integer; cdecl;
@@ -418,11 +443,11 @@ begin
 	TTrait<String>.luaL_checkArray(L, 3, @Values);
 	try
 		lStringGrid.InsertRowWithValues(Index,Values);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'InsertRowWithValues', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_LoadFromCSVStream(L: Plua_State): Integer; cdecl;
@@ -443,11 +468,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 6, @SkipEmptyLines, true);
 	try
 		lStringGrid.LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'LoadFromCSVStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_LoadFromCSVFile(L: Plua_State): Integer; cdecl;
@@ -468,11 +493,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 6, @SkipEmptyLines, true);
 	try
 		lStringGrid.LoadFromCSVFile(AFilename,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'LoadFromCSVFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_SaveToCSVStream(L: Plua_State): Integer; cdecl;
@@ -491,11 +516,11 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 5, @VisibleColumnsOnly, false);
 	try
 		lStringGrid.SaveToCSVStream(AStream,ADelimiter,WriteTitles,VisibleColumnsOnly);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'SaveToCSVStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_StringGrid_SaveToCSVFile(L: Plua_State): Integer; cdecl;
@@ -514,11 +539,115 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 5, @VisibleColumnsOnly, false);
 	try
 		lStringGrid.SaveToCSVFile(AFileName,ADelimiter,WriteTitles,VisibleColumnsOnly);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'StringGrid', 'SaveToCSVFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
+end;
+
+function VCLua_StringGrid_Cells(L: Plua_State): Integer; cdecl;
+var
+	lStringGrid:TLuaStringGrid;
+	ACol:Integer;
+	ARow:Integer;
+	ret:string;
+begin
+	CheckArg(L, 3, 4);
+	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	luaL_check(L,2,@ACol);
+	luaL_check(L,3,@ARow);
+	try
+		if lua_isnone(L, 4) then begin
+			ret := lStringGrid.Cells[ACol,ARow];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,4,@ret);
+			lStringGrid.Cells[ACol,ARow] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'Cells', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_StringGrid_Cols(L: Plua_State): Integer; cdecl;
+var
+	lStringGrid:TLuaStringGrid;
+	index:Integer;
+	ret:TStrings;
+begin
+	CheckArg(L, 2, 3);
+	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	luaL_check(L,2,@index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lStringGrid.Cols[index];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lStringGrid.Cols[index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'Cols', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_StringGrid_Objects(L: Plua_State): Integer; cdecl;
+var
+	lStringGrid:TLuaStringGrid;
+	ACol:Integer;
+	ARow:Integer;
+	ret:TObject;
+begin
+	CheckArg(L, 3, 4);
+	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	luaL_check(L,2,@ACol);
+	luaL_check(L,3,@ARow);
+	try
+		if lua_isnone(L, 4) then begin
+			ret := lStringGrid.Objects[ACol,ARow];
+			lua_push(L,ret,TypeInfo(ret));
+			Result := 1;
+		end else begin
+			luaL_check(L,4,@ret);
+			lStringGrid.Objects[ACol,ARow] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'Objects', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_StringGrid_Rows(L: Plua_State): Integer; cdecl;
+var
+	lStringGrid:TLuaStringGrid;
+	index:Integer;
+	ret:TStrings;
+begin
+	CheckArg(L, 2, 3);
+	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	luaL_check(L,2,@index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lStringGrid.Rows[index];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lStringGrid.Rows[index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'StringGrid', 'Rows', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_StringGrid_GridCellsGet(L: Plua_State): Integer; cdecl;
@@ -655,7 +784,7 @@ begin
 	GridColumnFuncs[5].name:=nil;
 	GridColumnFuncs[5].func:=nil;
 
-	SetLength(GridColumnsFuncs, 8+1);
+	SetLength(GridColumnsFuncs, 9+1);
 	GridColumnsFuncs[0].name:='Add';
 	GridColumnsFuncs[0].func:=@VCLua_GridColumns_Add;
 	GridColumnsFuncs[1].name:='Clear';
@@ -672,10 +801,12 @@ begin
 	GridColumnsFuncs[6].func:=@VCLua_GridColumns_HasIndex;
 	GridColumnsFuncs[7].name:='VisibleIndex';
 	GridColumnsFuncs[7].func:=@VCLua_GridColumns_VisibleIndex;
-	GridColumnsFuncs[8].name:=nil;
-	GridColumnsFuncs[8].func:=nil;
+	GridColumnsFuncs[8].name:='Items';
+	GridColumnsFuncs[8].func:=@VCLua_GridColumns_Items;
+	GridColumnsFuncs[9].name:=nil;
+	GridColumnsFuncs[9].func:=nil;
 
-	SetLength(CustomStringGridFuncs, 15+1);
+	SetLength(CustomStringGridFuncs, 19+1);
 	CustomStringGridFuncs[0].name:='AutoSizeColumn';
 	CustomStringGridFuncs[0].func:=@VCLua_StringGrid_AutoSizeColumn;
 	CustomStringGridFuncs[1].name:='AutoSizeColumns';
@@ -700,13 +831,21 @@ begin
 	CustomStringGridFuncs[10].func:=@VCLua_StringGrid_SaveToCSVStream;
 	CustomStringGridFuncs[11].name:='SaveToCSVFile';
 	CustomStringGridFuncs[11].func:=@VCLua_StringGrid_SaveToCSVFile;
-	CustomStringGridFuncs[12].name:='GetCells';
-	CustomStringGridFuncs[12].func:=@VCLua_StringGrid_GridCellsGet;
-	CustomStringGridFuncs[13].name:='SetCells';
-	CustomStringGridFuncs[13].func:=@VCLua_StringGrid_GridCellsSet;
-	CustomStringGridFuncs[14].name:='GetSelectedCell';
-	CustomStringGridFuncs[14].func:=@VCLua_StringGrid_GridGetSelectedCell;
-	CustomStringGridFuncs[15].name:=nil;
-	CustomStringGridFuncs[15].func:=nil;
+	CustomStringGridFuncs[12].name:='Cells';
+	CustomStringGridFuncs[12].func:=@VCLua_StringGrid_Cells;
+	CustomStringGridFuncs[13].name:='Cols';
+	CustomStringGridFuncs[13].func:=@VCLua_StringGrid_Cols;
+	CustomStringGridFuncs[14].name:='Objects';
+	CustomStringGridFuncs[14].func:=@VCLua_StringGrid_Objects;
+	CustomStringGridFuncs[15].name:='Rows';
+	CustomStringGridFuncs[15].func:=@VCLua_StringGrid_Rows;
+	CustomStringGridFuncs[16].name:='GetCells';
+	CustomStringGridFuncs[16].func:=@VCLua_StringGrid_GridCellsGet;
+	CustomStringGridFuncs[17].name:='SetCells';
+	CustomStringGridFuncs[17].func:=@VCLua_StringGrid_GridCellsSet;
+	CustomStringGridFuncs[18].name:='GetSelectedCell';
+	CustomStringGridFuncs[18].func:=@VCLua_StringGrid_GridGetSelectedCell;
+	CustomStringGridFuncs[19].name:=nil;
+	CustomStringGridFuncs[19].func:=nil;
 
 end.

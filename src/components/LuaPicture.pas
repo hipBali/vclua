@@ -35,11 +35,11 @@ begin
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
 	try
 		lPicture.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Picture', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Picture_LoadFromFile(L: Plua_State): Integer; cdecl;
@@ -52,11 +52,11 @@ begin
 	luaL_check(L,2,@Filename);
 	try
 		lPicture.LoadFromFile(Filename);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Picture', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Picture_LoadFromStream(L: Plua_State): Integer; cdecl;
@@ -69,11 +69,11 @@ begin
 	luaL_check(L,2,@Stream);
 	try
 		lPicture.LoadFromStream(Stream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Picture', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Picture_LoadFromStreamWithFileExt(L: Plua_State): Integer; cdecl;
@@ -88,11 +88,11 @@ begin
 	luaL_check(L,3,@FileExt);
 	try
 		lPicture.LoadFromStreamWithFileExt(Stream,FileExt);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Picture', 'LoadFromStreamWithFileExt', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Picture_SaveToFile(L: Plua_State): Integer; cdecl;
@@ -107,11 +107,11 @@ begin
 	TTrait<string>.luaL_optcheck(L, 3, @FileExt, '');
 	try
 		lPicture.SaveToFile(Filename,FileExt);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Picture', 'SaveToFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Picture_SaveToStream(L: Plua_State): Integer; cdecl;
@@ -124,11 +124,11 @@ begin
 	luaL_check(L,2,@Stream);
 	try
 		lPicture.SaveToStream(Stream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Picture', 'SaveToStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Picture_SaveToStreamWithFileExt(L: Plua_State): Integer; cdecl;
@@ -143,11 +143,11 @@ begin
 	luaL_check(L,3,@FileExt);
 	try
 		lPicture.SaveToStreamWithFileExt(Stream,FileExt);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Picture', 'SaveToStreamWithFileExt', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Picture_Assign(L: Plua_State): Integer; cdecl;
@@ -160,11 +160,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lPicture.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Picture', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsPicture(L: Plua_State): Integer; cdecl;

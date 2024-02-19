@@ -38,11 +38,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 3, @CheckHintControlChange, False);
 	try
 		lApplication.ActivateHint(CursorPos,CheckHintControlChange);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'ActivateHint', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_GetControlAtMouse(L: Plua_State): Integer; cdecl;
@@ -54,12 +54,12 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		ret := lApplication.GetControlAtMouse();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'GetControlAtMouse', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Application_ControlDestroyed(L: Plua_State): Integer; cdecl;
@@ -72,11 +72,11 @@ begin
 	luaL_check(L,2,@AControl);
 	try
 		lApplication.ControlDestroyed(AControl);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'ControlDestroyed', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_BigIconHandle(L: Plua_State): Integer; cdecl;
@@ -88,12 +88,12 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		ret := lApplication.BigIconHandle();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'BigIconHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Application_SmallIconHandle(L: Plua_State): Integer; cdecl;
@@ -105,12 +105,12 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		ret := lApplication.SmallIconHandle();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'SmallIconHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Application_BringToFront(L: Plua_State): Integer; cdecl;
@@ -121,11 +121,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.BringToFront();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'BringToFront', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_UpdateMainForm(L: Plua_State): Integer; cdecl;
@@ -138,11 +138,11 @@ begin
 	luaL_check(L,2,@AForm);
 	try
 		lApplication.UpdateMainForm(AForm);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'UpdateMainForm', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_ReleaseComponent(L: Plua_State): Integer; cdecl;
@@ -155,11 +155,11 @@ begin
 	luaL_check(L,2,@AComponent);
 	try
 		lApplication.ReleaseComponent(AComponent);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'ReleaseComponent', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_HandleException(L: Plua_State): Integer; cdecl;
@@ -172,11 +172,11 @@ begin
 	luaL_check(L,2,@Sender);
 	try
 		lApplication.HandleException(Sender);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'HandleException', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_HandleMessage(L: Plua_State): Integer; cdecl;
@@ -187,11 +187,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.HandleMessage();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'HandleMessage', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_RemoveStayOnTop(L: Plua_State): Integer; cdecl;
@@ -204,11 +204,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASystemTopAlso, False);
 	try
 		lApplication.RemoveStayOnTop(ASystemTopAlso);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'RemoveStayOnTop', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_RestoreStayOnTop(L: Plua_State): Integer; cdecl;
@@ -221,11 +221,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASystemTopAlso, False);
 	try
 		lApplication.RestoreStayOnTop(ASystemTopAlso);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'RestoreStayOnTop', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_IsWaiting(L: Plua_State): Integer; cdecl;
@@ -237,12 +237,12 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		ret := lApplication.IsWaiting();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'IsWaiting', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Application_Initialize(L: Plua_State): Integer; cdecl;
@@ -253,11 +253,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.Initialize();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'Initialize', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_Minimize(L: Plua_State): Integer; cdecl;
@@ -268,11 +268,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.Minimize();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'Minimize', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_ModalStarted(L: Plua_State): Integer; cdecl;
@@ -283,11 +283,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.ModalStarted();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'ModalStarted', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_ModalFinished(L: Plua_State): Integer; cdecl;
@@ -298,11 +298,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.ModalFinished();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'ModalFinished', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_Restore(L: Plua_State): Integer; cdecl;
@@ -313,11 +313,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.Restore();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'Restore', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_Notification(L: Plua_State): Integer; cdecl;
@@ -332,11 +332,11 @@ begin
 	luaL_check(L,3,@Operation,TypeInfo(TOperation));
 	try
 		lApplication.Notification(AComponent,Operation);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'Notification', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_ProcessMessages(L: Plua_State): Integer; cdecl;
@@ -347,11 +347,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.ProcessMessages();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'ProcessMessages', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_Idle(L: Plua_State): Integer; cdecl;
@@ -364,11 +364,11 @@ begin
 	luaL_check(L,2,@Wait);
 	try
 		lApplication.Idle(Wait);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'Idle', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_Run(L: Plua_State): Integer; cdecl;
@@ -379,11 +379,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.Run();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'Run', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Application_Terminate(L: Plua_State): Integer; cdecl;
@@ -394,11 +394,11 @@ begin
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
 	try
 		lApplication.Terminate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'Terminate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsApplication(L: Plua_State): Integer; cdecl;

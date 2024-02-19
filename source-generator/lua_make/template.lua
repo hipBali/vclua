@@ -94,9 +94,35 @@ begin
 	CheckArg(L, #VARCOUNT);
 	l#CNAME := TLua#CNAME(GetLuaObject(L, 1));#TOVCLUA
 #FUNC#PUSHTOLUA#PUSHOUTS
-	Result := #RETCOUNT;
 end;
 ]]
+
+VCLua_TRY = [[
+	try
+#STMT
+	except
+		on E: Exception do
+			CallError(L, '#CNAME', '#MNAME', E.ClassName, E.Message);
+	end;]]
+VCLua_CALL = [[
+		#RETl#CNAME.#MNAME(#PAR);
+		Result := #RETCOUNT;]]
+VCLua_PROP_READ = [[
+		ret := l#CNAME.#MNAME#PINDEX;
+		#PUSHOUT
+		Result := 1;]]
+VCLua_PROP_WRITE = [[
+		#TOVCLUA
+		l#CNAME.#MNAME#PINDEX := ret;
+		Result := 0;]]
+VCLua_PROP = [[
+		if lua_isnone(L, #IDX) then begin
+]]..VCLua_PROP_READ:gsub('\t\t','\t\t\t')..[[
+
+		end else begin
+]]..VCLua_PROP_WRITE:gsub('\t\t','\t\t\t')..[[
+
+		end;]]
 
 VCLua_CDEF_TOTABLE = [[
 function Is#CNAME(L: Plua_State): Integer; cdecl;

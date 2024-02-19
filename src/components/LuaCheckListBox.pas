@@ -37,12 +37,12 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		lCheckListBox.MeasureItem(Index,TheHeight);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'MeasureItem', E.ClassName, E.Message);
 	end;
 	lua_push(L,TheHeight);
-	Result := 1;
 end;
 
 function VCLua_CheckListBox_MeasureItem2(L: Plua_State): Integer; cdecl;
@@ -57,12 +57,12 @@ begin
 	luaL_check(L,3,@TheHeight);
 	try
 		lCheckListBox.MeasureItem(Index,TheHeight);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'MeasureItem', E.ClassName, E.Message);
 	end;
 	lua_push(L,TheHeight);
-	Result := 1;
 end;
 
 function VCLua_CheckListBox_Toggle(L: Plua_State): Integer; cdecl;
@@ -75,11 +75,11 @@ begin
 	luaL_check(L,2,@AIndex);
 	try
 		lCheckListBox.Toggle(AIndex);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'Toggle', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CheckListBox_CheckAll(L: Plua_State): Integer; cdecl;
@@ -96,11 +96,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 4, @aAllowDisabled, True);
 	try
 		lCheckListBox.CheckAll(AState,aAllowGrayed,aAllowDisabled);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'CheckAll', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CheckListBox_Exchange(L: Plua_State): Integer; cdecl;
@@ -115,37 +115,111 @@ begin
 	luaL_check(L,3,@AIndex2);
 	try
 		lCheckListBox.Exchange(AIndex1,AIndex2);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'Exchange', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
-function VCLua_CheckListBox_CheckListBoxGetChecked(L: Plua_State): Integer; cdecl;
+function VCLua_CheckListBox_Checked(L: Plua_State): Integer; cdecl;
 var
-  b: TCustomCheckListBox;
-  idx: Integer;
+	lCheckListBox:TLuaCheckListBox;
+	AIndex:Integer;
+	ret:Boolean;
 begin
-  CheckArg(L, 2);
-  b := TCustomCheckListBox(GetLuaObject(L, 1));
-  idx := lua_tointeger(L,2);
-  lua_pushboolean(L, b.Checked[idx]);
-  Result := 1;
+	CheckArg(L, 2, 3);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@AIndex);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lCheckListBox.Checked[AIndex];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lCheckListBox.Checked[AIndex] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'Checked', E.ClassName, E.Message);
+	end;
 end;
 
-function VCLua_CheckListBox_CheckListBoxSetChecked(L: Plua_State): Integer; cdecl;
+function VCLua_CheckListBox_Header(L: Plua_State): Integer; cdecl;
 var
-  b: TCustomCheckListBox;
-  idx: Integer;
-  c: boolean;
+	lCheckListBox:TLuaCheckListBox;
+	AIndex:Integer;
+	ret:Boolean;
 begin
-  CheckArg(L, 3);
-  b := TCustomCheckListBox(GetLuaObject(L, 1));
-  idx := lua_tointeger(L,2);
-  c := lua_toboolean(L,3);
-  b.Checked[idx] := c;
-  Result := 0;
+	CheckArg(L, 2, 3);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@AIndex);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lCheckListBox.Header[AIndex];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lCheckListBox.Header[AIndex] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'Header', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckListBox_ItemEnabled(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	AIndex:Integer;
+	ret:Boolean;
+begin
+	CheckArg(L, 2, 3);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@AIndex);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lCheckListBox.ItemEnabled[AIndex];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lCheckListBox.ItemEnabled[AIndex] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'ItemEnabled', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckListBox_State(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	AIndex:Integer;
+	ret:TCheckBoxState;
+begin
+	CheckArg(L, 2, 3);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@AIndex);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lCheckListBox.State[AIndex];
+			lua_push(L,ret,TypeInfo(ret));
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret,TypeInfo(TCheckBoxState));
+			lCheckListBox.State[AIndex] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'State', E.ClassName, E.Message);
+	end;
 end;
 
 function IsCheckListBox(L: Plua_State): Integer; cdecl;
@@ -185,7 +259,7 @@ begin
 end;
 
 begin
-	SetLength(CustomCheckListBoxFuncs, 7+1);
+	SetLength(CustomCheckListBoxFuncs, 9+1);
 	CustomCheckListBoxFuncs[0].name:='MeasureItem';
 	CustomCheckListBoxFuncs[0].func:=@VCLua_CheckListBox_MeasureItem;
 	CustomCheckListBoxFuncs[1].name:='MeasureItem2';
@@ -196,11 +270,15 @@ begin
 	CustomCheckListBoxFuncs[3].func:=@VCLua_CheckListBox_CheckAll;
 	CustomCheckListBoxFuncs[4].name:='Exchange';
 	CustomCheckListBoxFuncs[4].func:=@VCLua_CheckListBox_Exchange;
-	CustomCheckListBoxFuncs[5].name:='GetChecked';
-	CustomCheckListBoxFuncs[5].func:=@VCLua_CheckListBox_CheckListBoxGetChecked;
-	CustomCheckListBoxFuncs[6].name:='SetChecked';
-	CustomCheckListBoxFuncs[6].func:=@VCLua_CheckListBox_CheckListBoxSetChecked;
-	CustomCheckListBoxFuncs[7].name:=nil;
-	CustomCheckListBoxFuncs[7].func:=nil;
+	CustomCheckListBoxFuncs[5].name:='Checked';
+	CustomCheckListBoxFuncs[5].func:=@VCLua_CheckListBox_Checked;
+	CustomCheckListBoxFuncs[6].name:='Header';
+	CustomCheckListBoxFuncs[6].func:=@VCLua_CheckListBox_Header;
+	CustomCheckListBoxFuncs[7].name:='ItemEnabled';
+	CustomCheckListBoxFuncs[7].func:=@VCLua_CheckListBox_ItemEnabled;
+	CustomCheckListBoxFuncs[8].name:='State';
+	CustomCheckListBoxFuncs[8].func:=@VCLua_CheckListBox_State;
+	CustomCheckListBoxFuncs[9].name:=nil;
+	CustomCheckListBoxFuncs[9].func:=nil;
 
 end.

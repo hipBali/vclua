@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@Value);
 	try
 		lTrackBar.SetTick(Value);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TrackBar', 'SetTick', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsTrackBar(L: Plua_State): Integer; cdecl;

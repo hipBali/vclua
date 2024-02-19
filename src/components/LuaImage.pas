@@ -37,12 +37,12 @@ begin
 	lImage := TLuaImage(GetLuaObject(L, 1));
 	try
 		ret := lImage.DestRect();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Image', 'DestRect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Image_Invalidate(L: Plua_State): Integer; cdecl;
@@ -53,11 +53,11 @@ begin
 	lImage := TLuaImage(GetLuaObject(L, 1));
 	try
 		lImage.Invalidate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Image', 'Invalidate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsImage(L: Plua_State): Integer; cdecl;

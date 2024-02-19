@@ -34,11 +34,11 @@ begin
 	lPopupNotifier := TLuaPopupNotifier(GetLuaObject(L, 1));
 	try
 		lPopupNotifier.Hide();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'PopupNotifier', 'Hide', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_PopupNotifier_Show(L: Plua_State): Integer; cdecl;
@@ -49,11 +49,11 @@ begin
 	lPopupNotifier := TLuaPopupNotifier(GetLuaObject(L, 1));
 	try
 		lPopupNotifier.Show();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'PopupNotifier', 'Show', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_PopupNotifier_ShowAtPos(L: Plua_State): Integer; cdecl;
@@ -68,11 +68,11 @@ begin
 	luaL_check(L,3,@y);
 	try
 		lPopupNotifier.ShowAtPos(x,y);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'PopupNotifier', 'ShowAtPos', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsPopupNotifier(L: Plua_State): Integer; cdecl;

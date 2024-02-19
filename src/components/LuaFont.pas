@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lFont.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Font', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Font_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -51,11 +51,11 @@ begin
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	try
 		lFont.BeginUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Font', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Font_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -66,11 +66,11 @@ begin
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	try
 		lFont.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Font', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Font_HandleAllocated(L: Plua_State): Integer; cdecl;
@@ -82,12 +82,12 @@ begin
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	try
 		ret := lFont.HandleAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Font', 'HandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Font_IsDefault(L: Plua_State): Integer; cdecl;
@@ -99,12 +99,12 @@ begin
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	try
 		ret := lFont.IsDefault();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Font', 'IsDefault', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Font_IsEqual(L: Plua_State): Integer; cdecl;
@@ -118,12 +118,12 @@ begin
 	luaL_check(L,2,@AFont);
 	try
 		ret := lFont.IsEqual(AFont);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Font', 'IsEqual', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Font_SetDefault(L: Plua_State): Integer; cdecl;
@@ -134,11 +134,11 @@ begin
 	lFont := TLuaFont(GetLuaObject(L, 1));
 	try
 		lFont.SetDefault();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Font', 'SetDefault', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsFont(L: Plua_State): Integer; cdecl;

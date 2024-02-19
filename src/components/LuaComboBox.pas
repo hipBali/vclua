@@ -34,11 +34,11 @@ begin
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
 	try
 		lComboBox.IntfGetItems();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ComboBox', 'IntfGetItems', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ComboBox_AddItem(L: Plua_State): Integer; cdecl;
@@ -53,11 +53,11 @@ begin
 	luaL_check(L,3,@AnObject);
 	try
 		lComboBox.AddItem(Item,AnObject);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ComboBox', 'AddItem', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ComboBox_AddHistoryItem(L: Plua_State): Integer; cdecl;
@@ -76,11 +76,11 @@ begin
 	luaL_check(L,5,@CaseSensitive);
 	try
 		lComboBox.AddHistoryItem(Item,MaxHistoryCount,SetAsText,CaseSensitive);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ComboBox', 'AddHistoryItem', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ComboBox_AddHistoryItem2(L: Plua_State): Integer; cdecl;
@@ -101,11 +101,11 @@ begin
 	luaL_check(L,6,@CaseSensitive);
 	try
 		lComboBox.AddHistoryItem(Item,AnObject,MaxHistoryCount,SetAsText,CaseSensitive);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ComboBox', 'AddHistoryItem', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ComboBox_Clear(L: Plua_State): Integer; cdecl;
@@ -116,11 +116,11 @@ begin
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
 	try
 		lComboBox.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ComboBox', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ComboBox_SelectAll(L: Plua_State): Integer; cdecl;
@@ -131,11 +131,11 @@ begin
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
 	try
 		lComboBox.SelectAll();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ComboBox', 'SelectAll', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsComboBox(L: Plua_State): Integer; cdecl;

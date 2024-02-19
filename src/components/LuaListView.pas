@@ -60,11 +60,11 @@ begin
 	luaL_check(L,2,@ASource);
 	try
 		lListItem.Assign(ASource);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItem', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItem_Delete(L: Plua_State): Integer; cdecl;
@@ -75,11 +75,11 @@ begin
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
 	try
 		lListItem.Delete();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItem', 'Delete', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItem_MakeVisible(L: Plua_State): Integer; cdecl;
@@ -92,11 +92,11 @@ begin
 	luaL_check(L,2,@PartialOK);
 	try
 		lListItem.MakeVisible(PartialOK);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItem', 'MakeVisible', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItem_DisplayRect(L: Plua_State): Integer; cdecl;
@@ -110,12 +110,12 @@ begin
 	luaL_check(L,2,@Code,TypeInfo(TDisplayCode));
 	try
 		ret := lListItem.DisplayRect(Code);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListItem', 'DisplayRect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListItem_DisplayRectSubItem(L: Plua_State): Integer; cdecl;
@@ -131,12 +131,12 @@ begin
 	luaL_check(L,3,@Code,TypeInfo(TDisplayCode));
 	try
 		ret := lListItem.DisplayRectSubItem(subItem,Code);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListItem', 'DisplayRectSubItem', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListItem_EditCaption(L: Plua_State): Integer; cdecl;
@@ -148,12 +148,37 @@ begin
 	lListItem := TLuaListItem(GetLuaObject(L, 1));
 	try
 		ret := lListItem.EditCaption();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListItem', 'EditCaption', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
+end;
+
+function VCLua_ListItem_SubItemImages(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	AIndex:Integer;
+	ret:Integer;
+begin
+	CheckArg(L, 2, 3);
+	lListItem := TLuaListItem(GetLuaObject(L, 1));
+	luaL_check(L,2,@AIndex);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lListItem.SubItemImages[AIndex];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lListItem.SubItemImages[AIndex] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SubItemImages', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_ListItems_Add(L: Plua_State): Integer; cdecl;
@@ -165,12 +190,12 @@ begin
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	try
 		ret := lListItems.Add();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'Add', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListItems_AddItem(L: Plua_State): Integer; cdecl;
@@ -183,11 +208,11 @@ begin
 	luaL_check(L,2,@AItem);
 	try
 		lListItems.AddItem(AItem);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'AddItem', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItems_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -198,11 +223,11 @@ begin
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	try
 		lListItems.BeginUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItems_Clear(L: Plua_State): Integer; cdecl;
@@ -213,11 +238,11 @@ begin
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	try
 		lListItems.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItems_Delete(L: Plua_State): Integer; cdecl;
@@ -230,11 +255,11 @@ begin
 	luaL_check(L,2,@AIndex);
 	try
 		lListItems.Delete(AIndex);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'Delete', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItems_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -245,11 +270,11 @@ begin
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	try
 		lListItems.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItems_Exchange(L: Plua_State): Integer; cdecl;
@@ -264,11 +289,11 @@ begin
 	luaL_check(L,3,@AIndex2);
 	try
 		lListItems.Exchange(AIndex1,AIndex2);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'Exchange', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItems_Move(L: Plua_State): Integer; cdecl;
@@ -283,11 +308,11 @@ begin
 	luaL_check(L,3,@AToIndex);
 	try
 		lListItems.Move(AFromIndex,AToIndex);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'Move', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListItems_FindCaption(L: Plua_State): Integer; cdecl;
@@ -311,12 +336,12 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 7, @PartStart, True);
 	try
 		ret := lListItems.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'FindCaption', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListItems_FindData(L: Plua_State): Integer; cdecl;
@@ -330,12 +355,12 @@ begin
 	AData := Pointer(lua_touserdata(L,2));
 	try
 		ret := lListItems.FindData(AData);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'FindData', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListItems_FindData2(L: Plua_State): Integer; cdecl;
@@ -355,12 +380,12 @@ begin
 	luaL_check(L,5,@Wrap);
 	try
 		ret := lListItems.FindData(StartIndex,Value,Inclusive,Wrap);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'FindData', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListItems_IndexOf(L: Plua_State): Integer; cdecl;
@@ -374,12 +399,12 @@ begin
 	luaL_check(L,2,@AItem);
 	try
 		ret := lListItems.IndexOf(AItem);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'IndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListItems_Insert(L: Plua_State): Integer; cdecl;
@@ -393,12 +418,12 @@ begin
 	luaL_check(L,2,@AIndex);
 	try
 		ret := lListItems.Insert(AIndex);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'Insert', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListItems_InsertItem(L: Plua_State): Integer; cdecl;
@@ -413,11 +438,36 @@ begin
 	luaL_check(L,3,@AIndex);
 	try
 		lListItems.InsertItem(AItem,AIndex);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListItems', 'InsertItem', E.ClassName, E.Message);
 	end;
-	Result := 0;
+end;
+
+function VCLua_ListItems_Item(L: Plua_State): Integer; cdecl;
+var
+	lListItems:TLuaListItems;
+	AIndex:Integer;
+	ret:TListItem;
+begin
+	CheckArg(L, 2, 3);
+	lListItems := TLuaListItems(GetLuaObject(L, 1));
+	luaL_check(L,2,@AIndex);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lListItems.Item[AIndex];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lListItems.Item[AIndex] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'ListItems', 'Item', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_ListView_AddItem(L: Plua_State): Integer; cdecl;
@@ -432,11 +482,11 @@ begin
 	luaL_check(L,3,@AObject);
 	try
 		lListView.AddItem(Item,AObject);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'AddItem', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListView_Sort(L: Plua_State): Integer; cdecl;
@@ -447,11 +497,11 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	try
 		lListView.Sort();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'Sort', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListView_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -462,11 +512,11 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	try
 		lListView.BeginUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListView_Clear(L: Plua_State): Integer; cdecl;
@@ -477,11 +527,11 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	try
 		lListView.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListView_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -492,11 +542,11 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	try
 		lListView.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListView_Repaint(L: Plua_State): Integer; cdecl;
@@ -507,11 +557,11 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	try
 		lListView.Repaint();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'Repaint', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListView_FindCaption(L: Plua_State): Integer; cdecl;
@@ -535,12 +585,12 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 7, @PartStart, True);
 	try
 		ret := lListView.FindCaption(StartIndex,Value,Partial,Inclusive,Wrap,PartStart);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'FindCaption', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListView_FindData(L: Plua_State): Integer; cdecl;
@@ -560,12 +610,12 @@ begin
 	luaL_check(L,5,@Wrap);
 	try
 		ret := lListView.FindData(StartIndex,Value,Inclusive,Wrap);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'FindData', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListView_GetItemAt(L: Plua_State): Integer; cdecl;
@@ -581,12 +631,12 @@ begin
 	luaL_check(L,3,@y);
 	try
 		ret := lListView.GetItemAt(x,y);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'GetItemAt', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListView_GetNearestItem(L: Plua_State): Integer; cdecl;
@@ -602,12 +652,12 @@ begin
 	luaL_check(L,3,@Direction,TypeInfo(TSearchDirection));
 	try
 		ret := lListView.GetNearestItem(APoint,Direction);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'GetNearestItem', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListView_GetNextItem(L: Plua_State): Integer; cdecl;
@@ -625,12 +675,12 @@ begin
 	luaL_checkSet(L,4,@States,TypeInfo(TListItemStates));
 	try
 		ret := lListView.GetNextItem(StartItem,Direction,States);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'GetNextItem', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_ListView_ClearSelection(L: Plua_State): Integer; cdecl;
@@ -641,11 +691,11 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	try
 		lListView.ClearSelection();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'ClearSelection', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_ListView_SelectAll(L: Plua_State): Integer; cdecl;
@@ -656,11 +706,30 @@ begin
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	try
 		lListView.SelectAll();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'ListView', 'SelectAll', E.ClassName, E.Message);
 	end;
-	Result := 0;
+end;
+
+function VCLua_ListView_Column(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+	AIndex:Integer;
+	ret:TListColumn;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	luaL_check(L,2,@AIndex);
+	try
+		ret := lListView.Column[AIndex];
+		lua_push(L,ret,TypeInfo(ret));
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'Column', E.ClassName, E.Message);
+	end;
 end;
 
 function IsListItem(L: Plua_State): Integer; cdecl;
@@ -744,7 +813,7 @@ begin
 end;
 
 begin
-	SetLength(ListItemFuncs, 6+1);
+	SetLength(ListItemFuncs, 7+1);
 	ListItemFuncs[0].name:='Assign';
 	ListItemFuncs[0].func:=@VCLua_ListItem_Assign;
 	ListItemFuncs[1].name:='Delete';
@@ -757,10 +826,12 @@ begin
 	ListItemFuncs[4].func:=@VCLua_ListItem_DisplayRectSubItem;
 	ListItemFuncs[5].name:='EditCaption';
 	ListItemFuncs[5].func:=@VCLua_ListItem_EditCaption;
-	ListItemFuncs[6].name:=nil;
-	ListItemFuncs[6].func:=nil;
+	ListItemFuncs[6].name:='SubItemImages';
+	ListItemFuncs[6].func:=@VCLua_ListItem_SubItemImages;
+	ListItemFuncs[7].name:=nil;
+	ListItemFuncs[7].func:=nil;
 
-	SetLength(ListItemsFuncs, 14+1);
+	SetLength(ListItemsFuncs, 15+1);
 	ListItemsFuncs[0].name:='Add';
 	ListItemsFuncs[0].func:=@VCLua_ListItems_Add;
 	ListItemsFuncs[1].name:='AddItem';
@@ -789,10 +860,12 @@ begin
 	ListItemsFuncs[12].func:=@VCLua_ListItems_Insert;
 	ListItemsFuncs[13].name:='InsertItem';
 	ListItemsFuncs[13].func:=@VCLua_ListItems_InsertItem;
-	ListItemsFuncs[14].name:=nil;
-	ListItemsFuncs[14].func:=nil;
+	ListItemsFuncs[14].name:='Item';
+	ListItemsFuncs[14].func:=@VCLua_ListItems_Item;
+	ListItemsFuncs[15].name:=nil;
+	ListItemsFuncs[15].func:=nil;
 
-	SetLength(CustomListViewFuncs, 13+1);
+	SetLength(CustomListViewFuncs, 14+1);
 	CustomListViewFuncs[0].name:='AddItem';
 	CustomListViewFuncs[0].func:=@VCLua_ListView_AddItem;
 	CustomListViewFuncs[1].name:='Sort';
@@ -819,7 +892,9 @@ begin
 	CustomListViewFuncs[11].func:=@VCLua_ListView_ClearSelection;
 	CustomListViewFuncs[12].name:='SelectAll';
 	CustomListViewFuncs[12].func:=@VCLua_ListView_SelectAll;
-	CustomListViewFuncs[13].name:=nil;
-	CustomListViewFuncs[13].func:=nil;
+	CustomListViewFuncs[13].name:='Column';
+	CustomListViewFuncs[13].func:=@VCLua_ListView_Column;
+	CustomListViewFuncs[14].name:=nil;
+	CustomListViewFuncs[14].func:=nil;
 
 end.

@@ -36,11 +36,11 @@ begin
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
 	try
 		lCoolBar.AutosizeBands();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CoolBar', 'AutosizeBands', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CoolBar_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -51,11 +51,11 @@ begin
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
 	try
 		lCoolBar.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CoolBar', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CoolBar_Invalidate(L: Plua_State): Integer; cdecl;
@@ -66,11 +66,11 @@ begin
 	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
 	try
 		lCoolBar.Invalidate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CoolBar', 'Invalidate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CoolBar_InsertControl(L: Plua_State): Integer; cdecl;
@@ -85,11 +85,11 @@ begin
 	luaL_check(L,3,@Index);
 	try
 		lCoolBar.InsertControl(AControl,Index);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CoolBar', 'InsertControl', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_CoolBar_MouseToBandPos(L: Plua_State): Integer; cdecl;
@@ -106,13 +106,13 @@ begin
 	luaL_check(L,3,@Y);
 	try
 		lCoolBar.MouseToBandPos(X,Y,ABand,AGrabber);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'CoolBar', 'MouseToBandPos', E.ClassName, E.Message);
 	end;
 	lua_push(L,ABand);
 	lua_push(L,AGrabber);
-	Result := 2;
 end;
 
 function VCLua_CoolBar_RemoveControl(L: Plua_State): Integer; cdecl;
@@ -125,11 +125,11 @@ begin
 	luaL_check(L,2,@AControl);
 	try
 		lCoolBar.RemoveControl(AControl);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'CoolBar', 'RemoveControl', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function IsCoolBar(L: Plua_State): Integer; cdecl;

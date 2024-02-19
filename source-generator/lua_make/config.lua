@@ -198,11 +198,9 @@ classes = {
 	-- maskedit
 	{ name = "MaskEdit", src = "TMaskEdit", ref = "MaskEdit" },
 	-- checklistbox
-	{ name = "CheckListBox", src = "TCustomCheckListBox", ref = "CheckLst",
-		impl = "CheckListBoxGetChecked, CheckListBoxSetChecked" },
-	
-	
-	
+	{ name = "CheckListBox", src = "TCustomCheckListBox", ref = "CheckLst"},
+
+
 	-- popupnotifier
 	{ name = "PopupNotifier", src = "TPopupNotifier", ref = "PopupNotifier", noparent=true, },
 	-- datetimepicker

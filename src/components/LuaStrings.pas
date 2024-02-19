@@ -38,12 +38,12 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lStrings.Add(S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Add', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_AddObject(L: Plua_State): Integer; cdecl;
@@ -59,12 +59,12 @@ begin
 	luaL_check(L,3,@AObject);
 	try
 		ret := lStrings.AddObject(S,AObject);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddObject', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_AddPair(L: Plua_State): Integer; cdecl;
@@ -80,12 +80,12 @@ begin
 	luaL_check(L,3,@AValue);
 	try
 		ret := lStrings.AddPair(AName,AValue);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddPair', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_AddPair2(L: Plua_State): Integer; cdecl;
@@ -103,12 +103,12 @@ begin
 	luaL_check(L,4,@AObject);
 	try
 		ret := lStrings.AddPair(AName,AValue,AObject);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddPair', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_AddStrings(L: Plua_State): Integer; cdecl;
@@ -121,11 +121,11 @@ begin
 	luaL_check(L,2,@TheStrings);
 	try
 		lStrings.AddStrings(TheStrings);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_AddStrings2(L: Plua_State): Integer; cdecl;
@@ -140,11 +140,11 @@ begin
 	luaL_check(L,3,@ClearFirst);
 	try
 		lStrings.AddStrings(TheStrings,ClearFirst);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_AddStrings3(L: Plua_State): Integer; cdecl;
@@ -157,11 +157,11 @@ begin
 	TTrait<string>.luaL_checkArray(L, 2, @TheStrings);
 	try
 		lStrings.AddStrings(TheStrings);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_AddStrings4(L: Plua_State): Integer; cdecl;
@@ -176,11 +176,11 @@ begin
 	luaL_check(L,3,@ClearFirst);
 	try
 		lStrings.AddStrings(TheStrings,ClearFirst);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_SetStrings(L: Plua_State): Integer; cdecl;
@@ -193,11 +193,11 @@ begin
 	luaL_check(L,2,@TheStrings);
 	try
 		lStrings.SetStrings(TheStrings);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'SetStrings', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_SetStrings2(L: Plua_State): Integer; cdecl;
@@ -210,11 +210,11 @@ begin
 	TTrait<string>.luaL_checkArray(L, 2, @TheStrings);
 	try
 		lStrings.SetStrings(TheStrings);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'SetStrings', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_AddText(L: Plua_State): Integer; cdecl;
@@ -227,11 +227,11 @@ begin
 	luaL_check(L,2,@S);
 	try
 		lStrings.AddText(S);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddText', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_AddCommaText(L: Plua_State): Integer; cdecl;
@@ -244,11 +244,11 @@ begin
 	luaL_check(L,2,@S);
 	try
 		lStrings.AddCommaText(S);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddCommaText', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_AddDelimitedText(L: Plua_State): Integer; cdecl;
@@ -265,11 +265,11 @@ begin
 	luaL_check(L,4,@AStrictDelimiter);
 	try
 		lStrings.AddDelimitedText(S,ADelimiter,AStrictDelimiter);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddDelimitedText', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_AddDelimitedtext2(L: Plua_State): Integer; cdecl;
@@ -282,11 +282,11 @@ begin
 	luaL_check(L,2,@S);
 	try
 		lStrings.AddDelimitedtext(S);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'AddDelimitedtext', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_Append(L: Plua_State): Integer; cdecl;
@@ -299,11 +299,11 @@ begin
 	luaL_check(L,2,@S);
 	try
 		lStrings.Append(S);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Append', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_Assign(L: Plua_State): Integer; cdecl;
@@ -316,11 +316,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lStrings.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -331,11 +331,11 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	try
 		lStrings.BeginUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_Clear(L: Plua_State): Integer; cdecl;
@@ -346,11 +346,11 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	try
 		lStrings.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_Delete(L: Plua_State): Integer; cdecl;
@@ -363,11 +363,11 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		lStrings.Delete(Index);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Delete', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -378,11 +378,11 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	try
 		lStrings.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_Equals(L: Plua_State): Integer; cdecl;
@@ -396,12 +396,12 @@ begin
 	luaL_check(L,2,@Obj);
 	try
 		ret := lStrings.Equals(Obj);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Equals', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_Equals2(L: Plua_State): Integer; cdecl;
@@ -415,12 +415,12 @@ begin
 	luaL_check(L,2,@TheStrings);
 	try
 		ret := lStrings.Equals(TheStrings);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Equals', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_Exchange(L: Plua_State): Integer; cdecl;
@@ -435,11 +435,11 @@ begin
 	luaL_check(L,3,@Index2);
 	try
 		lStrings.Exchange(Index1,Index2);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Exchange', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_ExtractName(L: Plua_State): Integer; cdecl;
@@ -453,12 +453,12 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lStrings.ExtractName(S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'ExtractName', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_Fill(L: Plua_State): Integer; cdecl;
@@ -475,11 +475,11 @@ begin
 	luaL_check(L,4,@aEnd);
 	try
 		lStrings.Fill(aValue,aStart,aEnd);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Fill', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_GetNameValue(L: Plua_State): Integer; cdecl;
@@ -494,13 +494,13 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		lStrings.GetNameValue(Index,AName,AValue);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'GetNameValue', E.ClassName, E.Message);
 	end;
 	lua_push(L,AName);
 	lua_push(L,AValue);
-	Result := 2;
 end;
 
 function VCLua_Strings_GetText(L: Plua_State): Integer; cdecl;
@@ -512,12 +512,12 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	try
 		ret := lStrings.GetText();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'GetText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_IndexOf(L: Plua_State): Integer; cdecl;
@@ -531,12 +531,12 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lStrings.IndexOf(S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'IndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_IndexOf2(L: Plua_State): Integer; cdecl;
@@ -552,12 +552,12 @@ begin
 	luaL_check(L,3,@aStart);
 	try
 		ret := lStrings.IndexOf(S,aStart);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'IndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_IndexOfName(L: Plua_State): Integer; cdecl;
@@ -571,12 +571,12 @@ begin
 	luaL_check(L,2,@Name);
 	try
 		ret := lStrings.IndexOfName(Name);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'IndexOfName', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_IndexOfObject(L: Plua_State): Integer; cdecl;
@@ -590,12 +590,12 @@ begin
 	luaL_check(L,2,@AObject);
 	try
 		ret := lStrings.IndexOfObject(AObject);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'IndexOfObject', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_Insert(L: Plua_State): Integer; cdecl;
@@ -610,11 +610,11 @@ begin
 	luaL_check(L,3,@S);
 	try
 		lStrings.Insert(Index,S);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Insert', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_InsertObject(L: Plua_State): Integer; cdecl;
@@ -631,11 +631,11 @@ begin
 	luaL_check(L,4,@AObject);
 	try
 		lStrings.InsertObject(Index,S,AObject);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'InsertObject', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_LastIndexOf(L: Plua_State): Integer; cdecl;
@@ -651,12 +651,12 @@ begin
 	luaL_check(L,3,@aStart);
 	try
 		ret := lStrings.LastIndexOf(S,aStart);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'LastIndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_LastIndexOf2(L: Plua_State): Integer; cdecl;
@@ -670,12 +670,12 @@ begin
 	luaL_check(L,2,@S);
 	try
 		ret := lStrings.LastIndexOf(S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'LastIndexOf', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_LoadFromFile(L: Plua_State): Integer; cdecl;
@@ -688,11 +688,11 @@ begin
 	luaL_check(L,2,@FileName);
 	try
 		lStrings.LoadFromFile(FileName);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_LoadFromFile2(L: Plua_State): Integer; cdecl;
@@ -707,11 +707,11 @@ begin
 	luaL_check(L,3,@IgnoreEncoding);
 	try
 		lStrings.LoadFromFile(FileName,IgnoreEncoding);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_LoadFromStream(L: Plua_State): Integer; cdecl;
@@ -724,11 +724,11 @@ begin
 	luaL_check(L,2,@Stream);
 	try
 		lStrings.LoadFromStream(Stream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_LoadFromStream2(L: Plua_State): Integer; cdecl;
@@ -743,11 +743,11 @@ begin
 	luaL_check(L,3,@IgnoreEncoding);
 	try
 		lStrings.LoadFromStream(Stream,IgnoreEncoding);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_Move(L: Plua_State): Integer; cdecl;
@@ -762,11 +762,11 @@ begin
 	luaL_check(L,3,@NewIndex);
 	try
 		lStrings.Move(CurIndex,NewIndex);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Move', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_Pop(L: Plua_State): Integer; cdecl;
@@ -778,12 +778,12 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	try
 		ret := lStrings.Pop();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Pop', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_Reverse(L: Plua_State): Integer; cdecl;
@@ -795,12 +795,12 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	try
 		ret := lStrings.Reverse();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Reverse', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_Reverse2(L: Plua_State): Integer; cdecl;
@@ -813,11 +813,11 @@ begin
 	luaL_check(L,2,@aList);
 	try
 		lStrings.Reverse(aList);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Reverse', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_SaveToFile(L: Plua_State): Integer; cdecl;
@@ -830,11 +830,11 @@ begin
 	luaL_check(L,2,@FileName);
 	try
 		lStrings.SaveToFile(FileName);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'SaveToFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_SaveToFile2(L: Plua_State): Integer; cdecl;
@@ -849,11 +849,11 @@ begin
 	luaL_check(L,3,@IgnoreEncoding);
 	try
 		lStrings.SaveToFile(FileName,IgnoreEncoding);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'SaveToFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_SaveToStream(L: Plua_State): Integer; cdecl;
@@ -866,11 +866,11 @@ begin
 	luaL_check(L,2,@Stream);
 	try
 		lStrings.SaveToStream(Stream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'SaveToStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_SaveToStream2(L: Plua_State): Integer; cdecl;
@@ -885,11 +885,11 @@ begin
 	luaL_check(L,3,@IgnoreEncoding);
 	try
 		lStrings.SaveToStream(Stream,IgnoreEncoding);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'SaveToStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_Shift(L: Plua_State): Integer; cdecl;
@@ -901,12 +901,12 @@ begin
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	try
 		ret := lStrings.Shift();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Shift', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_Slice(L: Plua_State): Integer; cdecl;
@@ -921,11 +921,11 @@ begin
 	luaL_check(L,3,@aList);
 	try
 		lStrings.Slice(fromIndex,aList);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Slice', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Strings_Slice2(L: Plua_State): Integer; cdecl;
@@ -939,12 +939,12 @@ begin
 	luaL_check(L,2,@fromIndex);
 	try
 		ret := lStrings.Slice(fromIndex);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'Slice', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Strings_SetText(L: Plua_State): Integer; cdecl;
@@ -957,11 +957,130 @@ begin
 	luaL_check(L,2,@TheText);
 	try
 		lStrings.SetText(TheText);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Strings', 'SetText', E.ClassName, E.Message);
 	end;
-	Result := 0;
+end;
+
+function VCLua_Strings_Names(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	Index:Integer;
+	ret:string;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lStrings.Names[Index];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Names', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_Objects(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	Index:Integer;
+	ret:TObject;
+begin
+	CheckArg(L, 2, 3);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lStrings.Objects[Index];
+			lua_push(L,ret,TypeInfo(ret));
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lStrings.Objects[Index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Objects', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_Strings(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	Index:Integer;
+	ret:string;
+begin
+	CheckArg(L, 2, 3);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lStrings.Strings[Index];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lStrings.Strings[Index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Strings', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_ValueFromIndex(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	Index:Integer;
+	ret:string;
+begin
+	CheckArg(L, 2, 3);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lStrings.ValueFromIndex[Index];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lStrings.ValueFromIndex[Index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'ValueFromIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_Values(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	Name:string;
+	ret:string;
+begin
+	CheckArg(L, 2, 3);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@Name);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lStrings.Values[Name];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lStrings.Values[Name] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Values', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Strings_ItemsToTable(L: Plua_State): Integer; cdecl;
@@ -1003,7 +1122,7 @@ begin
 	Result := 1;
 end;
 begin
-	SetLength(StringsFuncs, 52+1);
+	SetLength(StringsFuncs, 57+1);
 	StringsFuncs[0].name:='Add';
 	StringsFuncs[0].func:=@VCLua_Strings_Add;
 	StringsFuncs[1].name:='AddObject';
@@ -1106,9 +1225,19 @@ begin
 	StringsFuncs[49].func:=@VCLua_Strings_Slice2;
 	StringsFuncs[50].name:='SetText';
 	StringsFuncs[50].func:=@VCLua_Strings_SetText;
-	StringsFuncs[51].name:='ToTable';
-	StringsFuncs[51].func:=@VCLua_Strings_ItemsToTable;
-	StringsFuncs[52].name:=nil;
-	StringsFuncs[52].func:=nil;
+	StringsFuncs[51].name:='Names';
+	StringsFuncs[51].func:=@VCLua_Strings_Names;
+	StringsFuncs[52].name:='Objects';
+	StringsFuncs[52].func:=@VCLua_Strings_Objects;
+	StringsFuncs[53].name:='Strings';
+	StringsFuncs[53].func:=@VCLua_Strings_Strings;
+	StringsFuncs[54].name:='ValueFromIndex';
+	StringsFuncs[54].func:=@VCLua_Strings_ValueFromIndex;
+	StringsFuncs[55].name:='Values';
+	StringsFuncs[55].func:=@VCLua_Strings_Values;
+	StringsFuncs[56].name:='ToTable';
+	StringsFuncs[56].func:=@VCLua_Strings_ItemsToTable;
+	StringsFuncs[57].name:=nil;
+	StringsFuncs[57].func:=nil;
 
 end.

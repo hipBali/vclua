@@ -50,6 +50,30 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaStringList;
 
+function VCLua_TreeNode_Items(L: Plua_State): Integer; cdecl;
+var
+	lTreeNode:TLuaTreeNode;
+	ItemIndex:Integer;
+	ret:TTreeNode;
+begin
+	CheckArg(L, 2, 3);
+	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	luaL_check(L,2,@ItemIndex);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lTreeNode.Items[ItemIndex];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lTreeNode.Items[ItemIndex] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNode', 'Items', E.ClassName, E.Message);
+	end;
+end;
 
 function VCLua_TreeNodes_Add(L: Plua_State): Integer; cdecl;
 var
@@ -64,12 +88,12 @@ begin
 	luaL_check(L,3,@S);
 	try
 		ret := lTreeNodes.Add(SiblingNode,S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Add', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddChild(L: Plua_State): Integer; cdecl;
@@ -85,12 +109,12 @@ begin
 	luaL_check(L,3,@S);
 	try
 		ret := lTreeNodes.AddChild(ParentNode,S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddChild', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddChildFirst(L: Plua_State): Integer; cdecl;
@@ -106,12 +130,12 @@ begin
 	luaL_check(L,3,@S);
 	try
 		ret := lTreeNodes.AddChildFirst(ParentNode,S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddChildFirst', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddChildObject(L: Plua_State): Integer; cdecl;
@@ -129,12 +153,12 @@ begin
 	Data := Pointer(lua_touserdata(L,4));
 	try
 		ret := lTreeNodes.AddChildObject(ParentNode,S,Data);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddChildObject', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddChildObjectFirst(L: Plua_State): Integer; cdecl;
@@ -152,12 +176,12 @@ begin
 	Data := Pointer(lua_touserdata(L,4));
 	try
 		ret := lTreeNodes.AddChildObjectFirst(ParentNode,S,Data);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddChildObjectFirst', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddFirst(L: Plua_State): Integer; cdecl;
@@ -173,12 +197,12 @@ begin
 	luaL_check(L,3,@S);
 	try
 		ret := lTreeNodes.AddFirst(SiblingNode,S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddFirst', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddNode(L: Plua_State): Integer; cdecl;
@@ -200,12 +224,12 @@ begin
 	luaL_check(L,6,@Method,TypeInfo(TNodeAttachMode));
 	try
 		ret := lTreeNodes.AddNode(Node,Relative,S,Ptr,Method);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddNode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddObject(L: Plua_State): Integer; cdecl;
@@ -223,12 +247,12 @@ begin
 	Data := Pointer(lua_touserdata(L,4));
 	try
 		ret := lTreeNodes.AddObject(SiblingNode,S,Data);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddObject', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_AddObjectFirst(L: Plua_State): Integer; cdecl;
@@ -246,12 +270,12 @@ begin
 	Data := Pointer(lua_touserdata(L,4));
 	try
 		ret := lTreeNodes.AddObjectFirst(SiblingNode,S,Data);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'AddObjectFirst', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_FindNodeWithData(L: Plua_State): Integer; cdecl;
@@ -265,12 +289,12 @@ begin
 	NodeData := Pointer(lua_touserdata(L,2));
 	try
 		ret := lTreeNodes.FindNodeWithData(NodeData);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FindNodeWithData', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_FindNodeWithText(L: Plua_State): Integer; cdecl;
@@ -284,12 +308,12 @@ begin
 	luaL_check(L,2,@NodeText);
 	try
 		ret := lTreeNodes.FindNodeWithText(NodeText);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FindNodeWithText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_FindNodeWithTextPath(L: Plua_State): Integer; cdecl;
@@ -303,12 +327,12 @@ begin
 	luaL_check(L,2,@TextPath);
 	try
 		ret := lTreeNodes.FindNodeWithTextPath(TextPath);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FindNodeWithTextPath', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_FindTopLvlNode(L: Plua_State): Integer; cdecl;
@@ -322,12 +346,12 @@ begin
 	luaL_check(L,2,@NodeText);
 	try
 		ret := lTreeNodes.FindTopLvlNode(NodeText);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FindTopLvlNode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_GetFirstNode(L: Plua_State): Integer; cdecl;
@@ -339,12 +363,12 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	try
 		ret := lTreeNodes.GetFirstNode();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'GetFirstNode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_GetFirstVisibleNode(L: Plua_State): Integer; cdecl;
@@ -356,12 +380,12 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	try
 		ret := lTreeNodes.GetFirstVisibleNode();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'GetFirstVisibleNode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_GetLastVisibleNode(L: Plua_State): Integer; cdecl;
@@ -373,12 +397,12 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	try
 		ret := lTreeNodes.GetLastVisibleNode();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'GetLastVisibleNode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_GetSelections(L: Plua_State): Integer; cdecl;
@@ -392,12 +416,12 @@ begin
 	luaL_check(L,2,@AIndex);
 	try
 		ret := lTreeNodes.GetSelections(AIndex);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'GetSelections', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_Insert(L: Plua_State): Integer; cdecl;
@@ -413,12 +437,12 @@ begin
 	luaL_check(L,3,@S);
 	try
 		ret := lTreeNodes.Insert(NextNode,S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Insert', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_InsertBehind(L: Plua_State): Integer; cdecl;
@@ -434,12 +458,12 @@ begin
 	luaL_check(L,3,@S);
 	try
 		ret := lTreeNodes.InsertBehind(PrevNode,S);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'InsertBehind', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_InsertObject(L: Plua_State): Integer; cdecl;
@@ -457,12 +481,12 @@ begin
 	Data := Pointer(lua_touserdata(L,4));
 	try
 		ret := lTreeNodes.InsertObject(NextNode,S,Data);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'InsertObject', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_InsertObjectBehind(L: Plua_State): Integer; cdecl;
@@ -480,12 +504,12 @@ begin
 	Data := Pointer(lua_touserdata(L,4));
 	try
 		ret := lTreeNodes.InsertObjectBehind(PrevNode,S,Data);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'InsertObjectBehind', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_IsMultiSelection(L: Plua_State): Integer; cdecl;
@@ -497,12 +521,12 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	try
 		ret := lTreeNodes.IsMultiSelection();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'IsMultiSelection', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeNodes_Assign(L: Plua_State): Integer; cdecl;
@@ -515,11 +539,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lTreeNodes.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -530,11 +554,11 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	try
 		lTreeNodes.BeginUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_Clear(L: Plua_State): Integer; cdecl;
@@ -545,11 +569,11 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	try
 		lTreeNodes.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_ClearMultiSelection(L: Plua_State): Integer; cdecl;
@@ -562,11 +586,11 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 2, @ClearSelected, false);
 	try
 		lTreeNodes.ClearMultiSelection(ClearSelected);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'ClearMultiSelection', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_ConsistencyCheck(L: Plua_State): Integer; cdecl;
@@ -577,11 +601,11 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	try
 		lTreeNodes.ConsistencyCheck();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'ConsistencyCheck', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_Delete(L: Plua_State): Integer; cdecl;
@@ -594,11 +618,11 @@ begin
 	luaL_check(L,2,@Node);
 	try
 		lTreeNodes.Delete(Node);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'Delete', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -609,11 +633,11 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	try
 		lTreeNodes.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_FreeAllNodeData(L: Plua_State): Integer; cdecl;
@@ -624,11 +648,11 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	try
 		lTreeNodes.FreeAllNodeData();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'FreeAllNodeData', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_SelectionsChanged(L: Plua_State): Integer; cdecl;
@@ -643,11 +667,11 @@ begin
 	luaL_check(L,3,@AIsSelected);
 	try
 		lTreeNodes.SelectionsChanged(ANode,AIsSelected);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'SelectionsChanged', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_SelectOnlyThis(L: Plua_State): Integer; cdecl;
@@ -660,11 +684,11 @@ begin
 	luaL_check(L,2,@Node);
 	try
 		lTreeNodes.SelectOnlyThis(Node);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'SelectOnlyThis', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_MultiSelect(L: Plua_State): Integer; cdecl;
@@ -679,11 +703,11 @@ begin
 	luaL_check(L,3,@ClearWholeSelection);
 	try
 		lTreeNodes.MultiSelect(Node,ClearWholeSelection);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'MultiSelect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeNodes_WriteDebugReport(L: Plua_State): Integer; cdecl;
@@ -698,11 +722,55 @@ begin
 	luaL_check(L,3,@AllNodes);
 	try
 		lTreeNodes.WriteDebugReport(Prefix,AllNodes);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'WriteDebugReport', E.ClassName, E.Message);
 	end;
-	Result := 0;
+end;
+
+function VCLua_TreeNodes_Item(L: Plua_State): Integer; cdecl;
+var
+	lTreeNodes:TLuaTreeNodes;
+	Index:Integer;
+	ret:TTreeNode;
+begin
+	CheckArg(L, 2);
+	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lTreeNodes.Item[Index];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'Item', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TreeNodes_TopLvlItems(L: Plua_State): Integer; cdecl;
+var
+	lTreeNodes:TLuaTreeNodes;
+	Index:integer;
+	ret:TTreeNode;
+begin
+	CheckArg(L, 2, 3);
+	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		if lua_isnone(L, 3) then begin
+			ret := lTreeNodes.TopLvlItems[Index];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,3,@ret);
+			lTreeNodes.TopLvlItems[Index] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'TopLvlItems', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_TreeView_AlphaSort(L: Plua_State): Integer; cdecl;
@@ -714,12 +782,12 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		ret := lTreeView.AlphaSort();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'AlphaSort', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeView_ClearSelection(L: Plua_State): Integer; cdecl;
@@ -732,11 +800,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @KeepPrimary, false);
 	try
 		lTreeView.ClearSelection(KeepPrimary);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'ClearSelection', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_ConsistencyCheck(L: Plua_State): Integer; cdecl;
@@ -747,11 +815,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.ConsistencyCheck();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'ConsistencyCheck', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_DefaultTreeViewSort(L: Plua_State): Integer; cdecl;
@@ -767,12 +835,12 @@ begin
 	luaL_check(L,3,@Node2);
 	try
 		ret := lTreeView.DefaultTreeViewSort(Node1,Node2);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'DefaultTreeViewSort', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeView_GetNodeAt(L: Plua_State): Integer; cdecl;
@@ -788,12 +856,12 @@ begin
 	luaL_check(L,3,@Y);
 	try
 		ret := lTreeView.GetNodeAt(X,Y);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetNodeAt', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeView_GetNodeWithExpandSignAt(L: Plua_State): Integer; cdecl;
@@ -809,12 +877,12 @@ begin
 	luaL_check(L,3,@Y);
 	try
 		ret := lTreeView.GetNodeWithExpandSignAt(X,Y);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetNodeWithExpandSignAt', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeView_GetInsertMarkAt(L: Plua_State): Integer; cdecl;
@@ -831,13 +899,13 @@ begin
 	luaL_check(L,3,@Y);
 	try
 		lTreeView.GetInsertMarkAt(X,Y,AnInsertMarkNode,AnInsertMarkType);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetInsertMarkAt', E.ClassName, E.Message);
 	end;
 	lua_push(L,AnInsertMarkNode);
 	lua_push(L,AnInsertMarkType,TypeInfo(AnInsertMarkType));
-	Result := 2;
 end;
 
 function VCLua_TreeView_SetInsertMark(L: Plua_State): Integer; cdecl;
@@ -852,11 +920,11 @@ begin
 	luaL_check(L,3,@AnInsertMarkType,TypeInfo(TTreeViewInsertMarkType));
 	try
 		lTreeView.SetInsertMark(AnInsertMarkNode,AnInsertMarkType);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'SetInsertMark', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_SetInsertMarkAt(L: Plua_State): Integer; cdecl;
@@ -871,11 +939,11 @@ begin
 	luaL_check(L,3,@Y);
 	try
 		lTreeView.SetInsertMarkAt(X,Y);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'SetInsertMarkAt', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_Invalidate(L: Plua_State): Integer; cdecl;
@@ -886,11 +954,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.Invalidate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'Invalidate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_IsEditing(L: Plua_State): Integer; cdecl;
@@ -902,12 +970,12 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		ret := lTreeView.IsEditing();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'IsEditing', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeView_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -918,11 +986,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.BeginUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -933,11 +1001,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.EndUpdate();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_FullCollapse(L: Plua_State): Integer; cdecl;
@@ -948,11 +1016,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.FullCollapse();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'FullCollapse', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_FullExpand(L: Plua_State): Integer; cdecl;
@@ -963,11 +1031,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.FullExpand();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'FullExpand', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_LoadFromFile(L: Plua_State): Integer; cdecl;
@@ -980,11 +1048,11 @@ begin
 	luaL_check(L,2,@FileName);
 	try
 		lTreeView.LoadFromFile(FileName);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'LoadFromFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_LoadFromStream(L: Plua_State): Integer; cdecl;
@@ -997,11 +1065,11 @@ begin
 	luaL_check(L,2,@Stream);
 	try
 		lTreeView.LoadFromStream(Stream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_SaveToFile(L: Plua_State): Integer; cdecl;
@@ -1014,11 +1082,11 @@ begin
 	luaL_check(L,2,@FileName);
 	try
 		lTreeView.SaveToFile(FileName);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'SaveToFile', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_SaveToStream(L: Plua_State): Integer; cdecl;
@@ -1031,11 +1099,11 @@ begin
 	luaL_check(L,2,@Stream);
 	try
 		lTreeView.SaveToStream(Stream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'SaveToStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_WriteDebugReport(L: Plua_State): Integer; cdecl;
@@ -1050,11 +1118,11 @@ begin
 	luaL_check(L,3,@AllNodes);
 	try
 		lTreeView.WriteDebugReport(Prefix,AllNodes);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'WriteDebugReport', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_LockSelectionChangeEvent(L: Plua_State): Integer; cdecl;
@@ -1065,11 +1133,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.LockSelectionChangeEvent();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'LockSelectionChangeEvent', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_UnlockSelectionChangeEvent(L: Plua_State): Integer; cdecl;
@@ -1080,11 +1148,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.UnlockSelectionChangeEvent();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'UnlockSelectionChangeEvent', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_GetFirstMultiSelected(L: Plua_State): Integer; cdecl;
@@ -1096,12 +1164,12 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		ret := lTreeView.GetFirstMultiSelected();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetFirstMultiSelected', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeView_GetLastMultiSelected(L: Plua_State): Integer; cdecl;
@@ -1113,12 +1181,12 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		ret := lTreeView.GetLastMultiSelected();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetLastMultiSelected', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeView_Select(L: Plua_State): Integer; cdecl;
@@ -1133,11 +1201,11 @@ begin
 	TTraitPti<TShiftState>.luaL_optcheck(L, 3, @ShiftState, [], TypeInfo(TShiftState));
 	try
 		lTreeView.Select(Node,ShiftState);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'Select', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_Select2(L: Plua_State): Integer; cdecl;
@@ -1150,11 +1218,11 @@ begin
 	TTrait<TTreeNode>.luaL_checkArray(L, 2, @Nodes);
 	try
 		lTreeView.Select(Nodes);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'Select', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_Select3(L: Plua_State): Integer; cdecl;
@@ -1167,11 +1235,11 @@ begin
 	luaL_check(L,2,@Nodes);
 	try
 		lTreeView.Select(Nodes);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'Select', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_SelectionVisible(L: Plua_State): Integer; cdecl;
@@ -1183,12 +1251,12 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		ret := lTreeView.SelectionVisible();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'SelectionVisible', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeView_MakeSelectionVisible(L: Plua_State): Integer; cdecl;
@@ -1199,11 +1267,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.MakeSelectionVisible();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'MakeSelectionVisible', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_ClearInvisibleSelection(L: Plua_State): Integer; cdecl;
@@ -1214,11 +1282,11 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		lTreeView.ClearInvisibleSelection();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'ClearInvisibleSelection', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_StoreCurrentSelection(L: Plua_State): Integer; cdecl;
@@ -1230,12 +1298,12 @@ begin
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
 	try
 		ret := lTreeView.StoreCurrentSelection();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'StoreCurrentSelection', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_TreeView_ApplyStoredSelection(L: Plua_State): Integer; cdecl;
@@ -1250,11 +1318,11 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 3, @FreeList, True);
 	try
 		lTreeView.ApplyStoredSelection(ASelection,FreeList);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'ApplyStoredSelection', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_MoveToNextNode(L: Plua_State): Integer; cdecl;
@@ -1267,11 +1335,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
 	try
 		lTreeView.MoveToNextNode(ASelect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'MoveToNextNode', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_MoveToPrevNode(L: Plua_State): Integer; cdecl;
@@ -1284,11 +1352,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
 	try
 		lTreeView.MoveToPrevNode(ASelect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'MoveToPrevNode', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_MovePageDown(L: Plua_State): Integer; cdecl;
@@ -1301,11 +1369,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
 	try
 		lTreeView.MovePageDown(ASelect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'MovePageDown', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_MovePageUp(L: Plua_State): Integer; cdecl;
@@ -1318,11 +1386,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
 	try
 		lTreeView.MovePageUp(ASelect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'MovePageUp', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_MoveHome(L: Plua_State): Integer; cdecl;
@@ -1335,11 +1403,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
 	try
 		lTreeView.MoveHome(ASelect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'MoveHome', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_TreeView_MoveEnd(L: Plua_State): Integer; cdecl;
@@ -1352,11 +1420,30 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
 	try
 		lTreeView.MoveEnd(ASelect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'MoveEnd', E.ClassName, E.Message);
 	end;
-	Result := 0;
+end;
+
+function VCLua_TreeView_Selections(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+	AIndex:Integer;
+	ret:TTreeNode;
+begin
+	CheckArg(L, 2);
+	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	luaL_check(L,2,@AIndex);
+	try
+		ret := lTreeView.Selections[AIndex];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'Selections', E.ClassName, E.Message);
+	end;
 end;
 
 function IsTreeNode(L: Plua_State): Integer; cdecl;
@@ -1440,12 +1527,13 @@ begin
 end;
 
 begin
-	SetLength(TreeNodeFuncs, 0+1);
-	
-	TreeNodeFuncs[0].name:=nil;
-	TreeNodeFuncs[0].func:=nil;
+	SetLength(TreeNodeFuncs, 1+1);
+	TreeNodeFuncs[0].name:='Items';
+	TreeNodeFuncs[0].func:=@VCLua_TreeNode_Items;
+	TreeNodeFuncs[1].name:=nil;
+	TreeNodeFuncs[1].func:=nil;
 
-	SetLength(TreeNodesFuncs, 34+1);
+	SetLength(TreeNodesFuncs, 36+1);
 	TreeNodesFuncs[0].name:='Add';
 	TreeNodesFuncs[0].func:=@VCLua_TreeNodes_Add;
 	TreeNodesFuncs[1].name:='AddChild';
@@ -1514,10 +1602,14 @@ begin
 	TreeNodesFuncs[32].func:=@VCLua_TreeNodes_MultiSelect;
 	TreeNodesFuncs[33].name:='WriteDebugReport';
 	TreeNodesFuncs[33].func:=@VCLua_TreeNodes_WriteDebugReport;
-	TreeNodesFuncs[34].name:=nil;
-	TreeNodesFuncs[34].func:=nil;
+	TreeNodesFuncs[34].name:='Item';
+	TreeNodesFuncs[34].func:=@VCLua_TreeNodes_Item;
+	TreeNodesFuncs[35].name:='TopLvlItems';
+	TreeNodesFuncs[35].func:=@VCLua_TreeNodes_TopLvlItems;
+	TreeNodesFuncs[36].name:=nil;
+	TreeNodesFuncs[36].func:=nil;
 
-	SetLength(CustomTreeViewFuncs, 38+1);
+	SetLength(CustomTreeViewFuncs, 39+1);
 	CustomTreeViewFuncs[0].name:='AlphaSort';
 	CustomTreeViewFuncs[0].func:=@VCLua_TreeView_AlphaSort;
 	CustomTreeViewFuncs[1].name:='ClearSelection';
@@ -1594,7 +1686,9 @@ begin
 	CustomTreeViewFuncs[36].func:=@VCLua_TreeView_MoveHome;
 	CustomTreeViewFuncs[37].name:='MoveEnd';
 	CustomTreeViewFuncs[37].func:=@VCLua_TreeView_MoveEnd;
-	CustomTreeViewFuncs[38].name:=nil;
-	CustomTreeViewFuncs[38].func:=nil;
+	CustomTreeViewFuncs[38].name:='Selections';
+	CustomTreeViewFuncs[38].func:=@VCLua_TreeView_Selections;
+	CustomTreeViewFuncs[39].name:=nil;
+	CustomTreeViewFuncs[39].func:=nil;
 
 end.

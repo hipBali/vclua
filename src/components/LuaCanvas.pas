@@ -34,11 +34,11 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	try
 		lCanvas.Lock();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Lock', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_TryLock(L: Plua_State): Integer; cdecl;
@@ -50,12 +50,12 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	try
 		ret := lCanvas.TryLock();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'TryLock', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Canvas_Unlock(L: Plua_State): Integer; cdecl;
@@ -66,11 +66,11 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	try
 		lCanvas.Unlock();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Unlock', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Refresh(L: Plua_State): Integer; cdecl;
@@ -81,11 +81,11 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	try
 		lCanvas.Refresh();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Refresh', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Changing(L: Plua_State): Integer; cdecl;
@@ -96,11 +96,11 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	try
 		lCanvas.Changing();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Changing', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Changed(L: Plua_State): Integer; cdecl;
@@ -111,11 +111,11 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	try
 		lCanvas.Changed();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Changed', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_SaveHandleState(L: Plua_State): Integer; cdecl;
@@ -126,11 +126,11 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	try
 		lCanvas.SaveHandleState();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'SaveHandleState', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_RestoreHandleState(L: Plua_State): Integer; cdecl;
@@ -141,11 +141,11 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	try
 		lCanvas.RestoreHandleState();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'RestoreHandleState', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Arc(L: Plua_State): Integer; cdecl;
@@ -168,11 +168,11 @@ begin
 	luaL_check(L,7,@Angle16DegLength);
 	try
 		lCanvas.Arc(ALeft,ATop,ARight,ABottom,Angle16Deg,Angle16DegLength);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Arc', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Arc2(L: Plua_State): Integer; cdecl;
@@ -199,11 +199,11 @@ begin
 	luaL_check(L,9,@EY);
 	try
 		lCanvas.Arc(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Arc', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_AngleArc(L: Plua_State): Integer; cdecl;
@@ -224,11 +224,11 @@ begin
 	luaL_check(L,6,@SweepAngle);
 	try
 		lCanvas.AngleArc(X,Y,Radius,StartAngle,SweepAngle);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'AngleArc', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_BrushCopy(L: Plua_State): Integer; cdecl;
@@ -247,11 +247,11 @@ begin
 	luaL_check(L,5,@ATransparentColor);
 	try
 		lCanvas.BrushCopy(ADestRect,ABitmap,ASourceRect,ATransparentColor);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'BrushCopy', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Chord(L: Plua_State): Integer; cdecl;
@@ -274,11 +274,11 @@ begin
 	luaL_check(L,7,@Angle16DegLength);
 	try
 		lCanvas.Chord(x1,y1,x2,y2,Angle16Deg,Angle16DegLength);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Chord', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Chord2(L: Plua_State): Integer; cdecl;
@@ -305,11 +305,11 @@ begin
 	luaL_check(L,9,@EY);
 	try
 		lCanvas.Chord(x1,y1,x2,y2,SX,SY,EX,EY);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Chord', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_CopyRect(L: Plua_State): Integer; cdecl;
@@ -326,11 +326,11 @@ begin
 	luaL_check(L,4,@Source);
 	try
 		lCanvas.CopyRect(Dest,SrcCanvas,Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'CopyRect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Draw(L: Plua_State): Integer; cdecl;
@@ -347,11 +347,11 @@ begin
 	luaL_check(L,4,@SrcGraphic);
 	try
 		lCanvas.Draw(X,Y,SrcGraphic);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Draw', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_DrawFocusRect(L: Plua_State): Integer; cdecl;
@@ -364,11 +364,11 @@ begin
 	luaL_check(L,2,@ARect);
 	try
 		lCanvas.DrawFocusRect(ARect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'DrawFocusRect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_StretchDraw(L: Plua_State): Integer; cdecl;
@@ -383,11 +383,11 @@ begin
 	luaL_check(L,3,@SrcGraphic);
 	try
 		lCanvas.StretchDraw(DestRect,SrcGraphic);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'StretchDraw', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Ellipse(L: Plua_State): Integer; cdecl;
@@ -400,11 +400,11 @@ begin
 	luaL_check(L,2,@ARect);
 	try
 		lCanvas.Ellipse(ARect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Ellipse', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Ellipse2(L: Plua_State): Integer; cdecl;
@@ -423,11 +423,11 @@ begin
 	luaL_check(L,5,@y2);
 	try
 		lCanvas.Ellipse(x1,y1,x2,y2);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Ellipse', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_FillRect(L: Plua_State): Integer; cdecl;
@@ -440,11 +440,11 @@ begin
 	luaL_check(L,2,@ARect);
 	try
 		lCanvas.FillRect(ARect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'FillRect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_FillRect2(L: Plua_State): Integer; cdecl;
@@ -463,11 +463,11 @@ begin
 	luaL_check(L,5,@Y2);
 	try
 		lCanvas.FillRect(X1,Y1,X2,Y2);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'FillRect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_FloodFill(L: Plua_State): Integer; cdecl;
@@ -486,11 +486,11 @@ begin
 	luaL_check(L,5,@FillStyle,TypeInfo(TFillStyle));
 	try
 		lCanvas.FloodFill(X,Y,FillColor,FillStyle);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'FloodFill', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Frame3d(L: Plua_State): Integer; cdecl;
@@ -506,12 +506,12 @@ begin
 	luaL_check(L,3,@Style,TypeInfo(TGraphicsBevelCut));
 	try
 		lCanvas.Frame3d(ARect,FrameWidth,Style);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Frame3d', E.ClassName, E.Message);
 	end;
 	lua_push(L,ARect);
-	Result := 1;
 end;
 
 function VCLua_Canvas_Frame3d2(L: Plua_State): Integer; cdecl;
@@ -528,12 +528,12 @@ begin
 	luaL_check(L,4,@Style,TypeInfo(TGraphicsBevelCut));
 	try
 		lCanvas.Frame3d(ARect,FrameWidth,Style);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Frame3d', E.ClassName, E.Message);
 	end;
 	lua_push(L,ARect);
-	Result := 1;
 end;
 
 function VCLua_Canvas_Frame3D3(L: Plua_State): Integer; cdecl;
@@ -551,12 +551,12 @@ begin
 	luaL_check(L,4,@FrameWidth);
 	try
 		lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Frame3D', E.ClassName, E.Message);
 	end;
 	lua_push(L,ARect);
-	Result := 1;
 end;
 
 function VCLua_Canvas_Frame3D4(L: Plua_State): Integer; cdecl;
@@ -575,12 +575,12 @@ begin
 	luaL_check(L,5,@FrameWidth);
 	try
 		lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Frame3D', E.ClassName, E.Message);
 	end;
 	lua_push(L,ARect);
-	Result := 1;
 end;
 
 function VCLua_Canvas_GradientFill(L: Plua_State): Integer; cdecl;
@@ -599,11 +599,11 @@ begin
 	luaL_check(L,5,@ADirection,TypeInfo(TGradientDirection));
 	try
 		lCanvas.GradientFill(ARect,AStart,AStop,ADirection);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'GradientFill', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_RadialPie(L: Plua_State): Integer; cdecl;
@@ -626,11 +626,11 @@ begin
 	luaL_check(L,7,@Angle16DegLength);
 	try
 		lCanvas.RadialPie(x1,y1,x2,y2,StartAngle16Deg,Angle16DegLength);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'RadialPie', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Pie(L: Plua_State): Integer; cdecl;
@@ -657,11 +657,11 @@ begin
 	luaL_check(L,9,@EndY);
 	try
 		lCanvas.Pie(EllipseX1,EllipseY1,EllipseX2,EllipseY2,StartX,StartY,EndX,EndY);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Pie', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_PolyBezier(L: Plua_State): Integer; cdecl;
@@ -678,11 +678,11 @@ begin
 	TTrait<boolean>.luaL_optcheck(L, 4, @Continuous, True);
 	try
 		lCanvas.PolyBezier(Points,Filled,Continuous);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'PolyBezier', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Polygon(L: Plua_State): Integer; cdecl;
@@ -701,11 +701,11 @@ begin
 	TTrait<Integer>.luaL_optcheck(L, 5, @NumPts, -1);
 	try
 		lCanvas.Polygon(Points,Winding,StartIndex,NumPts);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Polygon', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Polygon2(L: Plua_State): Integer; cdecl;
@@ -718,11 +718,11 @@ begin
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
 	try
 		lCanvas.Polygon(Points);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Polygon', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Polyline(L: Plua_State): Integer; cdecl;
@@ -739,11 +739,11 @@ begin
 	TTrait<Integer>.luaL_optcheck(L, 4, @NumPts, -1);
 	try
 		lCanvas.Polyline(Points,StartIndex,NumPts);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Polyline', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Polyline2(L: Plua_State): Integer; cdecl;
@@ -756,11 +756,11 @@ begin
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
 	try
 		lCanvas.Polyline(Points);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Polyline', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Rectangle(L: Plua_State): Integer; cdecl;
@@ -779,11 +779,11 @@ begin
 	luaL_check(L,5,@Y2);
 	try
 		lCanvas.Rectangle(X1,Y1,X2,Y2);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Rectangle', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_Rectangle2(L: Plua_State): Integer; cdecl;
@@ -796,11 +796,11 @@ begin
 	luaL_check(L,2,@ARect);
 	try
 		lCanvas.Rectangle(ARect);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'Rectangle', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_RoundRect(L: Plua_State): Integer; cdecl;
@@ -823,11 +823,11 @@ begin
 	luaL_check(L,7,@RY);
 	try
 		lCanvas.RoundRect(X1,Y1,X2,Y2,RX,RY);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'RoundRect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_RoundRect2(L: Plua_State): Integer; cdecl;
@@ -844,11 +844,11 @@ begin
 	luaL_check(L,4,@RY);
 	try
 		lCanvas.RoundRect(Rect,RX,RY);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'RoundRect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_TextOut(L: Plua_State): Integer; cdecl;
@@ -865,11 +865,11 @@ begin
 	luaL_check(L,4,@Text);
 	try
 		lCanvas.TextOut(X,Y,Text);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextOut', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_TextRect(L: Plua_State): Integer; cdecl;
@@ -888,11 +888,11 @@ begin
 	luaL_check(L,5,@Text);
 	try
 		lCanvas.TextRect(ARect,X,Y,Text);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextRect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_TextRect2(L: Plua_State): Integer; cdecl;
@@ -913,11 +913,11 @@ begin
 	luaL_check(L,6,@Style);
 	try
 		lCanvas.TextRect(ARect,X,Y,Text,Style);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextRect', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Canvas_TextHeight(L: Plua_State): Integer; cdecl;
@@ -931,12 +931,12 @@ begin
 	luaL_check(L,2,@Text);
 	try
 		ret := lCanvas.TextHeight(Text);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Canvas_TextWidth(L: Plua_State): Integer; cdecl;
@@ -950,12 +950,12 @@ begin
 	luaL_check(L,2,@Text);
 	try
 		ret := lCanvas.TextWidth(Text);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Canvas_TextFitInfo(L: Plua_State): Integer; cdecl;
@@ -971,12 +971,12 @@ begin
 	luaL_check(L,3,@MaxWidth);
 	try
 		ret := lCanvas.TextFitInfo(Text,MaxWidth);
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'TextFitInfo', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Canvas_HandleAllocated(L: Plua_State): Integer; cdecl;
@@ -988,12 +988,39 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	try
 		ret := lCanvas.HandleAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Canvas', 'HandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
+end;
+
+function VCLua_Canvas_Pixels(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	X:Integer;
+	Y:Integer;
+	ret:TColor;
+begin
+	CheckArg(L, 3, 4);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
+	try
+		if lua_isnone(L, 4) then begin
+			ret := lCanvas.Pixels[X,Y];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			luaL_check(L,4,@ret);
+			lCanvas.Pixels[X,Y] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Pixels', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_SetPixel(L: Plua_State): Integer; cdecl;
@@ -1035,7 +1062,7 @@ begin
 end;
 
 begin
-	SetLength(CanvasFuncs, 47+1);
+	SetLength(CanvasFuncs, 48+1);
 	CanvasFuncs[0].name:='Lock';
 	CanvasFuncs[0].func:=@VCLua_Canvas_Lock;
 	CanvasFuncs[1].name:='TryLock';
@@ -1128,9 +1155,11 @@ begin
 	CanvasFuncs[44].func:=@VCLua_Canvas_TextFitInfo;
 	CanvasFuncs[45].name:='HandleAllocated';
 	CanvasFuncs[45].func:=@VCLua_Canvas_HandleAllocated;
-	CanvasFuncs[46].name:='SetPixel';
-	CanvasFuncs[46].func:=@VCLua_Canvas_SetPixel;
-	CanvasFuncs[47].name:=nil;
-	CanvasFuncs[47].func:=nil;
+	CanvasFuncs[46].name:='Pixels';
+	CanvasFuncs[46].func:=@VCLua_Canvas_Pixels;
+	CanvasFuncs[47].name:='SetPixel';
+	CanvasFuncs[47].func:=@VCLua_Canvas_SetPixel;
+	CanvasFuncs[48].name:=nil;
+	CanvasFuncs[48].func:=nil;
 
 end.

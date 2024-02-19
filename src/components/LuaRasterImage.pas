@@ -36,11 +36,11 @@ begin
 	luaL_check(L,2,@Source);
 	try
 		lRasterImage.Assign(Source);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'Assign', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_Clear(L: Plua_State): Integer; cdecl;
@@ -51,11 +51,11 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	try
 		lRasterImage.Clear();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'Clear', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_BeginUpdate(L: Plua_State): Integer; cdecl;
@@ -68,11 +68,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ACanvasOnly, False);
 	try
 		lRasterImage.BeginUpdate(ACanvasOnly);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'BeginUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -85,11 +85,11 @@ begin
 	TTrait<Boolean>.luaL_optcheck(L, 2, @AStreamIsValid, False);
 	try
 		lRasterImage.EndUpdate(AStreamIsValid);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'EndUpdate', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_FreeImage(L: Plua_State): Integer; cdecl;
@@ -100,11 +100,11 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	try
 		lRasterImage.FreeImage();
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'FreeImage', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_BitmapHandleAllocated(L: Plua_State): Integer; cdecl;
@@ -116,12 +116,12 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	try
 		ret := lRasterImage.BitmapHandleAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'BitmapHandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_RasterImage_MaskHandleAllocated(L: Plua_State): Integer; cdecl;
@@ -133,12 +133,12 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	try
 		ret := lRasterImage.MaskHandleAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'MaskHandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_RasterImage_PaletteAllocated(L: Plua_State): Integer; cdecl;
@@ -150,12 +150,12 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	try
 		ret := lRasterImage.PaletteAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'PaletteAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_RasterImage_LoadFromStream(L: Plua_State): Integer; cdecl;
@@ -168,11 +168,11 @@ begin
 	luaL_check(L,2,@AStream);
 	try
 		lRasterImage.LoadFromStream(AStream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_LoadFromStream2(L: Plua_State): Integer; cdecl;
@@ -187,11 +187,11 @@ begin
 	luaL_check(L,3,@ASize);
 	try
 		lRasterImage.LoadFromStream(AStream,ASize);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_LoadFromMimeStream(L: Plua_State): Integer; cdecl;
@@ -206,11 +206,11 @@ begin
 	luaL_check(L,3,@AMimeType);
 	try
 		lRasterImage.LoadFromMimeStream(AStream,AMimeType);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'LoadFromMimeStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_SaveToStream(L: Plua_State): Integer; cdecl;
@@ -223,11 +223,11 @@ begin
 	luaL_check(L,2,@AStream);
 	try
 		lRasterImage.SaveToStream(AStream);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'SaveToStream', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_GetSupportedSourceMimeTypes(L: Plua_State): Integer; cdecl;
@@ -240,11 +240,11 @@ begin
 	luaL_check(L,2,@List);
 	try
 		lRasterImage.GetSupportedSourceMimeTypes(List);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'GetSupportedSourceMimeTypes', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_GetSize(L: Plua_State): Integer; cdecl;
@@ -257,13 +257,13 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	try
 		lRasterImage.GetSize(AWidth,AHeight);
+		Result := 2;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'GetSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,AWidth);
 	lua_push(L,AHeight);
-	Result := 2;
 end;
 
 function VCLua_RasterImage_Mask(L: Plua_State): Integer; cdecl;
@@ -276,11 +276,11 @@ begin
 	luaL_check(L,2,@ATransparentColor);
 	try
 		lRasterImage.Mask(ATransparentColor);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'Mask', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_RasterImage_ReleaseBitmapHandle(L: Plua_State): Integer; cdecl;
@@ -292,12 +292,12 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	try
 		ret := lRasterImage.ReleaseBitmapHandle();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'ReleaseBitmapHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_RasterImage_ReleaseMaskHandle(L: Plua_State): Integer; cdecl;
@@ -309,12 +309,12 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	try
 		ret := lRasterImage.ReleaseMaskHandle();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'ReleaseMaskHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_RasterImage_HandleAllocated(L: Plua_State): Integer; cdecl;
@@ -326,12 +326,12 @@ begin
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
 	try
 		ret := lRasterImage.HandleAllocated();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'RasterImage', 'HandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function IsRasterImage(L: Plua_State): Integer; cdecl;

@@ -40,11 +40,11 @@ begin
 	luaL_check(L,3,@AControl);
 	try
 		lSplitter.AnchorSplitter(Kind,AControl);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Splitter', 'AnchorSplitter', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Splitter_GetOtherResizeControl(L: Plua_State): Integer; cdecl;
@@ -56,12 +56,12 @@ begin
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
 	try
 		ret := lSplitter.GetOtherResizeControl();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Splitter', 'GetOtherResizeControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function VCLua_Splitter_MoveSplitter(L: Plua_State): Integer; cdecl;
@@ -74,11 +74,11 @@ begin
 	luaL_check(L,2,@Offset);
 	try
 		lSplitter.MoveSplitter(Offset);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Splitter', 'MoveSplitter', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Splitter_SetSplitterPosition(L: Plua_State): Integer; cdecl;
@@ -91,11 +91,11 @@ begin
 	luaL_check(L,2,@NewPosition);
 	try
 		lSplitter.SetSplitterPosition(NewPosition);
+		Result := 0;
 	except
 		on E: Exception do
 			CallError(L, 'Splitter', 'SetSplitterPosition', E.ClassName, E.Message);
 	end;
-	Result := 0;
 end;
 
 function VCLua_Splitter_GetSplitterPosition(L: Plua_State): Integer; cdecl;
@@ -107,12 +107,12 @@ begin
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
 	try
 		ret := lSplitter.GetSplitterPosition();
+		Result := 1;
 	except
 		on E: Exception do
 			CallError(L, 'Splitter', 'GetSplitterPosition', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-	Result := 1;
 end;
 
 function IsSplitter(L: Plua_State): Integer; cdecl;
