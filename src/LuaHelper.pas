@@ -305,7 +305,7 @@ var
 begin
   top := lua_gettop(L);
   if ((top < N) and (N<>-1)) or (top > M) then
-    LuaError(L, 'BAD parameter call!', Format('From %d to %d params required!', [N, M]));
+    LuaError(L, 'BAD parameter call!', Format('From %d to %d params required! Got %d', [N, M, top]));
 end;
 
 procedure LuaRawSetTableFunction(L: Plua_State; TableIndex: Integer; const Key: string; F: lua_CFunction);

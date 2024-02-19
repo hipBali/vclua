@@ -22,9 +22,6 @@ procedure lua_pushStringCP(L: Plua_State; const str:string);
 function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
 // --------------------
 
-function lua_toTShiftState(L: Plua_State; Index: Integer):TShiftState; overload;
-function lua_toTShiftState(L: Plua_State; Index: Integer; default:TShiftState ):TShiftState; overload;
-
 // TString descenant properties
 function GetTStringsProperty(L: Plua_State; Comp:TStrings; pn:String):boolean;
 
@@ -83,6 +80,8 @@ procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil); overlo
 procedure lua_push(L: Plua_State; const v:TUTF8Char; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil); overload;
 procedure lua_push(L: Plua_State; const v:TRect ; pti : PTypeInfo = nil); overload;
+procedure lua_push(L: Plua_State; const v:TSize ; pti : PTypeInfo = nil); overload;
+procedure lua_push(L: Plua_State; const v:TTextStyle; pti : PTypeInfo = nil); overload;
 procedure lua_push(L: Plua_State; const v       ; pti : PTypeInfo);       overload; inline;
 procedure lua_pushSet(L: Plua_State; v:LongInt; pti : PTypeInfo);overload; inline;// LongInt as per TypInfo
 procedure lua_pushSet(L: Plua_State; v:Pointer; pti : PTypeInfo);overload; inline;
@@ -198,7 +197,7 @@ var
   j:Integer = 0;
   k:Integer;
 begin
-  assert(High(LoNames)=High(addrs),'check names and addresses number and order');
+  assert(High(LoNames)=High(addrs),'luaL_checkRecord: check names and addresses number and order');
   i := LuaAbsIndex(L, i);
   if lua_istable(L, i) then begin
     // fast path, assume record was pushed by API
@@ -339,30 +338,38 @@ procedure lua_push(L: Plua_State; v:Char; pti : PTypeInfo = nil);
 begin
   lua_push(L, string(v));
 end;
+procedure lua_pushRecord<PT>(L: Plua_State; LoNames: array of string; addrs: array of PT); inline;
+var k:Integer;
+begin
+  assert(High(LoNames)=High(addrs),'lua_pushRecord: check names and addresses number and order');
+  lua_newtable(L);
+  for k := 0 to High(LoNames) do begin
+    lua_pushstring(L, LoNames[k]);
+    lua_push(L, addrs[k]^, TypeInfo(addrs[k]^));
+    lua_rawset(L,-3);
+  end;
+end;
 procedure lua_push(L: Plua_State; const v:TPoint; pti : PTypeInfo = nil);
 begin
-  lua_newtable(L);
-  lua_pushliteral(L, 'x');
-  lua_pushinteger(L, v.x);
-  lua_rawset(L,-3);
-  lua_pushliteral(L, 'y');
-  lua_pushinteger(L, v.y);
-  lua_rawset(L,-3);
+  lua_pushRecord<PLongint>(L, ['x', 'y'], [@v.x, @v.y]);
 end;
 procedure lua_push(L: Plua_State; const v:TRect; pti : PTypeInfo = nil);
 begin
-  lua_newtable(L);
-  lua_pushliteral(L, 'left');
-  lua_pushinteger(L, v.Left);
+  lua_pushRecord<PLongint>(L, ['left', 'top', 'right', 'bottom'], [@v.Left, @v.Top, @v.Right, @v.Bottom]);
+end;
+procedure lua_push(L: Plua_State; const v:TSize; pti : PTypeInfo = nil);
+begin
+  lua_pushRecord<PLongint>(L, ['cx', 'cy'], [@v.cx, @v.cy]);
+end;
+procedure lua_push(L: Plua_State; const v:TTextStyle; pti : PTypeInfo = nil);
+begin
+  lua_pushRecord<PBoolean>(L, ['singleline', 'clipping', 'expandtabs', 'showprefix', 'wordbreak', 'opaque', 'systemfont', 'righttoleft', 'endellipsis'],
+                              [@v.SingleLine, @v.Clipping, @v.ExpandTabs, @v.ShowPrefix, @v.Wordbreak, @v.Opaque, @v.SystemFont, @v.RightToLeft, @v.EndEllipsis]);
+  lua_pushliteral(L, 'layout');
+  lua_pushEnum(L, Integer(v.Layout), TypeInfo(v.Layout));
   lua_rawset(L,-3);
-  lua_pushliteral(L, 'top');
-  lua_pushinteger(L, v.Top);
-  lua_rawset(L,-3);
-  lua_pushliteral(L, 'right');
-  lua_pushinteger(L, v.Right);
-  lua_rawset(L,-3);
-  lua_pushliteral(L, 'bottom');
-  lua_pushinteger(L, v.Bottom);
+  lua_pushliteral(L, 'alignment');
+  lua_pushEnum(L, Integer(v.Alignment), TypeInfo(v.Alignment));
   lua_rawset(L,-3);
 end;
 procedure lua_push(L: Plua_State; const v; pti : PTypeInfo);
@@ -450,19 +457,6 @@ begin
      if (pn = 'count') then lua_push(L,Comp.Count) else
      if (pn = 'text') then lua_push(L,Comp.text) else
         Result := false;
-end;
-
-function lua_toTShiftState(L: Plua_State; Index: Integer):TShiftState; overload;
-begin
-  StringToSet(PTypeInfo(TypeInfo(TShiftState)), lua_tostring(L, Index), @result);
-end;
-
-function lua_toTShiftState(L: Plua_State; Index: Integer; default:TShiftState ):TShiftState; overload;
-begin
-     if not lua_isstring(L, Index) then
-        result := default
-     else
-         result := lua_toTShiftState(L, Index);
 end;
 
 function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
