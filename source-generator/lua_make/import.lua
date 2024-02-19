@@ -636,7 +636,7 @@ for n,cdef in pairs(classes) do
 	local intfRetChecker = {}
 	for _,r in ipairs(intfRefT) do intfRetChecker[r] = true end
 	local unitRefT = cdef.implref and cdef.implref:split(',') or {}
-	for r,_ in pairs(unitRefs) do if not intfRetChecker[r] then table.insert(unitRefT, r) end end
+	for r,_ in pairs(unitRefs) do if not intfRetChecker[r] and r ~= 'System' then table.insert(unitRefT, r) end end
 	table.sort(unitRefT)
 	refStr = table.concat(unitRefT, ', ')
 	classSource = classSource:gsub("#IMPLREF",(refStr ~= "" and ", "..refStr) or "")

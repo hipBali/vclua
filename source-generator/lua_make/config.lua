@@ -44,6 +44,8 @@ fpcSrc = {
 }
 
 toInfer = {
+	["System"]    = FPCSOURCE.."rtl/inc/systemh.inc",
+	["Types"]     = FPCSOURCE.."rtl/objpas/types.pp",
 	["LCLType"]   = LAZPATH.."lcl/lcltype.pp",
 	["GraphType"] = LAZPATH.."components/lazutils/graphtype.pp",
 }
