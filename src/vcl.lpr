@@ -60,8 +60,8 @@ begin
   lua_setfield(L, -2, 'ShowMessage');
   lua_pushcfunction(L, @LuaMessageDlg);
   lua_setfield(L, -2, 'MessageDlg');
-  lua_pushcfunction(L, @lua_setArrayProperty);
-  lua_setfield(L, -2, 'setArray');
+  lua_pushcfunction(L, @tableToStringList);
+  lua_setfield(L, -2, 'AsStringList');
   // UTF-8 CP
   lua_pushcfunction(L, @set_vclua_utf8_conv);
   lua_setfield(L, -2, 'setCPWin');

@@ -19,7 +19,6 @@ function is_vclua_utf8_conv:boolean; // internal
 // String UTF-8 support
 function lua_toStringCP(L: Plua_State; Index: Integer):string;
 procedure lua_pushStringCP(L: Plua_State; const str:string);
-function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
 // --------------------
 
 // TString descenant properties
@@ -457,26 +456,6 @@ begin
      if (pn = 'count') then lua_push(L,Comp.Count) else
      if (pn = 'text') then lua_push(L,Comp.text) else
         Result := false;
-end;
-
-function lua_toStringList(L: Plua_State; Index: Integer):TStringList;
-var
-  s: string;
-  n: integer;
-begin
-  n := 0;
-  if lua_istable(L,Index) then begin
-    Result := TStringList.Create;
-    n := lua_gettop(L);
-    lua_pushnil(L);
-    while (lua_next(L, n) <> 0) do begin
-      if (lua_isstring(L, -1)) then begin
-         s := lua_toStringCP(L, -1);
-         Result.Add(s);
-      end;
-      lua_pop(L, 1);
-    end;
-  end;
 end;
 
 end.

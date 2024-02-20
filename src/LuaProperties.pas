@@ -372,6 +372,8 @@ begin
 end;
 
 procedure CheckAndSetProperty(L: Plua_State; Obj:TObject; PInfo: PPropInfo; PName: String; Index:Integer);
+var
+  sl:TStringList;
 begin
      if lua_istable(L,Index) then begin
         if  (PInfo.PropType.Kind<>TKCLASS) and (PInfo.PropType.Kind<>TKASTRING) and (TObject(GetInt64Prop(Obj,pName))=nil) then
@@ -380,7 +382,9 @@ begin
         // set table properties if the property is not a vclobject
         if (PInfo.PropType^.Kind=tkClass)  and (not isVcluaObject(L,Index))  then begin
             if TObject(GetInt64Prop(Obj, PInfo.Name)).InheritsFrom(TStrings) then begin
-                SetInt64Prop(TComponent(Obj), PInfo, Int64(Pointer(lua_toStringList(L, index))));
+                sl := luaL_checkStringList(L, index);
+                SetInt64Prop(TComponent(Obj), PInfo, Int64(Pointer(sl)));
+                sl.Free;
             end
             else
                 SetPropertiesFromLuaTable(L,TObject(GetInt64Prop(Obj,pName)),Index);

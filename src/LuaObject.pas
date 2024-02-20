@@ -1,6 +1,6 @@
 unit LuaObject;
 
-{$mode objfpc}{$H+}{$T+}
+{$mode Delphi}{$T+}
 
 interface
 
@@ -16,9 +16,15 @@ uses
 type
   aopti = array of PTypeInfo;
   PObject = ^TObject;
+  OnNilCheckProc = procedure(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo);
 
 var
   metaPtis: aopti;
+
+function tableToStringList(L : Plua_State): Integer; cdecl;
+procedure luaL_checkStringList(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo = nil); overload; inline;
+function luaL_checkStringList(L: Plua_State; Index: Integer):TStringList; overload;
+function luaL_checkOrFromTable(L: Plua_State; i: Integer; v: PObject; proc: OnNilCheckProc; pti : PTypeInfo = nil):Boolean; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);overload;
 procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);
@@ -29,8 +35,6 @@ function CheckOrderOfPushObject(ptis: aopti):string;
 // getters -- e.g. StringGrid
 procedure lua_pushItems(L: Plua_State; ItemOwner:TCollection);
 procedure lua_pushCells(L: Plua_State; ItemOwner:TPersistent);
-// setters -- e.g. StringGrid
-function lua_setArrayProperty(L: Plua_State): Integer; cdecl;
 
 implementation
 
@@ -71,8 +75,14 @@ begin
   else Result := TypeInfo(TObject);
 end;
 
-procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil);
+procedure LuaTypeError(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo); overload;
 begin
+  LuaTypeError(L, i, GetPti(v^, pti));
+end;
+
+function luaL_checkOrFromTable(L: Plua_State; i: Integer; v: PObject; proc: OnNilCheckProc; pti : PTypeInfo = nil):Boolean;
+begin
+  Result := False;
   i := LuaAbsIndex(L, i);
   if lua_isnil(L, i) then begin
     v^ := nil;
@@ -83,9 +93,16 @@ begin
   lua_pushstring(L, HandleStr);
   lua_rawget(L, i);
   v^ := TObject(lua_touserdata(L, -1));
-  if v^ = nil then
-     LuaTypeError(L, i, GetPti(v^, pti));
+  if v^ = nil then begin
+    Result := True;
+    proc(L, i, v, pti);
+  end;
   lua_pop(L, 1);
+end;
+
+procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil);
+begin
+  luaL_checkOrFromTable(L, i, v, @LuaTypeError, pti);
 end;
 
 procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo);
@@ -179,80 +196,25 @@ begin
     end;
 end;
 
-function lua_setArrayProperty(L: Plua_State): Integer; cdecl;
-var
-    luaObject: TObject;
-    test:Variant;
-    propName: String;
-    objName: String;
-    istd: boolean;
-    i,j:Integer;
+function tableToStringList(L : Plua_State): Integer; cdecl;
 begin
-    CheckArg(L, 4);
-    luaObject := TObject(GetLuaObject(L, 1));
-    objName := luaObject.ClassName;
-    propName := lua_tostring(L, 2);
-    if lua_istable(L,3) then begin
-      lua_pushnil(L);
-      while (lua_next(L, 3) <> 0) do begin
-        if (lua_tointeger(L,-2)=1) then
-           i :=  lua_tointeger(L, -1)
-        else if (lua_tointeger(L,-2)=2) then
-           j :=  lua_tointeger(L, -1);
-        lua_pop(L, 1);
-      end;
-      istd := true;
-    end
-    else begin
-        i := lua_tointeger(L, 3);
-        istd := false;
-    end;
-    if luaObject <> nil then
-       case objName of
-            'TLuaStringGrid' : begin
-                case lowercase(propName) of
-                    'cells' :
-                        try
-                           TStringGrid(luaObject).Cells[i,j] := String(lua_tostring(L,4))
-                        except
-                            on E: Exception do
-                               LuaError(L, E.ClassName , E.Message );
-                        end;
-                    'cols' :
-                        try
-                           TStringGrid(luaObject).Cols[i] := lua_toStringList(L,4)
-                        except
-                            on E: Exception do
-                               LuaError(L, E.ClassName , E.Message );
-                        end;
-                    'rows' :
-                        try
-                           TStringGrid(luaObject).Rows[i] := lua_toStringList(L,4)
-                        except
-                            on E: Exception do
-                               LuaError(L, E.ClassName , E.Message );
-                        end;
-                    'objects' :
-                        try
-                           TStringGrid(luaObject).Objects[i,j] := GetLuaObject(L, 4)
-                        except
-                            on E: Exception do
-                               LuaError(L, E.ClassName , E.Message );
-                        end;
-                else
-                    LuaError(L, 'Property not supported! ' , propName );
-                end;
-            end
-            else begin
-                LuaError(L, 'Setter not supported! ' , objName );
-            end;
-       end
-    else begin
-       LuaError(L, 'Can''t set array property! ' , objName +'.'+propName );
-    end;
+  CheckArg(L, 1);
+  lua_push(L, luaL_checkStringList(L, 1));
+  result := 1;
+end;
 
+procedure luaL_checkStringList(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo = nil);
+begin
+  v^ := TObject(luaL_checkStringList(L, i));
+end;
 
-  result := 0;
+function luaL_checkStringList(L: Plua_State; Index: Integer):TStringList;
+var
+  aos:array of string;
+begin
+  TTrait<string>.luaL_checkArray(L, index, @aos);
+  Result := TStringList.Create;
+  Result.SetStrings(aos);
 end;
 
 begin
