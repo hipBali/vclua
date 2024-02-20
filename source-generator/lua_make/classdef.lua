@@ -14,9 +14,15 @@ vcluaTypeRef = {}
 VCLUA_TOSET = "luaL_checkSet(L,#,@#VAR,TypeInfo(#TYP));"
 VCLUA_TOARRAY = "TTrait<#TYP>.luaL_checkArray(L, #, @#VAR);"
 VCLUA_OPT_DEFAULT = "TTraitPti<#TYP>.luaL_optcheck(L, #, @#VAR, #DEF, TypeInfo(#TYP));"
+VCLUA_FROMLUA_TEMP = "#VARNeedsFree := luaL_checkOrFromTable(L,#,@#VAR,@#PROC);"
 VCLUA_FROMLUA_FULL = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));"
 VCLUA_PUSHARRAY = "lua_pushArray<#TYP>(L, #VAR);"
 VCLUA_TOLUA_FULL = "lua_push(L,#VAR,TypeInfo(#VAR));"
+
+VCLUA_FROMLUA_TEMP_MAP = {
+  tstrings = "luaL_checkStringList",
+  tstringlist = "luaL_checkStringList",
+}
 
 if checkTypeSupport then
 

@@ -578,6 +578,7 @@ var
 	lStringGrid:TLuaStringGrid;
 	index:Integer;
 	ret:TStrings;
+	retNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2, 3);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
@@ -588,7 +589,7 @@ begin
 			lua_push(L,ret);
 			Result := 1;
 		end else begin
-			luaL_check(L,3,@ret);
+			retNeedsFree := luaL_checkOrFromTable(L,3,@ret,@luaL_checkStringList);
 			lStringGrid.Cols[index] := ret;
 			Result := 0;
 		end;
@@ -596,6 +597,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Cols', E.ClassName, E.Message);
 	end;
+	if retNeedsFree then ret.Free;
 end;
 
 function VCLua_StringGrid_Objects(L: Plua_State): Integer; cdecl;
@@ -630,6 +632,7 @@ var
 	lStringGrid:TLuaStringGrid;
 	index:Integer;
 	ret:TStrings;
+	retNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2, 3);
 	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
@@ -640,7 +643,7 @@ begin
 			lua_push(L,ret);
 			Result := 1;
 		end else begin
-			luaL_check(L,3,@ret);
+			retNeedsFree := luaL_checkOrFromTable(L,3,@ret,@luaL_checkStringList);
 			lStringGrid.Rows[index] := ret;
 			Result := 0;
 		end;
@@ -648,6 +651,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StringGrid', 'Rows', E.ClassName, E.Message);
 	end;
+	if retNeedsFree then ret.Free;
 end;
 
 function VCLua_StringGrid_GridCellsGet(L: Plua_State): Integer; cdecl;

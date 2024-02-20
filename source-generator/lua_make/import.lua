@@ -469,6 +469,14 @@ function createUnitBody(cdef, ref, refs)
 			retProp = table.remove(outStr)
 		end
 		local fParams = table.concat(funcparams or {},",")
+		local maybeTempVars = {}
+		if cdef.allowtemps and cdef.allowtemps[mName] then
+			maybeTempVars = cdef.allowtemps[mName]:split(',')
+			for _,v in ipairs(maybeTempVars) do
+				table.insert(varlist, v..'NeedsFree:Boolean = False')
+				table.insert(outStr, 'if '..v..'NeedsFree then '..v..'.Free;')
+			end
+		end
 
     for _,vv in ipairs(vars) do
       local s = VCLua_CDEF_LUAFUNC
@@ -500,14 +508,18 @@ function createUnitBody(cdef, ref, refs)
           local varName,varType,varValue = p.name,p.type,p.value
           idx = idx + 1
           local vtLower = varType:lower()
+          local templ
+          for _,v in ipairs(maybeTempVars) do
+            if varName == v then templ = VCLUA_FROMLUA_TEMP:gsub('#PROC',VCLUA_FROMLUA_TEMP_MAP[vtLower]) end
+          end
           if varValue then
-            local templ = (not VCLUA_ES_CHECK or VCLUA_ES_CHECK[vtLower]) and VCLUA_OPT_DEFAULT or VCLUA_OPT
+            templ = templ or (not VCLUA_ES_CHECK or VCLUA_ES_CHECK[vtLower]) and VCLUA_OPT_DEFAULT or VCLUA_OPT
             table.insert(varsFromLua,(templ:gsub('#TYP',varType):gsub("#DEF",varValue,1):gsub('#VAR',varName,1):gsub("#",idx,1)))
             if not defVars then defVars = idx - 1 end
           else
             local arrayType = varType:match('array%s+of%s+([_%w]+)')
-            local templ = (arrayType and VCLUA_TOARRAY) or VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
-            table.insert(varsFromLua, (templ:gsub('#VAR',varName,1):gsub('#TYP',arrayType or varType):gsub("#",idx)))
+            templ = templ or (arrayType and VCLUA_TOARRAY) or VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
+            table.insert(varsFromLua, (templ:gsub('#VAR',varName):gsub('#TYP',arrayType or varType):gsub("#",idx)))
           end
         end
         -- input params checking

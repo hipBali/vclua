@@ -62,6 +62,9 @@ toInfer = {
 -- canvas: has canvas
 -- form: use CreateNew instead Create
 -- wclass: item class for collections
+-- allowtemps: map from method names to comma-sep variable names
+---- each variable of said method would be allowed to receive plain Lua tables in addition to variables of its type
+---- table is converted to assignable type and the temporary is Free'd after the method to avoid memory leak
 
 
 classes = {
@@ -99,9 +102,7 @@ classes = {
 		classes = {
 			{ name = "ContainedAction", src = "TContainedAction",  noparent=true },
 			{ name = "Action", src = "TCustomAction",  noparent=true },
-			{ name = "ActionList", src = "TCustomActionList",  noparent=true,
-			  -- impl = "LoadFromTable,GetAction"
-			},
+			{ name = "ActionList", src = "TCustomActionList", noparent=true	},
 		}
 	},
 	-- menus
@@ -232,7 +233,7 @@ classes = {
 		classes = {
 			{ name = "GridColumn", src = "TGridColumn", noparent=true, parentclass="TCollection", nocreate=true},
 			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", nocreate=true},--, wclass="TGridColumn"
-			{ name = "StringGrid", src = "TCustomStringGrid", canvas=true, 
+			{ name = "StringGrid", src = "TCustomStringGrid", canvas=true, allowtemps={Rows="ret",Cols="ret"},
 			  impl="GetCells, SetCells, GetSelectedCell"},
 		},
 	},
