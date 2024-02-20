@@ -283,23 +283,32 @@ local function processClass(def,cdef,ref)
 						end
 						-- test exclusions
 						local ok=true
-						for k,_ in pairs(excludeType) do
-							if l:find(k) then
-								cLog(" ** EXCLUDED:"..l.." "..k, "DEBUG")
-								ok = false
-								break
-							end
-						end
-						local propDesc
+						local md={method=l}
 						if isProp then
 							if ln[2]:find('^On%S') then ok = false
 							else
-								propDesc = propertyToProc(l)
-								if not propDesc or not propDesc.propInfo.i then ok = false end
+								md = propertyToProc(l)
+								if not md or not md.propInfo.i then ok = false end
 							end
 						end
 						if ok then
-							table.insert(classTable[cname],not isProp and {method=l} or propDesc)
+							local reason
+							if lword=="function" then
+								local ret = l:split(":")
+								md.reto = ret[#ret]:match("%w+")
+								ok = not excludeType[md.reto:lower()]
+								reason = md.reto
+							end
+							md.vars, md.varlist, md.funcparams, md.out, md.mtypes, md.pushTypes = processParams(md)
+							for t,_ in pairs(md.mtypes) do
+								if excludeType[t:lower()] then
+									reason = t
+									ok = false
+									break
+								end
+							end
+							if ok then table.insert(classTable[cname], md)
+							else cLog(" ** EXCLUDED:"..l.." "..reason, "DEBUG") end
 						end
 					elseif lt == 2 then
 						skip = true
@@ -440,14 +449,12 @@ function createUnitBody(cdef, ref, refs)
 		local tmp = method:match("%w+%s*%w+"):split(" ") -- type, methodname
 		local mType = tmp[1]:lower()
 		local mName = tmp[2]
-		local ret, reto
+		local ret, reto = nil, md.reto
 		local retCount = 0
-		local vars, varlist, funcparams, out, mtypes, pushTypes = processParams(md)
+		local vars, varlist, funcparams, out, mtypes, pushTypes = md.vars, md.varlist, md.funcparams, md.out, md.mtypes, md.pushTypes
 		for typ,_ in pairs(mtypes) do updRef(typ) end
 		for typ,_ in pairs(pushTypes) do updRef(typ, true) end
-		if mType=="function" then
-			ret = method:split(":")
-			reto = ret[#ret]:match("%w+")
+		if reto then
 			updRef(reto)
 			updRef(reto, true)
 			ret = reto:lower()
