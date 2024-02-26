@@ -8,7 +8,7 @@ unit LuaLabeledEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateLabeledEdit(L: Plua_State): Integer; cdecl;
 function IsLabeledEdit(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomLabeledEditFuncs: aoluaL_Reg;
+    CustomLabeledEditFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(CustomLabeledEditFuncs, 0+1);
+	CustomLabeledEditFuncs := TLuaVmt.Create;
 	
-	CustomLabeledEditFuncs[0].name:=nil;
-	CustomLabeledEditFuncs[0].func:=nil;
-
 end.

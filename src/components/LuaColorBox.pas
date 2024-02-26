@@ -8,7 +8,7 @@ unit LuaColorBox;
 
 interface
 
-Uses Classes, Lua, LuaController, ColorBox, TypInfo;
+Uses Classes, Lua, LuaController, ColorBox, TypInfo, LuaVmt;
 
 function CreateColorBox(L: Plua_State): Integer; cdecl;
 function IsColorBox(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomColorBoxFuncs: aoluaL_Reg;
+    CustomColorBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -101,12 +101,7 @@ begin
 end;
 
 begin
-	SetLength(CustomColorBoxFuncs, 2+1);
-	CustomColorBoxFuncs[0].name:='Colors';
-	CustomColorBoxFuncs[0].func:=@VCLua_ColorBox_Colors;
-	CustomColorBoxFuncs[1].name:='ColorNames';
-	CustomColorBoxFuncs[1].func:=@VCLua_ColorBox_ColorNames;
-	CustomColorBoxFuncs[2].name:=nil;
-	CustomColorBoxFuncs[2].func:=nil;
-
+	CustomColorBoxFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomColorBoxFuncs, 'Colors', @VCLua_ColorBox_Colors);
+	TLuaMethodInfo.Create(CustomColorBoxFuncs, 'ColorNames', @VCLua_ColorBox_ColorNames);
 end.

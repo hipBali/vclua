@@ -8,7 +8,7 @@ unit LuaLabel;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateLabel(L: Plua_State): Integer; cdecl;
 function IsLabel(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    CustomLabelFuncs: aoluaL_Reg;
+    CustomLabelFuncs: TLuaVmt;
 
 
 implementation
@@ -166,18 +166,10 @@ begin
 end;
 
 begin
-	SetLength(CustomLabelFuncs, 5+1);
-	CustomLabelFuncs[0].name:='CalcFittingFontHeight';
-	CustomLabelFuncs[0].func:=@VCLua_Label_CalcFittingFontHeight;
-	CustomLabelFuncs[1].name:='ColorIsStored';
-	CustomLabelFuncs[1].func:=@VCLua_Label_ColorIsStored;
-	CustomLabelFuncs[2].name:='AdjustFontForOptimalFill';
-	CustomLabelFuncs[2].func:=@VCLua_Label_AdjustFontForOptimalFill;
-	CustomLabelFuncs[3].name:='Paint';
-	CustomLabelFuncs[3].func:=@VCLua_Label_Paint;
-	CustomLabelFuncs[4].name:='SetBounds';
-	CustomLabelFuncs[4].func:=@VCLua_Label_SetBounds;
-	CustomLabelFuncs[5].name:=nil;
-	CustomLabelFuncs[5].func:=nil;
-
+	CustomLabelFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'CalcFittingFontHeight', @VCLua_Label_CalcFittingFontHeight);
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'ColorIsStored', @VCLua_Label_ColorIsStored);
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'AdjustFontForOptimalFill', @VCLua_Label_AdjustFontForOptimalFill);
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'Paint', @VCLua_Label_Paint);
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'SetBounds', @VCLua_Label_SetBounds);
 end.

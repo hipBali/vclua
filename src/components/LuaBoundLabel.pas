@@ -8,7 +8,7 @@ unit LuaBoundLabel;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateBoundLabel(L: Plua_State): Integer; cdecl;
 function IsBoundLabel(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    BoundLabelFuncs: aoluaL_Reg;
+    BoundLabelFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(BoundLabelFuncs, 0+1);
+	BoundLabelFuncs := TLuaVmt.Create;
 	
-	BoundLabelFuncs[0].name:=nil;
-	BoundLabelFuncs[0].func:=nil;
-
 end.

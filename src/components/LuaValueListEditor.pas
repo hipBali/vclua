@@ -8,7 +8,7 @@ unit LuaValueListEditor;
 
 interface
 
-Uses Classes, Lua, LuaController, ValEdit, TypInfo;
+Uses Classes, Lua, LuaController, ValEdit, TypInfo, LuaVmt;
 
 function CreateValueListEditor(L: Plua_State): Integer; cdecl;
 function IsValueListEditor(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    ValueListEditorFuncs: aoluaL_Reg;
+    ValueListEditorFuncs: TLuaVmt;
 
 
 implementation
@@ -423,44 +423,23 @@ begin
 end;
 
 begin
-	SetLength(ValueListEditorFuncs, 18+1);
-	ValueListEditorFuncs[0].name:='Clear';
-	ValueListEditorFuncs[0].func:=@VCLua_ValueListEditor_Clear;
-	ValueListEditorFuncs[1].name:='DeleteColRow';
-	ValueListEditorFuncs[1].func:=@VCLua_ValueListEditor_DeleteColRow;
-	ValueListEditorFuncs[2].name:='DeleteRow';
-	ValueListEditorFuncs[2].func:=@VCLua_ValueListEditor_DeleteRow;
-	ValueListEditorFuncs[3].name:='DeleteCol';
-	ValueListEditorFuncs[3].func:=@VCLua_ValueListEditor_DeleteCol;
-	ValueListEditorFuncs[4].name:='FindRow';
-	ValueListEditorFuncs[4].func:=@VCLua_ValueListEditor_FindRow;
-	ValueListEditorFuncs[5].name:='InsertColRow';
-	ValueListEditorFuncs[5].func:=@VCLua_ValueListEditor_InsertColRow;
-	ValueListEditorFuncs[6].name:='InsertRow';
-	ValueListEditorFuncs[6].func:=@VCLua_ValueListEditor_InsertRow;
-	ValueListEditorFuncs[7].name:='InsertRowWithValues';
-	ValueListEditorFuncs[7].func:=@VCLua_ValueListEditor_InsertRowWithValues;
-	ValueListEditorFuncs[8].name:='ExchangeColRow';
-	ValueListEditorFuncs[8].func:=@VCLua_ValueListEditor_ExchangeColRow;
-	ValueListEditorFuncs[9].name:='IsEmptyRow';
-	ValueListEditorFuncs[9].func:=@VCLua_ValueListEditor_IsEmptyRow;
-	ValueListEditorFuncs[10].name:='IsEmptyRow2';
-	ValueListEditorFuncs[10].func:=@VCLua_ValueListEditor_IsEmptyRow2;
-	ValueListEditorFuncs[11].name:='LoadFromCSVStream';
-	ValueListEditorFuncs[11].func:=@VCLua_ValueListEditor_LoadFromCSVStream;
-	ValueListEditorFuncs[12].name:='MoveColRow';
-	ValueListEditorFuncs[12].func:=@VCLua_ValueListEditor_MoveColRow;
-	ValueListEditorFuncs[13].name:='RestoreCurrentRow';
-	ValueListEditorFuncs[13].func:=@VCLua_ValueListEditor_RestoreCurrentRow;
-	ValueListEditorFuncs[14].name:='Sort';
-	ValueListEditorFuncs[14].func:=@VCLua_ValueListEditor_Sort;
-	ValueListEditorFuncs[15].name:='Sort2';
-	ValueListEditorFuncs[15].func:=@VCLua_ValueListEditor_Sort2;
-	ValueListEditorFuncs[16].name:='Keys';
-	ValueListEditorFuncs[16].func:=@VCLua_ValueListEditor_Keys;
-	ValueListEditorFuncs[17].name:='Values';
-	ValueListEditorFuncs[17].func:=@VCLua_ValueListEditor_Values;
-	ValueListEditorFuncs[18].name:=nil;
-	ValueListEditorFuncs[18].func:=nil;
-
+	ValueListEditorFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Clear', @VCLua_ValueListEditor_Clear);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'DeleteColRow', @VCLua_ValueListEditor_DeleteColRow);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'DeleteRow', @VCLua_ValueListEditor_DeleteRow);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'DeleteCol', @VCLua_ValueListEditor_DeleteCol);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'FindRow', @VCLua_ValueListEditor_FindRow);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'InsertColRow', @VCLua_ValueListEditor_InsertColRow);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'InsertRow', @VCLua_ValueListEditor_InsertRow);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'InsertRowWithValues', @VCLua_ValueListEditor_InsertRowWithValues);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'ExchangeColRow', @VCLua_ValueListEditor_ExchangeColRow);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'IsEmptyRow', @VCLua_ValueListEditor_IsEmptyRow);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'IsEmptyRow2', @VCLua_ValueListEditor_IsEmptyRow2);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'LoadFromCSVStream', @VCLua_ValueListEditor_LoadFromCSVStream);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'MoveColRow', @VCLua_ValueListEditor_MoveColRow);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'RestoreCurrentRow', @VCLua_ValueListEditor_RestoreCurrentRow);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Sort', @VCLua_ValueListEditor_Sort);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Sort2', @VCLua_ValueListEditor_Sort2);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Keys', @VCLua_ValueListEditor_Keys);
+	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Values', @VCLua_ValueListEditor_Values);
 end.

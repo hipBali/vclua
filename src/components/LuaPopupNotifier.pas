@@ -8,7 +8,7 @@ unit LuaPopupNotifier;
 
 interface
 
-Uses Classes, Lua, LuaController, PopupNotifier, TypInfo;
+Uses Classes, Lua, LuaController, PopupNotifier, TypInfo, LuaVmt;
 
 function CreatePopupNotifier(L: Plua_State): Integer; cdecl;
 function IsPopupNotifier(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    PopupNotifierFuncs: aoluaL_Reg;
+    PopupNotifierFuncs: TLuaVmt;
 
 
 implementation
@@ -112,14 +112,8 @@ begin
 end;
 
 begin
-	SetLength(PopupNotifierFuncs, 3+1);
-	PopupNotifierFuncs[0].name:='Hide';
-	PopupNotifierFuncs[0].func:=@VCLua_PopupNotifier_Hide;
-	PopupNotifierFuncs[1].name:='Show';
-	PopupNotifierFuncs[1].func:=@VCLua_PopupNotifier_Show;
-	PopupNotifierFuncs[2].name:='ShowAtPos';
-	PopupNotifierFuncs[2].func:=@VCLua_PopupNotifier_ShowAtPos;
-	PopupNotifierFuncs[3].name:=nil;
-	PopupNotifierFuncs[3].func:=nil;
-
+	PopupNotifierFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PopupNotifierFuncs, 'Hide', @VCLua_PopupNotifier_Hide);
+	TLuaMethodInfo.Create(PopupNotifierFuncs, 'Show', @VCLua_PopupNotifier_Show);
+	TLuaMethodInfo.Create(PopupNotifierFuncs, 'ShowAtPos', @VCLua_PopupNotifier_ShowAtPos);
 end.

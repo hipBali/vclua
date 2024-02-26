@@ -8,7 +8,7 @@ unit LuaCoolBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateCoolBar(L: Plua_State): Integer; cdecl;
 function IsCoolBar(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    CustomCoolBarFuncs: aoluaL_Reg;
+    CustomCoolBarFuncs: TLuaVmt;
 
 
 implementation
@@ -169,20 +169,11 @@ begin
 end;
 
 begin
-	SetLength(CustomCoolBarFuncs, 6+1);
-	CustomCoolBarFuncs[0].name:='AutosizeBands';
-	CustomCoolBarFuncs[0].func:=@VCLua_CoolBar_AutosizeBands;
-	CustomCoolBarFuncs[1].name:='EndUpdate';
-	CustomCoolBarFuncs[1].func:=@VCLua_CoolBar_EndUpdate;
-	CustomCoolBarFuncs[2].name:='Invalidate';
-	CustomCoolBarFuncs[2].func:=@VCLua_CoolBar_Invalidate;
-	CustomCoolBarFuncs[3].name:='InsertControl';
-	CustomCoolBarFuncs[3].func:=@VCLua_CoolBar_InsertControl;
-	CustomCoolBarFuncs[4].name:='MouseToBandPos';
-	CustomCoolBarFuncs[4].func:=@VCLua_CoolBar_MouseToBandPos;
-	CustomCoolBarFuncs[5].name:='RemoveControl';
-	CustomCoolBarFuncs[5].func:=@VCLua_CoolBar_RemoveControl;
-	CustomCoolBarFuncs[6].name:=nil;
-	CustomCoolBarFuncs[6].func:=nil;
-
+	CustomCoolBarFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'AutosizeBands', @VCLua_CoolBar_AutosizeBands);
+	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'EndUpdate', @VCLua_CoolBar_EndUpdate);
+	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'Invalidate', @VCLua_CoolBar_Invalidate);
+	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'InsertControl', @VCLua_CoolBar_InsertControl);
+	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'MouseToBandPos', @VCLua_CoolBar_MouseToBandPos);
+	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'RemoveControl', @VCLua_CoolBar_RemoveControl);
 end.

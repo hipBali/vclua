@@ -8,7 +8,7 @@ unit LuaBasicAction;
 
 interface
 
-Uses Classes, Lua, LuaController, TypInfo;
+Uses Classes, Lua, LuaController, TypInfo, LuaVmt;
 
 function CreateBasicAction(L: Plua_State): Integer; cdecl;
 function IsBasicAction(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    BasicActionFuncs: aoluaL_Reg;
+    BasicActionFuncs: TLuaVmt;
 
 
 implementation
@@ -150,18 +150,10 @@ begin
 end;
 
 begin
-	SetLength(BasicActionFuncs, 5+1);
-	BasicActionFuncs[0].name:='HandlesTarget';
-	BasicActionFuncs[0].func:=@VCLua_BasicAction_HandlesTarget;
-	BasicActionFuncs[1].name:='UpdateTarget';
-	BasicActionFuncs[1].func:=@VCLua_BasicAction_UpdateTarget;
-	BasicActionFuncs[2].name:='ExecuteTarget';
-	BasicActionFuncs[2].func:=@VCLua_BasicAction_ExecuteTarget;
-	BasicActionFuncs[3].name:='Execute';
-	BasicActionFuncs[3].func:=@VCLua_BasicAction_Execute;
-	BasicActionFuncs[4].name:='Update';
-	BasicActionFuncs[4].func:=@VCLua_BasicAction_Update;
-	BasicActionFuncs[5].name:=nil;
-	BasicActionFuncs[5].func:=nil;
-
+	BasicActionFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BasicActionFuncs, 'HandlesTarget', @VCLua_BasicAction_HandlesTarget);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'UpdateTarget', @VCLua_BasicAction_UpdateTarget);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'ExecuteTarget', @VCLua_BasicAction_ExecuteTarget);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'Execute', @VCLua_BasicAction_Execute);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'Update', @VCLua_BasicAction_Update);
 end.

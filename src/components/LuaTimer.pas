@@ -8,7 +8,7 @@ unit LuaTimer;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateTimer(L: Plua_State): Integer; cdecl;
 function IsTimer(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    TimerFuncs: aoluaL_Reg;
+    TimerFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(TimerFuncs, 0+1);
+	TimerFuncs := TLuaVmt.Create;
 	
-	TimerFuncs[0].name:=nil;
-	TimerFuncs[0].func:=nil;
-
 end.

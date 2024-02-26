@@ -1,6 +1,6 @@
 library vcl;
 
-{$TYPEINFO ON}{$H+}
+{$TYPEINFO ON}{$H+}{$T+}
 
 {$R *.res}
 
@@ -17,6 +17,7 @@ uses
   LuaProxy in 'LuaProxy.pas',
   LuaDialogs in 'LuaDialogs.pas',
   LuaStream in 'LuaStream.pas',
+  LuaVmt,
   {$IFDEF PROPERTYGRID}
     LuaPropertyGrid in 'addons/LuaPropertyGrid.pas',
   {$ENDIF}
@@ -37,17 +38,16 @@ uses
   (name:nil;func:nil)
   );
 
-type Map = specialize TFPGMap<string, aoluaL_Reg>;
 function luaopen_vcl_core(L: Plua_State): Integer; cdecl;
 var res:string;
-  pti: PTypeInfo;
+  pti,ptiCur: PTypeInfo;
   i,j:integer;
-  funcs,funcsSorted:Map;
+  cur,parent:PLuaVmt;
 begin
   // luaL_openlib is deprecated?
   {$IFNDEF LUA51}
-     luaL_newlibtable(l, @vcl_lib);
-     luaL_setfuncs(l, @vcl_lib, 0);
+     luaL_newlibtable(l, vcl_lib);
+     luaL_setfuncs(l, vcl_lib, 0);
   {$ELSE}
      luaL_openlib(L, LUA_VCL_LIBNAME, @vcl_lib, 0);
   {$ENDIF}
@@ -101,36 +101,20 @@ begin
   if not res.IsEmpty then
      luaL_error(L, PChar(res));
 
-  funcs := Map.Create;
   {$i init_map.inc}
-
-  funcsSorted:=Map.Create;
-  funcsSorted.Assign(funcs);
-  funcsSorted.OnKeyCompare:=@CompareText;
-  funcsSorted.Sorted := true;
 
   for i := High(metaPtis) downto 0 do begin
       pti := metaPtis[i];
-      if funcs.Keys[i] <> pti^.Name then
-         luaL_error(L, PChar(format('Meta generator bug at %d: %s<>%s, check order of both init_map and meta_srcs', [i, funcs.Keys[i], pti^.Name])));
-      luaL_newmetatable(L,PChar(string(pti^.Name)));
-      {$IFDEF LUA51}
-      lua_pushliteral(L,'__name');
-      lua_pushstring(L,pti^.Name);
-      lua_rawset(L,-3);
-      {$ENDIF}
-      lua_pushliteral(L,'__index');
-      luaL_newlib(L, funcs.Data[i]);
+      ptiCur := GetTypeData(pti)^.ParentInfo;
+      cur := vmts[pti^.Name];
       repeat
         pti := GetTypeData(pti)^.ParentInfo;
-      until (pti = nil) or (funcsSorted.Find(pti^.Name, j));
+      until (pti = nil) or (vmts.Find(pti^.Name) <> nil);
       if pti <> nil then begin
-         if luaL_newmetatable(L,PChar(string((pti^.Name)))) = 1 then
-            luaL_error(L, PChar(format('Meta generator bug at %d %p, shouldn''t create metatable here but did, check CheckOrderOfPushObject(metaPtis) call', [i, pti])));
-         lua_setmetatable(L,-2);
+         parent := vmts[pti^.Name];
+         cur^.Merge(parent^);
+         vmts.GetVmt(ptiCur);
       end;
-      lua_rawset(L,-3);
-      lua_pop(L,1);
   end;
 
   result := 1;

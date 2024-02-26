@@ -8,7 +8,7 @@ unit LuaEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateEdit(L: Plua_State): Integer; cdecl;
 function IsEdit(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomEditFuncs: aoluaL_Reg;
+    CustomEditFuncs: TLuaVmt;
 
 
 implementation
@@ -185,24 +185,13 @@ begin
 end;
 
 begin
-	SetLength(CustomEditFuncs, 8+1);
-	CustomEditFuncs[0].name:='Clear';
-	CustomEditFuncs[0].func:=@VCLua_Edit_Clear;
-	CustomEditFuncs[1].name:='SelectAll';
-	CustomEditFuncs[1].func:=@VCLua_Edit_SelectAll;
-	CustomEditFuncs[2].name:='ClearSelection';
-	CustomEditFuncs[2].func:=@VCLua_Edit_ClearSelection;
-	CustomEditFuncs[3].name:='CopyToClipboard';
-	CustomEditFuncs[3].func:=@VCLua_Edit_CopyToClipboard;
-	CustomEditFuncs[4].name:='CutToClipboard';
-	CustomEditFuncs[4].func:=@VCLua_Edit_CutToClipboard;
-	CustomEditFuncs[5].name:='PasteFromClipboard';
-	CustomEditFuncs[5].func:=@VCLua_Edit_PasteFromClipboard;
-	CustomEditFuncs[6].name:='Undo';
-	CustomEditFuncs[6].func:=@VCLua_Edit_Undo;
-	CustomEditFuncs[7].name:='RemoveAllHandlersOfObject';
-	CustomEditFuncs[7].func:=@VCLua_Edit_RemoveAllHandlersOfObject;
-	CustomEditFuncs[8].name:=nil;
-	CustomEditFuncs[8].func:=nil;
-
+	CustomEditFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomEditFuncs, 'Clear', @VCLua_Edit_Clear);
+	TLuaMethodInfo.Create(CustomEditFuncs, 'SelectAll', @VCLua_Edit_SelectAll);
+	TLuaMethodInfo.Create(CustomEditFuncs, 'ClearSelection', @VCLua_Edit_ClearSelection);
+	TLuaMethodInfo.Create(CustomEditFuncs, 'CopyToClipboard', @VCLua_Edit_CopyToClipboard);
+	TLuaMethodInfo.Create(CustomEditFuncs, 'CutToClipboard', @VCLua_Edit_CutToClipboard);
+	TLuaMethodInfo.Create(CustomEditFuncs, 'PasteFromClipboard', @VCLua_Edit_PasteFromClipboard);
+	TLuaMethodInfo.Create(CustomEditFuncs, 'Undo', @VCLua_Edit_Undo);
+	TLuaMethodInfo.Create(CustomEditFuncs, 'RemoveAllHandlersOfObject', @VCLua_Edit_RemoveAllHandlersOfObject);
 end.

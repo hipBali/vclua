@@ -11,6 +11,7 @@ Uses Controls,
      Forms,
      Grids,
      ComCtrls,
+     LuaVmt,
      Lua,
      LuaHelper,
 //     SynEdit,
@@ -506,38 +507,11 @@ end;
 // ***********************************************
 // LUA Control Methods
 // ***********************************************
-function UpCast(L: Plua_State): Integer; cdecl;
-var
-  o: TObject;
-  pti:PTypeInfo;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o = nil then begin
-     lua_pushnil(L);
-     Exit;
-  end;
-  lua_pushliteral(L, 'vmt');
-  pti := o.ClassInfo;
-  while pti <> nil do begin
-    luaL_getmetatable(L, PChar(string(pti^.Name)));
-    if lua_istable(L, 3) then begin
-       lua_rawset(L, 1);
-       Exit;
-    end;
-    lua_pop(L, 1);
-    pti := GetTypeData(pti)^.ParentInfo;
-  end;
-  lua_pop(L, 1); // to return o
-end;
-
 procedure SetDefaultMethods(L: Plua_State; Index: Integer; Sender: TObject);
 begin
 	lua_newtable(L);
 	LuaSetTableLightUserData(L, Index, HandleStr, Pointer(Sender));
 	LuaSetTableFunction(L, index, 'Free', @ControlFree);
-        LuaSetTableFunction(L, index, 'UpCast', @UpCast);
         if Sender is TWinControl then begin
            LuaSetTableFunction(L, index, 'SetFocus', @ControlFocus);
            LuaSetTableFunction(L, index, 'EndUpdateBounds', @ControlEndUpdateBounds);
@@ -556,10 +530,7 @@ begin
   top := lua_gettop(L);
   if TypeName <> '' then begin
     lua_pushliteral(L,'vmt');
-    luaL_getmetatable(L,PChar(TypeName));
-    lua_pushliteral(L,'__index');
-    lua_rawget(L,-2);
-    lua_remove(L,-2);
+    lua_pushlightuserdata(L,vmts[TypeName]);
     lua_rawset(L,top);
   end;
   LuaSetMetaFunction(L, top, '__index', @LuaGetProperty);

@@ -8,7 +8,7 @@ unit LuaTabControl;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateTabSheet(L: Plua_State): Integer; cdecl;
 function IsTabSheet(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    TabSheetFuncs: aoluaL_Reg;
+    TabSheetFuncs: TLuaVmt;
 
 function CreateTabControl(L: Plua_State): Integer; cdecl;
 function IsTabControl(L: Plua_State): Integer; cdecl;
@@ -32,7 +32,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomTabControlFuncs: aoluaL_Reg;
+    CustomTabControlFuncs: TLuaVmt;
 
 function CreatePageControl(L: Plua_State): Integer; cdecl;
 function IsPageControl(L: Plua_State): Integer; cdecl;
@@ -44,7 +44,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    PageControlFuncs: aoluaL_Reg;
+    PageControlFuncs: TLuaVmt;
 
 
 implementation
@@ -551,59 +551,29 @@ begin
 end;
 
 begin
-	SetLength(TabSheetFuncs, 0+1);
+	TabSheetFuncs := TLuaVmt.Create;
 	
-	TabSheetFuncs[0].name:=nil;
-	TabSheetFuncs[0].func:=nil;
-
-	SetLength(CustomTabControlFuncs, 11+1);
-	CustomTabControlFuncs[0].name:='TabRect';
-	CustomTabControlFuncs[0].func:=@VCLua_TabControl_TabRect;
-	CustomTabControlFuncs[1].name:='GetImageIndex';
-	CustomTabControlFuncs[1].func:=@VCLua_TabControl_GetImageIndex;
-	CustomTabControlFuncs[2].name:='IndexOf';
-	CustomTabControlFuncs[2].func:=@VCLua_TabControl_IndexOf;
-	CustomTabControlFuncs[3].name:='CustomPage';
-	CustomTabControlFuncs[3].func:=@VCLua_TabControl_CustomPage;
-	CustomTabControlFuncs[4].name:='CanChangePageIndex';
-	CustomTabControlFuncs[4].func:=@VCLua_TabControl_CanChangePageIndex;
-	CustomTabControlFuncs[5].name:='GetMinimumTabWidth';
-	CustomTabControlFuncs[5].func:=@VCLua_TabControl_GetMinimumTabWidth;
-	CustomTabControlFuncs[6].name:='GetMinimumTabHeight';
-	CustomTabControlFuncs[6].func:=@VCLua_TabControl_GetMinimumTabHeight;
-	CustomTabControlFuncs[7].name:='TabToPageIndex';
-	CustomTabControlFuncs[7].func:=@VCLua_TabControl_TabToPageIndex;
-	CustomTabControlFuncs[8].name:='PageToTabIndex';
-	CustomTabControlFuncs[8].func:=@VCLua_TabControl_PageToTabIndex;
-	CustomTabControlFuncs[9].name:='DoCloseTabClicked';
-	CustomTabControlFuncs[9].func:=@VCLua_TabControl_DoCloseTabClicked;
-	CustomTabControlFuncs[10].name:='Page';
-	CustomTabControlFuncs[10].func:=@VCLua_TabControl_Page;
-	CustomTabControlFuncs[11].name:=nil;
-	CustomTabControlFuncs[11].func:=nil;
-
-	SetLength(PageControlFuncs, 10+1);
-	PageControlFuncs[0].name:='Clear';
-	PageControlFuncs[0].func:=@VCLua_PageControl_Clear;
-	PageControlFuncs[1].name:='FindNextPage';
-	PageControlFuncs[1].func:=@VCLua_PageControl_FindNextPage;
-	PageControlFuncs[2].name:='SelectNextPage';
-	PageControlFuncs[2].func:=@VCLua_PageControl_SelectNextPage;
-	PageControlFuncs[3].name:='SelectNextPage2';
-	PageControlFuncs[3].func:=@VCLua_PageControl_SelectNextPage2;
-	PageControlFuncs[4].name:='IndexOfTabAt';
-	PageControlFuncs[4].func:=@VCLua_PageControl_IndexOfTabAt;
-	PageControlFuncs[5].name:='IndexOfTabAt2';
-	PageControlFuncs[5].func:=@VCLua_PageControl_IndexOfTabAt2;
-	PageControlFuncs[6].name:='IndexOfPageAt';
-	PageControlFuncs[6].func:=@VCLua_PageControl_IndexOfPageAt;
-	PageControlFuncs[7].name:='IndexOfPageAt2';
-	PageControlFuncs[7].func:=@VCLua_PageControl_IndexOfPageAt2;
-	PageControlFuncs[8].name:='AddTabSheet';
-	PageControlFuncs[8].func:=@VCLua_PageControl_AddTabSheet;
-	PageControlFuncs[9].name:='Pages';
-	PageControlFuncs[9].func:=@VCLua_PageControl_Pages;
-	PageControlFuncs[10].name:=nil;
-	PageControlFuncs[10].func:=nil;
-
+	CustomTabControlFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'TabRect', @VCLua_TabControl_TabRect);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'GetImageIndex', @VCLua_TabControl_GetImageIndex);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'IndexOf', @VCLua_TabControl_IndexOf);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'CustomPage', @VCLua_TabControl_CustomPage);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'CanChangePageIndex', @VCLua_TabControl_CanChangePageIndex);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'GetMinimumTabWidth', @VCLua_TabControl_GetMinimumTabWidth);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'GetMinimumTabHeight', @VCLua_TabControl_GetMinimumTabHeight);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'TabToPageIndex', @VCLua_TabControl_TabToPageIndex);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'PageToTabIndex', @VCLua_TabControl_PageToTabIndex);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'DoCloseTabClicked', @VCLua_TabControl_DoCloseTabClicked);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'Page', @VCLua_TabControl_Page);
+	PageControlFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PageControlFuncs, 'Clear', @VCLua_PageControl_Clear);
+	TLuaMethodInfo.Create(PageControlFuncs, 'FindNextPage', @VCLua_PageControl_FindNextPage);
+	TLuaMethodInfo.Create(PageControlFuncs, 'SelectNextPage', @VCLua_PageControl_SelectNextPage);
+	TLuaMethodInfo.Create(PageControlFuncs, 'SelectNextPage2', @VCLua_PageControl_SelectNextPage2);
+	TLuaMethodInfo.Create(PageControlFuncs, 'IndexOfTabAt', @VCLua_PageControl_IndexOfTabAt);
+	TLuaMethodInfo.Create(PageControlFuncs, 'IndexOfTabAt2', @VCLua_PageControl_IndexOfTabAt2);
+	TLuaMethodInfo.Create(PageControlFuncs, 'IndexOfPageAt', @VCLua_PageControl_IndexOfPageAt);
+	TLuaMethodInfo.Create(PageControlFuncs, 'IndexOfPageAt2', @VCLua_PageControl_IndexOfPageAt2);
+	TLuaMethodInfo.Create(PageControlFuncs, 'AddTabSheet', @VCLua_PageControl_AddTabSheet);
+	TLuaMethodInfo.Create(PageControlFuncs, 'Pages', @VCLua_PageControl_Pages);
 end.

@@ -8,7 +8,7 @@ unit LuaToolBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateToolButton(L: Plua_State): Integer; cdecl;
 function IsToolButton(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    ToolButtonFuncs: aoluaL_Reg;
+    ToolButtonFuncs: TLuaVmt;
 
 function CreateToolBar(L: Plua_State): Integer; cdecl;
 function IsToolBar(L: Plua_State): Integer; cdecl;
@@ -32,7 +32,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    ToolBarFuncs: aoluaL_Reg;
+    ToolBarFuncs: TLuaVmt;
 
 
 implementation
@@ -359,38 +359,19 @@ begin
 end;
 
 begin
-	SetLength(ToolButtonFuncs, 8+1);
-	ToolButtonFuncs[0].name:='CheckMenuDropdown';
-	ToolButtonFuncs[0].func:=@VCLua_ToolButton_CheckMenuDropdown;
-	ToolButtonFuncs[1].name:='Click';
-	ToolButtonFuncs[1].func:=@VCLua_ToolButton_Click;
-	ToolButtonFuncs[2].name:='ArrowClick';
-	ToolButtonFuncs[2].func:=@VCLua_ToolButton_ArrowClick;
-	ToolButtonFuncs[3].name:='GetCurrentIcon';
-	ToolButtonFuncs[3].func:=@VCLua_ToolButton_GetCurrentIcon;
-	ToolButtonFuncs[4].name:='GetCurrentIcon2';
-	ToolButtonFuncs[4].func:=@VCLua_ToolButton_GetCurrentIcon2;
-	ToolButtonFuncs[5].name:='GetPreferredSize';
-	ToolButtonFuncs[5].func:=@VCLua_ToolButton_GetPreferredSize;
-	ToolButtonFuncs[6].name:='GetPreferredSize2';
-	ToolButtonFuncs[6].func:=@VCLua_ToolButton_GetPreferredSize2;
-	ToolButtonFuncs[7].name:='PointInArrow';
-	ToolButtonFuncs[7].func:=@VCLua_ToolButton_PointInArrow;
-	ToolButtonFuncs[8].name:=nil;
-	ToolButtonFuncs[8].func:=nil;
-
-	SetLength(ToolBarFuncs, 5+1);
-	ToolBarFuncs[0].name:='EndUpdate';
-	ToolBarFuncs[0].func:=@VCLua_ToolBar_EndUpdate;
-	ToolBarFuncs[1].name:='FlipChildren';
-	ToolBarFuncs[1].func:=@VCLua_ToolBar_FlipChildren;
-	ToolBarFuncs[2].name:='SetButtonSize';
-	ToolBarFuncs[2].func:=@VCLua_ToolBar_SetButtonSize;
-	ToolBarFuncs[3].name:='CanFocus';
-	ToolBarFuncs[3].func:=@VCLua_ToolBar_CanFocus;
-	ToolBarFuncs[4].name:='Buttons';
-	ToolBarFuncs[4].func:=@VCLua_ToolBar_Buttons;
-	ToolBarFuncs[5].name:=nil;
-	ToolBarFuncs[5].func:=nil;
-
+	ToolButtonFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ToolButtonFuncs, 'CheckMenuDropdown', @VCLua_ToolButton_CheckMenuDropdown);
+	TLuaMethodInfo.Create(ToolButtonFuncs, 'Click', @VCLua_ToolButton_Click);
+	TLuaMethodInfo.Create(ToolButtonFuncs, 'ArrowClick', @VCLua_ToolButton_ArrowClick);
+	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetCurrentIcon', @VCLua_ToolButton_GetCurrentIcon);
+	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetCurrentIcon2', @VCLua_ToolButton_GetCurrentIcon2);
+	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetPreferredSize', @VCLua_ToolButton_GetPreferredSize);
+	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetPreferredSize2', @VCLua_ToolButton_GetPreferredSize2);
+	TLuaMethodInfo.Create(ToolButtonFuncs, 'PointInArrow', @VCLua_ToolButton_PointInArrow);
+	ToolBarFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ToolBarFuncs, 'EndUpdate', @VCLua_ToolBar_EndUpdate);
+	TLuaMethodInfo.Create(ToolBarFuncs, 'FlipChildren', @VCLua_ToolBar_FlipChildren);
+	TLuaMethodInfo.Create(ToolBarFuncs, 'SetButtonSize', @VCLua_ToolBar_SetButtonSize);
+	TLuaMethodInfo.Create(ToolBarFuncs, 'CanFocus', @VCLua_ToolBar_CanFocus);
+	TLuaMethodInfo.Create(ToolBarFuncs, 'Buttons', @VCLua_ToolBar_Buttons);
 end.

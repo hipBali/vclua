@@ -8,7 +8,7 @@ unit LuaShape;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateShape(L: Plua_State): Integer; cdecl;
 function IsShape(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    ShapeFuncs: aoluaL_Reg;
+    ShapeFuncs: TLuaVmt;
 
 
 implementation
@@ -97,12 +97,7 @@ begin
 end;
 
 begin
-	SetLength(ShapeFuncs, 2+1);
-	ShapeFuncs[0].name:='Paint';
-	ShapeFuncs[0].func:=@VCLua_Shape_Paint;
-	ShapeFuncs[1].name:='StyleChanged';
-	ShapeFuncs[1].func:=@VCLua_Shape_StyleChanged;
-	ShapeFuncs[2].name:=nil;
-	ShapeFuncs[2].func:=nil;
-
+	ShapeFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ShapeFuncs, 'Paint', @VCLua_Shape_Paint);
+	TLuaMethodInfo.Create(ShapeFuncs, 'StyleChanged', @VCLua_Shape_StyleChanged);
 end.

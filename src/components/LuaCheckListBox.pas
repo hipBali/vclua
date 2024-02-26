@@ -8,7 +8,7 @@ unit LuaCheckListBox;
 
 interface
 
-Uses Classes, Lua, LuaController, CheckLst, TypInfo;
+Uses Classes, Lua, LuaController, CheckLst, TypInfo, LuaVmt;
 
 function CreateCheckListBox(L: Plua_State): Integer; cdecl;
 function IsCheckListBox(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomCheckListBoxFuncs: aoluaL_Reg;
+    CustomCheckListBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -259,26 +259,14 @@ begin
 end;
 
 begin
-	SetLength(CustomCheckListBoxFuncs, 9+1);
-	CustomCheckListBoxFuncs[0].name:='MeasureItem';
-	CustomCheckListBoxFuncs[0].func:=@VCLua_CheckListBox_MeasureItem;
-	CustomCheckListBoxFuncs[1].name:='MeasureItem2';
-	CustomCheckListBoxFuncs[1].func:=@VCLua_CheckListBox_MeasureItem2;
-	CustomCheckListBoxFuncs[2].name:='Toggle';
-	CustomCheckListBoxFuncs[2].func:=@VCLua_CheckListBox_Toggle;
-	CustomCheckListBoxFuncs[3].name:='CheckAll';
-	CustomCheckListBoxFuncs[3].func:=@VCLua_CheckListBox_CheckAll;
-	CustomCheckListBoxFuncs[4].name:='Exchange';
-	CustomCheckListBoxFuncs[4].func:=@VCLua_CheckListBox_Exchange;
-	CustomCheckListBoxFuncs[5].name:='Checked';
-	CustomCheckListBoxFuncs[5].func:=@VCLua_CheckListBox_Checked;
-	CustomCheckListBoxFuncs[6].name:='Header';
-	CustomCheckListBoxFuncs[6].func:=@VCLua_CheckListBox_Header;
-	CustomCheckListBoxFuncs[7].name:='ItemEnabled';
-	CustomCheckListBoxFuncs[7].func:=@VCLua_CheckListBox_ItemEnabled;
-	CustomCheckListBoxFuncs[8].name:='State';
-	CustomCheckListBoxFuncs[8].func:=@VCLua_CheckListBox_State;
-	CustomCheckListBoxFuncs[9].name:=nil;
-	CustomCheckListBoxFuncs[9].func:=nil;
-
+	CustomCheckListBoxFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'MeasureItem', @VCLua_CheckListBox_MeasureItem);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'MeasureItem2', @VCLua_CheckListBox_MeasureItem2);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Toggle', @VCLua_CheckListBox_Toggle);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'CheckAll', @VCLua_CheckListBox_CheckAll);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Exchange', @VCLua_CheckListBox_Exchange);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Checked', @VCLua_CheckListBox_Checked);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Header', @VCLua_CheckListBox_Header);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'ItemEnabled', @VCLua_CheckListBox_ItemEnabled);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'State', @VCLua_CheckListBox_State);
 end.

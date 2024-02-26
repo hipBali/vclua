@@ -8,7 +8,7 @@ unit LuaMemo;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateMemo(L: Plua_State): Integer; cdecl;
 function IsMemo(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomMemoFuncs: aoluaL_Reg;
+    CustomMemoFuncs: TLuaVmt;
 
 
 implementation
@@ -99,12 +99,7 @@ begin
 end;
 
 begin
-	SetLength(CustomMemoFuncs, 2+1);
-	CustomMemoFuncs[0].name:='Append';
-	CustomMemoFuncs[0].func:=@VCLua_Memo_Append;
-	CustomMemoFuncs[1].name:='ScrollBy';
-	CustomMemoFuncs[1].func:=@VCLua_Memo_ScrollBy;
-	CustomMemoFuncs[2].name:=nil;
-	CustomMemoFuncs[2].func:=nil;
-
+	CustomMemoFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'Append', @VCLua_Memo_Append);
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'ScrollBy', @VCLua_Memo_ScrollBy);
 end.

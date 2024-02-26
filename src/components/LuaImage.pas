@@ -8,7 +8,7 @@ unit LuaImage;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateImage(L: Plua_State): Integer; cdecl;
 function IsImage(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    CustomImageFuncs: aoluaL_Reg;
+    CustomImageFuncs: TLuaVmt;
 
 
 implementation
@@ -97,12 +97,7 @@ begin
 end;
 
 begin
-	SetLength(CustomImageFuncs, 2+1);
-	CustomImageFuncs[0].name:='DestRect';
-	CustomImageFuncs[0].func:=@VCLua_Image_DestRect;
-	CustomImageFuncs[1].name:='Invalidate';
-	CustomImageFuncs[1].func:=@VCLua_Image_Invalidate;
-	CustomImageFuncs[2].name:=nil;
-	CustomImageFuncs[2].func:=nil;
-
+	CustomImageFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomImageFuncs, 'DestRect', @VCLua_Image_DestRect);
+	TLuaMethodInfo.Create(CustomImageFuncs, 'Invalidate', @VCLua_Image_Invalidate);
 end.

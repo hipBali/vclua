@@ -8,6 +8,7 @@ uses
   Classes,
   SysUtils,
   TypInfo,
+  LuaVmt,
   LuaHelper,
   LuaProperties,
   Lua,
@@ -143,23 +144,13 @@ end;
 // CreateTableForUnknownType?
 procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);
 var cName: String = '';
-    pti: PTypeInfo;
 begin
   if Comp = nil then begin
     lua_pushnil(L);
     exit
   end;
-  pti := Comp.ClassInfo;
-  repeat
-    luaL_getmetatable(L,PChar(String(pti^.Name)));
-    if lua_istable(L,-1) then Break;
-    pti := GetTypeData(pti)^.ParentInfo;
-    lua_pop(L,1);
-  until pti = nil;
-  if pti <> nil then begin
-     cName := pti^.Name;
-     lua_pop(L,1);
-  end;
+  if vmts.GetVmt(Comp.ClassInfo) <> nil then
+     cName := Comp.ClassName;
   CreateTableForKnownType(L, cName, Comp);
 end;
 

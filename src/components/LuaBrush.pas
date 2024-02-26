@@ -8,7 +8,7 @@ unit LuaBrush;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 function IsBrush(L: Plua_State): Integer; cdecl;
 function AsBrush(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
       L:Plua_State;
     end;
 var
-    BrushFuncs: aoluaL_Reg;
+    BrushFuncs: TLuaVmt;
 
 
 implementation
@@ -85,12 +85,7 @@ begin
 end;
 
 begin
-	SetLength(BrushFuncs, 2+1);
-	BrushFuncs[0].name:='Assign';
-	BrushFuncs[0].func:=@VCLua_Brush_Assign;
-	BrushFuncs[1].name:='EqualsBrush';
-	BrushFuncs[1].func:=@VCLua_Brush_EqualsBrush;
-	BrushFuncs[2].name:=nil;
-	BrushFuncs[2].func:=nil;
-
+	BrushFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BrushFuncs, 'Assign', @VCLua_Brush_Assign);
+	TLuaMethodInfo.Create(BrushFuncs, 'EqualsBrush', @VCLua_Brush_EqualsBrush);
 end.

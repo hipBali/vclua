@@ -8,7 +8,7 @@ unit LuaCalendar;
 
 interface
 
-Uses Classes, Lua, LuaController, Calendar, TypInfo;
+Uses Classes, Lua, LuaController, Calendar, TypInfo, LuaVmt;
 
 function CreateCalendar(L: Plua_State): Integer; cdecl;
 function IsCalendar(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomCalendarFuncs: aoluaL_Reg;
+    CustomCalendarFuncs: TLuaVmt;
 
 
 implementation
@@ -99,12 +99,7 @@ begin
 end;
 
 begin
-	SetLength(CustomCalendarFuncs, 2+1);
-	CustomCalendarFuncs[0].name:='HitTest';
-	CustomCalendarFuncs[0].func:=@VCLua_Calendar_HitTest;
-	CustomCalendarFuncs[1].name:='GetCalendarView';
-	CustomCalendarFuncs[1].func:=@VCLua_Calendar_GetCalendarView;
-	CustomCalendarFuncs[2].name:=nil;
-	CustomCalendarFuncs[2].func:=nil;
-
+	CustomCalendarFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomCalendarFuncs, 'HitTest', @VCLua_Calendar_HitTest);
+	TLuaMethodInfo.Create(CustomCalendarFuncs, 'GetCalendarView', @VCLua_Calendar_GetCalendarView);
 end.

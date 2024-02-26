@@ -8,7 +8,7 @@ unit LuaNotebook;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateNotebook(L: Plua_State): Integer; cdecl;
 function IsNotebook(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    NotebookFuncs: aoluaL_Reg;
+    NotebookFuncs: TLuaVmt;
 
 
 implementation
@@ -118,14 +118,8 @@ begin
 end;
 
 begin
-	SetLength(NotebookFuncs, 3+1);
-	NotebookFuncs[0].name:='ShowControl';
-	NotebookFuncs[0].func:=@VCLua_Notebook_ShowControl;
-	NotebookFuncs[1].name:='IndexOf';
-	NotebookFuncs[1].func:=@VCLua_Notebook_IndexOf;
-	NotebookFuncs[2].name:='Page';
-	NotebookFuncs[2].func:=@VCLua_Notebook_Page;
-	NotebookFuncs[3].name:=nil;
-	NotebookFuncs[3].func:=nil;
-
+	NotebookFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(NotebookFuncs, 'ShowControl', @VCLua_Notebook_ShowControl);
+	TLuaMethodInfo.Create(NotebookFuncs, 'IndexOf', @VCLua_Notebook_IndexOf);
+	TLuaMethodInfo.Create(NotebookFuncs, 'Page', @VCLua_Notebook_Page);
 end.

@@ -8,7 +8,7 @@ unit LuaStatusBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function IsStatusPanel(L: Plua_State): Integer; cdecl;
 function AsStatusPanel(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
       L:Plua_State;
     end;
 var
-    StatusPanelFuncs: aoluaL_Reg;
+    StatusPanelFuncs: TLuaVmt;
 
 function IsStatusPanels(L: Plua_State): Integer; cdecl;
 function AsStatusPanels(L: Plua_State): Integer; cdecl;
@@ -32,7 +32,7 @@ type
       L:Plua_State;
     end;
 var
-    StatusPanelsFuncs: aoluaL_Reg;
+    StatusPanelsFuncs: TLuaVmt;
 
 function CreateStatusBar(L: Plua_State): Integer; cdecl;
 function IsStatusBar(L: Plua_State): Integer; cdecl;
@@ -44,7 +44,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    StatusBarFuncs: aoluaL_Reg;
+    StatusBarFuncs: TLuaVmt;
 
 
 implementation
@@ -330,38 +330,18 @@ begin
 end;
 
 begin
-	SetLength(StatusPanelFuncs, 2+1);
-	StatusPanelFuncs[0].name:='Assign';
-	StatusPanelFuncs[0].func:=@VCLua_StatusPanel_Assign;
-	StatusPanelFuncs[1].name:='StatusBar';
-	StatusPanelFuncs[1].func:=@VCLua_StatusPanel_StatusBar;
-	StatusPanelFuncs[2].name:=nil;
-	StatusPanelFuncs[2].func:=nil;
-
-	SetLength(StatusPanelsFuncs, 2+1);
-	StatusPanelsFuncs[0].name:='Add';
-	StatusPanelsFuncs[0].func:=@VCLua_StatusPanels_Add;
-	StatusPanelsFuncs[1].name:='Items';
-	StatusPanelsFuncs[1].func:=@VCLua_StatusPanels_Items;
-	StatusPanelsFuncs[2].name:=nil;
-	StatusPanelsFuncs[2].func:=nil;
-
-	SetLength(StatusBarFuncs, 7+1);
-	StatusBarFuncs[0].name:='InvalidatePanel';
-	StatusBarFuncs[0].func:=@VCLua_StatusBar_InvalidatePanel;
-	StatusBarFuncs[1].name:='BeginUpdate';
-	StatusBarFuncs[1].func:=@VCLua_StatusBar_BeginUpdate;
-	StatusBarFuncs[2].name:='EndUpdate';
-	StatusBarFuncs[2].func:=@VCLua_StatusBar_EndUpdate;
-	StatusBarFuncs[3].name:='ExecuteAction';
-	StatusBarFuncs[3].func:=@VCLua_StatusBar_ExecuteAction;
-	StatusBarFuncs[4].name:='GetPanelIndexAt';
-	StatusBarFuncs[4].func:=@VCLua_StatusBar_GetPanelIndexAt;
-	StatusBarFuncs[5].name:='SizeGripEnabled';
-	StatusBarFuncs[5].func:=@VCLua_StatusBar_SizeGripEnabled;
-	StatusBarFuncs[6].name:='UpdatingStatusBar';
-	StatusBarFuncs[6].func:=@VCLua_StatusBar_UpdatingStatusBar;
-	StatusBarFuncs[7].name:=nil;
-	StatusBarFuncs[7].func:=nil;
-
+	StatusPanelFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(StatusPanelFuncs, 'Assign', @VCLua_StatusPanel_Assign);
+	TLuaMethodInfo.Create(StatusPanelFuncs, 'StatusBar', @VCLua_StatusPanel_StatusBar);
+	StatusPanelsFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(StatusPanelsFuncs, 'Add', @VCLua_StatusPanels_Add);
+	TLuaMethodInfo.Create(StatusPanelsFuncs, 'Items', @VCLua_StatusPanels_Items);
+	StatusBarFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(StatusBarFuncs, 'InvalidatePanel', @VCLua_StatusBar_InvalidatePanel);
+	TLuaMethodInfo.Create(StatusBarFuncs, 'BeginUpdate', @VCLua_StatusBar_BeginUpdate);
+	TLuaMethodInfo.Create(StatusBarFuncs, 'EndUpdate', @VCLua_StatusBar_EndUpdate);
+	TLuaMethodInfo.Create(StatusBarFuncs, 'ExecuteAction', @VCLua_StatusBar_ExecuteAction);
+	TLuaMethodInfo.Create(StatusBarFuncs, 'GetPanelIndexAt', @VCLua_StatusBar_GetPanelIndexAt);
+	TLuaMethodInfo.Create(StatusBarFuncs, 'SizeGripEnabled', @VCLua_StatusBar_SizeGripEnabled);
+	TLuaMethodInfo.Create(StatusBarFuncs, 'UpdatingStatusBar', @VCLua_StatusBar_UpdatingStatusBar);
 end.

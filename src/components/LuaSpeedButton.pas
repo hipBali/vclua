@@ -8,7 +8,7 @@ unit LuaSpeedButton;
 
 interface
 
-Uses Classes, Lua, LuaController, Buttons, TypInfo;
+Uses Classes, Lua, LuaController, Buttons, TypInfo, LuaVmt;
 
 function CreateSpeedButton(L: Plua_State): Integer; cdecl;
 function IsSpeedButton(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    SpeedButtonFuncs: aoluaL_Reg;
+    SpeedButtonFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(SpeedButtonFuncs, 0+1);
+	SpeedButtonFuncs := TLuaVmt.Create;
 	
-	SpeedButtonFuncs[0].name:=nil;
-	SpeedButtonFuncs[0].func:=nil;
-
 end.

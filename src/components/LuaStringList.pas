@@ -8,7 +8,7 @@ unit LuaStringList;
 
 interface
 
-Uses Classes, Lua, LuaController, TypInfo;
+Uses Classes, Lua, LuaController, TypInfo, LuaVmt;
 
 function CreateStringList(L: Plua_State): Integer; cdecl;
 function IsStringList(L: Plua_State): Integer; cdecl;
@@ -21,7 +21,7 @@ type
       L:Plua_State;
     end;
 var
-    StringListFuncs: aoluaL_Reg;
+    StringListFuncs: TLuaVmt;
 
 
 implementation
@@ -201,24 +201,13 @@ begin
 	Result := 1;
 end;
 begin
-	SetLength(StringListFuncs, 8+1);
-	StringListFuncs[0].name:='Add';
-	StringListFuncs[0].func:=@VCLua_StringList_Add;
-	StringListFuncs[1].name:='Clear';
-	StringListFuncs[1].func:=@VCLua_StringList_Clear;
-	StringListFuncs[2].name:='Delete';
-	StringListFuncs[2].func:=@VCLua_StringList_Delete;
-	StringListFuncs[3].name:='Exchange';
-	StringListFuncs[3].func:=@VCLua_StringList_Exchange;
-	StringListFuncs[4].name:='Find';
-	StringListFuncs[4].func:=@VCLua_StringList_Find;
-	StringListFuncs[5].name:='IndexOf';
-	StringListFuncs[5].func:=@VCLua_StringList_IndexOf;
-	StringListFuncs[6].name:='Insert';
-	StringListFuncs[6].func:=@VCLua_StringList_Insert;
-	StringListFuncs[7].name:='Sort';
-	StringListFuncs[7].func:=@VCLua_StringList_Sort;
-	StringListFuncs[8].name:=nil;
-	StringListFuncs[8].func:=nil;
-
+	StringListFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(StringListFuncs, 'Add', @VCLua_StringList_Add);
+	TLuaMethodInfo.Create(StringListFuncs, 'Clear', @VCLua_StringList_Clear);
+	TLuaMethodInfo.Create(StringListFuncs, 'Delete', @VCLua_StringList_Delete);
+	TLuaMethodInfo.Create(StringListFuncs, 'Exchange', @VCLua_StringList_Exchange);
+	TLuaMethodInfo.Create(StringListFuncs, 'Find', @VCLua_StringList_Find);
+	TLuaMethodInfo.Create(StringListFuncs, 'IndexOf', @VCLua_StringList_IndexOf);
+	TLuaMethodInfo.Create(StringListFuncs, 'Insert', @VCLua_StringList_Insert);
+	TLuaMethodInfo.Create(StringListFuncs, 'Sort', @VCLua_StringList_Sort);
 end.

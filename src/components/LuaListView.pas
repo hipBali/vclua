@@ -8,7 +8,7 @@ unit LuaListView;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function IsListItem(L: Plua_State): Integer; cdecl;
 function AsListItem(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
       L:Plua_State;
     end;
 var
-    ListItemFuncs: aoluaL_Reg;
+    ListItemFuncs: TLuaVmt;
 
 function IsListItems(L: Plua_State): Integer; cdecl;
 function AsListItems(L: Plua_State): Integer; cdecl;
@@ -32,7 +32,7 @@ type
       L:Plua_State;
     end;
 var
-    ListItemsFuncs: aoluaL_Reg;
+    ListItemsFuncs: TLuaVmt;
 
 function CreateListView(L: Plua_State): Integer; cdecl;
 function IsListView(L: Plua_State): Integer; cdecl;
@@ -44,7 +44,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomListViewFuncs: aoluaL_Reg;
+    CustomListViewFuncs: TLuaVmt;
 
 
 implementation
@@ -813,88 +813,43 @@ begin
 end;
 
 begin
-	SetLength(ListItemFuncs, 7+1);
-	ListItemFuncs[0].name:='Assign';
-	ListItemFuncs[0].func:=@VCLua_ListItem_Assign;
-	ListItemFuncs[1].name:='Delete';
-	ListItemFuncs[1].func:=@VCLua_ListItem_Delete;
-	ListItemFuncs[2].name:='MakeVisible';
-	ListItemFuncs[2].func:=@VCLua_ListItem_MakeVisible;
-	ListItemFuncs[3].name:='DisplayRect';
-	ListItemFuncs[3].func:=@VCLua_ListItem_DisplayRect;
-	ListItemFuncs[4].name:='DisplayRectSubItem';
-	ListItemFuncs[4].func:=@VCLua_ListItem_DisplayRectSubItem;
-	ListItemFuncs[5].name:='EditCaption';
-	ListItemFuncs[5].func:=@VCLua_ListItem_EditCaption;
-	ListItemFuncs[6].name:='SubItemImages';
-	ListItemFuncs[6].func:=@VCLua_ListItem_SubItemImages;
-	ListItemFuncs[7].name:=nil;
-	ListItemFuncs[7].func:=nil;
-
-	SetLength(ListItemsFuncs, 15+1);
-	ListItemsFuncs[0].name:='Add';
-	ListItemsFuncs[0].func:=@VCLua_ListItems_Add;
-	ListItemsFuncs[1].name:='AddItem';
-	ListItemsFuncs[1].func:=@VCLua_ListItems_AddItem;
-	ListItemsFuncs[2].name:='BeginUpdate';
-	ListItemsFuncs[2].func:=@VCLua_ListItems_BeginUpdate;
-	ListItemsFuncs[3].name:='Clear';
-	ListItemsFuncs[3].func:=@VCLua_ListItems_Clear;
-	ListItemsFuncs[4].name:='Delete';
-	ListItemsFuncs[4].func:=@VCLua_ListItems_Delete;
-	ListItemsFuncs[5].name:='EndUpdate';
-	ListItemsFuncs[5].func:=@VCLua_ListItems_EndUpdate;
-	ListItemsFuncs[6].name:='Exchange';
-	ListItemsFuncs[6].func:=@VCLua_ListItems_Exchange;
-	ListItemsFuncs[7].name:='Move';
-	ListItemsFuncs[7].func:=@VCLua_ListItems_Move;
-	ListItemsFuncs[8].name:='FindCaption';
-	ListItemsFuncs[8].func:=@VCLua_ListItems_FindCaption;
-	ListItemsFuncs[9].name:='FindData';
-	ListItemsFuncs[9].func:=@VCLua_ListItems_FindData;
-	ListItemsFuncs[10].name:='FindData2';
-	ListItemsFuncs[10].func:=@VCLua_ListItems_FindData2;
-	ListItemsFuncs[11].name:='IndexOf';
-	ListItemsFuncs[11].func:=@VCLua_ListItems_IndexOf;
-	ListItemsFuncs[12].name:='Insert';
-	ListItemsFuncs[12].func:=@VCLua_ListItems_Insert;
-	ListItemsFuncs[13].name:='InsertItem';
-	ListItemsFuncs[13].func:=@VCLua_ListItems_InsertItem;
-	ListItemsFuncs[14].name:='Item';
-	ListItemsFuncs[14].func:=@VCLua_ListItems_Item;
-	ListItemsFuncs[15].name:=nil;
-	ListItemsFuncs[15].func:=nil;
-
-	SetLength(CustomListViewFuncs, 14+1);
-	CustomListViewFuncs[0].name:='AddItem';
-	CustomListViewFuncs[0].func:=@VCLua_ListView_AddItem;
-	CustomListViewFuncs[1].name:='Sort';
-	CustomListViewFuncs[1].func:=@VCLua_ListView_Sort;
-	CustomListViewFuncs[2].name:='BeginUpdate';
-	CustomListViewFuncs[2].func:=@VCLua_ListView_BeginUpdate;
-	CustomListViewFuncs[3].name:='Clear';
-	CustomListViewFuncs[3].func:=@VCLua_ListView_Clear;
-	CustomListViewFuncs[4].name:='EndUpdate';
-	CustomListViewFuncs[4].func:=@VCLua_ListView_EndUpdate;
-	CustomListViewFuncs[5].name:='Repaint';
-	CustomListViewFuncs[5].func:=@VCLua_ListView_Repaint;
-	CustomListViewFuncs[6].name:='FindCaption';
-	CustomListViewFuncs[6].func:=@VCLua_ListView_FindCaption;
-	CustomListViewFuncs[7].name:='FindData';
-	CustomListViewFuncs[7].func:=@VCLua_ListView_FindData;
-	CustomListViewFuncs[8].name:='GetItemAt';
-	CustomListViewFuncs[8].func:=@VCLua_ListView_GetItemAt;
-	CustomListViewFuncs[9].name:='GetNearestItem';
-	CustomListViewFuncs[9].func:=@VCLua_ListView_GetNearestItem;
-	CustomListViewFuncs[10].name:='GetNextItem';
-	CustomListViewFuncs[10].func:=@VCLua_ListView_GetNextItem;
-	CustomListViewFuncs[11].name:='ClearSelection';
-	CustomListViewFuncs[11].func:=@VCLua_ListView_ClearSelection;
-	CustomListViewFuncs[12].name:='SelectAll';
-	CustomListViewFuncs[12].func:=@VCLua_ListView_SelectAll;
-	CustomListViewFuncs[13].name:='Column';
-	CustomListViewFuncs[13].func:=@VCLua_ListView_Column;
-	CustomListViewFuncs[14].name:=nil;
-	CustomListViewFuncs[14].func:=nil;
-
+	ListItemFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ListItemFuncs, 'Assign', @VCLua_ListItem_Assign);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Delete', @VCLua_ListItem_Delete);
+	TLuaMethodInfo.Create(ListItemFuncs, 'MakeVisible', @VCLua_ListItem_MakeVisible);
+	TLuaMethodInfo.Create(ListItemFuncs, 'DisplayRect', @VCLua_ListItem_DisplayRect);
+	TLuaMethodInfo.Create(ListItemFuncs, 'DisplayRectSubItem', @VCLua_ListItem_DisplayRectSubItem);
+	TLuaMethodInfo.Create(ListItemFuncs, 'EditCaption', @VCLua_ListItem_EditCaption);
+	TLuaMethodInfo.Create(ListItemFuncs, 'SubItemImages', @VCLua_ListItem_SubItemImages);
+	ListItemsFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ListItemsFuncs, 'Add', @VCLua_ListItems_Add);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'AddItem', @VCLua_ListItems_AddItem);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'BeginUpdate', @VCLua_ListItems_BeginUpdate);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'Clear', @VCLua_ListItems_Clear);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'Delete', @VCLua_ListItems_Delete);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'EndUpdate', @VCLua_ListItems_EndUpdate);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'Exchange', @VCLua_ListItems_Exchange);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'Move', @VCLua_ListItems_Move);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'FindCaption', @VCLua_ListItems_FindCaption);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'FindData', @VCLua_ListItems_FindData);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'FindData2', @VCLua_ListItems_FindData2);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'IndexOf', @VCLua_ListItems_IndexOf);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'Insert', @VCLua_ListItems_Insert);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'InsertItem', @VCLua_ListItems_InsertItem);
+	TLuaMethodInfo.Create(ListItemsFuncs, 'Item', @VCLua_ListItems_Item);
+	CustomListViewFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'AddItem', @VCLua_ListView_AddItem);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'Sort', @VCLua_ListView_Sort);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'BeginUpdate', @VCLua_ListView_BeginUpdate);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'Clear', @VCLua_ListView_Clear);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'EndUpdate', @VCLua_ListView_EndUpdate);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'Repaint', @VCLua_ListView_Repaint);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'FindCaption', @VCLua_ListView_FindCaption);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'FindData', @VCLua_ListView_FindData);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'GetItemAt', @VCLua_ListView_GetItemAt);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'GetNearestItem', @VCLua_ListView_GetNearestItem);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'GetNextItem', @VCLua_ListView_GetNextItem);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'ClearSelection', @VCLua_ListView_ClearSelection);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'SelectAll', @VCLua_ListView_SelectAll);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'Column', @VCLua_ListView_Column);
 end.

@@ -8,7 +8,7 @@ unit LuaCheckGroup;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateCheckGroup(L: Plua_State): Integer; cdecl;
 function IsCheckGroup(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomCheckGroupFuncs: aoluaL_Reg;
+    CustomCheckGroupFuncs: TLuaVmt;
 
 
 implementation
@@ -147,16 +147,9 @@ begin
 end;
 
 begin
-	SetLength(CustomCheckGroupFuncs, 4+1);
-	CustomCheckGroupFuncs[0].name:='FlipChildren';
-	CustomCheckGroupFuncs[0].func:=@VCLua_CheckGroup_FlipChildren;
-	CustomCheckGroupFuncs[1].name:='Rows';
-	CustomCheckGroupFuncs[1].func:=@VCLua_CheckGroup_Rows;
-	CustomCheckGroupFuncs[2].name:='Checked';
-	CustomCheckGroupFuncs[2].func:=@VCLua_CheckGroup_Checked;
-	CustomCheckGroupFuncs[3].name:='CheckEnabled';
-	CustomCheckGroupFuncs[3].func:=@VCLua_CheckGroup_CheckEnabled;
-	CustomCheckGroupFuncs[4].name:=nil;
-	CustomCheckGroupFuncs[4].func:=nil;
-
+	CustomCheckGroupFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'FlipChildren', @VCLua_CheckGroup_FlipChildren);
+	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'Rows', @VCLua_CheckGroup_Rows);
+	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'Checked', @VCLua_CheckGroup_Checked);
+	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'CheckEnabled', @VCLua_CheckGroup_CheckEnabled);
 end.

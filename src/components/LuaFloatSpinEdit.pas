@@ -8,7 +8,7 @@ unit LuaFloatSpinEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, Spin, TypInfo;
+Uses Classes, Lua, LuaController, Spin, TypInfo, LuaVmt;
 
 function CreateFloatSpinEdit(L: Plua_State): Integer; cdecl;
 function IsFloatSpinEdit(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomFloatSpinEditFuncs: aoluaL_Reg;
+    CustomFloatSpinEditFuncs: TLuaVmt;
 
 
 implementation
@@ -120,14 +120,8 @@ begin
 end;
 
 begin
-	SetLength(CustomFloatSpinEditFuncs, 3+1);
-	CustomFloatSpinEditFuncs[0].name:='GetLimitedValue';
-	CustomFloatSpinEditFuncs[0].func:=@VCLua_FloatSpinEdit_GetLimitedValue;
-	CustomFloatSpinEditFuncs[1].name:='ValueToStr';
-	CustomFloatSpinEditFuncs[1].func:=@VCLua_FloatSpinEdit_ValueToStr;
-	CustomFloatSpinEditFuncs[2].name:='StrToValue';
-	CustomFloatSpinEditFuncs[2].func:=@VCLua_FloatSpinEdit_StrToValue;
-	CustomFloatSpinEditFuncs[3].name:=nil;
-	CustomFloatSpinEditFuncs[3].func:=nil;
-
+	CustomFloatSpinEditFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'GetLimitedValue', @VCLua_FloatSpinEdit_GetLimitedValue);
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'ValueToStr', @VCLua_FloatSpinEdit_ValueToStr);
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'StrToValue', @VCLua_FloatSpinEdit_StrToValue);
 end.

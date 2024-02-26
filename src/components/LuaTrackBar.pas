@@ -8,7 +8,7 @@ unit LuaTrackBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateTrackBar(L: Plua_State): Integer; cdecl;
 function IsTrackBar(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomTrackBarFuncs: aoluaL_Reg;
+    CustomTrackBarFuncs: TLuaVmt;
 
 
 implementation
@@ -80,10 +80,6 @@ begin
 end;
 
 begin
-	SetLength(CustomTrackBarFuncs, 1+1);
-	CustomTrackBarFuncs[0].name:='SetTick';
-	CustomTrackBarFuncs[0].func:=@VCLua_TrackBar_SetTick;
-	CustomTrackBarFuncs[1].name:=nil;
-	CustomTrackBarFuncs[1].func:=nil;
-
+	CustomTrackBarFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomTrackBarFuncs, 'SetTick', @VCLua_TrackBar_SetTick);
 end.

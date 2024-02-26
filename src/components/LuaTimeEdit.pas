@@ -8,7 +8,7 @@ unit LuaTimeEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, TypInfo;
+Uses Classes, Lua, LuaController, EditBtn, TypInfo, LuaVmt;
 
 function CreateTimeEdit(L: Plua_State): Integer; cdecl;
 function IsTimeEdit(L: Plua_State): Integer; cdecl;

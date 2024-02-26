@@ -8,7 +8,7 @@ unit LuaStaticText;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateStaticText(L: Plua_State): Integer; cdecl;
 function IsStaticText(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomStaticTextFuncs: aoluaL_Reg;
+    CustomStaticTextFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(CustomStaticTextFuncs, 0+1);
+	CustomStaticTextFuncs := TLuaVmt.Create;
 	
-	CustomStaticTextFuncs[0].name:=nil;
-	CustomStaticTextFuncs[0].func:=nil;
-
 end.

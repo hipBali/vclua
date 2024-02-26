@@ -421,10 +421,10 @@ function createUnitBody(cdef, ref, refs)
 	local src = cdef.src:sub(2)
 	local initSrc = not initedSrcs[src]
 	if not initSrc then cLog("###  skipping init of src "..src, "DEBUG") end
-	local initFmt = src.."Funcs[%d].name:='%s';\n\t"..src.."Funcs[%d].func:=@%s;"
+	local initFmt = "TLuaMethodInfo.Create("..src.."Funcs, '%s', @%s);"
 	local function addMethod(finalMethodName,vcluaMethodName)
 			if initSrc then
-				table.insert(cMethods,string.format(initFmt,mIdx,finalMethodName,mIdx,vcluaMethodName))
+				table.insert(cMethods,initFmt:format(finalMethodName,vcluaMethodName))
 				mIdx=mIdx+1
 			end
 	end

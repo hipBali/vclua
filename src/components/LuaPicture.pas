@@ -8,7 +8,7 @@ unit LuaPicture;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 function CreatePicture(L: Plua_State): Integer; cdecl;
 function IsPicture(L: Plua_State): Integer; cdecl;
@@ -21,7 +21,7 @@ type
       L:Plua_State;
     end;
 var
-    PictureFuncs: aoluaL_Reg;
+    PictureFuncs: TLuaVmt;
 
 
 implementation
@@ -197,24 +197,13 @@ begin
 	Result := 1;
 end;
 begin
-	SetLength(PictureFuncs, 8+1);
-	PictureFuncs[0].name:='Clear';
-	PictureFuncs[0].func:=@VCLua_Picture_Clear;
-	PictureFuncs[1].name:='LoadFromFile';
-	PictureFuncs[1].func:=@VCLua_Picture_LoadFromFile;
-	PictureFuncs[2].name:='LoadFromStream';
-	PictureFuncs[2].func:=@VCLua_Picture_LoadFromStream;
-	PictureFuncs[3].name:='LoadFromStreamWithFileExt';
-	PictureFuncs[3].func:=@VCLua_Picture_LoadFromStreamWithFileExt;
-	PictureFuncs[4].name:='SaveToFile';
-	PictureFuncs[4].func:=@VCLua_Picture_SaveToFile;
-	PictureFuncs[5].name:='SaveToStream';
-	PictureFuncs[5].func:=@VCLua_Picture_SaveToStream;
-	PictureFuncs[6].name:='SaveToStreamWithFileExt';
-	PictureFuncs[6].func:=@VCLua_Picture_SaveToStreamWithFileExt;
-	PictureFuncs[7].name:='Assign';
-	PictureFuncs[7].func:=@VCLua_Picture_Assign;
-	PictureFuncs[8].name:=nil;
-	PictureFuncs[8].func:=nil;
-
+	PictureFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PictureFuncs, 'Clear', @VCLua_Picture_Clear);
+	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromFile', @VCLua_Picture_LoadFromFile);
+	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromStream', @VCLua_Picture_LoadFromStream);
+	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromStreamWithFileExt', @VCLua_Picture_LoadFromStreamWithFileExt);
+	TLuaMethodInfo.Create(PictureFuncs, 'SaveToFile', @VCLua_Picture_SaveToFile);
+	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStream', @VCLua_Picture_SaveToStream);
+	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStreamWithFileExt', @VCLua_Picture_SaveToStreamWithFileExt);
+	TLuaMethodInfo.Create(PictureFuncs, 'Assign', @VCLua_Picture_Assign);
 end.

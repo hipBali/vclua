@@ -8,7 +8,7 @@ unit LuaUpDown;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateUpDown(L: Plua_State): Integer; cdecl;
 function IsUpDown(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    UpDownFuncs: aoluaL_Reg;
+    UpDownFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(UpDownFuncs, 0+1);
+	UpDownFuncs := TLuaVmt.Create;
 	
-	UpDownFuncs[0].name:=nil;
-	UpDownFuncs[0].func:=nil;
-
 end.

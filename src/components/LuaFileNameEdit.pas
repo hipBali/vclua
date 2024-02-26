@@ -8,7 +8,7 @@ unit LuaFileNameEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, TypInfo;
+Uses Classes, Lua, LuaController, EditBtn, TypInfo, LuaVmt;
 
 function CreateFileNameEdit(L: Plua_State): Integer; cdecl;
 function IsFileNameEdit(L: Plua_State): Integer; cdecl;

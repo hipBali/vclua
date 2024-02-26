@@ -8,7 +8,7 @@ unit LuaMenu;
 
 interface
 
-Uses Classes, Lua, LuaController, Menus, TypInfo;
+Uses Classes, Lua, LuaController, Menus, TypInfo, LuaVmt;
 
 function CreateMenu(L: Plua_State): Integer; cdecl;
 function IsMenu(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    MenuFuncs: aoluaL_Reg;
+    MenuFuncs: TLuaVmt;
 
 function CreatePopupMenu(L: Plua_State): Integer; cdecl;
 function IsPopupMenu(L: Plua_State): Integer; cdecl;
@@ -32,7 +32,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    PopupMenuFuncs: aoluaL_Reg;
+    PopupMenuFuncs: TLuaVmt;
 
 function CreateMenuItem(L: Plua_State): Integer; cdecl;
 function IsMenuItem(L: Plua_State): Integer; cdecl;
@@ -44,7 +44,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    MenuItemFuncs: aoluaL_Reg;
+    MenuItemFuncs: TLuaVmt;
 
 function CreateMainMenu(L: Plua_State): Integer; cdecl;
 function IsMainMenu(L: Plua_State): Integer; cdecl;
@@ -56,7 +56,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    MainMenuFuncs: aoluaL_Reg;
+    MainMenuFuncs: TLuaVmt;
 
 
 implementation
@@ -1042,118 +1042,57 @@ begin
 end;
 
 begin
-	SetLength(MenuFuncs, 9+1);
-	MenuFuncs[0].name:='DestroyHandle';
-	MenuFuncs[0].func:=@VCLua_Menu_DestroyHandle;
-	MenuFuncs[1].name:='FindItem';
-	MenuFuncs[1].func:=@VCLua_Menu_FindItem;
-	MenuFuncs[2].name:='GetHelpContext';
-	MenuFuncs[2].func:=@VCLua_Menu_GetHelpContext;
-	MenuFuncs[3].name:='HandleAllocated';
-	MenuFuncs[3].func:=@VCLua_Menu_HandleAllocated;
-	MenuFuncs[4].name:='IsRightToLeft';
-	MenuFuncs[4].func:=@VCLua_Menu_IsRightToLeft;
-	MenuFuncs[5].name:='UseRightToLeftAlignment';
-	MenuFuncs[5].func:=@VCLua_Menu_UseRightToLeftAlignment;
-	MenuFuncs[6].name:='UseRightToLeftReading';
-	MenuFuncs[6].func:=@VCLua_Menu_UseRightToLeftReading;
-	MenuFuncs[7].name:='HandleNeeded';
-	MenuFuncs[7].func:=@VCLua_Menu_HandleNeeded;
-	MenuFuncs[8].name:='DispatchCommand';
-	MenuFuncs[8].func:=@VCLua_Menu_DispatchCommand;
-	MenuFuncs[9].name:=nil;
-	MenuFuncs[9].func:=nil;
-
-	SetLength(PopupMenuFuncs, 3+1);
-	PopupMenuFuncs[0].name:='PopUp';
-	PopupMenuFuncs[0].func:=@VCLua_PopupMenu_PopUp;
-	PopupMenuFuncs[1].name:='PopUp2';
-	PopupMenuFuncs[1].func:=@VCLua_PopupMenu_PopUp2;
-	PopupMenuFuncs[2].name:='Close';
-	PopupMenuFuncs[2].func:=@VCLua_PopupMenu_Close;
-	PopupMenuFuncs[3].name:=nil;
-	PopupMenuFuncs[3].func:=nil;
-
-	SetLength(MenuItemFuncs, 35+1);
-	MenuItemFuncs[0].name:='Find';
-	MenuItemFuncs[0].func:=@VCLua_MenuItem_Find;
-	MenuItemFuncs[1].name:='GetImageList';
-	MenuItemFuncs[1].func:=@VCLua_MenuItem_GetImageList;
-	MenuItemFuncs[2].name:='GetImageList2';
-	MenuItemFuncs[2].func:=@VCLua_MenuItem_GetImageList2;
-	MenuItemFuncs[3].name:='GetParentComponent';
-	MenuItemFuncs[3].func:=@VCLua_MenuItem_GetParentComponent;
-	MenuItemFuncs[4].name:='GetParentMenu';
-	MenuItemFuncs[4].func:=@VCLua_MenuItem_GetParentMenu;
-	MenuItemFuncs[5].name:='GetMergedParentMenu';
-	MenuItemFuncs[5].func:=@VCLua_MenuItem_GetMergedParentMenu;
-	MenuItemFuncs[6].name:='GetIsRightToLeft';
-	MenuItemFuncs[6].func:=@VCLua_MenuItem_GetIsRightToLeft;
-	MenuItemFuncs[7].name:='HandleAllocated';
-	MenuItemFuncs[7].func:=@VCLua_MenuItem_HandleAllocated;
-	MenuItemFuncs[8].name:='HasIcon';
-	MenuItemFuncs[8].func:=@VCLua_MenuItem_HasIcon;
-	MenuItemFuncs[9].name:='HasParent';
-	MenuItemFuncs[9].func:=@VCLua_MenuItem_HasParent;
-	MenuItemFuncs[10].name:='InitiateAction';
-	MenuItemFuncs[10].func:=@VCLua_MenuItem_InitiateAction;
-	MenuItemFuncs[11].name:='IntfDoSelect';
-	MenuItemFuncs[11].func:=@VCLua_MenuItem_IntfDoSelect;
-	MenuItemFuncs[12].name:='IndexOf';
-	MenuItemFuncs[12].func:=@VCLua_MenuItem_IndexOf;
-	MenuItemFuncs[13].name:='IndexOfCaption';
-	MenuItemFuncs[13].func:=@VCLua_MenuItem_IndexOfCaption;
-	MenuItemFuncs[14].name:='InvalidateMergedItems';
-	MenuItemFuncs[14].func:=@VCLua_MenuItem_InvalidateMergedItems;
-	MenuItemFuncs[15].name:='VisibleIndexOf';
-	MenuItemFuncs[15].func:=@VCLua_MenuItem_VisibleIndexOf;
-	MenuItemFuncs[16].name:='Add';
-	MenuItemFuncs[16].func:=@VCLua_MenuItem_Add;
-	MenuItemFuncs[17].name:='Add2';
-	MenuItemFuncs[17].func:=@VCLua_MenuItem_Add2;
-	MenuItemFuncs[18].name:='AddSeparator';
-	MenuItemFuncs[18].func:=@VCLua_MenuItem_AddSeparator;
-	MenuItemFuncs[19].name:='Click';
-	MenuItemFuncs[19].func:=@VCLua_MenuItem_Click;
-	MenuItemFuncs[20].name:='Delete';
-	MenuItemFuncs[20].func:=@VCLua_MenuItem_Delete;
-	MenuItemFuncs[21].name:='HandleNeeded';
-	MenuItemFuncs[21].func:=@VCLua_MenuItem_HandleNeeded;
-	MenuItemFuncs[22].name:='Insert';
-	MenuItemFuncs[22].func:=@VCLua_MenuItem_Insert;
-	MenuItemFuncs[23].name:='RecreateHandle';
-	MenuItemFuncs[23].func:=@VCLua_MenuItem_RecreateHandle;
-	MenuItemFuncs[24].name:='Remove';
-	MenuItemFuncs[24].func:=@VCLua_MenuItem_Remove;
-	MenuItemFuncs[25].name:='UpdateImage';
-	MenuItemFuncs[25].func:=@VCLua_MenuItem_UpdateImage;
-	MenuItemFuncs[26].name:='UpdateImages';
-	MenuItemFuncs[26].func:=@VCLua_MenuItem_UpdateImages;
-	MenuItemFuncs[27].name:='IsCheckItem';
-	MenuItemFuncs[27].func:=@VCLua_MenuItem_IsCheckItem;
-	MenuItemFuncs[28].name:='IsLine';
-	MenuItemFuncs[28].func:=@VCLua_MenuItem_IsLine;
-	MenuItemFuncs[29].name:='IsInMenuBar';
-	MenuItemFuncs[29].func:=@VCLua_MenuItem_IsInMenuBar;
-	MenuItemFuncs[30].name:='Clear';
-	MenuItemFuncs[30].func:=@VCLua_MenuItem_Clear;
-	MenuItemFuncs[31].name:='HasBitmap';
-	MenuItemFuncs[31].func:=@VCLua_MenuItem_HasBitmap;
-	MenuItemFuncs[32].name:='Items';
-	MenuItemFuncs[32].func:=@VCLua_MenuItem_Items;
-	MenuItemFuncs[33].name:='MenuVisibleIndex';
-	MenuItemFuncs[33].func:=@VCLua_MenuItem_MenuVisibleIndex;
-	MenuItemFuncs[34].name:='WriteDebugReport';
-	MenuItemFuncs[34].func:=@VCLua_MenuItem_WriteDebugReport;
-	MenuItemFuncs[35].name:=nil;
-	MenuItemFuncs[35].func:=nil;
-
-	SetLength(MainMenuFuncs, 2+1);
-	MainMenuFuncs[0].name:='Merge';
-	MainMenuFuncs[0].func:=@VCLua_MainMenu_Merge;
-	MainMenuFuncs[1].name:='Unmerge';
-	MainMenuFuncs[1].func:=@VCLua_MainMenu_Unmerge;
-	MainMenuFuncs[2].name:=nil;
-	MainMenuFuncs[2].func:=nil;
-
+	MenuFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(MenuFuncs, 'DestroyHandle', @VCLua_Menu_DestroyHandle);
+	TLuaMethodInfo.Create(MenuFuncs, 'FindItem', @VCLua_Menu_FindItem);
+	TLuaMethodInfo.Create(MenuFuncs, 'GetHelpContext', @VCLua_Menu_GetHelpContext);
+	TLuaMethodInfo.Create(MenuFuncs, 'HandleAllocated', @VCLua_Menu_HandleAllocated);
+	TLuaMethodInfo.Create(MenuFuncs, 'IsRightToLeft', @VCLua_Menu_IsRightToLeft);
+	TLuaMethodInfo.Create(MenuFuncs, 'UseRightToLeftAlignment', @VCLua_Menu_UseRightToLeftAlignment);
+	TLuaMethodInfo.Create(MenuFuncs, 'UseRightToLeftReading', @VCLua_Menu_UseRightToLeftReading);
+	TLuaMethodInfo.Create(MenuFuncs, 'HandleNeeded', @VCLua_Menu_HandleNeeded);
+	TLuaMethodInfo.Create(MenuFuncs, 'DispatchCommand', @VCLua_Menu_DispatchCommand);
+	PopupMenuFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PopupMenuFuncs, 'PopUp', @VCLua_PopupMenu_PopUp);
+	TLuaMethodInfo.Create(PopupMenuFuncs, 'PopUp2', @VCLua_PopupMenu_PopUp2);
+	TLuaMethodInfo.Create(PopupMenuFuncs, 'Close', @VCLua_PopupMenu_Close);
+	MenuItemFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(MenuItemFuncs, 'Find', @VCLua_MenuItem_Find);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'GetImageList', @VCLua_MenuItem_GetImageList);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'GetImageList2', @VCLua_MenuItem_GetImageList2);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'GetParentComponent', @VCLua_MenuItem_GetParentComponent);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'GetParentMenu', @VCLua_MenuItem_GetParentMenu);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'GetMergedParentMenu', @VCLua_MenuItem_GetMergedParentMenu);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'GetIsRightToLeft', @VCLua_MenuItem_GetIsRightToLeft);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'HandleAllocated', @VCLua_MenuItem_HandleAllocated);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'HasIcon', @VCLua_MenuItem_HasIcon);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'HasParent', @VCLua_MenuItem_HasParent);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'InitiateAction', @VCLua_MenuItem_InitiateAction);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'IntfDoSelect', @VCLua_MenuItem_IntfDoSelect);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'IndexOf', @VCLua_MenuItem_IndexOf);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'IndexOfCaption', @VCLua_MenuItem_IndexOfCaption);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'InvalidateMergedItems', @VCLua_MenuItem_InvalidateMergedItems);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'VisibleIndexOf', @VCLua_MenuItem_VisibleIndexOf);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'Add', @VCLua_MenuItem_Add);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'Add2', @VCLua_MenuItem_Add2);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'AddSeparator', @VCLua_MenuItem_AddSeparator);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'Click', @VCLua_MenuItem_Click);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'Delete', @VCLua_MenuItem_Delete);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'HandleNeeded', @VCLua_MenuItem_HandleNeeded);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'Insert', @VCLua_MenuItem_Insert);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'RecreateHandle', @VCLua_MenuItem_RecreateHandle);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'Remove', @VCLua_MenuItem_Remove);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'UpdateImage', @VCLua_MenuItem_UpdateImage);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'UpdateImages', @VCLua_MenuItem_UpdateImages);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'IsCheckItem', @VCLua_MenuItem_IsCheckItem);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'IsLine', @VCLua_MenuItem_IsLine);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'IsInMenuBar', @VCLua_MenuItem_IsInMenuBar);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'Clear', @VCLua_MenuItem_Clear);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'HasBitmap', @VCLua_MenuItem_HasBitmap);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'Items', @VCLua_MenuItem_Items);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'MenuVisibleIndex', @VCLua_MenuItem_MenuVisibleIndex);
+	TLuaMethodInfo.Create(MenuItemFuncs, 'WriteDebugReport', @VCLua_MenuItem_WriteDebugReport);
+	MainMenuFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(MainMenuFuncs, 'Merge', @VCLua_MainMenu_Merge);
+	TLuaMethodInfo.Create(MainMenuFuncs, 'Unmerge', @VCLua_MainMenu_Unmerge);
 end.

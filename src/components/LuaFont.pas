@@ -8,7 +8,7 @@ unit LuaFont;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 function IsFont(L: Plua_State): Integer; cdecl;
 function AsFont(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
       L:Plua_State;
     end;
 var
-    FontFuncs: aoluaL_Reg;
+    FontFuncs: TLuaVmt;
 
 
 implementation
@@ -164,22 +164,12 @@ begin
 end;
 
 begin
-	SetLength(FontFuncs, 7+1);
-	FontFuncs[0].name:='Assign';
-	FontFuncs[0].func:=@VCLua_Font_Assign;
-	FontFuncs[1].name:='BeginUpdate';
-	FontFuncs[1].func:=@VCLua_Font_BeginUpdate;
-	FontFuncs[2].name:='EndUpdate';
-	FontFuncs[2].func:=@VCLua_Font_EndUpdate;
-	FontFuncs[3].name:='HandleAllocated';
-	FontFuncs[3].func:=@VCLua_Font_HandleAllocated;
-	FontFuncs[4].name:='IsDefault';
-	FontFuncs[4].func:=@VCLua_Font_IsDefault;
-	FontFuncs[5].name:='IsEqual';
-	FontFuncs[5].func:=@VCLua_Font_IsEqual;
-	FontFuncs[6].name:='SetDefault';
-	FontFuncs[6].func:=@VCLua_Font_SetDefault;
-	FontFuncs[7].name:=nil;
-	FontFuncs[7].func:=nil;
-
+	FontFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(FontFuncs, 'Assign', @VCLua_Font_Assign);
+	TLuaMethodInfo.Create(FontFuncs, 'BeginUpdate', @VCLua_Font_BeginUpdate);
+	TLuaMethodInfo.Create(FontFuncs, 'EndUpdate', @VCLua_Font_EndUpdate);
+	TLuaMethodInfo.Create(FontFuncs, 'HandleAllocated', @VCLua_Font_HandleAllocated);
+	TLuaMethodInfo.Create(FontFuncs, 'IsDefault', @VCLua_Font_IsDefault);
+	TLuaMethodInfo.Create(FontFuncs, 'IsEqual', @VCLua_Font_IsEqual);
+	TLuaMethodInfo.Create(FontFuncs, 'SetDefault', @VCLua_Font_SetDefault);
 end.

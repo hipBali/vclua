@@ -8,7 +8,7 @@ unit LuaHeaderControl;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateHeaderControl(L: Plua_State): Integer; cdecl;
 function IsHeaderControl(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomHeaderControlFuncs: aoluaL_Reg;
+    CustomHeaderControlFuncs: TLuaVmt;
 
 
 implementation
@@ -182,22 +182,12 @@ begin
 end;
 
 begin
-	SetLength(CustomHeaderControlFuncs, 7+1);
-	CustomHeaderControlFuncs[0].name:='SectionFromOriginalIndex';
-	CustomHeaderControlFuncs[0].func:=@VCLua_HeaderControl_SectionFromOriginalIndex;
-	CustomHeaderControlFuncs[1].name:='Click';
-	CustomHeaderControlFuncs[1].func:=@VCLua_HeaderControl_Click;
-	CustomHeaderControlFuncs[2].name:='DblClick';
-	CustomHeaderControlFuncs[2].func:=@VCLua_HeaderControl_DblClick;
-	CustomHeaderControlFuncs[3].name:='GetSectionAt';
-	CustomHeaderControlFuncs[3].func:=@VCLua_HeaderControl_GetSectionAt;
-	CustomHeaderControlFuncs[4].name:='Paint';
-	CustomHeaderControlFuncs[4].func:=@VCLua_HeaderControl_Paint;
-	CustomHeaderControlFuncs[5].name:='PaintSection';
-	CustomHeaderControlFuncs[5].func:=@VCLua_HeaderControl_PaintSection;
-	CustomHeaderControlFuncs[6].name:='ChangeScale';
-	CustomHeaderControlFuncs[6].func:=@VCLua_HeaderControl_ChangeScale;
-	CustomHeaderControlFuncs[7].name:=nil;
-	CustomHeaderControlFuncs[7].func:=nil;
-
+	CustomHeaderControlFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'SectionFromOriginalIndex', @VCLua_HeaderControl_SectionFromOriginalIndex);
+	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'Click', @VCLua_HeaderControl_Click);
+	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'DblClick', @VCLua_HeaderControl_DblClick);
+	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'GetSectionAt', @VCLua_HeaderControl_GetSectionAt);
+	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'Paint', @VCLua_HeaderControl_Paint);
+	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'PaintSection', @VCLua_HeaderControl_PaintSection);
+	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'ChangeScale', @VCLua_HeaderControl_ChangeScale);
 end.

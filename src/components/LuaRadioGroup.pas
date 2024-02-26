@@ -8,7 +8,7 @@ unit LuaRadioGroup;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateRadioGroup(L: Plua_State): Integer; cdecl;
 function IsRadioGroup(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomRadioGroupFuncs: aoluaL_Reg;
+    CustomRadioGroupFuncs: TLuaVmt;
 
 
 implementation
@@ -114,14 +114,8 @@ begin
 end;
 
 begin
-	SetLength(CustomRadioGroupFuncs, 3+1);
-	CustomRadioGroupFuncs[0].name:='CanModify';
-	CustomRadioGroupFuncs[0].func:=@VCLua_RadioGroup_CanModify;
-	CustomRadioGroupFuncs[1].name:='FlipChildren';
-	CustomRadioGroupFuncs[1].func:=@VCLua_RadioGroup_FlipChildren;
-	CustomRadioGroupFuncs[2].name:='Rows';
-	CustomRadioGroupFuncs[2].func:=@VCLua_RadioGroup_Rows;
-	CustomRadioGroupFuncs[3].name:=nil;
-	CustomRadioGroupFuncs[3].func:=nil;
-
+	CustomRadioGroupFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomRadioGroupFuncs, 'CanModify', @VCLua_RadioGroup_CanModify);
+	TLuaMethodInfo.Create(CustomRadioGroupFuncs, 'FlipChildren', @VCLua_RadioGroup_FlipChildren);
+	TLuaMethodInfo.Create(CustomRadioGroupFuncs, 'Rows', @VCLua_RadioGroup_Rows);
 end.

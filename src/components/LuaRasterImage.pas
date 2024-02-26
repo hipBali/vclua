@@ -8,7 +8,7 @@ unit LuaRasterImage;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 function IsRasterImage(L: Plua_State): Integer; cdecl;
 function AsRasterImage(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
       L:Plua_State;
     end;
 var
-    RasterImageFuncs: aoluaL_Reg;
+    RasterImageFuncs: TLuaVmt;
 
 
 implementation
@@ -357,44 +357,23 @@ begin
 end;
 
 begin
-	SetLength(RasterImageFuncs, 18+1);
-	RasterImageFuncs[0].name:='Assign';
-	RasterImageFuncs[0].func:=@VCLua_RasterImage_Assign;
-	RasterImageFuncs[1].name:='Clear';
-	RasterImageFuncs[1].func:=@VCLua_RasterImage_Clear;
-	RasterImageFuncs[2].name:='BeginUpdate';
-	RasterImageFuncs[2].func:=@VCLua_RasterImage_BeginUpdate;
-	RasterImageFuncs[3].name:='EndUpdate';
-	RasterImageFuncs[3].func:=@VCLua_RasterImage_EndUpdate;
-	RasterImageFuncs[4].name:='FreeImage';
-	RasterImageFuncs[4].func:=@VCLua_RasterImage_FreeImage;
-	RasterImageFuncs[5].name:='BitmapHandleAllocated';
-	RasterImageFuncs[5].func:=@VCLua_RasterImage_BitmapHandleAllocated;
-	RasterImageFuncs[6].name:='MaskHandleAllocated';
-	RasterImageFuncs[6].func:=@VCLua_RasterImage_MaskHandleAllocated;
-	RasterImageFuncs[7].name:='PaletteAllocated';
-	RasterImageFuncs[7].func:=@VCLua_RasterImage_PaletteAllocated;
-	RasterImageFuncs[8].name:='LoadFromStream';
-	RasterImageFuncs[8].func:=@VCLua_RasterImage_LoadFromStream;
-	RasterImageFuncs[9].name:='LoadFromStream2';
-	RasterImageFuncs[9].func:=@VCLua_RasterImage_LoadFromStream2;
-	RasterImageFuncs[10].name:='LoadFromMimeStream';
-	RasterImageFuncs[10].func:=@VCLua_RasterImage_LoadFromMimeStream;
-	RasterImageFuncs[11].name:='SaveToStream';
-	RasterImageFuncs[11].func:=@VCLua_RasterImage_SaveToStream;
-	RasterImageFuncs[12].name:='GetSupportedSourceMimeTypes';
-	RasterImageFuncs[12].func:=@VCLua_RasterImage_GetSupportedSourceMimeTypes;
-	RasterImageFuncs[13].name:='GetSize';
-	RasterImageFuncs[13].func:=@VCLua_RasterImage_GetSize;
-	RasterImageFuncs[14].name:='Mask';
-	RasterImageFuncs[14].func:=@VCLua_RasterImage_Mask;
-	RasterImageFuncs[15].name:='ReleaseBitmapHandle';
-	RasterImageFuncs[15].func:=@VCLua_RasterImage_ReleaseBitmapHandle;
-	RasterImageFuncs[16].name:='ReleaseMaskHandle';
-	RasterImageFuncs[16].func:=@VCLua_RasterImage_ReleaseMaskHandle;
-	RasterImageFuncs[17].name:='HandleAllocated';
-	RasterImageFuncs[17].func:=@VCLua_RasterImage_HandleAllocated;
-	RasterImageFuncs[18].name:=nil;
-	RasterImageFuncs[18].func:=nil;
-
+	RasterImageFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(RasterImageFuncs, 'Assign', @VCLua_RasterImage_Assign);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'Clear', @VCLua_RasterImage_Clear);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'BeginUpdate', @VCLua_RasterImage_BeginUpdate);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'EndUpdate', @VCLua_RasterImage_EndUpdate);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'FreeImage', @VCLua_RasterImage_FreeImage);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'BitmapHandleAllocated', @VCLua_RasterImage_BitmapHandleAllocated);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'MaskHandleAllocated', @VCLua_RasterImage_MaskHandleAllocated);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'PaletteAllocated', @VCLua_RasterImage_PaletteAllocated);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'LoadFromStream', @VCLua_RasterImage_LoadFromStream);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'LoadFromStream2', @VCLua_RasterImage_LoadFromStream2);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'LoadFromMimeStream', @VCLua_RasterImage_LoadFromMimeStream);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'SaveToStream', @VCLua_RasterImage_SaveToStream);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'GetSupportedSourceMimeTypes', @VCLua_RasterImage_GetSupportedSourceMimeTypes);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'GetSize', @VCLua_RasterImage_GetSize);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'Mask', @VCLua_RasterImage_Mask);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'ReleaseBitmapHandle', @VCLua_RasterImage_ReleaseBitmapHandle);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'ReleaseMaskHandle', @VCLua_RasterImage_ReleaseMaskHandle);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'HandleAllocated', @VCLua_RasterImage_HandleAllocated);
 end.

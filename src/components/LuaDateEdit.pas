@@ -8,7 +8,7 @@ unit LuaDateEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, TypInfo;
+Uses Classes, Lua, LuaController, EditBtn, TypInfo, LuaVmt;
 
 function CreateDateEdit(L: Plua_State): Integer; cdecl;
 function IsDateEdit(L: Plua_State): Integer; cdecl;

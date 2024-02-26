@@ -8,7 +8,7 @@ unit LuaBevel;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateBevel(L: Plua_State): Integer; cdecl;
 function IsBevel(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    BevelFuncs: aoluaL_Reg;
+    BevelFuncs: TLuaVmt;
 
 
 implementation
@@ -80,10 +80,6 @@ begin
 end;
 
 begin
-	SetLength(BevelFuncs, 1+1);
-	BevelFuncs[0].name:='Assign';
-	BevelFuncs[0].func:=@VCLua_Bevel_Assign;
-	BevelFuncs[1].name:=nil;
-	BevelFuncs[1].func:=nil;
-
+	BevelFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BevelFuncs, 'Assign', @VCLua_Bevel_Assign);
 end.

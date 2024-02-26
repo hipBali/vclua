@@ -8,7 +8,7 @@ unit LuaEditButton;
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, TypInfo;
+Uses Classes, Lua, LuaController, EditBtn, TypInfo, LuaVmt;
 
 function CreateEditButton(L: Plua_State): Integer; cdecl;
 function IsEditButton(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomEditButtonFuncs: aoluaL_Reg;
+    CustomEditButtonFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(CustomEditButtonFuncs, 0+1);
+	CustomEditButtonFuncs := TLuaVmt.Create;
 	
-	CustomEditButtonFuncs[0].name:=nil;
-	CustomEditButtonFuncs[0].func:=nil;
-
 end.

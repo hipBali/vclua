@@ -8,7 +8,7 @@ unit LuaColorListBox;
 
 interface
 
-Uses Classes, Lua, LuaController, ColorBox, TypInfo;
+Uses Classes, Lua, LuaController, ColorBox, TypInfo, LuaVmt;
 
 function CreateColorListBox(L: Plua_State): Integer; cdecl;
 function IsColorListBox(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    ColorListBoxFuncs: aoluaL_Reg;
+    ColorListBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(ColorListBoxFuncs, 0+1);
+	ColorListBoxFuncs := TLuaVmt.Create;
 	
-	ColorListBoxFuncs[0].name:=nil;
-	ColorListBoxFuncs[0].func:=nil;
-
 end.

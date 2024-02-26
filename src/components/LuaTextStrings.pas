@@ -8,7 +8,7 @@ unit LuaTextStrings;
 
 interface
 
-Uses Classes, Lua, LuaController, TextStrings, TypInfo;
+Uses Classes, Lua, LuaController, TextStrings, TypInfo, LuaVmt;
 
 function CreateTextStrings(L: Plua_State): Integer; cdecl;
 function IsTextStrings(L: Plua_State): Integer; cdecl;
@@ -21,7 +21,7 @@ type
       L:Plua_State;
     end;
 var
-    TextStringsFuncs: aoluaL_Reg;
+    TextStringsFuncs: TLuaVmt;
 
 
 implementation
@@ -335,40 +335,21 @@ begin
 	Result := 1;
 end;
 begin
-	SetLength(TextStringsFuncs, 16+1);
-	TextStringsFuncs[0].name:='Clear';
-	TextStringsFuncs[0].func:=@VCLua_TextStrings_Clear;
-	TextStringsFuncs[1].name:='SetText';
-	TextStringsFuncs[1].func:=@VCLua_TextStrings_SetText;
-	TextStringsFuncs[2].name:='Insert';
-	TextStringsFuncs[2].func:=@VCLua_TextStrings_Insert;
-	TextStringsFuncs[3].name:='Delete';
-	TextStringsFuncs[3].func:=@VCLua_TextStrings_Delete;
-	TextStringsFuncs[4].name:='Exchange';
-	TextStringsFuncs[4].func:=@VCLua_TextStrings_Exchange;
-	TextStringsFuncs[5].name:='Move';
-	TextStringsFuncs[5].func:=@VCLua_TextStrings_Move;
-	TextStringsFuncs[6].name:='MakeTextBufferUnique';
-	TextStringsFuncs[6].func:=@VCLua_TextStrings_MakeTextBufferUnique;
-	TextStringsFuncs[7].name:='BeginUpdate';
-	TextStringsFuncs[7].func:=@VCLua_TextStrings_BeginUpdate;
-	TextStringsFuncs[8].name:='EndUpdate';
-	TextStringsFuncs[8].func:=@VCLua_TextStrings_EndUpdate;
-	TextStringsFuncs[9].name:='GetText';
-	TextStringsFuncs[9].func:=@VCLua_TextStrings_GetText;
-	TextStringsFuncs[10].name:='IndexOf';
-	TextStringsFuncs[10].func:=@VCLua_TextStrings_IndexOf;
-	TextStringsFuncs[11].name:='Add';
-	TextStringsFuncs[11].func:=@VCLua_TextStrings_Add;
-	TextStringsFuncs[12].name:='AddObject';
-	TextStringsFuncs[12].func:=@VCLua_TextStrings_AddObject;
-	TextStringsFuncs[13].name:='AddStrings';
-	TextStringsFuncs[13].func:=@VCLua_TextStrings_AddStrings;
-	TextStringsFuncs[14].name:='LoadFromFile';
-	TextStringsFuncs[14].func:=@VCLua_TextStrings_LoadFromFile;
-	TextStringsFuncs[15].name:='SaveToFile';
-	TextStringsFuncs[15].func:=@VCLua_TextStrings_SaveToFile;
-	TextStringsFuncs[16].name:=nil;
-	TextStringsFuncs[16].func:=nil;
-
+	TextStringsFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(TextStringsFuncs, 'Clear', @VCLua_TextStrings_Clear);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'SetText', @VCLua_TextStrings_SetText);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'Insert', @VCLua_TextStrings_Insert);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'Delete', @VCLua_TextStrings_Delete);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'Exchange', @VCLua_TextStrings_Exchange);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'Move', @VCLua_TextStrings_Move);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'MakeTextBufferUnique', @VCLua_TextStrings_MakeTextBufferUnique);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'BeginUpdate', @VCLua_TextStrings_BeginUpdate);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'EndUpdate', @VCLua_TextStrings_EndUpdate);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'GetText', @VCLua_TextStrings_GetText);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'IndexOf', @VCLua_TextStrings_IndexOf);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'Add', @VCLua_TextStrings_Add);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'AddObject', @VCLua_TextStrings_AddObject);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'AddStrings', @VCLua_TextStrings_AddStrings);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'LoadFromFile', @VCLua_TextStrings_LoadFromFile);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'SaveToFile', @VCLua_TextStrings_SaveToFile);
 end.

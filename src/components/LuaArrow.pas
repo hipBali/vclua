@@ -8,7 +8,7 @@ unit LuaArrow;
 
 interface
 
-Uses Classes, Lua, LuaController, Arrow, TypInfo;
+Uses Classes, Lua, LuaController, Arrow, TypInfo, LuaVmt;
 
 function CreateArrow(L: Plua_State): Integer; cdecl;
 function IsArrow(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    ArrowFuncs: aoluaL_Reg;
+    ArrowFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(ArrowFuncs, 0+1);
+	ArrowFuncs := TLuaVmt.Create;
 	
-	ArrowFuncs[0].name:=nil;
-	ArrowFuncs[0].func:=nil;
-
 end.

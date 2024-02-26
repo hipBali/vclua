@@ -8,7 +8,7 @@ unit LuaPaintBox;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreatePaintBox(L: Plua_State): Integer; cdecl;
 function IsPaintBox(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    PaintBoxFuncs: aoluaL_Reg;
+    PaintBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(PaintBoxFuncs, 0+1);
+	PaintBoxFuncs := TLuaVmt.Create;
 	
-	PaintBoxFuncs[0].name:=nil;
-	PaintBoxFuncs[0].func:=nil;
-
 end.

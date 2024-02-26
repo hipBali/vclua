@@ -8,7 +8,7 @@ unit LuaIdleTimer;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateIdleTimer(L: Plua_State): Integer; cdecl;
 function IsIdleTimer(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomIdleTimerFuncs: aoluaL_Reg;
+    CustomIdleTimerFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(CustomIdleTimerFuncs, 0+1);
+	CustomIdleTimerFuncs := TLuaVmt.Create;
 	
-	CustomIdleTimerFuncs[0].name:=nil;
-	CustomIdleTimerFuncs[0].func:=nil;
-
 end.

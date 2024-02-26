@@ -8,7 +8,7 @@ unit LuaListBox;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateListBox(L: Plua_State): Integer; cdecl;
 function IsListBox(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    CustomListBoxFuncs: aoluaL_Reg;
+    CustomListBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -409,46 +409,24 @@ begin
 end;
 
 begin
-	SetLength(CustomListBoxFuncs, 19+1);
-	CustomListBoxFuncs[0].name:='AddItem';
-	CustomListBoxFuncs[0].func:=@VCLua_ListBox_AddItem;
-	CustomListBoxFuncs[1].name:='Clear';
-	CustomListBoxFuncs[1].func:=@VCLua_ListBox_Clear;
-	CustomListBoxFuncs[2].name:='ClearSelection';
-	CustomListBoxFuncs[2].func:=@VCLua_ListBox_ClearSelection;
-	CustomListBoxFuncs[3].name:='GetIndexAtXY';
-	CustomListBoxFuncs[3].func:=@VCLua_ListBox_GetIndexAtXY;
-	CustomListBoxFuncs[4].name:='GetIndexAtY';
-	CustomListBoxFuncs[4].func:=@VCLua_ListBox_GetIndexAtY;
-	CustomListBoxFuncs[5].name:='GetSelectedText';
-	CustomListBoxFuncs[5].func:=@VCLua_ListBox_GetSelectedText;
-	CustomListBoxFuncs[6].name:='ItemAtPos';
-	CustomListBoxFuncs[6].func:=@VCLua_ListBox_ItemAtPos;
-	CustomListBoxFuncs[7].name:='ItemRect';
-	CustomListBoxFuncs[7].func:=@VCLua_ListBox_ItemRect;
-	CustomListBoxFuncs[8].name:='ItemVisible';
-	CustomListBoxFuncs[8].func:=@VCLua_ListBox_ItemVisible;
-	CustomListBoxFuncs[9].name:='ItemFullyVisible';
-	CustomListBoxFuncs[9].func:=@VCLua_ListBox_ItemFullyVisible;
-	CustomListBoxFuncs[10].name:='LockSelectionChange';
-	CustomListBoxFuncs[10].func:=@VCLua_ListBox_LockSelectionChange;
-	CustomListBoxFuncs[11].name:='MakeCurrentVisible';
-	CustomListBoxFuncs[11].func:=@VCLua_ListBox_MakeCurrentVisible;
-	CustomListBoxFuncs[12].name:='MeasureItem';
-	CustomListBoxFuncs[12].func:=@VCLua_ListBox_MeasureItem;
-	CustomListBoxFuncs[13].name:='MeasureItem2';
-	CustomListBoxFuncs[13].func:=@VCLua_ListBox_MeasureItem2;
-	CustomListBoxFuncs[14].name:='SelectAll';
-	CustomListBoxFuncs[14].func:=@VCLua_ListBox_SelectAll;
-	CustomListBoxFuncs[15].name:='SelectRange';
-	CustomListBoxFuncs[15].func:=@VCLua_ListBox_SelectRange;
-	CustomListBoxFuncs[16].name:='DeleteSelected';
-	CustomListBoxFuncs[16].func:=@VCLua_ListBox_DeleteSelected;
-	CustomListBoxFuncs[17].name:='UnlockSelectionChange';
-	CustomListBoxFuncs[17].func:=@VCLua_ListBox_UnlockSelectionChange;
-	CustomListBoxFuncs[18].name:='Selected';
-	CustomListBoxFuncs[18].func:=@VCLua_ListBox_Selected;
-	CustomListBoxFuncs[19].name:=nil;
-	CustomListBoxFuncs[19].func:=nil;
-
+	CustomListBoxFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'AddItem', @VCLua_ListBox_AddItem);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Clear', @VCLua_ListBox_Clear);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ClearSelection', @VCLua_ListBox_ClearSelection);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'GetIndexAtXY', @VCLua_ListBox_GetIndexAtXY);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'GetIndexAtY', @VCLua_ListBox_GetIndexAtY);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'GetSelectedText', @VCLua_ListBox_GetSelectedText);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ItemAtPos', @VCLua_ListBox_ItemAtPos);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ItemRect', @VCLua_ListBox_ItemRect);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ItemVisible', @VCLua_ListBox_ItemVisible);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ItemFullyVisible', @VCLua_ListBox_ItemFullyVisible);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'LockSelectionChange', @VCLua_ListBox_LockSelectionChange);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'MakeCurrentVisible', @VCLua_ListBox_MakeCurrentVisible);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'MeasureItem', @VCLua_ListBox_MeasureItem);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'MeasureItem2', @VCLua_ListBox_MeasureItem2);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'SelectAll', @VCLua_ListBox_SelectAll);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'SelectRange', @VCLua_ListBox_SelectRange);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'DeleteSelected', @VCLua_ListBox_DeleteSelected);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'UnlockSelectionChange', @VCLua_ListBox_UnlockSelectionChange);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Selected', @VCLua_ListBox_Selected);
 end.

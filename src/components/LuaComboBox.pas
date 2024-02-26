@@ -8,7 +8,7 @@ unit LuaComboBox;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateComboBox(L: Plua_State): Integer; cdecl;
 function IsComboBox(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomComboBoxFuncs: aoluaL_Reg;
+    CustomComboBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -175,20 +175,11 @@ begin
 end;
 
 begin
-	SetLength(CustomComboBoxFuncs, 6+1);
-	CustomComboBoxFuncs[0].name:='IntfGetItems';
-	CustomComboBoxFuncs[0].func:=@VCLua_ComboBox_IntfGetItems;
-	CustomComboBoxFuncs[1].name:='AddItem';
-	CustomComboBoxFuncs[1].func:=@VCLua_ComboBox_AddItem;
-	CustomComboBoxFuncs[2].name:='AddHistoryItem';
-	CustomComboBoxFuncs[2].func:=@VCLua_ComboBox_AddHistoryItem;
-	CustomComboBoxFuncs[3].name:='AddHistoryItem2';
-	CustomComboBoxFuncs[3].func:=@VCLua_ComboBox_AddHistoryItem2;
-	CustomComboBoxFuncs[4].name:='Clear';
-	CustomComboBoxFuncs[4].func:=@VCLua_ComboBox_Clear;
-	CustomComboBoxFuncs[5].name:='SelectAll';
-	CustomComboBoxFuncs[5].func:=@VCLua_ComboBox_SelectAll;
-	CustomComboBoxFuncs[6].name:=nil;
-	CustomComboBoxFuncs[6].func:=nil;
-
+	CustomComboBoxFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'IntfGetItems', @VCLua_ComboBox_IntfGetItems);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddItem', @VCLua_ComboBox_AddItem);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddHistoryItem', @VCLua_ComboBox_AddHistoryItem);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddHistoryItem2', @VCLua_ComboBox_AddHistoryItem2);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Clear', @VCLua_ComboBox_Clear);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'SelectAll', @VCLua_ComboBox_SelectAll);
 end.

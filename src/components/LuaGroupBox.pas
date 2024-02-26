@@ -8,7 +8,7 @@ unit LuaGroupBox;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateGroupBox(L: Plua_State): Integer; cdecl;
 function IsGroupBox(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    GroupBoxFuncs: aoluaL_Reg;
+    GroupBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(GroupBoxFuncs, 0+1);
+	GroupBoxFuncs := TLuaVmt.Create;
 	
-	GroupBoxFuncs[0].name:=nil;
-	GroupBoxFuncs[0].func:=nil;
-
 end.

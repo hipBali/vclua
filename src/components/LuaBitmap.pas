@@ -8,7 +8,7 @@ unit LuaBitmap;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 function IsCustomBitmap(L: Plua_State): Integer; cdecl;
 function AsCustomBitmap(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
       L:Plua_State;
     end;
 var
-    CustomBitmapFuncs: aoluaL_Reg;
+    CustomBitmapFuncs: TLuaVmt;
 
 function CreateBitmap(L: Plua_State): Integer; cdecl;
 function IsBitmap(L: Plua_State): Integer; cdecl;
@@ -33,7 +33,7 @@ type
       L:Plua_State;
     end;
 var
-    BitmapFuncs: aoluaL_Reg;
+    BitmapFuncs: TLuaVmt;
 
 
 implementation
@@ -299,36 +299,18 @@ begin
 	Result := 1;
 end;
 begin
-	SetLength(CustomBitmapFuncs, 10+1);
-	CustomBitmapFuncs[0].name:='Assign';
-	CustomBitmapFuncs[0].func:=@VCLua_CustomBitmap_Assign;
-	CustomBitmapFuncs[1].name:='Clear';
-	CustomBitmapFuncs[1].func:=@VCLua_CustomBitmap_Clear;
-	CustomBitmapFuncs[2].name:='FreeImage';
-	CustomBitmapFuncs[2].func:=@VCLua_CustomBitmap_FreeImage;
-	CustomBitmapFuncs[3].name:='LazarusResourceTypeValid';
-	CustomBitmapFuncs[3].func:=@VCLua_CustomBitmap_LazarusResourceTypeValid;
-	CustomBitmapFuncs[4].name:='BitmapHandleAllocated';
-	CustomBitmapFuncs[4].func:=@VCLua_CustomBitmap_BitmapHandleAllocated;
-	CustomBitmapFuncs[5].name:='MaskHandleAllocated';
-	CustomBitmapFuncs[5].func:=@VCLua_CustomBitmap_MaskHandleAllocated;
-	CustomBitmapFuncs[6].name:='PaletteAllocated';
-	CustomBitmapFuncs[6].func:=@VCLua_CustomBitmap_PaletteAllocated;
-	CustomBitmapFuncs[7].name:='ReleaseHandle';
-	CustomBitmapFuncs[7].func:=@VCLua_CustomBitmap_ReleaseHandle;
-	CustomBitmapFuncs[8].name:='SetHandles';
-	CustomBitmapFuncs[8].func:=@VCLua_CustomBitmap_SetHandles;
-	CustomBitmapFuncs[9].name:='SetSize';
-	CustomBitmapFuncs[9].func:=@VCLua_CustomBitmap_SetSize;
-	CustomBitmapFuncs[10].name:=nil;
-	CustomBitmapFuncs[10].func:=nil;
-
-	SetLength(BitmapFuncs, 2+1);
-	BitmapFuncs[0].name:='GetResourceType';
-	BitmapFuncs[0].func:=@VCLua_Bitmap_GetResourceType;
-	BitmapFuncs[1].name:='LoadFromStream';
-	BitmapFuncs[1].func:=@VCLua_Bitmap_LoadFromStream;
-	BitmapFuncs[2].name:=nil;
-	BitmapFuncs[2].func:=nil;
-
+	CustomBitmapFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'Assign', @VCLua_CustomBitmap_Assign);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'Clear', @VCLua_CustomBitmap_Clear);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'FreeImage', @VCLua_CustomBitmap_FreeImage);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'LazarusResourceTypeValid', @VCLua_CustomBitmap_LazarusResourceTypeValid);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'BitmapHandleAllocated', @VCLua_CustomBitmap_BitmapHandleAllocated);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'MaskHandleAllocated', @VCLua_CustomBitmap_MaskHandleAllocated);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'PaletteAllocated', @VCLua_CustomBitmap_PaletteAllocated);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'ReleaseHandle', @VCLua_CustomBitmap_ReleaseHandle);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'SetHandles', @VCLua_CustomBitmap_SetHandles);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'SetSize', @VCLua_CustomBitmap_SetSize);
+	BitmapFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BitmapFuncs, 'GetResourceType', @VCLua_Bitmap_GetResourceType);
+	TLuaMethodInfo.Create(BitmapFuncs, 'LoadFromStream', @VCLua_Bitmap_LoadFromStream);
 end.

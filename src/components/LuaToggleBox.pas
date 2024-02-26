@@ -8,7 +8,7 @@ unit LuaToggleBox;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateToggleBox(L: Plua_State): Integer; cdecl;
 function IsToggleBox(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    ToggleBoxFuncs: aoluaL_Reg;
+    ToggleBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(ToggleBoxFuncs, 0+1);
+	ToggleBoxFuncs := TLuaVmt.Create;
 	
-	ToggleBoxFuncs[0].name:=nil;
-	ToggleBoxFuncs[0].func:=nil;
-
 end.

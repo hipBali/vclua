@@ -8,7 +8,7 @@ unit LuaMaskEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, MaskEdit, TypInfo;
+Uses Classes, Lua, LuaController, MaskEdit, TypInfo, LuaVmt;
 
 function CreateMaskEdit(L: Plua_State): Integer; cdecl;
 function IsMaskEdit(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    MaskEditFuncs: aoluaL_Reg;
+    MaskEditFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(MaskEditFuncs, 0+1);
+	MaskEditFuncs := TLuaVmt.Create;
 	
-	MaskEditFuncs[0].name:=nil;
-	MaskEditFuncs[0].func:=nil;
-
 end.

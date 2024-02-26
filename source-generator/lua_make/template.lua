@@ -11,7 +11,7 @@ unit Lua#CNAME;
 
 interface
 
-Uses Classes, Lua, LuaController#REF, TypInfo;
+Uses Classes, Lua, LuaController#REF, TypInfo, LuaVmt;
 
 #INTFCE
 
@@ -31,7 +31,7 @@ unit Lua#CNAME;
 
 interface
 
-Uses Classes, Lua, LuaController#REF, TypInfo;
+Uses Classes, Lua, LuaController#REF, TypInfo, LuaVmt;
 
 #INTFCE
 
@@ -231,16 +231,13 @@ VCLUA_INC = [[
 
 VCLUA_INIT_INTFCE = [[
 var
-    #CSRCFuncs: aoluaL_Reg;
+    #CSRCFuncs: TLuaVmt;
 ]]
 
 VCLUA_INIT = [[
-	SetLength(#CSRCFuncs, #MIDX+1);
-	#CMETHODS
-	#CSRCFuncs[#MIDX].name:=nil;
-	#CSRCFuncs[#MIDX].func:=nil;
-]]
+	#CSRCFuncs := TLuaVmt.Create;
+	#CMETHODS]]
 
 VCLUA_ADD_MAP = [[
-  funcs.Add('T#CSRC', #CSRCFuncs);
+  vmts.Add('T#CSRC', @#CSRCFuncs);
 ]]

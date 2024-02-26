@@ -8,7 +8,7 @@ unit LuaSpinEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, Spin, TypInfo;
+Uses Classes, Lua, LuaController, Spin, TypInfo, LuaVmt;
 
 function CreateSpinEdit(L: Plua_State): Integer; cdecl;
 function IsSpinEdit(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    SpinEditFuncs: aoluaL_Reg;
+    SpinEditFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(SpinEditFuncs, 0+1);
+	SpinEditFuncs := TLuaVmt.Create;
 	
-	SpinEditFuncs[0].name:=nil;
-	SpinEditFuncs[0].func:=nil;
-
 end.

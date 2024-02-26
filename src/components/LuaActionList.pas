@@ -8,7 +8,7 @@ unit LuaActionList;
 
 interface
 
-Uses Classes, Lua, LuaController, ActnList, TypInfo;
+Uses Classes, Lua, LuaController, ActnList, TypInfo, LuaVmt;
 
 function CreateContainedAction(L: Plua_State): Integer; cdecl;
 function IsContainedAction(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    ContainedActionFuncs: aoluaL_Reg;
+    ContainedActionFuncs: TLuaVmt;
 
 function CreateAction(L: Plua_State): Integer; cdecl;
 function IsAction(L: Plua_State): Integer; cdecl;
@@ -32,7 +32,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomActionFuncs: aoluaL_Reg;
+    CustomActionFuncs: TLuaVmt;
 
 function CreateActionList(L: Plua_State): Integer; cdecl;
 function IsActionList(L: Plua_State): Integer; cdecl;
@@ -44,7 +44,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomActionListFuncs: aoluaL_Reg;
+    CustomActionListFuncs: TLuaVmt;
 
 
 implementation
@@ -384,40 +384,19 @@ begin
 end;
 
 begin
-	SetLength(ContainedActionFuncs, 4+1);
-	ContainedActionFuncs[0].name:='Execute';
-	ContainedActionFuncs[0].func:=@VCLua_ContainedAction_Execute;
-	ContainedActionFuncs[1].name:='GetParentComponent';
-	ContainedActionFuncs[1].func:=@VCLua_ContainedAction_GetParentComponent;
-	ContainedActionFuncs[2].name:='HasParent';
-	ContainedActionFuncs[2].func:=@VCLua_ContainedAction_HasParent;
-	ContainedActionFuncs[3].name:='Update';
-	ContainedActionFuncs[3].func:=@VCLua_ContainedAction_Update;
-	ContainedActionFuncs[4].name:=nil;
-	ContainedActionFuncs[4].func:=nil;
-
-	SetLength(CustomActionFuncs, 3+1);
-	CustomActionFuncs[0].name:='DoHint';
-	CustomActionFuncs[0].func:=@VCLua_Action_DoHint;
-	CustomActionFuncs[1].name:='DoHint2';
-	CustomActionFuncs[1].func:=@VCLua_Action_DoHint2;
-	CustomActionFuncs[2].name:='Execute';
-	CustomActionFuncs[2].func:=@VCLua_Action_Execute;
-	CustomActionFuncs[3].name:=nil;
-	CustomActionFuncs[3].func:=nil;
-
-	SetLength(CustomActionListFuncs, 5+1);
-	CustomActionListFuncs[0].name:='ActionByName';
-	CustomActionListFuncs[0].func:=@VCLua_ActionList_ActionByName;
-	CustomActionListFuncs[1].name:='ExecuteAction';
-	CustomActionListFuncs[1].func:=@VCLua_ActionList_ExecuteAction;
-	CustomActionListFuncs[2].name:='IndexOfName';
-	CustomActionListFuncs[2].func:=@VCLua_ActionList_IndexOfName;
-	CustomActionListFuncs[3].name:='UpdateAction';
-	CustomActionListFuncs[3].func:=@VCLua_ActionList_UpdateAction;
-	CustomActionListFuncs[4].name:='Actions';
-	CustomActionListFuncs[4].func:=@VCLua_ActionList_Actions;
-	CustomActionListFuncs[5].name:=nil;
-	CustomActionListFuncs[5].func:=nil;
-
+	ContainedActionFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ContainedActionFuncs, 'Execute', @VCLua_ContainedAction_Execute);
+	TLuaMethodInfo.Create(ContainedActionFuncs, 'GetParentComponent', @VCLua_ContainedAction_GetParentComponent);
+	TLuaMethodInfo.Create(ContainedActionFuncs, 'HasParent', @VCLua_ContainedAction_HasParent);
+	TLuaMethodInfo.Create(ContainedActionFuncs, 'Update', @VCLua_ContainedAction_Update);
+	CustomActionFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomActionFuncs, 'DoHint', @VCLua_Action_DoHint);
+	TLuaMethodInfo.Create(CustomActionFuncs, 'DoHint2', @VCLua_Action_DoHint2);
+	TLuaMethodInfo.Create(CustomActionFuncs, 'Execute', @VCLua_Action_Execute);
+	CustomActionListFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomActionListFuncs, 'ActionByName', @VCLua_ActionList_ActionByName);
+	TLuaMethodInfo.Create(CustomActionListFuncs, 'ExecuteAction', @VCLua_ActionList_ExecuteAction);
+	TLuaMethodInfo.Create(CustomActionListFuncs, 'IndexOfName', @VCLua_ActionList_IndexOfName);
+	TLuaMethodInfo.Create(CustomActionListFuncs, 'UpdateAction', @VCLua_ActionList_UpdateAction);
+	TLuaMethodInfo.Create(CustomActionListFuncs, 'Actions', @VCLua_ActionList_Actions);
 end.

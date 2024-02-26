@@ -8,7 +8,7 @@ unit LuaForm;
 
 interface
 
-Uses Classes, Lua, LuaController, Forms, TypInfo;
+Uses Classes, Lua, LuaController, Forms, TypInfo, LuaVmt;
 
 function CreateForm(L: Plua_State): Integer; cdecl;
 function IsForm(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    CustomFormFuncs: aoluaL_Reg;
+    CustomFormFuncs: TLuaVmt;
 
 
 implementation
@@ -678,78 +678,40 @@ begin
 end;
 
 begin
-	SetLength(CustomFormFuncs, 35+1);
-	CustomFormFuncs[0].name:='AfterConstruction';
-	CustomFormFuncs[0].func:=@VCLua_Form_AfterConstruction;
-	CustomFormFuncs[1].name:='BeforeDestruction';
-	CustomFormFuncs[1].func:=@VCLua_Form_BeforeDestruction;
-	CustomFormFuncs[2].name:='BigIconHandle';
-	CustomFormFuncs[2].func:=@VCLua_Form_BigIconHandle;
-	CustomFormFuncs[3].name:='Close';
-	CustomFormFuncs[3].func:=@VCLua_Form_Close;
-	CustomFormFuncs[4].name:='CloseQuery';
-	CustomFormFuncs[4].func:=@VCLua_Form_CloseQuery;
-	CustomFormFuncs[5].name:='DefocusControl';
-	CustomFormFuncs[5].func:=@VCLua_Form_DefocusControl;
-	CustomFormFuncs[6].name:='DestroyWnd';
-	CustomFormFuncs[6].func:=@VCLua_Form_DestroyWnd;
-	CustomFormFuncs[7].name:='EnsureVisible';
-	CustomFormFuncs[7].func:=@VCLua_Form_EnsureVisible;
-	CustomFormFuncs[8].name:='FocusControl';
-	CustomFormFuncs[8].func:=@VCLua_Form_FocusControl;
-	CustomFormFuncs[9].name:='FormIsUpdating';
-	CustomFormFuncs[9].func:=@VCLua_Form_FormIsUpdating;
-	CustomFormFuncs[10].name:='GetFormImage';
-	CustomFormFuncs[10].func:=@VCLua_Form_GetFormImage;
-	CustomFormFuncs[11].name:='GetRolesForControl';
-	CustomFormFuncs[11].func:=@VCLua_Form_GetRolesForControl;
-	CustomFormFuncs[12].name:='GetRealPopupParent';
-	CustomFormFuncs[12].func:=@VCLua_Form_GetRealPopupParent;
-	CustomFormFuncs[13].name:='Hide';
-	CustomFormFuncs[13].func:=@VCLua_Form_Hide;
-	CustomFormFuncs[14].name:='IntfDropFiles';
-	CustomFormFuncs[14].func:=@VCLua_Form_IntfDropFiles;
-	CustomFormFuncs[15].name:='IntfHelp';
-	CustomFormFuncs[15].func:=@VCLua_Form_IntfHelp;
-	CustomFormFuncs[16].name:='MakeFullyVisible';
-	CustomFormFuncs[16].func:=@VCLua_Form_MakeFullyVisible;
-	CustomFormFuncs[17].name:='AutoSizeDelayedHandle';
-	CustomFormFuncs[17].func:=@VCLua_Form_AutoSizeDelayedHandle;
-	CustomFormFuncs[18].name:='GetPreferredSize';
-	CustomFormFuncs[18].func:=@VCLua_Form_GetPreferredSize;
-	CustomFormFuncs[19].name:='GetPreferredSize2';
-	CustomFormFuncs[19].func:=@VCLua_Form_GetPreferredSize2;
-	CustomFormFuncs[20].name:='Release';
-	CustomFormFuncs[20].func:=@VCLua_Form_Release;
-	CustomFormFuncs[21].name:='CanFocus';
-	CustomFormFuncs[21].func:=@VCLua_Form_CanFocus;
-	CustomFormFuncs[22].name:='SetFocus';
-	CustomFormFuncs[22].func:=@VCLua_Form_SetFocus;
-	CustomFormFuncs[23].name:='SetFocusedControl';
-	CustomFormFuncs[23].func:=@VCLua_Form_SetFocusedControl;
-	CustomFormFuncs[24].name:='SetRestoredBounds';
-	CustomFormFuncs[24].func:=@VCLua_Form_SetRestoredBounds;
-	CustomFormFuncs[25].name:='Show';
-	CustomFormFuncs[25].func:=@VCLua_Form_Show;
-	CustomFormFuncs[26].name:='ShowModal';
-	CustomFormFuncs[26].func:=@VCLua_Form_ShowModal;
-	CustomFormFuncs[27].name:='ShowOnTop';
-	CustomFormFuncs[27].func:=@VCLua_Form_ShowOnTop;
-	CustomFormFuncs[28].name:='SmallIconHandle';
-	CustomFormFuncs[28].func:=@VCLua_Form_SmallIconHandle;
-	CustomFormFuncs[29].name:='ActiveMDIChild';
-	CustomFormFuncs[29].func:=@VCLua_Form_ActiveMDIChild;
-	CustomFormFuncs[30].name:='GetMDIChildren';
-	CustomFormFuncs[30].func:=@VCLua_Form_GetMDIChildren;
-	CustomFormFuncs[31].name:='MDIChildCount';
-	CustomFormFuncs[31].func:=@VCLua_Form_MDIChildCount;
-	CustomFormFuncs[32].name:='Dock';
-	CustomFormFuncs[32].func:=@VCLua_Form_Dock;
-	CustomFormFuncs[33].name:='UpdateDockCaption';
-	CustomFormFuncs[33].func:=@VCLua_Form_UpdateDockCaption;
-	CustomFormFuncs[34].name:='MDIChildren';
-	CustomFormFuncs[34].func:=@VCLua_Form_MDIChildren;
-	CustomFormFuncs[35].name:=nil;
-	CustomFormFuncs[35].func:=nil;
-
+	CustomFormFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomFormFuncs, 'AfterConstruction', @VCLua_Form_AfterConstruction);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'BeforeDestruction', @VCLua_Form_BeforeDestruction);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'BigIconHandle', @VCLua_Form_BigIconHandle);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Close', @VCLua_Form_Close);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'CloseQuery', @VCLua_Form_CloseQuery);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'DefocusControl', @VCLua_Form_DefocusControl);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'DestroyWnd', @VCLua_Form_DestroyWnd);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'EnsureVisible', @VCLua_Form_EnsureVisible);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'FocusControl', @VCLua_Form_FocusControl);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'FormIsUpdating', @VCLua_Form_FormIsUpdating);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'GetFormImage', @VCLua_Form_GetFormImage);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'GetRolesForControl', @VCLua_Form_GetRolesForControl);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'GetRealPopupParent', @VCLua_Form_GetRealPopupParent);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Hide', @VCLua_Form_Hide);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'IntfDropFiles', @VCLua_Form_IntfDropFiles);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'IntfHelp', @VCLua_Form_IntfHelp);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'MakeFullyVisible', @VCLua_Form_MakeFullyVisible);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'AutoSizeDelayedHandle', @VCLua_Form_AutoSizeDelayedHandle);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'GetPreferredSize', @VCLua_Form_GetPreferredSize);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'GetPreferredSize2', @VCLua_Form_GetPreferredSize2);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Release', @VCLua_Form_Release);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'CanFocus', @VCLua_Form_CanFocus);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'SetFocus', @VCLua_Form_SetFocus);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'SetFocusedControl', @VCLua_Form_SetFocusedControl);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'SetRestoredBounds', @VCLua_Form_SetRestoredBounds);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Show', @VCLua_Form_Show);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'ShowModal', @VCLua_Form_ShowModal);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'ShowOnTop', @VCLua_Form_ShowOnTop);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'SmallIconHandle', @VCLua_Form_SmallIconHandle);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'ActiveMDIChild', @VCLua_Form_ActiveMDIChild);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'GetMDIChildren', @VCLua_Form_GetMDIChildren);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'MDIChildCount', @VCLua_Form_MDIChildCount);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Dock', @VCLua_Form_Dock);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'UpdateDockCaption', @VCLua_Form_UpdateDockCaption);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'MDIChildren', @VCLua_Form_MDIChildren);
 end.

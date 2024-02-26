@@ -8,7 +8,7 @@ unit LuaSplitter;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateSplitter(L: Plua_State): Integer; cdecl;
 function IsSplitter(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    CustomSplitterFuncs: aoluaL_Reg;
+    CustomSplitterFuncs: TLuaVmt;
 
 
 implementation
@@ -152,18 +152,10 @@ begin
 end;
 
 begin
-	SetLength(CustomSplitterFuncs, 5+1);
-	CustomSplitterFuncs[0].name:='AnchorSplitter';
-	CustomSplitterFuncs[0].func:=@VCLua_Splitter_AnchorSplitter;
-	CustomSplitterFuncs[1].name:='GetOtherResizeControl';
-	CustomSplitterFuncs[1].func:=@VCLua_Splitter_GetOtherResizeControl;
-	CustomSplitterFuncs[2].name:='MoveSplitter';
-	CustomSplitterFuncs[2].func:=@VCLua_Splitter_MoveSplitter;
-	CustomSplitterFuncs[3].name:='SetSplitterPosition';
-	CustomSplitterFuncs[3].func:=@VCLua_Splitter_SetSplitterPosition;
-	CustomSplitterFuncs[4].name:='GetSplitterPosition';
-	CustomSplitterFuncs[4].func:=@VCLua_Splitter_GetSplitterPosition;
-	CustomSplitterFuncs[5].name:=nil;
-	CustomSplitterFuncs[5].func:=nil;
-
+	CustomSplitterFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'AnchorSplitter', @VCLua_Splitter_AnchorSplitter);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'GetOtherResizeControl', @VCLua_Splitter_GetOtherResizeControl);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'MoveSplitter', @VCLua_Splitter_MoveSplitter);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'SetSplitterPosition', @VCLua_Splitter_SetSplitterPosition);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'GetSplitterPosition', @VCLua_Splitter_GetSplitterPosition);
 end.

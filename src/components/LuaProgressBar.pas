@@ -8,7 +8,7 @@ unit LuaProgressBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateProgressBar(L: Plua_State): Integer; cdecl;
 function IsProgressBar(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomProgressBarFuncs: aoluaL_Reg;
+    CustomProgressBarFuncs: TLuaVmt;
 
 
 implementation
@@ -95,12 +95,7 @@ begin
 end;
 
 begin
-	SetLength(CustomProgressBarFuncs, 2+1);
-	CustomProgressBarFuncs[0].name:='StepIt';
-	CustomProgressBarFuncs[0].func:=@VCLua_ProgressBar_StepIt;
-	CustomProgressBarFuncs[1].name:='StepBy';
-	CustomProgressBarFuncs[1].func:=@VCLua_ProgressBar_StepBy;
-	CustomProgressBarFuncs[2].name:=nil;
-	CustomProgressBarFuncs[2].func:=nil;
-
+	CustomProgressBarFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomProgressBarFuncs, 'StepIt', @VCLua_ProgressBar_StepIt);
+	TLuaMethodInfo.Create(CustomProgressBarFuncs, 'StepBy', @VCLua_ProgressBar_StepBy);
 end.

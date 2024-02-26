@@ -8,7 +8,7 @@ unit LuaButton;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateButton(L: Plua_State): Integer; cdecl;
 function IsButton(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomButtonFuncs: aoluaL_Reg;
+    CustomButtonFuncs: TLuaVmt;
 
 
 implementation
@@ -157,20 +157,11 @@ begin
 end;
 
 begin
-	SetLength(CustomButtonFuncs, 6+1);
-	CustomButtonFuncs[0].name:='Click';
-	CustomButtonFuncs[0].func:=@VCLua_Button_Click;
-	CustomButtonFuncs[1].name:='ExecuteDefaultAction';
-	CustomButtonFuncs[1].func:=@VCLua_Button_ExecuteDefaultAction;
-	CustomButtonFuncs[2].name:='ExecuteCancelAction';
-	CustomButtonFuncs[2].func:=@VCLua_Button_ExecuteCancelAction;
-	CustomButtonFuncs[3].name:='ActiveDefaultControlChanged';
-	CustomButtonFuncs[3].func:=@VCLua_Button_ActiveDefaultControlChanged;
-	CustomButtonFuncs[4].name:='UpdateRolesForForm';
-	CustomButtonFuncs[4].func:=@VCLua_Button_UpdateRolesForForm;
-	CustomButtonFuncs[5].name:='UseRightToLeftAlignment';
-	CustomButtonFuncs[5].func:=@VCLua_Button_UseRightToLeftAlignment;
-	CustomButtonFuncs[6].name:=nil;
-	CustomButtonFuncs[6].func:=nil;
-
+	CustomButtonFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'Click', @VCLua_Button_Click);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'ExecuteDefaultAction', @VCLua_Button_ExecuteDefaultAction);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'ExecuteCancelAction', @VCLua_Button_ExecuteCancelAction);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'ActiveDefaultControlChanged', @VCLua_Button_ActiveDefaultControlChanged);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'UpdateRolesForForm', @VCLua_Button_UpdateRolesForForm);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'UseRightToLeftAlignment', @VCLua_Button_UseRightToLeftAlignment);
 end.

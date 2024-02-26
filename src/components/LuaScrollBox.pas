@@ -8,7 +8,7 @@ unit LuaScrollBox;
 
 interface
 
-Uses Classes, Lua, LuaController, Forms, TypInfo;
+Uses Classes, Lua, LuaController, Forms, TypInfo, LuaVmt;
 
 function CreateScrollBox(L: Plua_State): Integer; cdecl;
 function IsScrollBox(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    ScrollBoxFuncs: aoluaL_Reg;
+    ScrollBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -66,9 +66,6 @@ begin
 end;
 
 begin
-	SetLength(ScrollBoxFuncs, 0+1);
+	ScrollBoxFuncs := TLuaVmt.Create;
 	
-	ScrollBoxFuncs[0].name:=nil;
-	ScrollBoxFuncs[0].func:=nil;
-
 end.

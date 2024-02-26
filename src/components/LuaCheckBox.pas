@@ -8,7 +8,7 @@ unit LuaCheckBox;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateCheckBox(L: Plua_State): Integer; cdecl;
 function IsCheckBox(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    CustomCheckBoxFuncs: aoluaL_Reg;
+    CustomCheckBoxFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(CustomCheckBoxFuncs, 0+1);
+	CustomCheckBoxFuncs := TLuaVmt.Create;
 	
-	CustomCheckBoxFuncs[0].name:=nil;
-	CustomCheckBoxFuncs[0].func:=nil;
-
 end.

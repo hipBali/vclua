@@ -8,7 +8,7 @@ unit LuaRadioButton;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo;
+Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateRadioButton(L: Plua_State): Integer; cdecl;
 function IsRadioButton(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    RadioButtonFuncs: aoluaL_Reg;
+    RadioButtonFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(RadioButtonFuncs, 0+1);
+	RadioButtonFuncs := TLuaVmt.Create;
 	
-	RadioButtonFuncs[0].name:=nil;
-	RadioButtonFuncs[0].func:=nil;
-
 end.

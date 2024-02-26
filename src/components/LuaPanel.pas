@@ -8,7 +8,7 @@ unit LuaPanel;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreatePanel(L: Plua_State): Integer; cdecl;
 function IsPanel(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    CustomPanelFuncs: aoluaL_Reg;
+    CustomPanelFuncs: TLuaVmt;
 
 
 implementation
@@ -66,9 +66,6 @@ begin
 end;
 
 begin
-	SetLength(CustomPanelFuncs, 0+1);
+	CustomPanelFuncs := TLuaVmt.Create;
 	
-	CustomPanelFuncs[0].name:=nil;
-	CustomPanelFuncs[0].func:=nil;
-
 end.

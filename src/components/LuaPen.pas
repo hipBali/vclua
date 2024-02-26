@@ -8,7 +8,7 @@ unit LuaPen;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, TypInfo;
+Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 function IsPen(L: Plua_State): Integer; cdecl;
 function AsPen(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
       L:Plua_State;
     end;
 var
-    PenFuncs: aoluaL_Reg;
+    PenFuncs: TLuaVmt;
 
 
 implementation
@@ -100,14 +100,8 @@ begin
 end;
 
 begin
-	SetLength(PenFuncs, 3+1);
-	PenFuncs[0].name:='Assign';
-	PenFuncs[0].func:=@VCLua_Pen_Assign;
-	PenFuncs[1].name:='GetPattern';
-	PenFuncs[1].func:=@VCLua_Pen_GetPattern;
-	PenFuncs[2].name:='SetPattern';
-	PenFuncs[2].func:=@VCLua_Pen_SetPattern;
-	PenFuncs[3].name:=nil;
-	PenFuncs[3].func:=nil;
-
+	PenFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PenFuncs, 'Assign', @VCLua_Pen_Assign);
+	TLuaMethodInfo.Create(PenFuncs, 'GetPattern', @VCLua_Pen_GetPattern);
+	TLuaMethodInfo.Create(PenFuncs, 'SetPattern', @VCLua_Pen_SetPattern);
 end.

@@ -8,7 +8,7 @@ unit LuaApplication;
 
 interface
 
-Uses Classes, Lua, LuaController, Forms, TypInfo;
+Uses Classes, Lua, LuaController, Forms, TypInfo, LuaVmt;
 
 function CreateApplication(L: Plua_State): Integer; cdecl;
 function IsApplication(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    ApplicationFuncs: aoluaL_Reg;
+    ApplicationFuncs: TLuaVmt;
 
 
 implementation
@@ -438,54 +438,28 @@ begin
 end;
 
 begin
-	SetLength(ApplicationFuncs, 23+1);
-	ApplicationFuncs[0].name:='ActivateHint';
-	ApplicationFuncs[0].func:=@VCLua_Application_ActivateHint;
-	ApplicationFuncs[1].name:='GetControlAtMouse';
-	ApplicationFuncs[1].func:=@VCLua_Application_GetControlAtMouse;
-	ApplicationFuncs[2].name:='ControlDestroyed';
-	ApplicationFuncs[2].func:=@VCLua_Application_ControlDestroyed;
-	ApplicationFuncs[3].name:='BigIconHandle';
-	ApplicationFuncs[3].func:=@VCLua_Application_BigIconHandle;
-	ApplicationFuncs[4].name:='SmallIconHandle';
-	ApplicationFuncs[4].func:=@VCLua_Application_SmallIconHandle;
-	ApplicationFuncs[5].name:='BringToFront';
-	ApplicationFuncs[5].func:=@VCLua_Application_BringToFront;
-	ApplicationFuncs[6].name:='UpdateMainForm';
-	ApplicationFuncs[6].func:=@VCLua_Application_UpdateMainForm;
-	ApplicationFuncs[7].name:='ReleaseComponent';
-	ApplicationFuncs[7].func:=@VCLua_Application_ReleaseComponent;
-	ApplicationFuncs[8].name:='HandleException';
-	ApplicationFuncs[8].func:=@VCLua_Application_HandleException;
-	ApplicationFuncs[9].name:='HandleMessage';
-	ApplicationFuncs[9].func:=@VCLua_Application_HandleMessage;
-	ApplicationFuncs[10].name:='RemoveStayOnTop';
-	ApplicationFuncs[10].func:=@VCLua_Application_RemoveStayOnTop;
-	ApplicationFuncs[11].name:='RestoreStayOnTop';
-	ApplicationFuncs[11].func:=@VCLua_Application_RestoreStayOnTop;
-	ApplicationFuncs[12].name:='IsWaiting';
-	ApplicationFuncs[12].func:=@VCLua_Application_IsWaiting;
-	ApplicationFuncs[13].name:='Initialize';
-	ApplicationFuncs[13].func:=@VCLua_Application_Initialize;
-	ApplicationFuncs[14].name:='Minimize';
-	ApplicationFuncs[14].func:=@VCLua_Application_Minimize;
-	ApplicationFuncs[15].name:='ModalStarted';
-	ApplicationFuncs[15].func:=@VCLua_Application_ModalStarted;
-	ApplicationFuncs[16].name:='ModalFinished';
-	ApplicationFuncs[16].func:=@VCLua_Application_ModalFinished;
-	ApplicationFuncs[17].name:='Restore';
-	ApplicationFuncs[17].func:=@VCLua_Application_Restore;
-	ApplicationFuncs[18].name:='Notification';
-	ApplicationFuncs[18].func:=@VCLua_Application_Notification;
-	ApplicationFuncs[19].name:='ProcessMessages';
-	ApplicationFuncs[19].func:=@VCLua_Application_ProcessMessages;
-	ApplicationFuncs[20].name:='Idle';
-	ApplicationFuncs[20].func:=@VCLua_Application_Idle;
-	ApplicationFuncs[21].name:='Run';
-	ApplicationFuncs[21].func:=@VCLua_Application_Run;
-	ApplicationFuncs[22].name:='Terminate';
-	ApplicationFuncs[22].func:=@VCLua_Application_Terminate;
-	ApplicationFuncs[23].name:=nil;
-	ApplicationFuncs[23].func:=nil;
-
+	ApplicationFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ApplicationFuncs, 'ActivateHint', @VCLua_Application_ActivateHint);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'GetControlAtMouse', @VCLua_Application_GetControlAtMouse);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'ControlDestroyed', @VCLua_Application_ControlDestroyed);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'BigIconHandle', @VCLua_Application_BigIconHandle);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'SmallIconHandle', @VCLua_Application_SmallIconHandle);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'BringToFront', @VCLua_Application_BringToFront);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'UpdateMainForm', @VCLua_Application_UpdateMainForm);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'ReleaseComponent', @VCLua_Application_ReleaseComponent);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'HandleException', @VCLua_Application_HandleException);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'HandleMessage', @VCLua_Application_HandleMessage);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'RemoveStayOnTop', @VCLua_Application_RemoveStayOnTop);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'RestoreStayOnTop', @VCLua_Application_RestoreStayOnTop);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'IsWaiting', @VCLua_Application_IsWaiting);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'Initialize', @VCLua_Application_Initialize);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'Minimize', @VCLua_Application_Minimize);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'ModalStarted', @VCLua_Application_ModalStarted);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'ModalFinished', @VCLua_Application_ModalFinished);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'Restore', @VCLua_Application_Restore);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'Notification', @VCLua_Application_Notification);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'ProcessMessages', @VCLua_Application_ProcessMessages);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'Idle', @VCLua_Application_Idle);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'Run', @VCLua_Application_Run);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'Terminate', @VCLua_Application_Terminate);
 end.

@@ -8,7 +8,7 @@ unit LuaTrayIcon;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo;
+Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateTrayIcon(L: Plua_State): Integer; cdecl;
 function IsTrayIcon(L: Plua_State): Integer; cdecl;
@@ -22,7 +22,7 @@ type
 	    property Canvas;
     end;
 var
-    CustomTrayIconFuncs: aoluaL_Reg;
+    CustomTrayIconFuncs: TLuaVmt;
 
 
 implementation
@@ -146,18 +146,10 @@ begin
 end;
 
 begin
-	SetLength(CustomTrayIconFuncs, 5+1);
-	CustomTrayIconFuncs[0].name:='Hide';
-	CustomTrayIconFuncs[0].func:=@VCLua_TrayIcon_Hide;
-	CustomTrayIconFuncs[1].name:='Show';
-	CustomTrayIconFuncs[1].func:=@VCLua_TrayIcon_Show;
-	CustomTrayIconFuncs[2].name:='InternalUpdate';
-	CustomTrayIconFuncs[2].func:=@VCLua_TrayIcon_InternalUpdate;
-	CustomTrayIconFuncs[3].name:='ShowBalloonHint';
-	CustomTrayIconFuncs[3].func:=@VCLua_TrayIcon_ShowBalloonHint;
-	CustomTrayIconFuncs[4].name:='GetPosition';
-	CustomTrayIconFuncs[4].func:=@VCLua_TrayIcon_GetPosition;
-	CustomTrayIconFuncs[5].name:=nil;
-	CustomTrayIconFuncs[5].func:=nil;
-
+	CustomTrayIconFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'Hide', @VCLua_TrayIcon_Hide);
+	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'Show', @VCLua_TrayIcon_Show);
+	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'InternalUpdate', @VCLua_TrayIcon_InternalUpdate);
+	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'ShowBalloonHint', @VCLua_TrayIcon_ShowBalloonHint);
+	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'GetPosition', @VCLua_TrayIcon_GetPosition);
 end.

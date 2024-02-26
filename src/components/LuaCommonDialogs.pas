@@ -8,7 +8,7 @@ unit LuaCommonDialogs;
 
 interface
 
-Uses Classes, Lua, LuaController, Dialogs, TypInfo;
+Uses Classes, Lua, LuaController, Dialogs, TypInfo, LuaVmt;
 
 function CreateColorButton(L: Plua_State): Integer; cdecl;
 function IsColorButton(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    ColorButtonFuncs: aoluaL_Reg;
+    ColorButtonFuncs: TLuaVmt;
 
 function CreateOpenDialog(L: Plua_State): Integer; cdecl;
 function IsOpenDialog(L: Plua_State): Integer; cdecl;
@@ -32,7 +32,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    OpenDialogFuncs: aoluaL_Reg;
+    OpenDialogFuncs: TLuaVmt;
 
 function CreateSaveDialog(L: Plua_State): Integer; cdecl;
 function IsSaveDialog(L: Plua_State): Integer; cdecl;
@@ -44,7 +44,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    SaveDialogFuncs: aoluaL_Reg;
+    SaveDialogFuncs: TLuaVmt;
 
 function CreateSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
 function IsSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
@@ -56,7 +56,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    SelectDirectoryDialogFuncs: aoluaL_Reg;
+    SelectDirectoryDialogFuncs: TLuaVmt;
 
 function CreateColorDialog(L: Plua_State): Integer; cdecl;
 function IsColorDialog(L: Plua_State): Integer; cdecl;
@@ -68,7 +68,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    ColorDialogFuncs: aoluaL_Reg;
+    ColorDialogFuncs: TLuaVmt;
 
 function CreateFontDialog(L: Plua_State): Integer; cdecl;
 function IsFontDialog(L: Plua_State): Integer; cdecl;
@@ -80,7 +80,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    FontDialogFuncs: aoluaL_Reg;
+    FontDialogFuncs: TLuaVmt;
 
 function CreateFindDialog(L: Plua_State): Integer; cdecl;
 function IsFindDialog(L: Plua_State): Integer; cdecl;
@@ -92,7 +92,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    FindDialogFuncs: aoluaL_Reg;
+    FindDialogFuncs: TLuaVmt;
 
 function CreateReplaceDialog(L: Plua_State): Integer; cdecl;
 function IsReplaceDialog(L: Plua_State): Integer; cdecl;
@@ -620,60 +620,25 @@ begin
 end;
 
 begin
-	SetLength(ColorButtonFuncs, 1+1);
-	ColorButtonFuncs[0].name:='Click';
-	ColorButtonFuncs[0].func:=@VCLua_ColorButton_Click;
-	ColorButtonFuncs[1].name:=nil;
-	ColorButtonFuncs[1].func:=nil;
-
-	SetLength(OpenDialogFuncs, 6+1);
-	OpenDialogFuncs[0].name:='DoCanClose';
-	OpenDialogFuncs[0].func:=@VCLua_OpenDialog_DoCanClose;
-	OpenDialogFuncs[1].name:='DoCanClose2';
-	OpenDialogFuncs[1].func:=@VCLua_OpenDialog_DoCanClose2;
-	OpenDialogFuncs[2].name:='DoFolderChange';
-	OpenDialogFuncs[2].func:=@VCLua_OpenDialog_DoFolderChange;
-	OpenDialogFuncs[3].name:='DoSelectionChange';
-	OpenDialogFuncs[3].func:=@VCLua_OpenDialog_DoSelectionChange;
-	OpenDialogFuncs[4].name:='IntfSetOption';
-	OpenDialogFuncs[4].func:=@VCLua_OpenDialog_IntfSetOption;
-	OpenDialogFuncs[5].name:='Execute';
-	OpenDialogFuncs[5].func:=@VCLua_OpenDialog_DoExecute;
-	OpenDialogFuncs[6].name:=nil;
-	OpenDialogFuncs[6].func:=nil;
-
-	SetLength(SaveDialogFuncs, 1+1);
-	SaveDialogFuncs[0].name:='Execute';
-	SaveDialogFuncs[0].func:=@VCLua_SaveDialog_DoExecute;
-	SaveDialogFuncs[1].name:=nil;
-	SaveDialogFuncs[1].func:=nil;
-
-	SetLength(SelectDirectoryDialogFuncs, 1+1);
-	SelectDirectoryDialogFuncs[0].name:='Execute';
-	SelectDirectoryDialogFuncs[0].func:=@VCLua_SelectDirectoryDialog_DoExecute;
-	SelectDirectoryDialogFuncs[1].name:=nil;
-	SelectDirectoryDialogFuncs[1].func:=nil;
-
-	SetLength(ColorDialogFuncs, 1+1);
-	ColorDialogFuncs[0].name:='Execute';
-	ColorDialogFuncs[0].func:=@VCLua_ColorDialog_DoExecute;
-	ColorDialogFuncs[1].name:=nil;
-	ColorDialogFuncs[1].func:=nil;
-
-	SetLength(FontDialogFuncs, 2+1);
-	FontDialogFuncs[0].name:='ApplyClicked';
-	FontDialogFuncs[0].func:=@VCLua_FontDialog_ApplyClicked;
-	FontDialogFuncs[1].name:='Execute';
-	FontDialogFuncs[1].func:=@VCLua_FontDialog_DoExecute;
-	FontDialogFuncs[2].name:=nil;
-	FontDialogFuncs[2].func:=nil;
-
-	SetLength(FindDialogFuncs, 2+1);
-	FindDialogFuncs[0].name:='CloseDialog';
-	FindDialogFuncs[0].func:=@VCLua_FindDialog_CloseDialog;
-	FindDialogFuncs[1].name:='Execute';
-	FindDialogFuncs[1].func:=@VCLua_FindDialog_Execute;
-	FindDialogFuncs[2].name:=nil;
-	FindDialogFuncs[2].func:=nil;
-
+	ColorButtonFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ColorButtonFuncs, 'Click', @VCLua_ColorButton_Click);
+	OpenDialogFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(OpenDialogFuncs, 'DoCanClose', @VCLua_OpenDialog_DoCanClose);
+	TLuaMethodInfo.Create(OpenDialogFuncs, 'DoCanClose2', @VCLua_OpenDialog_DoCanClose2);
+	TLuaMethodInfo.Create(OpenDialogFuncs, 'DoFolderChange', @VCLua_OpenDialog_DoFolderChange);
+	TLuaMethodInfo.Create(OpenDialogFuncs, 'DoSelectionChange', @VCLua_OpenDialog_DoSelectionChange);
+	TLuaMethodInfo.Create(OpenDialogFuncs, 'IntfSetOption', @VCLua_OpenDialog_IntfSetOption);
+	TLuaMethodInfo.Create(OpenDialogFuncs, 'Execute', @VCLua_OpenDialog_DoExecute);
+	SaveDialogFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(SaveDialogFuncs, 'Execute', @VCLua_SaveDialog_DoExecute);
+	SelectDirectoryDialogFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(SelectDirectoryDialogFuncs, 'Execute', @VCLua_SelectDirectoryDialog_DoExecute);
+	ColorDialogFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ColorDialogFuncs, 'Execute', @VCLua_ColorDialog_DoExecute);
+	FontDialogFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(FontDialogFuncs, 'ApplyClicked', @VCLua_FontDialog_ApplyClicked);
+	TLuaMethodInfo.Create(FontDialogFuncs, 'Execute', @VCLua_FontDialog_DoExecute);
+	FindDialogFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(FindDialogFuncs, 'CloseDialog', @VCLua_FindDialog_CloseDialog);
+	TLuaMethodInfo.Create(FindDialogFuncs, 'Execute', @VCLua_FindDialog_Execute);
 end.

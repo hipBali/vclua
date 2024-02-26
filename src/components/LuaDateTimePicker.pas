@@ -8,7 +8,7 @@ unit LuaDateTimePicker;
 
 interface
 
-Uses Classes, Lua, LuaController, DateTimePicker, TypInfo;
+Uses Classes, Lua, LuaController, DateTimePicker, TypInfo, LuaVmt;
 
 function CreateDateTimePicker(L: Plua_State): Integer; cdecl;
 function IsDateTimePicker(L: Plua_State): Integer; cdecl;
@@ -20,7 +20,7 @@ type
         LuaCtl: TVCLuaControl;
     end;
 var
-    DateTimePickerFuncs: aoluaL_Reg;
+    DateTimePickerFuncs: TLuaVmt;
 
 
 implementation
@@ -64,9 +64,6 @@ begin
 end;
 
 begin
-	SetLength(DateTimePickerFuncs, 0+1);
+	DateTimePickerFuncs := TLuaVmt.Create;
 	
-	DateTimePickerFuncs[0].name:=nil;
-	DateTimePickerFuncs[0].func:=nil;
-
 end.
