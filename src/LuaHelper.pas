@@ -442,6 +442,7 @@ begin
   top := lua_gettop(L);
   ds := '';
   for i := 1 to top do begin
+         ds := ds + IntToStr(i) + ': ';
          t := lua_type(L, i);
          case (t) of
 
@@ -454,7 +455,7 @@ begin
            else
              ds := ds + string(lua_typename(L, t));
          end;
-         ds := IntToStr(i) + ': ' + ds + #10#13;
+         ds := ds + #10#13;
   end;
   result := ds;
 end;
