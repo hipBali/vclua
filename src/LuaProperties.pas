@@ -16,6 +16,7 @@ implementation
 
 Uses SysUtils,
      StdCtrls,
+     Math,
      LuaController,
      LuaObject,
      LuaProxy,
@@ -31,38 +32,66 @@ begin
       Result := GetPropInfo(Comp.ClassInfo, PropName);
 end;
 // ****************************************************************
-procedure ListProperty(L: Plua_State; PName:String; PInfo: PPropInfo; idx:Integer);
-var
-     PropType: String;
+procedure ListProperty(L: Plua_State; const PName: string; PropType: String);
 begin
-    try
-        PropType := PInfo^.Proptype^.Name;
-        if PropType[1] = 'T' then
-           delete(Proptype,1,1);
-        // lua_pushnumber(L,idx);
-        // lua_newtable(L);
-        lua_pushstring(L, PChar(PName));
-        lua_pushstring(L, PChar(PropType));
-        lua_rawset(L,-3);
-        // lua_rawset(L,-3);
-    except
-    end;
+  UniqueString(PropType);
+  if PropType[1] = 'T' then
+     delete(Proptype,1,1);
+  lua_pushstring(L, PName);
+  lua_pushstring(L, PropType);
+  lua_rawset(L,-3);
 end;
 
-procedure ListObjectProperties(L: Plua_State; PObj:TObject);
-var subObj, tmpObj:TObject;
-    Count,Loop:Integer;
-    PInfo: PPropInfo;
+type
+  TParams = record
+    Count: Integer;
     PropInfos: PPropList;
-    s,t:String;
-    n:Integer;
+    L: Plua_State;
+  end;
+  PParams = ^TParams;
+
+procedure MaybeListOne(Item: TObject; arg: pointer);
+var
+  Loop,len:Integer;
+  p:PParams;
 begin
-     Count := GetPropList(PObj.ClassInfo, tkAny, nil);
+  if TLuaMethodInfo(Item).mf = mfNone then Exit;
+  p := PParams(arg);
+  len := Length(TLuaMethodInfo(Item).Name);
+  for Loop := 0 to p^.Count - 1 do
+      if CompareChar(TLuaMethodInfo(Item).Name, p^.PropInfos^[Loop]^.Name, Min(len, Length(p^.PropInfos^[Loop]^.Name))) = 0 then
+         Exit;
+  ListProperty(p.L, TLuaMethodInfo(Item).Name, 'Unknown');
+end;
+
+procedure ListNonPublishedProperties(L: Plua_State; pti: PTypeInfo);
+var
+  PInfo: PPropInfo;
+  pvmt:PLuaVmt;
+  p:TParams;
+begin
+  p.L := L;
+  p.Count := GetPropList(pti, tkAny, nil);
+  GetMem(p.PropInfos, p.Count * SizeOf(PPropInfo));
+  GetPropList(pti, tkAny, p.PropInfos, true);
+  pvmt := vmts.GetVmt(pti);
+  propSets.GetVmt(pti);
+  pvmt^.ForEachCall(MaybeListOne,@p);
+  FreeMem(p.PropInfos);
+end;
+
+procedure ListObjectProperties(L: Plua_State; pti: PTypeInfo);
+var
+  Count,Loop:Integer;
+  PInfo: PPropInfo;
+  PropInfos: PPropList;
+begin
+     Count := GetPropList(pti, tkAny, nil);
      GetMem(PropInfos, Count * SizeOf(PPropInfo));
-     GetPropList(PObj.ClassInfo, tkAny, PropInfos, true);
+     GetPropList(pti, tkAny, PropInfos, true);
      for Loop := 0 to Count - 1 do begin
-         PInfo := GetPropInfo(PObj.ClassInfo, PropInfos^[Loop]^.Name);
-         ListProperty(L, PropInfos^[Loop]^.Name, PInfo, Loop+1);
+         PInfo := GetPropInfo(pti, PropInfos^[Loop]^.Name);
+         ListProperty(L, PropInfos^[Loop]^.Name, PInfo^.Proptype^.Name);
      end;
      FreeMem(PropInfos);
 end;
@@ -70,11 +99,31 @@ end;
 function LuaListProperties(L: Plua_State): Integer; cdecl;
 var
   PObj: TObject;
+  np: Boolean;
+  pti: PTypeInfo = nil;
+  cName: string;
+  i: Integer;
 begin
-  CheckArg(L, 1);
-  PObj := GetLuaObject(L, 1);
+  CheckArg(L, 1, 2);
+  case lua_type(L, 1) of
+    LUA_TSTRING: begin
+      cName := lua_tostring(L, 1);
+      pti := apiPtis.Find(cName);
+    end;
+    LUA_TTABLE: begin
+      PObj := GetLuaObject(L, 1);
+      if PObj <> nil then
+          pti := PObj.ClassInfo;
+    end;
+  end;
+  if pti = nil then
+      LuaError(L, 'ListProperties expects API object or Free Pascal classname (don''t remove first ''T'') as first argument', lua_typename(L, lua_type(L, 1)));
+  np := lua_toboolean(L, 2);
   lua_newtable(L);
-  ListObjectProperties(L, PObj);
+  if not np then
+    ListObjectProperties(L, pti)
+  else
+    ListNonPublishedProperties(L, pti);
   Result := 1;
 end;
 
