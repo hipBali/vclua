@@ -203,6 +203,7 @@ function luaL_checkStringList(L: Plua_State; Index: Integer):TStringList;
 var
   aos:array of string;
 begin
+  index := LuaAbsIndex(L, index);
   TTrait<string>.luaL_checkArray(L, index, @aos);
   Result := TStringList.Create;
   Result.SetStrings(aos);

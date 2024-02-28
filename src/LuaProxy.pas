@@ -59,6 +59,7 @@ type
         PT = ^T;
         aoT = array of T;
         PaoT = ^aoT;
+    // expects not relative index
     class procedure luaL_checkArray(L: Plua_State; i: Integer; v: PaoT); inline;
     class procedure luaL_optcheck(L: Plua_State; i: Integer; v:PT; const dflt: T); inline;
   end;
