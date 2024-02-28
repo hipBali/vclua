@@ -21,6 +21,7 @@ type
     end;
 var
     SpeedButtonFuncs: TLuaVmt;
+    SpeedButtonSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	SpeedButtonFuncs := TLuaVmt.Create;
+	
+	SpeedButtonSets := TLuaVmt.Create;
 	
 end.

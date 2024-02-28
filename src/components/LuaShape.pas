@@ -23,6 +23,7 @@ type
     end;
 var
     ShapeFuncs: TLuaVmt;
+    ShapeSets: TLuaVmt;
 
 
 implementation
@@ -100,4 +101,6 @@ begin
 	ShapeFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ShapeFuncs, 'Paint', @VCLua_Shape_Paint);
 	TLuaMethodInfo.Create(ShapeFuncs, 'StyleChanged', @VCLua_Shape_StyleChanged);
+	ShapeSets := TLuaVmt.Create;
+	
 end.

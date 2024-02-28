@@ -23,6 +23,7 @@ type
     end;
 var
     CustomLabelFuncs: TLuaVmt;
+    CustomLabelSets: TLuaVmt;
 
 
 implementation
@@ -172,4 +173,6 @@ begin
 	TLuaMethodInfo.Create(CustomLabelFuncs, 'AdjustFontForOptimalFill', @VCLua_Label_AdjustFontForOptimalFill);
 	TLuaMethodInfo.Create(CustomLabelFuncs, 'Paint', @VCLua_Label_Paint);
 	TLuaMethodInfo.Create(CustomLabelFuncs, 'SetBounds', @VCLua_Label_SetBounds);
+	CustomLabelSets := TLuaVmt.Create;
+	
 end.

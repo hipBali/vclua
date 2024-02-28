@@ -99,21 +99,21 @@ end;
 
 VCLua_TRY = [[
 	try
-#STMT
+#STMTS
 	except
 		on E: Exception do
 			CallError(L, '#CNAME', '#MNAME', E.ClassName, E.Message);
 	end;]]
 VCLua_CALL = [[
-		#RETl#CNAME.#MNAME(#PAR);
+		#RETl#CNAME.#MNAME#PAR#SET;
 		Result := #RETCOUNT;]]
 VCLua_PROP_READ = [[
-		ret := l#CNAME.#MNAME#PINDEX;
+		ret := l#CNAME.#MNAME#PAR;
 		#PUSHOUT
 		Result := 1;]]
 VCLua_PROP_WRITE = [[
 		#TOVCLUA
-		l#CNAME.#MNAME#PINDEX := ret;
+		l#CNAME.#MNAME#PAR := ret;
 		Result := 0;]]
 VCLua_PROP = [[
 		if lua_isnone(L, #IDX) then begin
@@ -232,12 +232,14 @@ VCLUA_INC = [[
 VCLUA_INIT_INTFCE = [[
 var
     #CSRCFuncs: TLuaVmt;
+    #CSRCSets: TLuaVmt;
 ]]
 
 VCLUA_INIT = [[
-	#CSRCFuncs := TLuaVmt.Create;
+	#CSRC#SUF := TLuaVmt.Create;
 	#CMETHODS]]
 
 VCLUA_ADD_MAP = [[
   vmts.Add('T#CSRC', @#CSRCFuncs);
+  propSets.Add('T#CSRC', @#CSRCSets);
 ]]

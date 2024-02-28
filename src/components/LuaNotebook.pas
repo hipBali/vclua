@@ -21,6 +21,7 @@ type
     end;
 var
     NotebookFuncs: TLuaVmt;
+    NotebookSets: TLuaVmt;
 
 
 implementation
@@ -81,6 +82,23 @@ begin
 	end;
 end;
 
+function VCLua_Notebook_VCLuaGetPageCount(L: Plua_State): Integer; cdecl;
+var
+	lNotebook:TLuaNotebook;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lNotebook := TLuaNotebook(GetLuaObject(L, 1));
+	try
+		ret := lNotebook.PageCount;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Notebook', 'PageCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function IsNotebook(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -122,4 +140,7 @@ begin
 	TLuaMethodInfo.Create(NotebookFuncs, 'ShowControl', @VCLua_Notebook_ShowControl);
 	TLuaMethodInfo.Create(NotebookFuncs, 'IndexOf', @VCLua_Notebook_IndexOf);
 	TLuaMethodInfo.Create(NotebookFuncs, 'Page', @VCLua_Notebook_Page);
+	TLuaMethodInfo.Create(NotebookFuncs, 'PageCount', @VCLua_Notebook_VCLuaGetPageCount, mfCall);
+	NotebookSets := TLuaVmt.Create;
+	
 end.

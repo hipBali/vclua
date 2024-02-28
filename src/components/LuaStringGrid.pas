@@ -21,6 +21,7 @@ type
     end;
 var
     GridColumnFuncs: TLuaVmt;
+    GridColumnSets: TLuaVmt;
 
 function IsGridColumns(L: Plua_State): Integer; cdecl;
 function AsGridColumns(L: Plua_State): Integer; cdecl;
@@ -33,6 +34,7 @@ type
     end;
 var
     GridColumnsFuncs: TLuaVmt;
+    GridColumnsSets: TLuaVmt;
 
 function CreateStringGrid(L: Plua_State): Integer; cdecl;
 function IsStringGrid(L: Plua_State): Integer; cdecl;
@@ -47,10 +49,11 @@ type
     end;
 var
     CustomStringGridFuncs: TLuaVmt;
+    CustomStringGridSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaDrawGrid, LuaStrings;
 
 function VCLua_GridColumn_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -133,6 +136,74 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'GridColumn', 'IsDefault', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_GridColumn_VCLuaGetGrid(L: Plua_State): Integer; cdecl;
+var
+	lGridColumn:TLuaGridColumn;
+	ret:TCustomGrid;
+begin
+	CheckArg(L, 1);
+	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
+	try
+		ret := lGridColumn.Grid;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'GridColumn', 'Grid', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_GridColumn_VCLuaGetDefaultWidth(L: Plua_State): Integer; cdecl;
+var
+	lGridColumn:TLuaGridColumn;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
+	try
+		ret := lGridColumn.DefaultWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'GridColumn', 'DefaultWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_GridColumn_VCLuaGetStoredWidth(L: Plua_State): Integer; cdecl;
+var
+	lGridColumn:TLuaGridColumn;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
+	try
+		ret := lGridColumn.StoredWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'GridColumn', 'StoredWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_GridColumn_VCLuaGetWidthChanged(L: Plua_State): Integer; cdecl;
+var
+	lGridColumn:TLuaGridColumn;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
+	try
+		ret := lGridColumn.WidthChanged;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'GridColumn', 'WidthChanged', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -281,6 +352,23 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_GridColumns_VCLuaGetGrid(L: Plua_State): Integer; cdecl;
+var
+	lGridColumns:TLuaGridColumns;
+	ret:TCustomGrid;
+begin
+	CheckArg(L, 1);
+	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
+	try
+		ret := lGridColumns.Grid;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'Grid', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_GridColumns_Items(L: Plua_State): Integer; cdecl;
 var
 	lGridColumns:TLuaGridColumns;
@@ -304,6 +392,40 @@ begin
 		on E: Exception do
 			CallError(L, 'GridColumns', 'Items', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_GridColumns_VCLuaGetVisibleCount(L: Plua_State): Integer; cdecl;
+var
+	lGridColumns:TLuaGridColumns;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
+	try
+		ret := lGridColumns.VisibleCount;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'VisibleCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_GridColumns_VCLuaGetEnabled(L: Plua_State): Integer; cdecl;
+var
+	lGridColumns:TLuaGridColumns;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
+	try
+		ret := lGridColumns.Enabled;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'GridColumns', 'Enabled', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_StringGrid_AutoSizeColumn(L: Plua_State): Integer; cdecl;
@@ -780,6 +902,12 @@ begin
 	TLuaMethodInfo.Create(GridColumnFuncs, 'FixDesignFontsPPI', @VCLua_GridColumn_FixDesignFontsPPI);
 	TLuaMethodInfo.Create(GridColumnFuncs, 'ScaleFontsPPI', @VCLua_GridColumn_ScaleFontsPPI);
 	TLuaMethodInfo.Create(GridColumnFuncs, 'IsDefault', @VCLua_GridColumn_IsDefault);
+	TLuaMethodInfo.Create(GridColumnFuncs, 'Grid', @VCLua_GridColumn_VCLuaGetGrid, mfCall);
+	TLuaMethodInfo.Create(GridColumnFuncs, 'DefaultWidth', @VCLua_GridColumn_VCLuaGetDefaultWidth, mfCall);
+	TLuaMethodInfo.Create(GridColumnFuncs, 'StoredWidth', @VCLua_GridColumn_VCLuaGetStoredWidth, mfCall);
+	TLuaMethodInfo.Create(GridColumnFuncs, 'WidthChanged', @VCLua_GridColumn_VCLuaGetWidthChanged, mfCall);
+	GridColumnSets := TLuaVmt.Create;
+	
 	GridColumnsFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(GridColumnsFuncs, 'Add', @VCLua_GridColumns_Add);
 	TLuaMethodInfo.Create(GridColumnsFuncs, 'Clear', @VCLua_GridColumns_Clear);
@@ -789,7 +917,12 @@ begin
 	TLuaMethodInfo.Create(GridColumnsFuncs, 'IsDefault', @VCLua_GridColumns_IsDefault);
 	TLuaMethodInfo.Create(GridColumnsFuncs, 'HasIndex', @VCLua_GridColumns_HasIndex);
 	TLuaMethodInfo.Create(GridColumnsFuncs, 'VisibleIndex', @VCLua_GridColumns_VisibleIndex);
+	TLuaMethodInfo.Create(GridColumnsFuncs, 'Grid', @VCLua_GridColumns_VCLuaGetGrid, mfCall);
 	TLuaMethodInfo.Create(GridColumnsFuncs, 'Items', @VCLua_GridColumns_Items);
+	TLuaMethodInfo.Create(GridColumnsFuncs, 'VisibleCount', @VCLua_GridColumns_VCLuaGetVisibleCount, mfCall);
+	TLuaMethodInfo.Create(GridColumnsFuncs, 'Enabled', @VCLua_GridColumns_VCLuaGetEnabled, mfCall);
+	GridColumnsSets := TLuaVmt.Create;
+	
 	CustomStringGridFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'AutoSizeColumn', @VCLua_StringGrid_AutoSizeColumn);
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'AutoSizeColumns', @VCLua_StringGrid_AutoSizeColumns);
@@ -810,4 +943,6 @@ begin
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'GetCells', @VCLua_StringGrid_GridCellsGet);
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'SetCells', @VCLua_StringGrid_GridCellsSet);
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'GetSelectedCell', @VCLua_StringGrid_GridGetSelectedCell);
+	CustomStringGridSets := TLuaVmt.Create;
+	
 end.

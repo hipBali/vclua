@@ -21,6 +21,7 @@ type
     end;
 var
     GroupBoxFuncs: TLuaVmt;
+    GroupBoxSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	GroupBoxFuncs := TLuaVmt.Create;
+	
+	GroupBoxSets := TLuaVmt.Create;
 	
 end.

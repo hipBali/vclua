@@ -21,6 +21,7 @@ type
     end;
 var
     ToggleBoxFuncs: TLuaVmt;
+    ToggleBoxSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	ToggleBoxFuncs := TLuaVmt.Create;
+	
+	ToggleBoxSets := TLuaVmt.Create;
 	
 end.

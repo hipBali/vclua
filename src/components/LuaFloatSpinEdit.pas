@@ -21,6 +21,7 @@ type
     end;
 var
     CustomFloatSpinEditFuncs: TLuaVmt;
+    CustomFloatSpinEditSets: TLuaVmt;
 
 
 implementation
@@ -83,6 +84,244 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_FloatSpinEdit_VCLuaSetDecimalPlaces(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFloatSpinEdit.DecimalPlaces := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'DecimalPlaces', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FloatSpinEdit_VCLuaGetDecimalPlaces(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	try
+		ret := lFloatSpinEdit.DecimalPlaces;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'DecimalPlaces', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_FloatSpinEdit_VCLuaSetEditorEnabled(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFloatSpinEdit.EditorEnabled := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'EditorEnabled', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FloatSpinEdit_VCLuaGetEditorEnabled(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	try
+		ret := lFloatSpinEdit.EditorEnabled;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'EditorEnabled', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_FloatSpinEdit_VCLuaSetIncrement(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	val:Double;
+begin
+	CheckArg(L, 2);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFloatSpinEdit.Increment := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'Increment', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FloatSpinEdit_VCLuaGetIncrement(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	ret:Double;
+begin
+	CheckArg(L, 1);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	try
+		ret := lFloatSpinEdit.Increment;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'Increment', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_FloatSpinEdit_VCLuaSetMinValue(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	val:Double;
+begin
+	CheckArg(L, 2);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFloatSpinEdit.MinValue := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'MinValue', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FloatSpinEdit_VCLuaGetMinValue(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	ret:Double;
+begin
+	CheckArg(L, 1);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	try
+		ret := lFloatSpinEdit.MinValue;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'MinValue', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_FloatSpinEdit_VCLuaSetMaxValue(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	val:Double;
+begin
+	CheckArg(L, 2);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFloatSpinEdit.MaxValue := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'MaxValue', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FloatSpinEdit_VCLuaGetMaxValue(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	ret:Double;
+begin
+	CheckArg(L, 1);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	try
+		ret := lFloatSpinEdit.MaxValue;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'MaxValue', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_FloatSpinEdit_VCLuaSetValue(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	val:Double;
+begin
+	CheckArg(L, 2);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFloatSpinEdit.Value := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'Value', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FloatSpinEdit_VCLuaGetValue(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	ret:Double;
+begin
+	CheckArg(L, 1);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	try
+		ret := lFloatSpinEdit.Value;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'Value', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_FloatSpinEdit_VCLuaSetValueEmpty(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFloatSpinEdit.ValueEmpty := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'ValueEmpty', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FloatSpinEdit_VCLuaGetValueEmpty(L: Plua_State): Integer; cdecl;
+var
+	lFloatSpinEdit:TLuaFloatSpinEdit;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	try
+		ret := lFloatSpinEdit.ValueEmpty;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FloatSpinEdit', 'ValueEmpty', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function IsFloatSpinEdit(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -124,4 +363,19 @@ begin
 	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'GetLimitedValue', @VCLua_FloatSpinEdit_GetLimitedValue);
 	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'ValueToStr', @VCLua_FloatSpinEdit_ValueToStr);
 	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'StrToValue', @VCLua_FloatSpinEdit_StrToValue);
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'DecimalPlaces', @VCLua_FloatSpinEdit_VCLuaGetDecimalPlaces, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'EditorEnabled', @VCLua_FloatSpinEdit_VCLuaGetEditorEnabled, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'Increment', @VCLua_FloatSpinEdit_VCLuaGetIncrement, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'MinValue', @VCLua_FloatSpinEdit_VCLuaGetMinValue, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'MaxValue', @VCLua_FloatSpinEdit_VCLuaGetMaxValue, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'Value', @VCLua_FloatSpinEdit_VCLuaGetValue, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'ValueEmpty', @VCLua_FloatSpinEdit_VCLuaGetValueEmpty, mfCall);
+	CustomFloatSpinEditSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'DecimalPlaces', @VCLua_FloatSpinEdit_VCLuaSetDecimalPlaces, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'EditorEnabled', @VCLua_FloatSpinEdit_VCLuaSetEditorEnabled, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'Increment', @VCLua_FloatSpinEdit_VCLuaSetIncrement, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'MinValue', @VCLua_FloatSpinEdit_VCLuaSetMinValue, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'MaxValue', @VCLua_FloatSpinEdit_VCLuaSetMaxValue, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'Value', @VCLua_FloatSpinEdit_VCLuaSetValue, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'ValueEmpty', @VCLua_FloatSpinEdit_VCLuaSetValueEmpty, mfCall);
 end.

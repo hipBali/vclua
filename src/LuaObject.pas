@@ -9,6 +9,7 @@ uses
   SysUtils,
   TypInfo,
   LuaVmt,
+  Contnrs,
   LuaHelper,
   LuaProperties,
   Lua,
@@ -21,6 +22,7 @@ type
 
 var
   metaPtis: aopti;
+  apiPtis: TFPHashList;
 
 function tableToStringList(L : Plua_State): Integer; cdecl;
 procedure luaL_checkStringList(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo = nil); overload; inline;
@@ -149,8 +151,10 @@ begin
     lua_pushnil(L);
     exit
   end;
-  if vmts.GetVmt(Comp.ClassInfo) <> nil then
+  if vmts.GetVmt(Comp.ClassInfo) <> nil then begin
      cName := Comp.ClassName;
+     propSets.GetVmt(Comp.ClassInfo);
+  end;
   CreateTableForKnownType(L, cName, Comp);
 end;
 
@@ -209,9 +213,15 @@ begin
   Result.SetStrings(aos);
 end;
 
+var
+  i: Integer;
 begin
   metaPtis := aopti.Create(
   {$i meta_srcs.inc}
   );
+  apiPtis := TFPHashList.Create;
+  for i := 0 to High(metaPtis) do
+    apiPtis.Add(metaPtis[i]^.Name, metaPtis[i]);
+  {$i api_srcs.inc}
 end.
 

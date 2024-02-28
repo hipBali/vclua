@@ -21,6 +21,7 @@ type
     end;
 var
     PopupNotifierFuncs: TLuaVmt;
+    PopupNotifierSets: TLuaVmt;
 
 
 implementation
@@ -116,4 +117,6 @@ begin
 	TLuaMethodInfo.Create(PopupNotifierFuncs, 'Hide', @VCLua_PopupNotifier_Hide);
 	TLuaMethodInfo.Create(PopupNotifierFuncs, 'Show', @VCLua_PopupNotifier_Show);
 	TLuaMethodInfo.Create(PopupNotifierFuncs, 'ShowAtPos', @VCLua_PopupNotifier_ShowAtPos);
+	PopupNotifierSets := TLuaVmt.Create;
+	
 end.

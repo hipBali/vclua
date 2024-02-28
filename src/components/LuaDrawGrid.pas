@@ -21,6 +21,7 @@ type
     end;
 var
     CustomGridFuncs: TLuaVmt;
+    CustomGridSets: TLuaVmt;
 
 function CreateDrawGrid(L: Plua_State): Integer; cdecl;
 function IsDrawGrid(L: Plua_State): Integer; cdecl;
@@ -35,6 +36,7 @@ type
     end;
 var
     CustomDrawGridFuncs: TLuaVmt;
+    CustomDrawGridSets: TLuaVmt;
 
 
 implementation
@@ -860,6 +862,23 @@ begin
 	end;
 end;
 
+function VCLua_CustomGrid_VCLuaGetCursorState(L: Plua_State): Integer; cdecl;
+var
+	lCustomGrid:TLuaCustomGrid;
+	ret:TGridCursorState;
+begin
+	CheckArg(L, 1);
+	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	try
+		ret := lCustomGrid.CursorState;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'CursorState', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
 function VCLua_CustomGrid_SelectedRange(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
@@ -877,6 +896,74 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'SelectedRange', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_CustomGrid_VCLuaGetSelectedRangeCount(L: Plua_State): Integer; cdecl;
+var
+	lCustomGrid:TLuaCustomGrid;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	try
+		ret := lCustomGrid.SelectedRangeCount;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'SelectedRangeCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_CustomGrid_VCLuaSetSortOrder(L: Plua_State): Integer; cdecl;
+var
+	lCustomGrid:TLuaCustomGrid;
+	val:TSortOrder;
+begin
+	CheckArg(L, 2);
+	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TSortOrder));
+	try
+		lCustomGrid.SortOrder := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'SortOrder', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CustomGrid_VCLuaGetSortOrder(L: Plua_State): Integer; cdecl;
+var
+	lCustomGrid:TLuaCustomGrid;
+	ret:TSortOrder;
+begin
+	CheckArg(L, 1);
+	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	try
+		ret := lCustomGrid.SortOrder;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'SortOrder', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_CustomGrid_VCLuaGetSortColumn(L: Plua_State): Integer; cdecl;
+var
+	lCustomGrid:TLuaCustomGrid;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	try
+		ret := lCustomGrid.SortColumn;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CustomGrid', 'SortColumn', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_DrawGrid_DeleteColRow(L: Plua_State): Integer; cdecl;
@@ -1187,7 +1274,13 @@ begin
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SaveToStream', @VCLua_CustomGrid_SaveToStream);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'ScaleFontsPPI', @VCLua_CustomGrid_ScaleFontsPPI);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SetFocus', @VCLua_CustomGrid_SetFocus);
+	TLuaMethodInfo.Create(CustomGridFuncs, 'CursorState', @VCLua_CustomGrid_VCLuaGetCursorState, mfCall);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SelectedRange', @VCLua_CustomGrid_SelectedRange);
+	TLuaMethodInfo.Create(CustomGridFuncs, 'SelectedRangeCount', @VCLua_CustomGrid_VCLuaGetSelectedRangeCount, mfCall);
+	TLuaMethodInfo.Create(CustomGridFuncs, 'SortOrder', @VCLua_CustomGrid_VCLuaGetSortOrder, mfCall);
+	TLuaMethodInfo.Create(CustomGridFuncs, 'SortColumn', @VCLua_CustomGrid_VCLuaGetSortColumn, mfCall);
+	CustomGridSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomGridSets, 'SortOrder', @VCLua_CustomGrid_VCLuaSetSortOrder, mfCall);
 	CustomDrawGridFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomDrawGridFuncs, 'DeleteColRow', @VCLua_DrawGrid_DeleteColRow);
 	TLuaMethodInfo.Create(CustomDrawGridFuncs, 'DeleteCol', @VCLua_DrawGrid_DeleteCol);
@@ -1199,4 +1292,6 @@ begin
 	TLuaMethodInfo.Create(CustomDrawGridFuncs, 'SortColRow2', @VCLua_DrawGrid_SortColRow2);
 	TLuaMethodInfo.Create(CustomDrawGridFuncs, 'DefaultDrawCell', @VCLua_DrawGrid_DefaultDrawCell);
 	TLuaMethodInfo.Create(CustomDrawGridFuncs, 'DefaultDrawCell2', @VCLua_DrawGrid_DefaultDrawCell2);
+	CustomDrawGridSets := TLuaVmt.Create;
+	
 end.

@@ -81,8 +81,8 @@ classes = {
 
 	-- graphics    
 	{ name = "Graphic", src = "TGraphic", ref = "Graphics", base=true, nocreate=true },
-	{ name = "Font", src = "TFont", ref = "Graphics", base=true, nocreate=true },
-	{ name = "Pen", src = "TPen", ref = "Graphics", base=true, nocreate=true },
+	{ name = "Font", src = "TFont", ref = "Graphics", implref = "LCLType", base=true, nocreate=true },
+	{ name = "Pen", src = "TPen", ref = "Graphics", implref = "LCLType", base=true, nocreate=true },
 	{ name = "Canvas", src = "TCanvas", ref = "Graphics", base=true, nocreate=true, impl = "SetPixel", },
 	{ name = "Picture", src = "TPicture", ref = "Graphics", nv=true, noparent=true },
 	{ name = "RasterImage", src = "TRasterImage", ref = "Graphics", implref = "LCLType", base=true, nocreate=true },
@@ -106,7 +106,7 @@ classes = {
 		}
 	},
 	-- menus
-	{ unit = "Menu", ref = "Menus",
+	{ unit = "Menu", ref = "Menus", implref = "LCLType",
 		classes = {
 			{ name = "Menu", src = "TMenu"},
 			{ name = "PopupMenu", src = "TPopupMenu"},

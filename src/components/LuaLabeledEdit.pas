@@ -21,11 +21,96 @@ type
     end;
 var
     CustomLabeledEditFuncs: TLuaVmt;
+    CustomLabeledEditSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaBoundLabel;
 
+function VCLua_LabeledEdit_VCLuaGetEditLabel(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	ret:TBoundLabel;
+begin
+	CheckArg(L, 1);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	try
+		ret := lLabeledEdit.EditLabel;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'EditLabel', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_LabeledEdit_VCLuaSetLabelPosition(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	val:TLabelPosition;
+begin
+	CheckArg(L, 2);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TLabelPosition));
+	try
+		lLabeledEdit.LabelPosition := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'LabelPosition', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_LabeledEdit_VCLuaGetLabelPosition(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	ret:TLabelPosition;
+begin
+	CheckArg(L, 1);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	try
+		ret := lLabeledEdit.LabelPosition;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'LabelPosition', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_LabeledEdit_VCLuaSetLabelSpacing(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lLabeledEdit.LabelSpacing := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'LabelSpacing', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_LabeledEdit_VCLuaGetLabelSpacing(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	try
+		ret := lLabeledEdit.LabelSpacing;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'LabelSpacing', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
 
 function IsLabeledEdit(L: Plua_State): Integer; cdecl;
 begin
@@ -65,5 +150,10 @@ end;
 
 begin
 	CustomLabeledEditFuncs := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(CustomLabeledEditFuncs, 'EditLabel', @VCLua_LabeledEdit_VCLuaGetEditLabel, mfCall);
+	TLuaMethodInfo.Create(CustomLabeledEditFuncs, 'LabelPosition', @VCLua_LabeledEdit_VCLuaGetLabelPosition, mfCall);
+	TLuaMethodInfo.Create(CustomLabeledEditFuncs, 'LabelSpacing', @VCLua_LabeledEdit_VCLuaGetLabelSpacing, mfCall);
+	CustomLabeledEditSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomLabeledEditSets, 'LabelPosition', @VCLua_LabeledEdit_VCLuaSetLabelPosition, mfCall);
+	TLuaMethodInfo.Create(CustomLabeledEditSets, 'LabelSpacing', @VCLua_LabeledEdit_VCLuaSetLabelSpacing, mfCall);
 end.

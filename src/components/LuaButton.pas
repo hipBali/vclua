@@ -21,10 +21,11 @@ type
     end;
 var
     CustomButtonFuncs: TLuaVmt;
+    CustomButtonSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Forms;
 
 function VCLua_Button_Click(L: Plua_State): Integer; cdecl;
 var
@@ -120,6 +121,159 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Button_VCLuaGetActive(L: Plua_State): Integer; cdecl;
+var
+	lButton:TLuaButton;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lButton := TLuaButton(GetLuaObject(L, 1));
+	try
+		ret := lButton.Active;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'Active', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Button_VCLuaSetDefault(L: Plua_State): Integer; cdecl;
+var
+	lButton:TLuaButton;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lButton := TLuaButton(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lButton.Default := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'Default', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Button_VCLuaGetDefault(L: Plua_State): Integer; cdecl;
+var
+	lButton:TLuaButton;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lButton := TLuaButton(GetLuaObject(L, 1));
+	try
+		ret := lButton.Default;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'Default', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Button_VCLuaSetModalResult(L: Plua_State): Integer; cdecl;
+var
+	lButton:TLuaButton;
+	val:TModalResult;
+begin
+	CheckArg(L, 2);
+	lButton := TLuaButton(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lButton.ModalResult := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'ModalResult', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Button_VCLuaGetModalResult(L: Plua_State): Integer; cdecl;
+var
+	lButton:TLuaButton;
+	ret:TModalResult;
+begin
+	CheckArg(L, 1);
+	lButton := TLuaButton(GetLuaObject(L, 1));
+	try
+		ret := lButton.ModalResult;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'ModalResult', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Button_VCLuaGetShortCut(L: Plua_State): Integer; cdecl;
+var
+	lButton:TLuaButton;
+	ret:TShortcut;
+begin
+	CheckArg(L, 1);
+	lButton := TLuaButton(GetLuaObject(L, 1));
+	try
+		ret := lButton.ShortCut;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'ShortCut', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Button_VCLuaGetShortCutKey2(L: Plua_State): Integer; cdecl;
+var
+	lButton:TLuaButton;
+	ret:TShortcut;
+begin
+	CheckArg(L, 1);
+	lButton := TLuaButton(GetLuaObject(L, 1));
+	try
+		ret := lButton.ShortCutKey2;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'ShortCutKey2', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Button_VCLuaSetCancel(L: Plua_State): Integer; cdecl;
+var
+	lButton:TLuaButton;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lButton := TLuaButton(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lButton.Cancel := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'Cancel', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Button_VCLuaGetCancel(L: Plua_State): Integer; cdecl;
+var
+	lButton:TLuaButton;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lButton := TLuaButton(GetLuaObject(L, 1));
+	try
+		ret := lButton.Cancel;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Button', 'Cancel', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function IsButton(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -164,4 +318,14 @@ begin
 	TLuaMethodInfo.Create(CustomButtonFuncs, 'ActiveDefaultControlChanged', @VCLua_Button_ActiveDefaultControlChanged);
 	TLuaMethodInfo.Create(CustomButtonFuncs, 'UpdateRolesForForm', @VCLua_Button_UpdateRolesForForm);
 	TLuaMethodInfo.Create(CustomButtonFuncs, 'UseRightToLeftAlignment', @VCLua_Button_UseRightToLeftAlignment);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'Active', @VCLua_Button_VCLuaGetActive, mfCall);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'Default', @VCLua_Button_VCLuaGetDefault, mfCall);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'ModalResult', @VCLua_Button_VCLuaGetModalResult, mfCall);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'ShortCut', @VCLua_Button_VCLuaGetShortCut, mfCall);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'ShortCutKey2', @VCLua_Button_VCLuaGetShortCutKey2, mfCall);
+	TLuaMethodInfo.Create(CustomButtonFuncs, 'Cancel', @VCLua_Button_VCLuaGetCancel, mfCall);
+	CustomButtonSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomButtonSets, 'Default', @VCLua_Button_VCLuaSetDefault, mfCall);
+	TLuaMethodInfo.Create(CustomButtonSets, 'ModalResult', @VCLua_Button_VCLuaSetModalResult, mfCall);
+	TLuaMethodInfo.Create(CustomButtonSets, 'Cancel', @VCLua_Button_VCLuaSetCancel, mfCall);
 end.

@@ -23,10 +23,11 @@ type
     end;
 var
     CustomListBoxFuncs: TLuaVmt;
+    CustomListBoxSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LuaCanvas, LuaStrings;
 
 function VCLua_ListBox_AddItem(L: Plua_State): Integer; cdecl;
 var
@@ -347,6 +348,346 @@ begin
 	end;
 end;
 
+function VCLua_ListBox_VCLuaGetCanvas(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:TCanvas;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.Canvas;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Canvas', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetClickOnSelChange(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:boolean;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.ClickOnSelChange := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ClickOnSelChange', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetClickOnSelChange(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.ClickOnSelChange;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ClickOnSelChange', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetColumns(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.Columns := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Columns', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetColumns(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.Columns;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Columns', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetExtendedSelect(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:boolean;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.ExtendedSelect := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ExtendedSelect', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetExtendedSelect(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.ExtendedSelect;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ExtendedSelect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetItemHeight(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.ItemHeight := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ItemHeight', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetItemHeight(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.ItemHeight;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ItemHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetItemIndex(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:integer;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.ItemIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ItemIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetItemIndex(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.ItemIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ItemIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetItems(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:TStrings;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.Items := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Items', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetItems(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:TStrings;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.Items;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Items', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetMultiSelect(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:boolean;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.MultiSelect := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'MultiSelect', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetMultiSelect(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.MultiSelect;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'MultiSelect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetOptions(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:TListBoxOptions;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_checkSet(L,2,@val,TypeInfo(TListBoxOptions));
+	try
+		lListBox.Options := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Options', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetOptions(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:TListBoxOptions;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.Options;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Options', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_ListBox_VCLuaSetScrollWidth(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.ScrollWidth := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ScrollWidth', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetScrollWidth(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.ScrollWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'ScrollWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaGetSelCount(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.SelCount;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'SelCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ListBox_Selected(L: Plua_State): Integer; cdecl;
 var
 	lListBox:TLuaListBox;
@@ -370,6 +711,108 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'Selected', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_ListBox_VCLuaSetSorted(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:boolean;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.Sorted := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Sorted', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetSorted(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.Sorted;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Sorted', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetStyle(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:TListBoxStyle;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TListBoxStyle));
+	try
+		lListBox.Style := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Style', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetStyle(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:TListBoxStyle;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.Style;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Style', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_ListBox_VCLuaSetTopIndex(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.TopIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'TopIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetTopIndex(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		ret := lListBox.TopIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'TopIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function IsListBox(L: Plua_State): Integer; cdecl;
@@ -428,5 +871,32 @@ begin
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'SelectRange', @VCLua_ListBox_SelectRange);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'DeleteSelected', @VCLua_ListBox_DeleteSelected);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'UnlockSelectionChange', @VCLua_ListBox_UnlockSelectionChange);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Canvas', @VCLua_ListBox_VCLuaGetCanvas, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ClickOnSelChange', @VCLua_ListBox_VCLuaGetClickOnSelChange, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Columns', @VCLua_ListBox_VCLuaGetColumns, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ExtendedSelect', @VCLua_ListBox_VCLuaGetExtendedSelect, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ItemHeight', @VCLua_ListBox_VCLuaGetItemHeight, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ItemIndex', @VCLua_ListBox_VCLuaGetItemIndex, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Items', @VCLua_ListBox_VCLuaGetItems, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'MultiSelect', @VCLua_ListBox_VCLuaGetMultiSelect, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Options', @VCLua_ListBox_VCLuaGetOptions, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ScrollWidth', @VCLua_ListBox_VCLuaGetScrollWidth, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'SelCount', @VCLua_ListBox_VCLuaGetSelCount, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Selected', @VCLua_ListBox_Selected);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Sorted', @VCLua_ListBox_VCLuaGetSorted, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Style', @VCLua_ListBox_VCLuaGetStyle, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'TopIndex', @VCLua_ListBox_VCLuaGetTopIndex, mfCall);
+	CustomListBoxSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomListBoxSets, 'ClickOnSelChange', @VCLua_ListBox_VCLuaSetClickOnSelChange, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'Columns', @VCLua_ListBox_VCLuaSetColumns, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'ExtendedSelect', @VCLua_ListBox_VCLuaSetExtendedSelect, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'ItemHeight', @VCLua_ListBox_VCLuaSetItemHeight, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'ItemIndex', @VCLua_ListBox_VCLuaSetItemIndex, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'Items', @VCLua_ListBox_VCLuaSetItems, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'MultiSelect', @VCLua_ListBox_VCLuaSetMultiSelect, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'Options', @VCLua_ListBox_VCLuaSetOptions, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'ScrollWidth', @VCLua_ListBox_VCLuaSetScrollWidth, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'Sorted', @VCLua_ListBox_VCLuaSetSorted, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'Style', @VCLua_ListBox_VCLuaSetStyle, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'TopIndex', @VCLua_ListBox_VCLuaSetTopIndex, mfCall);
 end.

@@ -21,6 +21,7 @@ type
     end;
 var
     ToolButtonFuncs: TLuaVmt;
+    ToolButtonSets: TLuaVmt;
 
 function CreateToolBar(L: Plua_State): Integer; cdecl;
 function IsToolBar(L: Plua_State): Integer; cdecl;
@@ -33,6 +34,7 @@ type
     end;
 var
     ToolBarFuncs: TLuaVmt;
+    ToolBarSets: TLuaVmt;
 
 
 implementation
@@ -178,6 +180,23 @@ begin
 	lua_push(L,PreferredHeight);
 end;
 
+function VCLua_ToolButton_VCLuaGetIndex(L: Plua_State): Integer; cdecl;
+var
+	lToolButton:TLuaToolButton;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
+	try
+		ret := lToolButton.Index;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ToolButton', 'Index', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ToolButton_PointInArrow(L: Plua_State): Integer; cdecl;
 var
 	lToolButton:TLuaToolButton;
@@ -267,6 +286,23 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_ToolBar_VCLuaGetButtonCount(L: Plua_State): Integer; cdecl;
+var
+	lToolBar:TLuaToolBar;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
+	try
+		ret := lToolBar.ButtonCount;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ToolBar', 'ButtonCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ToolBar_Buttons(L: Plua_State): Integer; cdecl;
 var
 	lToolBar:TLuaToolBar;
@@ -284,6 +320,40 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolBar', 'Buttons', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_ToolBar_VCLuaGetRowCount(L: Plua_State): Integer; cdecl;
+var
+	lToolBar:TLuaToolBar;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
+	try
+		ret := lToolBar.RowCount;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ToolBar', 'RowCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ToolBar_VCLuaGetButtonDropWidth(L: Plua_State): Integer; cdecl;
+var
+	lToolBar:TLuaToolBar;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
+	try
+		ret := lToolBar.ButtonDropWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ToolBar', 'ButtonDropWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function IsToolButton(L: Plua_State): Integer; cdecl;
@@ -367,11 +437,19 @@ begin
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetCurrentIcon2', @VCLua_ToolButton_GetCurrentIcon2);
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetPreferredSize', @VCLua_ToolButton_GetPreferredSize);
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetPreferredSize2', @VCLua_ToolButton_GetPreferredSize2);
+	TLuaMethodInfo.Create(ToolButtonFuncs, 'Index', @VCLua_ToolButton_VCLuaGetIndex, mfCall);
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'PointInArrow', @VCLua_ToolButton_PointInArrow);
+	ToolButtonSets := TLuaVmt.Create;
+	
 	ToolBarFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ToolBarFuncs, 'EndUpdate', @VCLua_ToolBar_EndUpdate);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'FlipChildren', @VCLua_ToolBar_FlipChildren);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'SetButtonSize', @VCLua_ToolBar_SetButtonSize);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'CanFocus', @VCLua_ToolBar_CanFocus);
+	TLuaMethodInfo.Create(ToolBarFuncs, 'ButtonCount', @VCLua_ToolBar_VCLuaGetButtonCount, mfCall);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'Buttons', @VCLua_ToolBar_Buttons);
+	TLuaMethodInfo.Create(ToolBarFuncs, 'RowCount', @VCLua_ToolBar_VCLuaGetRowCount, mfCall);
+	TLuaMethodInfo.Create(ToolBarFuncs, 'ButtonDropWidth', @VCLua_ToolBar_VCLuaGetButtonDropWidth, mfCall);
+	ToolBarSets := TLuaVmt.Create;
+	
 end.

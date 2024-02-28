@@ -21,6 +21,7 @@ type
     end;
 var
     BevelFuncs: TLuaVmt;
+    BevelSets: TLuaVmt;
 
 
 implementation
@@ -82,4 +83,6 @@ end;
 begin
 	BevelFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(BevelFuncs, 'Assign', @VCLua_Bevel_Assign);
+	BevelSets := TLuaVmt.Create;
+	
 end.

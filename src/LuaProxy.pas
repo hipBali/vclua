@@ -21,9 +21,6 @@ function lua_toStringCP(L: Plua_State; Index: Integer):string;
 procedure lua_pushStringCP(L: Plua_State; const str:string);
 // --------------------
 
-// TString descenant properties
-function GetTStringsProperty(L: Plua_State; Comp:TStrings; pn:String):boolean;
-
 // compile all users with T+ (typed address operator)
 procedure luaL_check(L: Plua_State; i: Integer; v: PBoolean; pti : PTypeInfo = nil); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PInt8; pti : PTypeInfo = nil); overload; inline;
@@ -446,17 +443,9 @@ end;
 procedure lua_pushStringCP(L: Plua_State; const str:string);
 begin
      if (is_vclua_utf8_conv) then
-       lua_pushstring(L,pchar(UTF8ToWinCP(str)))
+       lua_pushstring(L,UTF8ToWinCP(str))
      else
-       lua_pushstring(L,pchar(str));
-end;
-
-function GetTStringsProperty(L: Plua_State; Comp:TStrings; pn:String):boolean;
-begin
-     Result := true;
-     if (pn = 'count') then lua_push(L,Comp.Count) else
-     if (pn = 'text') then lua_push(L,Comp.text) else
-        Result := false;
+       lua_pushstring(L,str);
 end;
 
 end.

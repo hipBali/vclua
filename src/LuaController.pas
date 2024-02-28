@@ -532,6 +532,9 @@ begin
     lua_pushliteral(L,'vmt');
     lua_pushlightuserdata(L,vmts[TypeName]);
     lua_rawset(L,top);
+    lua_pushliteral(L,'propSets');
+    lua_pushlightuserdata(L,propSets[TypeName]);
+    lua_rawset(L,top);
   end;
   LuaSetMetaFunction(L, top, '__index', @LuaGetProperty);
   LuaSetMetaFunction(L, top, '__newindex', @LuaSetProperty);

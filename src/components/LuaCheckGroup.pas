@@ -21,10 +21,11 @@ type
     end;
 var
     CustomCheckGroupFuncs: TLuaVmt;
+    CustomCheckGroupSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaStrings;
 
 function VCLua_CheckGroup_FlipChildren(L: Plua_State): Integer; cdecl;
 var
@@ -56,6 +57,74 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'CheckGroup', 'Rows', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_CheckGroup_VCLuaSetAutoFill(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	val:boolean;
+begin
+	CheckArg(L, 2);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCheckGroup.AutoFill := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'AutoFill', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckGroup_VCLuaGetAutoFill(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	try
+		ret := lCheckGroup.AutoFill;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'AutoFill', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_CheckGroup_VCLuaSetItems(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	val:TStrings;
+begin
+	CheckArg(L, 2);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCheckGroup.Items := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'Items', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckGroup_VCLuaGetItems(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	ret:TStrings;
+begin
+	CheckArg(L, 1);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	try
+		ret := lCheckGroup.Items;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'Items', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -110,6 +179,74 @@ begin
 	end;
 end;
 
+function VCLua_CheckGroup_VCLuaSetColumns(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	val:integer;
+begin
+	CheckArg(L, 2);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCheckGroup.Columns := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'Columns', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckGroup_VCLuaGetColumns(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	try
+		ret := lCheckGroup.Columns;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'Columns', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_CheckGroup_VCLuaSetColumnLayout(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	val:TColumnLayout;
+begin
+	CheckArg(L, 2);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TColumnLayout));
+	try
+		lCheckGroup.ColumnLayout := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'ColumnLayout', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckGroup_VCLuaGetColumnLayout(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+	ret:TColumnLayout;
+begin
+	CheckArg(L, 1);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	try
+		ret := lCheckGroup.ColumnLayout;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CheckGroup', 'ColumnLayout', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
 function IsCheckGroup(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -150,6 +287,15 @@ begin
 	CustomCheckGroupFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'FlipChildren', @VCLua_CheckGroup_FlipChildren);
 	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'Rows', @VCLua_CheckGroup_Rows);
+	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'AutoFill', @VCLua_CheckGroup_VCLuaGetAutoFill, mfCall);
+	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'Items', @VCLua_CheckGroup_VCLuaGetItems, mfCall);
 	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'Checked', @VCLua_CheckGroup_Checked);
 	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'CheckEnabled', @VCLua_CheckGroup_CheckEnabled);
+	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'Columns', @VCLua_CheckGroup_VCLuaGetColumns, mfCall);
+	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'ColumnLayout', @VCLua_CheckGroup_VCLuaGetColumnLayout, mfCall);
+	CustomCheckGroupSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'AutoFill', @VCLua_CheckGroup_VCLuaSetAutoFill, mfCall);
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'Items', @VCLua_CheckGroup_VCLuaSetItems, mfCall);
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'Columns', @VCLua_CheckGroup_VCLuaSetColumns, mfCall);
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'ColumnLayout', @VCLua_CheckGroup_VCLuaSetColumnLayout, mfCall);
 end.

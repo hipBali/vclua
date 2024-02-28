@@ -21,6 +21,7 @@ type
     end;
 var
     CustomTrackBarFuncs: TLuaVmt;
+    CustomTrackBarSets: TLuaVmt;
 
 
 implementation
@@ -82,4 +83,6 @@ end;
 begin
 	CustomTrackBarFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomTrackBarFuncs, 'SetTick', @VCLua_TrackBar_SetTick);
+	CustomTrackBarSets := TLuaVmt.Create;
+	
 end.

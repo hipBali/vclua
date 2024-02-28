@@ -21,6 +21,7 @@ type
     end;
 var
     MaskEditFuncs: TLuaVmt;
+    MaskEditSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	MaskEditFuncs := TLuaVmt.Create;
+	
+	MaskEditSets := TLuaVmt.Create;
 	
 end.

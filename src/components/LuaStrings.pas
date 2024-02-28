@@ -21,6 +21,7 @@ type
     end;
 var
     StringsFuncs: TLuaVmt;
+    StringsSets: TLuaVmt;
 
 
 implementation
@@ -1039,6 +1040,261 @@ begin
 	end;
 end;
 
+function VCLua_Strings_VCLuaSetAlwaysQuote(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.AlwaysQuote := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AlwaysQuote', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetAlwaysQuote(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.AlwaysQuote;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'AlwaysQuote', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetCapacity(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.Capacity := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Capacity', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetCapacity(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.Capacity;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Capacity', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetCommaText(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:string;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.CommaText := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'CommaText', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetCommaText(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:string;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.CommaText;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'CommaText', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaGetCount(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.Count;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Count', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetDelimitedText(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:string;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.DelimitedText := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'DelimitedText', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetDelimitedText(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:string;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.DelimitedText;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'DelimitedText', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetDelimiter(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Char;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.Delimiter := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Delimiter', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetDelimiter(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Char;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.Delimiter;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Delimiter', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetLineBreak(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:string;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.LineBreak := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'LineBreak', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetLineBreak(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:string;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.LineBreak;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'LineBreak', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetMissingNameValueSeparatorAction(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:TMissingNameValueSeparatorAction;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TMissingNameValueSeparatorAction));
+	try
+		lStrings.MissingNameValueSeparatorAction := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'MissingNameValueSeparatorAction', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetMissingNameValueSeparatorAction(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:TMissingNameValueSeparatorAction;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.MissingNameValueSeparatorAction;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'MissingNameValueSeparatorAction', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
 function VCLua_Strings_Names(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
@@ -1056,6 +1312,40 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Names', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_Strings_VCLuaSetNameValueSeparator(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Char;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.NameValueSeparator := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'NameValueSeparator', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetNameValueSeparator(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Char;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.NameValueSeparator;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'NameValueSeparator', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Strings_Objects(L: Plua_State): Integer; cdecl;
@@ -1083,6 +1373,176 @@ begin
 	end;
 end;
 
+function VCLua_Strings_VCLuaSetOptions(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:TStringsOptions;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_checkSet(L,2,@val,TypeInfo(TStringsOptions));
+	try
+		lStrings.Options := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Options', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetOptions(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:TStringsOptions;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.Options;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Options', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Strings_VCLuaSetQuoteChar(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Char;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.QuoteChar := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'QuoteChar', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetQuoteChar(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Char;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.QuoteChar;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'QuoteChar', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetSkipLastLineBreak(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.SkipLastLineBreak := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'SkipLastLineBreak', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetSkipLastLineBreak(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.SkipLastLineBreak;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'SkipLastLineBreak', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetTrailingLineBreak(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.TrailingLineBreak := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'TrailingLineBreak', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetTrailingLineBreak(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.TrailingLineBreak;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'TrailingLineBreak', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetStrictDelimiter(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.StrictDelimiter := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'StrictDelimiter', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetStrictDelimiter(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.StrictDelimiter;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'StrictDelimiter', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Strings_Strings(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
@@ -1106,6 +1566,108 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Strings', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_Strings_VCLuaSetText(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:string;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.Text := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Text', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetText(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:string;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.Text;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'Text', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Strings_VCLuaSetTextLineBreakStyle(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:TTextLineBreakStyle;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TTextLineBreakStyle));
+	try
+		lStrings.TextLineBreakStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'TextLineBreakStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetTextLineBreakStyle(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:TTextLineBreakStyle;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.TextLineBreakStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'TextLineBreakStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Strings_VCLuaSetUseLocale(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.UseLocale := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'UseLocale', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetUseLocale(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.UseLocale;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'UseLocale', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Strings_ValueFromIndex(L: Plua_State): Integer; cdecl;
@@ -1156,6 +1718,40 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Values', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_Strings_VCLuaSetWriteBOM(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStrings.WriteBOM := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'WriteBOM', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Strings_VCLuaGetWriteBOM(L: Plua_State): Integer; cdecl;
+var
+	lStrings:TLuaStrings;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	try
+		ret := lStrings.WriteBOM;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Strings', 'WriteBOM', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function IsStrings(L: Plua_State): Integer; cdecl;
@@ -1237,9 +1833,45 @@ begin
 	TLuaMethodInfo.Create(StringsFuncs, 'Slice', @VCLua_Strings_Slice);
 	TLuaMethodInfo.Create(StringsFuncs, 'Slice2', @VCLua_Strings_Slice2);
 	TLuaMethodInfo.Create(StringsFuncs, 'SetText', @VCLua_Strings_SetText);
+	TLuaMethodInfo.Create(StringsFuncs, 'AlwaysQuote', @VCLua_Strings_VCLuaGetAlwaysQuote, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'Capacity', @VCLua_Strings_VCLuaGetCapacity, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'CommaText', @VCLua_Strings_VCLuaGetCommaText, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'Count', @VCLua_Strings_VCLuaGetCount, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'DelimitedText', @VCLua_Strings_VCLuaGetDelimitedText, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'Delimiter', @VCLua_Strings_VCLuaGetDelimiter, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'LineBreak', @VCLua_Strings_VCLuaGetLineBreak, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'MissingNameValueSeparatorAction', @VCLua_Strings_VCLuaGetMissingNameValueSeparatorAction, mfCall);
 	TLuaMethodInfo.Create(StringsFuncs, 'Names', @VCLua_Strings_Names);
+	TLuaMethodInfo.Create(StringsFuncs, 'NameValueSeparator', @VCLua_Strings_VCLuaGetNameValueSeparator, mfCall);
 	TLuaMethodInfo.Create(StringsFuncs, 'Objects', @VCLua_Strings_Objects);
+	TLuaMethodInfo.Create(StringsFuncs, 'Options', @VCLua_Strings_VCLuaGetOptions, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'QuoteChar', @VCLua_Strings_VCLuaGetQuoteChar, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'SkipLastLineBreak', @VCLua_Strings_VCLuaGetSkipLastLineBreak, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'TrailingLineBreak', @VCLua_Strings_VCLuaGetTrailingLineBreak, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'StrictDelimiter', @VCLua_Strings_VCLuaGetStrictDelimiter, mfCall);
 	TLuaMethodInfo.Create(StringsFuncs, 'Strings', @VCLua_Strings_Strings);
+	TLuaMethodInfo.Create(StringsFuncs, 'Text', @VCLua_Strings_VCLuaGetText, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'TextLineBreakStyle', @VCLua_Strings_VCLuaGetTextLineBreakStyle, mfCall);
+	TLuaMethodInfo.Create(StringsFuncs, 'UseLocale', @VCLua_Strings_VCLuaGetUseLocale, mfCall);
 	TLuaMethodInfo.Create(StringsFuncs, 'ValueFromIndex', @VCLua_Strings_ValueFromIndex);
 	TLuaMethodInfo.Create(StringsFuncs, 'Values', @VCLua_Strings_Values);
+	TLuaMethodInfo.Create(StringsFuncs, 'WriteBOM', @VCLua_Strings_VCLuaGetWriteBOM, mfCall);
+	StringsSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(StringsSets, 'AlwaysQuote', @VCLua_Strings_VCLuaSetAlwaysQuote, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'Capacity', @VCLua_Strings_VCLuaSetCapacity, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'CommaText', @VCLua_Strings_VCLuaSetCommaText, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'DelimitedText', @VCLua_Strings_VCLuaSetDelimitedText, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'Delimiter', @VCLua_Strings_VCLuaSetDelimiter, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'LineBreak', @VCLua_Strings_VCLuaSetLineBreak, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'MissingNameValueSeparatorAction', @VCLua_Strings_VCLuaSetMissingNameValueSeparatorAction, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'NameValueSeparator', @VCLua_Strings_VCLuaSetNameValueSeparator, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'Options', @VCLua_Strings_VCLuaSetOptions, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'QuoteChar', @VCLua_Strings_VCLuaSetQuoteChar, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'SkipLastLineBreak', @VCLua_Strings_VCLuaSetSkipLastLineBreak, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'TrailingLineBreak', @VCLua_Strings_VCLuaSetTrailingLineBreak, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'StrictDelimiter', @VCLua_Strings_VCLuaSetStrictDelimiter, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'Text', @VCLua_Strings_VCLuaSetText, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'TextLineBreakStyle', @VCLua_Strings_VCLuaSetTextLineBreakStyle, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'UseLocale', @VCLua_Strings_VCLuaSetUseLocale, mfCall);
+	TLuaMethodInfo.Create(StringsSets, 'WriteBOM', @VCLua_Strings_VCLuaSetWriteBOM, mfCall);
 end.

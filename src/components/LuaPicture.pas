@@ -22,6 +22,7 @@ type
     end;
 var
     PictureFuncs: TLuaVmt;
+    PictureSets: TLuaVmt;
 
 
 implementation
@@ -206,4 +207,6 @@ begin
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStream', @VCLua_Picture_SaveToStream);
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStreamWithFileExt', @VCLua_Picture_SaveToStreamWithFileExt);
 	TLuaMethodInfo.Create(PictureFuncs, 'Assign', @VCLua_Picture_Assign);
+	PictureSets := TLuaVmt.Create;
+	
 end.

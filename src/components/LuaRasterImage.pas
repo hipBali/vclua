@@ -21,10 +21,11 @@ type
     end;
 var
     RasterImageFuncs: TLuaVmt;
+    RasterImageSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LCLType, LuaCanvas;
 
 function VCLua_RasterImage_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -317,6 +318,23 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_RasterImage_VCLuaGetCanvas(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	ret:TCanvas;
+begin
+	CheckArg(L, 1);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	try
+		ret := lRasterImage.Canvas;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'Canvas', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_RasterImage_HandleAllocated(L: Plua_State): Integer; cdecl;
 var
 	lRasterImage:TLuaRasterImage;
@@ -332,6 +350,210 @@ begin
 			CallError(L, 'RasterImage', 'HandleAllocated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
+end;
+
+function VCLua_RasterImage_VCLuaSetBitmapHandle(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	val:HBITMAP;
+begin
+	CheckArg(L, 2);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lRasterImage.BitmapHandle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'BitmapHandle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_RasterImage_VCLuaGetBitmapHandle(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	ret:HBITMAP;
+begin
+	CheckArg(L, 1);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	try
+		ret := lRasterImage.BitmapHandle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'BitmapHandle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_RasterImage_VCLuaSetMasked(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lRasterImage.Masked := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'Masked', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_RasterImage_VCLuaGetMasked(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	try
+		ret := lRasterImage.Masked;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'Masked', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_RasterImage_VCLuaSetMaskHandle(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	val:HBITMAP;
+begin
+	CheckArg(L, 2);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lRasterImage.MaskHandle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'MaskHandle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_RasterImage_VCLuaGetMaskHandle(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	ret:HBITMAP;
+begin
+	CheckArg(L, 1);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	try
+		ret := lRasterImage.MaskHandle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'MaskHandle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_RasterImage_VCLuaSetPixelFormat(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	val:TPixelFormat;
+begin
+	CheckArg(L, 2);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TPixelFormat));
+	try
+		lRasterImage.PixelFormat := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'PixelFormat', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_RasterImage_VCLuaGetPixelFormat(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	ret:TPixelFormat;
+begin
+	CheckArg(L, 1);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	try
+		ret := lRasterImage.PixelFormat;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'PixelFormat', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_RasterImage_VCLuaSetTransparentColor(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	val:TColor;
+begin
+	CheckArg(L, 2);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lRasterImage.TransparentColor := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'TransparentColor', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_RasterImage_VCLuaGetTransparentColor(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	ret:TColor;
+begin
+	CheckArg(L, 1);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	try
+		ret := lRasterImage.TransparentColor;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'TransparentColor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_RasterImage_VCLuaSetTransparentMode(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	val:TTransparentMode;
+begin
+	CheckArg(L, 2);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TTransparentMode));
+	try
+		lRasterImage.TransparentMode := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'TransparentMode', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_RasterImage_VCLuaGetTransparentMode(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	ret:TTransparentMode;
+begin
+	CheckArg(L, 1);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	try
+		ret := lRasterImage.TransparentMode;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'TransparentMode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
 end;
 
 function IsRasterImage(L: Plua_State): Integer; cdecl;
@@ -375,5 +597,19 @@ begin
 	TLuaMethodInfo.Create(RasterImageFuncs, 'Mask', @VCLua_RasterImage_Mask);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'ReleaseBitmapHandle', @VCLua_RasterImage_ReleaseBitmapHandle);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'ReleaseMaskHandle', @VCLua_RasterImage_ReleaseMaskHandle);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'Canvas', @VCLua_RasterImage_VCLuaGetCanvas, mfCall);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'HandleAllocated', @VCLua_RasterImage_HandleAllocated);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'BitmapHandle', @VCLua_RasterImage_VCLuaGetBitmapHandle, mfCall);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'Masked', @VCLua_RasterImage_VCLuaGetMasked, mfCall);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'MaskHandle', @VCLua_RasterImage_VCLuaGetMaskHandle, mfCall);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'PixelFormat', @VCLua_RasterImage_VCLuaGetPixelFormat, mfCall);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'TransparentColor', @VCLua_RasterImage_VCLuaGetTransparentColor, mfCall);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'TransparentMode', @VCLua_RasterImage_VCLuaGetTransparentMode, mfCall);
+	RasterImageSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(RasterImageSets, 'BitmapHandle', @VCLua_RasterImage_VCLuaSetBitmapHandle, mfCall);
+	TLuaMethodInfo.Create(RasterImageSets, 'Masked', @VCLua_RasterImage_VCLuaSetMasked, mfCall);
+	TLuaMethodInfo.Create(RasterImageSets, 'MaskHandle', @VCLua_RasterImage_VCLuaSetMaskHandle, mfCall);
+	TLuaMethodInfo.Create(RasterImageSets, 'PixelFormat', @VCLua_RasterImage_VCLuaSetPixelFormat, mfCall);
+	TLuaMethodInfo.Create(RasterImageSets, 'TransparentColor', @VCLua_RasterImage_VCLuaSetTransparentColor, mfCall);
+	TLuaMethodInfo.Create(RasterImageSets, 'TransparentMode', @VCLua_RasterImage_VCLuaSetTransparentMode, mfCall);
 end.

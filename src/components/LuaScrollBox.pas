@@ -23,6 +23,7 @@ type
     end;
 var
     ScrollBoxFuncs: TLuaVmt;
+    ScrollBoxSets: TLuaVmt;
 
 
 implementation
@@ -67,5 +68,7 @@ end;
 
 begin
 	ScrollBoxFuncs := TLuaVmt.Create;
+	
+	ScrollBoxSets := TLuaVmt.Create;
 	
 end.

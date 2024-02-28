@@ -42,7 +42,7 @@ function luaopen_vcl_core(L: Plua_State): Integer; cdecl;
 var res:string;
   pti,ptiCur: PTypeInfo;
   i,j:integer;
-  cur,parent:PLuaVmt;
+  cur,curSets:PLuaVmt;
 begin
   // luaL_openlib is deprecated?
   {$IFNDEF LUA51}
@@ -107,13 +107,15 @@ begin
       pti := metaPtis[i];
       ptiCur := GetTypeData(pti)^.ParentInfo;
       cur := vmts[pti^.Name];
+      curSets := propSets[pti^.Name];
       repeat
         pti := GetTypeData(pti)^.ParentInfo;
       until (pti = nil) or (vmts.Find(pti^.Name) <> nil);
       if pti <> nil then begin
-         parent := vmts[pti^.Name];
-         cur^.Merge(parent^);
+         cur^.Merge(vmts[pti^.Name]^);
+         curSets^.Merge(propSets[pti^.Name]^);
          vmts.GetVmt(ptiCur);
+         propSets.GetVmt(ptiCur);
       end;
   end;
 

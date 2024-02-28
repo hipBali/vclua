@@ -22,6 +22,7 @@ type
     end;
 var
     StringListFuncs: TLuaVmt;
+    StringListSets: TLuaVmt;
 
 
 implementation
@@ -171,6 +172,176 @@ begin
 	end;
 end;
 
+function VCLua_StringList_VCLuaSetDuplicates(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	val:TDuplicates;
+begin
+	CheckArg(L, 2);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TDuplicates));
+	try
+		lStringList.Duplicates := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Duplicates', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_StringList_VCLuaGetDuplicates(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	ret:TDuplicates;
+begin
+	CheckArg(L, 1);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	try
+		ret := lStringList.Duplicates;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Duplicates', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_StringList_VCLuaSetSorted(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStringList.Sorted := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Sorted', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_StringList_VCLuaGetSorted(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	try
+		ret := lStringList.Sorted;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'Sorted', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_StringList_VCLuaSetCaseSensitive(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStringList.CaseSensitive := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'CaseSensitive', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_StringList_VCLuaGetCaseSensitive(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	try
+		ret := lStringList.CaseSensitive;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'CaseSensitive', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_StringList_VCLuaSetOwnsObjects(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	val:boolean;
+begin
+	CheckArg(L, 2);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lStringList.OwnsObjects := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'OwnsObjects', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_StringList_VCLuaGetOwnsObjects(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	try
+		ret := lStringList.OwnsObjects;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'OwnsObjects', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_StringList_VCLuaSetSortStyle(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	val:TStringsSortStyle;
+begin
+	CheckArg(L, 2);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TStringsSortStyle));
+	try
+		lStringList.SortStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'SortStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_StringList_VCLuaGetSortStyle(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+	ret:TStringsSortStyle;
+begin
+	CheckArg(L, 1);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	try
+		ret := lStringList.SortStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'StringList', 'SortStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
 function IsStringList(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -210,4 +381,15 @@ begin
 	TLuaMethodInfo.Create(StringListFuncs, 'IndexOf', @VCLua_StringList_IndexOf);
 	TLuaMethodInfo.Create(StringListFuncs, 'Insert', @VCLua_StringList_Insert);
 	TLuaMethodInfo.Create(StringListFuncs, 'Sort', @VCLua_StringList_Sort);
+	TLuaMethodInfo.Create(StringListFuncs, 'Duplicates', @VCLua_StringList_VCLuaGetDuplicates, mfCall);
+	TLuaMethodInfo.Create(StringListFuncs, 'Sorted', @VCLua_StringList_VCLuaGetSorted, mfCall);
+	TLuaMethodInfo.Create(StringListFuncs, 'CaseSensitive', @VCLua_StringList_VCLuaGetCaseSensitive, mfCall);
+	TLuaMethodInfo.Create(StringListFuncs, 'OwnsObjects', @VCLua_StringList_VCLuaGetOwnsObjects, mfCall);
+	TLuaMethodInfo.Create(StringListFuncs, 'SortStyle', @VCLua_StringList_VCLuaGetSortStyle, mfCall);
+	StringListSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(StringListSets, 'Duplicates', @VCLua_StringList_VCLuaSetDuplicates, mfCall);
+	TLuaMethodInfo.Create(StringListSets, 'Sorted', @VCLua_StringList_VCLuaSetSorted, mfCall);
+	TLuaMethodInfo.Create(StringListSets, 'CaseSensitive', @VCLua_StringList_VCLuaSetCaseSensitive, mfCall);
+	TLuaMethodInfo.Create(StringListSets, 'OwnsObjects', @VCLua_StringList_VCLuaSetOwnsObjects, mfCall);
+	TLuaMethodInfo.Create(StringListSets, 'SortStyle', @VCLua_StringList_VCLuaSetSortStyle, mfCall);
 end.

@@ -21,6 +21,7 @@ type
     end;
 var
     ColorButtonFuncs: TLuaVmt;
+    ColorButtonSets: TLuaVmt;
 
 function CreateOpenDialog(L: Plua_State): Integer; cdecl;
 function IsOpenDialog(L: Plua_State): Integer; cdecl;
@@ -33,6 +34,7 @@ type
     end;
 var
     OpenDialogFuncs: TLuaVmt;
+    OpenDialogSets: TLuaVmt;
 
 function CreateSaveDialog(L: Plua_State): Integer; cdecl;
 function IsSaveDialog(L: Plua_State): Integer; cdecl;
@@ -45,6 +47,7 @@ type
     end;
 var
     SaveDialogFuncs: TLuaVmt;
+    SaveDialogSets: TLuaVmt;
 
 function CreateSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
 function IsSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
@@ -57,6 +60,7 @@ type
     end;
 var
     SelectDirectoryDialogFuncs: TLuaVmt;
+    SelectDirectoryDialogSets: TLuaVmt;
 
 function CreateColorDialog(L: Plua_State): Integer; cdecl;
 function IsColorDialog(L: Plua_State): Integer; cdecl;
@@ -69,6 +73,7 @@ type
     end;
 var
     ColorDialogFuncs: TLuaVmt;
+    ColorDialogSets: TLuaVmt;
 
 function CreateFontDialog(L: Plua_State): Integer; cdecl;
 function IsFontDialog(L: Plua_State): Integer; cdecl;
@@ -81,6 +86,7 @@ type
     end;
 var
     FontDialogFuncs: TLuaVmt;
+    FontDialogSets: TLuaVmt;
 
 function CreateFindDialog(L: Plua_State): Integer; cdecl;
 function IsFindDialog(L: Plua_State): Integer; cdecl;
@@ -93,6 +99,7 @@ type
     end;
 var
     FindDialogFuncs: TLuaVmt;
+    FindDialogSets: TLuaVmt;
 
 function CreateReplaceDialog(L: Plua_State): Integer; cdecl;
 function IsReplaceDialog(L: Plua_State): Integer; cdecl;
@@ -299,6 +306,108 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_FindDialog_VCLuaSetLeft(L: Plua_State): Integer; cdecl;
+var
+	lFindDialog:TLuaFindDialog;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFindDialog.Left := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FindDialog', 'Left', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FindDialog_VCLuaGetLeft(L: Plua_State): Integer; cdecl;
+var
+	lFindDialog:TLuaFindDialog;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	try
+		ret := lFindDialog.Left;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FindDialog', 'Left', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_FindDialog_VCLuaSetPosition(L: Plua_State): Integer; cdecl;
+var
+	lFindDialog:TLuaFindDialog;
+	val:TPoint;
+begin
+	CheckArg(L, 2);
+	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFindDialog.Position := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FindDialog', 'Position', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FindDialog_VCLuaGetPosition(L: Plua_State): Integer; cdecl;
+var
+	lFindDialog:TLuaFindDialog;
+	ret:TPoint;
+begin
+	CheckArg(L, 1);
+	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	try
+		ret := lFindDialog.Position;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FindDialog', 'Position', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_FindDialog_VCLuaSetTop(L: Plua_State): Integer; cdecl;
+var
+	lFindDialog:TLuaFindDialog;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lFindDialog.Top := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FindDialog', 'Top', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FindDialog_VCLuaGetTop(L: Plua_State): Integer; cdecl;
+var
+	lFindDialog:TLuaFindDialog;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	try
+		ret := lFindDialog.Top;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FindDialog', 'Top', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ReplaceDialog_CloseDialog(L: Plua_State): Integer; cdecl;
 var
 	lReplaceDialog:TLuaReplaceDialog;
@@ -327,6 +436,108 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'ReplaceDialog', 'Execute', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ReplaceDialog_VCLuaSetLeft(L: Plua_State): Integer; cdecl;
+var
+	lReplaceDialog:TLuaReplaceDialog;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lReplaceDialog.Left := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ReplaceDialog', 'Left', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ReplaceDialog_VCLuaGetLeft(L: Plua_State): Integer; cdecl;
+var
+	lReplaceDialog:TLuaReplaceDialog;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	try
+		ret := lReplaceDialog.Left;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ReplaceDialog', 'Left', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ReplaceDialog_VCLuaSetPosition(L: Plua_State): Integer; cdecl;
+var
+	lReplaceDialog:TLuaReplaceDialog;
+	val:TPoint;
+begin
+	CheckArg(L, 2);
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lReplaceDialog.Position := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ReplaceDialog', 'Position', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ReplaceDialog_VCLuaGetPosition(L: Plua_State): Integer; cdecl;
+var
+	lReplaceDialog:TLuaReplaceDialog;
+	ret:TPoint;
+begin
+	CheckArg(L, 1);
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	try
+		ret := lReplaceDialog.Position;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ReplaceDialog', 'Position', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ReplaceDialog_VCLuaSetTop(L: Plua_State): Integer; cdecl;
+var
+	lReplaceDialog:TLuaReplaceDialog;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lReplaceDialog.Top := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ReplaceDialog', 'Top', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ReplaceDialog_VCLuaGetTop(L: Plua_State): Integer; cdecl;
+var
+	lReplaceDialog:TLuaReplaceDialog;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	try
+		ret := lReplaceDialog.Top;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ReplaceDialog', 'Top', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -622,6 +833,8 @@ end;
 begin
 	ColorButtonFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ColorButtonFuncs, 'Click', @VCLua_ColorButton_Click);
+	ColorButtonSets := TLuaVmt.Create;
+	
 	OpenDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(OpenDialogFuncs, 'DoCanClose', @VCLua_OpenDialog_DoCanClose);
 	TLuaMethodInfo.Create(OpenDialogFuncs, 'DoCanClose2', @VCLua_OpenDialog_DoCanClose2);
@@ -629,16 +842,33 @@ begin
 	TLuaMethodInfo.Create(OpenDialogFuncs, 'DoSelectionChange', @VCLua_OpenDialog_DoSelectionChange);
 	TLuaMethodInfo.Create(OpenDialogFuncs, 'IntfSetOption', @VCLua_OpenDialog_IntfSetOption);
 	TLuaMethodInfo.Create(OpenDialogFuncs, 'Execute', @VCLua_OpenDialog_DoExecute);
+	OpenDialogSets := TLuaVmt.Create;
+	
 	SaveDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(SaveDialogFuncs, 'Execute', @VCLua_SaveDialog_DoExecute);
+	SaveDialogSets := TLuaVmt.Create;
+	
 	SelectDirectoryDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(SelectDirectoryDialogFuncs, 'Execute', @VCLua_SelectDirectoryDialog_DoExecute);
+	SelectDirectoryDialogSets := TLuaVmt.Create;
+	
 	ColorDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ColorDialogFuncs, 'Execute', @VCLua_ColorDialog_DoExecute);
+	ColorDialogSets := TLuaVmt.Create;
+	
 	FontDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(FontDialogFuncs, 'ApplyClicked', @VCLua_FontDialog_ApplyClicked);
 	TLuaMethodInfo.Create(FontDialogFuncs, 'Execute', @VCLua_FontDialog_DoExecute);
+	FontDialogSets := TLuaVmt.Create;
+	
 	FindDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(FindDialogFuncs, 'CloseDialog', @VCLua_FindDialog_CloseDialog);
 	TLuaMethodInfo.Create(FindDialogFuncs, 'Execute', @VCLua_FindDialog_Execute);
+	TLuaMethodInfo.Create(FindDialogFuncs, 'Left', @VCLua_FindDialog_VCLuaGetLeft, mfCall);
+	TLuaMethodInfo.Create(FindDialogFuncs, 'Position', @VCLua_FindDialog_VCLuaGetPosition, mfCall);
+	TLuaMethodInfo.Create(FindDialogFuncs, 'Top', @VCLua_FindDialog_VCLuaGetTop, mfCall);
+	FindDialogSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(FindDialogSets, 'Left', @VCLua_FindDialog_VCLuaSetLeft, mfCall);
+	TLuaMethodInfo.Create(FindDialogSets, 'Position', @VCLua_FindDialog_VCLuaSetPosition, mfCall);
+	TLuaMethodInfo.Create(FindDialogSets, 'Top', @VCLua_FindDialog_VCLuaSetTop, mfCall);
 end.

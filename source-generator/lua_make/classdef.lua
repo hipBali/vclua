@@ -29,6 +29,8 @@ if checkTypeSupport then
 -- enums and sets
 VCLUA_ES = {
 "TFillStyle",
+"TPenStyle",
+"TPanelBevel",
 }
 
 VCLUA_TOLUA_DEFAULT = "lua_push(L,#VAR);"
@@ -40,6 +42,8 @@ VCLUA_TOLUA = {
 	["tcustomimagelist"] = VCLUA_TOLUA_FULL,
 	["tcustompage"] = VCLUA_TOLUA_FULL,
 	["tcustomform"] = VCLUA_TOLUA_FULL,
+	["tcustomlistview"] = VCLUA_TOLUA_FULL,
+	["tcustomactionlist"] = VCLUA_TOLUA_FULL,
 
 	["tobject"] = VCLUA_TOLUA_FULL,
 	["tcomponent"] = VCLUA_TOLUA_FULL,
@@ -48,6 +52,16 @@ VCLUA_TOLUA = {
 	["tlistcolumn"] = VCLUA_TOLUA_FULL,
 	["theadersection"] = VCLUA_TOLUA_FULL,
 	["tanchorside"] = VCLUA_TOLUA_FULL,
+	["ticon"] = VCLUA_TOLUA_FULL,
+	["tmergedmenuitems"] = VCLUA_TOLUA_FULL,
+	["tmemoscrollbar"] = VCLUA_TOLUA_FULL,
+	["ticonoptions"] = VCLUA_TOLUA_FULL,
+	["tborderstyle"] = VCLUA_TOLUA_FULL,
+	["tcontrolborderspacing"] = VCLUA_TOLUA_FULL,
+	["tsizeconstraints"] = VCLUA_TOLUA_FULL,
+	["tleftright"] = VCLUA_TOLUA_FULL,
+	["tshortcutlist"] = VCLUA_TOLUA_FULL,
+	["tmonitor"] = VCLUA_TOLUA_FULL,
 }
 
 VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR);"
@@ -55,6 +69,8 @@ VCLUA_OPT = "TTrait<#TYP>.luaL_optcheck(L, #, @#VAR, #DEF);"
 
 VCLUA_FROMLUA = {
 	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
+	["tborderstyle"] = VCLUA_FROMLUA_FULL,
+	["tleftright"] = VCLUA_FROMLUA_FULL,
 }
 
 VCLUA_ES_CHECK = {}

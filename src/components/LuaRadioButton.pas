@@ -21,6 +21,7 @@ type
     end;
 var
     RadioButtonFuncs: TLuaVmt;
+    RadioButtonSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	RadioButtonFuncs := TLuaVmt.Create;
+	
+	RadioButtonSets := TLuaVmt.Create;
 	
 end.

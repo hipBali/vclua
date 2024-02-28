@@ -21,6 +21,7 @@ type
     end;
 var
     PaintBoxFuncs: TLuaVmt;
+    PaintBoxSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	PaintBoxFuncs := TLuaVmt.Create;
+	
+	PaintBoxSets := TLuaVmt.Create;
 	
 end.

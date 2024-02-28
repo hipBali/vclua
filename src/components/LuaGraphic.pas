@@ -21,6 +21,7 @@ type
     end;
 var
     GraphicFuncs: TLuaVmt;
+    GraphicSets: TLuaVmt;
 
 
 implementation
@@ -386,4 +387,6 @@ begin
 	TLuaMethodInfo.Create(GraphicFuncs, 'SaveToClipboardFormatID', @VCLua_Graphic_SaveToClipboardFormatID);
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetSupportedSourceMimeTypes', @VCLua_Graphic_GetSupportedSourceMimeTypes);
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetResourceType', @VCLua_Graphic_GetResourceType);
+	GraphicSets := TLuaVmt.Create;
+	
 end.

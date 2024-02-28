@@ -21,6 +21,7 @@ type
     end;
 var
     TimerFuncs: TLuaVmt;
+    TimerSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	TimerFuncs := TLuaVmt.Create;
+	
+	TimerSets := TLuaVmt.Create;
 	
 end.

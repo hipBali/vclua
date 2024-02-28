@@ -21,6 +21,7 @@ type
     end;
 var
     CustomCheckListBoxFuncs: TLuaVmt;
+    CustomCheckListBoxSets: TLuaVmt;
 
 
 implementation
@@ -120,6 +121,40 @@ begin
 		on E: Exception do
 			CallError(L, 'CheckListBox', 'Exchange', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_CheckListBox_VCLuaSetAllowGrayed(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCheckListBox.AllowGrayed := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'AllowGrayed', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckListBox_VCLuaGetAllowGrayed(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	try
+		ret := lCheckListBox.AllowGrayed;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'AllowGrayed', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_CheckListBox_Checked(L: Plua_State): Integer; cdecl;
@@ -265,8 +300,11 @@ begin
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Toggle', @VCLua_CheckListBox_Toggle);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'CheckAll', @VCLua_CheckListBox_CheckAll);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Exchange', @VCLua_CheckListBox_Exchange);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'AllowGrayed', @VCLua_CheckListBox_VCLuaGetAllowGrayed, mfCall);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Checked', @VCLua_CheckListBox_Checked);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Header', @VCLua_CheckListBox_Header);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'ItemEnabled', @VCLua_CheckListBox_ItemEnabled);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'State', @VCLua_CheckListBox_State);
+	CustomCheckListBoxSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'AllowGrayed', @VCLua_CheckListBox_VCLuaSetAllowGrayed, mfCall);
 end.

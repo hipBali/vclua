@@ -21,6 +21,7 @@ type
     end;
 var
     BitBtnFuncs: TLuaVmt;
+    BitBtnSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	BitBtnFuncs := TLuaVmt.Create;
+	
+	BitBtnSets := TLuaVmt.Create;
 	
 end.

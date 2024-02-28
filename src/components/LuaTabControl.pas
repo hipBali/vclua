@@ -21,6 +21,7 @@ type
     end;
 var
     TabSheetFuncs: TLuaVmt;
+    TabSheetSets: TLuaVmt;
 
 function CreateTabControl(L: Plua_State): Integer; cdecl;
 function IsTabControl(L: Plua_State): Integer; cdecl;
@@ -33,6 +34,7 @@ type
     end;
 var
     CustomTabControlFuncs: TLuaVmt;
+    CustomTabControlSets: TLuaVmt;
 
 function CreatePageControl(L: Plua_State): Integer; cdecl;
 function IsPageControl(L: Plua_State): Integer; cdecl;
@@ -45,11 +47,62 @@ type
     end;
 var
     PageControlFuncs: TLuaVmt;
+    PageControlSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, ImgList, LuaImageList, LuaStrings;
 
+function VCLua_TabSheet_VCLuaSetPageControl(L: Plua_State): Integer; cdecl;
+var
+	lTabSheet:TLuaTabSheet;
+	val:TPageControl;
+begin
+	CheckArg(L, 2);
+	lTabSheet := TLuaTabSheet(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabSheet.PageControl := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabSheet', 'PageControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabSheet_VCLuaGetPageControl(L: Plua_State): Integer; cdecl;
+var
+	lTabSheet:TLuaTabSheet;
+	ret:TPageControl;
+begin
+	CheckArg(L, 1);
+	lTabSheet := TLuaTabSheet(GetLuaObject(L, 1));
+	try
+		ret := lTabSheet.PageControl;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabSheet', 'PageControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabSheet_VCLuaGetTabIndex(L: Plua_State): Integer; cdecl;
+var
+	lTabSheet:TLuaTabSheet;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lTabSheet := TLuaTabSheet(GetLuaObject(L, 1));
+	try
+		ret := lTabSheet.TabIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabSheet', 'TabIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
 
 function VCLua_TabControl_TabRect(L: Plua_State): Integer; cdecl;
 var
@@ -233,6 +286,244 @@ begin
 	end;
 end;
 
+function VCLua_TabControl_VCLuaSetHotTrack(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.HotTrack := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'HotTrack', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetHotTrack(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.HotTrack;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'HotTrack', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetImages(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:TCustomImageList;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.Images := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'Images', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetImages(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:TCustomImageList;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.Images;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'Images', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_TabControl_VCLuaSetImagesWidth(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.ImagesWidth := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'ImagesWidth', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetImagesWidth(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.ImagesWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'ImagesWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetMultiLine(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.MultiLine := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'MultiLine', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetMultiLine(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.MultiLine;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'MultiLine', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetMultiSelect(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.MultiSelect := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'MultiSelect', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetMultiSelect(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.MultiSelect;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'MultiSelect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetOptions(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:TCTabControlOptions;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_checkSet(L,2,@val,TypeInfo(TCTabControlOptions));
+	try
+		lTabControl.Options := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'Options', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetOptions(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:TCTabControlOptions;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.Options;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'Options', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_TabControl_VCLuaSetOwnerDraw(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.OwnerDraw := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'OwnerDraw', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetOwnerDraw(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.OwnerDraw;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'OwnerDraw', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_TabControl_Page(L: Plua_State): Integer; cdecl;
 var
 	lTabControl:TLuaTabControl;
@@ -250,6 +541,329 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'Page', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_TabControl_VCLuaGetPageCount(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.PageCount;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'PageCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetPageIndex(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.PageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'PageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetPageIndex(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.PageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'PageIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetPages(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:TStrings;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.Pages := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'Pages', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetPages(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:TStrings;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.Pages;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'Pages', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetRaggedRight(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.RaggedRight := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'RaggedRight', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetRaggedRight(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.RaggedRight;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'RaggedRight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetScrollOpposite(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.ScrollOpposite := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'ScrollOpposite', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetScrollOpposite(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.ScrollOpposite;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'ScrollOpposite', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetShowTabs(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.ShowTabs := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'ShowTabs', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetShowTabs(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.ShowTabs;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'ShowTabs', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetStyle(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:TTabStyle;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TTabStyle));
+	try
+		lTabControl.Style := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'Style', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetStyle(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:TTabStyle;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.Style;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'Style', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_TabControl_VCLuaSetTabHeight(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Smallint;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.TabHeight := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'TabHeight', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetTabHeight(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Smallint;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.TabHeight;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'TabHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetTabPosition(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:TTabPosition;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TTabPosition));
+	try
+		lTabControl.TabPosition := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'TabPosition', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetTabPosition(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:TTabPosition;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.TabPosition;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'TabPosition', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_TabControl_VCLuaSetTabWidth(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	val:Smallint;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTabControl.TabWidth := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'TabWidth', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TabControl_VCLuaGetTabWidth(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:Smallint;
+begin
+	CheckArg(L, 1);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	try
+		ret := lTabControl.TabWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'TabWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_PageControl_Clear(L: Plua_State): Integer; cdecl;
@@ -423,6 +1037,40 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_PageControl_VCLuaSetActivePageIndex(L: Plua_State): Integer; cdecl;
+var
+	lPageControl:TLuaPageControl;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lPageControl.ActivePageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'ActivePageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_PageControl_VCLuaGetActivePageIndex(L: Plua_State): Integer; cdecl;
+var
+	lPageControl:TLuaPageControl;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
+	try
+		ret := lPageControl.ActivePageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'PageControl', 'ActivePageIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_PageControl_Pages(L: Plua_State): Integer; cdecl;
 var
 	lPageControl:TLuaPageControl;
@@ -552,7 +1200,10 @@ end;
 
 begin
 	TabSheetFuncs := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(TabSheetFuncs, 'PageControl', @VCLua_TabSheet_VCLuaGetPageControl, mfCall);
+	TLuaMethodInfo.Create(TabSheetFuncs, 'TabIndex', @VCLua_TabSheet_VCLuaGetTabIndex, mfCall);
+	TabSheetSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(TabSheetSets, 'PageControl', @VCLua_TabSheet_VCLuaSetPageControl, mfCall);
 	CustomTabControlFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomTabControlFuncs, 'TabRect', @VCLua_TabControl_TabRect);
 	TLuaMethodInfo.Create(CustomTabControlFuncs, 'GetImageIndex', @VCLua_TabControl_GetImageIndex);
@@ -564,7 +1215,41 @@ begin
 	TLuaMethodInfo.Create(CustomTabControlFuncs, 'TabToPageIndex', @VCLua_TabControl_TabToPageIndex);
 	TLuaMethodInfo.Create(CustomTabControlFuncs, 'PageToTabIndex', @VCLua_TabControl_PageToTabIndex);
 	TLuaMethodInfo.Create(CustomTabControlFuncs, 'DoCloseTabClicked', @VCLua_TabControl_DoCloseTabClicked);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'HotTrack', @VCLua_TabControl_VCLuaGetHotTrack, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'Images', @VCLua_TabControl_VCLuaGetImages, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'ImagesWidth', @VCLua_TabControl_VCLuaGetImagesWidth, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'MultiLine', @VCLua_TabControl_VCLuaGetMultiLine, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'MultiSelect', @VCLua_TabControl_VCLuaGetMultiSelect, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'Options', @VCLua_TabControl_VCLuaGetOptions, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'OwnerDraw', @VCLua_TabControl_VCLuaGetOwnerDraw, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlFuncs, 'Page', @VCLua_TabControl_Page);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'PageCount', @VCLua_TabControl_VCLuaGetPageCount, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'PageIndex', @VCLua_TabControl_VCLuaGetPageIndex, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'Pages', @VCLua_TabControl_VCLuaGetPages, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'RaggedRight', @VCLua_TabControl_VCLuaGetRaggedRight, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'ScrollOpposite', @VCLua_TabControl_VCLuaGetScrollOpposite, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'ShowTabs', @VCLua_TabControl_VCLuaGetShowTabs, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'Style', @VCLua_TabControl_VCLuaGetStyle, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'TabHeight', @VCLua_TabControl_VCLuaGetTabHeight, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'TabPosition', @VCLua_TabControl_VCLuaGetTabPosition, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlFuncs, 'TabWidth', @VCLua_TabControl_VCLuaGetTabWidth, mfCall);
+	CustomTabControlSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomTabControlSets, 'HotTrack', @VCLua_TabControl_VCLuaSetHotTrack, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'Images', @VCLua_TabControl_VCLuaSetImages, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'ImagesWidth', @VCLua_TabControl_VCLuaSetImagesWidth, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'MultiLine', @VCLua_TabControl_VCLuaSetMultiLine, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'MultiSelect', @VCLua_TabControl_VCLuaSetMultiSelect, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'Options', @VCLua_TabControl_VCLuaSetOptions, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'OwnerDraw', @VCLua_TabControl_VCLuaSetOwnerDraw, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'PageIndex', @VCLua_TabControl_VCLuaSetPageIndex, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'Pages', @VCLua_TabControl_VCLuaSetPages, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'RaggedRight', @VCLua_TabControl_VCLuaSetRaggedRight, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'ScrollOpposite', @VCLua_TabControl_VCLuaSetScrollOpposite, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'ShowTabs', @VCLua_TabControl_VCLuaSetShowTabs, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'Style', @VCLua_TabControl_VCLuaSetStyle, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'TabHeight', @VCLua_TabControl_VCLuaSetTabHeight, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'TabPosition', @VCLua_TabControl_VCLuaSetTabPosition, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'TabWidth', @VCLua_TabControl_VCLuaSetTabWidth, mfCall);
 	PageControlFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(PageControlFuncs, 'Clear', @VCLua_PageControl_Clear);
 	TLuaMethodInfo.Create(PageControlFuncs, 'FindNextPage', @VCLua_PageControl_FindNextPage);
@@ -575,5 +1260,8 @@ begin
 	TLuaMethodInfo.Create(PageControlFuncs, 'IndexOfPageAt', @VCLua_PageControl_IndexOfPageAt);
 	TLuaMethodInfo.Create(PageControlFuncs, 'IndexOfPageAt2', @VCLua_PageControl_IndexOfPageAt2);
 	TLuaMethodInfo.Create(PageControlFuncs, 'AddTabSheet', @VCLua_PageControl_AddTabSheet);
+	TLuaMethodInfo.Create(PageControlFuncs, 'ActivePageIndex', @VCLua_PageControl_VCLuaGetActivePageIndex, mfCall);
 	TLuaMethodInfo.Create(PageControlFuncs, 'Pages', @VCLua_PageControl_Pages);
+	PageControlSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PageControlSets, 'ActivePageIndex', @VCLua_PageControl_VCLuaSetActivePageIndex, mfCall);
 end.

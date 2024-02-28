@@ -21,10 +21,11 @@ type
     end;
 var
     PenFuncs: TLuaVmt;
+    PenSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LCLType;
 
 function VCLua_Pen_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -41,6 +42,40 @@ begin
 		on E: Exception do
 			CallError(L, 'Pen', 'Assign', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_Pen_VCLuaSetHandle(L: Plua_State): Integer; cdecl;
+var
+	lPen:TLuaPen;
+	val:HPEN;
+begin
+	CheckArg(L, 2);
+	lPen := TLuaPen(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lPen.Handle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Pen', 'Handle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Pen_VCLuaGetHandle(L: Plua_State): Integer; cdecl;
+var
+	lPen:TLuaPen;
+	ret:HPEN;
+begin
+	CheckArg(L, 1);
+	lPen := TLuaPen(GetLuaObject(L, 1));
+	try
+		ret := lPen.Handle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Pen', 'Handle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Pen_GetPattern(L: Plua_State): Integer; cdecl;
@@ -102,6 +137,9 @@ end;
 begin
 	PenFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(PenFuncs, 'Assign', @VCLua_Pen_Assign);
+	TLuaMethodInfo.Create(PenFuncs, 'Handle', @VCLua_Pen_VCLuaGetHandle, mfCall);
 	TLuaMethodInfo.Create(PenFuncs, 'GetPattern', @VCLua_Pen_GetPattern);
 	TLuaMethodInfo.Create(PenFuncs, 'SetPattern', @VCLua_Pen_SetPattern);
+	PenSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PenSets, 'Handle', @VCLua_Pen_VCLuaSetHandle, mfCall);
 end.

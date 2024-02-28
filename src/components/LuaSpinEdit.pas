@@ -21,6 +21,7 @@ type
     end;
 var
     SpinEditFuncs: TLuaVmt;
+    SpinEditSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	SpinEditFuncs := TLuaVmt.Create;
+	
+	SpinEditSets := TLuaVmt.Create;
 	
 end.

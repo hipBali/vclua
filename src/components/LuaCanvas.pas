@@ -21,6 +21,7 @@ type
     end;
 var
     CanvasFuncs: TLuaVmt;
+    CanvasSets: TLuaVmt;
 
 
 implementation
@@ -1023,6 +1024,40 @@ begin
 	end;
 end;
 
+function VCLua_Canvas_VCLuaSetTextStyle(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	val:TTextStyle;
+begin
+	CheckArg(L, 2);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCanvas.TextStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Canvas_VCLuaGetTextStyle(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	ret:TTextStyle;
+begin
+	CheckArg(L, 1);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	try
+		ret := lCanvas.TextStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Canvas_SetPixel(L: Plua_State): Integer; cdecl;
 var
 	lCanvas:TLuaCanvas;
@@ -1110,5 +1145,8 @@ begin
 	TLuaMethodInfo.Create(CanvasFuncs, 'TextFitInfo', @VCLua_Canvas_TextFitInfo);
 	TLuaMethodInfo.Create(CanvasFuncs, 'HandleAllocated', @VCLua_Canvas_HandleAllocated);
 	TLuaMethodInfo.Create(CanvasFuncs, 'Pixels', @VCLua_Canvas_Pixels);
+	TLuaMethodInfo.Create(CanvasFuncs, 'TextStyle', @VCLua_Canvas_VCLuaGetTextStyle, mfCall);
 	TLuaMethodInfo.Create(CanvasFuncs, 'SetPixel', @VCLua_Canvas_SetPixel);
+	CanvasSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CanvasSets, 'TextStyle', @VCLua_Canvas_VCLuaSetTextStyle, mfCall);
 end.

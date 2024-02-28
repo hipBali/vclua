@@ -23,6 +23,7 @@ type
     end;
 var
     ValueListEditorFuncs: TLuaVmt;
+    ValueListEditorSets: TLuaVmt;
 
 
 implementation
@@ -442,4 +443,6 @@ begin
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Sort2', @VCLua_ValueListEditor_Sort2);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Keys', @VCLua_ValueListEditor_Keys);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Values', @VCLua_ValueListEditor_Values);
+	ValueListEditorSets := TLuaVmt.Create;
+	
 end.

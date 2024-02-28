@@ -21,6 +21,7 @@ type
     end;
 var
     UpDownFuncs: TLuaVmt;
+    UpDownSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	UpDownFuncs := TLuaVmt.Create;
+	
+	UpDownSets := TLuaVmt.Create;
 	
 end.

@@ -440,15 +440,17 @@ var
   Comp: TObject;
   propname: String;
   propType: String;
+  pset: PLuaVmt;
+  mi: TLuaMethodInfo;
 begin
   Result := 0;
   Comp := TObject(GetLuaObject(L, 1));
+  PropName := lua_tostring(L, 2);
   if (Comp=nil) then begin
      LuaError(L, 'Can''t set null object property! ' , PropName );
      lua_pushnil(L);
      Exit;
   end;
-  PropName := lua_tostring(L, 2);
   if (UpperCase(PropName)='SHORTCUT') and (ComponentShortCut(TComponent(Comp),lua_tostring(L, -1))) then
   else
   if (lua_gettop(L)=3) and (lua_istable(L,3)) and ((PropName='_')) then begin
@@ -460,6 +462,22 @@ begin
     // else if (PInfo <> nil) and (PInfo^.Proptype^.Kind = tkArray) then
     //    lua_setArrayProperty(L)
     else begin
+      lua_pushliteral(L,'propSets');
+      lua_rawget(L,1);
+      pset := lua_touserdata(L,4);
+      if pset <> nil then begin
+        mi := TLuaMethodInfo(pset^.Find(PropName));
+        if Assigned(mi) then begin
+          lua_pop(L, 1);
+          lua_pushcfunction(L, mi.pf);
+          assert(mi.mf = mfCall,'no mfCall on propSet');
+          lua_pushvalue(L, 1);
+          lua_pushvalue(L, 3);
+          lua_call(L, 2, 0);
+          Exit;
+        end;
+      end;
+      lua_pop(L, 1);
        case lua_type(L,3) of
   		LUA_TNIL: LuaRawSetTableNil(L,1,lua_tostring(L, 2));
   		LUA_TBOOLEAN: LuaRawSetTableBoolean(L,1,lua_tostring(L, 2),lua_toboolean(L, 3));
@@ -547,9 +565,8 @@ begin
   else if (o is TControl) and (PropNameLower = 'parent') then begin
     lua_push(L, TControl(o).Parent, nil);
   end
-  else begin
-    Result := (o is TStrings) and GetTStringsProperty(L,TStrings(o),PropNameLower);
-  end;
+  else
+    Result := false;
 end;
 
 function LuaGetProperty(L: Plua_State): Integer; cdecl;
@@ -580,6 +597,10 @@ begin
     if Assigned(mi) then begin
       lua_pop(L, 2);
       lua_pushcfunction(L, mi.pf);
+      if mi.mf = mfCall then begin
+        lua_pushvalue(L, 1);
+        lua_call(L, 1, 1);
+      end;
       Exit;
     end;
   end;

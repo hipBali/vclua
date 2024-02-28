@@ -8,10 +8,12 @@ uses
   Lua, HashMap, TypInfo, SysUtils, Contnrs;
 
 type
+  TMethodFlag = (mfNone, mfCall);
   TLuaMethodInfo = class(TFPHashObject)
     public
       pf: lua_CFunction;
-      constructor Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction);
+      mf: TMethodFlag;
+      constructor Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction; aMf: TMethodFlag = mfNone);
   end;
   TLuaVmt = THashList;
   PLuaVmt = ^TLuaVmt;
@@ -22,13 +24,14 @@ type
   end;
 
 var
-  vmts: TLuaVmts;
+  vmts,propSets: TLuaVmts;
 
 implementation
 
-constructor TLuaMethodInfo.Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction);
+constructor TLuaMethodInfo.Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction; aMf: TMethodFlag);
 begin
   pf := aPf;
+  mf := aMf;
   inherited Create(list, name);
 end;
 
@@ -51,5 +54,6 @@ end;
 
 begin
   vmts := TLuaVmts.Create;
+  propSets := TLuaVmts.Create;
 end.
 

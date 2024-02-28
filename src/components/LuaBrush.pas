@@ -21,10 +21,11 @@ type
     end;
 var
     BrushFuncs: TLuaVmt;
+    BrushSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LuaBitmap;
 
 function VCLua_Brush_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -62,6 +63,40 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Brush_VCLuaSetBitmap(L: Plua_State): Integer; cdecl;
+var
+	lBrush:TLuaBrush;
+	val:TCustomBitmap;
+begin
+	CheckArg(L, 2);
+	lBrush := TLuaBrush(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lBrush.Bitmap := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Brush', 'Bitmap', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Brush_VCLuaGetBitmap(L: Plua_State): Integer; cdecl;
+var
+	lBrush:TLuaBrush;
+	ret:TCustomBitmap;
+begin
+	CheckArg(L, 1);
+	lBrush := TLuaBrush(GetLuaObject(L, 1));
+	try
+		ret := lBrush.Bitmap;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Brush', 'Bitmap', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function IsBrush(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -88,4 +123,7 @@ begin
 	BrushFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(BrushFuncs, 'Assign', @VCLua_Brush_Assign);
 	TLuaMethodInfo.Create(BrushFuncs, 'EqualsBrush', @VCLua_Brush_EqualsBrush);
+	TLuaMethodInfo.Create(BrushFuncs, 'Bitmap', @VCLua_Brush_VCLuaGetBitmap, mfCall);
+	BrushSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BrushSets, 'Bitmap', @VCLua_Brush_VCLuaSetBitmap, mfCall);
 end.

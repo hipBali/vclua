@@ -21,6 +21,7 @@ type
     end;
 var
     DateTimePickerFuncs: TLuaVmt;
+    DateTimePickerSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	DateTimePickerFuncs := TLuaVmt.Create;
+	
+	DateTimePickerSets := TLuaVmt.Create;
 	
 end.

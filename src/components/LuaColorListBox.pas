@@ -21,6 +21,7 @@ type
     end;
 var
     ColorListBoxFuncs: TLuaVmt;
+    ColorListBoxSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	ColorListBoxFuncs := TLuaVmt.Create;
+	
+	ColorListBoxSets := TLuaVmt.Create;
 	
 end.

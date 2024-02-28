@@ -21,6 +21,7 @@ type
     end;
 var
     BoundLabelFuncs: TLuaVmt;
+    BoundLabelSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	BoundLabelFuncs := TLuaVmt.Create;
+	
+	BoundLabelSets := TLuaVmt.Create;
 	
 end.

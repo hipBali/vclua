@@ -21,6 +21,7 @@ type
     end;
 var
     BasicActionFuncs: TLuaVmt;
+    BasicActionSets: TLuaVmt;
 
 
 implementation
@@ -113,6 +114,40 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_BasicAction_VCLuaSetActionComponent(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+	val:TComponent;
+begin
+	CheckArg(L, 2);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lBasicAction.ActionComponent := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'ActionComponent', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_BasicAction_VCLuaGetActionComponent(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+	ret:TComponent;
+begin
+	CheckArg(L, 1);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	try
+		ret := lBasicAction.ActionComponent;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'ActionComponent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
 function IsBasicAction(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -156,4 +191,7 @@ begin
 	TLuaMethodInfo.Create(BasicActionFuncs, 'ExecuteTarget', @VCLua_BasicAction_ExecuteTarget);
 	TLuaMethodInfo.Create(BasicActionFuncs, 'Execute', @VCLua_BasicAction_Execute);
 	TLuaMethodInfo.Create(BasicActionFuncs, 'Update', @VCLua_BasicAction_Update);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'ActionComponent', @VCLua_BasicAction_VCLuaGetActionComponent, mfCall);
+	BasicActionSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BasicActionSets, 'ActionComponent', @VCLua_BasicAction_VCLuaSetActionComponent, mfCall);
 end.

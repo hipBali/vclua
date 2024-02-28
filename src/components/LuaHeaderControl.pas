@@ -21,6 +21,7 @@ type
     end;
 var
     CustomHeaderControlFuncs: TLuaVmt;
+    CustomHeaderControlSets: TLuaVmt;
 
 
 implementation
@@ -190,4 +191,6 @@ begin
 	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'Paint', @VCLua_HeaderControl_Paint);
 	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'PaintSection', @VCLua_HeaderControl_PaintSection);
 	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'ChangeScale', @VCLua_HeaderControl_ChangeScale);
+	CustomHeaderControlSets := TLuaVmt.Create;
+	
 end.

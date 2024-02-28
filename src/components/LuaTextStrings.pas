@@ -22,6 +22,7 @@ type
     end;
 var
     TextStringsFuncs: TLuaVmt;
+    TextStringsSets: TLuaVmt;
 
 
 implementation
@@ -305,6 +306,40 @@ begin
 	end;
 end;
 
+function VCLua_TextStrings_VCLuaSetText(L: Plua_State): Integer; cdecl;
+var
+	lTextStrings:TLuaTextStrings;
+	val:string;
+begin
+	CheckArg(L, 2);
+	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTextStrings.Text := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'Text', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TextStrings_VCLuaGetText(L: Plua_State): Integer; cdecl;
+var
+	lTextStrings:TLuaTextStrings;
+	ret:string;
+begin
+	CheckArg(L, 1);
+	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
+	try
+		ret := lTextStrings.Text;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TextStrings', 'Text', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function IsTextStrings(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -352,4 +387,7 @@ begin
 	TLuaMethodInfo.Create(TextStringsFuncs, 'AddStrings', @VCLua_TextStrings_AddStrings);
 	TLuaMethodInfo.Create(TextStringsFuncs, 'LoadFromFile', @VCLua_TextStrings_LoadFromFile);
 	TLuaMethodInfo.Create(TextStringsFuncs, 'SaveToFile', @VCLua_TextStrings_SaveToFile);
+	TLuaMethodInfo.Create(TextStringsFuncs, 'Text', @VCLua_TextStrings_VCLuaGetText, mfCall);
+	TextStringsSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(TextStringsSets, 'Text', @VCLua_TextStrings_VCLuaSetText, mfCall);
 end.

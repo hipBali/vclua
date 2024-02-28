@@ -21,6 +21,7 @@ type
     end;
 var
     CustomImageListFuncs: TLuaVmt;
+    CustomImageListSets: TLuaVmt;
 
 
 implementation
@@ -879,6 +880,23 @@ begin
 	end;
 end;
 
+function VCLua_ImageList_VCLuaGetHasOverlays(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.HasOverlays;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'HasOverlays', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ImageList_Replace(L: Plua_State): Integer; cdecl;
 var
 	lImageList:TLuaImageList;
@@ -1081,6 +1099,193 @@ begin
 	end;
 end;
 
+function VCLua_ImageList_VCLuaSetAllocBy(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImageList.AllocBy := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AllocBy', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetAllocBy(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.AllocBy;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AllocBy', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ImageList_VCLuaSetBlendColor(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:TColor;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImageList.BlendColor := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'BlendColor', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetBlendColor(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:TColor;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.BlendColor;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'BlendColor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ImageList_VCLuaSetBkColor(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:TColor;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImageList.BkColor := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'BkColor', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetBkColor(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:TColor;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.BkColor;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'BkColor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ImageList_VCLuaGetCount(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.Count;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Count', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ImageList_VCLuaSetDrawingStyle(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:TDrawingStyle;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TDrawingStyle));
+	try
+		lImageList.DrawingStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'DrawingStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetDrawingStyle(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:TDrawingStyle;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.DrawingStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'DrawingStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_ImageList_VCLuaSetHeight(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImageList.Height := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Height', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetHeight(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.Height;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Height', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ImageList_HeightForPPI(L: Plua_State): Integer; cdecl;
 var
 	lImageList:TLuaImageList;
@@ -1119,6 +1324,40 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'HeightForWidth', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_ImageList_VCLuaSetWidth(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImageList.Width := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Width', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetWidth(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.Width;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Width', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_ImageList_WidthForPPI(L: Plua_State): Integer; cdecl;
@@ -1161,6 +1400,159 @@ begin
 		on E: Exception do
 			CallError(L, 'ImageList', 'SizeForPPI', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_ImageList_VCLuaSetMasked(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:boolean;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImageList.Masked := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Masked', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetMasked(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.Masked;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Masked', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ImageList_VCLuaGetResolutionCount(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.ResolutionCount;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ResolutionCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ImageList_VCLuaSetScaled(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImageList.Scaled := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Scaled', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetScaled(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.Scaled;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'Scaled', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ImageList_VCLuaSetShareImages(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImageList.ShareImages := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ShareImages', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetShareImages(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.ShareImages;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ShareImages', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ImageList_VCLuaSetImageType(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	val:TImageType;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TImageType));
+	try
+		lImageList.ImageType := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ImageType', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ImageList_VCLuaGetImageType(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	ret:TImageType;
+begin
+	CheckArg(L, 1);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	try
+		ret := lImageList.ImageType;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'ImageType', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
 end;
 
 function IsImageList(L: Plua_State): Integer; cdecl;
@@ -1242,6 +1634,7 @@ begin
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'InsertMasked', @VCLua_ImageList_InsertMasked);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'Move', @VCLua_ImageList_Move);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'Overlay', @VCLua_ImageList_Overlay);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'HasOverlays', @VCLua_ImageList_VCLuaGetHasOverlays, mfCall);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'Replace', @VCLua_ImageList_Replace);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'ReplaceSlice', @VCLua_ImageList_ReplaceSlice);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'ReplaceSliceCentered', @VCLua_ImageList_ReplaceSliceCentered);
@@ -1252,8 +1645,31 @@ begin
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'UnRegisterChanges', @VCLua_ImageList_UnRegisterChanges);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'RegisterResolutions', @VCLua_ImageList_RegisterResolutions);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'DeleteResolution', @VCLua_ImageList_DeleteResolution);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'AllocBy', @VCLua_ImageList_VCLuaGetAllocBy, mfCall);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'BlendColor', @VCLua_ImageList_VCLuaGetBlendColor, mfCall);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'BkColor', @VCLua_ImageList_VCLuaGetBkColor, mfCall);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'Count', @VCLua_ImageList_VCLuaGetCount, mfCall);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'DrawingStyle', @VCLua_ImageList_VCLuaGetDrawingStyle, mfCall);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'Height', @VCLua_ImageList_VCLuaGetHeight, mfCall);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'HeightForPPI', @VCLua_ImageList_HeightForPPI);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'HeightForWidth', @VCLua_ImageList_HeightForWidth);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'Width', @VCLua_ImageList_VCLuaGetWidth, mfCall);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'WidthForPPI', @VCLua_ImageList_WidthForPPI);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'SizeForPPI', @VCLua_ImageList_SizeForPPI);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'Masked', @VCLua_ImageList_VCLuaGetMasked, mfCall);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'ResolutionCount', @VCLua_ImageList_VCLuaGetResolutionCount, mfCall);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'Scaled', @VCLua_ImageList_VCLuaGetScaled, mfCall);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'ShareImages', @VCLua_ImageList_VCLuaGetShareImages, mfCall);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'ImageType', @VCLua_ImageList_VCLuaGetImageType, mfCall);
+	CustomImageListSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomImageListSets, 'AllocBy', @VCLua_ImageList_VCLuaSetAllocBy, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'BlendColor', @VCLua_ImageList_VCLuaSetBlendColor, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'BkColor', @VCLua_ImageList_VCLuaSetBkColor, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'DrawingStyle', @VCLua_ImageList_VCLuaSetDrawingStyle, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'Height', @VCLua_ImageList_VCLuaSetHeight, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'Width', @VCLua_ImageList_VCLuaSetWidth, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'Masked', @VCLua_ImageList_VCLuaSetMasked, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'Scaled', @VCLua_ImageList_VCLuaSetScaled, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'ShareImages', @VCLua_ImageList_VCLuaSetShareImages, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'ImageType', @VCLua_ImageList_VCLuaSetImageType, mfCall);
 end.

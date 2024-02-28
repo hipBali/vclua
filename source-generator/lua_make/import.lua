@@ -115,8 +115,16 @@ local function propertyToProc(decl)
   _, n = decl:find('[^_%w][wW]rite%s+[_%w]+', m + 1)
   if n then canWrite = true else n = m end
   _, n = decl:find('[^_%w][dD]efault%s*;', n + 1)
-  return {method=("procedure %s(%svar ret:%s)"):format(propName, indexing and (indexing..'; ') or '', typeName),
-    propInfo = {r=canRead,w=canWrite,d=n~=nil,i=indexing~=nil}}
+  local d=n and true
+  local method = ("procedure %s(%s:%s)"):format(propName, indexing and (indexing..'; var ret') or 'val', typeName)
+  if indexing then
+    return {{method=method, propInfo={r=canRead,w=canWrite,d=d,i=true}}}
+  else
+    local ret = {}
+    if canWrite then ret[1] = {method=method, propInfo={w=true,d=d,pref='VCLuaSet'}} end
+    if canRead then table.insert(ret, {method=("function %s:%s;"):format(propName, typeName), propInfo={r=true,d=d,pref='VCLuaGet'}}) end
+    return ret
+  end
 end
 
 function removeInnerComment(l)
@@ -283,32 +291,35 @@ local function processClass(def,cdef,ref)
 						end
 						-- test exclusions
 						local ok=true
-						local md={method=l}
+						local mds={{method=l,mName=ln[2]}}
 						if isProp then
 							if ln[2]:find('^On%S') then ok = false
 							else
-								md = propertyToProc(l)
-								if not md or not md.propInfo.i then ok = false end
+								mds = propertyToProc(l)
+								if not mds then ok = false end-- or not md.propInfo.i
 							end
 						end
 						if ok then
-							local reason
-							if lword=="function" then
-								local ret = l:split(":")
-								md.reto = ret[#ret]:match("%w+")
-								ok = not excludeType[md.reto:lower()]
-								reason = md.reto
-							end
-							md.vars, md.varlist, md.funcparams, md.out, md.mtypes, md.pushTypes = processParams(md)
-							for t,_ in pairs(md.mtypes) do
-								if excludeType[t:lower()] then
-									reason = t
-									ok = false
-									break
+							for _,md in ipairs(mds) do
+								md.mName=ln[2]
+								local reason
+								if lword=="function" or (isProp and md.propInfo.r and not md.propInfo.i) then
+									local ret = md.method:split(":")
+									md.reto = ret[#ret]:match("%w+")
+									ok = not excludeType[md.reto:lower()]
+									reason = md.reto
 								end
+								md.vars, md.varlist, md.funcparams, md.out, md.mtypes, md.pushTypes = processParams(md)
+								for t,_ in pairs(md.mtypes) do
+									if excludeType[t:lower()] then
+										reason = t
+										ok = false
+										break
+									end
+								end
+								if ok then table.insert(classTable[cname], md)
+								else cLog(" ** EXCLUDED:"..l.." "..reason, "DEBUG") end
 							end
-							if ok then table.insert(classTable[cname], md)
-							else cLog(" ** EXCLUDED:"..l.." "..reason, "DEBUG") end
 						end
 					elseif lt == 2 then
 						skip = true
@@ -415,17 +426,20 @@ end
 function createUnitBody(cdef, ref, refs)
 	local className = cdef.name
 	local classBody = {} 
-	local cMethods = {}
-	local mIdx = 0
+	local cMethods, cPropSets = {n=0,suf="Funcs"}, {n=0,suf="Sets"}
 	local overLoads = {}
 	local src = cdef.src:sub(2)
 	local initSrc = not initedSrcs[src]
 	if not initSrc then cLog("###  skipping init of src "..src, "DEBUG") end
-	local initFmt = "TLuaMethodInfo.Create("..src.."Funcs, '%s', @%s);"
-	local function addMethod(finalMethodName,vcluaMethodName)
+	local initFmt = "TLuaMethodInfo.Create("..src.."%s, '%s', @%s%s);"
+	local function doInsert(methods,finalMethodName,vcluaMethodName,flag)
+		methods[methods.n + 1] = initFmt:format(methods.suf,finalMethodName,vcluaMethodName,flag)
+		methods.n = methods.n + 1
+	end
+	local function addMethod(pi,finalMethodName,vcluaMethodName)
 			if initSrc then
-				table.insert(cMethods,initFmt:format(finalMethodName,vcluaMethodName))
-				mIdx=mIdx+1
+				local pp = pi and not pi.i
+				doInsert(pp and pi.w and cPropSets or cMethods,finalMethodName,vcluaMethodName,pp and ", mfCall" or "")
 			end
 	end
 	-- parenting needs TWinControl
@@ -445,10 +459,8 @@ function createUnitBody(cdef, ref, refs)
 		-- parse params
 		local method = md.method
 		local pi = md.propInfo
-		local setProp, retProp
-		local tmp = method:match("%w+%s*%w+"):split(" ") -- type, methodname
-		local mType = tmp[1]:lower()
-		local mName = tmp[2]
+		local setProp, retProp = '', ''
+		local mName = md.mName
 		local ret, reto = nil, md.reto
 		local retCount = 0
 		local vars, varlist, funcparams, out, mtypes, pushTypes = md.vars, md.varlist, md.funcparams, md.out, md.mtypes, md.pushTypes
@@ -469,7 +481,7 @@ function createUnitBody(cdef, ref, refs)
 				retCount = retCount + 1
 			end
 		end
-		if pi then
+		if pi and pi.i then
 			assert(#vars==1)
 			-- last param has special treatment
 			table.remove(funcparams)
@@ -492,11 +504,12 @@ function createUnitBody(cdef, ref, refs)
       local finalMethodName = mName
       local vcluaMethodName = finalMethodName
       local mnLower = mName:lower()
-      if overLoads[mnLower] then
+      if pi then
+        vcluaMethodName = (pi.pref or '')..vcluaMethodName
+      elseif overLoads[mnLower] then
         finalMethodName = mName..overLoads[mnLower]
         vcluaMethodName = finalMethodName
         overLoads[mnLower] = overLoads[mnLower] + 1
-        if pi then cLog('WARNING: property '..className..'.'..mName..' is overloaded', 'INFO') end
       else
         overLoads[mnLower] = 2
       end
@@ -538,17 +551,24 @@ function createUnitBody(cdef, ref, refs)
         else
           s = s:gsub("#VARCOUNT",idx,1)
         end
-        setProp = pi and table.remove(varsFromLua,idx-1) or nil
+        setProp = pi and pi.i and table.remove(varsFromLua,idx-1)
         s = s:gsub("#TOVCLUA",varsFromLua[1] and "\n\t"..table.concat(varsFromLua,"\n\t") or '',1)
       else
         s = s:gsub("#VARS;","",1)
         s = s:gsub("#VARCOUNT",1,1)
         s = s:gsub("#TOVCLUA","",1)
       end
-      local func = pi and getPropTempl(pi):gsub('#PINDEX', fParams == '' and fParams or '['..fParams..']'):
-        gsub('#TOVCLUA',setProp,1):gsub('#PUSHOUT',retProp,1):gsub('#IDX',idx,1) or
-        VCLua_CALL:gsub('#PAR',fParams,1):gsub('#RET',ret and "ret := " or "",1)
-      local call = VCLua_TRY:gsub('#STMT',func,1):gsub('#CNAME',className):gsub('#MNAME',mName)
+      local stmts
+      if pi and pi.i then
+        stmts = getPropTempl(pi):gsub('#PAR', '['..fParams..']')
+        stmts = stmts:gsub('#TOVCLUA',setProp,1)
+        stmts = stmts:gsub('#PUSHOUT',retProp,1):gsub('#IDX',idx,1)
+      else
+        stmts = VCLua_CALL:gsub('#SET',pi and pi.w and ' := val' or '',1)
+        stmts = stmts:gsub('#PAR',pi and '' or '('..fParams..')',1)
+        stmts = stmts:gsub('#RET',ret and "ret := " or "",1)
+      end
+      local call = VCLua_TRY:gsub('#STMTS',stmts,1):gsub('#CNAME',className):gsub('#MNAME',mName)
       if ret then
         local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
         s = s:gsub("#FUNC",call,1)
@@ -563,7 +583,7 @@ function createUnitBody(cdef, ref, refs)
         s = s:gsub("#RETVAR;","",1)
         s = s:gsub("#RETCOUNT",retCount,1)
       end
-      addMethod(finalMethodName, vcluaMethodName)
+      addMethod(md.propInfo, finalMethodName, vcluaMethodName)
       table.insert(classBody,s)
       classDoc[className][finalMethodName] = classDoc[className][finalMethodName] or {} 
       classDoc[className][finalMethodName]["params"] = fParams:len()>0 and fParams or nil
@@ -583,12 +603,12 @@ function createUnitBody(cdef, ref, refs)
 				if t and t.src then 
 					local vcluaMethodName = "VCLua_"..className.."_"..t.vcluaMethodName
 					cLog("#############  "..vcluaMethodName, "DEBUG")
-					addMethod(t.finalMethodName, vcluaMethodName)
+					addMethod(nil, t.finalMethodName, vcluaMethodName)
 					local src = t.src:gsub("#FNAME", vcluaMethodName,1)
 					table.insert(classBody,src)
 				elseif t then
 					cLog("#############  "..t.vcluaMethodName,"DEBUG")
-					addMethod(t.finalMethodName, t.vcluaMethodName)
+					addMethod(nil, t.finalMethodName, t.vcluaMethodName)
 				else
 					assert(nil,"Cannot implement "..tostring(fncs[f]))
 				end
@@ -625,7 +645,11 @@ function createUnitBody(cdef, ref, refs)
 	local init
 	if initSrc then
 		intface = intface..VCLUA_INIT_INTFCE
-		init = VCLUA_INIT:gsub("#MIDX",mIdx):gsub("#CSRC",src):gsub("#CMETHODS", table.concat(cMethods,"\n\t"))
+		init = {}
+		for _,methods in ipairs({cMethods,cPropSets}) do
+			table.insert(init, (VCLUA_INIT:gsub("#MIDX",methods.n):gsub("#CSRC#SUF",src..methods.suf):gsub("#CMETHODS", table.concat(methods,"\n\t"))))
+		end
+		init = table.concat(init,'\n')
 	end
 	initedSrcs[src] = true
 	
@@ -740,7 +764,7 @@ local vclinc = VCLUA_INC
 local pasSrc={}
 local luaLibs={}
 local pasRefs = {}
-local meta_srcs = {}
+local meta_srcs, api_srcs = {}, {}
 local luaobject_cast = {}
 local libcount = 0
 initedSrcs = {}
@@ -748,6 +772,7 @@ local init = {}
 local function processCdef(cdef)
   local pName = cdef.name
   table.insert(luaobject_cast, "(name:'"..pName.."'; func:@As"..pName.."),")
+  table.insert(api_srcs, "apiPtis.Add('T"..pName.."', T"..pName..".ClassInfo);")
   if cdef.nocreate==nil then
     table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")
     libcount = libcount + 1
@@ -804,5 +829,6 @@ saveTextToFile(HDR_INFO .. "\n\t" .. funcs:gsub('@As','@Is'),out_path.."src/is_f
 saveTextToFile(HDR_INFO .. "\n\t" .. funcs,out_path.."src/as_funcs.inc")
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(init)),out_path.."src/init_map.inc")
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(meta_srcs),",\n"),out_path.."src/meta_srcs.inc")
+saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(api_srcs),"\n"),out_path.."src/api_srcs.inc")
 
 

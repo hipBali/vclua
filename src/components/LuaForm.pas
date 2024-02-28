@@ -23,10 +23,11 @@ type
     end;
 var
     CustomFormFuncs: TLuaVmt;
+    CustomFormSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LCLType, LuaBitmap;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LCLType, LuaBitmap, LuaControl, LuaMenu, Menus;
 
 function VCLua_Form_AfterConstruction(L: Plua_State): Integer; cdecl;
 var
@@ -622,6 +623,499 @@ begin
 	end;
 end;
 
+function VCLua_Form_VCLuaGetActive(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.Active;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Active', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetActiveControl(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TWinControl;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.ActiveControl := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ActiveControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetActiveControl(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TWinControl;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.ActiveControl;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ActiveControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaSetActiveDefaultControl(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TControl;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.ActiveDefaultControl := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ActiveDefaultControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetActiveDefaultControl(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TControl;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.ActiveDefaultControl;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ActiveDefaultControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetAllowDropFiles(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.AllowDropFiles := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'AllowDropFiles', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetAllowDropFiles(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.AllowDropFiles;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'AllowDropFiles', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetAlphaBlend(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.AlphaBlend := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'AlphaBlend', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetAlphaBlend(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.AlphaBlend;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'AlphaBlend', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetAlphaBlendValue(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:Byte;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.AlphaBlendValue := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'AlphaBlendValue', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetAlphaBlendValue(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:Byte;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.AlphaBlendValue;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'AlphaBlendValue', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetBorderStyle(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TFormBorderStyle;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TFormBorderStyle));
+	try
+		lForm.BorderStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'BorderStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetBorderStyle(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TFormBorderStyle;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.BorderStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'BorderStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaSetCancelControl(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TControl;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.CancelControl := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'CancelControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetCancelControl(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TControl;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.CancelControl;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'CancelControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetDefaultControl(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TControl;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.DefaultControl := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'DefaultControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetDefaultControl(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TControl;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.DefaultControl;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'DefaultControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetDefaultMonitor(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TDefaultMonitor;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TDefaultMonitor));
+	try
+		lForm.DefaultMonitor := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'DefaultMonitor', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetDefaultMonitor(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TDefaultMonitor;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.DefaultMonitor;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'DefaultMonitor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaGetEffectiveShowInTaskBar(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TShowInTaskBar;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.EffectiveShowInTaskBar;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'EffectiveShowInTaskBar', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaGetFormState(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TFormState;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.FormState;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'FormState', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaSetFormStyle(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TFormStyle;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TFormStyle));
+	try
+		lForm.FormStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'FormStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetFormStyle(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TFormStyle;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.FormStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'FormStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaSetHelpFile(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:string;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.HelpFile := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'HelpFile', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetHelpFile(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:string;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.HelpFile;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'HelpFile', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetIcon(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TIcon;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.Icon := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Icon', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetIcon(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TIcon;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.Icon;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Icon', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaSetKeyPreview(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.KeyPreview := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'KeyPreview', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetKeyPreview(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.KeyPreview;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'KeyPreview', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Form_MDIChildren(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
@@ -639,6 +1133,346 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'MDIChildren', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_Form_VCLuaSetMenu(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TMainMenu;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.Menu := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Menu', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetMenu(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TMainMenu;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.Menu;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Menu', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetModalResult(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TModalResult;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.ModalResult := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ModalResult', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetModalResult(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TModalResult;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.ModalResult;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ModalResult', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaGetMonitor(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TMonitor;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.Monitor;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Monitor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaGetLastActiveControl(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TWinControl;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.LastActiveControl;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'LastActiveControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaSetPopupMode(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TPopupMode;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TPopupMode));
+	try
+		lForm.PopupMode := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'PopupMode', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetPopupMode(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TPopupMode;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.PopupMode;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'PopupMode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaSetPopupParent(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TCustomForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lForm.PopupParent := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'PopupParent', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetPopupParent(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TCustomForm;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.PopupParent;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'PopupParent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaSetPosition(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TPosition;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TPosition));
+	try
+		lForm.Position := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Position', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetPosition(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TPosition;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.Position;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'Position', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaGetRestoredLeft(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.RestoredLeft;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'RestoredLeft', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaGetRestoredTop(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.RestoredTop;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'RestoredTop', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaGetRestoredWidth(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.RestoredWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'RestoredWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaGetRestoredHeight(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.RestoredHeight;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'RestoredHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Form_VCLuaSetShowInTaskBar(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TShowInTaskbar;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TShowInTaskbar));
+	try
+		lForm.ShowInTaskBar := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ShowInTaskBar', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetShowInTaskBar(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TShowInTaskbar;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.ShowInTaskBar;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'ShowInTaskBar', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Form_VCLuaSetWindowState(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	val:TWindowState;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TWindowState));
+	try
+		lForm.WindowState := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'WindowState', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Form_VCLuaGetWindowState(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TWindowState;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.WindowState;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'WindowState', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
 end;
 
 function IsForm(L: Plua_State): Integer; cdecl;
@@ -713,5 +1547,55 @@ begin
 	TLuaMethodInfo.Create(CustomFormFuncs, 'MDIChildCount', @VCLua_Form_MDIChildCount);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Dock', @VCLua_Form_Dock);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'UpdateDockCaption', @VCLua_Form_UpdateDockCaption);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Active', @VCLua_Form_VCLuaGetActive, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'ActiveControl', @VCLua_Form_VCLuaGetActiveControl, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'ActiveDefaultControl', @VCLua_Form_VCLuaGetActiveDefaultControl, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'AllowDropFiles', @VCLua_Form_VCLuaGetAllowDropFiles, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'AlphaBlend', @VCLua_Form_VCLuaGetAlphaBlend, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'AlphaBlendValue', @VCLua_Form_VCLuaGetAlphaBlendValue, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'BorderStyle', @VCLua_Form_VCLuaGetBorderStyle, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'CancelControl', @VCLua_Form_VCLuaGetCancelControl, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'DefaultControl', @VCLua_Form_VCLuaGetDefaultControl, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'DefaultMonitor', @VCLua_Form_VCLuaGetDefaultMonitor, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'EffectiveShowInTaskBar', @VCLua_Form_VCLuaGetEffectiveShowInTaskBar, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'FormState', @VCLua_Form_VCLuaGetFormState, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'FormStyle', @VCLua_Form_VCLuaGetFormStyle, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'HelpFile', @VCLua_Form_VCLuaGetHelpFile, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Icon', @VCLua_Form_VCLuaGetIcon, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'KeyPreview', @VCLua_Form_VCLuaGetKeyPreview, mfCall);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'MDIChildren', @VCLua_Form_MDIChildren);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Menu', @VCLua_Form_VCLuaGetMenu, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'ModalResult', @VCLua_Form_VCLuaGetModalResult, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Monitor', @VCLua_Form_VCLuaGetMonitor, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'LastActiveControl', @VCLua_Form_VCLuaGetLastActiveControl, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'PopupMode', @VCLua_Form_VCLuaGetPopupMode, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'PopupParent', @VCLua_Form_VCLuaGetPopupParent, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'Position', @VCLua_Form_VCLuaGetPosition, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'RestoredLeft', @VCLua_Form_VCLuaGetRestoredLeft, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'RestoredTop', @VCLua_Form_VCLuaGetRestoredTop, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'RestoredWidth', @VCLua_Form_VCLuaGetRestoredWidth, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'RestoredHeight', @VCLua_Form_VCLuaGetRestoredHeight, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'ShowInTaskBar', @VCLua_Form_VCLuaGetShowInTaskBar, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'WindowState', @VCLua_Form_VCLuaGetWindowState, mfCall);
+	CustomFormSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomFormSets, 'ActiveControl', @VCLua_Form_VCLuaSetActiveControl, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'ActiveDefaultControl', @VCLua_Form_VCLuaSetActiveDefaultControl, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'AllowDropFiles', @VCLua_Form_VCLuaSetAllowDropFiles, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'AlphaBlend', @VCLua_Form_VCLuaSetAlphaBlend, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'AlphaBlendValue', @VCLua_Form_VCLuaSetAlphaBlendValue, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'BorderStyle', @VCLua_Form_VCLuaSetBorderStyle, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'CancelControl', @VCLua_Form_VCLuaSetCancelControl, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'DefaultControl', @VCLua_Form_VCLuaSetDefaultControl, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'DefaultMonitor', @VCLua_Form_VCLuaSetDefaultMonitor, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'FormStyle', @VCLua_Form_VCLuaSetFormStyle, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'HelpFile', @VCLua_Form_VCLuaSetHelpFile, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'Icon', @VCLua_Form_VCLuaSetIcon, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'KeyPreview', @VCLua_Form_VCLuaSetKeyPreview, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'Menu', @VCLua_Form_VCLuaSetMenu, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'ModalResult', @VCLua_Form_VCLuaSetModalResult, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'PopupMode', @VCLua_Form_VCLuaSetPopupMode, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'PopupParent', @VCLua_Form_VCLuaSetPopupParent, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'Position', @VCLua_Form_VCLuaSetPosition, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'ShowInTaskBar', @VCLua_Form_VCLuaSetShowInTaskBar, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'WindowState', @VCLua_Form_VCLuaSetWindowState, mfCall);
 end.

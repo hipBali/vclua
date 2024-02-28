@@ -21,6 +21,7 @@ type
     end;
 var
     CustomEditButtonFuncs: TLuaVmt;
+    CustomEditButtonSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	CustomEditButtonFuncs := TLuaVmt.Create;
+	
+	CustomEditButtonSets := TLuaVmt.Create;
 	
 end.

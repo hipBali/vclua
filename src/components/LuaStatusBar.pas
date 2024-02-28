@@ -21,6 +21,7 @@ type
     end;
 var
     StatusPanelFuncs: TLuaVmt;
+    StatusPanelSets: TLuaVmt;
 
 function IsStatusPanels(L: Plua_State): Integer; cdecl;
 function AsStatusPanels(L: Plua_State): Integer; cdecl;
@@ -33,6 +34,7 @@ type
     end;
 var
     StatusPanelsFuncs: TLuaVmt;
+    StatusPanelsSets: TLuaVmt;
 
 function CreateStatusBar(L: Plua_State): Integer; cdecl;
 function IsStatusBar(L: Plua_State): Integer; cdecl;
@@ -45,10 +47,11 @@ type
     end;
 var
     StatusBarFuncs: TLuaVmt;
+    StatusBarSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LuaCanvas;
 
 function VCLua_StatusPanel_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -124,6 +127,23 @@ begin
 		on E: Exception do
 			CallError(L, 'StatusPanels', 'Items', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_StatusPanels_VCLuaGetStatusBar(L: Plua_State): Integer; cdecl;
+var
+	lStatusPanels:TLuaStatusPanels;
+	ret:TStatusBar;
+begin
+	CheckArg(L, 1);
+	lStatusPanels := TLuaStatusPanels(GetLuaObject(L, 1));
+	try
+		ret := lStatusPanels.StatusBar;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'StatusPanels', 'StatusBar', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_StatusBar_InvalidatePanel(L: Plua_State): Integer; cdecl;
@@ -249,6 +269,23 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_StatusBar_VCLuaGetCanvas(L: Plua_State): Integer; cdecl;
+var
+	lStatusBar:TLuaStatusBar;
+	ret:TCanvas;
+begin
+	CheckArg(L, 1);
+	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
+	try
+		ret := lStatusBar.Canvas;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'StatusBar', 'Canvas', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function IsStatusPanel(L: Plua_State): Integer; cdecl;
 begin
   CheckArg(L, 1);
@@ -333,9 +370,14 @@ begin
 	StatusPanelFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(StatusPanelFuncs, 'Assign', @VCLua_StatusPanel_Assign);
 	TLuaMethodInfo.Create(StatusPanelFuncs, 'StatusBar', @VCLua_StatusPanel_StatusBar);
+	StatusPanelSets := TLuaVmt.Create;
+	
 	StatusPanelsFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(StatusPanelsFuncs, 'Add', @VCLua_StatusPanels_Add);
 	TLuaMethodInfo.Create(StatusPanelsFuncs, 'Items', @VCLua_StatusPanels_Items);
+	TLuaMethodInfo.Create(StatusPanelsFuncs, 'StatusBar', @VCLua_StatusPanels_VCLuaGetStatusBar, mfCall);
+	StatusPanelsSets := TLuaVmt.Create;
+	
 	StatusBarFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(StatusBarFuncs, 'InvalidatePanel', @VCLua_StatusBar_InvalidatePanel);
 	TLuaMethodInfo.Create(StatusBarFuncs, 'BeginUpdate', @VCLua_StatusBar_BeginUpdate);
@@ -344,4 +386,7 @@ begin
 	TLuaMethodInfo.Create(StatusBarFuncs, 'GetPanelIndexAt', @VCLua_StatusBar_GetPanelIndexAt);
 	TLuaMethodInfo.Create(StatusBarFuncs, 'SizeGripEnabled', @VCLua_StatusBar_SizeGripEnabled);
 	TLuaMethodInfo.Create(StatusBarFuncs, 'UpdatingStatusBar', @VCLua_StatusBar_UpdatingStatusBar);
+	TLuaMethodInfo.Create(StatusBarFuncs, 'Canvas', @VCLua_StatusBar_VCLuaGetCanvas, mfCall);
+	StatusBarSets := TLuaVmt.Create;
+	
 end.

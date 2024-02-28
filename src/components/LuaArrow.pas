@@ -21,6 +21,7 @@ type
     end;
 var
     ArrowFuncs: TLuaVmt;
+    ArrowSets: TLuaVmt;
 
 
 implementation
@@ -65,5 +66,7 @@ end;
 
 begin
 	ArrowFuncs := TLuaVmt.Create;
+	
+	ArrowSets := TLuaVmt.Create;
 	
 end.
