@@ -54,6 +54,10 @@ begin
   // extend library
   lua_pushcfunction(L, @LuaListProperties);
   lua_setfield(L, -2, 'ListProperties');
+  lua_pushcfunction(L, @LuaListMethods);
+  lua_setfield(L, -2, 'ListMethods');
+  lua_pushcfunction(L, @LuaGetCallable);
+  lua_setfield(L, -2, 'GetCallable');
   lua_pushcfunction(L, @CreateStream);
   lua_setfield(L, -2, 'Stream');
   lua_pushcfunction(L, @LuaShowMessage);

@@ -11,6 +11,8 @@ function LuaSetProperty(L: Plua_State): Integer; cdecl;
 function SetPropertiesFromLuaTable(L: Plua_State; Obj:TObject; Index:Integer):Boolean;
 procedure SetProperty(L:Plua_State; Index:Integer; Comp:TObject; PInfo:PPropInfo);
 function LuaListProperties(L: Plua_State): Integer; cdecl;
+function LuaListMethods(L: Plua_State): Integer; cdecl;
+function LuaGetCallable(L: Plua_State): Integer; cdecl;
 
 implementation
 
@@ -96,16 +98,13 @@ begin
      FreeMem(PropInfos);
 end;
 
-function LuaListProperties(L: Plua_State): Integer; cdecl;
+function LuaPtiHelper(L: Plua_State; const pname: string; var pti: PTypeInfo):Integer;
 var
   PObj: TObject;
-  np: Boolean;
-  pti: PTypeInfo = nil;
   cName: string;
-  i: Integer;
 begin
-  CheckArg(L, 1, 2);
-  case lua_type(L, 1) of
+  Result := lua_type(L, 1);
+  case Result of
     LUA_TSTRING: begin
       cName := lua_tostring(L, 1);
       pti := apiPtis.Find(cName);
@@ -117,7 +116,16 @@ begin
     end;
   end;
   if pti = nil then
-      LuaError(L, 'ListProperties expects API object or Free Pascal classname (don''t remove first ''T'') as first argument', lua_typename(L, lua_type(L, 1)));
+      LuaError(L, pname + ' expects API object or Free Pascal classname (don''t remove first ''T'') as first argument', lua_typename(L, Result));
+end;
+
+function LuaListProperties(L: Plua_State): Integer; cdecl;
+var
+  np: Boolean;
+  pti: PTypeInfo = nil;
+begin
+  CheckArg(L, 1, 2);
+  LuaPtiHelper(L, 'ListProperties', pti);
   np := lua_toboolean(L, 2);
   lua_newtable(L);
   if not np then
@@ -125,6 +133,62 @@ begin
   else
     ListNonPublishedProperties(L, pti);
   Result := 1;
+end;
+
+procedure PushOne(Item: TObject; arg: pointer);
+var
+  mi: TLuaMethodInfo;
+begin
+  mi := TLuaMethodInfo(Item);
+  if mi.mf = mfNone then begin
+    lua_pushstring(Plua_State(arg), mi.Name);
+    lua_pushcfunction(Plua_State(arg), mi.pf);
+    lua_rawset(Plua_State(arg), -3);
+  end;
+end;
+
+function LuaListMethods(L: Plua_State): Integer; cdecl;
+var
+  doInline: Boolean = False;
+  pti: PTypeInfo = nil;
+  pvmt: PLuaVmt;
+begin
+  Result := 1;
+  case LuaPtiHelper(L, 'ListMethods', pti) of
+    LUA_TSTRING:
+      CheckArg(L, 1);
+    LUA_TTABLE: begin
+      CheckArg(L, 1, 2);
+      doInline := lua_toboolean(L, 2);
+    end;
+  end;
+  if doInline then
+     lua_settop(L, 1)
+  else
+      lua_newtable(L);
+  pvmt := vmts.GetVmt(pti);
+  propSets.GetVmt(pti);
+  pvmt^.ForEachCall(PushOne, L);
+end;
+
+function LuaGetCallable(L: Plua_State): Integer; cdecl;
+var
+  pti: PTypeInfo = nil;
+  pvmt,pset: PLuaVmt;
+  mi: TLuaMethodInfo;
+begin
+  CheckArg(L, 2, 3);
+  Result := 1;
+  LuaPtiHelper(L, 'GetCallable', pti);
+  pvmt := vmts.GetVmt(pti);
+  pset := propSets.GetVmt(pti);
+  if lua_toboolean(L, 3) then
+     pvmt := pset;
+  mi := TLuaMethodInfo(pvmt^.Find(lua_tostring(L, 2)));
+  if Assigned(mi) then
+     lua_pushcfunction(L, mi.pf)
+  else
+      lua_pushnil(L);
 end;
 
 // ****************************************************************
