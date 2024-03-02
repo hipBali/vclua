@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 function CreatePicture(L: Plua_State): Integer; cdecl;
-function IsPicture(L: Plua_State): Integer; cdecl;
-function AsPicture(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPicture; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -168,23 +166,6 @@ begin
 	end;
 end;
 
-function IsPicture(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TPicture);
-end;
-function AsPicture(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TPicture then
-    lua_push(L, TPicture(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TPicture; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TPicture',v);

@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateEdit(L: Plua_State): Integer; cdecl;
-function IsEdit(L: Plua_State): Integer; cdecl;
-function AsEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -659,23 +657,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function IsEdit(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TEdit);
-end;
-function AsEdit(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TEdit then
-    lua_push(L, TEdit(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TEdit; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomEdit',v);

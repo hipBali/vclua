@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, ValEdit, TypInfo, LuaVmt;
 
 function CreateValueListEditor(L: Plua_State): Integer; cdecl;
-function IsValueListEditor(L: Plua_State): Integer; cdecl;
-function AsValueListEditor(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -387,23 +385,6 @@ begin
 	end;
 end;
 
-function IsValueListEditor(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TValueListEditor);
-end;
-function AsValueListEditor(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TValueListEditor then
-    lua_push(L, TValueListEditor(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TValueListEditor',v);

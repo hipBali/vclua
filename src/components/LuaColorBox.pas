@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, ColorBox, TypInfo, LuaVmt;
 
 function CreateColorBox(L: Plua_State): Integer; cdecl;
-function IsColorBox(L: Plua_State): Integer; cdecl;
-function AsColorBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TColorBox; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -269,23 +267,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function IsColorBox(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TColorBox);
-end;
-function AsColorBox(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TColorBox then
-    lua_push(L, TColorBox(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TColorBox; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomColorBox',v);

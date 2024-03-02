@@ -29,15 +29,6 @@ uses
 
   {$i vcl.inc}
   
-  is_funcs : array of lual_reg = (
-  {$i is_funcs.inc}
-  (name:nil;func:nil)
-  );
-  as_funcs : array of lual_reg = (
-  {$i as_funcs.inc}
-  (name:nil;func:nil)
-  );
-
 function luaopen_vcl_core(L: Plua_State): Integer; cdecl;
 var res:string;
   pti,ptiCur: PTypeInfo;
@@ -94,12 +85,6 @@ begin
   lua_pushliteral (L, '_VERSION');
   lua_pushliteral (L, '0.9.2');
   lua_settable (L, -3);
-
-  luaL_newlib(L, is_funcs);
-  lua_setfield(L, -2, 'is');
-
-  luaL_newlib(L, as_funcs);
-  lua_setfield(L, -2, 'as');
 
   res := CheckOrderOfPushObject(metaPtis);
   if not res.IsEmpty then

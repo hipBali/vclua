@@ -10,8 +10,6 @@ interface
 
 Uses Classes, Lua, LuaController, Grids, TypInfo, LuaVmt;
 
-function IsCustomGrid(L: Plua_State): Integer; cdecl;
-function AsCustomGrid(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCustomGrid; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -24,8 +22,6 @@ var
     CustomGridSets: TLuaVmt;
 
 function CreateDrawGrid(L: Plua_State): Integer; cdecl;
-function IsDrawGrid(L: Plua_State): Integer; cdecl;
-function AsDrawGrid(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -1169,45 +1165,11 @@ begin
 	lua_push(L,aRect);
 end;
 
-function IsCustomGrid(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TCustomGrid);
-end;
-function AsCustomGrid(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TCustomGrid then
-    lua_push(L, TCustomGrid(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TCustomGrid; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomGrid',v);
 end;
 
-function IsDrawGrid(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TDrawGrid);
-end;
-function AsDrawGrid(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TDrawGrid then
-    lua_push(L, TDrawGrid(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomDrawGrid',v);

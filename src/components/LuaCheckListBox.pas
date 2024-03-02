@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, CheckLst, TypInfo, LuaVmt;
 
 function CreateCheckListBox(L: Plua_State): Integer; cdecl;
-function IsCheckListBox(L: Plua_State): Integer; cdecl;
-function AsCheckListBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCheckListBox; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -257,23 +255,6 @@ begin
 	end;
 end;
 
-function IsCheckListBox(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TCheckListBox);
-end;
-function AsCheckListBox(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TCheckListBox then
-    lua_push(L, TCheckListBox(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TCheckListBox; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomCheckListBox',v);

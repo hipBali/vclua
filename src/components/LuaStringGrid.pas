@@ -10,8 +10,6 @@ interface
 
 Uses Classes, Lua, LuaController, Grids, TypInfo, LuaVmt;
 
-function IsGridColumn(L: Plua_State): Integer; cdecl;
-function AsGridColumn(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -23,8 +21,6 @@ var
     GridColumnFuncs: TLuaVmt;
     GridColumnSets: TLuaVmt;
 
-function IsGridColumns(L: Plua_State): Integer; cdecl;
-function AsGridColumns(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TGridColumns; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -37,8 +33,6 @@ var
     GridColumnsSets: TLuaVmt;
 
 function CreateStringGrid(L: Plua_State): Integer; cdecl;
-function IsStringGrid(L: Plua_State): Integer; cdecl;
-function AsStringGrid(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -815,67 +809,16 @@ begin
   lua_pushnumber(L,r);
   Result := 2;
 end;
-function IsGridColumn(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TGridColumn);
-end;
-function AsGridColumn(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TGridColumn then
-    lua_push(L, TGridColumn(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TGridColumn',v);
 end;
 
-function IsGridColumns(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TGridColumns);
-end;
-function AsGridColumns(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TGridColumns then
-    lua_push(L, TGridColumns(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TGridColumns; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TGridColumns',v);
 end;
 
-function IsStringGrid(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TStringGrid);
-end;
-function AsStringGrid(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TStringGrid then
-    lua_push(L, TStringGrid(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomStringGrid',v);

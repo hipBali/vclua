@@ -46,8 +46,6 @@ end.
 
 VCLua_CDEF_INTFCE = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
-function Is#CNAME(L: Plua_State): Integer; cdecl;
-function As#CNAME(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -58,8 +56,6 @@ type
 
 VCLua_CDEF_INTFCE_CANVAS = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
-function Is#CNAME(L: Plua_State): Integer; cdecl;
-function As#CNAME(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -71,8 +67,6 @@ type
 ]]
 
 VCLua_CDEF_INTFCE_NOCREATE = [[
-function Is#CNAME(L: Plua_State): Integer; cdecl;
-function As#CNAME(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -125,23 +119,6 @@ VCLua_PROP = [[
 		end;]]
 
 VCLua_CDEF_TOTABLE = [[
-function Is#CNAME(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is T#CNAME);
-end;
-function As#CNAME(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is T#CNAME then
-    lua_push(L, T#CNAME(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'#CSRC',v);

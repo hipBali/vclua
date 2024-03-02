@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateTrackBar(L: Plua_State): Integer; cdecl;
-function IsTrackBar(L: Plua_State): Integer; cdecl;
-function AsTrackBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTrackBar; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -44,23 +42,6 @@ begin
 	end;
 end;
 
-function IsTrackBar(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TTrackBar);
-end;
-function AsTrackBar(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TTrackBar then
-    lua_push(L, TTrackBar(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TTrackBar; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomTrackBar',v);

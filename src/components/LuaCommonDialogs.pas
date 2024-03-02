@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, Dialogs, TypInfo, LuaVmt;
 
 function CreateColorButton(L: Plua_State): Integer; cdecl;
-function IsColorButton(L: Plua_State): Integer; cdecl;
-function AsColorButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TColorButton; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -24,8 +22,6 @@ var
     ColorButtonSets: TLuaVmt;
 
 function CreateOpenDialog(L: Plua_State): Integer; cdecl;
-function IsOpenDialog(L: Plua_State): Integer; cdecl;
-function AsOpenDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TOpenDialog; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -37,8 +33,6 @@ var
     OpenDialogSets: TLuaVmt;
 
 function CreateSaveDialog(L: Plua_State): Integer; cdecl;
-function IsSaveDialog(L: Plua_State): Integer; cdecl;
-function AsSaveDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TSaveDialog; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -50,8 +44,6 @@ var
     SaveDialogSets: TLuaVmt;
 
 function CreateSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
-function IsSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
-function AsSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TSelectDirectoryDialog; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -63,8 +55,6 @@ var
     SelectDirectoryDialogSets: TLuaVmt;
 
 function CreateColorDialog(L: Plua_State): Integer; cdecl;
-function IsColorDialog(L: Plua_State): Integer; cdecl;
-function AsColorDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TColorDialog; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -76,8 +66,6 @@ var
     ColorDialogSets: TLuaVmt;
 
 function CreateFontDialog(L: Plua_State): Integer; cdecl;
-function IsFontDialog(L: Plua_State): Integer; cdecl;
-function AsFontDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFontDialog; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -89,8 +77,6 @@ var
     FontDialogSets: TLuaVmt;
 
 function CreateFindDialog(L: Plua_State): Integer; cdecl;
-function IsFindDialog(L: Plua_State): Integer; cdecl;
-function AsFindDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFindDialog; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -102,8 +88,6 @@ var
     FindDialogSets: TLuaVmt;
 
 function CreateReplaceDialog(L: Plua_State): Integer; cdecl;
-function IsReplaceDialog(L: Plua_State): Integer; cdecl;
-function AsReplaceDialog(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TReplaceDialog; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -542,23 +526,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function IsColorButton(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TColorButton);
-end;
-function AsColorButton(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TColorButton then
-    lua_push(L, TColorButton(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TColorButton; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TColorButton',v);
@@ -578,23 +545,6 @@ begin
 	Result := 1;
 end;
 
-function IsOpenDialog(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TOpenDialog);
-end;
-function AsOpenDialog(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TOpenDialog then
-    lua_push(L, TOpenDialog(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TOpenDialog; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TOpenDialog',v);
@@ -614,23 +564,6 @@ begin
 	Result := 1;
 end;
 
-function IsSaveDialog(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TSaveDialog);
-end;
-function AsSaveDialog(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TSaveDialog then
-    lua_push(L, TSaveDialog(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TSaveDialog; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TSaveDialog',v);
@@ -650,23 +583,6 @@ begin
 	Result := 1;
 end;
 
-function IsSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TSelectDirectoryDialog);
-end;
-function AsSelectDirectoryDialog(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TSelectDirectoryDialog then
-    lua_push(L, TSelectDirectoryDialog(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TSelectDirectoryDialog; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TSelectDirectoryDialog',v);
@@ -686,23 +602,6 @@ begin
 	Result := 1;
 end;
 
-function IsColorDialog(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TColorDialog);
-end;
-function AsColorDialog(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TColorDialog then
-    lua_push(L, TColorDialog(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TColorDialog; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TColorDialog',v);
@@ -722,23 +621,6 @@ begin
 	Result := 1;
 end;
 
-function IsFontDialog(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TFontDialog);
-end;
-function AsFontDialog(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TFontDialog then
-    lua_push(L, TFontDialog(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TFontDialog; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TFontDialog',v);
@@ -758,23 +640,6 @@ begin
 	Result := 1;
 end;
 
-function IsFindDialog(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TFindDialog);
-end;
-function AsFindDialog(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TFindDialog then
-    lua_push(L, TFindDialog(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TFindDialog; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TFindDialog',v);
@@ -794,23 +659,6 @@ begin
 	Result := 1;
 end;
 
-function IsReplaceDialog(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TReplaceDialog);
-end;
-function AsReplaceDialog(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TReplaceDialog then
-    lua_push(L, TReplaceDialog(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TReplaceDialog; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TFindDialog',v);

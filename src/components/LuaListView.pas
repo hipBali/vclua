@@ -10,8 +10,6 @@ interface
 
 Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
-function IsListItem(L: Plua_State): Integer; cdecl;
-function AsListItem(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -23,8 +21,6 @@ var
     ListItemFuncs: TLuaVmt;
     ListItemSets: TLuaVmt;
 
-function IsListItems(L: Plua_State): Integer; cdecl;
-function AsListItems(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListItems; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -37,8 +33,6 @@ var
     ListItemsSets: TLuaVmt;
 
 function CreateListView(L: Plua_State): Integer; cdecl;
-function IsListView(L: Plua_State): Integer; cdecl;
-function AsListView(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListView; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -1568,67 +1562,16 @@ begin
 	lua_push(L,ret);
 end;
 
-function IsListItem(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TListItem);
-end;
-function AsListItem(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TListItem then
-    lua_push(L, TListItem(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TListItem',v);
 end;
 
-function IsListItems(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TListItems);
-end;
-function AsListItems(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TListItems then
-    lua_push(L, TListItems(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TListItems; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TListItems',v);
 end;
 
-function IsListView(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TListView);
-end;
-function AsListView(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TListView then
-    lua_push(L, TListView(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TListView; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomListView',v);

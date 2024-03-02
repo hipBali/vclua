@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateIdleTimer(L: Plua_State): Integer; cdecl;
-function IsIdleTimer(L: Plua_State): Integer; cdecl;
-function AsIdleTimer(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TIdleTimer; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -163,23 +161,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function IsIdleTimer(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TIdleTimer);
-end;
-function AsIdleTimer(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TIdleTimer then
-    lua_push(L, TIdleTimer(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TIdleTimer; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomIdleTimer',v);

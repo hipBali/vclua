@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateComboBox(L: Plua_State): Integer; cdecl;
-function IsComboBox(L: Plua_State): Integer; cdecl;
-function AsComboBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TComboBox; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -717,23 +715,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function IsComboBox(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TComboBox);
-end;
-function AsComboBox(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TComboBox then
-    lua_push(L, TComboBox(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TComboBox; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomComboBox',v);

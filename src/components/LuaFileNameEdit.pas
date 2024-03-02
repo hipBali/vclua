@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, EditBtn, TypInfo, LuaVmt;
 
 function CreateFileNameEdit(L: Plua_State): Integer; cdecl;
-function IsFileNameEdit(L: Plua_State): Integer; cdecl;
-function AsFileNameEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFileNameEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -25,23 +23,6 @@ implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 
-function IsFileNameEdit(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TFileNameEdit);
-end;
-function AsFileNameEdit(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TFileNameEdit then
-    lua_push(L, TFileNameEdit(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TFileNameEdit; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomEditButton',v);

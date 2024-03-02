@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, DateTimePicker, TypInfo, LuaVmt;
 
 function CreateDateTimePicker(L: Plua_State): Integer; cdecl;
-function IsDateTimePicker(L: Plua_State): Integer; cdecl;
-function AsDateTimePicker(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TDateTimePicker; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -28,23 +26,6 @@ implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 
-function IsDateTimePicker(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TDateTimePicker);
-end;
-function AsDateTimePicker(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TDateTimePicker then
-    lua_push(L, TDateTimePicker(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TDateTimePicker; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TDateTimePicker',v);

@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, Calendar, TypInfo, LuaVmt;
 
 function CreateCalendar(L: Plua_State): Integer; cdecl;
-function IsCalendar(L: Plua_State): Integer; cdecl;
-function AsCalendar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCalendar; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -199,23 +197,6 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
-function IsCalendar(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TCalendar);
-end;
-function AsCalendar(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TCalendar then
-    lua_push(L, TCalendar(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TCalendar; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomCalendar',v);

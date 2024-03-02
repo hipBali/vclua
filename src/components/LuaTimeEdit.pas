@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, EditBtn, TypInfo, LuaVmt;
 
 function CreateTimeEdit(L: Plua_State): Integer; cdecl;
-function IsTimeEdit(L: Plua_State): Integer; cdecl;
-function AsTimeEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTimeEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -25,23 +23,6 @@ implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 
-function IsTimeEdit(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TTimeEdit);
-end;
-function AsTimeEdit(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TTimeEdit then
-    lua_push(L, TTimeEdit(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TTimeEdit; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomEditButton',v);

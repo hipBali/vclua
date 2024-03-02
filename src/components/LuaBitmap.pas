@@ -10,8 +10,6 @@ interface
 
 Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
-function IsCustomBitmap(L: Plua_State): Integer; cdecl;
-function AsCustomBitmap(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCustomBitmap; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -24,8 +22,6 @@ var
     CustomBitmapSets: TLuaVmt;
 
 function CreateBitmap(L: Plua_State): Integer; cdecl;
-function IsBitmap(L: Plua_State): Integer; cdecl;
-function AsBitmap(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBitmap; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -317,45 +313,11 @@ begin
 	end;
 end;
 
-function IsCustomBitmap(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TCustomBitmap);
-end;
-function AsCustomBitmap(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TCustomBitmap then
-    lua_push(L, TCustomBitmap(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TCustomBitmap; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomBitmap',v);
 end;
 
-function IsBitmap(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TBitmap);
-end;
-function AsBitmap(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TBitmap then
-    lua_push(L, TBitmap(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TBitmap; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TBitmap',v);

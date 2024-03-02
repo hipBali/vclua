@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateTimer(L: Plua_State): Integer; cdecl;
-function IsTimer(L: Plua_State): Integer; cdecl;
-function AsTimer(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTimer; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -28,23 +26,6 @@ implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 
-function IsTimer(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TTimer);
-end;
-function AsTimer(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TTimer then
-    lua_push(L, TTimer(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TTimer; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TTimer',v);

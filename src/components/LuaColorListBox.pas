@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, ColorBox, TypInfo, LuaVmt;
 
 function CreateColorListBox(L: Plua_State): Integer; cdecl;
-function IsColorListBox(L: Plua_State): Integer; cdecl;
-function AsColorListBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -28,23 +26,6 @@ implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 
-function IsColorListBox(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TColorListBox);
-end;
-function AsColorListBox(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TColorListBox then
-    lua_push(L, TColorListBox(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TColorListBox',v);

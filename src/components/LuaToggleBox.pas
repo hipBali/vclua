@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateToggleBox(L: Plua_State): Integer; cdecl;
-function IsToggleBox(L: Plua_State): Integer; cdecl;
-function AsToggleBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TToggleBox; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -28,23 +26,6 @@ implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
 
 
-function IsToggleBox(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TToggleBox);
-end;
-function AsToggleBox(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TToggleBox then
-    lua_push(L, TToggleBox(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TToggleBox; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TToggleBox',v);

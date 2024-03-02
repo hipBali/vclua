@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, ImgList, Controls, TypInfo, LuaVmt;
 
 function CreateImageList(L: Plua_State): Integer; cdecl;
-function IsImageList(L: Plua_State): Integer; cdecl;
-function AsImageList(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TImageList; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -1555,23 +1553,6 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
-function IsImageList(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TImageList);
-end;
-function AsImageList(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TImageList then
-    lua_push(L, TImageList(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TImageList; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomImageList',v);

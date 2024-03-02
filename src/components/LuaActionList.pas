@@ -11,8 +11,6 @@ interface
 Uses Classes, Lua, LuaController, ActnList, TypInfo, LuaVmt;
 
 function CreateContainedAction(L: Plua_State): Integer; cdecl;
-function IsContainedAction(L: Plua_State): Integer; cdecl;
-function AsContainedAction(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TContainedAction; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -24,8 +22,6 @@ var
     ContainedActionSets: TLuaVmt;
 
 function CreateAction(L: Plua_State): Integer; cdecl;
-function IsAction(L: Plua_State): Integer; cdecl;
-function AsAction(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TAction; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -37,8 +33,6 @@ var
     CustomActionSets: TLuaVmt;
 
 function CreateActionList(L: Plua_State): Integer; cdecl;
-function IsActionList(L: Plua_State): Integer; cdecl;
-function AsActionList(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TActionList; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -907,23 +901,6 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
-function IsContainedAction(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TContainedAction);
-end;
-function AsContainedAction(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TContainedAction then
-    lua_push(L, TContainedAction(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TContainedAction; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TContainedAction',v);
@@ -943,23 +920,6 @@ begin
 	Result := 1;
 end;
 
-function IsAction(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TAction);
-end;
-function AsAction(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TAction then
-    lua_push(L, TAction(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TAction; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomAction',v);
@@ -979,23 +939,6 @@ begin
 	Result := 1;
 end;
 
-function IsActionList(L: Plua_State): Integer; cdecl;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  lua_push(L, GetLuaObject(L, 1) is TActionList);
-end;
-function AsActionList(L: Plua_State): Integer; cdecl;
-var o : TObject;
-begin
-  CheckArg(L, 1);
-  Result := 1;
-  o := GetLuaObject(L, 1);
-  if o is TActionList then
-    lua_push(L, TActionList(o))
-  else
-    lua_pushnil(L);
-end;
 procedure lua_push(L: Plua_State; const v: TActionList; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomActionList',v);
