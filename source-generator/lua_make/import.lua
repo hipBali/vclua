@@ -275,10 +275,10 @@ local function processClass(def,cdef,ref)
 					elseif lt == 0 then 
 						local l = line:gsub("^%s*", ""):trim()
 						-- join broken lines
-						local function appendUntil(pattern, sep)
+						local function appendUntil(pattern)
 							local m = n + 1
 							local bl
-							repeat 
+							repeat
 								bl = def[m]:gsub("^%s*", "") -- :trim()
 								l = l .. ' ' .. bl
 								m = m + 1
@@ -291,7 +291,7 @@ local function processClass(def,cdef,ref)
 						end
 						-- test exclusions
 						local ok=true
-						local mds={{method=l,mName=ln[2]}}
+						local mds={{method=l}}
 						if isProp then
 							if ln[2]:find('^On%S') then ok = false
 							else
@@ -309,7 +309,7 @@ local function processClass(def,cdef,ref)
 									ok = not excludeType[md.reto:lower()]
 									reason = md.reto
 								end
-								md.vars, md.varlist, md.funcparams, md.out, md.mtypes, md.pushTypes = processParams(md)
+								processParams(md)
 								for t,_ in pairs(md.mtypes) do
 									if excludeType[t:lower()] then
 										reason = t
@@ -336,15 +336,14 @@ local function processClass(def,cdef,ref)
 end
 
 function processParams(md)
-	local vars,varlist,funcparams,out,def,types,pushTypes
-	vars={{}}
-	types,pushTypes={},{}
+	md.vars={{}}
+	md.mtypes,md.pushTypes={},{}
 	local s = md.method
 	if s:find("%(") then
-		vars[2] = {}
-		varlist={}
-		funcparams = {}
-		out={}
+		md.vars[2] = {}
+		md.varlist={}
+		md.funcparams = {}
+		md.out={}
 		-- parse params, remove const flag
 		local s = s:match("%(([^%)]+)%)"):gsub("[cC]onst%s+","")
 		-- test comma separated varlisting
@@ -381,42 +380,41 @@ function processParams(md)
 			local varType = p[2]
 			
 
-			def = nil
+			local def = nil
 			local pp = varType:split("=") 	-- remove default value
 			if pp[2] then
 				def=pp[2]
 			end
 			varType = pp[1]
-			types[varType] = true
+			md.mtypes[varType] = true
 
 			-- should passed back?
 			local isVar = p[1]:find("[vV]ar%s+")
 			local isOut = p[1]:find("[oO]ut%s+")
 			if isVar or isOut then
-				table.insert(out, {name=varName, type=varType})
-				pushTypes[varType] = true
+				table.insert(md.out, {name=varName, type=varType})
+				md.pushTypes[varType] = true
 			end
 			-- var parameters can actually be required, e.g. in TCustomDrawGrid.DefaultDrawCell, TCustomListBox.MeasureItem
 			-- so provide an overload
 			if not isOut then
 				if not isVar then
-					table.insert(vars[1], {name=varName, type=varType, value=def})
+					table.insert(md.vars[1], {name=varName, type=varType, value=def})
 				end
-				table.insert(vars[2], {name=varName, type=varType, value=def})
+				table.insert(md.vars[2], {name=varName, type=varType, value=def})
 			end
-			table.insert(funcparams, varName)
-			table.insert(varlist, varName..":"..varType)
+			table.insert(md.funcparams, varName)
+			table.insert(md.varlist, varName..":"..varType)
 		end
 	end
-	if vars[2] then
-		if #vars[2] == #vars[1] then
-			vars[2] = nil
+	if md.vars[2] then
+		if #md.vars[2] == #md.vars[1] then
+			md.vars[2] = nil
 		elseif md.propInfo then
-			vars[1] = vars[2]
-			vars[2] = nil
+			md.vars[1] = md.vars[2]
+			md.vars[2] = nil
 		end
 	end
-	return vars, varlist, funcparams, out, types, pushTypes
 end
 
 local function getPropTempl(pi)
