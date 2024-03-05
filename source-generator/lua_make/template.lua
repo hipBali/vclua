@@ -11,7 +11,7 @@ unit Lua#CNAME;
 
 interface
 
-Uses Lua, LuaController#REF, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, #REF;
 
 #INTFCE
 
@@ -31,7 +31,7 @@ unit Lua#CNAME;
 
 interface
 
-Uses Lua, LuaController#REF, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, #REF;
 
 #INTFCE
 

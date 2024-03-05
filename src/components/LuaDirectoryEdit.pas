@@ -8,7 +8,7 @@ unit LuaDirectoryEdit;
 
 interface
 
-Uses Lua, LuaController, EditBtn, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, EditBtn;
 
 function CreateDirectoryEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TDirectoryEdit; pti: PTypeInfo = nil); overload; inline;

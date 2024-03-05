@@ -99,6 +99,28 @@ function string:split(sep)
    return fields
 end
 
+local function HashedToSorted(t,comp)
+  local k,v = next(t)
+  if not k then return {} end
+  local res = {n=0}
+  local tables = type(v) == "table"
+  if tables then
+    for k,v in pairs(t) do
+      res.n=res.n+1
+      res[res.n]={k=k,v=v}
+    end
+  else
+    for k,v in pairs(t) do
+      res.n=res.n+1
+      res[res.n]=k
+    end
+  end
+  res.n=nil
+  comp = comp or tables and function(l,r) return l.k<r.k end or nil
+  table.sort(res,comp)
+  return res
+end
+
 local function propertyToProc(decl)
   -- parsing 'property ident([indexing])?: type (read ident)? (write ident)? .* (default;)?
   local propName, indexing, m, typeName
@@ -674,7 +696,8 @@ end
 local fpcSrcPrev
 local createMap = {}
 for n,cdef in pairs(classes) do
-	local ref = cdef.ref:split(",")[1]
+	local refsplit = cdef.ref:split(",")
+	local ref = refsplit[1]
 	if fpcSrc[ref] ~= fpcSrcPrev then
 		cLog(ref.." "..fpcSrc[ref],"INFO")
 		cfile = loadTable(fpcSrc[ref])
@@ -725,16 +748,15 @@ for n,cdef in pairs(classes) do
 	end
 	classSource = classSource:gsub("#CNAME",className)
 
-	local refStr = cdef.ref
-	classSource = classSource:gsub("#REF",(refStr ~= "" and ", "..refStr) or "")
-	local intfRefT = cdef.ref:split(',')
-	local intfRetChecker = {}
-	for _,r in ipairs(intfRefT) do intfRetChecker[r] = true end
-	local unitRefT = cdef.implref and cdef.implref:split(',') or {}
-	for r,_ in pairs(unitRefs) do if not intfRetChecker[r] and r ~= 'System' then table.insert(unitRefT, r) end end
-	table.sort(unitRefT)
-	refStr = table.concat(unitRefT, ', ')
-	classSource = classSource:gsub("#IMPLREF",(refStr ~= "" and ", "..refStr) or "")
+	classSource = classSource:gsub("#REF",cdef.ref)
+	-- clear duplicates from implementation uses
+	unitRefs['System'] = nil
+	for _,r in ipairs(refsplit) do unitRefs[r] = nil end
+	-- prepare table for concat
+	unitRefs[''] = true
+	local unitRefT = HashedToSorted(unitRefs)
+	if cdef.implref then table.insert(unitRefT,cdef.implref) end
+	classSource = classSource:gsub("#IMPLREF",table.concat(unitRefT, ', '))
 
 	local intf, body, create, init = {},{},{},{"begin"}
 	-- manual code to include
@@ -797,11 +819,7 @@ for n,cdef in pairs(classes) do
 	table.insert(pasSrc, lName)
 end
 pasRefs['Classes'] = nil
-local luaobject_uses = {}
-for u,_ in pairs(pasRefs) do
-	table.insert(luaobject_uses, u)
-end
-table.sort(luaobject_uses)
+local luaobject_uses = HashedToSorted(pasRefs)
 
 function table.reverse(t)
   local res, len = {}, #t

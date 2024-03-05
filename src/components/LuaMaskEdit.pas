@@ -8,7 +8,7 @@ unit LuaMaskEdit;
 
 interface
 
-Uses Lua, LuaController, MaskEdit, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, MaskEdit;
 
 function CreateMaskEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMaskEdit; pti: PTypeInfo = nil); overload; inline;

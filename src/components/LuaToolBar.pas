@@ -8,7 +8,7 @@ unit LuaToolBar;
 
 interface
 
-Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ComCtrls;
 
 function CreateToolButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TToolButton; pti: PTypeInfo = nil); overload; inline;

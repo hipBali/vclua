@@ -8,7 +8,7 @@ unit LuaCanvas;
 
 interface
 
-Uses Lua, LuaController, Graphics, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Graphics;
 
 procedure lua_push(L: Plua_State; const v: TCanvas; pti: PTypeInfo = nil); overload; inline;
 

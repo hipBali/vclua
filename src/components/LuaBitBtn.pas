@@ -8,7 +8,7 @@ unit LuaBitBtn;
 
 interface
 
-Uses Lua, LuaController, Buttons, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Buttons;
 
 function CreateBitBtn(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBitBtn; pti: PTypeInfo = nil); overload; inline;

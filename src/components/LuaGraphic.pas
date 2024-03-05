@@ -8,7 +8,7 @@ unit LuaGraphic;
 
 interface
 
-Uses Lua, LuaController, Graphics, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Graphics;
 
 procedure lua_push(L: Plua_State; const v: TGraphic; pti: PTypeInfo = nil); overload; inline;
 

@@ -8,7 +8,7 @@ unit LuaCalcEdit;
 
 interface
 
-Uses Lua, LuaController, EditBtn, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, EditBtn;
 
 function CreateCalcEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo = nil); overload; inline;

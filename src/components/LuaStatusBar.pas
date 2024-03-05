@@ -8,7 +8,7 @@ unit LuaStatusBar;
 
 interface
 
-Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ComCtrls;
 
 procedure lua_push(L: Plua_State; const v: TStatusPanel; pti: PTypeInfo = nil); overload; inline;
 

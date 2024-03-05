@@ -8,7 +8,7 @@ unit LuaRadioGroup;
 
 interface
 
-Uses Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ExtCtrls;
 
 function CreateRadioGroup(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TRadioGroup; pti: PTypeInfo = nil); overload; inline;

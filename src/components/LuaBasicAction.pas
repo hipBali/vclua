@@ -8,7 +8,7 @@ unit LuaBasicAction;
 
 interface
 
-Uses Lua, LuaController, Classes, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Classes;
 
 function CreateBasicAction(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBasicAction; pti: PTypeInfo = nil); overload; inline;

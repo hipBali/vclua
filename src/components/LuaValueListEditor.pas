@@ -8,7 +8,7 @@ unit LuaValueListEditor;
 
 interface
 
-Uses Lua, LuaController, ValEdit, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ValEdit;
 
 function CreateValueListEditor(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo = nil); overload; inline;

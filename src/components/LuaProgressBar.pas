@@ -8,7 +8,7 @@ unit LuaProgressBar;
 
 interface
 
-Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ComCtrls;
 
 function CreateProgressBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TProgressBar; pti: PTypeInfo = nil); overload; inline;

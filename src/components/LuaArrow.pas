@@ -8,7 +8,7 @@ unit LuaArrow;
 
 interface
 
-Uses Lua, LuaController, Arrow, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Arrow;
 
 function CreateArrow(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TArrow; pti: PTypeInfo = nil); overload; inline;

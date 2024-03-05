@@ -8,7 +8,7 @@ unit LuaStrings;
 
 interface
 
-Uses Lua, LuaController, Classes, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Classes;
 
 procedure lua_push(L: Plua_State; const v: TStrings; pti: PTypeInfo = nil); overload; inline;
 

@@ -8,7 +8,7 @@ unit LuaTextStrings;
 
 interface
 
-Uses Lua, LuaController, TextStrings, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, TextStrings;
 
 function CreateTextStrings(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTextStrings; pti: PTypeInfo = nil); overload; inline;

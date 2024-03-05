@@ -8,7 +8,7 @@ unit LuaBevel;
 
 interface
 
-Uses Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ExtCtrls;
 
 function CreateBevel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBevel; pti: PTypeInfo = nil); overload; inline;

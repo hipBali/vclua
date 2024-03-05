@@ -8,7 +8,7 @@ unit LuaStringGrid;
 
 interface
 
-Uses Lua, LuaController, Grids, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Grids;
 
 procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo = nil); overload; inline;
 

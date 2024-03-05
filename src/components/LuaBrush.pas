@@ -8,7 +8,7 @@ unit LuaBrush;
 
 interface
 
-Uses Lua, LuaController, Graphics, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Graphics;
 
 procedure lua_push(L: Plua_State; const v: TBrush; pti: PTypeInfo = nil); overload; inline;
 

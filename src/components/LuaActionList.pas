@@ -8,7 +8,7 @@ unit LuaActionList;
 
 interface
 
-Uses Lua, LuaController, ActnList, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ActnList;
 
 function CreateContainedAction(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TContainedAction; pti: PTypeInfo = nil); overload; inline;

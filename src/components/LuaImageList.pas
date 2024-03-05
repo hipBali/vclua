@@ -8,7 +8,7 @@ unit LuaImageList;
 
 interface
 
-Uses Lua, LuaController, ImgList, Controls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ImgList, Controls;
 
 function CreateImageList(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TImageList; pti: PTypeInfo = nil); overload; inline;

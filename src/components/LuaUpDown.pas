@@ -8,7 +8,7 @@ unit LuaUpDown;
 
 interface
 
-Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ComCtrls;
 
 function CreateUpDown(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TUpDown; pti: PTypeInfo = nil); overload; inline;

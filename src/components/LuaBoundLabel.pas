@@ -8,7 +8,7 @@ unit LuaBoundLabel;
 
 interface
 
-Uses Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, ExtCtrls;
 
 function CreateBoundLabel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TBoundLabel; pti: PTypeInfo = nil); overload; inline;

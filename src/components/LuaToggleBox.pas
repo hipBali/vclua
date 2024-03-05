@@ -8,7 +8,7 @@ unit LuaToggleBox;
 
 interface
 
-Uses Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, StdCtrls;
 
 function CreateToggleBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TToggleBox; pti: PTypeInfo = nil); overload; inline;

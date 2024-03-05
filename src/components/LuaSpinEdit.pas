@@ -8,7 +8,7 @@ unit LuaSpinEdit;
 
 interface
 
-Uses Lua, LuaController, Spin, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Spin;
 
 function CreateSpinEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TSpinEdit; pti: PTypeInfo = nil); overload; inline;

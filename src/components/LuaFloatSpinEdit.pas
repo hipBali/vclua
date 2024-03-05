@@ -8,7 +8,7 @@ unit LuaFloatSpinEdit;
 
 interface
 
-Uses Lua, LuaController, Spin, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Spin;
 
 function CreateFloatSpinEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TFloatSpinEdit; pti: PTypeInfo = nil); overload; inline;

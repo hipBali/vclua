@@ -8,7 +8,7 @@ unit LuaPicture;
 
 interface
 
-Uses Lua, LuaController, Graphics, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Graphics;
 
 function CreatePicture(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPicture; pti: PTypeInfo = nil); overload; inline;

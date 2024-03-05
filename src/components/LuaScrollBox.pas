@@ -8,7 +8,7 @@ unit LuaScrollBox;
 
 interface
 
-Uses Lua, LuaController, Forms, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Forms;
 
 function CreateScrollBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TScrollBox; pti: PTypeInfo = nil); overload; inline;

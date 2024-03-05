@@ -8,7 +8,7 @@ unit LuaPen;
 
 interface
 
-Uses Lua, LuaController, Graphics, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, Graphics;
 
 procedure lua_push(L: Plua_State; const v: TPen; pti: PTypeInfo = nil); overload; inline;
 

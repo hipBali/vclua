@@ -8,7 +8,7 @@ unit LuaGroupBox;
 
 interface
 
-Uses Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, TypInfo, LuaVmt, StdCtrls;
 
 function CreateGroupBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TGroupBox; pti: PTypeInfo = nil); overload; inline;
