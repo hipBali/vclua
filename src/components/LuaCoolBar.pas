@@ -8,7 +8,7 @@ unit LuaCoolBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateCoolBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCoolBar; pti: PTypeInfo = nil); overload; inline;
@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, ImgList, LuaBitmap, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaBitmap, LuaImageList;
 
 function VCLua_CoolBar_AutosizeBands(L: Plua_State): Integer; cdecl;
 var

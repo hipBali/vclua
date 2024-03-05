@@ -8,7 +8,7 @@ unit LuaComboBox;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateComboBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TComboBox; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LCLType, LuaCanvas, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LCLType, LuaCanvas, LuaStrings;
 
 function VCLua_ComboBox_IntfGetItems(L: Plua_State): Integer; cdecl;
 var

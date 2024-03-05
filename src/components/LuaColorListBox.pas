@@ -8,7 +8,7 @@ unit LuaColorListBox;
 
 interface
 
-Uses Classes, Lua, LuaController, ColorBox, TypInfo, LuaVmt;
+Uses Lua, LuaController, ColorBox, TypInfo, LuaVmt;
 
 function CreateColorListBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
 procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo);

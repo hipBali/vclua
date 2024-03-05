@@ -8,7 +8,7 @@ unit LuaEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TEdit; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LCLType;
 
 function VCLua_Edit_Clear(L: Plua_State): Integer; cdecl;
 var

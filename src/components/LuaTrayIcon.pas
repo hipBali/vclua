@@ -8,7 +8,7 @@ unit LuaTrayIcon;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateTrayIcon(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTrayIcon; pti: PTypeInfo = nil); overload; inline;
@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, ImgList, LuaCanvas, LuaImageList, LuaMenu, Menus;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaCanvas, LuaImageList, LuaMenu, Menus;
 
 function VCLua_TrayIcon_Hide(L: Plua_State): Integer; cdecl;
 var

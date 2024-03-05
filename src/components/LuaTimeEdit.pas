@@ -8,7 +8,7 @@ unit LuaTimeEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, TypInfo, LuaVmt;
+Uses Lua, LuaController, EditBtn, TypInfo, LuaVmt;
 
 function CreateTimeEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTimeEdit; pti: PTypeInfo = nil); overload; inline;
@@ -20,7 +20,7 @@ type
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
 procedure lua_push(L: Plua_State; const v: TTimeEdit; pti: PTypeInfo);

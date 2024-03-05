@@ -8,7 +8,7 @@ unit LuaToolBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateToolButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TToolButton; pti: PTypeInfo = nil); overload; inline;
@@ -34,7 +34,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, GraphType, ImgList, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, GraphType, ImgList, LuaImageList;
 
 function VCLua_ToolButton_CheckMenuDropdown(L: Plua_State): Integer; cdecl;
 var

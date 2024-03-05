@@ -8,7 +8,7 @@ unit LuaForm;
 
 interface
 
-Uses Classes, Lua, LuaController, Forms, TypInfo, LuaVmt;
+Uses Lua, LuaController, Forms, TypInfo, LuaVmt;
 
 function CreateForm(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TForm; pti: PTypeInfo = nil); overload; inline;
@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LCLType, LuaBitmap, LuaControl, LuaMenu, Menus;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LCLType, LuaBitmap, LuaControl, LuaMenu, Menus;
 
 function VCLua_Form_AfterConstruction(L: Plua_State): Integer; cdecl;
 var

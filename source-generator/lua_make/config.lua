@@ -15,7 +15,7 @@ local LAZPATH = "/work/tools/lazarus/"
 local FPCSOURCE = "/work/tools/lazarus/fpc/3.2.2/source/"
 
 fpcSrc = {
-	["Default"] 	= FPCSOURCE.."rtl/objpas/classes/classesh.inc",
+	["Classes"] 	= FPCSOURCE.."rtl/objpas/classes/classesh.inc",
 	["StdCtrls"] 	= LAZPATH.."lcl/stdctrls.pp",
 	["ExtCtrls"] 	= LAZPATH.."lcl/extctrls.pp",
 	["ComCtrls"] 	= LAZPATH.."lcl/comctrls.pp",
@@ -52,7 +52,7 @@ toInfer = {
 
 -- name: vclua class name
 -- src:  source class name		parentclass: the owner/parent class
--- ref:  module reference(s), first must export 'src'
+-- ref:  module reference(s), first must export 'src', required!
 -- base: basic class (even if creatable, no parent, name or init supported)
 -- 
 -- noparent: not parented. Only descendants of Control can be parented
@@ -75,8 +75,8 @@ classes = {
 	-- { name = "Strings", src = "TStrings", nocreate=true },
 	------------------------------------------------------------------
 	-- TStrings and descenants
-	{ name = "Strings", src = "TStrings", nv=true, nocreate=true },
-	{ name = "StringList", src = "TStringList", classparent="TStrings", nv=true, noparent=true },
+	{ name = "Strings", src = "TStrings", ref="Classes", nv=true, nocreate=true },
+	{ name = "StringList", src = "TStringList", ref="Classes", classparent="TStrings", nv=true, noparent=true },
 	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 
 	-- graphics    
@@ -97,7 +97,7 @@ classes = {
 	-- imagelist
 	{ name = "ImageList", src = "TCustomImageList", ref = "ImgList, Controls", noparent=true},
 	-- actions
-	{ name = "BasicAction", src = "TBasicAction", ref="Default", noparent=true},
+	{ name = "BasicAction", src = "TBasicAction", ref="Classes", noparent=true},
 	{ unit = "ActionList", ref = "ActnList", -- include = "{$i src/inc/actionlist.inc}",
 		classes = {
 			{ name = "ContainedAction", src = "TContainedAction",  noparent=true },

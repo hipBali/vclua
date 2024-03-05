@@ -8,7 +8,7 @@ unit LuaCheckBox;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateCheckBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCheckBox; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 function VCLua_CheckBox_VCLuaSetAlignment(L: Plua_State): Integer; cdecl;
 var

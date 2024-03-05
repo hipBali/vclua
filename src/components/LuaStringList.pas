@@ -8,7 +8,7 @@ unit LuaStringList;
 
 interface
 
-Uses Classes, Lua, LuaController, TypInfo, LuaVmt;
+Uses Lua, LuaController, Classes, TypInfo, LuaVmt;
 
 function CreateStringList(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TStringList; pti: PTypeInfo = nil); overload; inline;

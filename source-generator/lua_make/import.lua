@@ -235,7 +235,6 @@ local function processClass(def,cdef,ref)
 	local reparse = cdef.reparse or not parsedRefs[ref]
 	if reparse then cLog('Reparsing '..ref, 'DEBUG') end
 	parsedRefs[ref] = true
-	local refd = ref ~= 'Default' and ref or nil
 
 	local function processLine(n, line)
 		-- find classdef
@@ -246,7 +245,7 @@ local function processClass(def,cdef,ref)
 			index = index + 1
 		end
 		if not ln[1] then return false end
-		if reparse then inferTypeKindFromLine(n, line, def, refd) end
+		if reparse then inferTypeKindFromLine(n, line, def, ref) end
 		-- parse class
 		local _,_,c = line:find("([_%w]+)%s*=%s*class%s*%([_%w]+%s*")
 		if c==cdef.src then
@@ -443,8 +442,11 @@ function createUnitBody(cdef, ref, refs)
 				doInsert(pp and pi.w and cPropSets or cMethods,finalMethodName,vcluaMethodName,pp and ", mfCall" or "")
 			end
 	end
-	-- parenting needs TWinControl
-	if not cdef.nocreate then refs['Controls'] = true end
+	-- parenting needs TWinControl and TComponent
+	if not cdef.nocreate then
+		refs['Controls'] = true
+		refs['Classes'] = true
+	end
 	local function updRef(tp, pushed)
 		typ = tp:lower()
 		local r
@@ -455,7 +457,7 @@ function createUnitBody(cdef, ref, refs)
 		end
 	end
 	classDoc[className] = classDoc[className] or {}
-	classDoc[className]["reference"] = cdef.ref or cdef.name
+	classDoc[className]["reference"] = cdef.ref
 	for _,md in pairs(classTable[className]) do
 		-- parse params
 		local method = md.method
@@ -590,7 +592,7 @@ function createUnitBody(cdef, ref, refs)
       classDoc[className][finalMethodName]["params"] = fParams:len()>0 and fParams or nil
       classDoc[className][finalMethodName]["out"] = out
       classDoc[className][finalMethodName]["return"] = reto
-      classDoc[className][finalMethodName]["reference"] = cdef.ref or ref
+      classDoc[className][finalMethodName]["reference"] = cdef.ref
       classDoc[className][finalMethodName]["method"] = method	
     end
 	end
@@ -672,13 +674,7 @@ end
 local fpcSrcPrev
 local createMap = {}
 for n,cdef in pairs(classes) do
-	local ref
-	if cdef.ref then
-		ref = cdef.ref:split(",")
-		ref = ref[1]
-	else
-		ref = "Default"
-	end
+	local ref = cdef.ref:split(",")[1]
 	if fpcSrc[ref] ~= fpcSrcPrev then
 		cLog(ref.." "..fpcSrc[ref],"INFO")
 		cfile = loadTable(fpcSrc[ref])
@@ -729,10 +725,9 @@ for n,cdef in pairs(classes) do
 	end
 	classSource = classSource:gsub("#CNAME",className)
 
-	if cdef.ref then cdef.ref = cdef.ref:gsub("Default[,%s]*","") end
-	local refStr = cdef.ref or ""
+	local refStr = cdef.ref
 	classSource = classSource:gsub("#REF",(refStr ~= "" and ", "..refStr) or "")
-	local intfRefT = cdef.ref and cdef.ref:split(',') or {}
+	local intfRefT = cdef.ref:split(',')
 	local intfRetChecker = {}
 	for _,r in ipairs(intfRefT) do intfRetChecker[r] = true end
 	local unitRefT = cdef.implref and cdef.implref:split(',') or {}
@@ -786,11 +781,9 @@ local function processCdef(cdef)
 end
 for n,cdef in pairs(classes) do
 	-- collect refs
-	if cdef.ref then
-		local p = cdef.ref:split(",")
-		for i,_ in pairs(p) do
-			pasRefs[p[1]] = 1
-		end
+	local p = cdef.ref:split(",")
+	for i,_ in pairs(p) do
+		pasRefs[p[1]] = 1
 	end
 	local lName = "Lua"..(cdef.name or cdef.unit)
 	if cdef.classes then
@@ -803,6 +796,7 @@ for n,cdef in pairs(classes) do
 	pasRefs[lName]=1
 	table.insert(pasSrc, lName)
 end
+pasRefs['Classes'] = nil
 local luaobject_uses = {}
 for u,_ in pairs(pasRefs) do
 	table.insert(luaobject_uses, u)

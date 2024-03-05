@@ -8,7 +8,7 @@ unit LuaApplication;
 
 interface
 
-Uses Classes, Lua, LuaController, Forms, TypInfo, LuaVmt;
+Uses Lua, LuaController, Forms, TypInfo, LuaVmt;
 
 function CreateApplication(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TApplication; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LCLType, LuaControl;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LCLType, LuaControl;
 
 function VCLua_Application_ActivateHint(L: Plua_State): Integer; cdecl;
 var

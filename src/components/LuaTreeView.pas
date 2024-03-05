@@ -8,7 +8,7 @@ unit LuaTreeView;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 procedure lua_push(L: Plua_State; const v: TTreeNode; pti: PTypeInfo = nil); overload; inline;
 
@@ -45,7 +45,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, ImgList, LuaImageList, LuaStringList, StdCtrls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaImageList, LuaStringList, StdCtrls;
 
 function VCLua_TreeNode_VCLuaSetData(L: Plua_State): Integer; cdecl;
 var

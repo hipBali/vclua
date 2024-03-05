@@ -8,7 +8,7 @@ unit LuaColorBox;
 
 interface
 
-Uses Classes, Lua, LuaController, ColorBox, TypInfo, LuaVmt;
+Uses Lua, LuaController, ColorBox, TypInfo, LuaVmt;
 
 function CreateColorBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TColorBox; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Dialogs, Graphics, LuaCommonDialogs;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Dialogs, Graphics, LuaCommonDialogs;
 
 function VCLua_ColorBox_VCLuaSetColorRectWidth(L: Plua_State): Integer; cdecl;
 var

@@ -8,7 +8,7 @@ unit LuaPanel;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreatePanel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPanel; pti: PTypeInfo = nil); overload; inline;
@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics;
 
 function VCLua_Panel_VCLuaSetAlignment(L: Plua_State): Integer; cdecl;
 var

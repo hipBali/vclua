@@ -8,7 +8,7 @@ unit LuaBrush;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
+Uses Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 procedure lua_push(L: Plua_State; const v: TBrush; pti: PTypeInfo = nil); overload; inline;
 
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LuaBitmap;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LuaBitmap;
 
 function VCLua_Brush_Assign(L: Plua_State): Integer; cdecl;
 var

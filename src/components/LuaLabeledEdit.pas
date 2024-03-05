@@ -8,7 +8,7 @@ unit LuaLabeledEdit;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateLabeledEdit(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TLabeledEdit; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaBoundLabel;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaBoundLabel;
 
 function VCLua_LabeledEdit_VCLuaGetEditLabel(L: Plua_State): Integer; cdecl;
 var

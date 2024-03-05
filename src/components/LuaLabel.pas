@@ -8,7 +8,7 @@ unit LuaLabel;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateLabel(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo = nil); overload; inline;
@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 function VCLua_Label_CalcFittingFontHeight(L: Plua_State): Integer; cdecl;
 var

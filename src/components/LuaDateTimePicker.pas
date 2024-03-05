@@ -8,7 +8,7 @@ unit LuaDateTimePicker;
 
 interface
 
-Uses Classes, Lua, LuaController, DateTimePicker, TypInfo, LuaVmt;
+Uses Lua, LuaController, DateTimePicker, TypInfo, LuaVmt;
 
 function CreateDateTimePicker(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TDateTimePicker; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
 procedure lua_push(L: Plua_State; const v: TDateTimePicker; pti: PTypeInfo);

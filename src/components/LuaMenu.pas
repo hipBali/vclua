@@ -8,7 +8,7 @@ unit LuaMenu;
 
 interface
 
-Uses Classes, Lua, LuaController, Menus, TypInfo, LuaVmt;
+Uses Lua, LuaController, Menus, TypInfo, LuaVmt;
 
 function CreateMenu(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TMenu; pti: PTypeInfo = nil); overload; inline;
@@ -56,7 +56,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, ImgList, LCLType, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LCLType, LuaImageList;
 
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
 var

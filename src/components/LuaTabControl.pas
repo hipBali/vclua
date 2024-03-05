@@ -8,7 +8,7 @@ unit LuaTabControl;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateTabSheet(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTabSheet; pti: PTypeInfo = nil); overload; inline;
@@ -45,7 +45,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, ImgList, LuaImageList, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LuaImageList, LuaStrings;
 
 function VCLua_TabSheet_VCLuaSetPageControl(L: Plua_State): Integer; cdecl;
 var

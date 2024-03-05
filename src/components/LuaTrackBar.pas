@@ -8,7 +8,7 @@ unit LuaTrackBar;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 function CreateTrackBar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TTrackBar; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 function VCLua_TrackBar_SetTick(L: Plua_State): Integer; cdecl;
 var

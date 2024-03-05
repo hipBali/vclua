@@ -8,7 +8,7 @@ unit LuaCanvas;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
+Uses Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 procedure lua_push(L: Plua_State; const v: TCanvas; pti: PTypeInfo = nil); overload; inline;
 
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, GraphType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, GraphType;
 
 function VCLua_Canvas_Lock(L: Plua_State): Integer; cdecl;
 var

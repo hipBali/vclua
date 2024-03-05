@@ -8,7 +8,7 @@ unit LuaCalendar;
 
 interface
 
-Uses Classes, Lua, LuaController, Calendar, TypInfo, LuaVmt;
+Uses Lua, LuaController, Calendar, TypInfo, LuaVmt;
 
 function CreateCalendar(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCalendar; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 function VCLua_Calendar_HitTest(L: Plua_State): Integer; cdecl;
 var

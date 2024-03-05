@@ -8,7 +8,7 @@ unit LuaSpeedButton;
 
 interface
 
-Uses Classes, Lua, LuaController, Buttons, TypInfo, LuaVmt;
+Uses Lua, LuaController, Buttons, TypInfo, LuaVmt;
 
 function CreateSpeedButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TSpeedButton; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
 procedure lua_push(L: Plua_State; const v: TSpeedButton; pti: PTypeInfo);

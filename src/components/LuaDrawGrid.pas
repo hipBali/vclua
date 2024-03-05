@@ -8,7 +8,7 @@ unit LuaDrawGrid;
 
 interface
 
-Uses Classes, Lua, LuaController, Grids, TypInfo, LuaVmt;
+Uses Lua, LuaController, Grids, TypInfo, LuaVmt;
 
 procedure lua_push(L: Plua_State; const v: TCustomGrid; pti: PTypeInfo = nil); overload; inline;
 
@@ -36,7 +36,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LCLType;
 
 function VCLua_CustomGrid_Invalidate(L: Plua_State): Integer; cdecl;
 var

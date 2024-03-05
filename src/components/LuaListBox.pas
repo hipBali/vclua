@@ -8,7 +8,7 @@ unit LuaListBox;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateListBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TListBox; pti: PTypeInfo = nil); overload; inline;
@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LuaCanvas, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaStrings;
 
 function VCLua_ListBox_AddItem(L: Plua_State): Integer; cdecl;
 var

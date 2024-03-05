@@ -8,7 +8,7 @@ unit LuaControl;
 
 interface
 
-Uses Classes, Lua, LuaController, Controls, TypInfo, LuaVmt;
+Uses Lua, LuaController, Controls, TypInfo, LuaVmt;
 
 function CreateControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TControl; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Graphics, LuaBasicAction, LuaFont, LuaMenu, Menus, Types;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Graphics, LuaBasicAction, LuaFont, LuaMenu, Menus, Types;
 
 function VCLua_Control_DragDrop(L: Plua_State): Integer; cdecl;
 var

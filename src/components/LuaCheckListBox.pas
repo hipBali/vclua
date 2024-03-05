@@ -8,7 +8,7 @@ unit LuaCheckListBox;
 
 interface
 
-Uses Classes, Lua, LuaController, CheckLst, TypInfo, LuaVmt;
+Uses Lua, LuaController, CheckLst, TypInfo, LuaVmt;
 
 function CreateCheckListBox(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCheckListBox; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, StdCtrls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, StdCtrls;
 
 function VCLua_CheckListBox_MeasureItem(L: Plua_State): Integer; cdecl;
 var

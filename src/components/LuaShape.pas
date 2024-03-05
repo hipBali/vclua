@@ -8,7 +8,7 @@ unit LuaShape;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateShape(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TShape; pti: PTypeInfo = nil); overload; inline;
@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 function VCLua_Shape_Paint(L: Plua_State): Integer; cdecl;
 var

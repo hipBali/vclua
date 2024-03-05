@@ -8,7 +8,7 @@ unit LuaFont;
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, TypInfo, LuaVmt;
+Uses Lua, LuaController, Graphics, TypInfo, LuaVmt;
 
 procedure lua_push(L: Plua_State; const v: TFont; pti: PTypeInfo = nil); overload; inline;
 
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LCLType;
 
 function VCLua_Font_Assign(L: Plua_State): Integer; cdecl;
 var

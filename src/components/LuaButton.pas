@@ -8,7 +8,7 @@ unit LuaButton;
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, StdCtrls, TypInfo, LuaVmt;
 
 function CreateButton(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TButton; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Forms;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Forms;
 
 function VCLua_Button_Click(L: Plua_State): Integer; cdecl;
 var

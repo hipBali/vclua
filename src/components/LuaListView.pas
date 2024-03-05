@@ -8,7 +8,7 @@ unit LuaListView;
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ComCtrls, TypInfo, LuaVmt;
 
 procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo = nil); overload; inline;
 
@@ -45,7 +45,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LuaCanvas;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas;
 
 function VCLua_ListItem_Assign(L: Plua_State): Integer; cdecl;
 var

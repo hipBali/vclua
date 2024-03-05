@@ -8,7 +8,7 @@ unit LuaStringGrid;
 
 interface
 
-Uses Classes, Lua, LuaController, Grids, TypInfo, LuaVmt;
+Uses Lua, LuaController, Grids, TypInfo, LuaVmt;
 
 procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo = nil); overload; inline;
 
@@ -47,7 +47,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaDrawGrid, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaDrawGrid, LuaStrings;
 
 function VCLua_GridColumn_Assign(L: Plua_State): Integer; cdecl;
 var

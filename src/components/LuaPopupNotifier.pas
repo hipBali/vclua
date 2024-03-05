@@ -8,7 +8,7 @@ unit LuaPopupNotifier;
 
 interface
 
-Uses Classes, Lua, LuaController, PopupNotifier, TypInfo, LuaVmt;
+Uses Lua, LuaController, PopupNotifier, TypInfo, LuaVmt;
 
 function CreatePopupNotifier(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TPopupNotifier; pti: PTypeInfo = nil); overload; inline;
@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 function VCLua_PopupNotifier_Hide(L: Plua_State): Integer; cdecl;
 var

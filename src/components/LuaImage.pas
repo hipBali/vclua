@@ -8,7 +8,7 @@ unit LuaImage;
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
+Uses Lua, LuaController, ExtCtrls, TypInfo, LuaVmt;
 
 function CreateImage(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TImage; pti: PTypeInfo = nil); overload; inline;
@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, Graphics, LuaCanvas, LuaPicture;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaPicture;
 
 function VCLua_Image_VCLuaGetCanvas(L: Plua_State): Integer; cdecl;
 var
