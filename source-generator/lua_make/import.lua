@@ -185,8 +185,9 @@ end
 local excludeType = loadMap("exclude/VarTypes")
 local function inferTypeKindFromLine(n, line, cfile, ref)
   local _, pos, typename = line:find("^%s*(T[_%w]+)%s*=%s*")
-  if not pos or excludeType[typename] then return end
+  if not pos then return end
   local c = typename:lower()
+  if excludeType[c] then return end
   typeRef[c] = ref
   if pos == #line then
     -- declaration starts on another string as in GraphType
