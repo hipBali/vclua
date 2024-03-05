@@ -15,7 +15,6 @@ procedure WriteLayoutDebugReport
 procedure AutoAdjustLayout
 function ShouldAutoAdjustLeftAndTop
 function ShouldAutoAdjustWidthAndHeight
-function CheckChildClassAllowed
 procedure CheckNewParent
 function Perform
 procedure RemoveAllHandlersOfObject

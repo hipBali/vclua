@@ -2,6 +2,4 @@ procedure LoadFromClipboardFormat
 procedure LoadFromClipboardFormatID
 procedure SaveToClipboardFormat
 procedure SaveToClipboardFormatID
-procedure LoadFromResourceName
 procedure LoadFromLazarusResource
-function FindGraphicClassWithFileExt

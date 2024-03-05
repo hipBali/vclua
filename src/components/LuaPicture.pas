@@ -58,6 +58,25 @@ begin
 	end;
 end;
 
+function VCLua_Picture_LoadFromResourceName(L: Plua_State): Integer; cdecl;
+var
+	lPicture:TLuaPicture;
+	Instance:THandle;
+	ResName:String;
+begin
+	CheckArg(L, 3);
+	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	luaL_check(L,2,@Instance);
+	luaL_check(L,3,@ResName);
+	try
+		lPicture.LoadFromResourceName(Instance,ResName);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'LoadFromResourceName', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_Picture_LoadFromStream(L: Plua_State): Integer; cdecl;
 var
 	lPicture:TLuaPicture;
@@ -182,6 +201,7 @@ begin
 	PictureFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(PictureFuncs, 'Clear', @VCLua_Picture_Clear);
 	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromFile', @VCLua_Picture_LoadFromFile);
+	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromResourceName', @VCLua_Picture_LoadFromResourceName);
 	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromStream', @VCLua_Picture_LoadFromStream);
 	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromStreamWithFileExt', @VCLua_Picture_LoadFromStreamWithFileExt);
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToFile', @VCLua_Picture_SaveToFile);
