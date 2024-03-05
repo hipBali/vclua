@@ -44,10 +44,10 @@ fpcSrc = {
 }
 
 toInfer = {
-	["System"]    = FPCSOURCE.."rtl/inc/systemh.inc",
-	["Types"]     = FPCSOURCE.."rtl/objpas/types.pp",
-	["LCLType"]   = LAZPATH.."lcl/lcltype.pp",
-	["GraphType"] = LAZPATH.."components/lazutils/graphtype.pp",
+  {ref = "System", src = FPCSOURCE.."rtl/inc/systemh.inc"},
+  {ref = "Types", src = FPCSOURCE.."rtl/objpas/types.pp"},
+  {ref = "LCLType", src = LAZPATH.."lcl/lcltype.pp"},
+  {ref = "GraphType", src = LAZPATH.."components/lazutils/graphtype.pp"},
 }
 
 -- name: vclua class name

@@ -656,14 +656,15 @@ end
 
 -- pascal source generator --------------------------
 local cfile
-for ref,filename in pairs(toInfer) do
+for _,kv in pairs(toInfer) do
+  local ref,filename = kv.ref,kv.src
   cfile = loadTable(filename)
   cLog(ref.." "..filename,"INFO")
-  local refd = ref ~= 'Default' and ref or nil
   for n, line in ipairs(cfile) do
     if line == 'implementation' then break end
     inferTypeKindFromLine(n, line, cfile, ref)
   end
+  parsedRefs[ref] = true
 end
 local fpcSrcPrev
 local createMap = {}
