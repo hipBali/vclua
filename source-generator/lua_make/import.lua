@@ -281,7 +281,7 @@ local function processClass(def,cdef,ref)
 							local m = n + 1
 							local bl
 							repeat
-								bl = def[m]:gsub("^%s*", "") -- :trim()
+								bl = def[m]:gsub("^%s*", "")
 								l = l .. ' ' .. bl
 								m = m + 1
 							until bl:find(pattern)
@@ -476,7 +476,7 @@ function createUnitBody(cdef, ref, refs)
 		local outStr = {}
 		if out and #out>0 then
 			for i=1,#out do
-				local rtype = (VCLUA_TOLUA[out[i].type:lower():trim()] or VCLUA_TOLUA_DEFAULT):gsub("#VAR",out[i].name)
+				local rtype = (VCLUA_TOLUA[out[i].type:lower()] or VCLUA_TOLUA_DEFAULT):gsub("#VAR",out[i].name)
 				table.insert(outStr, rtype)
 				retCount = retCount + 1
 			end
