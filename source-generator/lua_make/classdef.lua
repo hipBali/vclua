@@ -28,9 +28,7 @@ if checkTypeSupport then
 
 -- enums and sets
 VCLUA_ES = {
-"TFillStyle",
 "TPenStyle",
-"TPanelBevel",
 }
 
 VCLUA_TOLUA_DEFAULT = "lua_push(L,#VAR);"

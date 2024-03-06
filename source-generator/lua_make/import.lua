@@ -240,6 +240,20 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
         VCLUA_FROMLUA[c] = VCLUA_FROMLUA_FULL
         VCLUA_TOLUA[c] = VCLUA_TOLUA_FULL
       end
+    else
+      local _,_,alias = line:find('^%s*([_%w]+);$',pos)
+      if alias then
+        local lalias = alias:lower()
+        if excludeType[lalias] then
+          excludeType[c] = 1
+          cLog(" ** EXCLUDED:"..line.." "..alias, "DEBUG")
+        elseif VCLUA_FROMLUA[lalias] or VCLUA_TOLUA[lalias] or (VCLUA_ES_CHECK and VCLUA_ES_CHECK[lalias]) then
+          VCLUA_FROMLUA[c] = VCLUA_FROMLUA[lalias]
+          VCLUA_TOLUA[c] = VCLUA_TOLUA[lalias]
+          if VCLUA_ES_CHECK then VCLUA_ES_CHECK[c] = VCLUA_ES_CHECK[lalias] end
+          cLog('Aliasing '..typename..' to '..alias, 'INFO')
+        end
+      end
     end
   end
 end
