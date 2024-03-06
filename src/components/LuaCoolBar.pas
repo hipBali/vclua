@@ -632,8 +632,8 @@ begin
 	lCoolBar := TLuaCoolBar.Create(Parent);
 	lCoolBar.Parent := TWinControl(Parent);
 	lCoolBar.LuaCtl := TVCLuaControl.Create(lCoolBar as TComponent,L,nil,'TCustomCoolBar');
-	InitControl(L,lCoolBar,Name);
 	CreateTableForKnownType(L,'TCustomCoolBar',lCoolBar);
+	InitControl(L,lCoolBar,Name);
 	Result := 1;
 end;
 

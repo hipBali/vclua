@@ -56,8 +56,8 @@ begin
 	lBevel := TLuaBevel.Create(Parent);
 	lBevel.Parent := TWinControl(Parent);
 	lBevel.LuaCtl := TVCLuaControl.Create(lBevel as TComponent,L,nil,'TBevel');
-	InitControl(L,lBevel,Name);
 	CreateTableForKnownType(L,'TBevel',lBevel);
+	InitControl(L,lBevel,Name);
 	Result := 1;
 end;
 

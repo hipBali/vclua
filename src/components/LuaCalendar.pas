@@ -255,8 +255,8 @@ begin
 	lCalendar := TLuaCalendar.Create(Parent);
 	lCalendar.Parent := TWinControl(Parent);
 	lCalendar.LuaCtl := TVCLuaControl.Create(lCalendar as TComponent,L,nil,'TCustomCalendar');
-	InitControl(L,lCalendar,Name);
 	CreateTableForKnownType(L,'TCustomCalendar',lCalendar);
+	InitControl(L,lCalendar,Name);
 	Result := 1;
 end;
 

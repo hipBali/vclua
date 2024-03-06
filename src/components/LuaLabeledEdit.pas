@@ -124,8 +124,8 @@ begin
 	lLabeledEdit := TLuaLabeledEdit.Create(Parent);
 	lLabeledEdit.Parent := TWinControl(Parent);
 	lLabeledEdit.LuaCtl := TVCLuaControl.Create(lLabeledEdit as TComponent,L,nil,'TCustomLabeledEdit');
-	InitControl(L,lLabeledEdit,Name);
 	CreateTableForKnownType(L,'TCustomLabeledEdit',lLabeledEdit);
+	InitControl(L,lLabeledEdit,Name);
 	Result := 1;
 end;
 

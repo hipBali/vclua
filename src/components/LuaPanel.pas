@@ -211,8 +211,8 @@ begin
 	lPanel := TLuaPanel.Create(Parent);
 	lPanel.Parent := TWinControl(Parent);
 	lPanel.LuaCtl := TVCLuaControl.Create(lPanel as TComponent,L,nil,'TCustomPanel');
-	InitControl(L,lPanel,Name);
 	CreateTableForKnownType(L,'TCustomPanel',lPanel);
+	InitControl(L,lPanel,Name);
 	Result := 1;
 end;
 

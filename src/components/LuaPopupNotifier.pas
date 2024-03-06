@@ -99,8 +99,8 @@ begin
 	lPopupNotifier := TLuaPopupNotifier.Create(Parent);
 	// := TWinControl(Parent);
 	lPopupNotifier.LuaCtl := TVCLuaControl.Create(lPopupNotifier as TComponent,L,nil,'TPopupNotifier');
-	InitControl(L,lPopupNotifier,Name);
 	CreateTableForKnownType(L,'TPopupNotifier',lPopupNotifier);
+	InitControl(L,lPopupNotifier,Name);
 	Result := 1;
 end;
 

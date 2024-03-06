@@ -47,8 +47,8 @@ begin
 	lFileNameEdit := TLuaFileNameEdit.Create(Parent);
 	lFileNameEdit.Parent := TWinControl(Parent);
 	lFileNameEdit.LuaCtl := TVCLuaControl.Create(lFileNameEdit as TComponent,L,nil,'TCustomEditButton');
-	InitControl(L,lFileNameEdit,Name);
 	CreateTableForKnownType(L,'TCustomEditButton',lFileNameEdit);
+	InitControl(L,lFileNameEdit,Name);
 	Result := 1;
 end;
 

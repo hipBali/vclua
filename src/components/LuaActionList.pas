@@ -959,8 +959,8 @@ begin
 	lContainedAction := TLuaContainedAction.Create(Parent);
 	// := TWinControl(Parent);
 	lContainedAction.LuaCtl := TVCLuaControl.Create(lContainedAction as TComponent,L,nil,'TContainedAction');
-	InitControl(L,lContainedAction,Name);
 	CreateTableForKnownType(L,'TContainedAction',lContainedAction);
+	InitControl(L,lContainedAction,Name);
 	Result := 1;
 end;
 
@@ -978,8 +978,8 @@ begin
 	lAction := TLuaAction.Create(Parent);
 	// := TWinControl(Parent);
 	lAction.LuaCtl := TVCLuaControl.Create(lAction as TComponent,L,nil,'TCustomAction');
-	InitControl(L,lAction,Name);
 	CreateTableForKnownType(L,'TCustomAction',lAction);
+	InitControl(L,lAction,Name);
 	Result := 1;
 end;
 
@@ -997,8 +997,8 @@ begin
 	lActionList := TLuaActionList.Create(Parent);
 	// := TWinControl(Parent);
 	lActionList.LuaCtl := TVCLuaControl.Create(lActionList as TComponent,L,nil,'TCustomActionList');
-	InitControl(L,lActionList,Name);
 	CreateTableForKnownType(L,'TCustomActionList',lActionList);
+	InitControl(L,lActionList,Name);
 	Result := 1;
 end;
 

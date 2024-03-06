@@ -40,8 +40,8 @@ begin
 	lArrow := TLuaArrow.Create(Parent);
 	lArrow.Parent := TWinControl(Parent);
 	lArrow.LuaCtl := TVCLuaControl.Create(lArrow as TComponent,L,nil,'TArrow');
-	InitControl(L,lArrow,Name);
 	CreateTableForKnownType(L,'TArrow',lArrow);
+	InitControl(L,lArrow,Name);
 	Result := 1;
 end;
 

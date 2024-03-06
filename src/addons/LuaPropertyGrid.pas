@@ -175,8 +175,8 @@ begin
   lPGrid := TLuaPropertyGrid.Create(Parent);
   lPGrid.Parent := Parent;
   lPGrid.LuaCtl := TVCLuaControl.Create(lPGrid,L,@ToTable);
-  InitControl(L,lPGrid,Name);
   ToTable(L, -1, lPGrid);
+  InitControl(L,lPGrid,Name);
   lPGrid.OnEditorFilter := @lPGrid.EditorFilterEvent;
   Result := 1;
 end;

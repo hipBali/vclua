@@ -1649,8 +1649,8 @@ begin
 	lApplication := TLuaApplication.Create(Parent);
 	// := TWinControl(Parent);
 	lApplication.LuaCtl := TVCLuaControl.Create(lApplication as TComponent,L,nil,'TApplication');
-	InitControl(L,lApplication,Name);
 	CreateTableForKnownType(L,'TApplication',lApplication);
+	InitControl(L,lApplication,Name);
 	Result := 1;
 end;
 

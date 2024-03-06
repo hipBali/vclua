@@ -67,8 +67,8 @@ begin
 	lTrackBar := TLuaTrackBar.Create(Parent);
 	lTrackBar.Parent := TWinControl(Parent);
 	lTrackBar.LuaCtl := TVCLuaControl.Create(lTrackBar as TComponent,L,nil,'TCustomTrackBar');
-	InitControl(L,lTrackBar,Name);
 	CreateTableForKnownType(L,'TCustomTrackBar',lTrackBar);
+	InitControl(L,lTrackBar,Name);
 	Result := 1;
 end;
 

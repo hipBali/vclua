@@ -40,8 +40,8 @@ begin
 	lGroupBox := TLuaGroupBox.Create(Parent);
 	lGroupBox.Parent := TWinControl(Parent);
 	lGroupBox.LuaCtl := TVCLuaControl.Create(lGroupBox as TComponent,L,nil,'TGroupBox');
-	InitControl(L,lGroupBox,Name);
 	CreateTableForKnownType(L,'TGroupBox',lGroupBox);
+	InitControl(L,lGroupBox,Name);
 	Result := 1;
 end;
 

@@ -313,8 +313,8 @@ begin
 	lMemo := TLuaMemo.Create(Parent);
 	lMemo.Parent := TWinControl(Parent);
 	lMemo.LuaCtl := TVCLuaControl.Create(lMemo as TComponent,L,nil,'TCustomMemo');
-	InitControl(L,lMemo,Name);
 	CreateTableForKnownType(L,'TCustomMemo',lMemo);
+	InitControl(L,lMemo,Name);
 	Result := 1;
 end;
 

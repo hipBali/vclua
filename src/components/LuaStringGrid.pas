@@ -844,8 +844,8 @@ begin
 	lStringGrid := TLuaStringGrid.Create(Parent);
 	lStringGrid.Parent := TWinControl(Parent);
 	lStringGrid.LuaCtl := TVCLuaControl.Create(lStringGrid as TComponent,L,nil,'TCustomStringGrid');
-	InitControl(L,lStringGrid,Name);
 	CreateTableForKnownType(L,'TCustomStringGrid',lStringGrid);
+	InitControl(L,lStringGrid,Name);
 	Result := 1;
 end;
 

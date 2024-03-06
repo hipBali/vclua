@@ -40,8 +40,8 @@ begin
 	lBoundLabel := TLuaBoundLabel.Create(Parent);
 	lBoundLabel.Parent := TWinControl(Parent);
 	lBoundLabel.LuaCtl := TVCLuaControl.Create(lBoundLabel as TComponent,L,nil,'TBoundLabel');
-	InitControl(L,lBoundLabel,Name);
 	CreateTableForKnownType(L,'TBoundLabel',lBoundLabel);
+	InitControl(L,lBoundLabel,Name);
 	Result := 1;
 end;
 

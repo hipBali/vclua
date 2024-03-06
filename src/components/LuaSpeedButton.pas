@@ -40,8 +40,8 @@ begin
 	lSpeedButton := TLuaSpeedButton.Create(Parent);
 	lSpeedButton.Parent := TWinControl(Parent);
 	lSpeedButton.LuaCtl := TVCLuaControl.Create(lSpeedButton as TComponent,L,nil,'TSpeedButton');
-	InitControl(L,lSpeedButton,Name);
 	CreateTableForKnownType(L,'TSpeedButton',lSpeedButton);
+	InitControl(L,lSpeedButton,Name);
 	Result := 1;
 end;
 

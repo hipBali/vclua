@@ -47,8 +47,8 @@ begin
 	lDateEdit := TLuaDateEdit.Create(Parent);
 	lDateEdit.Parent := TWinControl(Parent);
 	lDateEdit.LuaCtl := TVCLuaControl.Create(lDateEdit as TComponent,L,nil,'TCustomEditButton');
-	InitControl(L,lDateEdit,Name);
 	CreateTableForKnownType(L,'TCustomEditButton',lDateEdit);
+	InitControl(L,lDateEdit,Name);
 	Result := 1;
 end;
 

@@ -42,8 +42,8 @@ begin
 	lScrollBox := TLuaScrollBox.Create(Parent);
 	lScrollBox.Parent := TWinControl(Parent);
 	lScrollBox.LuaCtl := TVCLuaControl.Create(lScrollBox as TComponent,L,nil,'TScrollBox');
-	InitControl(L,lScrollBox,Name);
 	CreateTableForKnownType(L,'TScrollBox',lScrollBox);
+	InitControl(L,lScrollBox,Name);
 	Result := 1;
 end;
 

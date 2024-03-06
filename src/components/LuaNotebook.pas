@@ -111,8 +111,8 @@ begin
 	lNotebook := TLuaNotebook.Create(Parent);
 	lNotebook.Parent := TWinControl(Parent);
 	lNotebook.LuaCtl := TVCLuaControl.Create(lNotebook as TComponent,L,nil,'TNotebook');
-	InitControl(L,lNotebook,Name);
 	CreateTableForKnownType(L,'TNotebook',lNotebook);
+	InitControl(L,lNotebook,Name);
 	Result := 1;
 end;
 

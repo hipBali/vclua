@@ -443,8 +443,8 @@ begin
 	lValueListEditor := TLuaValueListEditor.Create(Parent);
 	lValueListEditor.Parent := TWinControl(Parent);
 	lValueListEditor.LuaCtl := TVCLuaControl.Create(lValueListEditor as TComponent,L,nil,'TValueListEditor');
-	InitControl(L,lValueListEditor,Name);
 	CreateTableForKnownType(L,'TValueListEditor',lValueListEditor);
+	InitControl(L,lValueListEditor,Name);
 	Result := 1;
 end;
 

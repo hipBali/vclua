@@ -40,8 +40,8 @@ begin
 	lToggleBox := TLuaToggleBox.Create(Parent);
 	lToggleBox.Parent := TWinControl(Parent);
 	lToggleBox.LuaCtl := TVCLuaControl.Create(lToggleBox as TComponent,L,nil,'TToggleBox');
-	InitControl(L,lToggleBox,Name);
 	CreateTableForKnownType(L,'TToggleBox',lToggleBox);
+	InitControl(L,lToggleBox,Name);
 	Result := 1;
 end;
 

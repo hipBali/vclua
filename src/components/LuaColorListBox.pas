@@ -40,8 +40,8 @@ begin
 	lColorListBox := TLuaColorListBox.Create(Parent);
 	lColorListBox.Parent := TWinControl(Parent);
 	lColorListBox.LuaCtl := TVCLuaControl.Create(lColorListBox as TComponent,L,nil,'TColorListBox');
-	InitControl(L,lColorListBox,Name);
 	CreateTableForKnownType(L,'TColorListBox',lColorListBox);
+	InitControl(L,lColorListBox,Name);
 	Result := 1;
 end;
 

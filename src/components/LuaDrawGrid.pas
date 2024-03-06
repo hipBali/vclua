@@ -1503,8 +1503,8 @@ begin
 	lDrawGrid := TLuaDrawGrid.Create(Parent);
 	lDrawGrid.Parent := TWinControl(Parent);
 	lDrawGrid.LuaCtl := TVCLuaControl.Create(lDrawGrid as TComponent,L,nil,'TCustomDrawGrid');
-	InitControl(L,lDrawGrid,Name);
 	CreateTableForKnownType(L,'TCustomDrawGrid',lDrawGrid);
+	InitControl(L,lDrawGrid,Name);
 	Result := 1;
 end;
 

@@ -806,8 +806,8 @@ begin
 	lComboBox := TLuaComboBox.Create(Parent);
 	lComboBox.Parent := TWinControl(Parent);
 	lComboBox.LuaCtl := TVCLuaControl.Create(lComboBox as TComponent,L,nil,'TCustomComboBox');
-	InitControl(L,lComboBox,Name);
 	CreateTableForKnownType(L,'TCustomComboBox',lComboBox);
+	InitControl(L,lComboBox,Name);
 	Result := 1;
 end;
 

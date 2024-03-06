@@ -1142,8 +1142,8 @@ begin
 	lTabSheet := TLuaTabSheet.Create(Parent);
 	lTabSheet.Parent := TWinControl(Parent);
 	lTabSheet.LuaCtl := TVCLuaControl.Create(lTabSheet as TComponent,L,nil,'TTabSheet');
-	InitControl(L,lTabSheet,Name);
 	CreateTableForKnownType(L,'TTabSheet',lTabSheet);
+	InitControl(L,lTabSheet,Name);
 	Result := 1;
 end;
 
@@ -1161,8 +1161,8 @@ begin
 	lTabControl := TLuaTabControl.Create(Parent);
 	lTabControl.Parent := TWinControl(Parent);
 	lTabControl.LuaCtl := TVCLuaControl.Create(lTabControl as TComponent,L,nil,'TCustomTabControl');
-	InitControl(L,lTabControl,Name);
 	CreateTableForKnownType(L,'TCustomTabControl',lTabControl);
+	InitControl(L,lTabControl,Name);
 	Result := 1;
 end;
 
@@ -1180,8 +1180,8 @@ begin
 	lPageControl := TLuaPageControl.Create(Parent);
 	lPageControl.Parent := TWinControl(Parent);
 	lPageControl.LuaCtl := TVCLuaControl.Create(lPageControl as TComponent,L,nil,'TPageControl');
-	InitControl(L,lPageControl,Name);
 	CreateTableForKnownType(L,'TPageControl',lPageControl);
+	InitControl(L,lPageControl,Name);
 	Result := 1;
 end;
 

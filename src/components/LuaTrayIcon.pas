@@ -613,8 +613,8 @@ begin
 	lTrayIcon := TLuaTrayIcon.Create(Parent);
 	// := TWinControl(Parent);
 	lTrayIcon.LuaCtl := TVCLuaControl.Create(lTrayIcon as TComponent,L,nil,'TCustomTrayIcon');
-	InitControl(L,lTrayIcon,Name);
 	CreateTableForKnownType(L,'TCustomTrayIcon',lTrayIcon);
+	InitControl(L,lTrayIcon,Name);
 	Result := 1;
 end;
 

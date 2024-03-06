@@ -1795,8 +1795,8 @@ begin
 	lListView := TLuaListView.Create(Parent);
 	lListView.Parent := TWinControl(Parent);
 	lListView.LuaCtl := TVCLuaControl.Create(lListView as TComponent,L,nil,'TCustomListView');
-	InitControl(L,lListView,Name);
 	CreateTableForKnownType(L,'TCustomListView',lListView);
+	InitControl(L,lListView,Name);
 	Result := 1;
 end;
 

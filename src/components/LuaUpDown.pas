@@ -40,8 +40,8 @@ begin
 	lUpDown := TLuaUpDown.Create(Parent);
 	lUpDown.Parent := TWinControl(Parent);
 	lUpDown.LuaCtl := TVCLuaControl.Create(lUpDown as TComponent,L,nil,'TUpDown');
-	InitControl(L,lUpDown,Name);
 	CreateTableForKnownType(L,'TUpDown',lUpDown);
+	InitControl(L,lUpDown,Name);
 	Result := 1;
 end;
 

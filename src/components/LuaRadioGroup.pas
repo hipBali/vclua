@@ -304,8 +304,8 @@ begin
 	lRadioGroup := TLuaRadioGroup.Create(Parent);
 	lRadioGroup.Parent := TWinControl(Parent);
 	lRadioGroup.LuaCtl := TVCLuaControl.Create(lRadioGroup as TComponent,L,nil,'TCustomRadioGroup');
-	InitControl(L,lRadioGroup,Name);
 	CreateTableForKnownType(L,'TCustomRadioGroup',lRadioGroup);
+	InitControl(L,lRadioGroup,Name);
 	Result := 1;
 end;
 

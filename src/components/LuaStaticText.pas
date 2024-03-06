@@ -209,8 +209,8 @@ begin
 	lStaticText := TLuaStaticText.Create(Parent);
 	lStaticText.Parent := TWinControl(Parent);
 	lStaticText.LuaCtl := TVCLuaControl.Create(lStaticText as TComponent,L,nil,'TCustomStaticText');
-	InitControl(L,lStaticText,Name);
 	CreateTableForKnownType(L,'TCustomStaticText',lStaticText);
+	InitControl(L,lStaticText,Name);
 	Result := 1;
 end;
 

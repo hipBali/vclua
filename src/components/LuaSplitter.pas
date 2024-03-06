@@ -365,8 +365,8 @@ begin
 	lSplitter := TLuaSplitter.Create(Parent);
 	lSplitter.Parent := TWinControl(Parent);
 	lSplitter.LuaCtl := TVCLuaControl.Create(lSplitter as TComponent,L,nil,'TCustomSplitter');
-	InitControl(L,lSplitter,Name);
 	CreateTableForKnownType(L,'TCustomSplitter',lSplitter);
+	InitControl(L,lSplitter,Name);
 	Result := 1;
 end;
 

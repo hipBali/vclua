@@ -132,8 +132,8 @@ end;
 VCLua_CDEF_SUFFIX = [[
 	l#CNAME.#PARENT := #PARENTCLASS(Parent);
 	l#CNAME.LuaCtl := TVCLuaControl.Create(l#CNAME as TComponent,L,nil,'#CSRC');
-	InitControl(L,l#CNAME,Name);
 	CreateTableForKnownType(L,'#CSRC',l#CNAME);
+	InitControl(L,l#CNAME,Name);
 	Result := 1;
 end;
 ]]

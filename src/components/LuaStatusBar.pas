@@ -326,8 +326,8 @@ begin
 	lStatusBar := TLuaStatusBar.Create(Parent);
 	lStatusBar.Parent := TWinControl(Parent);
 	lStatusBar.LuaCtl := TVCLuaControl.Create(lStatusBar as TComponent,L,nil,'TStatusBar');
-	InitControl(L,lStatusBar,Name);
 	CreateTableForKnownType(L,'TStatusBar',lStatusBar);
+	InitControl(L,lStatusBar,Name);
 	Result := 1;
 end;
 

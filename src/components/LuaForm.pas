@@ -1608,8 +1608,8 @@ begin
 	lForm := TLuaForm.CreateNew(Parent);
 	lForm.Parent := TWinControl(Parent);
 	lForm.LuaCtl := TVCLuaControl.Create(lForm as TComponent,L,nil,'TCustomForm');
-	InitControl(L,lForm,Name);
 	CreateTableForKnownType(L,'TCustomForm',lForm);
+	InitControl(L,lForm,Name);
 	Result := 1;
 end;
 

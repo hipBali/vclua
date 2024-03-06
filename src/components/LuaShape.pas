@@ -73,8 +73,8 @@ begin
 	lShape := TLuaShape.Create(Parent);
 	lShape.Parent := TWinControl(Parent);
 	lShape.LuaCtl := TVCLuaControl.Create(lShape as TComponent,L,nil,'TShape');
-	InitControl(L,lShape,Name);
 	CreateTableForKnownType(L,'TShape',lShape);
+	InitControl(L,lShape,Name);
 	Result := 1;
 end;
 

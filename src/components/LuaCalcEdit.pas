@@ -47,8 +47,8 @@ begin
 	lCalcEdit := TLuaCalcEdit.Create(Parent);
 	lCalcEdit.Parent := TWinControl(Parent);
 	lCalcEdit.LuaCtl := TVCLuaControl.Create(lCalcEdit as TComponent,L,nil,'TCustomEditButton');
-	InitControl(L,lCalcEdit,Name);
 	CreateTableForKnownType(L,'TCustomEditButton',lCalcEdit);
+	InitControl(L,lCalcEdit,Name);
 	Result := 1;
 end;
 

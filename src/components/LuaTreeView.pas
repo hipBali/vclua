@@ -2678,8 +2678,8 @@ begin
 	lTreeView := TLuaTreeView.Create(Parent);
 	lTreeView.Parent := TWinControl(Parent);
 	lTreeView.LuaCtl := TVCLuaControl.Create(lTreeView as TComponent,L,nil,'TCustomTreeView');
-	InitControl(L,lTreeView,Name);
 	CreateTableForKnownType(L,'TCustomTreeView',lTreeView);
+	InitControl(L,lTreeView,Name);
 	Result := 1;
 end;
 

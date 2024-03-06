@@ -286,8 +286,8 @@ begin
 	lButton := TLuaButton.Create(Parent);
 	lButton.Parent := TWinControl(Parent);
 	lButton.LuaCtl := TVCLuaControl.Create(lButton as TComponent,L,nil,'TCustomButton');
-	InitControl(L,lButton,Name);
 	CreateTableForKnownType(L,'TCustomButton',lButton);
+	InitControl(L,lButton,Name);
 	Result := 1;
 end;
 

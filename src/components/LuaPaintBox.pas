@@ -40,8 +40,8 @@ begin
 	lPaintBox := TLuaPaintBox.Create(Parent);
 	lPaintBox.Parent := TWinControl(Parent);
 	lPaintBox.LuaCtl := TVCLuaControl.Create(lPaintBox as TComponent,L,nil,'TPaintBox');
-	InitControl(L,lPaintBox,Name);
 	CreateTableForKnownType(L,'TPaintBox',lPaintBox);
+	InitControl(L,lPaintBox,Name);
 	Result := 1;
 end;
 

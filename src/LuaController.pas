@@ -580,8 +580,8 @@ end;
 
 procedure InitControl(L: Plua_State; luaObj:TObject; var Name:String);
 begin
-     if (lua_gettop(L)>1) and (lua_istable(L,-1)) and (GetLuaObject(L, -1) = nil) then
-        SetPropertiesFromLuaTable(L, luaObj,-1)
+     if (lua_gettop(L)>1) and (lua_istable(L,-2)) and (GetLuaObject(L, -2) = nil) then
+        SetPropertiesFromLuaTable(L, luaObj,-2)
      else
        try
           (luaObj as TComponent).Name := Name;

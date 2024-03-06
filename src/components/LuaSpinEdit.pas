@@ -40,8 +40,8 @@ begin
 	lSpinEdit := TLuaSpinEdit.Create(Parent);
 	lSpinEdit.Parent := TWinControl(Parent);
 	lSpinEdit.LuaCtl := TVCLuaControl.Create(lSpinEdit as TComponent,L,nil,'TSpinEdit');
-	InitControl(L,lSpinEdit,Name);
 	CreateTableForKnownType(L,'TSpinEdit',lSpinEdit);
+	InitControl(L,lSpinEdit,Name);
 	Result := 1;
 end;
 

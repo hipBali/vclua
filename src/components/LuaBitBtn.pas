@@ -40,8 +40,8 @@ begin
 	lBitBtn := TLuaBitBtn.Create(Parent);
 	lBitBtn.Parent := TWinControl(Parent);
 	lBitBtn.LuaCtl := TVCLuaControl.Create(lBitBtn as TComponent,L,nil,'TBitBtn');
-	InitControl(L,lBitBtn,Name);
 	CreateTableForKnownType(L,'TBitBtn',lBitBtn);
+	InitControl(L,lBitBtn,Name);
 	Result := 1;
 end;
 

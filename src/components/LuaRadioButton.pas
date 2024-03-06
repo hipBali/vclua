@@ -40,8 +40,8 @@ begin
 	lRadioButton := TLuaRadioButton.Create(Parent);
 	lRadioButton.Parent := TWinControl(Parent);
 	lRadioButton.LuaCtl := TVCLuaControl.Create(lRadioButton as TComponent,L,nil,'TRadioButton');
-	InitControl(L,lRadioButton,Name);
 	CreateTableForKnownType(L,'TRadioButton',lRadioButton);
+	InitControl(L,lRadioButton,Name);
 	Result := 1;
 end;
 

@@ -142,8 +142,8 @@ begin
 	lLabel := TLuaLabel.Create(Parent);
 	lLabel.Parent := TWinControl(Parent);
 	lLabel.LuaCtl := TVCLuaControl.Create(lLabel as TComponent,L,nil,'TCustomLabel');
-	InitControl(L,lLabel,Name);
 	CreateTableForKnownType(L,'TCustomLabel',lLabel);
+	InitControl(L,lLabel,Name);
 	Result := 1;
 end;
 

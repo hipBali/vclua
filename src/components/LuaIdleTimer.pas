@@ -175,8 +175,8 @@ begin
 	lIdleTimer := TLuaIdleTimer.Create(Parent);
 	// := TWinControl(Parent);
 	lIdleTimer.LuaCtl := TVCLuaControl.Create(lIdleTimer as TComponent,L,nil,'TCustomIdleTimer');
-	InitControl(L,lIdleTimer,Name);
 	CreateTableForKnownType(L,'TCustomIdleTimer',lIdleTimer);
+	InitControl(L,lIdleTimer,Name);
 	Result := 1;
 end;
 

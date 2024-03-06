@@ -40,8 +40,8 @@ begin
 	lDateTimePicker := TLuaDateTimePicker.Create(Parent);
 	lDateTimePicker.Parent := TWinControl(Parent);
 	lDateTimePicker.LuaCtl := TVCLuaControl.Create(lDateTimePicker as TComponent,L,nil,'TDateTimePicker');
-	InitControl(L,lDateTimePicker,Name);
 	CreateTableForKnownType(L,'TDateTimePicker',lDateTimePicker);
+	InitControl(L,lDateTimePicker,Name);
 	Result := 1;
 end;
 

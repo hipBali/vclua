@@ -270,8 +270,8 @@ begin
 	lCheckGroup := TLuaCheckGroup.Create(Parent);
 	lCheckGroup.Parent := TWinControl(Parent);
 	lCheckGroup.LuaCtl := TVCLuaControl.Create(lCheckGroup as TComponent,L,nil,'TCustomCheckGroup');
-	InitControl(L,lCheckGroup,Name);
 	CreateTableForKnownType(L,'TCustomCheckGroup',lCheckGroup);
+	InitControl(L,lCheckGroup,Name);
 	Result := 1;
 end;
 

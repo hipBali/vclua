@@ -175,8 +175,8 @@ begin
 	lCheckBox := TLuaCheckBox.Create(Parent);
 	lCheckBox.Parent := TWinControl(Parent);
 	lCheckBox.LuaCtl := TVCLuaControl.Create(lCheckBox as TComponent,L,nil,'TCustomCheckBox');
-	InitControl(L,lCheckBox,Name);
 	CreateTableForKnownType(L,'TCustomCheckBox',lCheckBox);
+	InitControl(L,lCheckBox,Name);
 	Result := 1;
 end;
 

@@ -193,8 +193,8 @@ begin
 	lBasicAction := TLuaBasicAction.Create(Parent);
 	// := TWinControl(Parent);
 	lBasicAction.LuaCtl := TVCLuaControl.Create(lBasicAction as TComponent,L,nil,'TBasicAction');
-	InitControl(L,lBasicAction,Name);
 	CreateTableForKnownType(L,'TBasicAction',lBasicAction);
+	InitControl(L,lBasicAction,Name);
 	Result := 1;
 end;
 

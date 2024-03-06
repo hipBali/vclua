@@ -47,8 +47,8 @@ begin
 	lDirectoryEdit := TLuaDirectoryEdit.Create(Parent);
 	lDirectoryEdit.Parent := TWinControl(Parent);
 	lDirectoryEdit.LuaCtl := TVCLuaControl.Create(lDirectoryEdit as TComponent,L,nil,'TCustomEditButton');
-	InitControl(L,lDirectoryEdit,Name);
 	CreateTableForKnownType(L,'TCustomEditButton',lDirectoryEdit);
+	InitControl(L,lDirectoryEdit,Name);
 	Result := 1;
 end;
 

@@ -3070,8 +3070,8 @@ begin
 	lControl := TLuaControl.Create(Parent);
 	lControl.Parent := TWinControl(Parent);
 	lControl.LuaCtl := TVCLuaControl.Create(lControl as TComponent,L,nil,'TControl');
-	InitControl(L,lControl,Name);
 	CreateTableForKnownType(L,'TControl',lControl);
+	InitControl(L,lControl,Name);
 	Result := 1;
 end;
 

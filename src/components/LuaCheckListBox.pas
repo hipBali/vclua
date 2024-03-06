@@ -291,8 +291,8 @@ begin
 	lCheckListBox := TLuaCheckListBox.Create(Parent);
 	lCheckListBox.Parent := TWinControl(Parent);
 	lCheckListBox.LuaCtl := TVCLuaControl.Create(lCheckListBox as TComponent,L,nil,'TCustomCheckListBox');
-	InitControl(L,lCheckListBox,Name);
 	CreateTableForKnownType(L,'TCustomCheckListBox',lCheckListBox);
+	InitControl(L,lCheckListBox,Name);
 	Result := 1;
 end;
 

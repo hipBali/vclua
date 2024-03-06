@@ -860,8 +860,8 @@ begin
 	lListBox := TLuaListBox.Create(Parent);
 	lListBox.Parent := TWinControl(Parent);
 	lListBox.LuaCtl := TVCLuaControl.Create(lListBox as TComponent,L,nil,'TCustomListBox');
-	InitControl(L,lListBox,Name);
 	CreateTableForKnownType(L,'TCustomListBox',lListBox);
+	InitControl(L,lListBox,Name);
 	Result := 1;
 end;
 

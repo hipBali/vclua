@@ -399,8 +399,8 @@ begin
 	lToolButton := TLuaToolButton.Create(Parent);
 	lToolButton.Parent := TWinControl(Parent);
 	lToolButton.LuaCtl := TVCLuaControl.Create(lToolButton as TComponent,L,nil,'TToolButton');
-	InitControl(L,lToolButton,Name);
 	CreateTableForKnownType(L,'TToolButton',lToolButton);
+	InitControl(L,lToolButton,Name);
 	Result := 1;
 end;
 
@@ -418,8 +418,8 @@ begin
 	lToolBar := TLuaToolBar.Create(Parent);
 	lToolBar.Parent := TWinControl(Parent);
 	lToolBar.LuaCtl := TVCLuaControl.Create(lToolBar as TComponent,L,nil,'TToolBar');
-	InitControl(L,lToolBar,Name);
 	CreateTableForKnownType(L,'TToolBar',lToolBar);
+	InitControl(L,lToolBar,Name);
 	Result := 1;
 end;
 

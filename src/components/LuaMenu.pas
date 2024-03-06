@@ -1386,8 +1386,8 @@ begin
 	lMenu := TLuaMenu.Create(Parent);
 	lMenu.Parent := TWinControl(Parent);
 	lMenu.LuaCtl := TVCLuaControl.Create(lMenu as TComponent,L,nil,'TMenu');
-	InitControl(L,lMenu,Name);
 	CreateTableForKnownType(L,'TMenu',lMenu);
+	InitControl(L,lMenu,Name);
 	Result := 1;
 end;
 
@@ -1405,8 +1405,8 @@ begin
 	lPopupMenu := TLuaPopupMenu.Create(Parent);
 	lPopupMenu.Parent := TWinControl(Parent);
 	lPopupMenu.LuaCtl := TVCLuaControl.Create(lPopupMenu as TComponent,L,nil,'TPopupMenu');
-	InitControl(L,lPopupMenu,Name);
 	CreateTableForKnownType(L,'TPopupMenu',lPopupMenu);
+	InitControl(L,lPopupMenu,Name);
 	Result := 1;
 end;
 
@@ -1424,8 +1424,8 @@ begin
 	lMenuItem := TLuaMenuItem.Create(Parent);
 	// := TWinControl(Parent);
 	lMenuItem.LuaCtl := TVCLuaControl.Create(lMenuItem as TComponent,L,nil,'TMenuItem');
-	InitControl(L,lMenuItem,Name);
 	CreateTableForKnownType(L,'TMenuItem',lMenuItem);
+	InitControl(L,lMenuItem,Name);
 	Result := 1;
 end;
 
@@ -1443,8 +1443,8 @@ begin
 	lMainMenu := TLuaMainMenu.Create(Parent);
 	lMainMenu.Parent := TWinControl(Parent);
 	lMainMenu.LuaCtl := TVCLuaControl.Create(lMainMenu as TComponent,L,nil,'TMainMenu');
-	InitControl(L,lMainMenu,Name);
 	CreateTableForKnownType(L,'TMainMenu',lMainMenu);
+	InitControl(L,lMainMenu,Name);
 	Result := 1;
 end;
 

@@ -50,8 +50,8 @@ begin
 	lEditButton := TLuaEditButton.Create(Parent);
 	lEditButton.Parent := TWinControl(Parent);
 	lEditButton.LuaCtl := TVCLuaControl.Create(lEditButton as TComponent,L,nil,'TCustomEditButton');
-	InitControl(L,lEditButton,Name);
 	CreateTableForKnownType(L,'TCustomEditButton',lEditButton);
+	InitControl(L,lEditButton,Name);
 	Result := 1;
 end;
 

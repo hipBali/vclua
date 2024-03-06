@@ -650,8 +650,8 @@ begin
 	lColorButton := TLuaColorButton.Create(Parent);
 	lColorButton.Parent := TWinControl(Parent);
 	lColorButton.LuaCtl := TVCLuaControl.Create(lColorButton as TComponent,L,nil,'TColorButton');
-	InitControl(L,lColorButton,Name);
 	CreateTableForKnownType(L,'TColorButton',lColorButton);
+	InitControl(L,lColorButton,Name);
 	Result := 1;
 end;
 
@@ -669,8 +669,8 @@ begin
 	lOpenDialog := TLuaOpenDialog.Create(Parent);
 	// := TWinControl(Parent);
 	lOpenDialog.LuaCtl := TVCLuaControl.Create(lOpenDialog as TComponent,L,nil,'TOpenDialog');
-	InitControl(L,lOpenDialog,Name);
 	CreateTableForKnownType(L,'TOpenDialog',lOpenDialog);
+	InitControl(L,lOpenDialog,Name);
 	Result := 1;
 end;
 
@@ -688,8 +688,8 @@ begin
 	lSaveDialog := TLuaSaveDialog.Create(Parent);
 	// := TWinControl(Parent);
 	lSaveDialog.LuaCtl := TVCLuaControl.Create(lSaveDialog as TComponent,L,nil,'TSaveDialog');
-	InitControl(L,lSaveDialog,Name);
 	CreateTableForKnownType(L,'TSaveDialog',lSaveDialog);
+	InitControl(L,lSaveDialog,Name);
 	Result := 1;
 end;
 
@@ -707,8 +707,8 @@ begin
 	lSelectDirectoryDialog := TLuaSelectDirectoryDialog.Create(Parent);
 	// := TWinControl(Parent);
 	lSelectDirectoryDialog.LuaCtl := TVCLuaControl.Create(lSelectDirectoryDialog as TComponent,L,nil,'TSelectDirectoryDialog');
-	InitControl(L,lSelectDirectoryDialog,Name);
 	CreateTableForKnownType(L,'TSelectDirectoryDialog',lSelectDirectoryDialog);
+	InitControl(L,lSelectDirectoryDialog,Name);
 	Result := 1;
 end;
 
@@ -726,8 +726,8 @@ begin
 	lColorDialog := TLuaColorDialog.Create(Parent);
 	// := TWinControl(Parent);
 	lColorDialog.LuaCtl := TVCLuaControl.Create(lColorDialog as TComponent,L,nil,'TColorDialog');
-	InitControl(L,lColorDialog,Name);
 	CreateTableForKnownType(L,'TColorDialog',lColorDialog);
+	InitControl(L,lColorDialog,Name);
 	Result := 1;
 end;
 
@@ -745,8 +745,8 @@ begin
 	lFontDialog := TLuaFontDialog.Create(Parent);
 	// := TWinControl(Parent);
 	lFontDialog.LuaCtl := TVCLuaControl.Create(lFontDialog as TComponent,L,nil,'TFontDialog');
-	InitControl(L,lFontDialog,Name);
 	CreateTableForKnownType(L,'TFontDialog',lFontDialog);
+	InitControl(L,lFontDialog,Name);
 	Result := 1;
 end;
 
@@ -764,8 +764,8 @@ begin
 	lFindDialog := TLuaFindDialog.Create(Parent);
 	// := TWinControl(Parent);
 	lFindDialog.LuaCtl := TVCLuaControl.Create(lFindDialog as TComponent,L,nil,'TFindDialog');
-	InitControl(L,lFindDialog,Name);
 	CreateTableForKnownType(L,'TFindDialog',lFindDialog);
+	InitControl(L,lFindDialog,Name);
 	Result := 1;
 end;
 
@@ -783,8 +783,8 @@ begin
 	lReplaceDialog := TLuaReplaceDialog.Create(Parent);
 	// := TWinControl(Parent);
 	lReplaceDialog.LuaCtl := TVCLuaControl.Create(lReplaceDialog as TComponent,L,nil,'TFindDialog');
-	InitControl(L,lReplaceDialog,Name);
 	CreateTableForKnownType(L,'TFindDialog',lReplaceDialog);
+	InitControl(L,lReplaceDialog,Name);
 	Result := 1;
 end;
 

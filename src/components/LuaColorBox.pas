@@ -292,8 +292,8 @@ begin
 	lColorBox := TLuaColorBox.Create(Parent);
 	lColorBox.Parent := TWinControl(Parent);
 	lColorBox.LuaCtl := TVCLuaControl.Create(lColorBox as TComponent,L,nil,'TCustomColorBox');
-	InitControl(L,lColorBox,Name);
 	CreateTableForKnownType(L,'TCustomColorBox',lColorBox);
+	InitControl(L,lColorBox,Name);
 	Result := 1;
 end;
 

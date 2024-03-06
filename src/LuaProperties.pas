@@ -513,16 +513,15 @@ end;
 // ****************************************************************
 
 function SetPropertiesFromLuaTable(L: Plua_State; Obj:TObject; Index:Integer):Boolean;
-var n,d: Integer;
-    PInfo: PPropInfo;
+var PInfo: PPropInfo;
     pName: String;
 begin
   result := false;
   // L,1 is the Object self unless called from InitControl
   if lua_istable(L,Index) then begin
-        n := lua_gettop(L);
+        index := LuaAbsIndex(L, index);
         lua_pushnil(L);
-        while (lua_next(L, n) <> 0) do begin
+        while (lua_next(L, index) <> 0) do begin
           pName := lua_tostring(L, -2);
   	  PInfo := GetPropInfo(Obj.ClassInfo,lua_tostring(L, -2));
   	  if PInfo <> nil then begin

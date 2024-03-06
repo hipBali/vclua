@@ -40,8 +40,8 @@ begin
 	lTimer := TLuaTimer.Create(Parent);
 	// := TWinControl(Parent);
 	lTimer.LuaCtl := TVCLuaControl.Create(lTimer as TComponent,L,nil,'TTimer');
-	InitControl(L,lTimer,Name);
 	CreateTableForKnownType(L,'TTimer',lTimer);
+	InitControl(L,lTimer,Name);
 	Result := 1;
 end;
 

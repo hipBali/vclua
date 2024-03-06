@@ -682,8 +682,8 @@ begin
 	lEdit := TLuaEdit.Create(Parent);
 	lEdit.Parent := TWinControl(Parent);
 	lEdit.LuaCtl := TVCLuaControl.Create(lEdit as TComponent,L,nil,'TCustomEdit');
-	InitControl(L,lEdit,Name);
 	CreateTableForKnownType(L,'TCustomEdit',lEdit);
+	InitControl(L,lEdit,Name);
 	Result := 1;
 end;
 

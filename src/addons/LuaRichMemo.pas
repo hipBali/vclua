@@ -25,8 +25,8 @@ begin
   lMemo := TLuaRichMemo.Create(Parent);
   lMemo.Parent := TWinControl(Parent);
   lMemo.LuaCtl := TVCLuaControl.Create(TControl(lMemo),L, @MemoToTable);
-  InitControl(L,lMemo,Name);  
   MemoToTable(L, -1, lMemo);
+  InitControl(L,lMemo,Name);
   Result := 1;
 end;
 end.

@@ -1589,8 +1589,8 @@ begin
 	lImageList := TLuaImageList.Create(Parent);
 	// := TWinControl(Parent);
 	lImageList.LuaCtl := TVCLuaControl.Create(lImageList as TComponent,L,nil,'TCustomImageList');
-	InitControl(L,lImageList,Name);
 	CreateTableForKnownType(L,'TCustomImageList',lImageList);
+	InitControl(L,lImageList,Name);
 	Result := 1;
 end;
 

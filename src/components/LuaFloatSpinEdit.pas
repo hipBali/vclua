@@ -334,8 +334,8 @@ begin
 	lFloatSpinEdit := TLuaFloatSpinEdit.Create(Parent);
 	lFloatSpinEdit.Parent := TWinControl(Parent);
 	lFloatSpinEdit.LuaCtl := TVCLuaControl.Create(lFloatSpinEdit as TComponent,L,nil,'TCustomFloatSpinEdit');
-	InitControl(L,lFloatSpinEdit,Name);
 	CreateTableForKnownType(L,'TCustomFloatSpinEdit',lFloatSpinEdit);
+	InitControl(L,lFloatSpinEdit,Name);
 	Result := 1;
 end;
 

@@ -452,8 +452,8 @@ begin
 	lImage := TLuaImage.Create(Parent);
 	lImage.Parent := TWinControl(Parent);
 	lImage.LuaCtl := TVCLuaControl.Create(lImage as TComponent,L,nil,'TCustomImage');
-	InitControl(L,lImage,Name);
 	CreateTableForKnownType(L,'TCustomImage',lImage);
+	InitControl(L,lImage,Name);
 	Result := 1;
 end;
 

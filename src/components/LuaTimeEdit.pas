@@ -47,8 +47,8 @@ begin
 	lTimeEdit := TLuaTimeEdit.Create(Parent);
 	lTimeEdit.Parent := TWinControl(Parent);
 	lTimeEdit.LuaCtl := TVCLuaControl.Create(lTimeEdit as TComponent,L,nil,'TCustomEditButton');
-	InitControl(L,lTimeEdit,Name);
 	CreateTableForKnownType(L,'TCustomEditButton',lTimeEdit);
+	InitControl(L,lTimeEdit,Name);
 	Result := 1;
 end;
 

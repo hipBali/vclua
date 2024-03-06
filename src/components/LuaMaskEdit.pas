@@ -40,8 +40,8 @@ begin
 	lMaskEdit := TLuaMaskEdit.Create(Parent);
 	lMaskEdit.Parent := TWinControl(Parent);
 	lMaskEdit.LuaCtl := TVCLuaControl.Create(lMaskEdit as TComponent,L,nil,'TMaskEdit');
-	InitControl(L,lMaskEdit,Name);
 	CreateTableForKnownType(L,'TMaskEdit',lMaskEdit);
+	InitControl(L,lMaskEdit,Name);
 	Result := 1;
 end;
 

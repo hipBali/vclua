@@ -343,8 +343,8 @@ begin
 	lProgressBar := TLuaProgressBar.Create(Parent);
 	lProgressBar.Parent := TWinControl(Parent);
 	lProgressBar.LuaCtl := TVCLuaControl.Create(lProgressBar as TComponent,L,nil,'TCustomProgressBar');
-	InitControl(L,lProgressBar,Name);
 	CreateTableForKnownType(L,'TCustomProgressBar',lProgressBar);
+	InitControl(L,lProgressBar,Name);
 	Result := 1;
 end;
 

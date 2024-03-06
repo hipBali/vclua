@@ -224,8 +224,8 @@ begin
 	lHeaderControl := TLuaHeaderControl.Create(Parent);
 	lHeaderControl.Parent := TWinControl(Parent);
 	lHeaderControl.LuaCtl := TVCLuaControl.Create(lHeaderControl as TComponent,L,nil,'TCustomHeaderControl');
-	InitControl(L,lHeaderControl,Name);
 	CreateTableForKnownType(L,'TCustomHeaderControl',lHeaderControl);
+	InitControl(L,lHeaderControl,Name);
 	Result := 1;
 end;
 
