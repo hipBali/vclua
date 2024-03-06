@@ -117,6 +117,14 @@ classes = {
 
 	-- controls
 	{ name = "Control", src = "TControl", ref = "Controls"},
+	{ unit = "Drag", ref = "Controls",
+		classes = {
+			{ name = "DragObject", src = "TDragObject", nocreate=true},
+			{ name = "DragDockObject", src = "TDragDockObject", nocreate=true},
+			{ name = "DockZone", src = "TDockZone", nocreate=true},
+			{ name = "DockTree", src = "TDockTree", nocreate=true},
+		}
+	},
 
 	-- forms
 	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true  },

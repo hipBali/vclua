@@ -19,6 +19,7 @@ Generated with Lua-fpc parser/generator
 	LuaActionList,
 	LuaMenu,
 	LuaControl,
+	LuaDrag,
 	LuaApplication,
 	LuaForm,
 	LuaScrollBox,

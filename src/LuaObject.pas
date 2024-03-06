@@ -31,7 +31,6 @@ function luaL_checkOrFromTable(L: Plua_State; i: Integer; v: PObject; proc: OnNi
 procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);overload;
 procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);
-procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo = nil);overload; inline;
 
 function CheckOrderOfPushObject(ptis: aopti):string;
 
@@ -106,15 +105,6 @@ end;
 procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil);
 begin
   luaL_checkOrFromTable(L, i, v, @LuaTypeError, pti);
-end;
-
-procedure lua_push(L: Plua_State; const v:TDragDockObject; pti : PTypeInfo);
-begin
-  if v = nil then begin
-    lua_pushnil(L);
-    exit
-  end;
-  lua_push(L, v.Control);
 end;
 
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);

@@ -149,6 +149,14 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TCustomForm', @CustomFormSets);
   vmts.Add('TApplication', @ApplicationFuncs);
   propSets.Add('TApplication', @ApplicationSets);
+  vmts.Add('TDockTree', @DockTreeFuncs);
+  propSets.Add('TDockTree', @DockTreeSets);
+  vmts.Add('TDockZone', @DockZoneFuncs);
+  propSets.Add('TDockZone', @DockZoneSets);
+  vmts.Add('TDragDockObject', @DragDockObjectFuncs);
+  propSets.Add('TDragDockObject', @DragDockObjectSets);
+  vmts.Add('TDragObject', @DragObjectFuncs);
+  propSets.Add('TDragObject', @DragObjectSets);
   vmts.Add('TControl', @ControlFuncs);
   propSets.Add('TControl', @ControlSets);
   vmts.Add('TMainMenu', @MainMenuFuncs);
