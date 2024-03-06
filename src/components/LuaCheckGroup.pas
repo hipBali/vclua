@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaEvent, LuaExtCtrlsEvents, LuaStrings;
 
 function VCLua_CheckGroup_FlipChildren(L: Plua_State): Integer; cdecl;
 var
@@ -245,6 +245,17 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
+function VCLua_CheckGroup_VCLuaSetOnItemClick(L: Plua_State): Integer; cdecl;
+var
+	lCheckGroup:TLuaCheckGroup;
+begin
+	CheckArg(L, 2);
+	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCheckGroup.OnItemClick));
+	lCheckGroup.OnItemClick := TLuaEvent.Factory<TCheckGroupClicked,TLuaCheckGroupClicked>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TCheckGroup; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomCheckGroup',v);
@@ -279,4 +290,5 @@ begin
 	TLuaMethodInfo.Create(CustomCheckGroupSets, 'Items', @VCLua_CheckGroup_VCLuaSetItems, mfCall);
 	TLuaMethodInfo.Create(CustomCheckGroupSets, 'Columns', @VCLua_CheckGroup_VCLuaSetColumns, mfCall);
 	TLuaMethodInfo.Create(CustomCheckGroupSets, 'ColumnLayout', @VCLua_CheckGroup_VCLuaSetColumnLayout, mfCall);
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'OnItemClick', @VCLua_CheckGroup_VCLuaSetOnItemClick, mfCall);
 end.

@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, StdCtrls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaCheckLstEvents, LuaClassesEvents, LuaEvent, StdCtrls;
 
 function VCLua_CheckListBox_MeasureItem(L: Plua_State): Integer; cdecl;
 var
@@ -255,6 +255,28 @@ begin
 	end;
 end;
 
+function VCLua_CheckListBox_VCLuaSetOnClickCheck(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+begin
+	CheckArg(L, 2);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCheckListBox.OnClickCheck));
+	lCheckListBox.OnClickCheck := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_CheckListBox_VCLuaSetOnItemClick(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+begin
+	CheckArg(L, 2);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCheckListBox.OnItemClick));
+	lCheckListBox.OnItemClick := TLuaEvent.Factory<TCheckListClicked,TLuaCheckListClicked>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TCheckListBox; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomCheckListBox',v);
@@ -288,4 +310,6 @@ begin
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'State', @VCLua_CheckListBox_State);
 	CustomCheckListBoxSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'AllowGrayed', @VCLua_CheckListBox_VCLuaSetAllowGrayed, mfCall);
+	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'OnClickCheck', @VCLua_CheckListBox_VCLuaSetOnClickCheck, mfCall);
+	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'OnItemClick', @VCLua_CheckListBox_VCLuaSetOnItemClick, mfCall);
 end.

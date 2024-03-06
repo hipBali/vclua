@@ -45,7 +45,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaClassesEvents, LuaComCtrlsEvents, LuaEvent;
 
 function VCLua_StatusPanel_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -280,6 +280,28 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_StatusBar_VCLuaSetOnDrawPanel(L: Plua_State): Integer; cdecl;
+var
+	lStatusBar:TLuaStatusBar;
+begin
+	CheckArg(L, 2);
+	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lStatusBar.OnDrawPanel));
+	lStatusBar.OnDrawPanel := TLuaEvent.Factory<TDrawPanelEvent,TLuaDrawPanelEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_StatusBar_VCLuaSetOnHint(L: Plua_State): Integer; cdecl;
+var
+	lStatusBar:TLuaStatusBar;
+begin
+	CheckArg(L, 2);
+	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lStatusBar.OnHint));
+	lStatusBar.OnHint := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TStatusPanel; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TStatusPanel',v);
@@ -331,5 +353,6 @@ begin
 	TLuaMethodInfo.Create(StatusBarFuncs, 'UpdatingStatusBar', @VCLua_StatusBar_UpdatingStatusBar);
 	TLuaMethodInfo.Create(StatusBarFuncs, 'Canvas', @VCLua_StatusBar_VCLuaGetCanvas, mfCall);
 	StatusBarSets := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(StatusBarSets, 'OnDrawPanel', @VCLua_StatusBar_VCLuaSetOnDrawPanel, mfCall);
+	TLuaMethodInfo.Create(StatusBarSets, 'OnHint', @VCLua_StatusBar_VCLuaSetOnHint, mfCall);
 end.

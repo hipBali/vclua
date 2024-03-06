@@ -46,6 +46,7 @@ fpcSrc = {
 toInfer = {
   {ref = "System", src = FPCSOURCE.."rtl/inc/systemh.inc"},
   {ref = "Types", src = FPCSOURCE.."rtl/objpas/types.pp"},
+  {ref = "FPImage", src = FPCSOURCE.."packages/fcl-image/src/fpimage.pp"},
   {ref = "LCLType", src = LAZPATH.."lcl/lcltype.pp"},
   {ref = "GraphType", src = LAZPATH.."components/lazutils/graphtype.pp"},
 }
@@ -267,4 +268,9 @@ classes = {
 
 }	
 
+eventRefs = {
+  Forms = "LCLType",
+}
+eventImplRefs = {
+}
 

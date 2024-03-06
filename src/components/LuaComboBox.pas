@@ -23,7 +23,84 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LCLType, LuaCanvas, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LCLType, LuaCanvas, LuaClassesEvents, LuaEvent, LuaStdCtrlsEvents, LuaStrings;
+
+function VCLua_ComboBox_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnChange));
+	lComboBox.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnCloseUp(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnCloseUp));
+	lComboBox.OnCloseUp := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnDrawItem));
+	lComboBox.OnDrawItem := TLuaEvent.Factory<TDrawItemEvent,TLuaDrawItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnDropDown(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnDropDown));
+	lComboBox.OnDropDown := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnGetItems(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnGetItems));
+	lComboBox.OnGetItems := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnMeasureItem(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnMeasureItem));
+	lComboBox.OnMeasureItem := TLuaEvent.Factory<TMeasureItemEvent,TLuaMeasureItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnSelect(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnSelect));
+	lComboBox.OnSelect := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
 
 function VCLua_ComboBox_IntfGetItems(L: Plua_State): Integer; cdecl;
 var
@@ -761,6 +838,13 @@ begin
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Style', @VCLua_ComboBox_VCLuaGetStyle, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'TextHint', @VCLua_ComboBox_VCLuaGetTextHint, mfCall);
 	CustomComboBoxSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnChange', @VCLua_ComboBox_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnCloseUp', @VCLua_ComboBox_VCLuaSetOnCloseUp, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnDrawItem', @VCLua_ComboBox_VCLuaSetOnDrawItem, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnDropDown', @VCLua_ComboBox_VCLuaSetOnDropDown, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnGetItems', @VCLua_ComboBox_VCLuaSetOnGetItems, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnMeasureItem', @VCLua_ComboBox_VCLuaSetOnMeasureItem, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnSelect', @VCLua_ComboBox_VCLuaSetOnSelect, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'CharCase', @VCLua_ComboBox_VCLuaSetCharCase, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'DroppedDown', @VCLua_ComboBox_VCLuaSetDroppedDown, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'DroppingDown', @VCLua_ComboBox_VCLuaSetDroppingDown, mfCall);

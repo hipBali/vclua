@@ -45,7 +45,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LCLType, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LCLType, LuaActnListEvents, LuaClassesEvents, LuaEvent, LuaImageList;
 
 function VCLua_ContainedAction_Execute(L: Plua_State): Integer; cdecl;
 var
@@ -613,6 +613,17 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Action_VCLuaSetOnHint(L: Plua_State): Integer; cdecl;
+var
+	lAction:TLuaAction;
+begin
+	CheckArg(L, 2);
+	lAction := TLuaAction(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lAction.OnHint));
+	lAction.OnHint := TLuaEvent.Factory<THintEvent,TLuaHintEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_Action_VCLuaSetSecondaryShortCuts(L: Plua_State): Integer; cdecl;
 var
 	lAction:TLuaAction;
@@ -713,6 +724,39 @@ begin
 			CallError(L, 'Action', 'Visible', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
+end;
+
+function VCLua_ActionList_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lActionList:TLuaActionList;
+begin
+	CheckArg(L, 2);
+	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lActionList.OnChange));
+	lActionList.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ActionList_VCLuaSetOnExecute(L: Plua_State): Integer; cdecl;
+var
+	lActionList:TLuaActionList;
+begin
+	CheckArg(L, 2);
+	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lActionList.OnExecute));
+	lActionList.OnExecute := TLuaEvent.Factory<TActionEvent,TLuaActionEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ActionList_VCLuaSetOnUpdate(L: Plua_State): Integer; cdecl;
+var
+	lActionList:TLuaActionList;
+begin
+	CheckArg(L, 2);
+	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lActionList.OnUpdate));
+	lActionList.OnUpdate := TLuaEvent.Factory<TActionEvent,TLuaActionEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_ActionList_ActionByName(L: Plua_State): Integer; cdecl;
@@ -999,6 +1043,7 @@ begin
 	TLuaMethodInfo.Create(CustomActionSets, 'HelpType', @VCLua_Action_VCLuaSetHelpType, mfCall);
 	TLuaMethodInfo.Create(CustomActionSets, 'Hint', @VCLua_Action_VCLuaSetHint, mfCall);
 	TLuaMethodInfo.Create(CustomActionSets, 'ImageIndex', @VCLua_Action_VCLuaSetImageIndex, mfCall);
+	TLuaMethodInfo.Create(CustomActionSets, 'OnHint', @VCLua_Action_VCLuaSetOnHint, mfCall);
 	TLuaMethodInfo.Create(CustomActionSets, 'SecondaryShortCuts', @VCLua_Action_VCLuaSetSecondaryShortCuts, mfCall);
 	TLuaMethodInfo.Create(CustomActionSets, 'ShortCut', @VCLua_Action_VCLuaSetShortCut, mfCall);
 	TLuaMethodInfo.Create(CustomActionSets, 'Visible', @VCLua_Action_VCLuaSetVisible, mfCall);
@@ -1012,6 +1057,9 @@ begin
 	TLuaMethodInfo.Create(CustomActionListFuncs, 'Images', @VCLua_ActionList_VCLuaGetImages, mfCall);
 	TLuaMethodInfo.Create(CustomActionListFuncs, 'State', @VCLua_ActionList_VCLuaGetState, mfCall);
 	CustomActionListSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomActionListSets, 'OnChange', @VCLua_ActionList_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(CustomActionListSets, 'OnExecute', @VCLua_ActionList_VCLuaSetOnExecute, mfCall);
+	TLuaMethodInfo.Create(CustomActionListSets, 'OnUpdate', @VCLua_ActionList_VCLuaSetOnUpdate, mfCall);
 	TLuaMethodInfo.Create(CustomActionListSets, 'Images', @VCLua_ActionList_VCLuaSetImages, mfCall);
 	TLuaMethodInfo.Create(CustomActionListSets, 'State', @VCLua_ActionList_VCLuaSetState, mfCall);
 end.

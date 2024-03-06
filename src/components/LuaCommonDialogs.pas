@@ -97,7 +97,7 @@ type
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
 function VCLua_ColorButton_Click(L: Plua_State): Integer; cdecl;
 var
@@ -112,6 +112,17 @@ begin
 		on E: Exception do
 			CallError(L, 'ColorButton', 'Click', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_ColorButton_VCLuaSetOnColorChanged(L: Plua_State): Integer; cdecl;
+var
+	lColorButton:TLuaColorButton;
+begin
+	CheckArg(L, 2);
+	lColorButton := TLuaColorButton(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lColorButton.OnColorChanged));
+	lColorButton.OnColorChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_OpenDialog_DoCanClose(L: Plua_State): Integer; cdecl;
@@ -198,6 +209,28 @@ begin
 	end;
 end;
 
+function VCLua_OpenDialog_VCLuaSetOnFolderChange(L: Plua_State): Integer; cdecl;
+var
+	lOpenDialog:TLuaOpenDialog;
+begin
+	CheckArg(L, 2);
+	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lOpenDialog.OnFolderChange));
+	lOpenDialog.OnFolderChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_OpenDialog_VCLuaSetOnSelectionChange(L: Plua_State): Integer; cdecl;
+var
+	lOpenDialog:TLuaOpenDialog;
+begin
+	CheckArg(L, 2);
+	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lOpenDialog.OnSelectionChange));
+	lOpenDialog.OnSelectionChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_OpenDialog_DoExecute(L: Plua_State): Integer; cdecl;
 var
   d: TCommonDialog;
@@ -249,6 +282,17 @@ begin
 	end;
 end;
 
+function VCLua_FontDialog_VCLuaSetOnApplyClicked(L: Plua_State): Integer; cdecl;
+var
+	lFontDialog:TLuaFontDialog;
+begin
+	CheckArg(L, 2);
+	lFontDialog := TLuaFontDialog(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lFontDialog.OnApplyClicked));
+	lFontDialog.OnApplyClicked := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_FontDialog_DoExecute(L: Plua_State): Integer; cdecl;
 var
   d: TCommonDialog;
@@ -256,6 +300,17 @@ begin
   d := TCommonDialog(GetLuaObject(L, 1));
   lua_pushboolean(L, d.Execute);
   Result := 1;
+end;
+
+function VCLua_FindDialog_VCLuaSetOnReplace(L: Plua_State): Integer; cdecl;
+var
+	lFindDialog:TLuaFindDialog;
+begin
+	CheckArg(L, 2);
+	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lFindDialog.OnReplace));
+	lFindDialog.OnReplace := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_FindDialog_CloseDialog(L: Plua_State): Integer; cdecl;
@@ -392,6 +447,39 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_FindDialog_VCLuaSetOnFind(L: Plua_State): Integer; cdecl;
+var
+	lFindDialog:TLuaFindDialog;
+begin
+	CheckArg(L, 2);
+	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lFindDialog.OnFind));
+	lFindDialog.OnFind := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_FindDialog_VCLuaSetOnHelpClicked(L: Plua_State): Integer; cdecl;
+var
+	lFindDialog:TLuaFindDialog;
+begin
+	CheckArg(L, 2);
+	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lFindDialog.OnHelpClicked));
+	lFindDialog.OnHelpClicked := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ReplaceDialog_VCLuaSetOnReplace(L: Plua_State): Integer; cdecl;
+var
+	lReplaceDialog:TLuaReplaceDialog;
+begin
+	CheckArg(L, 2);
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lReplaceDialog.OnReplace));
+	lReplaceDialog.OnReplace := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_ReplaceDialog_CloseDialog(L: Plua_State): Integer; cdecl;
 var
 	lReplaceDialog:TLuaReplaceDialog;
@@ -524,6 +612,28 @@ begin
 			CallError(L, 'ReplaceDialog', 'Top', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
+end;
+
+function VCLua_ReplaceDialog_VCLuaSetOnFind(L: Plua_State): Integer; cdecl;
+var
+	lReplaceDialog:TLuaReplaceDialog;
+begin
+	CheckArg(L, 2);
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lReplaceDialog.OnFind));
+	lReplaceDialog.OnFind := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ReplaceDialog_VCLuaSetOnHelpClicked(L: Plua_State): Integer; cdecl;
+var
+	lReplaceDialog:TLuaReplaceDialog;
+begin
+	CheckArg(L, 2);
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lReplaceDialog.OnHelpClicked));
+	lReplaceDialog.OnHelpClicked := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
 end;
 
 procedure lua_push(L: Plua_State; const v: TColorButton; pti: PTypeInfo);
@@ -682,7 +792,7 @@ begin
 	ColorButtonFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ColorButtonFuncs, 'Click', @VCLua_ColorButton_Click);
 	ColorButtonSets := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(ColorButtonSets, 'OnColorChanged', @VCLua_ColorButton_VCLuaSetOnColorChanged, mfCall);
 	OpenDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(OpenDialogFuncs, 'DoCanClose', @VCLua_OpenDialog_DoCanClose);
 	TLuaMethodInfo.Create(OpenDialogFuncs, 'DoCanClose2', @VCLua_OpenDialog_DoCanClose2);
@@ -691,7 +801,8 @@ begin
 	TLuaMethodInfo.Create(OpenDialogFuncs, 'IntfSetOption', @VCLua_OpenDialog_IntfSetOption);
 	TLuaMethodInfo.Create(OpenDialogFuncs, 'Execute', @VCLua_OpenDialog_DoExecute);
 	OpenDialogSets := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(OpenDialogSets, 'OnFolderChange', @VCLua_OpenDialog_VCLuaSetOnFolderChange, mfCall);
+	TLuaMethodInfo.Create(OpenDialogSets, 'OnSelectionChange', @VCLua_OpenDialog_VCLuaSetOnSelectionChange, mfCall);
 	SaveDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(SaveDialogFuncs, 'Execute', @VCLua_SaveDialog_DoExecute);
 	SaveDialogSets := TLuaVmt.Create;
@@ -708,7 +819,7 @@ begin
 	TLuaMethodInfo.Create(FontDialogFuncs, 'ApplyClicked', @VCLua_FontDialog_ApplyClicked);
 	TLuaMethodInfo.Create(FontDialogFuncs, 'Execute', @VCLua_FontDialog_DoExecute);
 	FontDialogSets := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(FontDialogSets, 'OnApplyClicked', @VCLua_FontDialog_VCLuaSetOnApplyClicked, mfCall);
 	FindDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(FindDialogFuncs, 'CloseDialog', @VCLua_FindDialog_CloseDialog);
 	TLuaMethodInfo.Create(FindDialogFuncs, 'Execute', @VCLua_FindDialog_Execute);
@@ -716,7 +827,10 @@ begin
 	TLuaMethodInfo.Create(FindDialogFuncs, 'Position', @VCLua_FindDialog_VCLuaGetPosition, mfCall);
 	TLuaMethodInfo.Create(FindDialogFuncs, 'Top', @VCLua_FindDialog_VCLuaGetTop, mfCall);
 	FindDialogSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(FindDialogSets, 'OnReplace', @VCLua_FindDialog_VCLuaSetOnReplace, mfCall);
 	TLuaMethodInfo.Create(FindDialogSets, 'Left', @VCLua_FindDialog_VCLuaSetLeft, mfCall);
 	TLuaMethodInfo.Create(FindDialogSets, 'Position', @VCLua_FindDialog_VCLuaSetPosition, mfCall);
 	TLuaMethodInfo.Create(FindDialogSets, 'Top', @VCLua_FindDialog_VCLuaSetTop, mfCall);
+	TLuaMethodInfo.Create(FindDialogSets, 'OnFind', @VCLua_FindDialog_VCLuaSetOnFind, mfCall);
+	TLuaMethodInfo.Create(FindDialogSets, 'OnHelpClicked', @VCLua_FindDialog_VCLuaSetOnHelpClicked, mfCall);
 end.

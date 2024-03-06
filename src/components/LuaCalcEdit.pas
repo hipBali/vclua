@@ -20,8 +20,18 @@ type
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
+function VCLua_CalcEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
+var
+	lCalcEdit:TLuaCalcEdit;
+begin
+	CheckArg(L, 2);
+	lCalcEdit := TLuaCalcEdit(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCalcEdit.OnButtonClick));
+	lCalcEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
 
 procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo);
 begin

@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
 function VCLua_TrackBar_SetTick(L: Plua_State): Integer; cdecl;
 var
@@ -40,6 +40,17 @@ begin
 		on E: Exception do
 			CallError(L, 'TrackBar', 'SetTick', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_TrackBar_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lTrackBar:TLuaTrackBar;
+begin
+	CheckArg(L, 2);
+	lTrackBar := TLuaTrackBar(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTrackBar.OnChange));
+	lTrackBar.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
 end;
 
 procedure lua_push(L: Plua_State; const v: TTrackBar; pti: PTypeInfo);
@@ -65,5 +76,5 @@ begin
 	CustomTrackBarFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomTrackBarFuncs, 'SetTick', @VCLua_TrackBar_SetTick);
 	CustomTrackBarSets := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(CustomTrackBarSets, 'OnChange', @VCLua_TrackBar_VCLuaSetOnChange, mfCall);
 end.

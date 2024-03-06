@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LCLType, LuaClassesEvents, LuaEvent;
 
 function VCLua_Edit_Clear(L: Plua_State): Integer; cdecl;
 var
@@ -453,6 +453,17 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Edit_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lEdit:TLuaEdit;
+begin
+	CheckArg(L, 2);
+	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lEdit.OnChange));
+	lEdit.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_Edit_VCLuaSetPasswordChar(L: Plua_State): Integer; cdecl;
 var
 	lEdit:TLuaEdit;
@@ -711,6 +722,7 @@ begin
 	TLuaMethodInfo.Create(CustomEditSets, 'MaxLength', @VCLua_Edit_VCLuaSetMaxLength, mfCall);
 	TLuaMethodInfo.Create(CustomEditSets, 'Modified', @VCLua_Edit_VCLuaSetModified, mfCall);
 	TLuaMethodInfo.Create(CustomEditSets, 'NumbersOnly', @VCLua_Edit_VCLuaSetNumbersOnly, mfCall);
+	TLuaMethodInfo.Create(CustomEditSets, 'OnChange', @VCLua_Edit_VCLuaSetOnChange, mfCall);
 	TLuaMethodInfo.Create(CustomEditSets, 'PasswordChar', @VCLua_Edit_VCLuaSetPasswordChar, mfCall);
 	TLuaMethodInfo.Create(CustomEditSets, 'ReadOnly', @VCLua_Edit_VCLuaSetReadOnly, mfCall);
 	TLuaMethodInfo.Create(CustomEditSets, 'SelLength', @VCLua_Edit_VCLuaSetSelLength, mfCall);

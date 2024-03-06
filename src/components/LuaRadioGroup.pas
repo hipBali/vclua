@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent, LuaStrings;
 
 function VCLua_RadioGroup_CanModify(L: Plua_State): Integer; cdecl;
 var
@@ -246,6 +246,50 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
+function VCLua_RadioGroup_VCLuaSetOnClick(L: Plua_State): Integer; cdecl;
+var
+	lRadioGroup:TLuaRadioGroup;
+begin
+	CheckArg(L, 2);
+	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lRadioGroup.OnClick));
+	lRadioGroup.OnClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_RadioGroup_VCLuaSetOnItemEnter(L: Plua_State): Integer; cdecl;
+var
+	lRadioGroup:TLuaRadioGroup;
+begin
+	CheckArg(L, 2);
+	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lRadioGroup.OnItemEnter));
+	lRadioGroup.OnItemEnter := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_RadioGroup_VCLuaSetOnItemExit(L: Plua_State): Integer; cdecl;
+var
+	lRadioGroup:TLuaRadioGroup;
+begin
+	CheckArg(L, 2);
+	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lRadioGroup.OnItemExit));
+	lRadioGroup.OnItemExit := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_RadioGroup_VCLuaSetOnSelectionChanged(L: Plua_State): Integer; cdecl;
+var
+	lRadioGroup:TLuaRadioGroup;
+begin
+	CheckArg(L, 2);
+	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lRadioGroup.OnSelectionChanged));
+	lRadioGroup.OnSelectionChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TRadioGroup; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomRadioGroup',v);
@@ -281,4 +325,8 @@ begin
 	TLuaMethodInfo.Create(CustomRadioGroupSets, 'Items', @VCLua_RadioGroup_VCLuaSetItems, mfCall);
 	TLuaMethodInfo.Create(CustomRadioGroupSets, 'Columns', @VCLua_RadioGroup_VCLuaSetColumns, mfCall);
 	TLuaMethodInfo.Create(CustomRadioGroupSets, 'ColumnLayout', @VCLua_RadioGroup_VCLuaSetColumnLayout, mfCall);
+	TLuaMethodInfo.Create(CustomRadioGroupSets, 'OnClick', @VCLua_RadioGroup_VCLuaSetOnClick, mfCall);
+	TLuaMethodInfo.Create(CustomRadioGroupSets, 'OnItemEnter', @VCLua_RadioGroup_VCLuaSetOnItemEnter, mfCall);
+	TLuaMethodInfo.Create(CustomRadioGroupSets, 'OnItemExit', @VCLua_RadioGroup_VCLuaSetOnItemExit, mfCall);
+	TLuaMethodInfo.Create(CustomRadioGroupSets, 'OnSelectionChanged', @VCLua_RadioGroup_VCLuaSetOnSelectionChanged, mfCall);
 end.

@@ -23,7 +23,18 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaClassesEvents, LuaEvent;
+
+function VCLua_BasicAction_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+begin
+	CheckArg(L, 2);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lBasicAction.OnChange));
+	lBasicAction.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
 
 function VCLua_BasicAction_HandlesTarget(L: Plua_State): Integer; cdecl;
 var
@@ -146,6 +157,28 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
+function VCLua_BasicAction_VCLuaSetOnExecute(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+begin
+	CheckArg(L, 2);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lBasicAction.OnExecute));
+	lBasicAction.OnExecute := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_BasicAction_VCLuaSetOnUpdate(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+begin
+	CheckArg(L, 2);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lBasicAction.OnUpdate));
+	lBasicAction.OnUpdate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TBasicAction; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TBasicAction',v);
@@ -174,5 +207,8 @@ begin
 	TLuaMethodInfo.Create(BasicActionFuncs, 'Update', @VCLua_BasicAction_Update);
 	TLuaMethodInfo.Create(BasicActionFuncs, 'ActionComponent', @VCLua_BasicAction_VCLuaGetActionComponent, mfCall);
 	BasicActionSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BasicActionSets, 'OnChange', @VCLua_BasicAction_VCLuaSetOnChange, mfCall);
 	TLuaMethodInfo.Create(BasicActionSets, 'ActionComponent', @VCLua_BasicAction_VCLuaSetActionComponent, mfCall);
+	TLuaMethodInfo.Create(BasicActionSets, 'OnExecute', @VCLua_BasicAction_VCLuaSetOnExecute, mfCall);
+	TLuaMethodInfo.Create(BasicActionSets, 'OnUpdate', @VCLua_BasicAction_VCLuaSetOnUpdate, mfCall);
 end.

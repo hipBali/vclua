@@ -28,18 +28,19 @@ local stage = "scan"
 
 local classDoc = {}
 local proc = {
-	["public"] = function() 
-			if stage=="parse" then 
-				stage="fill" 
-			end 
+	["public"] = function()
+			stage="fill"
 		end,
-	["private"] =  function() 
-			stage="parse" 
+	["private"] = function()
+			stage="parse"
 		end,
-	["published"] =  function() 
-			stage="parse" 
+	["published"] = function()
+			stage="fillprop"
 		end,
-	["end"] =  function() 
+	["protected"] = function()
+			stage="fillprop"
+		end,
+	["end"] = function()
 			stage="scan"
 			return 1
 		end,
@@ -127,6 +128,7 @@ local function propertyToProc(decl)
   local canRead, canWrite = false, false
   local _, n = decl:find('%a+%s+') -- skip 'property'
   _, n, propName = decl:find('([_%w]+)', n + 1)
+  local isEvent = propName:find('^On%S')
   _, m, indexing = decl:find('%[([^]]+)%]', n + 1)
   if not indexing then m = n end
   _, n = decl:find(':%s*', m + 1)
@@ -143,8 +145,8 @@ local function propertyToProc(decl)
     return {{method=method, propInfo={r=canRead,w=canWrite,d=d,i=true}}}
   else
     local ret = {}
-    if canWrite then ret[1] = {method=method, propInfo={w=true,d=d,pref='VCLuaSet'}} end
-    if canRead then table.insert(ret, {method=("function %s:%s;"):format(propName, typeName), propInfo={r=true,d=d,pref='VCLuaGet'}}) end
+    if canWrite then ret[1] = {method=method, propInfo={w=true,d=d,pref='VCLuaSet',isEvent=isEvent}} end
+    if canRead and not isEvent then table.insert(ret, {method=("function %s:%s;"):format(propName, typeName), propInfo={r=true,d=d,pref='VCLuaGet'}}) end
     return ret
   end
 end
@@ -204,18 +206,30 @@ function testCEnd(l)
 	return 0
 end
 
+local function updRef(refs, tp, tl, className, pushed)
+	local r
+	if pushed then r = vcluaTypeRef[tl] else r = typeRef[tl] end
+	if r and not refs[r] then
+		refs[r] = true
+		cLog('Adding '..r..' to refs because of '..tp..' in '..className, 'INFO')
+	end
+end
+local eventSrcs = {}
+local eventAlias = {}
 local excludeType = loadMap("exclude/VarTypes")
 local function inferTypeKindFromLine(n, line, cfile, ref)
   local _, pos, typename = line:find("^%s*(T[_%w]+)%s*=%s*")
   if not pos then return end
   local c = typename:lower()
   if excludeType[c] then return end
+  --cLog('Set typeRef '..ref..' to '..typename, 'INFO')
   typeRef[c] = ref
+  local merged = n
   if pos == #line then
     -- declaration starts on another string as in GraphType
-    local m = n + 1
-    while cfile[m] == '' do m = m + 1 end
-    line = line..cfile[m]
+    merged = n + 1
+    while cfile[merged] == '' do merged = merged + 1 end
+    line = line..cfile[merged]
   end
   pos = pos + 1
   if line:find("^%s*set%s+of%s*",pos) then
@@ -240,6 +254,30 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
         VCLUA_FROMLUA[c] = VCLUA_FROMLUA_FULL
         VCLUA_TOLUA[c] = VCLUA_TOLUA_FULL
       end
+    elseif line:find("^%s*[pP]rocedure%s*%(",pos) then
+      if line:find("%);")==nil and line:find("%)%s*of%s+[oO]bject;")==nil then
+        local bl
+        repeat
+          merged = merged + 1
+          bl = cfile[merged]:gsub("^%s*", " ")
+          line = line..bl
+        until bl:find("%);") or bl:find("%)%s*of%s+[oO]bject;")
+      end
+      if line:find("%);") then return end
+      local md = {method=line,propInfo=true,name=typename,refs={}} -- propInfo for ensuring #md.vars==1
+      processParams(md)
+      for t,_ in pairs(md.mtypes) do
+        local tl = t:lower()
+        if excludeType[tl] then
+          cLog(" ** EXCLUDED:"..line.." "..t, "DEBUG")
+          excludeType[c] = 1
+          return
+        end
+        updRef(md.refs,t,tl,typename)
+      end
+      eventSrcs[ref] = eventSrcs[ref] or {}
+      eventSrcs[ref][c] = md
+      vcluaTypeRef[c] = 'Lua'..ref..'Events'
     else
       local _,_,alias = line:find('^%s*([_%w]+);$',pos)
       if alias then
@@ -252,6 +290,15 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
           VCLUA_TOLUA[c] = VCLUA_TOLUA[lalias]
           if VCLUA_ES_CHECK then VCLUA_ES_CHECK[c] = VCLUA_ES_CHECK[lalias] end
           cLog('Aliasing '..typename..' to '..alias, 'INFO')
+        else
+          local aref = typeRef[lalias]
+          if aref then
+            local asrc = eventSrcs[aref]
+            if asrc and asrc[lalias] then
+              eventAlias[c] = alias
+              cLog('Aliasing event '..typename..' to '..alias, 'INFO')
+            end
+          end
         end
       end
     end
@@ -295,9 +342,10 @@ local function processClass(def,cdef,ref)
 		if proc[lword] and stage~="scan" and proc[lword]() then
 			return true
 		end
-		if stage=="fill" and classTable[cname] then
+		local isOnlyProp = stage=="fillprop"
+		if (stage=="fill" or isOnlyProp) and classTable[cname] then
 			local isProp = lword=="property"
-			if lword=="procedure" or lword=="function" or isProp then
+			if (not isOnlyProp and (lword=="procedure" or lword=="function")) or isProp then
 				local mId = lword.." "..ln[2]
 				if exclude[mId] then
 					cLog(" ** EXCLUDE:"..mId, "DEBUG")
@@ -332,10 +380,10 @@ local function processClass(def,cdef,ref)
 						local ok=true
 						local mds={{method=l}}
 						if isProp then
-							if ln[2]:find('^On%S') then ok = false
+							if isOnlyProp and not ln[2]:find('^On%S') then ok = false
 							else
 								mds = propertyToProc(l)
-								if not mds then ok = false end-- or not md.propInfo.i
+								if not mds then ok = false end
 							end
 						end
 						if ok then
@@ -384,7 +432,8 @@ function processParams(md)
 		md.funcparams = {}
 		md.out={}
 		-- parse params, remove const flag
-		local s = s:match("%(([^%)]+)%)"):gsub("[cC]onst%s+","")
+		md.ptypelist = s:match("%(([^%)]+)%)")
+		s = md.ptypelist:gsub("[cC]onst%s+","")
 		-- test comma separated varlisting
 		local tmp = s:split(";")
 		local vart = {}
@@ -459,7 +508,11 @@ end
 local function getPropTempl(pi)
   return pi.r and (pi.w and VCLua_PROP or VCLua_PROP_READ) or VCLua_PROP_WRITE
 end
-
+local function applyFromLuaTempl(templ, varName, varType, vtLower)
+  local arrayType = varType:match('array%s+of%s+([_%w]+)')
+  templ = templ or (arrayType and VCLUA_TOARRAY) or VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
+  return templ:gsub('#VAR',varName):gsub('#TYP',arrayType or varType)
+end
 function createUnitBody(cdef, ref, refs)
 	local className = cdef.name
 	local classBody = {} 
@@ -484,15 +537,6 @@ function createUnitBody(cdef, ref, refs)
 		refs['Controls'] = true
 		refs['Classes'] = true
 	end
-	local function updRef(tp, pushed)
-		typ = tp:lower()
-		local r
-		if pushed then r = vcluaTypeRef[typ] else r = typeRef[typ] end
-		if r and not refs[r] then
-			refs[r] = true
-			cLog('Adding '..r..' to refs because of '..tp..' in '..className, 'INFO')
-		end
-	end
 	classDoc[className] = classDoc[className] or {}
 	classDoc[className]["reference"] = cdef.ref
 	for _,md in pairs(classTable[className]) do
@@ -504,12 +548,23 @@ function createUnitBody(cdef, ref, refs)
 		local ret, reto = nil, md.reto
 		local retCount = 0
 		local vars, varlist, funcparams, out, mtypes, pushTypes = md.vars, md.varlist, md.funcparams, md.out, md.mtypes, md.pushTypes
-		for typ,_ in pairs(mtypes) do updRef(typ) end
-		for typ,_ in pairs(pushTypes) do updRef(typ, true) end
+		for typ,_ in pairs(mtypes) do updRef(refs,typ,typ:lower(),className) end
+		for typ,_ in pairs(pushTypes) do updRef(refs,typ,typ:lower(),className,true) end
+		if pi and pi.isEvent and pi.w then
+			local t = md.vars[1][1].type
+			local tl = t:lower()
+			local at = eventAlias[tl]
+			if at then
+				t = at
+				tl = t:lower()
+			end
+			updRef(refs,t,tl,className,true)
+			refs['LuaEvent'] = true
+		end
 		if reto then
-			updRef(reto)
-			updRef(reto, true)
 			ret = reto:lower()
+			updRef(refs,reto,ret,className)
+			updRef(refs,reto,ret,className,true)
 			retCount = 1
 		end
 		-- additional outputs
@@ -560,7 +615,7 @@ function createUnitBody(cdef, ref, refs)
 
       local idx = 1
       if varlist then
-        s = s:gsub("#VARS","\n\t"..table.concat(varlist,";\n\t"),1)
+        s = s:gsub("#VARS",pi and pi.isEvent and '' or "\n\t"..table.concat(varlist,";\n\t")..';',1)
         -- processing parameters
         local varsFromLua = {}
         local defVars
@@ -572,14 +627,13 @@ function createUnitBody(cdef, ref, refs)
           for _,v in ipairs(maybeTempVars) do
             if varName == v then templ = VCLUA_FROMLUA_TEMP:gsub('#PROC',VCLUA_FROMLUA_TEMP_MAP[vtLower]) end
           end
-          if varValue then
+          if pi and pi.isEvent then
+          elseif varValue then
             templ = templ or (not VCLUA_ES_CHECK or VCLUA_ES_CHECK[vtLower]) and VCLUA_OPT_DEFAULT or VCLUA_OPT
             table.insert(varsFromLua,(templ:gsub('#TYP',varType):gsub("#DEF",varValue,1):gsub('#VAR',varName,1):gsub("#",idx,1)))
             if not defVars then defVars = idx - 1 end
           else
-            local arrayType = varType:match('array%s+of%s+([_%w]+)')
-            templ = templ or (arrayType and VCLUA_TOARRAY) or VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
-            table.insert(varsFromLua, (templ:gsub('#VAR',varName):gsub('#TYP',arrayType or varType):gsub("#",idx)))
+            table.insert(varsFromLua, (applyFromLuaTempl(templ,varName,varType,vtLower):gsub("#",idx)))
           end
         end
         -- input params checking
@@ -594,7 +648,7 @@ function createUnitBody(cdef, ref, refs)
         setProp = pi and pi.i and table.remove(varsFromLua,idx-1)
         s = s:gsub("#TOVCLUA",varsFromLua[1] and "\n\t"..table.concat(varsFromLua,"\n\t") or '',1)
       else
-        s = s:gsub("#VARS;","",1)
+        s = s:gsub("#VARS","",1)
         s = s:gsub("#VARCOUNT",1,1)
         s = s:gsub("#TOVCLUA","",1)
       end
@@ -603,12 +657,16 @@ function createUnitBody(cdef, ref, refs)
         stmts = getPropTempl(pi):gsub('#PAR', '['..fParams..']')
         stmts = stmts:gsub('#TOVCLUA',setProp,1)
         stmts = stmts:gsub('#PUSHOUT',retProp,1):gsub('#IDX',idx,1)
+      elseif pi and pi.w and pi.isEvent then
+        local typ = md.vars[1][1].type
+        local ltyp = (eventAlias[typ:lower()] or typ):gsub('^T','TLua')
+        stmts = VCLua_EVENT_SET:gsub('#LTYP',ltyp):gsub('#ETYP',typ)
       else
         stmts = VCLua_CALL:gsub('#SET',pi and pi.w and ' := val' or '',1)
         stmts = stmts:gsub('#PAR',pi and '' or '('..fParams..')',1)
         stmts = stmts:gsub('#RET',ret and "ret := " or "",1)
       end
-      local call = VCLua_TRY:gsub('#STMTS',stmts,1):gsub('#CNAME',className):gsub('#MNAME',mName)
+      local call = (pi and pi.isEvent and stmts or VCLua_TRY:gsub('#STMTS',stmts,1)):gsub('#CNAME',className):gsub('#MNAME',mName)
       if ret then
         local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
         s = s:gsub("#FUNC",call,1)
@@ -842,6 +900,58 @@ function table.reverse(t)
     table.insert(res, t[len-i])
   end
   return res
+end
+
+for _,kv in ipairs(HashedToSorted(eventSrcs)) do
+  local ref = kv.k
+  cLog(ref..' events:', "INFO")
+  local uname = 'Lua'..ref..'Events'
+  table.insert(pasSrc, uname)
+  local refs,implrefs,decls,defs={},{},{},{}
+  for _,kv in ipairs(HashedToSorted(kv.v)) do
+    local md = kv.v
+    --assert(ref == typeRef[kv.k]) -- allow for several defs for e.g. TGetChildProc
+    cLog(md.name, "INFO")
+    local def = VCLUA_EVENT_HANDLER:gsub('#IDX',#md.vars[1],1)
+    local fromlua = {'\n  luaNewTop := lua_gettop(L);'}
+    for idx,v in ipairs(md.out) do
+      local vtLower = v.type:lower()
+      local templ = applyFromLuaTempl(nil,v.name,v.type,vtLower)
+      templ = VCLUA_EVENT_RET:gsub('#FROMLUA',templ,1):gsub("#",'luaTop + '..idx)
+      table.insert(fromlua, templ)
+    end
+    def = def:gsub('#FROMLUA',fromlua[2] and table.concat(fromlua,'\n  ') or '',1)
+    local tolua = {fromlua[2] and 'luaTop := lua_gettop(L) - 1;' or nil}
+    for _,v in ipairs(md.vars[1]) do
+      local vtLower = v.type:lower()
+      local arrayType = v.type:match('array%s+of%s+([_%w]+)')
+      local templ = arrayType and VCLUA_PUSHARRAY:gsub('#TYP',arrayType,1) or VCLUA_TOLUA[vtLower] or VCLUA_TOLUA_DEFAULT 
+      table.insert(tolua,(templ:gsub("#VAR",v.name)))
+    end
+    def = def:gsub('#TOLUA',table.concat(tolua,'\n  '),1)
+    local typ = md.name:gsub('^T','',1)
+    def = def:gsub('#PAR',md.ptypelist,1):gsub('#TYP',typ,1)
+    table.insert(defs, def)
+    -- have to do it here, only after all processClass calls
+    for typ,_ in pairs(md.mtypes) do updRef(implrefs,typ,typ:lower(),md.name,true) end
+    implrefs[uname] = nil
+    local decl = VCLUA_EVENT_HANDLER_DECL:gsub('#PAR',md.ptypelist,1):gsub('#TYP',typ,1)
+    table.insert(decls, decl)
+    for ref,_ in pairs(md.refs) do refs[ref] = true end
+  end
+  local s = VCLUA_EVENTDEF
+  s = s:gsub('#DEFS',table.concat(defs,'\n'),1)
+  implrefs[''] = true
+  implrefs['System'] = nil
+  if eventImplRefs[ref] then implrefs[eventImplRefs[ref]] = true end
+  s = s:gsub('#IMPLREF',table.concat(HashedToSorted(implrefs),', '),1)
+  s = s:gsub('#DECLS',table.concat(decls,'\n'),1)
+  refs[''] = true
+  refs['System'] = nil
+  if eventRefs[ref] then refs[eventRefs[ref]] = true end
+  s = s:gsub('#REF',table.concat(HashedToSorted(refs),', '),1)
+  s = s:gsub('#UNITNAME',uname,1)
+	saveTextToFile(s,out_path.."src/events/"..uname..".pas")
 end
 
 local pasSrcStr = table.concat(pasSrc,",\n\t")

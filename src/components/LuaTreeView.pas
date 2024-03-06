@@ -45,7 +45,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaImageList, LuaStringList, StdCtrls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaClassesEvents, LuaComCtrlsEvents, LuaEvent, LuaImageList, LuaStringList, StdCtrls;
 
 function VCLua_TreeNode_VCLuaSetData(L: Plua_State): Integer; cdecl;
 var
@@ -855,616 +855,246 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_TreeView_VCLuaSetAutoExpand(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnAddition(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.AutoExpand := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'AutoExpand', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnAddition));
+	lTreeView.OnAddition := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetAutoExpand(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnAdvancedCustomDraw(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.AutoExpand;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'AutoExpand', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetHideSelection(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.HideSelection := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'HideSelection', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnAdvancedCustomDraw));
+	lTreeView.OnAdvancedCustomDraw := TLuaEvent.Factory<TTVAdvancedCustomDrawEvent,TLuaTVAdvancedCustomDrawEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetHideSelection(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnAdvancedCustomDrawItem(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.HideSelection;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'HideSelection', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetHotTrack(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.HotTrack := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'HotTrack', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnAdvancedCustomDrawItem));
+	lTreeView.OnAdvancedCustomDrawItem := TLuaEvent.Factory<TTVAdvancedCustomDrawItemEvent,TLuaTVAdvancedCustomDrawItemEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetHotTrack(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.HotTrack;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'HotTrack', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetHotTrackColor(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:TColor;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.HotTrackColor := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'HotTrackColor', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnChange));
+	lTreeView.OnChange := TLuaEvent.Factory<TTVChangedEvent,TLuaTVChangedEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetHotTrackColor(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:TColor;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.HotTrackColor;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'HotTrackColor', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetDisabledFontColor(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:TColor;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.DisabledFontColor := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'DisabledFontColor', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnChanging));
+	lTreeView.OnChanging := TLuaEvent.Factory<TTVChangingEvent,TLuaTVChangingEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetDisabledFontColor(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnCollapsed(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:TColor;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.DisabledFontColor;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'DisabledFontColor', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetIndent(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Integer;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.Indent := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'Indent', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCollapsed));
+	lTreeView.OnCollapsed := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetIndent(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnCollapsing(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Integer;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.Indent;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'Indent', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetMultiSelect(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.MultiSelect := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'MultiSelect', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCollapsing));
+	lTreeView.OnCollapsing := TLuaEvent.Factory<TTVCollapsingEvent,TLuaTVCollapsingEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetMultiSelect(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnCompare(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.MultiSelect;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'MultiSelect', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetReadOnly(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.ReadOnly := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ReadOnly', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCompare));
+	lTreeView.OnCompare := TLuaEvent.Factory<TTVCompareEvent,TLuaTVCompareEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetReadOnly(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnCustomCreateItem(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.ReadOnly;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ReadOnly', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetRightClickSelect(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.RightClickSelect := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'RightClickSelect', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCustomCreateItem));
+	lTreeView.OnCustomCreateItem := TLuaEvent.Factory<TTVCustomCreateNodeEvent,TLuaTVCustomCreateNodeEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetRightClickSelect(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnCustomDraw(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.RightClickSelect;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'RightClickSelect', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetRowSelect(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.RowSelect := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'RowSelect', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCustomDraw));
+	lTreeView.OnCustomDraw := TLuaEvent.Factory<TTVCustomDrawEvent,TLuaTVCustomDrawEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetRowSelect(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnCustomDrawItem(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.RowSelect;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'RowSelect', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetScrolledLeft(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:integer;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.ScrolledLeft := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ScrolledLeft', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCustomDrawItem));
+	lTreeView.OnCustomDrawItem := TLuaEvent.Factory<TTVCustomDrawItemEvent,TLuaTVCustomDrawItemEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetScrolledLeft(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnCustomDrawArrow(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:integer;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.ScrolledLeft;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ScrolledLeft', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetScrolledTop(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:integer;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.ScrolledTop := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ScrolledTop', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCustomDrawArrow));
+	lTreeView.OnCustomDrawArrow := TLuaEvent.Factory<TTVCustomDrawArrowEvent,TLuaTVCustomDrawArrowEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetScrolledTop(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnDeletion(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:integer;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.ScrolledTop;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ScrolledTop', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetShowButtons(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.ShowButtons := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ShowButtons', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnDeletion));
+	lTreeView.OnDeletion := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetShowButtons(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnEdited(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.ShowButtons;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ShowButtons', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetShowLines(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.ShowLines := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ShowLines', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnEdited));
+	lTreeView.OnEdited := TLuaEvent.Factory<TTVEditedEvent,TLuaTVEditedEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetShowLines(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnEditing(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.ShowLines;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ShowLines', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetShowRoot(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.ShowRoot := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ShowRoot', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnEditing));
+	lTreeView.OnEditing := TLuaEvent.Factory<TTVEditingEvent,TLuaTVEditingEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetShowRoot(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnEditingEnd(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.ShowRoot;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ShowRoot', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetShowSeparators(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.ShowSeparators := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ShowSeparators', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnEditingEnd));
+	lTreeView.OnEditingEnd := TLuaEvent.Factory<TTVEditingEndEvent,TLuaTVEditingEndEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetShowSeparators(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnExpanded(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.ShowSeparators;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ShowSeparators', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_TreeView_VCLuaSetSortType(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:TSortType;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val,TypeInfo(TSortType));
-	try
-		lTreeView.SortType := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'SortType', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnExpanded));
+	lTreeView.OnExpanded := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetSortType(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnExpanding(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:TSortType;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.SortType;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'SortType', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret,TypeInfo(ret));
-end;
-
-function VCLua_TreeView_VCLuaSetToolTips(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-	val:Boolean;
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lTreeView.ToolTips := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ToolTips', E.ClassName, E.Message);
-	end;
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnExpanding));
+	lTreeView.OnExpanding := TLuaEvent.Factory<TTVExpandingEvent,TLuaTVExpandingEvent>(L);
+	Result := 0;
 end;
 
-function VCLua_TreeView_VCLuaGetToolTips(L: Plua_State): Integer; cdecl;
+function VCLua_TreeView_VCLuaSetOnGetImageIndex(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
-	ret:Boolean;
 begin
-	CheckArg(L, 1);
+	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		ret := lTreeView.ToolTips;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'ToolTips', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnGetImageIndex));
+	lTreeView.OnGetImageIndex := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TreeView_VCLuaSetOnGetSelectedIndex(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+begin
+	CheckArg(L, 2);
+	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnGetSelectedIndex));
+	lTreeView.OnGetSelectedIndex := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TreeView_VCLuaSetOnNodeChanged(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+begin
+	CheckArg(L, 2);
+	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnNodeChanged));
+	lTreeView.OnNodeChanged := TLuaEvent.Factory<TTVNodeChangedEvent,TLuaTVNodeChangedEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TreeView_VCLuaSetOnSelectionChanged(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+begin
+	CheckArg(L, 2);
+	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnSelectionChanged));
+	lTreeView.OnSelectionChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_TreeView_AlphaSort(L: Plua_State): Integer; cdecl;
@@ -3101,24 +2731,6 @@ begin
 	
 	CustomTreeViewFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'AccessibilityOn', @VCLua_TreeView_VCLuaGetAccessibilityOn, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'AutoExpand', @VCLua_TreeView_VCLuaGetAutoExpand, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'HideSelection', @VCLua_TreeView_VCLuaGetHideSelection, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'HotTrack', @VCLua_TreeView_VCLuaGetHotTrack, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'HotTrackColor', @VCLua_TreeView_VCLuaGetHotTrackColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'DisabledFontColor', @VCLua_TreeView_VCLuaGetDisabledFontColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'Indent', @VCLua_TreeView_VCLuaGetIndent, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MultiSelect', @VCLua_TreeView_VCLuaGetMultiSelect, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ReadOnly', @VCLua_TreeView_VCLuaGetReadOnly, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'RightClickSelect', @VCLua_TreeView_VCLuaGetRightClickSelect, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'RowSelect', @VCLua_TreeView_VCLuaGetRowSelect, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ScrolledLeft', @VCLua_TreeView_VCLuaGetScrolledLeft, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ScrolledTop', @VCLua_TreeView_VCLuaGetScrolledTop, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ShowButtons', @VCLua_TreeView_VCLuaGetShowButtons, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ShowLines', @VCLua_TreeView_VCLuaGetShowLines, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ShowRoot', @VCLua_TreeView_VCLuaGetShowRoot, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ShowSeparators', @VCLua_TreeView_VCLuaGetShowSeparators, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'SortType', @VCLua_TreeView_VCLuaGetSortType, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ToolTips', @VCLua_TreeView_VCLuaGetToolTips, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'AlphaSort', @VCLua_TreeView_AlphaSort);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ClearSelection', @VCLua_TreeView_ClearSelection);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ConsistencyCheck', @VCLua_TreeView_ConsistencyCheck);
@@ -3186,24 +2798,28 @@ begin
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'TreeLinePenStyle', @VCLua_TreeView_VCLuaGetTreeLinePenStyle, mfCall);
 	CustomTreeViewSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'AccessibilityOn', @VCLua_TreeView_VCLuaSetAccessibilityOn, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'AutoExpand', @VCLua_TreeView_VCLuaSetAutoExpand, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'HideSelection', @VCLua_TreeView_VCLuaSetHideSelection, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'HotTrack', @VCLua_TreeView_VCLuaSetHotTrack, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'HotTrackColor', @VCLua_TreeView_VCLuaSetHotTrackColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'DisabledFontColor', @VCLua_TreeView_VCLuaSetDisabledFontColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'Indent', @VCLua_TreeView_VCLuaSetIndent, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'MultiSelect', @VCLua_TreeView_VCLuaSetMultiSelect, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ReadOnly', @VCLua_TreeView_VCLuaSetReadOnly, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'RightClickSelect', @VCLua_TreeView_VCLuaSetRightClickSelect, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'RowSelect', @VCLua_TreeView_VCLuaSetRowSelect, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ScrolledLeft', @VCLua_TreeView_VCLuaSetScrolledLeft, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ScrolledTop', @VCLua_TreeView_VCLuaSetScrolledTop, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ShowButtons', @VCLua_TreeView_VCLuaSetShowButtons, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ShowLines', @VCLua_TreeView_VCLuaSetShowLines, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ShowRoot', @VCLua_TreeView_VCLuaSetShowRoot, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ShowSeparators', @VCLua_TreeView_VCLuaSetShowSeparators, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'SortType', @VCLua_TreeView_VCLuaSetSortType, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ToolTips', @VCLua_TreeView_VCLuaSetToolTips, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnAddition', @VCLua_TreeView_VCLuaSetOnAddition, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnAdvancedCustomDraw', @VCLua_TreeView_VCLuaSetOnAdvancedCustomDraw, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnAdvancedCustomDrawItem', @VCLua_TreeView_VCLuaSetOnAdvancedCustomDrawItem, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnChange', @VCLua_TreeView_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnChanging', @VCLua_TreeView_VCLuaSetOnChanging, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCollapsed', @VCLua_TreeView_VCLuaSetOnCollapsed, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCollapsing', @VCLua_TreeView_VCLuaSetOnCollapsing, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCompare', @VCLua_TreeView_VCLuaSetOnCompare, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomCreateItem', @VCLua_TreeView_VCLuaSetOnCustomCreateItem, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomDraw', @VCLua_TreeView_VCLuaSetOnCustomDraw, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomDrawItem', @VCLua_TreeView_VCLuaSetOnCustomDrawItem, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomDrawArrow', @VCLua_TreeView_VCLuaSetOnCustomDrawArrow, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnDeletion', @VCLua_TreeView_VCLuaSetOnDeletion, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnEdited', @VCLua_TreeView_VCLuaSetOnEdited, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnEditing', @VCLua_TreeView_VCLuaSetOnEditing, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnEditingEnd', @VCLua_TreeView_VCLuaSetOnEditingEnd, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnExpanded', @VCLua_TreeView_VCLuaSetOnExpanded, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnExpanding', @VCLua_TreeView_VCLuaSetOnExpanding, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnGetImageIndex', @VCLua_TreeView_VCLuaSetOnGetImageIndex, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnGetSelectedIndex', @VCLua_TreeView_VCLuaSetOnGetSelectedIndex, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnNodeChanged', @VCLua_TreeView_VCLuaSetOnNodeChanged, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnSelectionChanged', @VCLua_TreeView_VCLuaSetOnSelectionChanged, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'BackgroundColor', @VCLua_TreeView_VCLuaSetBackgroundColor, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'BottomItem', @VCLua_TreeView_VCLuaSetBottomItem, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'DefaultItemHeight', @VCLua_TreeView_VCLuaSetDefaultItemHeight, mfCall);

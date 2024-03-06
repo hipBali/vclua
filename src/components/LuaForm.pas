@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaBitmap, LuaControl, LuaMenu, Menus, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaBitmap, LuaClassesEvents, LuaControl, LuaEvent, LuaFormsEvents, LuaMenu, Menus, LCLType;
 
 function VCLua_Form_AfterConstruction(L: Plua_State): Integer; cdecl;
 var
@@ -1303,6 +1303,127 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
+function VCLua_Form_VCLuaSetOnActivate(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnActivate));
+	lForm.OnActivate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnClose(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnClose));
+	lForm.OnClose := TLuaEvent.Factory<TCloseEvent,TLuaCloseEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnCloseQuery(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnCloseQuery));
+	lForm.OnCloseQuery := TLuaEvent.Factory<TCloseQueryEvent,TLuaCloseQueryEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnCreate(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnCreate));
+	lForm.OnCreate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnDeactivate(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnDeactivate));
+	lForm.OnDeactivate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnDestroy(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnDestroy));
+	lForm.OnDestroy := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnDropFiles(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnDropFiles));
+	lForm.OnDropFiles := TLuaEvent.Factory<TDropFilesEvent,TLuaDropFilesEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnHide(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnHide));
+	lForm.OnHide := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnShow(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnShow));
+	lForm.OnShow := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnShowModalFinished(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnShowModalFinished));
+	lForm.OnShowModalFinished := TLuaEvent.Factory<TModalDialogFinished,TLuaModalDialogFinished>(L);
+	Result := 0;
+end;
+
+function VCLua_Form_VCLuaSetOnWindowStateChange(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 2);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lForm.OnWindowStateChange));
+	lForm.OnWindowStateChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_Form_VCLuaSetPosition(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
@@ -1576,6 +1697,17 @@ begin
 	TLuaMethodInfo.Create(CustomFormSets, 'ModalResult', @VCLua_Form_VCLuaSetModalResult, mfCall);
 	TLuaMethodInfo.Create(CustomFormSets, 'PopupMode', @VCLua_Form_VCLuaSetPopupMode, mfCall);
 	TLuaMethodInfo.Create(CustomFormSets, 'PopupParent', @VCLua_Form_VCLuaSetPopupParent, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnActivate', @VCLua_Form_VCLuaSetOnActivate, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnClose', @VCLua_Form_VCLuaSetOnClose, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnCloseQuery', @VCLua_Form_VCLuaSetOnCloseQuery, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnCreate', @VCLua_Form_VCLuaSetOnCreate, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnDeactivate', @VCLua_Form_VCLuaSetOnDeactivate, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnDestroy', @VCLua_Form_VCLuaSetOnDestroy, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnDropFiles', @VCLua_Form_VCLuaSetOnDropFiles, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnHide', @VCLua_Form_VCLuaSetOnHide, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnShow', @VCLua_Form_VCLuaSetOnShow, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnShowModalFinished', @VCLua_Form_VCLuaSetOnShowModalFinished, mfCall);
+	TLuaMethodInfo.Create(CustomFormSets, 'OnWindowStateChange', @VCLua_Form_VCLuaSetOnWindowStateChange, mfCall);
 	TLuaMethodInfo.Create(CustomFormSets, 'Position', @VCLua_Form_VCLuaSetPosition, mfCall);
 	TLuaMethodInfo.Create(CustomFormSets, 'ShowInTaskBar', @VCLua_Form_VCLuaSetShowInTaskBar, mfCall);
 	TLuaMethodInfo.Create(CustomFormSets, 'WindowState', @VCLua_Form_VCLuaSetWindowState, mfCall);

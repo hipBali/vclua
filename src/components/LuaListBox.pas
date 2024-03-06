@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaEvent, LuaStdCtrlsEvents, LuaStrings;
 
 function VCLua_ListBox_AddItem(L: Plua_State): Integer; cdecl;
 var
@@ -601,6 +601,39 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_ListBox_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListBox.OnDrawItem));
+	lListBox.OnDrawItem := TLuaEvent.Factory<TDrawItemEvent,TLuaDrawItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListBox_VCLuaSetOnMeasureItem(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListBox.OnMeasureItem));
+	lListBox.OnMeasureItem := TLuaEvent.Factory<TMeasureItemEvent,TLuaMeasureItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListBox_VCLuaSetOnSelectionChange(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+begin
+	CheckArg(L, 2);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListBox.OnSelectionChange));
+	lListBox.OnSelectionChange := TLuaEvent.Factory<TSelectionChangeEvent,TLuaSelectionChangeEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_ListBox_VCLuaSetOptions(L: Plua_State): Integer; cdecl;
 var
 	lListBox:TLuaListBox;
@@ -875,6 +908,9 @@ begin
 	TLuaMethodInfo.Create(CustomListBoxSets, 'ItemIndex', @VCLua_ListBox_VCLuaSetItemIndex, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxSets, 'Items', @VCLua_ListBox_VCLuaSetItems, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxSets, 'MultiSelect', @VCLua_ListBox_VCLuaSetMultiSelect, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'OnDrawItem', @VCLua_ListBox_VCLuaSetOnDrawItem, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'OnMeasureItem', @VCLua_ListBox_VCLuaSetOnMeasureItem, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxSets, 'OnSelectionChange', @VCLua_ListBox_VCLuaSetOnSelectionChange, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxSets, 'Options', @VCLua_ListBox_VCLuaSetOptions, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxSets, 'ScrollWidth', @VCLua_ListBox_VCLuaSetScrollWidth, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxSets, 'Sorted', @VCLua_ListBox_VCLuaSetSorted, mfCall);

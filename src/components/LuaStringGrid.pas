@@ -47,7 +47,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaDrawGrid, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaDrawGrid, LuaEvent, LuaGridsEvents, LuaStrings;
 
 function VCLua_GridColumn_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -420,6 +420,17 @@ begin
 			CallError(L, 'GridColumns', 'Enabled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
+end;
+
+function VCLua_StringGrid_VCLuaSetOnCellProcess(L: Plua_State): Integer; cdecl;
+var
+	lStringGrid:TLuaStringGrid;
+begin
+	CheckArg(L, 2);
+	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lStringGrid.OnCellProcess));
+	lStringGrid.OnCellProcess := TLuaEvent.Factory<TCellProcessEvent,TLuaCellProcessEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_StringGrid_AutoSizeColumn(L: Plua_State): Integer; cdecl;
@@ -887,5 +898,5 @@ begin
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'SetCells', @VCLua_StringGrid_GridCellsSet);
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'GetSelectedCell', @VCLua_StringGrid_GridGetSelectedCell);
 	CustomStringGridSets := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(CustomStringGridSets, 'OnCellProcess', @VCLua_StringGrid_VCLuaSetOnCellProcess, mfCall);
 end.

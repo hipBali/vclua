@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaPicture;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaClassesEvents, LuaEvent, LuaExtCtrlsEvents, LuaPicture;
 
 function VCLua_Image_VCLuaGetCanvas(L: Plua_State): Integer; cdecl;
 var
@@ -416,6 +416,28 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Image_VCLuaSetOnPictureChanged(L: Plua_State): Integer; cdecl;
+var
+	lImage:TLuaImage;
+begin
+	CheckArg(L, 2);
+	lImage := TLuaImage(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lImage.OnPictureChanged));
+	lImage.OnPictureChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Image_VCLuaSetOnPaintBackground(L: Plua_State): Integer; cdecl;
+var
+	lImage:TLuaImage;
+begin
+	CheckArg(L, 2);
+	lImage := TLuaImage(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lImage.OnPaintBackground));
+	lImage.OnPaintBackground := TLuaEvent.Factory<TImagePaintBackgroundEvent,TLuaImagePaintBackgroundEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TImage; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomImage',v);
@@ -461,4 +483,6 @@ begin
 	TLuaMethodInfo.Create(CustomImageSets, 'StretchInEnabled', @VCLua_Image_VCLuaSetStretchInEnabled, mfCall);
 	TLuaMethodInfo.Create(CustomImageSets, 'Transparent', @VCLua_Image_VCLuaSetTransparent, mfCall);
 	TLuaMethodInfo.Create(CustomImageSets, 'Proportional', @VCLua_Image_VCLuaSetProportional, mfCall);
+	TLuaMethodInfo.Create(CustomImageSets, 'OnPictureChanged', @VCLua_Image_VCLuaSetOnPictureChanged, mfCall);
+	TLuaMethodInfo.Create(CustomImageSets, 'OnPaintBackground', @VCLua_Image_VCLuaSetOnPaintBackground, mfCall);
 end.

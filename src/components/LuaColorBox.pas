@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Dialogs, Graphics, LuaCommonDialogs;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Dialogs, Graphics, LuaColorBoxEvents, LuaCommonDialogs, LuaEvent;
 
 function VCLua_ColorBox_VCLuaSetColorRectWidth(L: Plua_State): Integer; cdecl;
 var
@@ -233,6 +233,17 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_ColorBox_VCLuaSetOnGetColors(L: Plua_State): Integer; cdecl;
+var
+	lColorBox:TLuaColorBox;
+begin
+	CheckArg(L, 2);
+	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lColorBox.OnGetColors));
+	lColorBox.OnGetColors := TLuaEvent.Factory<TGetColorsEvent,TLuaGetColorsEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_ColorBox_VCLuaSetColorDialog(L: Plua_State): Integer; cdecl;
 var
 	lColorBox:TLuaColorBox;
@@ -302,5 +313,6 @@ begin
 	TLuaMethodInfo.Create(CustomColorBoxSets, 'Selected', @VCLua_ColorBox_VCLuaSetSelected, mfCall);
 	TLuaMethodInfo.Create(CustomColorBoxSets, 'DefaultColorColor', @VCLua_ColorBox_VCLuaSetDefaultColorColor, mfCall);
 	TLuaMethodInfo.Create(CustomColorBoxSets, 'NoneColorColor', @VCLua_ColorBox_VCLuaSetNoneColorColor, mfCall);
+	TLuaMethodInfo.Create(CustomColorBoxSets, 'OnGetColors', @VCLua_ColorBox_VCLuaSetOnGetColors, mfCall);
 	TLuaMethodInfo.Create(CustomColorBoxSets, 'ColorDialog', @VCLua_ColorBox_VCLuaSetColorDialog, mfCall);
 end.

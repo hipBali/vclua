@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaControl;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaControl, LuaEvent, LuaExtCtrlsEvents;
 
 function VCLua_Splitter_AnchorSplitter(L: Plua_State): Integer; cdecl;
 var
@@ -250,6 +250,39 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Splitter_VCLuaSetOnCanOffset(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lSplitter.OnCanOffset));
+	lSplitter.OnCanOffset := TLuaEvent.Factory<TCanOffsetEvent,TLuaCanOffsetEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Splitter_VCLuaSetOnCanResize(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lSplitter.OnCanResize));
+	lSplitter.OnCanResize := TLuaEvent.Factory<TCanResizeEvent,TLuaCanResizeEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Splitter_VCLuaSetOnMoved(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lSplitter.OnMoved));
+	lSplitter.OnMoved := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_Splitter_VCLuaSetResizeAnchor(L: Plua_State): Integer; cdecl;
 var
 	lSplitter:TLuaSplitter;
@@ -355,6 +388,9 @@ begin
 	TLuaMethodInfo.Create(CustomSplitterSets, 'AutoSnap', @VCLua_Splitter_VCLuaSetAutoSnap, mfCall);
 	TLuaMethodInfo.Create(CustomSplitterSets, 'Beveled', @VCLua_Splitter_VCLuaSetBeveled, mfCall);
 	TLuaMethodInfo.Create(CustomSplitterSets, 'MinSize', @VCLua_Splitter_VCLuaSetMinSize, mfCall);
+	TLuaMethodInfo.Create(CustomSplitterSets, 'OnCanOffset', @VCLua_Splitter_VCLuaSetOnCanOffset, mfCall);
+	TLuaMethodInfo.Create(CustomSplitterSets, 'OnCanResize', @VCLua_Splitter_VCLuaSetOnCanResize, mfCall);
+	TLuaMethodInfo.Create(CustomSplitterSets, 'OnMoved', @VCLua_Splitter_VCLuaSetOnMoved, mfCall);
 	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeAnchor', @VCLua_Splitter_VCLuaSetResizeAnchor, mfCall);
 	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeStyle', @VCLua_Splitter_VCLuaSetResizeStyle, mfCall);
 end.

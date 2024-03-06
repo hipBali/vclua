@@ -27,9 +27,10 @@ button._ = {
 	caption='Click Me...',
 	top=200,
 	left=300,
-	onClick = function(b)
+	OnClick = function(b)
 		VCL.ShowMessage('Hello world!')
 		b.caption = 'Clicked!'
+		b.OnClick = nil
 	end,
 	OnMouseUp = function(b, _, _, x, y)
 		local p = {x=x,y=y}
@@ -37,7 +38,6 @@ button._ = {
 		print(b:ClientToParent(p).x, 'no param')
 		print(b:ClientToParent(p, nil).x, 'nil')
 		print(b:ClientToParent(p, b.Parent).x, 'b.parent')
-		-- any method can receive objects without cast to parameter type
 		-- mainPanel is the same b.Parent but of more concrete type, so the result is the same
 		print(b:ClientToParent(p, mainPanel).x, 'mainPanel')
 		-- this should produce an integer larger than previous integers by 5 (BorderWidth)

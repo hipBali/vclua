@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
 function VCLua_TextStrings_Clear(L: Plua_State): Integer; cdecl;
 var
@@ -338,6 +338,28 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_TextStrings_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lTextStrings:TLuaTextStrings;
+begin
+	CheckArg(L, 2);
+	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTextStrings.OnChange));
+	lTextStrings.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TextStrings_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
+var
+	lTextStrings:TLuaTextStrings;
+begin
+	CheckArg(L, 2);
+	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTextStrings.OnChanging));
+	lTextStrings.OnChanging := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TTextStrings; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TTextStrings',v);
@@ -371,4 +393,6 @@ begin
 	TLuaMethodInfo.Create(TextStringsFuncs, 'Text', @VCLua_TextStrings_VCLuaGetText, mfCall);
 	TextStringsSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(TextStringsSets, 'Text', @VCLua_TextStrings_VCLuaSetText, mfCall);
+	TLuaMethodInfo.Create(TextStringsSets, 'OnChange', @VCLua_TextStrings_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(TextStringsSets, 'OnChanging', @VCLua_TextStrings_VCLuaSetOnChanging, mfCall);
 end.

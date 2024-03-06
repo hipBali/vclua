@@ -83,7 +83,7 @@ function Create#CNAME(L: Plua_State): Integer; cdecl;
 VCLua_CDEF_LUAFUNC = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var
-	l#CNAME:TLua#CNAME;#VARS;#RETVAR;
+	l#CNAME:TLua#CNAME;#VARS#RETVAR;
 begin
 	CheckArg(L, #VARCOUNT);
 	l#CNAME := TLua#CNAME(GetLuaObject(L, 1));#TOVCLUA
@@ -98,6 +98,10 @@ VCLua_TRY = [[
 		on E: Exception do
 			CallError(L, '#CNAME', '#MNAME', E.ClassName, E.Message);
 	end;]]
+VCLua_EVENT_SET = [[
+	TLuaEvent.MaybeFree(TLuaCb(l#CNAME.#MNAME));
+	l#CNAME.#MNAME := TLuaEvent.Factory<#ETYP,#LTYP>(L);
+	Result := 0;]]
 VCLua_CALL = [[
 		#RETl#CNAME.#MNAME#PAR#SET;
 		Result := #RETCOUNT;]]
@@ -219,4 +223,44 @@ VCLUA_INIT = [[
 VCLUA_ADD_MAP = [[
   vmts.Add('T#CSRC', @#CSRCFuncs);
   propSets.Add('T#CSRC', @#CSRCSets);
+]]
+
+VCLUA_EVENTDEF = [[
+unit #UNITNAME;	
+
+{$MODE Delphi}{$T+}
+
+interface
+
+Uses Lua, LuaEvent#REF;
+
+type
+#DECLS
+
+implementation
+Uses LuaProxy, LuaObject, LuaHelper#IMPLREF;
+
+#DEFS
+end.
+]]
+
+VCLUA_EVENT_HANDLER_DECL = [[
+  TLua#TYP = class(TLuaEvent)
+    public
+      procedure Handler(#PAR);
+  end;
+]]
+
+VCLUA_EVENT_RET = "if # <= luaNewTop then #FROMLUA"
+
+VCLUA_EVENT_HANDLER = [[
+procedure TLua#TYP.Handler(#PAR);
+var
+  L: Plua_State;
+  luaTop, luaNewTop: Integer;
+begin
+  L := ToStack;
+  #TOLUA
+  DoCall(L,#IDX);#FROMLUA
+end;
 ]]

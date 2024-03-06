@@ -80,7 +80,26 @@ Generated with Lua-fpc parser/generator
 	LuaValueListEditor,
 	LuaCommonDialogs,
 	LuaColorBox,
-	LuaColorListBox;
+	LuaColorListBox,
+	LuaActnListEvents,
+	LuaCheckLstEvents,
+	LuaClassesEvents,
+	LuaColorBoxEvents,
+	LuaComCtrlsEvents,
+	LuaControlsEvents,
+	LuaDialogsEvents,
+	LuaEditBtnEvents,
+	LuaExtCtrlsEvents,
+	LuaFPImageEvents,
+	LuaFormsEvents,
+	LuaGraphicsEvents,
+	LuaGridsEvents,
+	LuaImgListEvents,
+	LuaLCLTypeEvents,
+	LuaMenusEvents,
+	LuaStdCtrlsEvents,
+	LuaTypesEvents,
+	LuaValEditEvents;
 	// *****************************************
 	
 	const

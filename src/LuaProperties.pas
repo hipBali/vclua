@@ -4,7 +4,7 @@ unit LuaProperties;
 
 interface
 
-Uses  Dialogs, Forms, Graphics, Classes, Controls, TypInfo, Lua, LuaHelper, LuaVmt;
+Uses  Dialogs, Forms, Graphics, Classes, Controls, TypInfo, Lua, LuaHelper;
 
 function LuaGetProperty(L: Plua_State): Integer; cdecl;
 function LuaSetProperty(L: Plua_State): Integer; cdecl;
@@ -22,6 +22,7 @@ Uses SysUtils,
      LuaController,
      LuaObject,
      LuaProxy,
+     LuaVmt,
      LCLProc;
 // ****************************************************************
 
@@ -517,7 +518,7 @@ var n,d: Integer;
     pName: String;
 begin
   result := false;
-  // L,1 is the Object self
+  // L,1 is the Object self unless called from InitControl
   if lua_istable(L,Index) then begin
         n := lua_gettop(L);
         lua_pushnil(L);
@@ -569,28 +570,17 @@ begin
   if (lua_gettop(L)=3) and (lua_istable(L,3)) and ((PropName='_')) then begin
      SetPropertiesFromLuaTable(L,Comp,3);
   end else begin
-    PInfo := GetPropInfo(TComponent(Comp).ClassInfo, PropName);
-    if (PInfo <> nil) and (lua_gettop(L)=3) then
-      CheckAndSetProperty(L,Comp,PInfo,PropName,3)
-    // else if (PInfo <> nil) and (PInfo^.Proptype^.Kind = tkArray) then
-    //    lua_setArrayProperty(L)
-    else begin
-      lua_pushliteral(L,'propSets');
-      lua_rawget(L,1);
-      pset := lua_touserdata(L,4);
-      if pset <> nil then begin
-        mi := TLuaMethodInfo(pset^.Find(PropName));
-        if Assigned(mi) then begin
-          lua_pop(L, 1);
-          lua_pushcfunction(L, mi.pf);
-          assert(mi.mf = mfCall,'no mfCall on propSet');
-          lua_pushvalue(L, 1);
-          lua_pushvalue(L, 3);
-          lua_call(L, 2, 0);
-          Exit;
-        end;
+      pset := GetPropSets(L,1);
+      if HasMethod(pset, PropName, mi) and ((lua_type(L,3) <> LUA_TTABLE) or isVcluaObject(L,3)) then begin
+        CallSetter(L, mi, 1, 3);
+        Exit;
       end;
-      lua_pop(L, 1);
+      PInfo := GetPropInfo(TComponent(Comp).ClassInfo, PropName);
+      if (PInfo <> nil) and (lua_gettop(L)=3) then
+        CheckAndSetProperty(L,Comp,PInfo,PropName,3)
+      // else if (PInfo <> nil) and (PInfo^.Proptype^.Kind = tkArray) then
+      //    lua_setArrayProperty(L)
+      else begin
        case lua_type(L,3) of
   		LUA_TNIL: LuaRawSetTableNil(L,1,lua_tostring(L, 2));
   		LUA_TBOOLEAN: LuaRawSetTableBoolean(L,1,lua_tostring(L, 2),lua_toboolean(L, 3));
@@ -705,17 +695,14 @@ begin
   lua_pushliteral(L,'vmt');
   lua_rawget(L,1);
   pvmt := lua_touserdata(L,3);
-  if pvmt <> nil then begin
-    mi := TLuaMethodInfo(pvmt^.Find(PropName));
-    if Assigned(mi) then begin
-      lua_pop(L, 2);
-      lua_pushcfunction(L, mi.pf);
-      if mi.mf = mfCall then begin
-        lua_pushvalue(L, 1);
-        lua_call(L, 1, 1);
-      end;
-      Exit;
+  if HasMethod(pvmt, PropName, mi) then begin
+    lua_pop(L, 2);
+    lua_pushcfunction(L, mi.pf);
+    if mi.mf = mfCall then begin
+      lua_pushvalue(L, 1);
+      lua_call(L, 1, 1);
     end;
+    Exit;
   end;
   lua_pop(L,1);
   // now try to get as property

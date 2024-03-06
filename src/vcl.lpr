@@ -8,7 +8,6 @@ uses
   SysUtils,
   Interfaces,
   TypInfo,
-  FGL,
   Lua in 'lua.pas',
   LuaHelper in 'LuaHelper.pas',
   LuaController in 'LuaController.pas',

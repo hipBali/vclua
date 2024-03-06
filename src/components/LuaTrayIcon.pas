@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaCanvas, LuaImageList, LuaMenu, Menus;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaCanvas, LuaClassesEvents, LuaControlsEvents, LuaEvent, LuaImageList, LuaMenu, Menus;
 
 function VCLua_TrayIcon_Hide(L: Plua_State): Integer; cdecl;
 var
@@ -533,6 +533,72 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_TrayIcon_VCLuaSetOnClick(L: Plua_State): Integer; cdecl;
+var
+	lTrayIcon:TLuaTrayIcon;
+begin
+	CheckArg(L, 2);
+	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnClick));
+	lTrayIcon.OnClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TrayIcon_VCLuaSetOnDblClick(L: Plua_State): Integer; cdecl;
+var
+	lTrayIcon:TLuaTrayIcon;
+begin
+	CheckArg(L, 2);
+	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnDblClick));
+	lTrayIcon.OnDblClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TrayIcon_VCLuaSetOnMouseDown(L: Plua_State): Integer; cdecl;
+var
+	lTrayIcon:TLuaTrayIcon;
+begin
+	CheckArg(L, 2);
+	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnMouseDown));
+	lTrayIcon.OnMouseDown := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TrayIcon_VCLuaSetOnMouseUp(L: Plua_State): Integer; cdecl;
+var
+	lTrayIcon:TLuaTrayIcon;
+begin
+	CheckArg(L, 2);
+	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnMouseUp));
+	lTrayIcon.OnMouseUp := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TrayIcon_VCLuaSetOnMouseMove(L: Plua_State): Integer; cdecl;
+var
+	lTrayIcon:TLuaTrayIcon;
+begin
+	CheckArg(L, 2);
+	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnMouseMove));
+	lTrayIcon.OnMouseMove := TLuaEvent.Factory<TMouseMoveEvent,TLuaMouseMoveEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TrayIcon_VCLuaSetOnPaint(L: Plua_State): Integer; cdecl;
+var
+	lTrayIcon:TLuaTrayIcon;
+begin
+	CheckArg(L, 2);
+	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnPaint));
+	lTrayIcon.OnPaint := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TTrayIcon; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomTrayIcon',v);
@@ -585,4 +651,10 @@ begin
 	TLuaMethodInfo.Create(CustomTrayIconSets, 'Hint', @VCLua_TrayIcon_VCLuaSetHint, mfCall);
 	TLuaMethodInfo.Create(CustomTrayIconSets, 'ShowIcon', @VCLua_TrayIcon_VCLuaSetShowIcon, mfCall);
 	TLuaMethodInfo.Create(CustomTrayIconSets, 'Visible', @VCLua_TrayIcon_VCLuaSetVisible, mfCall);
+	TLuaMethodInfo.Create(CustomTrayIconSets, 'OnClick', @VCLua_TrayIcon_VCLuaSetOnClick, mfCall);
+	TLuaMethodInfo.Create(CustomTrayIconSets, 'OnDblClick', @VCLua_TrayIcon_VCLuaSetOnDblClick, mfCall);
+	TLuaMethodInfo.Create(CustomTrayIconSets, 'OnMouseDown', @VCLua_TrayIcon_VCLuaSetOnMouseDown, mfCall);
+	TLuaMethodInfo.Create(CustomTrayIconSets, 'OnMouseUp', @VCLua_TrayIcon_VCLuaSetOnMouseUp, mfCall);
+	TLuaMethodInfo.Create(CustomTrayIconSets, 'OnMouseMove', @VCLua_TrayIcon_VCLuaSetOnMouseMove, mfCall);
+	TLuaMethodInfo.Create(CustomTrayIconSets, 'OnPaint', @VCLua_TrayIcon_VCLuaSetOnPaint, mfCall);
 end.

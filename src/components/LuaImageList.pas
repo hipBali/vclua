@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, GraphType, Graphics, Types;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, GraphType, Graphics, LuaClassesEvents, LuaEvent, LuaImgListEvents, Types;
 
 function VCLua_ImageList_AssignTo(L: Plua_State): Integer; cdecl;
 var
@@ -1400,6 +1400,17 @@ begin
 	end;
 end;
 
+function VCLua_ImageList_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lImageList.OnChange));
+	lImageList.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_ImageList_VCLuaSetMasked(L: Plua_State): Integer; cdecl;
 var
 	lImageList:TLuaImageList;
@@ -1553,6 +1564,17 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
+function VCLua_ImageList_VCLuaSetOnGetWidthForPPI(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lImageList.OnGetWidthForPPI));
+	lImageList.OnGetWidthForPPI := TLuaEvent.Factory<TCustomImageListGetWidthForPPI,TLuaCustomImageListGetWidthForPPI>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TImageList; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomImageList',v);
@@ -1649,8 +1671,10 @@ begin
 	TLuaMethodInfo.Create(CustomImageListSets, 'DrawingStyle', @VCLua_ImageList_VCLuaSetDrawingStyle, mfCall);
 	TLuaMethodInfo.Create(CustomImageListSets, 'Height', @VCLua_ImageList_VCLuaSetHeight, mfCall);
 	TLuaMethodInfo.Create(CustomImageListSets, 'Width', @VCLua_ImageList_VCLuaSetWidth, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'OnChange', @VCLua_ImageList_VCLuaSetOnChange, mfCall);
 	TLuaMethodInfo.Create(CustomImageListSets, 'Masked', @VCLua_ImageList_VCLuaSetMasked, mfCall);
 	TLuaMethodInfo.Create(CustomImageListSets, 'Scaled', @VCLua_ImageList_VCLuaSetScaled, mfCall);
 	TLuaMethodInfo.Create(CustomImageListSets, 'ShareImages', @VCLua_ImageList_VCLuaSetShareImages, mfCall);
 	TLuaMethodInfo.Create(CustomImageListSets, 'ImageType', @VCLua_ImageList_VCLuaSetImageType, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'OnGetWidthForPPI', @VCLua_ImageList_VCLuaSetOnGetWidthForPPI, mfCall);
 end.

@@ -32,7 +32,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
       <RevisionNr Value="2"/>
-      <BuildNr Value="222"/>
+      <BuildNr Value="224"/>
       <Language Value="0809"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPreRelease="True"/>
@@ -232,7 +232,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="src;src\addons;$(ProjOutDir)"/>
-      <OtherUnitFiles Value="src;src\components;src\addons;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\lazutils;$(LazarusDir)\components\datetimectrls"/>
+      <OtherUnitFiles Value="src;src\components;src\events;src\addons;$(LazarusDir)\components\rtticontrols;$(LazarusDir)\components\ideintf;$(LazarusDir)\components\lazcontrols;$(LazarusDir)\components\lazutils;$(LazarusDir)\components\datetimectrls"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

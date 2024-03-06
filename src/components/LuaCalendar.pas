@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
 function VCLua_Calendar_HitTest(L: Plua_State): Integer; cdecl;
 var
@@ -197,6 +197,50 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
+function VCLua_Calendar_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lCalendar:TLuaCalendar;
+begin
+	CheckArg(L, 2);
+	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCalendar.OnChange));
+	lCalendar.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Calendar_VCLuaSetOnDayChanged(L: Plua_State): Integer; cdecl;
+var
+	lCalendar:TLuaCalendar;
+begin
+	CheckArg(L, 2);
+	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCalendar.OnDayChanged));
+	lCalendar.OnDayChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Calendar_VCLuaSetOnMonthChanged(L: Plua_State): Integer; cdecl;
+var
+	lCalendar:TLuaCalendar;
+begin
+	CheckArg(L, 2);
+	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCalendar.OnMonthChanged));
+	lCalendar.OnMonthChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Calendar_VCLuaSetOnYearChanged(L: Plua_State): Integer; cdecl;
+var
+	lCalendar:TLuaCalendar;
+begin
+	CheckArg(L, 2);
+	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCalendar.OnYearChanged));
+	lCalendar.OnYearChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TCalendar; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomCalendar',v);
@@ -229,4 +273,8 @@ begin
 	TLuaMethodInfo.Create(CustomCalendarSets, 'DateTime', @VCLua_Calendar_VCLuaSetDateTime, mfCall);
 	TLuaMethodInfo.Create(CustomCalendarSets, 'DisplaySettings', @VCLua_Calendar_VCLuaSetDisplaySettings, mfCall);
 	TLuaMethodInfo.Create(CustomCalendarSets, 'FirstDayOfWeek', @VCLua_Calendar_VCLuaSetFirstDayOfWeek, mfCall);
+	TLuaMethodInfo.Create(CustomCalendarSets, 'OnChange', @VCLua_Calendar_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(CustomCalendarSets, 'OnDayChanged', @VCLua_Calendar_VCLuaSetOnDayChanged, mfCall);
+	TLuaMethodInfo.Create(CustomCalendarSets, 'OnMonthChanged', @VCLua_Calendar_VCLuaSetOnMonthChanged, mfCall);
+	TLuaMethodInfo.Create(CustomCalendarSets, 'OnYearChanged', @VCLua_Calendar_VCLuaSetOnYearChanged, mfCall);
 end.

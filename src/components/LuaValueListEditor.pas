@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent, LuaValEditEvents;
 
 function VCLua_ValueListEditor_Clear(L: Plua_State): Integer; cdecl;
 var
@@ -385,6 +385,50 @@ begin
 	end;
 end;
 
+function VCLua_ValueListEditor_VCLuaSetOnGetPickList(L: Plua_State): Integer; cdecl;
+var
+	lValueListEditor:TLuaValueListEditor;
+begin
+	CheckArg(L, 2);
+	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lValueListEditor.OnGetPickList));
+	lValueListEditor.OnGetPickList := TLuaEvent.Factory<TGetPickListEvent,TLuaGetPickListEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ValueListEditor_VCLuaSetOnStringsChange(L: Plua_State): Integer; cdecl;
+var
+	lValueListEditor:TLuaValueListEditor;
+begin
+	CheckArg(L, 2);
+	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lValueListEditor.OnStringsChange));
+	lValueListEditor.OnStringsChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ValueListEditor_VCLuaSetOnStringsChanging(L: Plua_State): Integer; cdecl;
+var
+	lValueListEditor:TLuaValueListEditor;
+begin
+	CheckArg(L, 2);
+	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lValueListEditor.OnStringsChanging));
+	lValueListEditor.OnStringsChanging := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ValueListEditor_VCLuaSetOnValidate(L: Plua_State): Integer; cdecl;
+var
+	lValueListEditor:TLuaValueListEditor;
+begin
+	CheckArg(L, 2);
+	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lValueListEditor.OnValidate));
+	lValueListEditor.OnValidate := TLuaEvent.Factory<TOnValidateEvent,TLuaOnValidateEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TValueListEditor',v);
@@ -425,5 +469,8 @@ begin
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Keys', @VCLua_ValueListEditor_Keys);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Values', @VCLua_ValueListEditor_Values);
 	ValueListEditorSets := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(ValueListEditorSets, 'OnGetPickList', @VCLua_ValueListEditor_VCLuaSetOnGetPickList, mfCall);
+	TLuaMethodInfo.Create(ValueListEditorSets, 'OnStringsChange', @VCLua_ValueListEditor_VCLuaSetOnStringsChange, mfCall);
+	TLuaMethodInfo.Create(ValueListEditorSets, 'OnStringsChanging', @VCLua_ValueListEditor_VCLuaSetOnStringsChanging, mfCall);
+	TLuaMethodInfo.Create(ValueListEditorSets, 'OnValidate', @VCLua_ValueListEditor_VCLuaSetOnValidate, mfCall);
 end.

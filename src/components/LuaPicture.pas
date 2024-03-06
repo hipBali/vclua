@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent, LuaFPImageEvents;
 
 function VCLua_Picture_Clear(L: Plua_State): Integer; cdecl;
 var
@@ -185,6 +185,28 @@ begin
 	end;
 end;
 
+function VCLua_Picture_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lPicture:TLuaPicture;
+begin
+	CheckArg(L, 2);
+	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lPicture.OnChange));
+	lPicture.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Picture_VCLuaSetOnProgress(L: Plua_State): Integer; cdecl;
+var
+	lPicture:TLuaPicture;
+begin
+	CheckArg(L, 2);
+	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lPicture.OnProgress));
+	lPicture.OnProgress := TLuaEvent.Factory<TProgressEvent,TLuaFPImgProgressEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TPicture; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TPicture',v);
@@ -209,5 +231,6 @@ begin
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStreamWithFileExt', @VCLua_Picture_SaveToStreamWithFileExt);
 	TLuaMethodInfo.Create(PictureFuncs, 'Assign', @VCLua_Picture_Assign);
 	PictureSets := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(PictureSets, 'OnChange', @VCLua_Picture_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(PictureSets, 'OnProgress', @VCLua_Picture_VCLuaSetOnProgress, mfCall);
 end.

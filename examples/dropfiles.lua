@@ -11,7 +11,7 @@ local mainForm = VCL.Form(nil, {
 local memo = VCL.Memo(mainForm,{align = "alClient", })			
 memo.lines:Add("Drop file(s) here!")
 	
-mainForm.ondropfiles = function(sender,f)
+mainForm.OnDropFiles = function(sender,f)
 	memo.lines:Clear()
 	if type(f)=="table" then
 		for k,v in pairs(f) do

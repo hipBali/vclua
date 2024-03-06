@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LCLType, LuaClassesEvents, LuaEvent, LuaFPImageEvents;
 
 function VCLua_Graphic_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -343,6 +343,28 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Graphic_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+begin
+	CheckArg(L, 2);
+	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lGraphic.OnChange));
+	lGraphic.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Graphic_VCLuaSetOnProgress(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+begin
+	CheckArg(L, 2);
+	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lGraphic.OnProgress));
+	lGraphic.OnProgress := TLuaEvent.Factory<TProgressEvent,TLuaFPImgProgressEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TGraphic; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TGraphic',v);
@@ -369,5 +391,6 @@ begin
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetSupportedSourceMimeTypes', @VCLua_Graphic_GetSupportedSourceMimeTypes);
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetResourceType', @VCLua_Graphic_GetResourceType);
 	GraphicSets := TLuaVmt.Create;
-	
+	TLuaMethodInfo.Create(GraphicSets, 'OnChange', @VCLua_Graphic_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(GraphicSets, 'OnProgress', @VCLua_Graphic_VCLuaSetOnProgress, mfCall);
 end.

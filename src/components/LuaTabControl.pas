@@ -45,7 +45,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LuaImageList, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LuaClassesEvents, LuaComCtrlsEvents, LuaEvent, LuaImageList, LuaStrings;
 
 function VCLua_TabSheet_VCLuaSetPageControl(L: Plua_State): Integer; cdecl;
 var
@@ -96,6 +96,17 @@ begin
 			CallError(L, 'TabSheet', 'TabIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTabControl.OnChange));
+	lTabControl.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_TabControl_TabRect(L: Plua_State): Integer; cdecl;
@@ -448,6 +459,39 @@ begin
 			CallError(L, 'TabControl', 'MultiSelect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
+end;
+
+function VCLua_TabControl_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTabControl.OnChanging));
+	lTabControl.OnChanging := TLuaEvent.Factory<TTabChangingEvent,TLuaTabChangingEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TabControl_VCLuaSetOnCloseTabClicked(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTabControl.OnCloseTabClicked));
+	lTabControl.OnCloseTabClicked := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_TabControl_VCLuaSetOnGetImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+begin
+	CheckArg(L, 2);
+	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTabControl.OnGetImageIndex));
+	lTabControl.OnGetImageIndex := TLuaEvent.Factory<TTabGetImageEvent,TLuaTabGetImageEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_TabControl_VCLuaSetOptions(L: Plua_State): Integer; cdecl;
@@ -1177,11 +1221,15 @@ begin
 	TLuaMethodInfo.Create(CustomTabControlFuncs, 'TabPosition', @VCLua_TabControl_VCLuaGetTabPosition, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlFuncs, 'TabWidth', @VCLua_TabControl_VCLuaGetTabWidth, mfCall);
 	CustomTabControlSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomTabControlSets, 'OnChange', @VCLua_TabControl_VCLuaSetOnChange, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlSets, 'HotTrack', @VCLua_TabControl_VCLuaSetHotTrack, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlSets, 'Images', @VCLua_TabControl_VCLuaSetImages, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlSets, 'ImagesWidth', @VCLua_TabControl_VCLuaSetImagesWidth, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlSets, 'MultiLine', @VCLua_TabControl_VCLuaSetMultiLine, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlSets, 'MultiSelect', @VCLua_TabControl_VCLuaSetMultiSelect, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'OnChanging', @VCLua_TabControl_VCLuaSetOnChanging, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'OnCloseTabClicked', @VCLua_TabControl_VCLuaSetOnCloseTabClicked, mfCall);
+	TLuaMethodInfo.Create(CustomTabControlSets, 'OnGetImageIndex', @VCLua_TabControl_VCLuaSetOnGetImageIndex, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlSets, 'Options', @VCLua_TabControl_VCLuaSetOptions, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlSets, 'OwnerDraw', @VCLua_TabControl_VCLuaSetOwnerDraw, mfCall);
 	TLuaMethodInfo.Create(CustomTabControlSets, 'PageIndex', @VCLua_TabControl_VCLuaSetPageIndex, mfCall);

@@ -24,7 +24,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaClassesEvents, LuaEvent;
 
 function VCLua_StringList_Add(L: Plua_State): Integer; cdecl;
 var
@@ -272,6 +272,28 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_StringList_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+begin
+	CheckArg(L, 2);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lStringList.OnChange));
+	lStringList.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_StringList_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
+var
+	lStringList:TLuaStringList;
+begin
+	CheckArg(L, 2);
+	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lStringList.OnChanging));
+	lStringList.OnChanging := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_StringList_VCLuaSetOwnsObjects(L: Plua_State): Integer; cdecl;
 var
 	lStringList:TLuaStringList;
@@ -371,6 +393,8 @@ begin
 	TLuaMethodInfo.Create(StringListSets, 'Duplicates', @VCLua_StringList_VCLuaSetDuplicates, mfCall);
 	TLuaMethodInfo.Create(StringListSets, 'Sorted', @VCLua_StringList_VCLuaSetSorted, mfCall);
 	TLuaMethodInfo.Create(StringListSets, 'CaseSensitive', @VCLua_StringList_VCLuaSetCaseSensitive, mfCall);
+	TLuaMethodInfo.Create(StringListSets, 'OnChange', @VCLua_StringList_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(StringListSets, 'OnChanging', @VCLua_StringList_VCLuaSetOnChanging, mfCall);
 	TLuaMethodInfo.Create(StringListSets, 'OwnsObjects', @VCLua_StringList_VCLuaSetOwnsObjects, mfCall);
 	TLuaMethodInfo.Create(StringListSets, 'SortStyle', @VCLua_StringList_VCLuaSetSortStyle, mfCall);
 end.

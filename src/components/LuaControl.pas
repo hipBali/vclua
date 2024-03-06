@@ -23,7 +23,260 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Graphics, LuaBasicAction, LuaFont, LuaMenu, Menus, Types;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Graphics, LuaBasicAction, LuaClassesEvents, LuaControlsEvents, LuaEvent, LuaFont, LuaMenu, Menus, Types;
+
+function VCLua_Control_VCLuaSetOnConstrainedResize(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnConstrainedResize));
+	lControl.OnConstrainedResize := TLuaEvent.Factory<TConstrainedResizeEvent,TLuaConstrainedResizeEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnContextPopup(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnContextPopup));
+	lControl.OnContextPopup := TLuaEvent.Factory<TContextPopupEvent,TLuaContextPopupEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnDblClick(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnDblClick));
+	lControl.OnDblClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnTripleClick(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnTripleClick));
+	lControl.OnTripleClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnQuadClick(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnQuadClick));
+	lControl.OnQuadClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnDragDrop(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnDragDrop));
+	lControl.OnDragDrop := TLuaEvent.Factory<TDragDropEvent,TLuaDragDropEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnDragOver(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnDragOver));
+	lControl.OnDragOver := TLuaEvent.Factory<TDragOverEvent,TLuaDragOverEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnEndDock(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnEndDock));
+	lControl.OnEndDock := TLuaEvent.Factory<TEndDragEvent,TLuaEndDragEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnEndDrag(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnEndDrag));
+	lControl.OnEndDrag := TLuaEvent.Factory<TEndDragEvent,TLuaEndDragEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseDown(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseDown));
+	lControl.OnMouseDown := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseMove(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseMove));
+	lControl.OnMouseMove := TLuaEvent.Factory<TMouseMoveEvent,TLuaMouseMoveEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseUp(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseUp));
+	lControl.OnMouseUp := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseEnter(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseEnter));
+	lControl.OnMouseEnter := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseLeave(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseLeave));
+	lControl.OnMouseLeave := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheel(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheel));
+	lControl.OnMouseWheel := TLuaEvent.Factory<TMouseWheelEvent,TLuaMouseWheelEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelDown(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelDown));
+	lControl.OnMouseWheelDown := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelUp(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelUp));
+	lControl.OnMouseWheelUp := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelHorz(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelHorz));
+	lControl.OnMouseWheelHorz := TLuaEvent.Factory<TMouseWheelEvent,TLuaMouseWheelEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelLeft(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelLeft));
+	lControl.OnMouseWheelLeft := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelRight(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelRight));
+	lControl.OnMouseWheelRight := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnStartDock(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnStartDock));
+	lControl.OnStartDock := TLuaEvent.Factory<TStartDockEvent,TLuaStartDockEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnStartDrag(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnStartDrag));
+	lControl.OnStartDrag := TLuaEvent.Factory<TStartDragEvent,TLuaStartDragEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnEditingDone(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnEditingDone));
+	lControl.OnEditingDone := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
 
 function VCLua_Control_DragDrop(L: Plua_State): Integer; cdecl;
 var
@@ -2413,6 +2666,39 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Control_VCLuaSetOnChangeBounds(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnChangeBounds));
+	lControl.OnChangeBounds := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnClick(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnClick));
+	lControl.OnClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnResize(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnResize));
+	lControl.OnResize := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_Control_VCLuaSetParent(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
@@ -2917,6 +3203,29 @@ begin
 	TLuaMethodInfo.Create(ControlFuncs, 'BiDiMode', @VCLua_Control_VCLuaGetBiDiMode, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'ParentBiDiMode', @VCLua_Control_VCLuaGetParentBiDiMode, mfCall);
 	ControlSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ControlSets, 'OnConstrainedResize', @VCLua_Control_VCLuaSetOnConstrainedResize, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnContextPopup', @VCLua_Control_VCLuaSetOnContextPopup, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnDblClick', @VCLua_Control_VCLuaSetOnDblClick, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnTripleClick', @VCLua_Control_VCLuaSetOnTripleClick, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnQuadClick', @VCLua_Control_VCLuaSetOnQuadClick, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnDragDrop', @VCLua_Control_VCLuaSetOnDragDrop, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnDragOver', @VCLua_Control_VCLuaSetOnDragOver, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnEndDock', @VCLua_Control_VCLuaSetOnEndDock, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnEndDrag', @VCLua_Control_VCLuaSetOnEndDrag, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseDown', @VCLua_Control_VCLuaSetOnMouseDown, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseMove', @VCLua_Control_VCLuaSetOnMouseMove, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseUp', @VCLua_Control_VCLuaSetOnMouseUp, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseEnter', @VCLua_Control_VCLuaSetOnMouseEnter, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseLeave', @VCLua_Control_VCLuaSetOnMouseLeave, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheel', @VCLua_Control_VCLuaSetOnMouseWheel, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelDown', @VCLua_Control_VCLuaSetOnMouseWheelDown, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelUp', @VCLua_Control_VCLuaSetOnMouseWheelUp, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelHorz', @VCLua_Control_VCLuaSetOnMouseWheelHorz, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelLeft', @VCLua_Control_VCLuaSetOnMouseWheelLeft, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelRight', @VCLua_Control_VCLuaSetOnMouseWheelRight, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnStartDock', @VCLua_Control_VCLuaSetOnStartDock, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnStartDrag', @VCLua_Control_VCLuaSetOnStartDrag, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnEditingDone', @VCLua_Control_VCLuaSetOnEditingDone, mfCall);
 	TLuaMethodInfo.Create(ControlSets, 'AccessibleName', @VCLua_Control_VCLuaSetAccessibleName, mfCall);
 	TLuaMethodInfo.Create(ControlSets, 'AccessibleDescription', @VCLua_Control_VCLuaSetAccessibleDescription, mfCall);
 	TLuaMethodInfo.Create(ControlSets, 'AccessibleValue', @VCLua_Control_VCLuaSetAccessibleValue, mfCall);
@@ -2937,6 +3246,9 @@ begin
 	TLuaMethodInfo.Create(ControlSets, 'Enabled', @VCLua_Control_VCLuaSetEnabled, mfCall);
 	TLuaMethodInfo.Create(ControlSets, 'Font', @VCLua_Control_VCLuaSetFont, mfCall);
 	TLuaMethodInfo.Create(ControlSets, 'IsControl', @VCLua_Control_VCLuaSetIsControl, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnChangeBounds', @VCLua_Control_VCLuaSetOnChangeBounds, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnClick', @VCLua_Control_VCLuaSetOnClick, mfCall);
+	TLuaMethodInfo.Create(ControlSets, 'OnResize', @VCLua_Control_VCLuaSetOnResize, mfCall);
 	TLuaMethodInfo.Create(ControlSets, 'Parent', @VCLua_Control_VCLuaSetParent, mfCall);
 	TLuaMethodInfo.Create(ControlSets, 'PopupMenu', @VCLua_Control_VCLuaSetPopupMenu, mfCall);
 	TLuaMethodInfo.Create(ControlSets, 'ShowHint', @VCLua_Control_VCLuaSetShowHint, mfCall);

@@ -56,7 +56,18 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LuaImageList, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LuaClassesEvents, LuaEvent, LuaImageList, LuaMenusEvents, LCLType;
+
+function VCLua_Menu_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lMenu:TLuaMenu;
+begin
+	CheckArg(L, 2);
+	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lMenu.OnChange));
+	lMenu.OnChange := TLuaEvent.Factory<TMenuChangeEvent,TLuaMenuChangeEvent>(L);
+	Result := 0;
+end;
 
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
 var
@@ -302,6 +313,28 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Menu_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
+var
+	lMenu:TLuaMenu;
+begin
+	CheckArg(L, 2);
+	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lMenu.OnDrawItem));
+	lMenu.OnDrawItem := TLuaEvent.Factory<TMenuDrawItemEvent,TLuaMenuDrawItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Menu_VCLuaSetOnMeasureItem(L: Plua_State): Integer; cdecl;
+var
+	lMenu:TLuaMenu;
+begin
+	CheckArg(L, 2);
+	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lMenu.OnMeasureItem));
+	lMenu.OnMeasureItem := TLuaEvent.Factory<TMenuMeasureItemEvent,TLuaMenuMeasureItemEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_PopupMenu_PopUp(L: Plua_State): Integer; cdecl;
 var
 	lPopupMenu:TLuaPopupMenu;
@@ -400,6 +433,28 @@ begin
 		on E: Exception do
 			CallError(L, 'PopupMenu', 'Close', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_PopupMenu_VCLuaSetOnPopup(L: Plua_State): Integer; cdecl;
+var
+	lPopupMenu:TLuaPopupMenu;
+begin
+	CheckArg(L, 2);
+	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lPopupMenu.OnPopup));
+	lPopupMenu.OnPopup := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_PopupMenu_VCLuaSetOnClose(L: Plua_State): Integer; cdecl;
+var
+	lPopupMenu:TLuaPopupMenu;
+begin
+	CheckArg(L, 2);
+	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lPopupMenu.OnClose));
+	lPopupMenu.OnClose := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_MenuItem_Find(L: Plua_State): Integer; cdecl;
@@ -1199,6 +1254,39 @@ begin
 	end;
 end;
 
+function VCLua_MenuItem_VCLuaSetOnClick(L: Plua_State): Integer; cdecl;
+var
+	lMenuItem:TLuaMenuItem;
+begin
+	CheckArg(L, 2);
+	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lMenuItem.OnClick));
+	lMenuItem.OnClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_MenuItem_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
+var
+	lMenuItem:TLuaMenuItem;
+begin
+	CheckArg(L, 2);
+	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lMenuItem.OnDrawItem));
+	lMenuItem.OnDrawItem := TLuaEvent.Factory<TMenuDrawItemEvent,TLuaMenuDrawItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_MenuItem_VCLuaSetOnMeasureItem(L: Plua_State): Integer; cdecl;
+var
+	lMenuItem:TLuaMenuItem;
+begin
+	CheckArg(L, 2);
+	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lMenuItem.OnMeasureItem));
+	lMenuItem.OnMeasureItem := TLuaEvent.Factory<TMenuMeasureItemEvent,TLuaMenuMeasureItemEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_MainMenu_Merge(L: Plua_State): Integer; cdecl;
 var
 	lMainMenu:TLuaMainMenu;
@@ -1375,8 +1463,11 @@ begin
 	TLuaMethodInfo.Create(MenuFuncs, 'Parent', @VCLua_Menu_VCLuaGetParent, mfCall);
 	TLuaMethodInfo.Create(MenuFuncs, 'ShortcutHandled', @VCLua_Menu_VCLuaGetShortcutHandled, mfCall);
 	MenuSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(MenuSets, 'OnChange', @VCLua_Menu_VCLuaSetOnChange, mfCall);
 	TLuaMethodInfo.Create(MenuSets, 'Parent', @VCLua_Menu_VCLuaSetParent, mfCall);
 	TLuaMethodInfo.Create(MenuSets, 'ShortcutHandled', @VCLua_Menu_VCLuaSetShortcutHandled, mfCall);
+	TLuaMethodInfo.Create(MenuSets, 'OnDrawItem', @VCLua_Menu_VCLuaSetOnDrawItem, mfCall);
+	TLuaMethodInfo.Create(MenuSets, 'OnMeasureItem', @VCLua_Menu_VCLuaSetOnMeasureItem, mfCall);
 	PopupMenuFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(PopupMenuFuncs, 'PopUp', @VCLua_PopupMenu_PopUp);
 	TLuaMethodInfo.Create(PopupMenuFuncs, 'PopUp2', @VCLua_PopupMenu_PopUp2);
@@ -1385,6 +1476,8 @@ begin
 	TLuaMethodInfo.Create(PopupMenuFuncs, 'Close', @VCLua_PopupMenu_Close);
 	PopupMenuSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(PopupMenuSets, 'PopupComponent', @VCLua_PopupMenu_VCLuaSetPopupComponent, mfCall);
+	TLuaMethodInfo.Create(PopupMenuSets, 'OnPopup', @VCLua_PopupMenu_VCLuaSetOnPopup, mfCall);
+	TLuaMethodInfo.Create(PopupMenuSets, 'OnClose', @VCLua_PopupMenu_VCLuaSetOnClose, mfCall);
 	MenuItemFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(MenuItemFuncs, 'Find', @VCLua_MenuItem_Find);
 	TLuaMethodInfo.Create(MenuItemFuncs, 'GetImageList', @VCLua_MenuItem_GetImageList);
@@ -1434,6 +1527,9 @@ begin
 	MenuItemSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(MenuItemSets, 'Handle', @VCLua_MenuItem_VCLuaSetHandle, mfCall);
 	TLuaMethodInfo.Create(MenuItemSets, 'MenuIndex', @VCLua_MenuItem_VCLuaSetMenuIndex, mfCall);
+	TLuaMethodInfo.Create(MenuItemSets, 'OnClick', @VCLua_MenuItem_VCLuaSetOnClick, mfCall);
+	TLuaMethodInfo.Create(MenuItemSets, 'OnDrawItem', @VCLua_MenuItem_VCLuaSetOnDrawItem, mfCall);
+	TLuaMethodInfo.Create(MenuItemSets, 'OnMeasureItem', @VCLua_MenuItem_VCLuaSetOnMeasureItem, mfCall);
 	MainMenuFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(MainMenuFuncs, 'Merge', @VCLua_MainMenu_Merge);
 	TLuaMethodInfo.Create(MainMenuFuncs, 'Unmerge', @VCLua_MainMenu_Unmerge);

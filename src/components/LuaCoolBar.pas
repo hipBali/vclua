@@ -25,7 +25,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaBitmap, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaBitmap, LuaClassesEvents, LuaEvent, LuaImageList;
 
 function VCLua_CoolBar_AutosizeBands(L: Plua_State): Integer; cdecl;
 var
@@ -607,6 +607,17 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_CoolBar_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lCoolBar:TLuaCoolBar;
+begin
+	CheckArg(L, 2);
+	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCoolBar.OnChange));
+	lCoolBar.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 procedure lua_push(L: Plua_State; const v: TCoolBar; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomCoolBar',v);
@@ -663,4 +674,5 @@ begin
 	TLuaMethodInfo.Create(CustomCoolBarSets, 'Themed', @VCLua_CoolBar_VCLuaSetThemed, mfCall);
 	TLuaMethodInfo.Create(CustomCoolBarSets, 'Vertical', @VCLua_CoolBar_VCLuaSetVertical, mfCall);
 	TLuaMethodInfo.Create(CustomCoolBarSets, 'VerticalSpacing', @VCLua_CoolBar_VCLuaSetVerticalSpacing, mfCall);
+	TLuaMethodInfo.Create(CustomCoolBarSets, 'OnChange', @VCLua_CoolBar_VCLuaSetOnChange, mfCall);
 end.

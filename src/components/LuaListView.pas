@@ -45,7 +45,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaComCtrlsEvents, LuaEvent;
 
 function VCLua_ListItem_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -601,6 +601,215 @@ begin
 			CallError(L, 'ListItems', 'Owner', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_ListView_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnChange));
+	lListView.OnChange := TLuaEvent.Factory<TLVChangeEvent,TLuaLVChangeEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnColumnClick(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnColumnClick));
+	lListView.OnColumnClick := TLuaEvent.Factory<TLVColumnClickEvent,TLuaLVColumnClickEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnCompare(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnCompare));
+	lListView.OnCompare := TLuaEvent.Factory<TLVCompareEvent,TLuaLVCompareEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnData(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnData));
+	lListView.OnData := TLuaEvent.Factory<TLVDataEvent,TLuaLVDeletedEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnDataFind(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnDataFind));
+	lListView.OnDataFind := TLuaEvent.Factory<TLVDataFindEvent,TLuaLVDataFindEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnDataHint(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnDataHint));
+	lListView.OnDataHint := TLuaEvent.Factory<TLVDataHintEvent,TLuaLVDataHintEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnDataStateChange(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnDataStateChange));
+	lListView.OnDataStateChange := TLuaEvent.Factory<TLVDataStateChangeEvent,TLuaLVDataStateChangeEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnDeletion(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnDeletion));
+	lListView.OnDeletion := TLuaEvent.Factory<TLVDeletedEvent,TLuaLVDeletedEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnEdited(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnEdited));
+	lListView.OnEdited := TLuaEvent.Factory<TLVEditedEvent,TLuaLVEditedEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnEditing(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnEditing));
+	lListView.OnEditing := TLuaEvent.Factory<TLVEditingEvent,TLuaLVEditingEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnInsert(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnInsert));
+	lListView.OnInsert := TLuaEvent.Factory<TLVInsertEvent,TLuaLVDeletedEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnItemChecked(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnItemChecked));
+	lListView.OnItemChecked := TLuaEvent.Factory<TLVCheckedItemEvent,TLuaLVCheckedItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnSelectItem(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnSelectItem));
+	lListView.OnSelectItem := TLuaEvent.Factory<TLVSelectItemEvent,TLuaLVSelectItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnCustomDraw(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnCustomDraw));
+	lListView.OnCustomDraw := TLuaEvent.Factory<TLVCustomDrawEvent,TLuaLVCustomDrawEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnCustomDrawItem(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnCustomDrawItem));
+	lListView.OnCustomDrawItem := TLuaEvent.Factory<TLVCustomDrawItemEvent,TLuaLVCustomDrawItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnCustomDrawSubItem(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnCustomDrawSubItem));
+	lListView.OnCustomDrawSubItem := TLuaEvent.Factory<TLVCustomDrawSubItemEvent,TLuaLVCustomDrawSubItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnAdvancedCustomDraw(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnAdvancedCustomDraw));
+	lListView.OnAdvancedCustomDraw := TLuaEvent.Factory<TLVAdvancedCustomDrawEvent,TLuaLVAdvancedCustomDrawEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnAdvancedCustomDrawItem(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnAdvancedCustomDrawItem));
+	lListView.OnAdvancedCustomDrawItem := TLuaEvent.Factory<TLVAdvancedCustomDrawItemEvent,TLuaLVAdvancedCustomDrawItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ListView_VCLuaSetOnAdvancedCustomDrawSubItem(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	CheckArg(L, 2);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnAdvancedCustomDrawSubItem));
+	lListView.OnAdvancedCustomDrawSubItem := TLuaEvent.Factory<TLVAdvancedCustomDrawSubItemEvent,TLuaLVAdvancedCustomDrawSubItemEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_ListView_AddItem(L: Plua_State): Integer; cdecl;
@@ -1666,6 +1875,25 @@ begin
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'ViewOrigin', @VCLua_ListView_VCLuaGetViewOrigin, mfCall);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'VisibleRowCount', @VCLua_ListView_VCLuaGetVisibleRowCount, mfCall);
 	CustomListViewSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnChange', @VCLua_ListView_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnColumnClick', @VCLua_ListView_VCLuaSetOnColumnClick, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnCompare', @VCLua_ListView_VCLuaSetOnCompare, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnData', @VCLua_ListView_VCLuaSetOnData, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnDataFind', @VCLua_ListView_VCLuaSetOnDataFind, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnDataHint', @VCLua_ListView_VCLuaSetOnDataHint, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnDataStateChange', @VCLua_ListView_VCLuaSetOnDataStateChange, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnDeletion', @VCLua_ListView_VCLuaSetOnDeletion, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnEdited', @VCLua_ListView_VCLuaSetOnEdited, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnEditing', @VCLua_ListView_VCLuaSetOnEditing, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnInsert', @VCLua_ListView_VCLuaSetOnInsert, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnItemChecked', @VCLua_ListView_VCLuaSetOnItemChecked, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnSelectItem', @VCLua_ListView_VCLuaSetOnSelectItem, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnCustomDraw', @VCLua_ListView_VCLuaSetOnCustomDraw, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnCustomDrawItem', @VCLua_ListView_VCLuaSetOnCustomDrawItem, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnCustomDrawSubItem', @VCLua_ListView_VCLuaSetOnCustomDrawSubItem, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnAdvancedCustomDraw', @VCLua_ListView_VCLuaSetOnAdvancedCustomDraw, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnAdvancedCustomDrawItem', @VCLua_ListView_VCLuaSetOnAdvancedCustomDrawItem, mfCall);
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnAdvancedCustomDrawSubItem', @VCLua_ListView_VCLuaSetOnAdvancedCustomDrawSubItem, mfCall);
 	TLuaMethodInfo.Create(CustomListViewSets, 'Checkboxes', @VCLua_ListView_VCLuaSetCheckboxes, mfCall);
 	TLuaMethodInfo.Create(CustomListViewSets, 'DropTarget', @VCLua_ListView_VCLuaSetDropTarget, mfCall);
 	TLuaMethodInfo.Create(CustomListViewSets, 'FlatScrollBars', @VCLua_ListView_VCLuaSetFlatScrollBars, mfCall);

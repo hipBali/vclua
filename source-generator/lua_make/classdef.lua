@@ -42,6 +42,10 @@ VCLUA_TOLUA = {
 	["tcustomform"] = VCLUA_TOLUA_FULL,
 	["tcustomlistview"] = VCLUA_TOLUA_FULL,
 	["tcustomactionlist"] = VCLUA_TOLUA_FULL,
+	["tcustomtreeview"] = VCLUA_TOLUA_FULL,
+	["tcustomheadercontrol"] = VCLUA_TOLUA_FULL,
+	["tcustomtabcontrol"] = VCLUA_TOLUA_FULL,
+	["tcustomcolorbox"] = VCLUA_TOLUA_FULL,
 
 	["tobject"] = VCLUA_TOLUA_FULL,
 	["tcomponent"] = VCLUA_TOLUA_FULL,
@@ -60,6 +64,7 @@ VCLUA_TOLUA = {
 	["tleftright"] = VCLUA_TOLUA_FULL,
 	["tshortcutlist"] = VCLUA_TOLUA_FULL,
 	["tmonitor"] = VCLUA_TOLUA_FULL,
+	["tcustomcolorlistbox"] = VCLUA_TOLUA_FULL,
 }
 
 VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR);"

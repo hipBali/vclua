@@ -11,7 +11,7 @@ local mainFrm = VCL.Form(nil,'mainForm',{
 	Height=480,
 	Position="poScreenCenter",
 })
-
+mainFrm.Canvas.OnChange = function(o) print("ch") end
 local function onPaint(sender)
 	local Canvas = sender.Canvas
 	Canvas.Brush.Color = 0x22DD44

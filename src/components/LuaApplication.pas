@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaControl, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, ActnList, Classes, Controls, Graphics, LuaActnListEvents, LuaClassesEvents, LuaControl, LuaEvent, LuaFormsEvents, LCLType;
 
 function VCLua_Application_ActivateHint(L: Plua_State): Integer; cdecl;
 var
@@ -1233,6 +1233,204 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Application_VCLuaSetOnActionExecute(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnActionExecute));
+	lApplication.OnActionExecute := TLuaEvent.Factory<TActionEvent,TLuaActionEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnActionUpdate(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnActionUpdate));
+	lApplication.OnActionUpdate := TLuaEvent.Factory<TActionEvent,TLuaActionEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnActivate(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnActivate));
+	lApplication.OnActivate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnDeactivate(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnDeactivate));
+	lApplication.OnDeactivate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnGetMainFormHandle(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnGetMainFormHandle));
+	lApplication.OnGetMainFormHandle := TLuaEvent.Factory<TGetHandleEvent,TLuaGetHandleEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnIdle(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnIdle));
+	lApplication.OnIdle := TLuaEvent.Factory<TIdleEvent,TLuaIdleEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnIdleEnd(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnIdleEnd));
+	lApplication.OnIdleEnd := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnEndSession(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnEndSession));
+	lApplication.OnEndSession := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnQueryEndSession(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnQueryEndSession));
+	lApplication.OnQueryEndSession := TLuaEvent.Factory<TQueryEndSessionEvent,TLuaQueryEndSessionEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnMinimize(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnMinimize));
+	lApplication.OnMinimize := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnMessageDialogFinished(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnMessageDialogFinished));
+	lApplication.OnMessageDialogFinished := TLuaEvent.Factory<TModalDialogFinished,TLuaModalDialogFinished>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnModalBegin(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnModalBegin));
+	lApplication.OnModalBegin := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnModalEnd(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnModalEnd));
+	lApplication.OnModalEnd := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnRestore(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnRestore));
+	lApplication.OnRestore := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnDropFiles(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnDropFiles));
+	lApplication.OnDropFiles := TLuaEvent.Factory<TDropFilesEvent,TLuaDropFilesEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnHint(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnHint));
+	lApplication.OnHint := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnUserInput(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnUserInput));
+	lApplication.OnUserInput := TLuaEvent.Factory<TOnUserInputEvent,TLuaOnUserInputEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Application_VCLuaSetOnDestroy(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnDestroy));
+	lApplication.OnDestroy := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_Application_VCLuaSetShowButtonGlyphs(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
@@ -1537,6 +1735,24 @@ begin
 	TLuaMethodInfo.Create(ApplicationSets, 'MoveFormFocusToChildren', @VCLua_Application_VCLuaSetMoveFormFocusToChildren, mfCall);
 	TLuaMethodInfo.Create(ApplicationSets, 'TaskBarBehavior', @VCLua_Application_VCLuaSetTaskBarBehavior, mfCall);
 	TLuaMethodInfo.Create(ApplicationSets, 'UpdateFormatSettings', @VCLua_Application_VCLuaSetUpdateFormatSettings, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnActionExecute', @VCLua_Application_VCLuaSetOnActionExecute, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnActionUpdate', @VCLua_Application_VCLuaSetOnActionUpdate, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnActivate', @VCLua_Application_VCLuaSetOnActivate, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnDeactivate', @VCLua_Application_VCLuaSetOnDeactivate, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnGetMainFormHandle', @VCLua_Application_VCLuaSetOnGetMainFormHandle, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnIdle', @VCLua_Application_VCLuaSetOnIdle, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnIdleEnd', @VCLua_Application_VCLuaSetOnIdleEnd, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnEndSession', @VCLua_Application_VCLuaSetOnEndSession, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnQueryEndSession', @VCLua_Application_VCLuaSetOnQueryEndSession, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnMinimize', @VCLua_Application_VCLuaSetOnMinimize, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnMessageDialogFinished', @VCLua_Application_VCLuaSetOnMessageDialogFinished, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnModalBegin', @VCLua_Application_VCLuaSetOnModalBegin, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnModalEnd', @VCLua_Application_VCLuaSetOnModalEnd, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnRestore', @VCLua_Application_VCLuaSetOnRestore, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnDropFiles', @VCLua_Application_VCLuaSetOnDropFiles, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnHint', @VCLua_Application_VCLuaSetOnHint, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnUserInput', @VCLua_Application_VCLuaSetOnUserInput, mfCall);
+	TLuaMethodInfo.Create(ApplicationSets, 'OnDestroy', @VCLua_Application_VCLuaSetOnDestroy, mfCall);
 	TLuaMethodInfo.Create(ApplicationSets, 'ShowButtonGlyphs', @VCLua_Application_VCLuaSetShowButtonGlyphs, mfCall);
 	TLuaMethodInfo.Create(ApplicationSets, 'ShowMenuGlyphs', @VCLua_Application_VCLuaSetShowMenuGlyphs, mfCall);
 	TLuaMethodInfo.Create(ApplicationSets, 'ShowHint', @VCLua_Application_VCLuaSetShowHint, mfCall);

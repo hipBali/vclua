@@ -1,4 +1,6 @@
 tclass
+ttvhaschildrenevent
+thelpevent
 array of const
 ppoint
 hdc
@@ -10,7 +12,6 @@ tlmkey
 tencoding
 tstringsreducemethod
 tphyspoint
-tnotifyevent
 iinterface
 tcustomimagelistresolutionenumerator
 tmessage
@@ -29,3 +30,17 @@ tfontdata
 tcoolbands
 twndmethod
 tlmessage
+ppropinfo
+tthread
+taligninfo
+phintinfo
+twriter
+treader
+tthreadreportstatus
+tstreamproc
+tlclhandle
+exception
+thintinfo
+txmlconfig
+tclipboardrequestevent
+tlistchangeevent
