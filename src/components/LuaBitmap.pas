@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TCustomBitmap; pti: PTypeInfo = nil);
 
 type
     TLuaCustomBitmap = class(TCustomBitmap)
-    public
-      L:Plua_State;
     end;
 var
     CustomBitmapFuncs: TLuaVmt;
@@ -26,8 +24,6 @@ procedure lua_push(L: Plua_State; const v: TBitmap; pti: PTypeInfo = nil); overl
 
 type
     TLuaBitmap = class(TBitmap)
-    public
-      L:Plua_State;
     end;
 var
     BitmapFuncs: TLuaVmt;

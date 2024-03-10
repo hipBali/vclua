@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TGraphic; pti: PTypeInfo = nil); over
 
 type
     TLuaGraphic = class(TGraphic)
-    public
-      L:Plua_State;
     end;
 var
     GraphicFuncs: TLuaVmt;

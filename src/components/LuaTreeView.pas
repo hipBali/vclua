@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TTreeNode; pti: PTypeInfo = nil); ove
 
 type
     TLuaTreeNode = class(TTreeNode)
-    public
-      L:Plua_State;
     end;
 var
     TreeNodeFuncs: TLuaVmt;
@@ -25,8 +23,6 @@ procedure lua_push(L: Plua_State; const v: TTreeNodes; pti: PTypeInfo = nil); ov
 
 type
     TLuaTreeNodes = class(TTreeNodes)
-    public
-      L:Plua_State;
     end;
 var
     TreeNodesFuncs: TLuaVmt;

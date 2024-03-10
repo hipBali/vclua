@@ -725,7 +725,7 @@ function createUnitBody(cdef, ref, refs)
 		ccreate = VCLua_CDEF_TOTABLE
 	elseif cdef.nv then
 		intface = VCLua_CDEF_INTFCE_NV
-		ccreate = VCLua_CDEF_TOTABLE..VCLua_CDEF_FOOTER_NV
+		ccreate = VCLua_CDEF_TOTABLE..VCLua_CDEF_FOOTER_BASE
 	elseif cdef.base then
 		ccreate = VCLua_CDEF_TOTABLE..VCLua_CDEF_FOOTER_BASE
 	elseif cdef.wclass then
@@ -818,9 +818,6 @@ for n,cdef in pairs(classes) do
 	end
 	-- export ------------------------------------
 	local classSource = HDR_INFO .. VCLua_CLASSDEF
-	if cdef.nv then
-		classSource = HDR_INFO .. VCLua_CLASSDEF_NV
-	end
 	classSource = classSource:gsub("#CNAME",className)
 
 	classSource = classSource:gsub("#REF",cdef.ref)

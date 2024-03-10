@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TBrush; pti: PTypeInfo = nil); overlo
 
 type
     TLuaBrush = class(TBrush)
-    public
-      L:Plua_State;
     end;
 var
     BrushFuncs: TLuaVmt;

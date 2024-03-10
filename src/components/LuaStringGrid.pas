@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TGridColumn; pti: PTypeInfo = nil); o
 
 type
     TLuaGridColumn = class(TGridColumn)
-    public
-      L:Plua_State;
     end;
 var
     GridColumnFuncs: TLuaVmt;
@@ -25,8 +23,6 @@ procedure lua_push(L: Plua_State; const v: TGridColumns; pti: PTypeInfo = nil); 
 
 type
     TLuaGridColumns = class(TGridColumns)
-    public
-      L:Plua_State;
     end;
 var
     GridColumnsFuncs: TLuaVmt;

@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TPen; pti: PTypeInfo = nil); overload
 
 type
     TLuaPen = class(TPen)
-    public
-      L:Plua_State;
     end;
 var
     PenFuncs: TLuaVmt;

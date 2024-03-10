@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TStrings; pti: PTypeInfo = nil); over
 
 type
     TLuaStrings = class(TStrings)
-    public
-      L:Plua_State;
     end;
 var
     StringsFuncs: TLuaVmt;

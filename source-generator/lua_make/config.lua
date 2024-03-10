@@ -73,11 +73,10 @@ classes = {
 	-- classes
 	-- built-in
 	-- { name = "Stream", src = "TStream", base=true, nocreate=true },
-	-- { name = "Strings", src = "TStrings", nocreate=true },
 	------------------------------------------------------------------
 	-- TStrings and descenants
 	{ name = "Strings", src = "TStrings", ref="Classes", nv=true, nocreate=true },
-	{ name = "StringList", src = "TStringList", ref="Classes", classparent="TStrings", nv=true, noparent=true },
+	{ name = "StringList", src = "TStringList", ref="Classes", nv=true, noparent=true },
 	{ name = "TextStrings", src = "TTextStrings", ref="TextStrings", nv=true, noparent=true },
 
 	-- graphics    

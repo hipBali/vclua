@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TCanvas; pti: PTypeInfo = nil); overl
 
 type
     TLuaCanvas = class(TCanvas)
-    public
-      L:Plua_State;
     end;
 var
     CanvasFuncs: TLuaVmt;

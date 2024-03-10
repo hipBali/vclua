@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TCustomGrid; pti: PTypeInfo = nil); o
 
 type
     TLuaCustomGrid = class(TCustomGrid)
-    public
-      L:Plua_State;
     end;
 var
     CustomGridFuncs: TLuaVmt;

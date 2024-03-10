@@ -24,26 +24,6 @@ Uses LuaProxy, LuaObject, LuaHelper, SysUtils#IMPLREF;
 end.
 ]]
 
-VCLua_CLASSDEF_NV = [[
-unit Lua#CNAME;	
-
-{$MODE Delphi}{$T+}
-
-interface
-
-Uses Lua, LuaController, TypInfo, LuaVmt, #REF;
-
-#INTFCE
-
-implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils#IMPLREF;
-
-#BODY
-#CREATE
-#INIT
-end.
-]]
-
 VCLua_CDEF_INTFCE = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
@@ -71,8 +51,6 @@ procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overl
 
 type
     TLua#CNAME = class(T#CNAME)
-    public
-      L:Plua_State;
     end;
 ]]
 
@@ -160,7 +138,7 @@ begin
 	l#CNAME := TLua#CNAME.CreateNew(Parent);
 ]]..VCLua_CDEF_SUFFIX
 
-VCLua_CDEF_FOOTER_NV = [[
+VCLua_CDEF_FOOTER_BASE = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
 var
 	l#CNAME:TLua#CNAME;
@@ -169,19 +147,6 @@ begin
 	CreateTableForKnownType(L,'#CSRC',l#CNAME);
 	Result := 1;
 end;]]
-
-VCLua_CDEF_FOOTER_BASE = [[
-function Create#CNAME(L: Plua_State): Integer; cdecl;
-var
-	l#CNAME:TLua#CNAME;
-	Name:String;
-begin
-	l#CNAME := TLua#CNAME.Create;
-	l#CNAME.LuaCtl := TVCLuaControl.Create(TComponent(l#CNAME),L,nil,'#CSRC'); // although it's not a TComponent
-	CreateTableForKnownType(L,'#CSRC',l#CNAME);
-	Result := 1;
-end;
-]]
 
 VCLua_CDEF_FOOTER_WCLASS= [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;

@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TRasterImage; pti: PTypeInfo = nil); 
 
 type
     TLuaRasterImage = class(TRasterImage)
-    public
-      L:Plua_State;
     end;
 var
     RasterImageFuncs: TLuaVmt;

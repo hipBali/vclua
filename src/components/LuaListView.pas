@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TListItem; pti: PTypeInfo = nil); ove
 
 type
     TLuaListItem = class(TListItem)
-    public
-      L:Plua_State;
     end;
 var
     ListItemFuncs: TLuaVmt;
@@ -25,8 +23,6 @@ procedure lua_push(L: Plua_State; const v: TListItems; pti: PTypeInfo = nil); ov
 
 type
     TLuaListItems = class(TListItems)
-    public
-      L:Plua_State;
     end;
 var
     ListItemsFuncs: TLuaVmt;

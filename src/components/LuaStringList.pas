@@ -15,8 +15,6 @@ procedure lua_push(L: Plua_State; const v: TStringList; pti: PTypeInfo = nil); o
 
 type
     TLuaStringList = class(TStringList)
-    public
-      L:Plua_State;
     end;
 var
     StringListFuncs: TLuaVmt;

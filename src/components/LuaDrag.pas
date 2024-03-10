@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TDragObject; pti: PTypeInfo = nil); o
 
 type
     TLuaDragObject = class(TDragObject)
-    public
-      L:Plua_State;
     end;
 var
     DragObjectFuncs: TLuaVmt;
@@ -25,8 +23,6 @@ procedure lua_push(L: Plua_State; const v: TDragDockObject; pti: PTypeInfo = nil
 
 type
     TLuaDragDockObject = class(TDragDockObject)
-    public
-      L:Plua_State;
     end;
 var
     DragDockObjectFuncs: TLuaVmt;
@@ -36,8 +32,6 @@ procedure lua_push(L: Plua_State; const v: TDockZone; pti: PTypeInfo = nil); ove
 
 type
     TLuaDockZone = class(TDockZone)
-    public
-      L:Plua_State;
     end;
 var
     DockZoneFuncs: TLuaVmt;
@@ -47,8 +41,6 @@ procedure lua_push(L: Plua_State; const v: TDockTree; pti: PTypeInfo = nil); ove
 
 type
     TLuaDockTree = class(TDockTree)
-    public
-      L:Plua_State;
     end;
 var
     DockTreeFuncs: TLuaVmt;

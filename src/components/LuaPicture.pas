@@ -15,8 +15,6 @@ procedure lua_push(L: Plua_State; const v: TPicture; pti: PTypeInfo = nil); over
 
 type
     TLuaPicture = class(TPicture)
-    public
-      L:Plua_State;
     end;
 var
     PictureFuncs: TLuaVmt;

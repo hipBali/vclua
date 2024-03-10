@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TStatusPanel; pti: PTypeInfo = nil); 
 
 type
     TLuaStatusPanel = class(TStatusPanel)
-    public
-      L:Plua_State;
     end;
 var
     StatusPanelFuncs: TLuaVmt;
@@ -25,8 +23,6 @@ procedure lua_push(L: Plua_State; const v: TStatusPanels; pti: PTypeInfo = nil);
 
 type
     TLuaStatusPanels = class(TStatusPanels)
-    public
-      L:Plua_State;
     end;
 var
     StatusPanelsFuncs: TLuaVmt;

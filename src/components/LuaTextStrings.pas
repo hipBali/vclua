@@ -15,8 +15,6 @@ procedure lua_push(L: Plua_State; const v: TTextStrings; pti: PTypeInfo = nil); 
 
 type
     TLuaTextStrings = class(TTextStrings)
-    public
-      L:Plua_State;
     end;
 var
     TextStringsFuncs: TLuaVmt;

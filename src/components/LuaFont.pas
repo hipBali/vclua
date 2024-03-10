@@ -14,8 +14,6 @@ procedure lua_push(L: Plua_State; const v: TFont; pti: PTypeInfo = nil); overloa
 
 type
     TLuaFont = class(TFont)
-    public
-      L:Plua_State;
     end;
 var
     FontFuncs: TLuaVmt;
