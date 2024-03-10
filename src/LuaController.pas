@@ -420,12 +420,7 @@ type
 
      end;
 
-     TLuaBaseControl = class(TComponent)
-         LuaCtl: TVCLuaControl;
-     end;
-
 // *************************************************************************
-// function CheckBoxStateToString(State:TCheckBoxState):String;
 
 procedure GetControlParents(L: Plua_State; var Parent:TWinControl; var Name:String);
 procedure InitControl(L: Plua_State; luaObj:TObject; var Name:String);
