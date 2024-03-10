@@ -50,7 +50,7 @@ procedure luaL_check(L: Plua_State; i: Integer; v: PSize; pti : PTypeInfo = nil)
 procedure luaL_check(L: Plua_State; i: Integer; v: PRect; pti : PTypeInfo = nil); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PTextStyle; pti : PTypeInfo = nil); overload; inline;
 function luaL_checkShortCut(L: Plua_State; i: Integer):TShortCut; inline;
-function luaL_checkColor(L: Plua_State; i: Integer):TColor; inline;
+function luaL_checkColor(L: Plua_State; i: Integer):TColor;
 
 // it's out of trait to allow calling luaL_check for different type than T, e.g. for TObject instead of TMenuItem
 procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT); inline;
@@ -149,6 +149,7 @@ begin
     try
       result := StringToColor(lua_tostring(L, i))
     except
+      // inlining causes compiler exception
       on e: EConvertError do
          LuaTypeError(L, i, TypeInfo(result));
     end
