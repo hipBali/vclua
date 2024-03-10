@@ -1741,7 +1741,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lTreeView.BackgroundColor := val;
 		Result := 0;
@@ -1877,7 +1877,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lTreeView.ExpandSignColor := val;
 		Result := 0;
@@ -2319,7 +2319,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lTreeView.SelectionColor := val;
 		Result := 0;
@@ -2370,7 +2370,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lTreeView.SelectionFontColor := val;
 		Result := 0;
@@ -2457,7 +2457,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lTreeView.SeparatorColor := val;
 		Result := 0;
@@ -2593,7 +2593,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lTreeView.TreeLineColor := val;
 		Result := 0;
@@ -2688,7 +2688,7 @@ begin
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'Data', @VCLua_TreeNode_VCLuaGetData, mfCall);
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'Items', @VCLua_TreeNode_Items);
 	TreeNodeSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(TreeNodeSets, 'Data', @VCLua_TreeNode_VCLuaSetData, mfCall);
+	TLuaMethodInfo.Create(TreeNodeSets, 'Data', @VCLua_TreeNode_VCLuaSetData, mfCall, TypeInfo(Pointer));
 	TreeNodesFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'Add', @VCLua_TreeNodes_Add);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'AddChild', @VCLua_TreeNodes_AddChild);
@@ -2797,53 +2797,53 @@ begin
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'TreeLineColor', @VCLua_TreeView_VCLuaGetTreeLineColor, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'TreeLinePenStyle', @VCLua_TreeView_VCLuaGetTreeLinePenStyle, mfCall);
 	CustomTreeViewSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'AccessibilityOn', @VCLua_TreeView_VCLuaSetAccessibilityOn, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnAddition', @VCLua_TreeView_VCLuaSetOnAddition, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnAdvancedCustomDraw', @VCLua_TreeView_VCLuaSetOnAdvancedCustomDraw, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnAdvancedCustomDrawItem', @VCLua_TreeView_VCLuaSetOnAdvancedCustomDrawItem, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnChange', @VCLua_TreeView_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnChanging', @VCLua_TreeView_VCLuaSetOnChanging, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCollapsed', @VCLua_TreeView_VCLuaSetOnCollapsed, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCollapsing', @VCLua_TreeView_VCLuaSetOnCollapsing, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCompare', @VCLua_TreeView_VCLuaSetOnCompare, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomCreateItem', @VCLua_TreeView_VCLuaSetOnCustomCreateItem, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomDraw', @VCLua_TreeView_VCLuaSetOnCustomDraw, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomDrawItem', @VCLua_TreeView_VCLuaSetOnCustomDrawItem, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomDrawArrow', @VCLua_TreeView_VCLuaSetOnCustomDrawArrow, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnDeletion', @VCLua_TreeView_VCLuaSetOnDeletion, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnEdited', @VCLua_TreeView_VCLuaSetOnEdited, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnEditing', @VCLua_TreeView_VCLuaSetOnEditing, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnEditingEnd', @VCLua_TreeView_VCLuaSetOnEditingEnd, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnExpanded', @VCLua_TreeView_VCLuaSetOnExpanded, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnExpanding', @VCLua_TreeView_VCLuaSetOnExpanding, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnGetImageIndex', @VCLua_TreeView_VCLuaSetOnGetImageIndex, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnGetSelectedIndex', @VCLua_TreeView_VCLuaSetOnGetSelectedIndex, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnNodeChanged', @VCLua_TreeView_VCLuaSetOnNodeChanged, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnSelectionChanged', @VCLua_TreeView_VCLuaSetOnSelectionChanged, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'BackgroundColor', @VCLua_TreeView_VCLuaSetBackgroundColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'BottomItem', @VCLua_TreeView_VCLuaSetBottomItem, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'DefaultItemHeight', @VCLua_TreeView_VCLuaSetDefaultItemHeight, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'DropTarget', @VCLua_TreeView_VCLuaSetDropTarget, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignColor', @VCLua_TreeView_VCLuaSetExpandSignColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignSize', @VCLua_TreeView_VCLuaSetExpandSignSize, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignType', @VCLua_TreeView_VCLuaSetExpandSignType, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'Images', @VCLua_TreeView_VCLuaSetImages, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ImagesWidth', @VCLua_TreeView_VCLuaSetImagesWidth, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'InsertMarkNode', @VCLua_TreeView_VCLuaSetInsertMarkNode, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'InsertMarkType', @VCLua_TreeView_VCLuaSetInsertMarkType, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'Items', @VCLua_TreeView_VCLuaSetItems, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'KeepCollapsedNodes', @VCLua_TreeView_VCLuaSetKeepCollapsedNodes, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'MultiSelectStyle', @VCLua_TreeView_VCLuaSetMultiSelectStyle, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'Options', @VCLua_TreeView_VCLuaSetOptions, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'ScrollBars', @VCLua_TreeView_VCLuaSetScrollBars, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'Selected', @VCLua_TreeView_VCLuaSetSelected, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'SelectionColor', @VCLua_TreeView_VCLuaSetSelectionColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'SelectionFontColor', @VCLua_TreeView_VCLuaSetSelectionFontColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'SelectionFontColorUsed', @VCLua_TreeView_VCLuaSetSelectionFontColorUsed, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'SeparatorColor', @VCLua_TreeView_VCLuaSetSeparatorColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'StateImages', @VCLua_TreeView_VCLuaSetStateImages, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'StateImagesWidth', @VCLua_TreeView_VCLuaSetStateImagesWidth, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'TopItem', @VCLua_TreeView_VCLuaSetTopItem, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'TreeLineColor', @VCLua_TreeView_VCLuaSetTreeLineColor, mfCall);
-	TLuaMethodInfo.Create(CustomTreeViewSets, 'TreeLinePenStyle', @VCLua_TreeView_VCLuaSetTreeLinePenStyle, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'AccessibilityOn', @VCLua_TreeView_VCLuaSetAccessibilityOn, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnAddition', @VCLua_TreeView_VCLuaSetOnAddition, mfCall, TypeInfo(TTVExpandedEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnAdvancedCustomDraw', @VCLua_TreeView_VCLuaSetOnAdvancedCustomDraw, mfCall, TypeInfo(TTVAdvancedCustomDrawEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnAdvancedCustomDrawItem', @VCLua_TreeView_VCLuaSetOnAdvancedCustomDrawItem, mfCall, TypeInfo(TTVAdvancedCustomDrawItemEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnChange', @VCLua_TreeView_VCLuaSetOnChange, mfCall, TypeInfo(TTVChangedEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnChanging', @VCLua_TreeView_VCLuaSetOnChanging, mfCall, TypeInfo(TTVChangingEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCollapsed', @VCLua_TreeView_VCLuaSetOnCollapsed, mfCall, TypeInfo(TTVExpandedEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCollapsing', @VCLua_TreeView_VCLuaSetOnCollapsing, mfCall, TypeInfo(TTVCollapsingEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCompare', @VCLua_TreeView_VCLuaSetOnCompare, mfCall, TypeInfo(TTVCompareEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomCreateItem', @VCLua_TreeView_VCLuaSetOnCustomCreateItem, mfCall, TypeInfo(TTVCustomCreateNodeEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomDraw', @VCLua_TreeView_VCLuaSetOnCustomDraw, mfCall, TypeInfo(TTVCustomDrawEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomDrawItem', @VCLua_TreeView_VCLuaSetOnCustomDrawItem, mfCall, TypeInfo(TTVCustomDrawItemEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnCustomDrawArrow', @VCLua_TreeView_VCLuaSetOnCustomDrawArrow, mfCall, TypeInfo(TTVCustomDrawArrowEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnDeletion', @VCLua_TreeView_VCLuaSetOnDeletion, mfCall, TypeInfo(TTVExpandedEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnEdited', @VCLua_TreeView_VCLuaSetOnEdited, mfCall, TypeInfo(TTVEditedEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnEditing', @VCLua_TreeView_VCLuaSetOnEditing, mfCall, TypeInfo(TTVEditingEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnEditingEnd', @VCLua_TreeView_VCLuaSetOnEditingEnd, mfCall, TypeInfo(TTVEditingEndEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnExpanded', @VCLua_TreeView_VCLuaSetOnExpanded, mfCall, TypeInfo(TTVExpandedEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnExpanding', @VCLua_TreeView_VCLuaSetOnExpanding, mfCall, TypeInfo(TTVExpandingEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnGetImageIndex', @VCLua_TreeView_VCLuaSetOnGetImageIndex, mfCall, TypeInfo(TTVExpandedEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnGetSelectedIndex', @VCLua_TreeView_VCLuaSetOnGetSelectedIndex, mfCall, TypeInfo(TTVExpandedEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnNodeChanged', @VCLua_TreeView_VCLuaSetOnNodeChanged, mfCall, TypeInfo(TTVNodeChangedEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'OnSelectionChanged', @VCLua_TreeView_VCLuaSetOnSelectionChanged, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'BackgroundColor', @VCLua_TreeView_VCLuaSetBackgroundColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'BottomItem', @VCLua_TreeView_VCLuaSetBottomItem, mfCall, TypeInfo(TTreeNode));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'DefaultItemHeight', @VCLua_TreeView_VCLuaSetDefaultItemHeight, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'DropTarget', @VCLua_TreeView_VCLuaSetDropTarget, mfCall, TypeInfo(TTreeNode));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignColor', @VCLua_TreeView_VCLuaSetExpandSignColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignSize', @VCLua_TreeView_VCLuaSetExpandSignSize, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignType', @VCLua_TreeView_VCLuaSetExpandSignType, mfCall, TypeInfo(TTreeViewExpandSignType));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'Images', @VCLua_TreeView_VCLuaSetImages, mfCall, TypeInfo(TCustomImageList));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'ImagesWidth', @VCLua_TreeView_VCLuaSetImagesWidth, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'InsertMarkNode', @VCLua_TreeView_VCLuaSetInsertMarkNode, mfCall, TypeInfo(TTreeNode));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'InsertMarkType', @VCLua_TreeView_VCLuaSetInsertMarkType, mfCall, TypeInfo(TTreeViewInsertMarkType));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'Items', @VCLua_TreeView_VCLuaSetItems, mfCall, TypeInfo(TTreeNodes));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'KeepCollapsedNodes', @VCLua_TreeView_VCLuaSetKeepCollapsedNodes, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'MultiSelectStyle', @VCLua_TreeView_VCLuaSetMultiSelectStyle, mfCall, TypeInfo(TMultiSelectStyle));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'Options', @VCLua_TreeView_VCLuaSetOptions, mfCall, TypeInfo(TTreeViewOptions));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'ScrollBars', @VCLua_TreeView_VCLuaSetScrollBars, mfCall, TypeInfo(TScrollStyle));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'Selected', @VCLua_TreeView_VCLuaSetSelected, mfCall, TypeInfo(TTreeNode));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'SelectionColor', @VCLua_TreeView_VCLuaSetSelectionColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'SelectionFontColor', @VCLua_TreeView_VCLuaSetSelectionFontColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'SelectionFontColorUsed', @VCLua_TreeView_VCLuaSetSelectionFontColorUsed, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'SeparatorColor', @VCLua_TreeView_VCLuaSetSeparatorColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'StateImages', @VCLua_TreeView_VCLuaSetStateImages, mfCall, TypeInfo(TCustomImageList));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'StateImagesWidth', @VCLua_TreeView_VCLuaSetStateImagesWidth, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'TopItem', @VCLua_TreeView_VCLuaSetTopItem, mfCall, TypeInfo(TTreeNode));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'TreeLineColor', @VCLua_TreeView_VCLuaSetTreeLineColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'TreeLinePenStyle', @VCLua_TreeView_VCLuaSetTreeLinePenStyle, mfCall, TypeInfo(TPenStyle));
 end.

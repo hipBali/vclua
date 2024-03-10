@@ -14,7 +14,7 @@ local mainFrm = VCL.Form(nil,'mainForm',{
 mainFrm.Canvas.OnChange = function(o) print("ch") end
 local function onPaint(sender)
 	local Canvas = sender.Canvas
-	Canvas.Brush.Color = 0x22DD44
+	Canvas.Brush.Color = 0x22DD44 -- set to 'clNon' to see error
 	Canvas.Brush.Style = 'bsSolid'
 	Canvas:Rectangle(100,50,160,110)
 	-- test for handling of rare types like Single and Word

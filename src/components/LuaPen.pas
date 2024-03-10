@@ -122,5 +122,5 @@ begin
 	TLuaMethodInfo.Create(PenFuncs, 'GetPattern', @VCLua_Pen_GetPattern);
 	TLuaMethodInfo.Create(PenFuncs, 'SetPattern', @VCLua_Pen_SetPattern);
 	PenSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(PenSets, 'Handle', @VCLua_Pen_VCLuaSetHandle, mfCall);
+	TLuaMethodInfo.Create(PenSets, 'Handle', @VCLua_Pen_VCLuaSetHandle, mfCall, TypeInfo(HPEN));
 end.

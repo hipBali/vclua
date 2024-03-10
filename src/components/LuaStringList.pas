@@ -390,11 +390,11 @@ begin
 	TLuaMethodInfo.Create(StringListFuncs, 'OwnsObjects', @VCLua_StringList_VCLuaGetOwnsObjects, mfCall);
 	TLuaMethodInfo.Create(StringListFuncs, 'SortStyle', @VCLua_StringList_VCLuaGetSortStyle, mfCall);
 	StringListSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(StringListSets, 'Duplicates', @VCLua_StringList_VCLuaSetDuplicates, mfCall);
-	TLuaMethodInfo.Create(StringListSets, 'Sorted', @VCLua_StringList_VCLuaSetSorted, mfCall);
-	TLuaMethodInfo.Create(StringListSets, 'CaseSensitive', @VCLua_StringList_VCLuaSetCaseSensitive, mfCall);
-	TLuaMethodInfo.Create(StringListSets, 'OnChange', @VCLua_StringList_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(StringListSets, 'OnChanging', @VCLua_StringList_VCLuaSetOnChanging, mfCall);
-	TLuaMethodInfo.Create(StringListSets, 'OwnsObjects', @VCLua_StringList_VCLuaSetOwnsObjects, mfCall);
-	TLuaMethodInfo.Create(StringListSets, 'SortStyle', @VCLua_StringList_VCLuaSetSortStyle, mfCall);
+	TLuaMethodInfo.Create(StringListSets, 'Duplicates', @VCLua_StringList_VCLuaSetDuplicates, mfCall, TypeInfo(TDuplicates));
+	TLuaMethodInfo.Create(StringListSets, 'Sorted', @VCLua_StringList_VCLuaSetSorted, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(StringListSets, 'CaseSensitive', @VCLua_StringList_VCLuaSetCaseSensitive, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(StringListSets, 'OnChange', @VCLua_StringList_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(StringListSets, 'OnChanging', @VCLua_StringList_VCLuaSetOnChanging, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(StringListSets, 'OwnsObjects', @VCLua_StringList_VCLuaSetOwnsObjects, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(StringListSets, 'SortStyle', @VCLua_StringList_VCLuaSetSortStyle, mfCall, TypeInfo(TStringsSortStyle));
 end.

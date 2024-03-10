@@ -65,10 +65,11 @@ function VCLua_Memo_VCLuaSetLines(L: Plua_State): Integer; cdecl;
 var
 	lMemo:TLuaMemo;
 	val:TStrings;
+	valNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2);
 	lMemo := TLuaMemo(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
 	try
 		lMemo.Lines := val;
 		Result := 0;
@@ -76,6 +77,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Memo', 'Lines', E.ClassName, E.Message);
 	end;
+	if valNeedsFree then val.Free;
 end;
 
 function VCLua_Memo_VCLuaGetLines(L: Plua_State): Integer; cdecl;
@@ -330,11 +332,11 @@ begin
 	TLuaMethodInfo.Create(CustomMemoFuncs, 'WantTabs', @VCLua_Memo_VCLuaGetWantTabs, mfCall);
 	TLuaMethodInfo.Create(CustomMemoFuncs, 'WordWrap', @VCLua_Memo_VCLuaGetWordWrap, mfCall);
 	CustomMemoSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomMemoSets, 'Lines', @VCLua_Memo_VCLuaSetLines, mfCall);
-	TLuaMethodInfo.Create(CustomMemoSets, 'HorzScrollBar', @VCLua_Memo_VCLuaSetHorzScrollBar, mfCall);
-	TLuaMethodInfo.Create(CustomMemoSets, 'VertScrollBar', @VCLua_Memo_VCLuaSetVertScrollBar, mfCall);
-	TLuaMethodInfo.Create(CustomMemoSets, 'ScrollBars', @VCLua_Memo_VCLuaSetScrollBars, mfCall);
-	TLuaMethodInfo.Create(CustomMemoSets, 'WantReturns', @VCLua_Memo_VCLuaSetWantReturns, mfCall);
-	TLuaMethodInfo.Create(CustomMemoSets, 'WantTabs', @VCLua_Memo_VCLuaSetWantTabs, mfCall);
-	TLuaMethodInfo.Create(CustomMemoSets, 'WordWrap', @VCLua_Memo_VCLuaSetWordWrap, mfCall);
+	TLuaMethodInfo.Create(CustomMemoSets, 'Lines', @VCLua_Memo_VCLuaSetLines, mfCall, TypeInfo(TStrings));
+	TLuaMethodInfo.Create(CustomMemoSets, 'HorzScrollBar', @VCLua_Memo_VCLuaSetHorzScrollBar, mfCall, TypeInfo(TMemoScrollBar));
+	TLuaMethodInfo.Create(CustomMemoSets, 'VertScrollBar', @VCLua_Memo_VCLuaSetVertScrollBar, mfCall, TypeInfo(TMemoScrollBar));
+	TLuaMethodInfo.Create(CustomMemoSets, 'ScrollBars', @VCLua_Memo_VCLuaSetScrollBars, mfCall, TypeInfo(TScrollStyle));
+	TLuaMethodInfo.Create(CustomMemoSets, 'WantReturns', @VCLua_Memo_VCLuaSetWantReturns, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomMemoSets, 'WantTabs', @VCLua_Memo_VCLuaSetWantTabs, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomMemoSets, 'WordWrap', @VCLua_Memo_VCLuaSetWordWrap, mfCall, TypeInfo(Boolean));
 end.

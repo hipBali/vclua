@@ -469,8 +469,8 @@ begin
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Keys', @VCLua_ValueListEditor_Keys);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Values', @VCLua_ValueListEditor_Values);
 	ValueListEditorSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ValueListEditorSets, 'OnGetPickList', @VCLua_ValueListEditor_VCLuaSetOnGetPickList, mfCall);
-	TLuaMethodInfo.Create(ValueListEditorSets, 'OnStringsChange', @VCLua_ValueListEditor_VCLuaSetOnStringsChange, mfCall);
-	TLuaMethodInfo.Create(ValueListEditorSets, 'OnStringsChanging', @VCLua_ValueListEditor_VCLuaSetOnStringsChanging, mfCall);
-	TLuaMethodInfo.Create(ValueListEditorSets, 'OnValidate', @VCLua_ValueListEditor_VCLuaSetOnValidate, mfCall);
+	TLuaMethodInfo.Create(ValueListEditorSets, 'OnGetPickList', @VCLua_ValueListEditor_VCLuaSetOnGetPickList, mfCall, TypeInfo(TGetPickListEvent));
+	TLuaMethodInfo.Create(ValueListEditorSets, 'OnStringsChange', @VCLua_ValueListEditor_VCLuaSetOnStringsChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ValueListEditorSets, 'OnStringsChanging', @VCLua_ValueListEditor_VCLuaSetOnStringsChanging, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ValueListEditorSets, 'OnValidate', @VCLua_ValueListEditor_VCLuaSetOnValidate, mfCall, TypeInfo(TOnValidateEvent));
 end.

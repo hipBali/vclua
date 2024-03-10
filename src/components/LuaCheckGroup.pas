@@ -286,9 +286,9 @@ begin
 	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'Columns', @VCLua_CheckGroup_VCLuaGetColumns, mfCall);
 	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'ColumnLayout', @VCLua_CheckGroup_VCLuaGetColumnLayout, mfCall);
 	CustomCheckGroupSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomCheckGroupSets, 'AutoFill', @VCLua_CheckGroup_VCLuaSetAutoFill, mfCall);
-	TLuaMethodInfo.Create(CustomCheckGroupSets, 'Items', @VCLua_CheckGroup_VCLuaSetItems, mfCall);
-	TLuaMethodInfo.Create(CustomCheckGroupSets, 'Columns', @VCLua_CheckGroup_VCLuaSetColumns, mfCall);
-	TLuaMethodInfo.Create(CustomCheckGroupSets, 'ColumnLayout', @VCLua_CheckGroup_VCLuaSetColumnLayout, mfCall);
-	TLuaMethodInfo.Create(CustomCheckGroupSets, 'OnItemClick', @VCLua_CheckGroup_VCLuaSetOnItemClick, mfCall);
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'AutoFill', @VCLua_CheckGroup_VCLuaSetAutoFill, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'Items', @VCLua_CheckGroup_VCLuaSetItems, mfCall, TypeInfo(TStrings));
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'Columns', @VCLua_CheckGroup_VCLuaSetColumns, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'ColumnLayout', @VCLua_CheckGroup_VCLuaSetColumnLayout, mfCall, TypeInfo(TColumnLayout));
+	TLuaMethodInfo.Create(CustomCheckGroupSets, 'OnItemClick', @VCLua_CheckGroup_VCLuaSetOnItemClick, mfCall, TypeInfo(TCheckGroupClicked));
 end.

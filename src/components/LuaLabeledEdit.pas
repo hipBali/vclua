@@ -135,6 +135,6 @@ begin
 	TLuaMethodInfo.Create(CustomLabeledEditFuncs, 'LabelPosition', @VCLua_LabeledEdit_VCLuaGetLabelPosition, mfCall);
 	TLuaMethodInfo.Create(CustomLabeledEditFuncs, 'LabelSpacing', @VCLua_LabeledEdit_VCLuaGetLabelSpacing, mfCall);
 	CustomLabeledEditSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomLabeledEditSets, 'LabelPosition', @VCLua_LabeledEdit_VCLuaSetLabelPosition, mfCall);
-	TLuaMethodInfo.Create(CustomLabeledEditSets, 'LabelSpacing', @VCLua_LabeledEdit_VCLuaSetLabelSpacing, mfCall);
+	TLuaMethodInfo.Create(CustomLabeledEditSets, 'LabelPosition', @VCLua_LabeledEdit_VCLuaSetLabelPosition, mfCall, TypeInfo(TLabelPosition));
+	TLuaMethodInfo.Create(CustomLabeledEditSets, 'LabelSpacing', @VCLua_LabeledEdit_VCLuaSetLabelSpacing, mfCall, TypeInfo(Integer));
 end.

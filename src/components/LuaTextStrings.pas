@@ -392,7 +392,7 @@ begin
 	TLuaMethodInfo.Create(TextStringsFuncs, 'SaveToFile', @VCLua_TextStrings_SaveToFile);
 	TLuaMethodInfo.Create(TextStringsFuncs, 'Text', @VCLua_TextStrings_VCLuaGetText, mfCall);
 	TextStringsSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(TextStringsSets, 'Text', @VCLua_TextStrings_VCLuaSetText, mfCall);
-	TLuaMethodInfo.Create(TextStringsSets, 'OnChange', @VCLua_TextStrings_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(TextStringsSets, 'OnChanging', @VCLua_TextStrings_VCLuaSetOnChanging, mfCall);
+	TLuaMethodInfo.Create(TextStringsSets, 'Text', @VCLua_TextStrings_VCLuaSetText, mfCall, TypeInfo(string));
+	TLuaMethodInfo.Create(TextStringsSets, 'OnChange', @VCLua_TextStrings_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(TextStringsSets, 'OnChanging', @VCLua_TextStrings_VCLuaSetOnChanging, mfCall, TypeInfo(TNotifyEvent));
 end.

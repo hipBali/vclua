@@ -433,9 +433,6 @@ procedure SetDefaultMethods(L: Plua_State; Index:Integer; Sender:TObject);
 procedure CreateTableForKnownType(L: Plua_State; TypeName:String; Sender:TObject);inline;
 procedure SetAsMainForm(aForm:TForm);
 
-// extended properties
-function ComponentShortCut(Comp: TComponent; scName:String): boolean;
-
 // default methods
 function ControlFree(L: Plua_State): Integer; cdecl;
 function ControlFocus(L: Plua_State): Integer; cdecl;
@@ -579,9 +576,12 @@ begin
 end;
 
 procedure InitControl(L: Plua_State; luaObj:TObject; var Name:String);
+var
+  tindex: Integer;
 begin
-     if (lua_gettop(L)>1) and (lua_istable(L,-2)) and (GetLuaObject(L, -2) = nil) then
-        SetPropertiesFromLuaTable(L, luaObj,-2)
+     tindex := lua_gettop(L) - 1;
+     if (tindex>0) and (lua_istable(L,tindex)) and (GetLuaObject(L,tindex) = nil) then
+        UpdatePropertiesFromLuaTable(L, '', tindex + 1, tindex, luaObj)
      else
        try
           (luaObj as TComponent).Name := Name;
@@ -643,20 +643,6 @@ begin
   else
       lua_pushnil(L);
   Result := 1;
-end;
-
-// ***********************************************
-function ComponentShortCut(Comp: TComponent; scName:String): boolean;
-begin
-     try
-        if (comp.InheritsFrom(TAction)) then
-            TAction(Comp).ShortCut := TextToShortCut(scName)
-        else if (comp.InheritsFrom(TMenuItem)) then
-           TMenuItem(Comp).ShortCut := TextToShortCut(scName);
-        Result:=true;
-     except
-        Result:=false;
-     end;
 end;
 
 // ***********************************************

@@ -272,7 +272,7 @@ var
 begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	luaL_check(L,2,@ATransparentColor);
+	ATransparentColor := luaL_checkColor(L,2);
 	try
 		lRasterImage.Mask(ATransparentColor);
 		Result := 0;
@@ -493,7 +493,7 @@ var
 begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lRasterImage.TransparentColor := val;
 		Result := 0;
@@ -587,10 +587,10 @@ begin
 	TLuaMethodInfo.Create(RasterImageFuncs, 'TransparentColor', @VCLua_RasterImage_VCLuaGetTransparentColor, mfCall);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'TransparentMode', @VCLua_RasterImage_VCLuaGetTransparentMode, mfCall);
 	RasterImageSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(RasterImageSets, 'BitmapHandle', @VCLua_RasterImage_VCLuaSetBitmapHandle, mfCall);
-	TLuaMethodInfo.Create(RasterImageSets, 'Masked', @VCLua_RasterImage_VCLuaSetMasked, mfCall);
-	TLuaMethodInfo.Create(RasterImageSets, 'MaskHandle', @VCLua_RasterImage_VCLuaSetMaskHandle, mfCall);
-	TLuaMethodInfo.Create(RasterImageSets, 'PixelFormat', @VCLua_RasterImage_VCLuaSetPixelFormat, mfCall);
-	TLuaMethodInfo.Create(RasterImageSets, 'TransparentColor', @VCLua_RasterImage_VCLuaSetTransparentColor, mfCall);
-	TLuaMethodInfo.Create(RasterImageSets, 'TransparentMode', @VCLua_RasterImage_VCLuaSetTransparentMode, mfCall);
+	TLuaMethodInfo.Create(RasterImageSets, 'BitmapHandle', @VCLua_RasterImage_VCLuaSetBitmapHandle, mfCall, TypeInfo(HBITMAP));
+	TLuaMethodInfo.Create(RasterImageSets, 'Masked', @VCLua_RasterImage_VCLuaSetMasked, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(RasterImageSets, 'MaskHandle', @VCLua_RasterImage_VCLuaSetMaskHandle, mfCall, TypeInfo(HBITMAP));
+	TLuaMethodInfo.Create(RasterImageSets, 'PixelFormat', @VCLua_RasterImage_VCLuaSetPixelFormat, mfCall, TypeInfo(TPixelFormat));
+	TLuaMethodInfo.Create(RasterImageSets, 'TransparentColor', @VCLua_RasterImage_VCLuaSetTransparentColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(RasterImageSets, 'TransparentMode', @VCLua_RasterImage_VCLuaSetTransparentMode, mfCall, TypeInfo(TTransparentMode));
 end.

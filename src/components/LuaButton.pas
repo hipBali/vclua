@@ -218,7 +218,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Button', 'ShortCut', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret);
+	lua_pushShortCut(L,ret);
 end;
 
 function VCLua_Button_VCLuaGetShortCutKey2(L: Plua_State): Integer; cdecl;
@@ -235,7 +235,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Button', 'ShortCutKey2', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret);
+	lua_pushShortCut(L,ret);
 end;
 
 function VCLua_Button_VCLuaSetCancel(L: Plua_State): Integer; cdecl;
@@ -306,7 +306,7 @@ begin
 	TLuaMethodInfo.Create(CustomButtonFuncs, 'ShortCutKey2', @VCLua_Button_VCLuaGetShortCutKey2, mfCall);
 	TLuaMethodInfo.Create(CustomButtonFuncs, 'Cancel', @VCLua_Button_VCLuaGetCancel, mfCall);
 	CustomButtonSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomButtonSets, 'Default', @VCLua_Button_VCLuaSetDefault, mfCall);
-	TLuaMethodInfo.Create(CustomButtonSets, 'ModalResult', @VCLua_Button_VCLuaSetModalResult, mfCall);
-	TLuaMethodInfo.Create(CustomButtonSets, 'Cancel', @VCLua_Button_VCLuaSetCancel, mfCall);
+	TLuaMethodInfo.Create(CustomButtonSets, 'Default', @VCLua_Button_VCLuaSetDefault, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomButtonSets, 'ModalResult', @VCLua_Button_VCLuaSetModalResult, mfCall, TypeInfo(TModalResult));
+	TLuaMethodInfo.Create(CustomButtonSets, 'Cancel', @VCLua_Button_VCLuaSetCancel, mfCall, TypeInfo(Boolean));
 end.

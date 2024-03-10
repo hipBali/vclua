@@ -106,5 +106,5 @@ begin
 	TLuaMethodInfo.Create(BrushFuncs, 'EqualsBrush', @VCLua_Brush_EqualsBrush);
 	TLuaMethodInfo.Create(BrushFuncs, 'Bitmap', @VCLua_Brush_VCLuaGetBitmap, mfCall);
 	BrushSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(BrushSets, 'Bitmap', @VCLua_Brush_VCLuaSetBitmap, mfCall);
+	TLuaMethodInfo.Create(BrushSets, 'Bitmap', @VCLua_Brush_VCLuaSetBitmap, mfCall, TypeInfo(TCustomBitmap));
 end.

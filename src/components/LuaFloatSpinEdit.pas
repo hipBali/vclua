@@ -352,11 +352,11 @@ begin
 	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'Value', @VCLua_FloatSpinEdit_VCLuaGetValue, mfCall);
 	TLuaMethodInfo.Create(CustomFloatSpinEditFuncs, 'ValueEmpty', @VCLua_FloatSpinEdit_VCLuaGetValueEmpty, mfCall);
 	CustomFloatSpinEditSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'DecimalPlaces', @VCLua_FloatSpinEdit_VCLuaSetDecimalPlaces, mfCall);
-	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'EditorEnabled', @VCLua_FloatSpinEdit_VCLuaSetEditorEnabled, mfCall);
-	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'Increment', @VCLua_FloatSpinEdit_VCLuaSetIncrement, mfCall);
-	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'MinValue', @VCLua_FloatSpinEdit_VCLuaSetMinValue, mfCall);
-	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'MaxValue', @VCLua_FloatSpinEdit_VCLuaSetMaxValue, mfCall);
-	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'Value', @VCLua_FloatSpinEdit_VCLuaSetValue, mfCall);
-	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'ValueEmpty', @VCLua_FloatSpinEdit_VCLuaSetValueEmpty, mfCall);
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'DecimalPlaces', @VCLua_FloatSpinEdit_VCLuaSetDecimalPlaces, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'EditorEnabled', @VCLua_FloatSpinEdit_VCLuaSetEditorEnabled, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'Increment', @VCLua_FloatSpinEdit_VCLuaSetIncrement, mfCall, TypeInfo(Double));
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'MinValue', @VCLua_FloatSpinEdit_VCLuaSetMinValue, mfCall, TypeInfo(Double));
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'MaxValue', @VCLua_FloatSpinEdit_VCLuaSetMaxValue, mfCall, TypeInfo(Double));
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'Value', @VCLua_FloatSpinEdit_VCLuaSetValue, mfCall, TypeInfo(Double));
+	TLuaMethodInfo.Create(CustomFloatSpinEditSets, 'ValueEmpty', @VCLua_FloatSpinEdit_VCLuaSetValueEmpty, mfCall, TypeInfo(Boolean));
 end.

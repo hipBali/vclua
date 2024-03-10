@@ -231,6 +231,6 @@ begin
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStreamWithFileExt', @VCLua_Picture_SaveToStreamWithFileExt);
 	TLuaMethodInfo.Create(PictureFuncs, 'Assign', @VCLua_Picture_Assign);
 	PictureSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(PictureSets, 'OnChange', @VCLua_Picture_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(PictureSets, 'OnProgress', @VCLua_Picture_VCLuaSetOnProgress, mfCall);
+	TLuaMethodInfo.Create(PictureSets, 'OnChange', @VCLua_Picture_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(PictureSets, 'OnProgress', @VCLua_Picture_VCLuaSetOnProgress, mfCall, TypeInfo(TProgressEvent));
 end.

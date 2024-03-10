@@ -243,6 +243,6 @@ begin
 	TLuaMethodInfo.Create(FontFuncs, 'SetDefault', @VCLua_Font_SetDefault);
 	TLuaMethodInfo.Create(FontFuncs, 'PixelsPerInch', @VCLua_Font_VCLuaGetPixelsPerInch, mfCall);
 	FontSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(FontSets, 'Handle', @VCLua_Font_VCLuaSetHandle, mfCall);
-	TLuaMethodInfo.Create(FontSets, 'PixelsPerInch', @VCLua_Font_VCLuaSetPixelsPerInch, mfCall);
+	TLuaMethodInfo.Create(FontSets, 'Handle', @VCLua_Font_VCLuaSetHandle, mfCall, TypeInfo(HFONT));
+	TLuaMethodInfo.Create(FontSets, 'PixelsPerInch', @VCLua_Font_VCLuaSetPixelsPerInch, mfCall, TypeInfo(Integer));
 end.

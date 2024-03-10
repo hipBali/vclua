@@ -473,16 +473,16 @@ begin
 	TLuaMethodInfo.Create(CustomImageFuncs, 'Transparent', @VCLua_Image_VCLuaGetTransparent, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'Proportional', @VCLua_Image_VCLuaGetProportional, mfCall);
 	CustomImageSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomImageSets, 'AntialiasingMode', @VCLua_Image_VCLuaSetAntialiasingMode, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'Center', @VCLua_Image_VCLuaSetCenter, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'KeepOriginXWhenClipped', @VCLua_Image_VCLuaSetKeepOriginXWhenClipped, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'KeepOriginYWhenClipped', @VCLua_Image_VCLuaSetKeepOriginYWhenClipped, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'Picture', @VCLua_Image_VCLuaSetPicture, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'Stretch', @VCLua_Image_VCLuaSetStretch, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'StretchOutEnabled', @VCLua_Image_VCLuaSetStretchOutEnabled, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'StretchInEnabled', @VCLua_Image_VCLuaSetStretchInEnabled, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'Transparent', @VCLua_Image_VCLuaSetTransparent, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'Proportional', @VCLua_Image_VCLuaSetProportional, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'OnPictureChanged', @VCLua_Image_VCLuaSetOnPictureChanged, mfCall);
-	TLuaMethodInfo.Create(CustomImageSets, 'OnPaintBackground', @VCLua_Image_VCLuaSetOnPaintBackground, mfCall);
+	TLuaMethodInfo.Create(CustomImageSets, 'AntialiasingMode', @VCLua_Image_VCLuaSetAntialiasingMode, mfCall, TypeInfo(TAntialiasingMode));
+	TLuaMethodInfo.Create(CustomImageSets, 'Center', @VCLua_Image_VCLuaSetCenter, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageSets, 'KeepOriginXWhenClipped', @VCLua_Image_VCLuaSetKeepOriginXWhenClipped, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageSets, 'KeepOriginYWhenClipped', @VCLua_Image_VCLuaSetKeepOriginYWhenClipped, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageSets, 'Picture', @VCLua_Image_VCLuaSetPicture, mfCall, TypeInfo(TPicture));
+	TLuaMethodInfo.Create(CustomImageSets, 'Stretch', @VCLua_Image_VCLuaSetStretch, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageSets, 'StretchOutEnabled', @VCLua_Image_VCLuaSetStretchOutEnabled, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageSets, 'StretchInEnabled', @VCLua_Image_VCLuaSetStretchInEnabled, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageSets, 'Transparent', @VCLua_Image_VCLuaSetTransparent, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageSets, 'Proportional', @VCLua_Image_VCLuaSetProportional, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageSets, 'OnPictureChanged', @VCLua_Image_VCLuaSetOnPictureChanged, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomImageSets, 'OnPaintBackground', @VCLua_Image_VCLuaSetOnPaintBackground, mfCall, TypeInfo(TImagePaintBackgroundEvent));
 end.

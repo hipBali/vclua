@@ -309,7 +309,7 @@ begin
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'ItemEnabled', @VCLua_CheckListBox_ItemEnabled);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'State', @VCLua_CheckListBox_State);
 	CustomCheckListBoxSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'AllowGrayed', @VCLua_CheckListBox_VCLuaSetAllowGrayed, mfCall);
-	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'OnClickCheck', @VCLua_CheckListBox_VCLuaSetOnClickCheck, mfCall);
-	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'OnItemClick', @VCLua_CheckListBox_VCLuaSetOnItemClick, mfCall);
+	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'AllowGrayed', @VCLua_CheckListBox_VCLuaSetAllowGrayed, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'OnClickCheck', @VCLua_CheckListBox_VCLuaSetOnClickCheck, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'OnItemClick', @VCLua_CheckListBox_VCLuaSetOnItemClick, mfCall, TypeInfo(TCheckListClicked));
 end.

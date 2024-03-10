@@ -13,7 +13,8 @@ type
     public
       pf: lua_CFunction;
       mf: TMethodFlag;
-      constructor Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction; aMf: TMethodFlag = mfNone);
+      isObj: Boolean;
+      constructor Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction; aMf: TMethodFlag = mfNone; apti: PTypeInfo = nil);
   end;
   TLuaVmt = THashList;
   PLuaVmt = ^TLuaVmt;
@@ -24,18 +25,21 @@ type
   end;
 
 function GetPropSets(L: Plua_State; index: Integer):PLuaVmt;
+function GetPropSetsPop(L: Plua_State; index: Integer):PLuaVmt;inline;
 function HasMethod(const pvmt: PLuaVmt; const PropName:string; out mi: TLuaMethodInfo):Boolean;
 procedure CallSetter(L: Plua_State; const mi: TLuaMethodInfo; objIndex, valIndex: Integer);
+function InheritsFrom(pti: PTypeInfo; const cName: shortstring):boolean;
 
 var
   vmts,propSets: TLuaVmts;
 
 implementation
 
-constructor TLuaMethodInfo.Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction; aMf: TMethodFlag);
+constructor TLuaMethodInfo.Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction; aMf: TMethodFlag; apti: PTypeInfo);
 begin
   pf := aPf;
   mf := aMf;
+  isObj := (apti <> nil) and (apti^.Kind = tkClass);
   inherited Create(list, name);
 end;
 
@@ -61,7 +65,11 @@ begin
   lua_pushliteral(L,'propSets');
   lua_rawget(L,index);
   result := lua_touserdata(L,-1);
-  lua_pop(L,1);
+end;
+function GetPropSetsPop(L: Plua_State; index: Integer):PLuaVmt;
+begin
+  result := GetPropSets(L, index);
+  lua_pop(L, 1);
 end;
 
 function HasMethod(const pvmt: PLuaVmt; const PropName:string; out mi: TLuaMethodInfo):Boolean;
@@ -80,6 +88,13 @@ begin
   lua_pushvalue(L, objIndex);
   lua_pushvalue(L, valIndex);
   lua_call(L, 2, 0);
+end;
+
+function InheritsFrom(pti: PTypeInfo; const cName: shortstring):boolean;
+begin
+  while (pti <> nil) and (ShortCompareText(pti^.Name, cName) <> 0) do
+    pti := GetTypeData(pti)^.ParentInfo;
+  result := pti <> nil;
 end;
 
 begin

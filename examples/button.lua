@@ -37,7 +37,7 @@ button._ = {
 		-- test a method with optional parameter, these 3 are equal per LCL docs
 		print(b:ClientToParent(p).x, 'no param')
 		print(b:ClientToParent(p, nil).x, 'nil')
-		print(b:ClientToParent(p, b.Parent).x, 'b.parent')
+		print(b:ClientToParent(p, b.Parent).x, 'b.Parent')
 		-- mainPanel is the same b.Parent but of more concrete type, so the result is the same
 		print(b:ClientToParent(p, mainPanel).x, 'mainPanel')
 		-- this should produce an integer larger than previous integers by 5 (BorderWidth)

@@ -110,5 +110,5 @@ begin
 	TLuaMethodInfo.Create(PopupNotifierFuncs, 'Show', @VCLua_PopupNotifier_Show);
 	TLuaMethodInfo.Create(PopupNotifierFuncs, 'ShowAtPos', @VCLua_PopupNotifier_ShowAtPos);
 	PopupNotifierSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(PopupNotifierSets, 'OnClose', @VCLua_PopupNotifier_VCLuaSetOnClose, mfCall);
+	TLuaMethodInfo.Create(PopupNotifierSets, 'OnClose', @VCLua_PopupNotifier_VCLuaSetOnClose, mfCall, TypeInfo(TCloseEvent));
 end.

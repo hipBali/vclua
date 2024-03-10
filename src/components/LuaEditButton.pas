@@ -59,5 +59,5 @@ begin
 	CustomEditButtonFuncs := TLuaVmt.Create;
 	
 	CustomEditButtonSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomEditButtonSets, 'OnButtonClick', @VCLua_EditButton_VCLuaSetOnButtonClick, mfCall);
+	TLuaMethodInfo.Create(CustomEditButtonSets, 'OnButtonClick', @VCLua_EditButton_VCLuaSetOnButtonClick, mfCall, TypeInfo(TNotifyEvent));
 end.

@@ -898,5 +898,5 @@ begin
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'SetCells', @VCLua_StringGrid_GridCellsSet);
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'GetSelectedCell', @VCLua_StringGrid_GridGetSelectedCell);
 	CustomStringGridSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomStringGridSets, 'OnCellProcess', @VCLua_StringGrid_VCLuaSetOnCellProcess, mfCall);
+	TLuaMethodInfo.Create(CustomStringGridSets, 'OnCellProcess', @VCLua_StringGrid_VCLuaSetOnCellProcess, mfCall, TypeInfo(TCellProcessEvent));
 end.

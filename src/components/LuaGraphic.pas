@@ -391,6 +391,6 @@ begin
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetSupportedSourceMimeTypes', @VCLua_Graphic_GetSupportedSourceMimeTypes);
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetResourceType', @VCLua_Graphic_GetResourceType);
 	GraphicSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(GraphicSets, 'OnChange', @VCLua_Graphic_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(GraphicSets, 'OnProgress', @VCLua_Graphic_VCLuaSetOnProgress, mfCall);
+	TLuaMethodInfo.Create(GraphicSets, 'OnChange', @VCLua_Graphic_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(GraphicSets, 'OnProgress', @VCLua_Graphic_VCLuaSetOnProgress, mfCall, TypeInfo(TProgressEvent));
 end.

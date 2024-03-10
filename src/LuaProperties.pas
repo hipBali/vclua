@@ -1,40 +1,32 @@
 unit LuaProperties;
 
-{$mode Delphi}{$H+}
+{$mode Delphi}{$T+}
 
 interface
 
-Uses  Dialogs, Forms, Graphics, Classes, Controls, TypInfo, Lua, LuaHelper;
+Uses Lua;
 
 function LuaGetProperty(L: Plua_State): Integer; cdecl;
 function LuaSetProperty(L: Plua_State): Integer; cdecl;
-function SetPropertiesFromLuaTable(L: Plua_State; Obj:TObject; Index:Integer):Boolean;
-procedure SetProperty(L:Plua_State; Index:Integer; Comp:TObject; PInfo:PPropInfo);
 function LuaListProperties(L: Plua_State): Integer; cdecl;
 function LuaListMethods(L: Plua_State): Integer; cdecl;
 function LuaGetCallable(L: Plua_State): Integer; cdecl;
+procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: String; oindex,vindex: Integer; o: TObject);overload;
 
 implementation
 
 Uses SysUtils,
-     StdCtrls,
+     Classes,
      Math,
      LuaController,
      LuaObject,
      LuaProxy,
+     LuaHelper,
+     LuaEvent,
      LuaVmt,
-     LCLProc;
+     TypInfo;
 // ****************************************************************
 
-function VCLua_Propinfo(Comp:TPersistent; PropName:String):PPropInfo;
-begin
-  if (Comp.InheritsFrom(TStrings)) then
-      // TODO: TStringList doesn't publish anything so this is nil
-      Result := GetPropInfo(TStringList.ClassInfo, PropName)
-  else
-      Result := GetPropInfo(Comp.ClassInfo, PropName);
-end;
-// ****************************************************************
 procedure ListProperty(L: Plua_State; const PName: string; PropType: String);
 begin
   UniqueString(PropType);
@@ -73,12 +65,13 @@ var
   pvmt:PLuaVmt;
   p:TParams;
 begin
+  pvmt := vmts.GetVmt(pti);
+  if pvmt = nil then Exit;
+  propSets.GetVmt(pti);
   p.L := L;
   p.Count := GetPropList(pti, tkAny, nil);
   GetMem(p.PropInfos, p.Count * SizeOf(PPropInfo));
   GetPropList(pti, tkAny, p.PropInfos, true);
-  pvmt := vmts.GetVmt(pti);
-  propSets.GetVmt(pti);
   pvmt^.ForEachCall(MaybeListOne,@p);
   FreeMem(p.PropInfos);
 end;
@@ -192,60 +185,6 @@ begin
       lua_pushnil(L);
 end;
 
-// ****************************************************************
-(*
-procedure SetObjectProperty(Obj:TObject; propName:String; value:TObject);
-var
-  PInfo: PPropInfo;
-begin
-  PInfo := GetPropInfo(Obj.ClassInfo, propName);
-  if PInfo <> nil then
-     SetInt64Prop(Obj, PInfo, Int64(Pointer(value)));
-end;
-
-function tabletotext(L:Plua_State; Index:Integer):String;
-var n :integer;
-begin
-    result := '';
-    if lua_istable(L,Index) then begin
-        n := lua_gettop(L);
-        lua_pushnil(L);
-        while (lua_next(L, n) <> 0) do begin
-              Result := Result + lua_tostring(L, -1) + #10;
-              lua_pop(L, 1);
-        end;
-    end else if lua_isstring(L,Index) then
-       Result := lua_tostring(L,Index);
-end;
-
-function SetTStringsProperty( L: Plua_State; Comp:TObject; PropName:String; index:Integer):boolean;
-var target: TStrings;
-begin
-    result := false;
-    target := TStrings( Pointer(GetInt64Prop(Comp,PropName)));
-    if Assigned(target) then begin
-      target.Clear;
-      target.Text := tabletotext(L,index);
-      result := true;
-    end;
-end;
-*)
-
-function ToColor(L: Plua_State; index: Integer):TColor;
-begin
-     result := 0;
-     if lua_isstring(L,index) then
-        result := StringToColor(lua_tostring(L,index))
-     else if lua_isnumber(L,index) then
-        result := TColor(lua_tointeger(L,index));
-end;
-
-// ****************************************************************
-
-function isVcluaObject(L: Plua_State; index: Integer):boolean;
-begin
-    Result := (LuaGetTableLightUserData(L,Index,'Handle') <> nil);
-end;
 
 // ****************************************************************
 
@@ -356,246 +295,201 @@ begin
 end;
 
 // ****************************************************************
-(*
-procedure LuaSetControlProperty(L:Plua_State; Comp: TObject; PropName:String; Index:Integer);
-var
-  PInfo: PPropInfo;
-begin
-  PInfo := GetPropInfo(TObject(Comp).ClassInfo, PropName);
-  SetProperty(L,Index,Comp,PInfo);
-end;
-*)
+// Sets Property Value
+// ****************************************************************
 procedure SetProperty(L:Plua_State; Index:Integer; Comp:TObject; PInfo:PPropInfo);
-Var propVal:String;
-    LuaFuncPInfo: PPropInfo;
-    Str: String;
-    tm: TMethod;
-    cc: TVCLuaControl;
-    // refrence!!!
-    luafunc, top: Integer;
+Var
+  LuaFuncPInfo: PPropInfo;
+  Str: String;
+  tm: TMethod;
+  cc: TVCLuaControl;
+  gotValue:boolean = false;
+  vo:TObject;
+  ordValue: Int64;
+  charValue: Char;
+  pti: PTypeInfo;
 begin
-     Str := PInfo^.Proptype^.Name;
-       if (Str = 'TShortCut') and
-          (ComponentShortCut(TComponent(Comp),lua_tostring(L, -1))) then
-       else
-       case PInfo^.Proptype^.Kind of
-        tkMethod: begin
-            // Property Name
-            Str := lua_tostring(L,index-1);
-            if (not (Comp is TComponent)) then
-               LuaError(L,'Can only set methods on TComponent descendants!', Comp.ClassName + ' isn''t a TComponent, propname ' + Str);
-            // omg watchout!
-            cc := GetLuaControl(Comp);
-            LuaFuncPInfo := GetPropInfo(cc, Str+'_Function');
-	    if LuaFuncPInfo <> nil then begin
-                // OnXxxx_Function
-                if lua_isfunction(L,index) then begin
-                  // store luafunc in component by LuaCtl
-                  top := lua_gettop(L);
-                  lua_settop(L,index);
-                  luafunc := luaL_ref(L, LUA_REGISTRYINDEX);
-                  SetOrdProp(cc, LuaFuncPInfo, luafunc);
-                  lua_settop(L,top);
-                  // setup luaeventhandler
-                  LuaFuncPInfo := GetPropInfo(Comp.ClassInfo, Str);
-                  // OnXxxx -->OnLuaXxxx
-                  insert('Lua',Str,3);
-                  if (LuaFuncPInfo<>nil) then begin
-                      tm.Data := Pointer(cc);
-                      tm.Code := cc.MethodAddress(Str);
-                      SetMethodProp(Comp, LuaFuncPInfo, tm);
-                   end
-                end else begin
-                    tm.Data:= nil;
-                    tm.Code:= nil;
-                    SetMethodProp(Comp, PInfo, tm);
-                end
-            end
-	    else begin
-                 LuaError(L,'Method not found or not supported!' , lua_tostring(L,index));
-            end
-          end;
-          tkSet:
-              begin
-                 SetOrdProp(Comp, PInfo, StringToSet(PInfo,lua_tostring(L,index)));
-              end;
-	  tkClass:
-             begin
-      	         SetInt64Prop(Comp, PInfo, Int64(Pointer(GetLuaObject(L, index))));
-             end;
-	  tkInteger:
-             begin
-                     if ((Str='TGraphicsColor') or (Str='TColor' )) and lua_isstring(L, index) then
-                        SetOrdProp(Comp, PInfo, ToColor(L, index))
-                     else
-                     if lua_isfunction(L,index) then begin
-                         top := lua_gettop(L);
-                         lua_settop(L,index);
-                         luafunc := luaL_ref(L, LUA_REGISTRYINDEX);
-                         SetOrdProp(Comp, PInfo, luafunc);
-                         lua_settop(L,top);
-                     end else begin
-     	                 SetOrdProp(Comp, PInfo, lua_tointeger(L, index));
-                     end;
-             end;
-	  tkChar, tkWChar:
-            begin
-              Str := lua_toStringCP(L, index);
-              if length(Str)<1 then
-                SetOrdProp(Comp, PInfo, 0)
-              else
-                SetOrdProp(Comp, PInfo, Ord(Str[1]));
-            end;
-          tkBool:
-                 begin
-		      // {$IFDEF UNIX}
-                      // propval := BoolToStr(lua_toboolean(L,index));
-                      // SetOrdProp(Comp, PInfo, GetEnumValue(PInfo^.PropType, PropVal));
-		      // {$ELSE}
-                      SetPropValue(Comp, PInfo^.Name, lua_toboolean(L,index));
-		      // {$ENDIF}
-                 end;
-          tkEnumeration:
-	           begin
-	              if lua_type(L, index) = LUA_TBOOLEAN then
-                         propval := BoolToStr(lua_toboolean(L,index))
-		      else
-		         propVal := lua_tostring(L, index);
-                      SetOrdProp(Comp, PInfo, GetEnumValue(PInfo^.PropType, PropVal));
-	           end;
-          tkFloat:
-	      	  SetFloatProp(Comp, PInfo, lua_tonumber(L, index));
-
-          tkString, tkLString, tkWString:
-	      	  SetStrProp(Comp, PInfo, lua_toStringCP(L, index));
-
-          tkInt64:
-                  SetInt64Prop(Comp, PInfo, lua_tointeger(L, index));
-       else begin
-                 Str := lua_toStringCP(L, index);
-                 if (PInfo^.Proptype^.Name='TTranslateString') then
-		      SetStrProp(Comp, PInfo, Str )
-                 else if (PInfo^.Proptype^.Name='AnsiString') then
-		      SetStrProp(Comp, PInfo, Str)
-	         else if (PInfo^.Proptype^.Name='WideString') then
-		      SetStrProp(Comp, PInfo, Str)
-                 else
-		      LuaError(L,'Property not supported!' , PInfo^.Proptype^.Name);
-	      end;
+  pti := PInfo^.Proptype;
+  case pti^.Kind of
+    tkMethod:
+      begin
+        Str := PInfo^.Name;
+        if not (Comp is TComponent) then
+           LuaError(L, 'Can only set methods on TComponent descendants!', string(Comp.ClassName) + ' isn''t a TComponent, propname ' + lua_tostring(L,index-1));
+        // omg watchout!
+        cc := GetLuaControl(Comp);
+        // OnXxxx_Function
+        LuaFuncPInfo := GetPropInfo(cc, Str+'_Function');
+        if LuaFuncPInfo = nil then
+           LuaError(L,'Method not found!', lua_tostring(L,index-1));
+        if not lua_isfunction(L,index) then
+           LuaTypeError(L, index, pti);
+        // store luafunc in component by LuaCtl
+        lua_pushvalue(L, index);
+        SetOrdProp(cc, LuaFuncPInfo, luaL_ref(L, LUA_REGISTRYINDEX));
+        // setup luaeventhandler
+        // OnXxxx -->OnLuaXxxx
+        insert('Lua',Str,3);
+        tm.Code := cc.MethodAddress(Str);
+        if tm.Code = nil then
+           LuaError(L,'Method not supported!', Str);
+        tm.Data := Pointer(cc);
+        SetMethodProp(Comp, PInfo, tm);
+      end;
+    tkSet:
+      begin
+        luaL_checkSet(L, index, @ordValue, pti);
+        SetOrdProp(Comp, PInfo, ordValue);
+      end;
+    tkClass:
+      begin
+        vo := GetLuaObject(L, index);
+        if (vo = nil) and InheritsFrom(pti, 'TStrings') then begin
+          vo := TObject(luaL_checkStringList(L, index));
+          gotValue := true;
         end;
-end;
-
-procedure CheckAndSetProperty(L: Plua_State; Obj:TObject; PInfo: PPropInfo; PName: String; Index:Integer);
-var
-  sl:TStringList;
-begin
-     if lua_istable(L,Index) then begin
-        if  (PInfo.PropType.Kind<>TKCLASS) and (PInfo.PropType.Kind<>TKASTRING) and (TObject(GetInt64Prop(Obj,pName))=nil) then
-            SetPropertiesFromLuaTable(L,TObject(GetInt64Prop(Obj,pName)),Index)
-        else
-        // set table properties if the property is not a vclobject
-        if (PInfo.PropType^.Kind=tkClass)  and (not isVcluaObject(L,Index))  then begin
-            if TObject(GetInt64Prop(Obj, PInfo.Name)).InheritsFrom(TStrings) then begin
-                sl := luaL_checkStringList(L, index);
-                SetInt64Prop(TComponent(Obj), PInfo, Int64(Pointer(sl)));
-                sl.Free;
-            end
-            else
-                SetPropertiesFromLuaTable(L,TObject(GetInt64Prop(Obj,pName)),Index);
-        end else
-            SetProperty(L, Index, TComponent(Obj), PInfo);
-     end else
-  	    SetProperty(L, Index, TComponent(Obj), PInfo);
+        SetObjectProp(Comp, PInfo, vo);
+        if gotValue then vo.Free;
+      end;
+    tkInteger:
+      begin
+         if lua_type(L, index) <> LUA_TNUMBER then begin
+           gotValue := true;
+           if pti^.Name='TGraphicsColor' then ordValue := luaL_checkColor(L, index)   // no need to check for TColor
+           else if pti^.Name='TShortCut' then ordValue := luaL_checkShortCut(L, index)
+           else gotValue := false;
+         end;
+         if not gotValue then
+            luaL_check(L, index, @ordValue, pti);
+         SetOrdProp(Comp, PInfo, ordValue);
+      end;
+    tkChar:
+      begin
+         luaL_check(L, index, @charValue, pti);
+         SetOrdProp(Comp, PInfo, Ord(charValue));
+      end;
+    tkBool:
+      SetOrdProp(Comp, PInfo, Int64(lua_toboolean(L,index)));
+    tkEnumeration:
+      SetOrdProp(Comp, PInfo, luaL_checkEnum(L, index, pti));
+    tkFloat:
+      SetFloatProp(Comp, PInfo, luaL_checkDouble(L, index, pti));
+    tkString, tkLString, tkAString, tkWString:
+      SetStrProp(Comp, PInfo, luaL_checkCP(L, index, pti));
+    tkInt64:
+      SetInt64Prop(Comp, PInfo, luaL_checkInt64(L, index, pti));
+  else
+     LuaError(L, 'Setting published property not supported!', string(PInfo^.Name) + ' of type ' + pti^.Name);
+  end;
 end;
 
 // ****************************************************************
 // Sets Property Values from a Lua table
 // ****************************************************************
+function SetOrUpdateGeneratedProperty(L: Plua_State; oindex,vindex: Integer; const PropName: String): boolean;forward;
+function SetOrUpdatePublishedProperty(L: Plua_State; o: TObject; vindex: Integer; const PropName: String): boolean;forward;
 
-function SetPropertiesFromLuaTable(L: Plua_State; Obj:TObject; Index:Integer):Boolean;
-var PInfo: PPropInfo;
-    pName: String;
+procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: String; oindex,vindex: Integer; o: TObject);overload;
+var
+  pName: String;
+  kindex,pvindex: Integer;
 begin
-  result := false;
-  // L,1 is the Object self unless called from InitControl
-  if lua_istable(L,Index) then begin
-        index := LuaAbsIndex(L, index);
-        lua_pushnil(L);
-        while (lua_next(L, index) <> 0) do begin
-          pName := lua_tostring(L, -2);
-  	  PInfo := GetPropInfo(Obj.ClassInfo,lua_tostring(L, -2));
-  	  if PInfo <> nil then begin
-             // Result:=True;
-             CheckAndSetProperty(L,Obj,PInfo,PName,-1);
-          end else begin
-              if (UpperCase(pName)='SHORTCUT') and (ComponentShortCut(TComponent(Obj),lua_tostring(L, -1))) then
-              else
-              if UpperCase(pName) = 'PARENT' then begin
-                 TControl(Obj).Parent := TWinControl(GetLuaObject(L, -1));
-              end else begin
-                  // lua invalid key raised
-                  LuaError(L,'Property not found! ', Obj.ClassName+'.'+PName);
-              end;
-          end;
-          lua_pop(L, 1);
-        end;
-        result := true;
+  if o = nil then
+     LuaError(L, 'Can''t update properties of a null property', UpdatedPropName);
+  lua_pushnil(L);
+  kindex := lua_gettop(L);
+  pvindex := kindex + 1;
+  while lua_next(L, vindex) <> 0 do begin
+    if lua_type(L, kindex) = LUA_TSTRING then begin
+      pName := lua_tostring(L, kindex);
+      if not SetOrUpdateGeneratedProperty(L, oindex, pvindex, pName) and not SetOrUpdatePublishedProperty(L, o, pvindex, pName) then
+         LuaError(L,'Property not found!', o.ClassName+'.'+pName);
+    end;
+    lua_settop(L, kindex);
   end;
 end;
 
+procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: String; oindex, vindex: Integer);overload;inline;
+begin
+  UpdatePropertiesFromLuaTable(L, UpdatedPropName, oindex, vindex, GetLuaObject(L, oindex));
+end;
+procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: String; o: TObject; vindex: Integer);overload;inline;
+begin
+  lua_push(L, o, nil);
+  UpdatePropertiesFromLuaTable(L, UpdatedPropName, lua_gettop(L), vindex, o);
+end;
 
-// ****************************************************************
-// Sets Property Value
-// ****************************************************************
-function LuaSetProperty(L: Plua_State): Integer; cdecl;
+function IsPropertyTable(L: Plua_State; absindex: Integer):boolean;
+begin
+  result := false;
+  if lua_istable(L, absindex) then begin
+    lua_pushstring(L, HandleStr);
+    lua_rawget(L, absindex);
+    if lua_touserdata(L, -1) = nil then begin
+      lua_rawgeti(L, absindex, 1);
+      result := lua_isnil(L, -1);
+    end;
+  end;
+end;
+
+function SetOrUpdatePublishedProperty(L: Plua_State; o: TObject; vindex: Integer; const PropName: String): boolean;
 var
-  PInfo: PPropInfo;
-  Comp: TObject;
-  propname: String;
-  propType: String;
-  pset: PLuaVmt;
+  PInfo:PPropInfo;
+begin
+  PInfo := GetPropInfo(o.ClassInfo, PropName);
+  if (PInfo = nil) or (not lua_checkstack(L, 2)) then Exit(false);
+  if (PInfo^.PropType^.Kind = tkClass) and IsPropertyTable(L, vindex) then
+    UpdatePropertiesFromLuaTable(L, PropName, GetObjectProp(o, PInfo), vindex)
+  else begin
+    SetProperty(L, vindex, o, PInfo);
+  end;
+  result := true;
+end;
+
+function SetOrUpdateGeneratedProperty(L: Plua_State; oindex,vindex: Integer; const PropName: String): boolean;
+var
+  pvmt: PLuaVmt;
   mi: TLuaMethodInfo;
 begin
+  if not lua_checkstack(L, 6) then Exit(false);
+  pvmt := GetPropSets(L, oindex);
+  if HasMethod(pvmt, PropName, mi) then begin
+    if mi.isObj and IsPropertyTable(L, vindex) then begin
+      lua_pushliteral(L, 'vmt');
+      lua_rawget(L, oindex);
+      pvmt := lua_touserdata(L, -1);
+      if HasMethod(pvmt, PropName, mi) then begin
+        lua_pushcfunction(L, mi.pf);
+        lua_pushvalue(L, oindex);
+        lua_call(L, 1, 1);
+        UpdatePropertiesFromLuaTable(L, PropName, lua_gettop(L), vindex);
+      end else
+        LuaError(L, 'Can''t update properties of a property which is only settable', PropName);
+    end else
+       CallSetter(L, mi, oindex, vindex);
+    Exit(true);
+  end;
+  lua_pop(L, 1);
+  result := false;
+end;
+
+function LuaSetProperty(L: Plua_State): Integer; cdecl;
+var
+  o: TObject;
+  propname: String;
+begin
   Result := 0;
-  Comp := TObject(GetLuaObject(L, 1));
+  o := GetLuaObject(L, 1);
   PropName := lua_tostring(L, 2);
-  if (Comp=nil) then begin
-     LuaError(L, 'Can''t set null object property! ' , PropName );
-     lua_pushnil(L);
-     Exit;
-  end;
-  if (UpperCase(PropName)='SHORTCUT') and (ComponentShortCut(TComponent(Comp),lua_tostring(L, -1))) then
-  else
-  if (lua_gettop(L)=3) and (lua_istable(L,3)) and ((PropName='_')) then begin
-     SetPropertiesFromLuaTable(L,Comp,3);
-  end else begin
-      pset := GetPropSets(L,1);
-      if HasMethod(pset, PropName, mi) and ((lua_type(L,3) <> LUA_TTABLE) or isVcluaObject(L,3)) then begin
-        CallSetter(L, mi, 1, 3);
-        Exit;
-      end;
-      PInfo := GetPropInfo(TComponent(Comp).ClassInfo, PropName);
-      if (PInfo <> nil) and (lua_gettop(L)=3) then
-        CheckAndSetProperty(L,Comp,PInfo,PropName,3)
-      // else if (PInfo <> nil) and (PInfo^.Proptype^.Kind = tkArray) then
-      //    lua_setArrayProperty(L)
-      else begin
-       case lua_type(L,3) of
-  		LUA_TNIL: LuaRawSetTableNil(L,1,lua_tostring(L, 2));
-  		LUA_TBOOLEAN: LuaRawSetTableBoolean(L,1,lua_tostring(L, 2),lua_toboolean(L, 3));
-  		LUA_TLIGHTUSERDATA: LuaRawSetTableLightUserData(L,1,lua_tostring(L, 2),lua_touserdata(L, 3));
-  		LUA_TNUMBER: LuaRawSetTableNumber(L,1,lua_tostring(L, 2),lua_tonumber(L, 3));
-  		LUA_TSTRING: LuaRawSetTableString(L,1,lua_tostring(L, 2),lua_tostring(L, 3));
-  		LUA_TTABLE: LuaRawSetTableValue(L,1,lua_tostring(L, 2), 3);
-  		LUA_TFUNCTION: LuaRawSetTableFunction(L,1,lua_tostring(L, 2),lua_CFunction(lua_touserdata(L, 3)));
-       else
-           if lowercase(PropName) = 'parent' then begin
-              TWinControl(Comp).Parent := TWinControl(GetLuaObject(L, 3));
-           end else
-                   LuaError(L,'Property not found!',PropName);
-       end;
-     end;
-  end;
+  if o = nil then
+     LuaError(L, 'Can''t set null object property!', PropName);
+  if not SetOrUpdateGeneratedProperty(L, 1, 3, PropName) and not SetOrUpdatePublishedProperty(L, o, 3, PropName) then
+    if PropName = '_' then
+       UpdatePropertiesFromLuaTable(L, PropName, 1, 3, o)
+    else begin
+      lua_settop(L, 3);
+      lua_rawset(L, 1);
+    end;
 end;
 
 // ****************************************************************
@@ -603,37 +497,34 @@ end;
 // ****************************************************************
 function GetPublishedProperty(L: Plua_State; Comp: TPersistent; PropName: String): boolean;
 var
-  PInfo, PPInfo: PPropInfo;
-  Pcomp: TComponent;
-  PropType: String;
+  PInfo: PPropInfo;
+  m: TMethod;
+  ref:Integer = -1;
 begin
-     PInfo := VCLua_Propinfo(Comp,PropName);
+     PInfo := GetPropInfo(Comp.ClassInfo, PropName);
      Result := false;
      if PInfo <> nil then begin
-        PropType := PInfo^.Proptype^.Name;
-        PropName := PInfo^.Name;
         case PInfo^.Proptype^.Kind of
           tkMethod:
             begin
-               // TODO: always nil
-               PPInfo := GetPropInfo(Comp.ClassInfo, PropName + '_FunctionName');
-               if PPInfo <> nil then
-                  lua_pushstring(L,pchar(GetStrProp(Comp, PPInfo)))
-               else begin
-                  lua_pushnil(L);
-               end;
+              m := GetMethodProp(Comp, PInfo);
+              if TObject(m.Data) is TVCLuaControl then
+                 ref := GetOrdProp(TVCLuaControl(m.Data), PropName + '_Function')
+              else if TObject(m.Data) is TLuaEvent then
+                 ref := TLuaEvent(m.Data).ref;
+              lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
             end;
           tkSet:
             lua_pushSet(L,GetOrdProp(Comp, PInfo),PInfo^.PropType);
           tkClass:
-            begin
-              pComp := TComponent(GetInt64Prop(Comp,PropName));
-              lua_pushobject(L, -1, pComp)
-            end;
+            lua_pushobject(L, -1, GetObjectProp(Comp, PInfo));
           tkInteger,
           tkInt64,
           tkQWord:
-            lua_push(L,GetOrdProp(Comp, PInfo));
+            if PInfo^.Proptype^.Name='TShortCut' then
+               lua_pushShortCut(L,GetOrdProp(Comp, PInfo))
+            else
+                lua_push(L,GetOrdProp(Comp, PInfo));
           tkChar,
           tkWChar: // noone cares about WChar, right?
             lua_push(L,Char(GetOrdProp(Comp, PInfo)));
@@ -649,7 +540,7 @@ begin
           tkWString:
             lua_push(L,GetStrProp(Comp, PInfo));
         else
-            LuaError(L,'Property not supported!', PropName + ' of type ' + PInfo^.Proptype^.Name);
+            LuaError(L, 'Getting published property not supported!', PropName + ' of type ' + PInfo^.Proptype^.Name);
         end;
         Result := true;
      end;
@@ -663,11 +554,7 @@ begin
   if PropNameLower = 'classname' then begin
     // no need for CP conversion
     lua_pushstring(L,o.ClassName);
-  end
-  else if (o is TControl) and (PropNameLower = 'parent') then begin
-    lua_push(L, TControl(o).Parent, nil);
-  end
-  else
+  end else
     Result := false;
 end;
 
@@ -678,24 +565,18 @@ var
   pvmt: PLuaVmt;
   mi: TLuaMethodInfo;
 begin
-  // stackwise should resemble lua_gettable: pop key, then push result
   Result := 1;
   o := GetLuaObject(L, 1);
   PropName := lua_tostring(L, 2);
   // shouldn't really happen since we push nil instead of creating function tables with null handle
-  if (o=nil) then begin
-     lua_pop(L,1);
-     lua_pushnil(L);
+  if o = nil then
      LuaError(L, 'Can''t get null object property!', PropName);
-     Exit;
-  end;
   // since o<>nil here, that means that lua_type(L,1)=LUA_TTABLE
   // first try to get as generated method
   lua_pushliteral(L,'vmt');
   lua_rawget(L,1);
   pvmt := lua_touserdata(L,3);
   if HasMethod(pvmt, PropName, mi) then begin
-    lua_pop(L, 2);
     lua_pushcfunction(L, mi.pf);
     if mi.mf = mfCall then begin
       lua_pushvalue(L, 1);
@@ -705,11 +586,10 @@ begin
   end;
   lua_pop(L,1);
   // now try to get as property
-  if (o is TPersistent) and GetPublishedProperty(L, TPersistent(o), PropName) or GetSpecialProperty(L, o, lowercase(PropName)) then
-    // those functions push on top without removing the key, since they don't know where that key came from
-    lua_replace(L, 2)
-  else
-    lua_rawget(L, 1);
+  if not ((o is TPersistent) and GetPublishedProperty(L, TPersistent(o), PropName) or GetSpecialProperty(L, o, lowercase(PropName))) then begin
+     // no rawget needed since it's the first thing Lua tried
+     lua_pushnil(L);
+  end;
 end;
 
 end.

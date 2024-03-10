@@ -68,7 +68,7 @@ var
 begin
 	CheckArg(L, 2);
 	lPanel := TLuaPanel(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lPanel.BevelColor := val;
 		Result := 0;
@@ -224,9 +224,9 @@ begin
 	TLuaMethodInfo.Create(CustomPanelFuncs, 'BevelOuter', @VCLua_Panel_VCLuaGetBevelOuter, mfCall);
 	TLuaMethodInfo.Create(CustomPanelFuncs, 'BevelWidth', @VCLua_Panel_VCLuaGetBevelWidth, mfCall);
 	CustomPanelSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomPanelSets, 'Alignment', @VCLua_Panel_VCLuaSetAlignment, mfCall);
-	TLuaMethodInfo.Create(CustomPanelSets, 'BevelColor', @VCLua_Panel_VCLuaSetBevelColor, mfCall);
-	TLuaMethodInfo.Create(CustomPanelSets, 'BevelInner', @VCLua_Panel_VCLuaSetBevelInner, mfCall);
-	TLuaMethodInfo.Create(CustomPanelSets, 'BevelOuter', @VCLua_Panel_VCLuaSetBevelOuter, mfCall);
-	TLuaMethodInfo.Create(CustomPanelSets, 'BevelWidth', @VCLua_Panel_VCLuaSetBevelWidth, mfCall);
+	TLuaMethodInfo.Create(CustomPanelSets, 'Alignment', @VCLua_Panel_VCLuaSetAlignment, mfCall, TypeInfo(TAlignment));
+	TLuaMethodInfo.Create(CustomPanelSets, 'BevelColor', @VCLua_Panel_VCLuaSetBevelColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomPanelSets, 'BevelInner', @VCLua_Panel_VCLuaSetBevelInner, mfCall, TypeInfo(TPanelBevel));
+	TLuaMethodInfo.Create(CustomPanelSets, 'BevelOuter', @VCLua_Panel_VCLuaSetBevelOuter, mfCall, TypeInfo(TPanelBevel));
+	TLuaMethodInfo.Create(CustomPanelSets, 'BevelWidth', @VCLua_Panel_VCLuaSetBevelWidth, mfCall, TypeInfo(TBevelWidth));
 end.

@@ -665,7 +665,7 @@ var
 begin
 	CheckArg(L, 2);
 	lAction := TLuaAction(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkShortCut(L,2);
 	try
 		lAction.ShortCut := val;
 		Result := 0;
@@ -689,7 +689,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Action', 'ShortCut', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret);
+	lua_pushShortCut(L,ret);
 end;
 
 function VCLua_Action_VCLuaSetVisible(L: Plua_State): Integer; cdecl;
@@ -1011,8 +1011,8 @@ begin
 	TLuaMethodInfo.Create(ContainedActionFuncs, 'ActionList', @VCLua_ContainedAction_VCLuaGetActionList, mfCall);
 	TLuaMethodInfo.Create(ContainedActionFuncs, 'Index', @VCLua_ContainedAction_VCLuaGetIndex, mfCall);
 	ContainedActionSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ContainedActionSets, 'ActionList', @VCLua_ContainedAction_VCLuaSetActionList, mfCall);
-	TLuaMethodInfo.Create(ContainedActionSets, 'Index', @VCLua_ContainedAction_VCLuaSetIndex, mfCall);
+	TLuaMethodInfo.Create(ContainedActionSets, 'ActionList', @VCLua_ContainedAction_VCLuaSetActionList, mfCall, TypeInfo(TCustomActionList));
+	TLuaMethodInfo.Create(ContainedActionSets, 'Index', @VCLua_ContainedAction_VCLuaSetIndex, mfCall, TypeInfo(Integer));
 	CustomActionFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomActionFuncs, 'DoHint', @VCLua_Action_DoHint);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'DoHint2', @VCLua_Action_DoHint2);
@@ -1032,21 +1032,21 @@ begin
 	TLuaMethodInfo.Create(CustomActionFuncs, 'ShortCut', @VCLua_Action_VCLuaGetShortCut, mfCall);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'Visible', @VCLua_Action_VCLuaGetVisible, mfCall);
 	CustomActionSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomActionSets, 'AutoCheck', @VCLua_Action_VCLuaSetAutoCheck, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'Caption', @VCLua_Action_VCLuaSetCaption, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'Checked', @VCLua_Action_VCLuaSetChecked, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'DisableIfNoHandler', @VCLua_Action_VCLuaSetDisableIfNoHandler, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'Enabled', @VCLua_Action_VCLuaSetEnabled, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'GroupIndex', @VCLua_Action_VCLuaSetGroupIndex, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'HelpContext', @VCLua_Action_VCLuaSetHelpContext, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'HelpKeyword', @VCLua_Action_VCLuaSetHelpKeyword, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'HelpType', @VCLua_Action_VCLuaSetHelpType, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'Hint', @VCLua_Action_VCLuaSetHint, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'ImageIndex', @VCLua_Action_VCLuaSetImageIndex, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'OnHint', @VCLua_Action_VCLuaSetOnHint, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'SecondaryShortCuts', @VCLua_Action_VCLuaSetSecondaryShortCuts, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'ShortCut', @VCLua_Action_VCLuaSetShortCut, mfCall);
-	TLuaMethodInfo.Create(CustomActionSets, 'Visible', @VCLua_Action_VCLuaSetVisible, mfCall);
+	TLuaMethodInfo.Create(CustomActionSets, 'AutoCheck', @VCLua_Action_VCLuaSetAutoCheck, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomActionSets, 'Caption', @VCLua_Action_VCLuaSetCaption, mfCall, TypeInfo(TTranslateString));
+	TLuaMethodInfo.Create(CustomActionSets, 'Checked', @VCLua_Action_VCLuaSetChecked, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomActionSets, 'DisableIfNoHandler', @VCLua_Action_VCLuaSetDisableIfNoHandler, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomActionSets, 'Enabled', @VCLua_Action_VCLuaSetEnabled, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomActionSets, 'GroupIndex', @VCLua_Action_VCLuaSetGroupIndex, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomActionSets, 'HelpContext', @VCLua_Action_VCLuaSetHelpContext, mfCall, TypeInfo(THelpContext));
+	TLuaMethodInfo.Create(CustomActionSets, 'HelpKeyword', @VCLua_Action_VCLuaSetHelpKeyword, mfCall, TypeInfo(string));
+	TLuaMethodInfo.Create(CustomActionSets, 'HelpType', @VCLua_Action_VCLuaSetHelpType, mfCall, TypeInfo(THelpType));
+	TLuaMethodInfo.Create(CustomActionSets, 'Hint', @VCLua_Action_VCLuaSetHint, mfCall, TypeInfo(TTranslateString));
+	TLuaMethodInfo.Create(CustomActionSets, 'ImageIndex', @VCLua_Action_VCLuaSetImageIndex, mfCall, TypeInfo(TImageIndex));
+	TLuaMethodInfo.Create(CustomActionSets, 'OnHint', @VCLua_Action_VCLuaSetOnHint, mfCall, TypeInfo(THintEvent));
+	TLuaMethodInfo.Create(CustomActionSets, 'SecondaryShortCuts', @VCLua_Action_VCLuaSetSecondaryShortCuts, mfCall, TypeInfo(TShortCutList));
+	TLuaMethodInfo.Create(CustomActionSets, 'ShortCut', @VCLua_Action_VCLuaSetShortCut, mfCall, TypeInfo(TShortCut));
+	TLuaMethodInfo.Create(CustomActionSets, 'Visible', @VCLua_Action_VCLuaSetVisible, mfCall, TypeInfo(Boolean));
 	CustomActionListFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomActionListFuncs, 'ActionByName', @VCLua_ActionList_ActionByName);
 	TLuaMethodInfo.Create(CustomActionListFuncs, 'ExecuteAction', @VCLua_ActionList_ExecuteAction);
@@ -1057,9 +1057,9 @@ begin
 	TLuaMethodInfo.Create(CustomActionListFuncs, 'Images', @VCLua_ActionList_VCLuaGetImages, mfCall);
 	TLuaMethodInfo.Create(CustomActionListFuncs, 'State', @VCLua_ActionList_VCLuaGetState, mfCall);
 	CustomActionListSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomActionListSets, 'OnChange', @VCLua_ActionList_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(CustomActionListSets, 'OnExecute', @VCLua_ActionList_VCLuaSetOnExecute, mfCall);
-	TLuaMethodInfo.Create(CustomActionListSets, 'OnUpdate', @VCLua_ActionList_VCLuaSetOnUpdate, mfCall);
-	TLuaMethodInfo.Create(CustomActionListSets, 'Images', @VCLua_ActionList_VCLuaSetImages, mfCall);
-	TLuaMethodInfo.Create(CustomActionListSets, 'State', @VCLua_ActionList_VCLuaSetState, mfCall);
+	TLuaMethodInfo.Create(CustomActionListSets, 'OnChange', @VCLua_ActionList_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomActionListSets, 'OnExecute', @VCLua_ActionList_VCLuaSetOnExecute, mfCall, TypeInfo(TActionEvent));
+	TLuaMethodInfo.Create(CustomActionListSets, 'OnUpdate', @VCLua_ActionList_VCLuaSetOnUpdate, mfCall, TypeInfo(TActionEvent));
+	TLuaMethodInfo.Create(CustomActionListSets, 'Images', @VCLua_ActionList_VCLuaSetImages, mfCall, TypeInfo(TCustomImageList));
+	TLuaMethodInfo.Create(CustomActionListSets, 'State', @VCLua_ActionList_VCLuaSetState, mfCall, TypeInfo(TActionListState));
 end.

@@ -306,7 +306,7 @@ begin
 	CheckArg(L, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Image);
-	luaL_check(L,3,@MaskColor);
+	MaskColor := luaL_checkColor(L,3);
 	try
 		ret := lImageList.AddMasked(Image,MaskColor);
 		Result := 1;
@@ -327,7 +327,11 @@ begin
 	CheckArg(L, 2, 3);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@ResourceName);
-	TTrait<TColor>.luaL_optcheck(L, 3, @MaskColor, clNone);
+	if not lua_isnoneornil(L, 3) then begin
+		MaskColor := luaL_checkColor(L,3);
+	end else
+		MaskColor := clNone;
+
 	try
 		ret := lImageList.AddLazarusResource(ResourceName,MaskColor);
 		Result := 1;
@@ -350,7 +354,11 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Instance);
 	luaL_check(L,3,@ResourceName);
-	TTrait<TColor>.luaL_optcheck(L, 4, @MaskColor, clNone);
+	if not lua_isnoneornil(L, 4) then begin
+		MaskColor := luaL_checkColor(L,4);
+	end else
+		MaskColor := clNone;
+
 	try
 		ret := lImageList.AddResourceName(Instance,ResourceName,MaskColor);
 		Result := 1;
@@ -830,7 +838,7 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@AImage);
-	luaL_check(L,4,@MaskColor);
+	MaskColor := luaL_checkColor(L,4);
 	try
 		lImageList.InsertMasked(Index,AImage,MaskColor);
 		Result := 0;
@@ -995,7 +1003,7 @@ begin
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@NewImage);
-	luaL_check(L,4,@MaskColor);
+	MaskColor := luaL_checkColor(L,4);
 	TTrait<Boolean>.luaL_optcheck(L, 5, @AllResolutions, True);
 	try
 		lImageList.ReplaceMasked(Index,NewImage,MaskColor,AllResolutions);
@@ -1138,7 +1146,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lImageList.BlendColor := val;
 		Result := 0;
@@ -1172,7 +1180,7 @@ var
 begin
 	CheckArg(L, 2);
 	lImageList := TLuaImageList(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lImageList.BkColor := val;
 		Result := 0;
@@ -1665,16 +1673,16 @@ begin
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'ShareImages', @VCLua_ImageList_VCLuaGetShareImages, mfCall);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'ImageType', @VCLua_ImageList_VCLuaGetImageType, mfCall);
 	CustomImageListSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomImageListSets, 'AllocBy', @VCLua_ImageList_VCLuaSetAllocBy, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'BlendColor', @VCLua_ImageList_VCLuaSetBlendColor, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'BkColor', @VCLua_ImageList_VCLuaSetBkColor, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'DrawingStyle', @VCLua_ImageList_VCLuaSetDrawingStyle, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'Height', @VCLua_ImageList_VCLuaSetHeight, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'Width', @VCLua_ImageList_VCLuaSetWidth, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'OnChange', @VCLua_ImageList_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'Masked', @VCLua_ImageList_VCLuaSetMasked, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'Scaled', @VCLua_ImageList_VCLuaSetScaled, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'ShareImages', @VCLua_ImageList_VCLuaSetShareImages, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'ImageType', @VCLua_ImageList_VCLuaSetImageType, mfCall);
-	TLuaMethodInfo.Create(CustomImageListSets, 'OnGetWidthForPPI', @VCLua_ImageList_VCLuaSetOnGetWidthForPPI, mfCall);
+	TLuaMethodInfo.Create(CustomImageListSets, 'AllocBy', @VCLua_ImageList_VCLuaSetAllocBy, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomImageListSets, 'BlendColor', @VCLua_ImageList_VCLuaSetBlendColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomImageListSets, 'BkColor', @VCLua_ImageList_VCLuaSetBkColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomImageListSets, 'DrawingStyle', @VCLua_ImageList_VCLuaSetDrawingStyle, mfCall, TypeInfo(TDrawingStyle));
+	TLuaMethodInfo.Create(CustomImageListSets, 'Height', @VCLua_ImageList_VCLuaSetHeight, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomImageListSets, 'Width', @VCLua_ImageList_VCLuaSetWidth, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomImageListSets, 'OnChange', @VCLua_ImageList_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomImageListSets, 'Masked', @VCLua_ImageList_VCLuaSetMasked, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomImageListSets, 'Scaled', @VCLua_ImageList_VCLuaSetScaled, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageListSets, 'ShareImages', @VCLua_ImageList_VCLuaSetShareImages, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageListSets, 'ImageType', @VCLua_ImageList_VCLuaSetImageType, mfCall, TypeInfo(TImageType));
+	TLuaMethodInfo.Create(CustomImageListSets, 'OnGetWidthForPPI', @VCLua_ImageList_VCLuaSetOnGetWidthForPPI, mfCall, TypeInfo(TCustomImageListGetWidthForPPI));
 end.

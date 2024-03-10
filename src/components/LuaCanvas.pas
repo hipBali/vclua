@@ -243,7 +243,7 @@ begin
 	luaL_check(L,2,@ADestRect);
 	luaL_check(L,3,@ABitmap);
 	luaL_check(L,4,@ASourceRect);
-	luaL_check(L,5,@ATransparentColor);
+	ATransparentColor := luaL_checkColor(L,5);
 	try
 		lCanvas.BrushCopy(ADestRect,ABitmap,ASourceRect,ATransparentColor);
 		Result := 0;
@@ -481,7 +481,7 @@ begin
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
-	luaL_check(L,4,@FillColor);
+	FillColor := luaL_checkColor(L,4);
 	luaL_check(L,5,@FillStyle,TypeInfo(TFillStyle));
 	try
 		lCanvas.FloodFill(X,Y,FillColor,FillStyle);
@@ -545,8 +545,8 @@ var
 begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	luaL_check(L,2,@TopColor);
-	luaL_check(L,3,@BottomColor);
+	TopColor := luaL_checkColor(L,2);
+	BottomColor := luaL_checkColor(L,3);
 	luaL_check(L,4,@FrameWidth);
 	try
 		lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
@@ -569,8 +569,8 @@ begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@ARect);
-	luaL_check(L,3,@TopColor);
-	luaL_check(L,4,@BottomColor);
+	TopColor := luaL_checkColor(L,3);
+	BottomColor := luaL_checkColor(L,4);
 	luaL_check(L,5,@FrameWidth);
 	try
 		lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
@@ -593,8 +593,8 @@ begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
 	luaL_check(L,2,@ARect);
-	luaL_check(L,3,@AStart);
-	luaL_check(L,4,@AStop);
+	AStart := luaL_checkColor(L,3);
+	AStop := luaL_checkColor(L,4);
 	luaL_check(L,5,@ADirection,TypeInfo(TGradientDirection));
 	try
 		lCanvas.GradientFill(ARect,AStart,AStop,ADirection);
@@ -1012,7 +1012,7 @@ begin
 			lua_push(L,ret);
 			Result := 1;
 		end else begin
-			luaL_check(L,4,@ret);
+			ret := luaL_checkColor(L,4);
 			lCanvas.Pixels[X,Y] := ret;
 			Result := 0;
 		end;
@@ -1151,7 +1151,7 @@ begin
 	TLuaMethodInfo.Create(CanvasFuncs, 'TextStyle', @VCLua_Canvas_VCLuaGetTextStyle, mfCall);
 	TLuaMethodInfo.Create(CanvasFuncs, 'SetPixel', @VCLua_Canvas_SetPixel);
 	CanvasSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CanvasSets, 'TextStyle', @VCLua_Canvas_VCLuaSetTextStyle, mfCall);
-	TLuaMethodInfo.Create(CanvasSets, 'OnChange', @VCLua_Canvas_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(CanvasSets, 'OnChanging', @VCLua_Canvas_VCLuaSetOnChanging, mfCall);
+	TLuaMethodInfo.Create(CanvasSets, 'TextStyle', @VCLua_Canvas_VCLuaSetTextStyle, mfCall, TypeInfo(TTextStyle));
+	TLuaMethodInfo.Create(CanvasSets, 'OnChange', @VCLua_Canvas_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CanvasSets, 'OnChanging', @VCLua_Canvas_VCLuaSetOnChanging, mfCall, TypeInfo(TNotifyEvent));
 end.

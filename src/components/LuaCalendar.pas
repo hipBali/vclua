@@ -269,12 +269,12 @@ begin
 	TLuaMethodInfo.Create(CustomCalendarFuncs, 'DisplaySettings', @VCLua_Calendar_VCLuaGetDisplaySettings, mfCall);
 	TLuaMethodInfo.Create(CustomCalendarFuncs, 'FirstDayOfWeek', @VCLua_Calendar_VCLuaGetFirstDayOfWeek, mfCall);
 	CustomCalendarSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomCalendarSets, 'Date', @VCLua_Calendar_VCLuaSetDate, mfCall);
-	TLuaMethodInfo.Create(CustomCalendarSets, 'DateTime', @VCLua_Calendar_VCLuaSetDateTime, mfCall);
-	TLuaMethodInfo.Create(CustomCalendarSets, 'DisplaySettings', @VCLua_Calendar_VCLuaSetDisplaySettings, mfCall);
-	TLuaMethodInfo.Create(CustomCalendarSets, 'FirstDayOfWeek', @VCLua_Calendar_VCLuaSetFirstDayOfWeek, mfCall);
-	TLuaMethodInfo.Create(CustomCalendarSets, 'OnChange', @VCLua_Calendar_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(CustomCalendarSets, 'OnDayChanged', @VCLua_Calendar_VCLuaSetOnDayChanged, mfCall);
-	TLuaMethodInfo.Create(CustomCalendarSets, 'OnMonthChanged', @VCLua_Calendar_VCLuaSetOnMonthChanged, mfCall);
-	TLuaMethodInfo.Create(CustomCalendarSets, 'OnYearChanged', @VCLua_Calendar_VCLuaSetOnYearChanged, mfCall);
+	TLuaMethodInfo.Create(CustomCalendarSets, 'Date', @VCLua_Calendar_VCLuaSetDate, mfCall, TypeInfo(String));
+	TLuaMethodInfo.Create(CustomCalendarSets, 'DateTime', @VCLua_Calendar_VCLuaSetDateTime, mfCall, TypeInfo(TDateTime));
+	TLuaMethodInfo.Create(CustomCalendarSets, 'DisplaySettings', @VCLua_Calendar_VCLuaSetDisplaySettings, mfCall, TypeInfo(TDisplaySettings));
+	TLuaMethodInfo.Create(CustomCalendarSets, 'FirstDayOfWeek', @VCLua_Calendar_VCLuaSetFirstDayOfWeek, mfCall, TypeInfo(TCalDayOfWeek));
+	TLuaMethodInfo.Create(CustomCalendarSets, 'OnChange', @VCLua_Calendar_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomCalendarSets, 'OnDayChanged', @VCLua_Calendar_VCLuaSetOnDayChanged, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomCalendarSets, 'OnMonthChanged', @VCLua_Calendar_VCLuaSetOnMonthChanged, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomCalendarSets, 'OnYearChanged', @VCLua_Calendar_VCLuaSetOnYearChanged, mfCall, TypeInfo(TNotifyEvent));
 end.

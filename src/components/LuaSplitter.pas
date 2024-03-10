@@ -384,13 +384,13 @@ begin
 	TLuaMethodInfo.Create(CustomSplitterFuncs, 'ResizeAnchor', @VCLua_Splitter_VCLuaGetResizeAnchor, mfCall);
 	TLuaMethodInfo.Create(CustomSplitterFuncs, 'ResizeStyle', @VCLua_Splitter_VCLuaGetResizeStyle, mfCall);
 	CustomSplitterSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeControl', @VCLua_Splitter_VCLuaSetResizeControl, mfCall);
-	TLuaMethodInfo.Create(CustomSplitterSets, 'AutoSnap', @VCLua_Splitter_VCLuaSetAutoSnap, mfCall);
-	TLuaMethodInfo.Create(CustomSplitterSets, 'Beveled', @VCLua_Splitter_VCLuaSetBeveled, mfCall);
-	TLuaMethodInfo.Create(CustomSplitterSets, 'MinSize', @VCLua_Splitter_VCLuaSetMinSize, mfCall);
-	TLuaMethodInfo.Create(CustomSplitterSets, 'OnCanOffset', @VCLua_Splitter_VCLuaSetOnCanOffset, mfCall);
-	TLuaMethodInfo.Create(CustomSplitterSets, 'OnCanResize', @VCLua_Splitter_VCLuaSetOnCanResize, mfCall);
-	TLuaMethodInfo.Create(CustomSplitterSets, 'OnMoved', @VCLua_Splitter_VCLuaSetOnMoved, mfCall);
-	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeAnchor', @VCLua_Splitter_VCLuaSetResizeAnchor, mfCall);
-	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeStyle', @VCLua_Splitter_VCLuaSetResizeStyle, mfCall);
+	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeControl', @VCLua_Splitter_VCLuaSetResizeControl, mfCall, TypeInfo(TControl));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'AutoSnap', @VCLua_Splitter_VCLuaSetAutoSnap, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'Beveled', @VCLua_Splitter_VCLuaSetBeveled, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'MinSize', @VCLua_Splitter_VCLuaSetMinSize, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'OnCanOffset', @VCLua_Splitter_VCLuaSetOnCanOffset, mfCall, TypeInfo(TCanOffsetEvent));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'OnCanResize', @VCLua_Splitter_VCLuaSetOnCanResize, mfCall, TypeInfo(TCanResizeEvent));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'OnMoved', @VCLua_Splitter_VCLuaSetOnMoved, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeAnchor', @VCLua_Splitter_VCLuaSetResizeAnchor, mfCall, TypeInfo(TAnchorKind));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeStyle', @VCLua_Splitter_VCLuaSetResizeStyle, mfCall, TypeInfo(TResizeStyle));
 end.

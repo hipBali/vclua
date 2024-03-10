@@ -76,5 +76,5 @@ begin
 	CustomTrackBarFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomTrackBarFuncs, 'SetTick', @VCLua_TrackBar_SetTick);
 	CustomTrackBarSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomTrackBarSets, 'OnChange', @VCLua_TrackBar_VCLuaSetOnChange, mfCall);
+	TLuaMethodInfo.Create(CustomTrackBarSets, 'OnChange', @VCLua_TrackBar_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
 end.

@@ -138,7 +138,7 @@ var
 begin
 	CheckArg(L, 2);
 	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lColorBox.Selected := val;
 		Result := 0;
@@ -172,7 +172,7 @@ var
 begin
 	CheckArg(L, 2);
 	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lColorBox.DefaultColorColor := val;
 		Result := 0;
@@ -206,7 +206,7 @@ var
 begin
 	CheckArg(L, 2);
 	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
-	luaL_check(L,2,@val);
+	val := luaL_checkColor(L,2);
 	try
 		lColorBox.NoneColorColor := val;
 		Result := 0;
@@ -308,11 +308,11 @@ begin
 	TLuaMethodInfo.Create(CustomColorBoxFuncs, 'NoneColorColor', @VCLua_ColorBox_VCLuaGetNoneColorColor, mfCall);
 	TLuaMethodInfo.Create(CustomColorBoxFuncs, 'ColorDialog', @VCLua_ColorBox_VCLuaGetColorDialog, mfCall);
 	CustomColorBoxSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomColorBoxSets, 'ColorRectWidth', @VCLua_ColorBox_VCLuaSetColorRectWidth, mfCall);
-	TLuaMethodInfo.Create(CustomColorBoxSets, 'ColorRectOffset', @VCLua_ColorBox_VCLuaSetColorRectOffset, mfCall);
-	TLuaMethodInfo.Create(CustomColorBoxSets, 'Selected', @VCLua_ColorBox_VCLuaSetSelected, mfCall);
-	TLuaMethodInfo.Create(CustomColorBoxSets, 'DefaultColorColor', @VCLua_ColorBox_VCLuaSetDefaultColorColor, mfCall);
-	TLuaMethodInfo.Create(CustomColorBoxSets, 'NoneColorColor', @VCLua_ColorBox_VCLuaSetNoneColorColor, mfCall);
-	TLuaMethodInfo.Create(CustomColorBoxSets, 'OnGetColors', @VCLua_ColorBox_VCLuaSetOnGetColors, mfCall);
-	TLuaMethodInfo.Create(CustomColorBoxSets, 'ColorDialog', @VCLua_ColorBox_VCLuaSetColorDialog, mfCall);
+	TLuaMethodInfo.Create(CustomColorBoxSets, 'ColorRectWidth', @VCLua_ColorBox_VCLuaSetColorRectWidth, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomColorBoxSets, 'ColorRectOffset', @VCLua_ColorBox_VCLuaSetColorRectOffset, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomColorBoxSets, 'Selected', @VCLua_ColorBox_VCLuaSetSelected, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomColorBoxSets, 'DefaultColorColor', @VCLua_ColorBox_VCLuaSetDefaultColorColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomColorBoxSets, 'NoneColorColor', @VCLua_ColorBox_VCLuaSetNoneColorColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomColorBoxSets, 'OnGetColors', @VCLua_ColorBox_VCLuaSetOnGetColors, mfCall, TypeInfo(TGetColorsEvent));
+	TLuaMethodInfo.Create(CustomColorBoxSets, 'ColorDialog', @VCLua_ColorBox_VCLuaSetColorDialog, mfCall, TypeInfo(TcolorDialog));
 end.

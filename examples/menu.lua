@@ -6,11 +6,13 @@ VCL = require "vcl.core"
 VCL.Application():Initialize()
 
 -- VCL.ActionList loader
+local setter = VCL.GetCallable('TAction','ActionList',true)
 function VCL.loadAction(self, t)
 	local list = self
 	for n,prop in pairs(t) do
 		local a = VCL.Action()
 		a._= prop
+		setter(a,self) -- enables self:ActionByName if needed
 		list[prop.name] = a
 	end
 end
@@ -52,7 +54,7 @@ function VCL.toMenuItem(t, owner)
 end
 
 local function menuClick(Sender)
-	VCL.ShowMessage(Sender.name)
+	VCL.ShowMessage(Sender.name..' '..Sender.ShortCut..' '..Sender.shortcut)
 end
 
 local frmMain = VCL.Form( nil, 'mainForm',
@@ -70,30 +72,34 @@ local frmMain = VCL.Form( nil, 'mainForm',
 )
 local toolImages = VCL.ImageList(frmMain, 'toolImages', { Height=16, Width=16 })
 local mainActions = VCL.ActionList(frmMain)
-mainActions.Images = toolImages
+mainActions.Images = toolImages -- actually not needed
 VCL.loadAction(mainActions, {
-	{name="fileNew", caption="New project", shortcut="Ctrl+N", imageIndex=0, onexecute=menuClick },
-	{name="fileOpen", caption="Open project", shortcut="Ctrl+O", imageIndex=1, onexecute=menuClick },
-	{name="fileSave", caption="Save project", shortcut="Ctrl+S", imageIndex=2, onexecute=menuClick },
-	{name="fileSaveAs", caption="Save project as ...", imageIndex=3, onexecute=menuClick },		
-	{name="fileQuit", caption="Exit", shortcut="Ctrl+Q", imageIndex=5, onexecute=function() frmMain:Close() end},			
+	{name="fileNew", caption="New project", ShortCut="Ctrl+N", imageIndex=0, OnExecute=menuClick },
+	{name="fileOpen", caption="Open project", shortcut="Ctrl+O", imageIndex=1, OnExecute=menuClick },
+	{name="fileSave", caption="Save project", shortcut="Ctrl+S", imageIndex=2, OnExecute=menuClick },
+	{name="fileSaveAs", caption="Save project as ...", imageIndex=3, OnExecute=menuClick },		
+	{name="fileQuit", caption="Exit", shortcut="Ctrl+Q", imageIndex=5, OnExecute=function() frmMain:Close() end},			
 
-	{name="fileExport", caption="Export ...", shortcut="Ctrl+E", imageIndex=4, onexecute=menuClick},
-	{name="frmPreview", caption="Form preview", shortcut="Ctrl+P",  onexecute=menuClick},
-	{name="toolImageConvert",  caption="Image converter", onexecute=menuClick},
-	{name="toolScriptEditor",  caption="Lua script editor", onexecute=menuClick},
+	{name="fileExport", caption="Export ...", shortcut="Ctrl+E", imageIndex=4, OnExecute=menuClick},
+	{name="frmPreview", caption="Form preview", shortcut="Ctrl+P",  OnExecute=menuClick},
+	{name="toolImageConvert",  caption="Image converter", OnExecute=menuClick},
+	{name="toolScriptEditor",  caption="Lua script editor", OnExecute=menuClick},
 	
-	{name="appRun", caption="Run", shortcut="F9",  onexecute=menuClick},
-	{name="appDebug", caption="Debug", shortcut="F8",  onexecute=menuClick},
+	{name="appRun", caption="Run", shortcut="F9",  OnExecute=menuClick},
+	{name="appDebug", caption="Debug", shortcut="F8",  OnExecute=menuClick},
 			
-	{name="aAbout", caption="About", shortcut="", imageIndex=7, onexecute=function() 
+	{name="aAbout", caption="About", shortcut="", imageIndex=7, OnExecute=function()
 		VCL.ShowMessage(string.format('%s v%s', VCL._NAME, VCL._VERSION))
 	end},
 
 })
+local act = mainActions:ActionByName("fileNew")
+print('shortcut:', act.ShortCut)
+act.ShortCut = act.shortCut
+print('assigning to itself:', act.ShortCut)
+print('get OnExecute event:', act.OnExecute)
 local mainMenu = VCL.MainMenu(frmMain, "mmmainmenu")
 mainMenu.Images = toolImages
-mainMenu.showhint=true
 --VCL.loadMenu(mainMenu, {
 --test for passing of array of objects
 mainMenu.Items:Add2(VCL.toMenuItems{

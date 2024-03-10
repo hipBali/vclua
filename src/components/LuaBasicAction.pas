@@ -207,8 +207,8 @@ begin
 	TLuaMethodInfo.Create(BasicActionFuncs, 'Update', @VCLua_BasicAction_Update);
 	TLuaMethodInfo.Create(BasicActionFuncs, 'ActionComponent', @VCLua_BasicAction_VCLuaGetActionComponent, mfCall);
 	BasicActionSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(BasicActionSets, 'OnChange', @VCLua_BasicAction_VCLuaSetOnChange, mfCall);
-	TLuaMethodInfo.Create(BasicActionSets, 'ActionComponent', @VCLua_BasicAction_VCLuaSetActionComponent, mfCall);
-	TLuaMethodInfo.Create(BasicActionSets, 'OnExecute', @VCLua_BasicAction_VCLuaSetOnExecute, mfCall);
-	TLuaMethodInfo.Create(BasicActionSets, 'OnUpdate', @VCLua_BasicAction_VCLuaSetOnUpdate, mfCall);
+	TLuaMethodInfo.Create(BasicActionSets, 'OnChange', @VCLua_BasicAction_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(BasicActionSets, 'ActionComponent', @VCLua_BasicAction_VCLuaSetActionComponent, mfCall, TypeInfo(TComponent));
+	TLuaMethodInfo.Create(BasicActionSets, 'OnExecute', @VCLua_BasicAction_VCLuaSetOnExecute, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(BasicActionSets, 'OnUpdate', @VCLua_BasicAction_VCLuaSetOnUpdate, mfCall, TypeInfo(TNotifyEvent));
 end.

@@ -345,8 +345,8 @@ begin
 	TLuaMethodInfo.Create(CustomBitmapFuncs, 'HandleType', @VCLua_CustomBitmap_VCLuaGetHandleType, mfCall);
 	TLuaMethodInfo.Create(CustomBitmapFuncs, 'Monochrome', @VCLua_CustomBitmap_VCLuaGetMonochrome, mfCall);
 	CustomBitmapSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomBitmapSets, 'HandleType', @VCLua_CustomBitmap_VCLuaSetHandleType, mfCall);
-	TLuaMethodInfo.Create(CustomBitmapSets, 'Monochrome', @VCLua_CustomBitmap_VCLuaSetMonochrome, mfCall);
+	TLuaMethodInfo.Create(CustomBitmapSets, 'HandleType', @VCLua_CustomBitmap_VCLuaSetHandleType, mfCall, TypeInfo(TBitmapHandleType));
+	TLuaMethodInfo.Create(CustomBitmapSets, 'Monochrome', @VCLua_CustomBitmap_VCLuaSetMonochrome, mfCall, TypeInfo(Boolean));
 	BitmapFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(BitmapFuncs, 'GetResourceType', @VCLua_Bitmap_GetResourceType);
 	TLuaMethodInfo.Create(BitmapFuncs, 'LoadFromStream', @VCLua_Bitmap_LoadFromStream);

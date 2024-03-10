@@ -141,7 +141,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CheckBox', 'ShortCut', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret);
+	lua_pushShortCut(L,ret);
 end;
 
 function VCLua_CheckBox_VCLuaGetShortCutKey2(L: Plua_State): Integer; cdecl;
@@ -158,7 +158,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CheckBox', 'ShortCutKey2', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret);
+	lua_pushShortCut(L,ret);
 end;
 
 procedure lua_push(L: Plua_State; const v: TCheckBox; pti: PTypeInfo);
@@ -188,7 +188,7 @@ begin
 	TLuaMethodInfo.Create(CustomCheckBoxFuncs, 'ShortCut', @VCLua_CheckBox_VCLuaGetShortCut, mfCall);
 	TLuaMethodInfo.Create(CustomCheckBoxFuncs, 'ShortCutKey2', @VCLua_CheckBox_VCLuaGetShortCutKey2, mfCall);
 	CustomCheckBoxSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomCheckBoxSets, 'Alignment', @VCLua_CheckBox_VCLuaSetAlignment, mfCall);
-	TLuaMethodInfo.Create(CustomCheckBoxSets, 'AllowGrayed', @VCLua_CheckBox_VCLuaSetAllowGrayed, mfCall);
-	TLuaMethodInfo.Create(CustomCheckBoxSets, 'State', @VCLua_CheckBox_VCLuaSetState, mfCall);
+	TLuaMethodInfo.Create(CustomCheckBoxSets, 'Alignment', @VCLua_CheckBox_VCLuaSetAlignment, mfCall, TypeInfo(TLeftRight));
+	TLuaMethodInfo.Create(CustomCheckBoxSets, 'AllowGrayed', @VCLua_CheckBox_VCLuaSetAllowGrayed, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomCheckBoxSets, 'State', @VCLua_CheckBox_VCLuaSetState, mfCall, TypeInfo(TCheckBoxState));
 end.

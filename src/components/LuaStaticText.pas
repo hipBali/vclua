@@ -222,9 +222,9 @@ begin
 	TLuaMethodInfo.Create(CustomStaticTextFuncs, 'ShowAccelChar', @VCLua_StaticText_VCLuaGetShowAccelChar, mfCall);
 	TLuaMethodInfo.Create(CustomStaticTextFuncs, 'Transparent', @VCLua_StaticText_VCLuaGetTransparent, mfCall);
 	CustomStaticTextSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomStaticTextSets, 'Alignment', @VCLua_StaticText_VCLuaSetAlignment, mfCall);
-	TLuaMethodInfo.Create(CustomStaticTextSets, 'BorderStyle', @VCLua_StaticText_VCLuaSetBorderStyle, mfCall);
-	TLuaMethodInfo.Create(CustomStaticTextSets, 'FocusControl', @VCLua_StaticText_VCLuaSetFocusControl, mfCall);
-	TLuaMethodInfo.Create(CustomStaticTextSets, 'ShowAccelChar', @VCLua_StaticText_VCLuaSetShowAccelChar, mfCall);
-	TLuaMethodInfo.Create(CustomStaticTextSets, 'Transparent', @VCLua_StaticText_VCLuaSetTransparent, mfCall);
+	TLuaMethodInfo.Create(CustomStaticTextSets, 'Alignment', @VCLua_StaticText_VCLuaSetAlignment, mfCall, TypeInfo(TAlignment));
+	TLuaMethodInfo.Create(CustomStaticTextSets, 'BorderStyle', @VCLua_StaticText_VCLuaSetBorderStyle, mfCall, TypeInfo(TStaticBorderStyle));
+	TLuaMethodInfo.Create(CustomStaticTextSets, 'FocusControl', @VCLua_StaticText_VCLuaSetFocusControl, mfCall, TypeInfo(TWinControl));
+	TLuaMethodInfo.Create(CustomStaticTextSets, 'ShowAccelChar', @VCLua_StaticText_VCLuaSetShowAccelChar, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomStaticTextSets, 'Transparent', @VCLua_StaticText_VCLuaSetTransparent, mfCall, TypeInfo(Boolean));
 end.

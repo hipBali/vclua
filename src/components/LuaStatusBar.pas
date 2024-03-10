@@ -353,6 +353,6 @@ begin
 	TLuaMethodInfo.Create(StatusBarFuncs, 'UpdatingStatusBar', @VCLua_StatusBar_UpdatingStatusBar);
 	TLuaMethodInfo.Create(StatusBarFuncs, 'Canvas', @VCLua_StatusBar_VCLuaGetCanvas, mfCall);
 	StatusBarSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(StatusBarSets, 'OnDrawPanel', @VCLua_StatusBar_VCLuaSetOnDrawPanel, mfCall);
-	TLuaMethodInfo.Create(StatusBarSets, 'OnHint', @VCLua_StatusBar_VCLuaSetOnHint, mfCall);
+	TLuaMethodInfo.Create(StatusBarSets, 'OnDrawPanel', @VCLua_StatusBar_VCLuaSetOnDrawPanel, mfCall, TypeInfo(TDrawPanelEvent));
+	TLuaMethodInfo.Create(StatusBarSets, 'OnHint', @VCLua_StatusBar_VCLuaSetOnHint, mfCall, TypeInfo(TNotifyEvent));
 end.

@@ -187,8 +187,8 @@ begin
 	TLuaMethodInfo.Create(CustomIdleTimerFuncs, 'AutoEndEvent', @VCLua_IdleTimer_VCLuaGetAutoEndEvent, mfCall);
 	TLuaMethodInfo.Create(CustomIdleTimerFuncs, 'FireOnIdle', @VCLua_IdleTimer_VCLuaGetFireOnIdle, mfCall);
 	CustomIdleTimerSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomIdleTimerSets, 'AutoEnabled', @VCLua_IdleTimer_VCLuaSetAutoEnabled, mfCall);
-	TLuaMethodInfo.Create(CustomIdleTimerSets, 'AutoStartEvent', @VCLua_IdleTimer_VCLuaSetAutoStartEvent, mfCall);
-	TLuaMethodInfo.Create(CustomIdleTimerSets, 'AutoEndEvent', @VCLua_IdleTimer_VCLuaSetAutoEndEvent, mfCall);
-	TLuaMethodInfo.Create(CustomIdleTimerSets, 'FireOnIdle', @VCLua_IdleTimer_VCLuaSetFireOnIdle, mfCall);
+	TLuaMethodInfo.Create(CustomIdleTimerSets, 'AutoEnabled', @VCLua_IdleTimer_VCLuaSetAutoEnabled, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomIdleTimerSets, 'AutoStartEvent', @VCLua_IdleTimer_VCLuaSetAutoStartEvent, mfCall, TypeInfo(TIdleTimerAutoEvent));
+	TLuaMethodInfo.Create(CustomIdleTimerSets, 'AutoEndEvent', @VCLua_IdleTimer_VCLuaSetAutoEndEvent, mfCall, TypeInfo(TIdleTimerAutoEvent));
+	TLuaMethodInfo.Create(CustomIdleTimerSets, 'FireOnIdle', @VCLua_IdleTimer_VCLuaSetFireOnIdle, mfCall, TypeInfo(boolean));
 end.

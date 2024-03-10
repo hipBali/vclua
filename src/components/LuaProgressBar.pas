@@ -361,12 +361,12 @@ begin
 	TLuaMethodInfo.Create(CustomProgressBarFuncs, 'Style', @VCLua_ProgressBar_VCLuaGetStyle, mfCall);
 	TLuaMethodInfo.Create(CustomProgressBarFuncs, 'BarShowText', @VCLua_ProgressBar_VCLuaGetBarShowText, mfCall);
 	CustomProgressBarSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomProgressBarSets, 'Max', @VCLua_ProgressBar_VCLuaSetMax, mfCall);
-	TLuaMethodInfo.Create(CustomProgressBarSets, 'Min', @VCLua_ProgressBar_VCLuaSetMin, mfCall);
-	TLuaMethodInfo.Create(CustomProgressBarSets, 'Orientation', @VCLua_ProgressBar_VCLuaSetOrientation, mfCall);
-	TLuaMethodInfo.Create(CustomProgressBarSets, 'Position', @VCLua_ProgressBar_VCLuaSetPosition, mfCall);
-	TLuaMethodInfo.Create(CustomProgressBarSets, 'Smooth', @VCLua_ProgressBar_VCLuaSetSmooth, mfCall);
-	TLuaMethodInfo.Create(CustomProgressBarSets, 'Step', @VCLua_ProgressBar_VCLuaSetStep, mfCall);
-	TLuaMethodInfo.Create(CustomProgressBarSets, 'Style', @VCLua_ProgressBar_VCLuaSetStyle, mfCall);
-	TLuaMethodInfo.Create(CustomProgressBarSets, 'BarShowText', @VCLua_ProgressBar_VCLuaSetBarShowText, mfCall);
+	TLuaMethodInfo.Create(CustomProgressBarSets, 'Max', @VCLua_ProgressBar_VCLuaSetMax, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomProgressBarSets, 'Min', @VCLua_ProgressBar_VCLuaSetMin, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomProgressBarSets, 'Orientation', @VCLua_ProgressBar_VCLuaSetOrientation, mfCall, TypeInfo(TProgressBarOrientation));
+	TLuaMethodInfo.Create(CustomProgressBarSets, 'Position', @VCLua_ProgressBar_VCLuaSetPosition, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomProgressBarSets, 'Smooth', @VCLua_ProgressBar_VCLuaSetSmooth, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomProgressBarSets, 'Step', @VCLua_ProgressBar_VCLuaSetStep, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomProgressBarSets, 'Style', @VCLua_ProgressBar_VCLuaSetStyle, mfCall, TypeInfo(TProgressBarStyle));
+	TLuaMethodInfo.Create(CustomProgressBarSets, 'BarShowText', @VCLua_ProgressBar_VCLuaSetBarShowText, mfCall, TypeInfo(boolean));
 end.

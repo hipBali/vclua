@@ -18,6 +18,17 @@ VCLUA_FROMLUA_TEMP = "#VARNeedsFree := luaL_checkOrFromTable(L,#,@#VAR,@#PROC);"
 VCLUA_FROMLUA_FULL = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));"
 VCLUA_PUSHARRAY = "lua_pushArray<#TYP>(L, #VAR);"
 VCLUA_TOLUA_FULL = "lua_push(L,#VAR,TypeInfo(#VAR));"
+VCLUA_OPT_INLINE_FROMLUA = [[
+if not lua_isnoneornil(L, #) then begin
+		#FROMLUA
+	end else
+		#VAR := #DEF;
+]]
+
+VCLUA_OPT_INLINE_FROMLUA_LIST = {
+  tcolor = 1,
+  tgraphicscolor = 1,
+}
 
 VCLUA_FROMLUA_TEMP_MAP = {
   tstrings = "luaL_checkStringList",
@@ -35,6 +46,7 @@ VCLUA_TOLUA_DEFAULT = "lua_push(L,#VAR);"
 
 VCLUA_TOLUA = {
 	["pointer"] = "lua_pushlightuserdata(L,#VAR);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
+	["tshortcut"] = "lua_pushShortCut(L,#VAR);",
 
 	-- if src ~= "T"..cdef.name
 	["tcustomimagelist"] = VCLUA_TOLUA_FULL,
@@ -74,6 +86,9 @@ VCLUA_FROMLUA = {
 	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
 	["tborderstyle"] = VCLUA_FROMLUA_FULL,
 	["tleftright"] = VCLUA_FROMLUA_FULL,
+	["tshortcut"] = "#VAR := luaL_checkShortCut(L,#);",
+	["tcolor"] = "#VAR := luaL_checkColor(L,#);",
+	["tgraphicscolor"] = "#VAR := luaL_checkColor(L,#);",
 }
 
 VCLUA_ES_CHECK = {}

@@ -239,10 +239,10 @@ begin
 	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'PaintSection', @VCLua_HeaderControl_PaintSection);
 	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'ChangeScale', @VCLua_HeaderControl_ChangeScale);
 	CustomHeaderControlSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionDrag', @VCLua_HeaderControl_VCLuaSetOnSectionDrag, mfCall);
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionEndDrag', @VCLua_HeaderControl_VCLuaSetOnSectionEndDrag, mfCall);
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionClick', @VCLua_HeaderControl_VCLuaSetOnSectionClick, mfCall);
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionResize', @VCLua_HeaderControl_VCLuaSetOnSectionResize, mfCall);
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionTrack', @VCLua_HeaderControl_VCLuaSetOnSectionTrack, mfCall);
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionSeparatorDblClick', @VCLua_HeaderControl_VCLuaSetOnSectionSeparatorDblClick, mfCall);
+	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionDrag', @VCLua_HeaderControl_VCLuaSetOnSectionDrag, mfCall, TypeInfo(TSectionDragEvent));
+	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionEndDrag', @VCLua_HeaderControl_VCLuaSetOnSectionEndDrag, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionClick', @VCLua_HeaderControl_VCLuaSetOnSectionClick, mfCall, TypeInfo(TCustomSectionNotifyEvent));
+	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionResize', @VCLua_HeaderControl_VCLuaSetOnSectionResize, mfCall, TypeInfo(TCustomSectionNotifyEvent));
+	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionTrack', @VCLua_HeaderControl_VCLuaSetOnSectionTrack, mfCall, TypeInfo(TCustomSectionTrackEvent));
+	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionSeparatorDblClick', @VCLua_HeaderControl_VCLuaSetOnSectionSeparatorDblClick, mfCall, TypeInfo(TCustomSectionNotifyEvent));
 end.

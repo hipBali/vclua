@@ -136,7 +136,7 @@ classes = {
 	{ name = "ListBox", src = "TCustomListBox", ref = "StdCtrls", canvas=true,},
 	{ name = "ComboBox", src = "TCustomComboBox", ref = "StdCtrls" },
 	{ name = "Edit", src = "TCustomEdit", ref = "StdCtrls" },
-	{ name = "Memo", src = "TCustomMemo", ref = "StdCtrls" },
+	{ name = "Memo", src = "TCustomMemo", ref = "StdCtrls", allowtemps={Lines="val"} },
 	{ name = "StaticText", src = "TCustomStaticText", ref = "StdCtrls" },
 	{ name = "Button", src = "TCustomButton", ref = "StdCtrls" },
 	{ name = "CheckBox", src = "TCustomCheckBox", ref = "StdCtrls" },

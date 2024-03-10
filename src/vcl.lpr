@@ -42,6 +42,8 @@ begin
      luaL_openlib(L, LUA_VCL_LIBNAME, @vcl_lib, 0);
   {$ENDIF}
   // extend library
+  lua_pushcfunction(L, @LuaColorToIdent);
+  lua_setfield(L, -2, 'ColorToIdent');
   lua_pushcfunction(L, @LuaListProperties);
   lua_setfield(L, -2, 'ListProperties');
   lua_pushcfunction(L, @LuaListMethods);

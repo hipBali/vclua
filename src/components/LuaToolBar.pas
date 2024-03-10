@@ -435,7 +435,7 @@ begin
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'Index', @VCLua_ToolButton_VCLuaGetIndex, mfCall);
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'PointInArrow', @VCLua_ToolButton_PointInArrow);
 	ToolButtonSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ToolButtonSets, 'OnArrowClick', @VCLua_ToolButton_VCLuaSetOnArrowClick, mfCall);
+	TLuaMethodInfo.Create(ToolButtonSets, 'OnArrowClick', @VCLua_ToolButton_VCLuaSetOnArrowClick, mfCall, TypeInfo(TNotifyEvent));
 	ToolBarFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ToolBarFuncs, 'EndUpdate', @VCLua_ToolBar_EndUpdate);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'FlipChildren', @VCLua_ToolBar_FlipChildren);
@@ -446,6 +446,6 @@ begin
 	TLuaMethodInfo.Create(ToolBarFuncs, 'RowCount', @VCLua_ToolBar_VCLuaGetRowCount, mfCall);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'ButtonDropWidth', @VCLua_ToolBar_VCLuaGetButtonDropWidth, mfCall);
 	ToolBarSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ToolBarSets, 'OnPaintButton', @VCLua_ToolBar_VCLuaSetOnPaintButton, mfCall);
-	TLuaMethodInfo.Create(ToolBarSets, 'OnPaint', @VCLua_ToolBar_VCLuaSetOnPaint, mfCall);
+	TLuaMethodInfo.Create(ToolBarSets, 'OnPaintButton', @VCLua_ToolBar_VCLuaSetOnPaintButton, mfCall, TypeInfo(TToolBarOnPaintButton));
+	TLuaMethodInfo.Create(ToolBarSets, 'OnPaint', @VCLua_ToolBar_VCLuaSetOnPaint, mfCall, TypeInfo(TNotifyEvent));
 end.

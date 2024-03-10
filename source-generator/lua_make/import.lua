@@ -145,7 +145,7 @@ local function propertyToProc(decl)
     return {{method=method, propInfo={r=canRead,w=canWrite,d=d,i=true}}}
   else
     local ret = {}
-    if canWrite then ret[1] = {method=method, propInfo={w=true,d=d,pref='VCLuaSet',isEvent=isEvent}} end
+    if canWrite then ret[1] = {method=method, propInfo={w=true,d=d,pref='VCLuaSet',isEvent=isEvent,tp=typeName}} end
     if canRead and not isEvent then table.insert(ret, {method=("function %s:%s;"):format(propName, typeName), propInfo={r=true,d=d,pref='VCLuaGet'}}) end
     return ret
   end
@@ -521,16 +521,16 @@ function createUnitBody(cdef, ref, refs)
 	local src = cdef.src:sub(2)
 	local initSrc = not initedSrcs[src]
 	if not initSrc then cLog("###  skipping init of src "..src, "DEBUG") end
-	local initFmt = "TLuaMethodInfo.Create("..src.."%s, '%s', @%s%s);"
-	local function doInsert(methods,finalMethodName,vcluaMethodName,flag)
-		methods[methods.n + 1] = initFmt:format(methods.suf,finalMethodName,vcluaMethodName,flag)
+	local initFmt = "TLuaMethodInfo.Create("..src.."%s, '%s', @%s%s%s);"
+	local function doInsert(methods,finalMethodName,vcluaMethodName,flag,ti)
+		methods[methods.n + 1] = initFmt:format(methods.suf,finalMethodName,vcluaMethodName,flag,ti)
 		methods.n = methods.n + 1
 	end
 	local function addMethod(pi,finalMethodName,vcluaMethodName)
-			if initSrc then
-				local pp = pi and not pi.i
-				doInsert(pp and pi.w and cPropSets or cMethods,finalMethodName,vcluaMethodName,pp and ", mfCall" or "")
-			end
+		if initSrc then
+			local pp = pi and not pi.i
+			doInsert(pp and pi.w and cPropSets or cMethods,finalMethodName,vcluaMethodName, pp and ", mfCall" or "", pp and pi.tp and ", TypeInfo("..pi.tp..")" or "")
+		end
 	end
 	-- parenting needs TWinControl and TComponent
 	if not cdef.nocreate then
@@ -584,8 +584,9 @@ function createUnitBody(cdef, ref, refs)
 		end
 		local fParams = table.concat(funcparams or {},",")
 		local maybeTempVars = {}
-		if cdef.allowtemps and cdef.allowtemps[mName] then
+		if cdef.allowtemps and cdef.allowtemps[mName] and (not pi or pi.w) then
 			maybeTempVars = cdef.allowtemps[mName]:split(',')
+			varlist = varlist or {}
 			for _,v in ipairs(maybeTempVars) do
 				table.insert(varlist, v..'NeedsFree:Boolean = False')
 				table.insert(outStr, 'if '..v..'NeedsFree then '..v..'.Free;')
@@ -629,8 +630,9 @@ function createUnitBody(cdef, ref, refs)
           end
           if pi and pi.isEvent then
           elseif varValue then
-            templ = templ or (not VCLUA_ES_CHECK or VCLUA_ES_CHECK[vtLower]) and VCLUA_OPT_DEFAULT or VCLUA_OPT
-            table.insert(varsFromLua,(templ:gsub('#TYP',varType):gsub("#DEF",varValue,1):gsub('#VAR',varName,1):gsub("#",idx,1)))
+            local inline = VCLUA_OPT_INLINE_FROMLUA_LIST[vtLower] and VCLUA_OPT_INLINE_FROMLUA:gsub('#FROMLUA',VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT,1)
+            templ = templ or (not VCLUA_ES_CHECK or VCLUA_ES_CHECK[vtLower]) and VCLUA_OPT_DEFAULT or inline or VCLUA_OPT
+            table.insert(varsFromLua,(templ:gsub('#TYP',varType):gsub("#DEF",varValue,1):gsub('#VAR',varName):gsub("#",idx)))
             if not defVars then defVars = idx - 1 end
           else
             table.insert(varsFromLua, (applyFromLuaTempl(templ,varName,varType,vtLower):gsub("#",idx)))
