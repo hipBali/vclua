@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TImage; pti: PTypeInfo = nil); overlo
 
 type
     TLuaImage = class(TImage)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomImageFuncs: TLuaVmt;

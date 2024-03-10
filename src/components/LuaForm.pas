@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TForm; pti: PTypeInfo = nil); overloa
 
 type
     TLuaForm = class(TForm)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomFormFuncs: TLuaVmt;

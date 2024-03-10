@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo = nil); overlo
 
 type
     TLuaLabel = class(TLabel)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomLabelFuncs: TLuaVmt;

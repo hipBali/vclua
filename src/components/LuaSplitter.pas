@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TSplitter; pti: PTypeInfo = nil); ove
 
 type
     TLuaSplitter = class(TSplitter)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomSplitterFuncs: TLuaVmt;

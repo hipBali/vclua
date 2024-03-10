@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TCoolBar; pti: PTypeInfo = nil); over
 
 type
     TLuaCoolBar = class(TCoolBar)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomCoolBarFuncs: TLuaVmt;

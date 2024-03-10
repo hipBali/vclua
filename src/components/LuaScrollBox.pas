@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TScrollBox; pti: PTypeInfo = nil); ov
 
 type
     TLuaScrollBox = class(TScrollBox)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     ScrollBoxFuncs: TLuaVmt;

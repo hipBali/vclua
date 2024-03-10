@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TTrayIcon; pti: PTypeInfo = nil); ove
 
 type
     TLuaTrayIcon = class(TTrayIcon)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomTrayIconFuncs: TLuaVmt;

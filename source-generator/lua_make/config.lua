@@ -60,7 +60,7 @@ toInfer = {
 -- nv:		 non visible
 -- nocreate: no create method for this class. Currently only those classes can be Create'd which inherit TComponent or are non visible
 -- impl: implements method from funcdef.lua/function_defnitions
--- canvas: has canvas
+-- canvas: publish canvas property (usually not needed since public properties are available, just add parent with Canvas to config)
 -- form: use CreateNew instead Create
 -- wclass: item class for collections
 -- allowtemps: map from method names to comma-sep variable names
@@ -117,6 +117,8 @@ classes = {
 
 	-- controls
 	{ name = "Control", src = "TControl", ref = "Controls"},
+	{ name = "GraphicControl", src = "TGraphicControl", ref = "Controls"},
+	{ name = "CustomControl", src = "TCustomControl", ref = "Controls"},
 	{ unit = "Drag", ref = "Controls",
 		classes = {
 			{ name = "DragObject", src = "TDragObject", nocreate=true},
@@ -128,11 +130,11 @@ classes = {
 
 	-- forms
 	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true  },
-	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", canvas=true, form=true},
-	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms", canvas=true, },
+	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", form=true},
+	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms", },
 
 	-- standard controls
-	{ name = "ListBox", src = "TCustomListBox", ref = "StdCtrls", canvas=true,},
+	{ name = "ListBox", src = "TCustomListBox", ref = "StdCtrls" },
 	{ name = "ComboBox", src = "TCustomComboBox", ref = "StdCtrls" },
 	{ name = "Edit", src = "TCustomEdit", ref = "StdCtrls" },
 	{ name = "Memo", src = "TCustomMemo", ref = "StdCtrls", allowtemps={Lines="val"} },
@@ -142,22 +144,22 @@ classes = {
 	{ name = "ToggleBox", src = "TToggleBox", ref = "StdCtrls" },
 	{ name = "GroupBox", src = "TGroupBox", ref = "StdCtrls" },
 	{ name = "RadioButton", src = "TRadioButton", ref = "StdCtrls" },
-	{ name = "Label", src = "TCustomLabel", ref = "StdCtrls", canvas=true, },
+	{ name = "Label", src = "TCustomLabel", ref = "StdCtrls" },
 	-- ext controls
 	{ name = "Notebook", src = "TNotebook", ref = "ExtCtrls" },
 	{ name = "Timer", src = "TTimer", ref = "ExtCtrls", noparent=true  },
 	{ name = "IdleTimer", src = "TCustomIdleTimer", ref = "ExtCtrls", noparent=true },
-	{ name = "Shape", src = "TShape", ref = "ExtCtrls", canvas=true, },
-	{ name = "Splitter", src = "TCustomSplitter", ref = "ExtCtrls", canvas=true, },
+	{ name = "Shape", src = "TShape", ref = "ExtCtrls" },
+	{ name = "Splitter", src = "TCustomSplitter", ref = "ExtCtrls" },
 	{ name = "PaintBox", src = "TPaintBox", ref = "ExtCtrls" },
-	{ name = "Image", src = "TCustomImage", ref = "ExtCtrls", canvas=true, },
+	{ name = "Image", src = "TCustomImage", ref = "ExtCtrls" },
 	{ name = "Bevel", src = "TBevel", ref = "ExtCtrls" },
 	{ name = "RadioGroup", src = "TCustomRadioGroup", ref = "ExtCtrls" },
 	{ name = "CheckGroup", src = "TCustomCheckGroup", ref = "ExtCtrls" },
 	{ name = "BoundLabel", src = "TBoundLabel", ref = "ExtCtrls" },
 	{ name = "LabeledEdit", src = "TCustomLabeledEdit", ref = "ExtCtrls" },
-	{ name = "Panel", src = "TCustomPanel", ref = "ExtCtrls", canvas=true, },
-	{ name = "TrayIcon", src = "TCustomTrayIcon", ref = "ExtCtrls", noparent=true, canvas=true, },
+	{ name = "Panel", src = "TCustomPanel", ref = "ExtCtrls" },
+	{ name = "TrayIcon", src = "TCustomTrayIcon", ref = "ExtCtrls", noparent=true },
 	-- com controls
 	{ name = "TrackBar", src = "TCustomTrackBar", ref = "ComCtrls" },
 	{ name = "ProgressBar", src = "TCustomProgressBar", ref = "ComCtrls" },
@@ -170,13 +172,13 @@ classes = {
 		}
 	},
 	
-	{ unit = "ToolBar", ref = "ComCtrls", canvas=true,
+	{ unit = "ToolBar", ref = "ComCtrls",
 		classes = {
 			{ name = "ToolButton", src = "TToolButton" },
 			{ name = "ToolBar", src = "TToolBar" },
 		}
 	},
-	{ name = "CoolBar", src = "TCustomCoolBar", ref = "ComCtrls", canvas=true, },
+	{ name = "CoolBar", src = "TCustomCoolBar", ref = "ComCtrls" },
 	{ name = "UpDown", src = "TUpDown", ref = "ComCtrls" },
 	
 	{ unit = "TabControl", ref = "ComCtrls",
@@ -187,14 +189,14 @@ classes = {
 		},
 	},
 	{ name = "HeaderControl", src = "TCustomHeaderControl", ref = "ComCtrls" },
-	{ unit = "TreeView", ref = "ComCtrls", canvas=true,
+	{ unit = "TreeView", ref = "ComCtrls",
 		classes = {
 			{ name = "TreeNode", src = "TTreeNode", noparent=true, parentclass="TTreeNodes", nocreate=true},
 			{ name = "TreeNodes", src = "TTreeNodes", noparent=true, parentclass="TCustomTreeView", nocreate=true},
 			{ name = "TreeView", src = "TCustomTreeView"},
 		},
 	},
-	{ unit = "ListView", ref = "ComCtrls", canvas=true,
+	{ unit = "ListView", ref = "ComCtrls",
 		classes = {
 			{ name = "ListItem", src = "TListItem", noparent=true, parentclass="TListItems", nocreate=true},
 			{ name = "ListItems", src = "TListItems", noparent=true, parentclass="TCustomListView", nocreate=true},
@@ -234,20 +236,20 @@ classes = {
 	{ unit = "DrawGrid", ref = "Grids",
 		classes = {
 			{ name = "CustomGrid", src = "TCustomGrid", nocreate=true },
-			{ name = "DrawGrid", src = "TCustomDrawGrid", canvas=true },
+			{ name = "DrawGrid", src = "TCustomDrawGrid" },
 		},
 	},
 	{ unit = "StringGrid", ref = "Grids",
 		classes = {
 			{ name = "GridColumn", src = "TGridColumn", noparent=true, parentclass="TCollection", nocreate=true},
 			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", nocreate=true},--, wclass="TGridColumn"
-			{ name = "StringGrid", src = "TCustomStringGrid", canvas=true, allowtemps={Rows="ret",Cols="ret"},
+			{ name = "StringGrid", src = "TCustomStringGrid", allowtemps={Rows="ret",Cols="ret"},
 			  impl="GetCells, SetCells, GetSelectedCell"},
 		},
 	},
 	
 	-- valuelisteditor
-	{ name = "ValueListEditor", src = "TValueListEditor", ref = "ValEdit" , canvas=true},
+	{ name = "ValueListEditor", src = "TValueListEditor", ref = "ValEdit"},
 	-- dialogs
 	{ unit = "CommonDialogs", ref = "Dialogs",
 		classes = {

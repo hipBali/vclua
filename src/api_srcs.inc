@@ -86,6 +86,8 @@ apiPtis.Add('TDockTree', TDockTree.ClassInfo);
 apiPtis.Add('TDockZone', TDockZone.ClassInfo);
 apiPtis.Add('TDragDockObject', TDragDockObject.ClassInfo);
 apiPtis.Add('TDragObject', TDragObject.ClassInfo);
+apiPtis.Add('TCustomControl', TCustomControl.ClassInfo);
+apiPtis.Add('TGraphicControl', TGraphicControl.ClassInfo);
 apiPtis.Add('TControl', TControl.ClassInfo);
 apiPtis.Add('TMainMenu', TMainMenu.ClassInfo);
 apiPtis.Add('TMenuItem', TMenuItem.ClassInfo);

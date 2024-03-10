@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TListBox; pti: PTypeInfo = nil); over
 
 type
     TLuaListBox = class(TListBox)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomListBoxFuncs: TLuaVmt;

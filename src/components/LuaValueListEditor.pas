@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo = ni
 
 type
     TLuaValueListEditor = class(TValueListEditor)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     ValueListEditorFuncs: TLuaVmt;

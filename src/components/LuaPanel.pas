@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TPanel; pti: PTypeInfo = nil); overlo
 
 type
     TLuaPanel = class(TPanel)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomPanelFuncs: TLuaVmt;

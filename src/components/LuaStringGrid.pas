@@ -33,9 +33,7 @@ procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo = nil); o
 
 type
     TLuaStringGrid = class(TStringGrid)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomStringGridFuncs: TLuaVmt;

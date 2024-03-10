@@ -24,9 +24,7 @@ procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo = nil); ove
 
 type
     TLuaDrawGrid = class(TDrawGrid)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     CustomDrawGridFuncs: TLuaVmt;

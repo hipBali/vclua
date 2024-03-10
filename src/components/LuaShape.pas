@@ -15,9 +15,7 @@ procedure lua_push(L: Plua_State; const v: TShape; pti: PTypeInfo = nil); overlo
 
 type
     TLuaShape = class(TShape)
-	  LuaCtl: TVCLuaControl;
-	  published
-	    property Canvas;
+        LuaCtl: TVCLuaControl;
     end;
 var
     ShapeFuncs: TLuaVmt;
