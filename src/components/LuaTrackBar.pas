@@ -4,43 +4,58 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaTrackBar;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, ComCtrls;
 
 function CreateTrackBar(L: Plua_State): Integer; cdecl;
-procedure TrackBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TTrackBar; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaTrackBar = class(TTrackBar)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomTrackBarFuncs: TLuaVmt;
+    CustomTrackBarSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
 function VCLua_TrackBar_SetTick(L: Plua_State): Integer; cdecl;
-var 
+var
 	lTrackBar:TLuaTrackBar;
 	Value:Integer;
 begin
 	CheckArg(L, 2);
 	lTrackBar := TLuaTrackBar(GetLuaObject(L, 1));
-	Value := lua_tointeger(L,2);
-	lTrackBar.SetTick(Value);
-	
+	luaL_check(L,2,@Value);
+	try
+		lTrackBar.SetTick(Value);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TrackBar', 'SetTick', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TrackBar_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lTrackBar:TLuaTrackBar;
+begin
+	CheckArg(L, 2);
+	lTrackBar := TLuaTrackBar(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTrackBar.OnChange));
+	lTrackBar.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
 end;
 
-procedure TrackBarToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TTrackBar; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'SetTick', @VCLua_TrackBar_SetTick);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomTrackBar',v);
 end;
 function CreateTrackBar(L: Plua_State): Integer; cdecl;
 var
@@ -51,10 +66,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTrackBar := TLuaTrackBar.Create(Parent);
 	lTrackBar.Parent := TWinControl(Parent);
-	lTrackBar.LuaCtl := TVCLuaControl.Create(TControl(lTrackBar),L,@TrackBarToTable);
+	lTrackBar.LuaCtl := TVCLuaControl.Create(lTrackBar as TComponent,L,nil,'TCustomTrackBar');
+	CreateTableForKnownType(L,'TCustomTrackBar',lTrackBar);
 	InitControl(L,lTrackBar,Name);
-	TrackBarToTable(L, -1, lTrackBar);
 	Result := 1;
 end;
 
+begin
+	CustomTrackBarFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomTrackBarFuncs, 'SetTick', @VCLua_TrackBar_SetTick);
+	CustomTrackBarSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomTrackBarSets, 'OnChange', @VCLua_TrackBar_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
 end.

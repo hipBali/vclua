@@ -4,14 +4,14 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaLabel;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, StdCtrls;
 
 function CreateLabel(L: Plua_State): Integer; cdecl;
-procedure LabelToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaLabel = class(TLabel)
@@ -19,13 +19,16 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomLabelFuncs: TLuaVmt;
+    CustomLabelSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 function VCLua_Label_CalcFittingFontHeight(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 	TheText:string;
 	MaxWidth:Integer;
@@ -37,56 +40,73 @@ var
 begin
 	CheckArg(L, 4);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	TheText := lua_toStringCP(L,2);
-	MaxWidth := lua_tointeger(L,3);
-	MaxHeight := lua_tointeger(L,4);
-	ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight,NeededWidth,NeededHeight);
-	lua_pushboolean(L,ret);
-	lua_pushinteger(L,FontHeight);	
-lua_pushinteger(L,NeededWidth);	
-lua_pushinteger(L,NeededHeight);
-	Result := 4;
+	luaL_check(L,2,@TheText);
+	luaL_check(L,3,@MaxWidth);
+	luaL_check(L,4,@MaxHeight);
+	try
+		ret := lLabel.CalcFittingFontHeight(TheText,MaxWidth,MaxHeight,FontHeight,NeededWidth,NeededHeight);
+		Result := 4;
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'CalcFittingFontHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+	lua_push(L,FontHeight);
+	lua_push(L,NeededWidth);
+	lua_push(L,NeededHeight);
 end;
 
 function VCLua_Label_ColorIsStored(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	ret := lLabel.ColorIsStored();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lLabel.ColorIsStored();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'ColorIsStored', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Label_AdjustFontForOptimalFill(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	ret := lLabel.AdjustFontForOptimalFill();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lLabel.AdjustFontForOptimalFill();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'AdjustFontForOptimalFill', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Label_Paint(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 begin
 	CheckArg(L, 1);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	lLabel.Paint();
-	
-	Result := 0;
+	try
+		lLabel.Paint();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'Paint', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Label_SetBounds(L: Plua_State): Integer; cdecl;
-var 
+var
 	lLabel:TLuaLabel;
 	aLeft:integer;
 	aTop:integer;
@@ -95,25 +115,22 @@ var
 begin
 	CheckArg(L, 5);
 	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	aLeft := lua_tointeger(L,2);
-	aTop := lua_tointeger(L,3);
-	aWidth := lua_tointeger(L,4);
-	aHeight := lua_tointeger(L,5);
-	lLabel.SetBounds(aLeft,aTop,aWidth,aHeight);
-	
-	Result := 0;
+	luaL_check(L,2,@aLeft);
+	luaL_check(L,3,@aTop);
+	luaL_check(L,4,@aWidth);
+	luaL_check(L,5,@aHeight);
+	try
+		lLabel.SetBounds(aLeft,aTop,aWidth,aHeight);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Label', 'SetBounds', E.ClassName, E.Message);
+	end;
 end;
 
-procedure LabelToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'CalcFittingFontHeight', @VCLua_Label_CalcFittingFontHeight);
-	LuaSetTableFunction(L, Index, 'ColorIsStored', @VCLua_Label_ColorIsStored);
-	LuaSetTableFunction(L, Index, 'AdjustFontForOptimalFill', @VCLua_Label_AdjustFontForOptimalFill);
-	LuaSetTableFunction(L, Index, 'Paint', @VCLua_Label_Paint);
-	LuaSetTableFunction(L, Index, 'SetBounds', @VCLua_Label_SetBounds);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCustomLabel',v);
 end;
 function CreateLabel(L: Plua_State): Integer; cdecl;
 var
@@ -124,10 +141,19 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lLabel := TLuaLabel.Create(Parent);
 	lLabel.Parent := TWinControl(Parent);
-	lLabel.LuaCtl := TVCLuaControl.Create(TControl(lLabel),L,@LabelToTable);
+	lLabel.LuaCtl := TVCLuaControl.Create(lLabel as TComponent,L,nil,'TCustomLabel');
+	CreateTableForKnownType(L,'TCustomLabel',lLabel);
 	InitControl(L,lLabel,Name);
-	LabelToTable(L, -1, lLabel);
 	Result := 1;
 end;
 
+begin
+	CustomLabelFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'CalcFittingFontHeight', @VCLua_Label_CalcFittingFontHeight);
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'ColorIsStored', @VCLua_Label_ColorIsStored);
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'AdjustFontForOptimalFill', @VCLua_Label_AdjustFontForOptimalFill);
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'Paint', @VCLua_Label_Paint);
+	TLuaMethodInfo.Create(CustomLabelFuncs, 'SetBounds', @VCLua_Label_SetBounds);
+	CustomLabelSets := TLuaVmt.Create;
+	
 end.

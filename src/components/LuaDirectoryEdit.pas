@@ -4,14 +4,14 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaDirectoryEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, EditBtn;
 
 function CreateDirectoryEdit(L: Plua_State): Integer; cdecl;
-procedure DirectoryEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TDirectoryEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaDirectoryEdit = class(TDirectoryEdit)
@@ -20,15 +20,22 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
-
-procedure DirectoryEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_DirectoryEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
+var
+	lDirectoryEdit:TLuaDirectoryEdit;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lDirectoryEdit := TLuaDirectoryEdit(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lDirectoryEdit.OnButtonClick));
+	lDirectoryEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+procedure lua_push(L: Plua_State; const v: TDirectoryEdit; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TCustomEditButton',v);
 end;
 function CreateDirectoryEdit(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +46,11 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDirectoryEdit := TLuaDirectoryEdit.Create(Parent);
 	lDirectoryEdit.Parent := TWinControl(Parent);
-	lDirectoryEdit.LuaCtl := TVCLuaControl.Create(TControl(lDirectoryEdit),L,@DirectoryEditToTable);
+	lDirectoryEdit.LuaCtl := TVCLuaControl.Create(lDirectoryEdit as TComponent,L,nil,'TCustomEditButton');
+	CreateTableForKnownType(L,'TCustomEditButton',lDirectoryEdit);
 	InitControl(L,lDirectoryEdit,Name);
-	DirectoryEditToTable(L, -1, lDirectoryEdit);
 	Result := 1;
 end;
 
+begin
 end.

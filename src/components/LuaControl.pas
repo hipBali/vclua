@@ -4,26 +4,282 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaControl;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, Controls, Graphics;
+Uses Lua, LuaController, TypInfo, LuaVmt, Controls;
 
 function CreateControl(L: Plua_State): Integer; cdecl;
-procedure ControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TControl; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaControl = class(TControl)
         LuaCtl: TVCLuaControl;
     end;
+var
+    ControlFuncs: TLuaVmt;
+    ControlSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Graphics, LuaBasicAction, LuaClassesEvents, LuaControlsEvents, LuaEvent, LuaFont, LuaMenu, Menus, Types;
+
+function VCLua_Control_VCLuaSetOnConstrainedResize(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnConstrainedResize));
+	lControl.OnConstrainedResize := TLuaEvent.Factory<TConstrainedResizeEvent,TLuaConstrainedResizeEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnContextPopup(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnContextPopup));
+	lControl.OnContextPopup := TLuaEvent.Factory<TContextPopupEvent,TLuaContextPopupEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnDblClick(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnDblClick));
+	lControl.OnDblClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnTripleClick(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnTripleClick));
+	lControl.OnTripleClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnQuadClick(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnQuadClick));
+	lControl.OnQuadClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnDragDrop(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnDragDrop));
+	lControl.OnDragDrop := TLuaEvent.Factory<TDragDropEvent,TLuaDragDropEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnDragOver(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnDragOver));
+	lControl.OnDragOver := TLuaEvent.Factory<TDragOverEvent,TLuaDragOverEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnEndDock(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnEndDock));
+	lControl.OnEndDock := TLuaEvent.Factory<TEndDragEvent,TLuaEndDragEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnEndDrag(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnEndDrag));
+	lControl.OnEndDrag := TLuaEvent.Factory<TEndDragEvent,TLuaEndDragEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseDown(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseDown));
+	lControl.OnMouseDown := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseMove(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseMove));
+	lControl.OnMouseMove := TLuaEvent.Factory<TMouseMoveEvent,TLuaMouseMoveEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseUp(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseUp));
+	lControl.OnMouseUp := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseEnter(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseEnter));
+	lControl.OnMouseEnter := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseLeave(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseLeave));
+	lControl.OnMouseLeave := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheel(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheel));
+	lControl.OnMouseWheel := TLuaEvent.Factory<TMouseWheelEvent,TLuaMouseWheelEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelDown(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelDown));
+	lControl.OnMouseWheelDown := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelUp(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelUp));
+	lControl.OnMouseWheelUp := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelHorz(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelHorz));
+	lControl.OnMouseWheelHorz := TLuaEvent.Factory<TMouseWheelEvent,TLuaMouseWheelEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelLeft(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelLeft));
+	lControl.OnMouseWheelLeft := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnMouseWheelRight(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelRight));
+	lControl.OnMouseWheelRight := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnStartDock(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnStartDock));
+	lControl.OnStartDock := TLuaEvent.Factory<TStartDockEvent,TLuaStartDockEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnStartDrag(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnStartDrag));
+	lControl.OnStartDrag := TLuaEvent.Factory<TStartDragEvent,TLuaStartDragEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnEditingDone(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnEditingDone));
+	lControl.OnEditingDone := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
 
 function VCLua_Control_DragDrop(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Source:TObject;
 	X:Integer;
@@ -31,31 +287,39 @@ var
 begin
 	CheckArg(L, 4);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Source := TObject(GetLuaObject(L,2));
-	X := lua_tointeger(L,3);
-	Y := lua_tointeger(L,4);
-	lControl.DragDrop(Source,X,Y);
-	
-	Result := 0;
+	luaL_check(L,2,@Source);
+	luaL_check(L,3,@X);
+	luaL_check(L,4,@Y);
+	try
+		lControl.DragDrop(Source,X,Y);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'DragDrop', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_Dock(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	NewDockSite:TWinControl;
 	ARect:TRect;
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	NewDockSite := TWinControl(GetLuaObject(L,2));
-	ARect := lua_toTRect(L,3);
-	lControl.Dock(NewDockSite,ARect);
-	
-	Result := 0;
+	luaL_check(L,2,@NewDockSite);
+	luaL_check(L,3,@ARect);
+	try
+		lControl.Dock(NewDockSite,ARect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Dock', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_ManualDock(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	NewDockSite:TWinControl;
 	DropControl:TControl;
@@ -63,37 +327,45 @@ var
 	KeepDockSiteSize:Boolean;
 	ret:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	NewDockSite := TWinControl(GetLuaObject(L,2));
-	DropControl := TControl(GetLuaObject(L,3));
-	ControlSide := TAlign(GetLuaObject(L,4));
-	KeepDockSiteSize := luaL_optbool(L,5,true);
-	ret := lControl.ManualDock(NewDockSite,DropControl,ControlSide,KeepDockSiteSize);
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@NewDockSite);
+	TTrait<TControl>.luaL_optcheck(L, 3, @DropControl, nil);
+	TTraitPti<TAlign>.luaL_optcheck(L, 4, @ControlSide, alNone, TypeInfo(TAlign));
+	TTrait<Boolean>.luaL_optcheck(L, 5, @KeepDockSiteSize, true);
+	try
+		ret := lControl.ManualDock(NewDockSite,DropControl,ControlSide,KeepDockSiteSize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ManualDock', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ManualFloat(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	TheScreenRect:TRect;
 	KeepDockSiteSize:Boolean;
 	ret:Boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	TheScreenRect := lua_toTRect(L,2);
-	KeepDockSiteSize := luaL_optbool(L,3,true);
-	ret := lControl.ManualFloat(TheScreenRect,KeepDockSiteSize);
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@TheScreenRect);
+	TTrait<Boolean>.luaL_optcheck(L, 3, @KeepDockSiteSize, true);
+	try
+		ret := lControl.ManualFloat(TheScreenRect,KeepDockSiteSize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ManualFloat', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ReplaceDockedControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Control:TControl;
 	NewDockSite:TWinControl;
@@ -103,194 +375,246 @@ var
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Control := TControl(GetLuaObject(L,2));
-	NewDockSite := TWinControl(GetLuaObject(L,3));
-	DropControl := TControl(GetLuaObject(L,4));
-	ControlSide := TAlign(GetLuaObject(L,5));
-	ret := lControl.ReplaceDockedControl(Control,NewDockSite,DropControl,ControlSide);
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Control);
+	luaL_check(L,3,@NewDockSite);
+	luaL_check(L,4,@DropControl);
+	luaL_check(L,5,@ControlSide,TypeInfo(TAlign));
+	try
+		ret := lControl.ReplaceDockedControl(Control,NewDockSite,DropControl,ControlSide);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ReplaceDockedControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_Docked(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.Docked();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.Docked();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Docked', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_Dragging(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.Dragging();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.Dragging();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Dragging', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ScaleDesignToForm(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.ScaleDesignToForm(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.ScaleDesignToForm(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleDesignToForm', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ScaleFormToDesign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.ScaleFormToDesign(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.ScaleFormToDesign(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFormToDesign', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_Scale96ToForm(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.Scale96ToForm(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.Scale96ToForm(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Scale96ToForm', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ScaleFormTo96(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.ScaleFormTo96(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.ScaleFormTo96(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFormTo96', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_Scale96ToFont(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.Scale96ToFont(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.Scale96ToFont(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Scale96ToFont', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ScaleFontTo96(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.ScaleFontTo96(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.ScaleFontTo96(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFontTo96', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ScaleScreenToFont(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.ScaleScreenToFont(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.ScaleScreenToFont(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleScreenToFont', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ScaleFontToScreen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.ScaleFontToScreen(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.ScaleFontToScreen(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFontToScreen', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_Scale96ToScreen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.Scale96ToScreen(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.Scale96ToScreen(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Scale96ToScreen', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ScaleScreenTo96(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ASize:Integer;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ASize := lua_tointeger(L,2);
-	ret := lControl.ScaleScreenTo96(ASize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@ASize);
+	try
+		ret := lControl.ScaleScreenTo96(ASize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleScreenTo96', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_AnchorToNeighbour(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	Space:TSpacingSize;
@@ -298,16 +622,20 @@ var
 begin
 	CheckArg(L, 4);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
-	Space := TSpacingSize(GetLuaObject(L,3));
-	Sibling := TControl(GetLuaObject(L,4));
-	lControl.AnchorToNeighbour(Side,Space,Sibling);
-	
-	Result := 0;
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@Space);
+	luaL_check(L,4,@Sibling);
+	try
+		lControl.AnchorToNeighbour(Side,Space,Sibling);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorToNeighbour', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_AnchorParallel(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	Space:TSpacingSize;
@@ -315,117 +643,168 @@ var
 begin
 	CheckArg(L, 4);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
-	Space := TSpacingSize(GetLuaObject(L,3));
-	Sibling := TControl(GetLuaObject(L,4));
-	lControl.AnchorParallel(Side,Space,Sibling);
-	
-	Result := 0;
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@Space);
+	luaL_check(L,4,@Sibling);
+	try
+		lControl.AnchorParallel(Side,Space,Sibling);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorParallel', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_AnchorHorizontalCenterTo(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Sibling:TControl;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Sibling := TControl(GetLuaObject(L,2));
-	lControl.AnchorHorizontalCenterTo(Sibling);
-	
-	Result := 0;
+	luaL_check(L,2,@Sibling);
+	try
+		lControl.AnchorHorizontalCenterTo(Sibling);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorHorizontalCenterTo', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_AnchorVerticalCenterTo(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Sibling:TControl;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Sibling := TControl(GetLuaObject(L,2));
-	lControl.AnchorVerticalCenterTo(Sibling);
-	
-	Result := 0;
+	luaL_check(L,2,@Sibling);
+	try
+		lControl.AnchorVerticalCenterTo(Sibling);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorVerticalCenterTo', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_AnchorToCompanion(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	Space:TSpacingSize;
 	Sibling:TControl;
 	FreeCompositeSide:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 4, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
-	Space := TSpacingSize(GetLuaObject(L,3));
-	Sibling := TControl(GetLuaObject(L,4));
-	FreeCompositeSide := luaL_optbool(L,5,true);
-	lControl.AnchorToCompanion(Side,Space,Sibling,FreeCompositeSide);
-	
-	Result := 0;
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@Space);
+	luaL_check(L,4,@Sibling);
+	TTrait<boolean>.luaL_optcheck(L, 5, @FreeCompositeSide, true);
+	try
+		lControl.AnchorToCompanion(Side,Space,Sibling,FreeCompositeSide);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorToCompanion', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_AnchorSame(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	Sibling:TControl;
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
-	Sibling := TControl(GetLuaObject(L,3));
-	lControl.AnchorSame(Side,Sibling);
-	
-	Result := 0;
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@Sibling);
+	try
+		lControl.AnchorSame(Side,Sibling);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorSame', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_AnchorAsAlign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	TheAlign:TAlign;
 	Space:TSpacingSize;
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	TheAlign := TAlign(GetLuaObject(L,2));
-	Space := TSpacingSize(GetLuaObject(L,3));
-	lControl.AnchorAsAlign(TheAlign,Space);
-	
-	Result := 0;
+	luaL_check(L,2,@TheAlign,TypeInfo(TAlign));
+	luaL_check(L,3,@Space);
+	try
+		lControl.AnchorAsAlign(TheAlign,Space);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorAsAlign', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_AnchorClient(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Space:TSpacingSize;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Space := TSpacingSize(GetLuaObject(L,2));
-	lControl.AnchorClient(Space);
-	
-	Result := 0;
+	luaL_check(L,2,@Space);
+	try
+		lControl.AnchorClient(Space);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorClient', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_AnchoredControlCount(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.AnchoredControlCount();
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.AnchoredControlCount();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchoredControlCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_AnchoredControls(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	Index:integer;
+	ret:TControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@Index);
+	try
+		ret := lControl.AnchoredControls[Index];
+		lua_push(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchoredControls', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_SetBounds(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	aLeft:integer;
 	aTop:integer;
@@ -434,17 +813,21 @@ var
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	aLeft := lua_tointeger(L,2);
-	aTop := lua_tointeger(L,3);
-	aWidth := lua_tointeger(L,4);
-	aHeight := lua_tointeger(L,5);
-	lControl.SetBounds(aLeft,aTop,aWidth,aHeight);
-	
-	Result := 0;
+	luaL_check(L,2,@aLeft);
+	luaL_check(L,3,@aTop);
+	luaL_check(L,4,@aWidth);
+	luaL_check(L,5,@aHeight);
+	try
+		lControl.SetBounds(aLeft,aTop,aWidth,aHeight);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetBounds', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_SetInitialBounds(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	aLeft:integer;
 	aTop:integer;
@@ -453,17 +836,21 @@ var
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	aLeft := lua_tointeger(L,2);
-	aTop := lua_tointeger(L,3);
-	aWidth := lua_tointeger(L,4);
-	aHeight := lua_tointeger(L,5);
-	lControl.SetInitialBounds(aLeft,aTop,aWidth,aHeight);
-	
-	Result := 0;
+	luaL_check(L,2,@aLeft);
+	luaL_check(L,3,@aTop);
+	luaL_check(L,4,@aWidth);
+	luaL_check(L,5,@aHeight);
+	try
+		lControl.SetInitialBounds(aLeft,aTop,aWidth,aHeight);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetInitialBounds', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_SetBoundsKeepBase(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	aLeft:integer;
 	aTop:integer;
@@ -472,152 +859,222 @@ var
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	aLeft := lua_tointeger(L,2);
-	aTop := lua_tointeger(L,3);
-	aWidth := lua_tointeger(L,4);
-	aHeight := lua_tointeger(L,5);
-	lControl.SetBoundsKeepBase(aLeft,aTop,aWidth,aHeight);
-	
-	Result := 0;
+	luaL_check(L,2,@aLeft);
+	luaL_check(L,3,@aTop);
+	luaL_check(L,4,@aWidth);
+	luaL_check(L,5,@aHeight);
+	try
+		lControl.SetBoundsKeepBase(aLeft,aTop,aWidth,aHeight);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetBoundsKeepBase', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_GetPreferredSize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	PreferredWidth:integer;
 	PreferredHeight:integer;
 	Raw:boolean;
 	WithThemeSpace:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 1, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Raw := luaL_optbool(L,2,false);
-	WithThemeSpace := luaL_optbool(L,3,true);
-	lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
-	lua_pushinteger(L,PreferredWidth);
-	lua_pushinteger(L,PreferredHeight);
-	Result := 2;
+	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
+	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
+	try
+		lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+		Result := 2;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetPreferredSize', E.ClassName, E.Message);
+	end;
+	lua_push(L,PreferredWidth);
+	lua_push(L,PreferredHeight);
+end;
+
+function VCLua_Control_GetPreferredSize2(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	PreferredWidth:integer;
+	PreferredHeight:integer;
+	Raw:boolean;
+	WithThemeSpace:boolean;
+begin
+	CheckArg(L, 3, 5);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@PreferredWidth);
+	luaL_check(L,3,@PreferredHeight);
+	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
+	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
+	try
+		lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
+		Result := 2;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetPreferredSize', E.ClassName, E.Message);
+	end;
+	lua_push(L,PreferredWidth);
+	lua_push(L,PreferredHeight);
 end;
 
 function VCLua_Control_GetCanvasScaleFactor(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Double;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetCanvasScaleFactor();
-	lua_pushnumber(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.GetCanvasScaleFactor();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetCanvasScaleFactor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetDefaultWidth(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetDefaultWidth();
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.GetDefaultWidth();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetDefaultWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetDefaultHeight(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetDefaultHeight();
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.GetDefaultHeight();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetDefaultHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetDefaultColor(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	DefaultColorType:TDefaultColorType;
 	ret:TColor;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	DefaultColorType := TDefaultColorType(GetLuaObject(L,2));
-	ret := lControl.GetDefaultColor(DefaultColorType);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@DefaultColorType,TypeInfo(TDefaultColorType));
+	try
+		ret := lControl.GetDefaultColor(DefaultColorType);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetDefaultColor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetColorResolvingParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:TColor;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetColorResolvingParent();
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.GetColorResolvingParent();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetColorResolvingParent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetRGBColorResolvingParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:TColor;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetRGBColorResolvingParent();
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.GetRGBColorResolvingParent();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetRGBColorResolvingParent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetSidePosition(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
 	ret:integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Side := TAnchorKind(GetLuaObject(L,2));
-	ret := lControl.GetSidePosition(Side);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
+	try
+		ret := lControl.GetSidePosition(Side);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetSidePosition', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_CNPreferredSizeChanged(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.CNPreferredSizeChanged();
-	
-	Result := 0;
+	try
+		lControl.CNPreferredSizeChanged();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'CNPreferredSizeChanged', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_InvalidatePreferredSize(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.InvalidatePreferredSize();
-	
-	Result := 0;
+	try
+		lControl.InvalidatePreferredSize();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'InvalidatePreferredSize', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_UpdateBaseBounds(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	StoreBounds:boolean;
 	StoreParentClientSize:boolean;
@@ -625,329 +1082,505 @@ var
 begin
 	CheckArg(L, 4);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	StoreBounds := lua_toboolean(L,2);
-	StoreParentClientSize := lua_toboolean(L,3);
-	UseLoadedValues := lua_toboolean(L,4);
-	lControl.UpdateBaseBounds(StoreBounds,StoreParentClientSize,UseLoadedValues);
-	
-	Result := 0;
+	luaL_check(L,2,@StoreBounds);
+	luaL_check(L,3,@StoreParentClientSize);
+	luaL_check(L,4,@UseLoadedValues);
+	try
+		lControl.UpdateBaseBounds(StoreBounds,StoreParentClientSize,UseLoadedValues);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'UpdateBaseBounds', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetBaseBounds(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TRect;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.BaseBounds;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BaseBounds', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaGetReadBounds(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TRect;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ReadBounds;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ReadBounds', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaGetBaseParentClientSize(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TSize;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.BaseParentClientSize;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BaseParentClientSize', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ShouldAutoAdjust(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	AWidth:Boolean;
 	AHeight:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	
-	lControl.ShouldAutoAdjust(AWidth,AHeight);
-	lua_pushboolean(L,AWidth);
-	lua_pushboolean(L,AHeight);
-	Result := 2;
+	try
+		lControl.ShouldAutoAdjust(AWidth,AHeight);
+		Result := 2;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ShouldAutoAdjust', E.ClassName, E.Message);
+	end;
+	lua_push(L,AWidth);
+	lua_push(L,AHeight);
+end;
+
+function VCLua_Control_ShouldAutoAdjust2(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	AWidth:Boolean;
+	AHeight:Boolean;
+begin
+	CheckArg(L, 3);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@AWidth);
+	luaL_check(L,3,@AHeight);
+	try
+		lControl.ShouldAutoAdjust(AWidth,AHeight);
+		Result := 2;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ShouldAutoAdjust', E.ClassName, E.Message);
+	end;
+	lua_push(L,AWidth);
+	lua_push(L,AHeight);
 end;
 
 function VCLua_Control_FixDesignFontsPPI(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ADesignTimePPI:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ADesignTimePPI := lua_tointeger(L,2);
-	lControl.FixDesignFontsPPI(ADesignTimePPI);
-	
-	Result := 0;
+	luaL_check(L,2,@ADesignTimePPI);
+	try
+		lControl.FixDesignFontsPPI(ADesignTimePPI);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'FixDesignFontsPPI', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_ScaleFontsPPI(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	AToPPI:Integer;
 	AProportion:Double;
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	AToPPI := lua_tointeger(L,2);
-	AProportion := lua_tonumber(L,3);
-	lControl.ScaleFontsPPI(AToPPI,AProportion);
-	
-	Result := 0;
+	luaL_check(L,2,@AToPPI);
+	luaL_check(L,3,@AProportion);
+	try
+		lControl.ScaleFontsPPI(AToPPI,AProportion);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScaleFontsPPI', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_BeforeDestruction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.BeforeDestruction();
-	
-	Result := 0;
+	try
+		lControl.BeforeDestruction();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BeforeDestruction', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_EditingDone(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.EditingDone();
-	
-	Result := 0;
+	try
+		lControl.EditingDone();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'EditingDone', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_ExecuteDefaultAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.ExecuteDefaultAction();
-	
-	Result := 0;
+	try
+		lControl.ExecuteDefaultAction();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ExecuteDefaultAction', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_ExecuteCancelAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.ExecuteCancelAction();
-	
-	Result := 0;
+	try
+		lControl.ExecuteCancelAction();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ExecuteCancelAction', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_BeginDrag(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Immediate:Boolean;
 	Threshold:Integer;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Immediate := lua_toboolean(L,2);
-	Threshold := luaL_optint(L,3,-1);
-	lControl.BeginDrag(Immediate,Threshold);
-	
-	Result := 0;
+	luaL_check(L,2,@Immediate);
+	TTrait<Integer>.luaL_optcheck(L, 3, @Threshold, -1);
+	try
+		lControl.BeginDrag(Immediate,Threshold);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BeginDrag', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_EndDrag(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Drop:Boolean;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Drop := lua_toboolean(L,2);
-	lControl.EndDrag(Drop);
-	
-	Result := 0;
+	luaL_check(L,2,@Drop);
+	try
+		lControl.EndDrag(Drop);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'EndDrag', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_BringToFront(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.BringToFront();
-	
-	Result := 0;
+	try
+		lControl.BringToFront();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BringToFront', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_HasParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.HasParent();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.HasParent();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'HasParent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetParentComponent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:TComponent;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetParentComponent();
-	lua_pushlightuserdata(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.GetParentComponent();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetParentComponent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
 end;
 
 function VCLua_Control_IsParentOf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	AControl:TControl;
 	ret:boolean;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	AControl := TControl(GetLuaObject(L,2));
-	ret := lControl.IsParentOf(AControl);
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@AControl);
+	try
+		ret := lControl.IsParentOf(AControl);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'IsParentOf', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetTopParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:TControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetTopParent();
-	lua_pushlightuserdata(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.GetTopParent();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetTopParent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_FindSubComponent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	AName:string;
 	ret:TComponent;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	AName := lua_toStringCP(L,2);
-	ret := lControl.FindSubComponent(AName);
-	lua_pushlightuserdata(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@AName);
+	try
+		ret := lControl.FindSubComponent(AName);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'FindSubComponent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
 end;
 
 function VCLua_Control_FormIsUpdating(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.FormIsUpdating();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.FormIsUpdating();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'FormIsUpdating', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_IsProcessingPaintMsg(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.IsProcessingPaintMsg();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.IsProcessingPaintMsg();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'IsProcessingPaintMsg', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_Hide(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Hide();
-	
-	Result := 0;
+	try
+		lControl.Hide();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Hide', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_Refresh(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Refresh();
-	
-	Result := 0;
+	try
+		lControl.Refresh();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Refresh', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_Repaint(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Repaint();
-	
-	Result := 0;
+	try
+		lControl.Repaint();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Repaint', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_Invalidate(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Invalidate();
-	
-	Result := 0;
+	try
+		lControl.Invalidate();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Invalidate', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_SendToBack(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.SendToBack();
-	
-	Result := 0;
+	try
+		lControl.SendToBack();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SendToBack', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_SetTempCursor(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Value:TCursor;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Value := TCursor(lua_tointeger(L,2));
-	lControl.SetTempCursor(Value);
-	
-	Result := 0;
+	luaL_check(L,2,@Value);
+	try
+		lControl.SetTempCursor(Value);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetTempCursor', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_UpdateRolesForForm(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.UpdateRolesForForm();
-	
-	Result := 0;
+	try
+		lControl.UpdateRolesForForm();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'UpdateRolesForForm', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_ActiveDefaultControlChanged(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	NewControl:TControl;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	NewControl := TControl(GetLuaObject(L,2));
-	lControl.ActiveDefaultControlChanged(NewControl);
-	
-	Result := 0;
+	luaL_check(L,2,@NewControl);
+	try
+		lControl.ActiveDefaultControlChanged(NewControl);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ActiveDefaultControlChanged', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_GetTextBuf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Buffer:PChar;
 	BufSize:Integer;
@@ -955,333 +1588,1477 @@ var
 begin
 	CheckArg(L, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Buffer := PChar(lua_toStringCP(L,2));
-	BufSize := lua_tointeger(L,3);
-	ret := lControl.GetTextBuf(Buffer,BufSize);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Buffer);
+	luaL_check(L,3,@BufSize);
+	try
+		ret := lControl.GetTextBuf(Buffer,BufSize);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetTextBuf', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetTextLen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.GetTextLen();
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.GetTextLen();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetTextLen', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_SetTextBuf(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Buffer:PChar;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Buffer := PChar(lua_toStringCP(L,2));
-	lControl.SetTextBuf(Buffer);
-	
-	Result := 0;
+	luaL_check(L,2,@Buffer);
+	try
+		lControl.SetTextBuf(Buffer);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetTextBuf', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_ScreenToClient(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	APoint:TPoint;
 	ret:TPoint;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
-	ret := lControl.ScreenToClient(APoint);
-	lua_pushTPoint(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@APoint);
+	try
+		ret := lControl.ScreenToClient(APoint);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScreenToClient', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ClientToScreen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	APoint:TPoint;
 	ret:TPoint;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
-	ret := lControl.ClientToScreen(APoint);
-	lua_pushTPoint(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@APoint);
+	try
+		ret := lControl.ClientToScreen(APoint);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientToScreen', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ScreenToControl(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	APoint:TPoint;
 	ret:TPoint;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
-	ret := lControl.ScreenToControl(APoint);
-	lua_pushTPoint(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@APoint);
+	try
+		ret := lControl.ScreenToControl(APoint);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ScreenToControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ControlToScreen(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	APoint:TPoint;
 	ret:TPoint;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	APoint := lua_toTPoint(L,2);
-	ret := lControl.ControlToScreen(APoint);
-	lua_pushTPoint(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@APoint);
+	try
+		ret := lControl.ControlToScreen(APoint);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ControlToScreen', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ClientToParent(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Point:TPoint;
 	AParent:TWinControl;
 	ret:TPoint;
 begin
-	CheckArg(L, 3);
+	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Point := lua_toTPoint(L,2);
-	AParent := TWinControl(GetLuaObject(L,3));
-	ret := lControl.ClientToParent(Point,AParent);
-	lua_pushTPoint(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Point);
+	TTrait<TWinControl>.luaL_optcheck(L, 3, @AParent, nil);
+	try
+		ret := lControl.ClientToParent(Point,AParent);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientToParent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ParentToClient(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Point:TPoint;
 	AParent:TWinControl;
 	ret:TPoint;
 begin
-	CheckArg(L, 3);
+	CheckArg(L, 2, 3);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Point := lua_toTPoint(L,2);
-	AParent := TWinControl(GetLuaObject(L,3));
-	ret := lControl.ParentToClient(Point,AParent);
-	lua_pushTPoint(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Point);
+	TTrait<TWinControl>.luaL_optcheck(L, 3, @AParent, nil);
+	try
+		ret := lControl.ParentToClient(Point,AParent);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ParentToClient', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_GetChildrenRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	Scrolled:boolean;
 	ret:TRect;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	Scrolled := lua_toboolean(L,2);
-	ret := lControl.GetChildrenRect(Scrolled);
-	lua_pushTRect(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Scrolled);
+	try
+		ret := lControl.GetChildrenRect(Scrolled);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetChildrenRect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_Show(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Show();
-	
-	Result := 0;
+	try
+		lControl.Show();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Show', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_Update(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.Update();
-	
-	Result := 0;
+	try
+		lControl.Update();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Update', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_HandleObjectShouldBeVisible(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.HandleObjectShouldBeVisible();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.HandleObjectShouldBeVisible();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'HandleObjectShouldBeVisible', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ParentDestroyingHandle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.ParentDestroyingHandle();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.ParentDestroyingHandle();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ParentDestroyingHandle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_ParentHandlesAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.ParentHandlesAllocated();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.ParentHandlesAllocated();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ParentHandlesAllocated', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_InitiateAction(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.InitiateAction();
-	
-	Result := 0;
+	try
+		lControl.InitiateAction();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'InitiateAction', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_ShowHelp(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	lControl.ShowHelp();
-	
-	Result := 0;
+	try
+		lControl.ShowHelp();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ShowHelp', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Control_HasHelp(L: Plua_State): Integer; cdecl;
-var 
+var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
-	ret := lControl.HasHelp();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lControl.HasHelp();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'HasHelp', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
-procedure ControlToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_Control_VCLuaSetAccessibleName(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TCaption;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'DragDrop', @VCLua_Control_DragDrop);
-	LuaSetTableFunction(L, Index, 'Dock', @VCLua_Control_Dock);
-	LuaSetTableFunction(L, Index, 'ManualDock', @VCLua_Control_ManualDock);
-	LuaSetTableFunction(L, Index, 'ManualFloat', @VCLua_Control_ManualFloat);
-	LuaSetTableFunction(L, Index, 'ReplaceDockedControl', @VCLua_Control_ReplaceDockedControl);
-	LuaSetTableFunction(L, Index, 'Docked', @VCLua_Control_Docked);
-	LuaSetTableFunction(L, Index, 'Dragging', @VCLua_Control_Dragging);
-	LuaSetTableFunction(L, Index, 'ScaleDesignToForm', @VCLua_Control_ScaleDesignToForm);
-	LuaSetTableFunction(L, Index, 'ScaleFormToDesign', @VCLua_Control_ScaleFormToDesign);
-	LuaSetTableFunction(L, Index, 'Scale96ToForm', @VCLua_Control_Scale96ToForm);
-	LuaSetTableFunction(L, Index, 'ScaleFormTo96', @VCLua_Control_ScaleFormTo96);
-	LuaSetTableFunction(L, Index, 'Scale96ToFont', @VCLua_Control_Scale96ToFont);
-	LuaSetTableFunction(L, Index, 'ScaleFontTo96', @VCLua_Control_ScaleFontTo96);
-	LuaSetTableFunction(L, Index, 'ScaleScreenToFont', @VCLua_Control_ScaleScreenToFont);
-	LuaSetTableFunction(L, Index, 'ScaleFontToScreen', @VCLua_Control_ScaleFontToScreen);
-	LuaSetTableFunction(L, Index, 'Scale96ToScreen', @VCLua_Control_Scale96ToScreen);
-	LuaSetTableFunction(L, Index, 'ScaleScreenTo96', @VCLua_Control_ScaleScreenTo96);
-	LuaSetTableFunction(L, Index, 'AnchorToNeighbour', @VCLua_Control_AnchorToNeighbour);
-	LuaSetTableFunction(L, Index, 'AnchorParallel', @VCLua_Control_AnchorParallel);
-	LuaSetTableFunction(L, Index, 'AnchorHorizontalCenterTo', @VCLua_Control_AnchorHorizontalCenterTo);
-	LuaSetTableFunction(L, Index, 'AnchorVerticalCenterTo', @VCLua_Control_AnchorVerticalCenterTo);
-	LuaSetTableFunction(L, Index, 'AnchorToCompanion', @VCLua_Control_AnchorToCompanion);
-	LuaSetTableFunction(L, Index, 'AnchorSame', @VCLua_Control_AnchorSame);
-	LuaSetTableFunction(L, Index, 'AnchorAsAlign', @VCLua_Control_AnchorAsAlign);
-	LuaSetTableFunction(L, Index, 'AnchorClient', @VCLua_Control_AnchorClient);
-	LuaSetTableFunction(L, Index, 'AnchoredControlCount', @VCLua_Control_AnchoredControlCount);
-	LuaSetTableFunction(L, Index, 'SetBounds', @VCLua_Control_SetBounds);
-	LuaSetTableFunction(L, Index, 'SetInitialBounds', @VCLua_Control_SetInitialBounds);
-	LuaSetTableFunction(L, Index, 'SetBoundsKeepBase', @VCLua_Control_SetBoundsKeepBase);
-	LuaSetTableFunction(L, Index, 'GetPreferredSize', @VCLua_Control_GetPreferredSize);
-	LuaSetTableFunction(L, Index, 'GetCanvasScaleFactor', @VCLua_Control_GetCanvasScaleFactor);
-	LuaSetTableFunction(L, Index, 'GetDefaultWidth', @VCLua_Control_GetDefaultWidth);
-	LuaSetTableFunction(L, Index, 'GetDefaultHeight', @VCLua_Control_GetDefaultHeight);
-	LuaSetTableFunction(L, Index, 'GetDefaultColor', @VCLua_Control_GetDefaultColor);
-	LuaSetTableFunction(L, Index, 'GetColorResolvingParent', @VCLua_Control_GetColorResolvingParent);
-	LuaSetTableFunction(L, Index, 'GetRGBColorResolvingParent', @VCLua_Control_GetRGBColorResolvingParent);
-	LuaSetTableFunction(L, Index, 'GetSidePosition', @VCLua_Control_GetSidePosition);
-	LuaSetTableFunction(L, Index, 'CNPreferredSizeChanged', @VCLua_Control_CNPreferredSizeChanged);
-	LuaSetTableFunction(L, Index, 'InvalidatePreferredSize', @VCLua_Control_InvalidatePreferredSize);
-	LuaSetTableFunction(L, Index, 'UpdateBaseBounds', @VCLua_Control_UpdateBaseBounds);
-	LuaSetTableFunction(L, Index, 'ShouldAutoAdjust', @VCLua_Control_ShouldAutoAdjust);
-	LuaSetTableFunction(L, Index, 'FixDesignFontsPPI', @VCLua_Control_FixDesignFontsPPI);
-	LuaSetTableFunction(L, Index, 'ScaleFontsPPI', @VCLua_Control_ScaleFontsPPI);
-	LuaSetTableFunction(L, Index, 'BeforeDestruction', @VCLua_Control_BeforeDestruction);
-	LuaSetTableFunction(L, Index, 'EditingDone', @VCLua_Control_EditingDone);
-	LuaSetTableFunction(L, Index, 'ExecuteDefaultAction', @VCLua_Control_ExecuteDefaultAction);
-	LuaSetTableFunction(L, Index, 'ExecuteCancelAction', @VCLua_Control_ExecuteCancelAction);
-	LuaSetTableFunction(L, Index, 'BeginDrag', @VCLua_Control_BeginDrag);
-	LuaSetTableFunction(L, Index, 'EndDrag', @VCLua_Control_EndDrag);
-	LuaSetTableFunction(L, Index, 'BringToFront', @VCLua_Control_BringToFront);
-	LuaSetTableFunction(L, Index, 'HasParent', @VCLua_Control_HasParent);
-	LuaSetTableFunction(L, Index, 'GetParentComponent', @VCLua_Control_GetParentComponent);
-	LuaSetTableFunction(L, Index, 'IsParentOf', @VCLua_Control_IsParentOf);
-	LuaSetTableFunction(L, Index, 'GetTopParent', @VCLua_Control_GetTopParent);
-	LuaSetTableFunction(L, Index, 'FindSubComponent', @VCLua_Control_FindSubComponent);
-	LuaSetTableFunction(L, Index, 'FormIsUpdating', @VCLua_Control_FormIsUpdating);
-	LuaSetTableFunction(L, Index, 'IsProcessingPaintMsg', @VCLua_Control_IsProcessingPaintMsg);
-	LuaSetTableFunction(L, Index, 'Hide', @VCLua_Control_Hide);
-	LuaSetTableFunction(L, Index, 'Refresh', @VCLua_Control_Refresh);
-	LuaSetTableFunction(L, Index, 'Repaint', @VCLua_Control_Repaint);
-	LuaSetTableFunction(L, Index, 'Invalidate', @VCLua_Control_Invalidate);
-	LuaSetTableFunction(L, Index, 'SendToBack', @VCLua_Control_SendToBack);
-	LuaSetTableFunction(L, Index, 'SetTempCursor', @VCLua_Control_SetTempCursor);
-	LuaSetTableFunction(L, Index, 'UpdateRolesForForm', @VCLua_Control_UpdateRolesForForm);
-	LuaSetTableFunction(L, Index, 'ActiveDefaultControlChanged', @VCLua_Control_ActiveDefaultControlChanged);
-	LuaSetTableFunction(L, Index, 'GetTextBuf', @VCLua_Control_GetTextBuf);
-	LuaSetTableFunction(L, Index, 'GetTextLen', @VCLua_Control_GetTextLen);
-	LuaSetTableFunction(L, Index, 'SetTextBuf', @VCLua_Control_SetTextBuf);
-	LuaSetTableFunction(L, Index, 'ScreenToClient', @VCLua_Control_ScreenToClient);
-	LuaSetTableFunction(L, Index, 'ClientToScreen', @VCLua_Control_ClientToScreen);
-	LuaSetTableFunction(L, Index, 'ScreenToControl', @VCLua_Control_ScreenToControl);
-	LuaSetTableFunction(L, Index, 'ControlToScreen', @VCLua_Control_ControlToScreen);
-	LuaSetTableFunction(L, Index, 'ClientToParent', @VCLua_Control_ClientToParent);
-	LuaSetTableFunction(L, Index, 'ParentToClient', @VCLua_Control_ParentToClient);
-	LuaSetTableFunction(L, Index, 'GetChildrenRect', @VCLua_Control_GetChildrenRect);
-	LuaSetTableFunction(L, Index, 'Show', @VCLua_Control_Show);
-	LuaSetTableFunction(L, Index, 'Update', @VCLua_Control_Update);
-	LuaSetTableFunction(L, Index, 'HandleObjectShouldBeVisible', @VCLua_Control_HandleObjectShouldBeVisible);
-	LuaSetTableFunction(L, Index, 'ParentDestroyingHandle', @VCLua_Control_ParentDestroyingHandle);
-	LuaSetTableFunction(L, Index, 'ParentHandlesAllocated', @VCLua_Control_ParentHandlesAllocated);
-	LuaSetTableFunction(L, Index, 'InitiateAction', @VCLua_Control_InitiateAction);
-	LuaSetTableFunction(L, Index, 'ShowHelp', @VCLua_Control_ShowHelp);
-	LuaSetTableFunction(L, Index, 'HasHelp', @VCLua_Control_HasHelp);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.AccessibleName := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AccessibleName', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetAccessibleName(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TCaption;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.AccessibleName;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AccessibleName', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetAccessibleDescription(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TCaption;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.AccessibleDescription := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AccessibleDescription', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetAccessibleDescription(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TCaption;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.AccessibleDescription;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AccessibleDescription', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetAccessibleValue(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TCaption;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.AccessibleValue := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AccessibleValue', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetAccessibleValue(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TCaption;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.AccessibleValue;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AccessibleValue', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetAccessibleRole(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TLazAccessibilityRole;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TLazAccessibilityRole));
+	try
+		lControl.AccessibleRole := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AccessibleRole', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetAccessibleRole(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TLazAccessibilityRole;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.AccessibleRole;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AccessibleRole', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_VCLuaSetAction(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TBasicAction;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.Action := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Action', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetAction(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TBasicAction;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Action;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Action', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetAlign(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TAlign;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TAlign));
+	try
+		lControl.Align := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Align', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetAlign(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TAlign;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Align;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Align', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_AnchorSide(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	Kind:TAnchorKind;
+	ret:TAnchorSide;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@Kind,TypeInfo(TAnchorKind));
+	try
+		ret := lControl.AnchorSide[Kind];
+		lua_push(L,ret,TypeInfo(ret));
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AnchorSide', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaSetAutoSize(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.AutoSize := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AutoSize', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetAutoSize(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.AutoSize;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AutoSize', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetBorderSpacing(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TControlBorderSpacing;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.BorderSpacing := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BorderSpacing', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetBorderSpacing(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TControlBorderSpacing;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.BorderSpacing;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BorderSpacing', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_VCLuaSetBoundsRect(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TRect;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.BoundsRect := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BoundsRect', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetBoundsRect(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TRect;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.BoundsRect;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BoundsRect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetBoundsRectForNewParent(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TRect;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.BoundsRectForNewParent := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BoundsRectForNewParent', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetBoundsRectForNewParent(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TRect;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.BoundsRectForNewParent;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BoundsRectForNewParent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetCaption(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TCaption;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.Caption := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Caption', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetCaption(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TCaption;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Caption;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Caption', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetClientHeight(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.ClientHeight := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientHeight', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetClientHeight(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ClientHeight;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaGetClientOrigin(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TPoint;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ClientOrigin;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientOrigin', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaGetClientRect(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TRect;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ClientRect;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientRect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetClientWidth(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.ClientWidth := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientWidth', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetClientWidth(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ClientWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetColor(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TColor;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	val := luaL_checkColor(L,2);
+	try
+		lControl.Color := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Color', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetColor(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TColor;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Color;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Color', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetConstraints(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TSizeConstraints;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.Constraints := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Constraints', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetConstraints(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TSizeConstraints;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Constraints;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Constraints', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_VCLuaGetControlOrigin(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TPoint;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ControlOrigin;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ControlOrigin', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetControlState(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TControlState;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_checkSet(L,2,@val,TypeInfo(TControlState));
+	try
+		lControl.ControlState := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ControlState', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetControlState(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TControlState;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ControlState;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ControlState', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_VCLuaSetControlStyle(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TControlStyle;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_checkSet(L,2,@val,TypeInfo(TControlStyle));
+	try
+		lControl.ControlStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ControlStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetControlStyle(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TControlStyle;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ControlStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ControlStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_VCLuaSetEnabled(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.Enabled := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Enabled', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetEnabled(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Enabled;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Enabled', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetFont(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TFont;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.Font := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Font', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetFont(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TFont;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Font;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Font', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetIsControl(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.IsControl := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'IsControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetIsControl(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.IsControl;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'IsControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaGetMouseInClient(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.MouseInClient;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'MouseInClient', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetOnChangeBounds(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnChangeBounds));
+	lControl.OnChangeBounds := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnClick(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnClick));
+	lControl.OnClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetOnResize(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lControl.OnResize));
+	lControl.OnResize := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Control_VCLuaSetParent(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TWinControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.Parent := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Parent', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetParent(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TWinControl;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Parent;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Parent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_VCLuaSetPopupMenu(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TPopupmenu;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.PopupMenu := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'PopupMenu', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetPopupMenu(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TPopupmenu;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.PopupMenu;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'PopupMenu', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetShowHint(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.ShowHint := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ShowHint', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetShowHint(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ShowHint;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ShowHint', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetVisible(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.Visible := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Visible', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetVisible(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Visible;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Visible', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetDockOrientation(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TDockOrientation;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TDockOrientation));
+	try
+		lControl.DockOrientation := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'DockOrientation', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetDockOrientation(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TDockOrientation;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.DockOrientation;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'DockOrientation', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_VCLuaGetFloating(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.Floating;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'Floating', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetHostDockSite(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TWinControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.HostDockSite := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'HostDockSite', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetHostDockSite(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TWinControl;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.HostDockSite;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'HostDockSite', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_VCLuaSetLRDockWidth(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.LRDockWidth := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'LRDockWidth', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetLRDockWidth(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.LRDockWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'LRDockWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetTBDockHeight(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.TBDockHeight := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'TBDockHeight', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetTBDockHeight(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.TBDockHeight;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'TBDockHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_VCLuaSetBiDiMode(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:TBiDiMode;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TBiDiMode));
+	try
+		lControl.BiDiMode := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BiDiMode', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetBiDiMode(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TBiDiMode;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.BiDiMode;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'BiDiMode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_VCLuaSetParentBiDiMode(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.ParentBiDiMode := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ParentBiDiMode', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetParentBiDiMode(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.ParentBiDiMode;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ParentBiDiMode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+procedure lua_push(L: Plua_State; const v: TControl; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TControl',v);
 end;
 function CreateControl(L: Plua_State): Integer; cdecl;
 var
@@ -1292,10 +3069,194 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lControl := TLuaControl.Create(Parent);
 	lControl.Parent := TWinControl(Parent);
-	lControl.LuaCtl := TVCLuaControl.Create(TControl(lControl),L,@ControlToTable);
+	lControl.LuaCtl := TVCLuaControl.Create(lControl as TComponent,L,nil,'TControl');
+	CreateTableForKnownType(L,'TControl',lControl);
 	InitControl(L,lControl,Name);
-	ControlToTable(L, -1, lControl);
 	Result := 1;
 end;
 
+begin
+	ControlFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ControlFuncs, 'DragDrop', @VCLua_Control_DragDrop);
+	TLuaMethodInfo.Create(ControlFuncs, 'Dock', @VCLua_Control_Dock);
+	TLuaMethodInfo.Create(ControlFuncs, 'ManualDock', @VCLua_Control_ManualDock);
+	TLuaMethodInfo.Create(ControlFuncs, 'ManualFloat', @VCLua_Control_ManualFloat);
+	TLuaMethodInfo.Create(ControlFuncs, 'ReplaceDockedControl', @VCLua_Control_ReplaceDockedControl);
+	TLuaMethodInfo.Create(ControlFuncs, 'Docked', @VCLua_Control_Docked);
+	TLuaMethodInfo.Create(ControlFuncs, 'Dragging', @VCLua_Control_Dragging);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScaleDesignToForm', @VCLua_Control_ScaleDesignToForm);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScaleFormToDesign', @VCLua_Control_ScaleFormToDesign);
+	TLuaMethodInfo.Create(ControlFuncs, 'Scale96ToForm', @VCLua_Control_Scale96ToForm);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScaleFormTo96', @VCLua_Control_ScaleFormTo96);
+	TLuaMethodInfo.Create(ControlFuncs, 'Scale96ToFont', @VCLua_Control_Scale96ToFont);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScaleFontTo96', @VCLua_Control_ScaleFontTo96);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScaleScreenToFont', @VCLua_Control_ScaleScreenToFont);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScaleFontToScreen', @VCLua_Control_ScaleFontToScreen);
+	TLuaMethodInfo.Create(ControlFuncs, 'Scale96ToScreen', @VCLua_Control_Scale96ToScreen);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScaleScreenTo96', @VCLua_Control_ScaleScreenTo96);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchorToNeighbour', @VCLua_Control_AnchorToNeighbour);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchorParallel', @VCLua_Control_AnchorParallel);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchorHorizontalCenterTo', @VCLua_Control_AnchorHorizontalCenterTo);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchorVerticalCenterTo', @VCLua_Control_AnchorVerticalCenterTo);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchorToCompanion', @VCLua_Control_AnchorToCompanion);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchorSame', @VCLua_Control_AnchorSame);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchorAsAlign', @VCLua_Control_AnchorAsAlign);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchorClient', @VCLua_Control_AnchorClient);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchoredControlCount', @VCLua_Control_AnchoredControlCount);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchoredControls', @VCLua_Control_AnchoredControls);
+	TLuaMethodInfo.Create(ControlFuncs, 'SetBounds', @VCLua_Control_SetBounds);
+	TLuaMethodInfo.Create(ControlFuncs, 'SetInitialBounds', @VCLua_Control_SetInitialBounds);
+	TLuaMethodInfo.Create(ControlFuncs, 'SetBoundsKeepBase', @VCLua_Control_SetBoundsKeepBase);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetPreferredSize', @VCLua_Control_GetPreferredSize);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetPreferredSize2', @VCLua_Control_GetPreferredSize2);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetCanvasScaleFactor', @VCLua_Control_GetCanvasScaleFactor);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetDefaultWidth', @VCLua_Control_GetDefaultWidth);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetDefaultHeight', @VCLua_Control_GetDefaultHeight);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetDefaultColor', @VCLua_Control_GetDefaultColor);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetColorResolvingParent', @VCLua_Control_GetColorResolvingParent);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetRGBColorResolvingParent', @VCLua_Control_GetRGBColorResolvingParent);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetSidePosition', @VCLua_Control_GetSidePosition);
+	TLuaMethodInfo.Create(ControlFuncs, 'CNPreferredSizeChanged', @VCLua_Control_CNPreferredSizeChanged);
+	TLuaMethodInfo.Create(ControlFuncs, 'InvalidatePreferredSize', @VCLua_Control_InvalidatePreferredSize);
+	TLuaMethodInfo.Create(ControlFuncs, 'UpdateBaseBounds', @VCLua_Control_UpdateBaseBounds);
+	TLuaMethodInfo.Create(ControlFuncs, 'BaseBounds', @VCLua_Control_VCLuaGetBaseBounds, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ReadBounds', @VCLua_Control_VCLuaGetReadBounds, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'BaseParentClientSize', @VCLua_Control_VCLuaGetBaseParentClientSize, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ShouldAutoAdjust', @VCLua_Control_ShouldAutoAdjust);
+	TLuaMethodInfo.Create(ControlFuncs, 'ShouldAutoAdjust2', @VCLua_Control_ShouldAutoAdjust2);
+	TLuaMethodInfo.Create(ControlFuncs, 'FixDesignFontsPPI', @VCLua_Control_FixDesignFontsPPI);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScaleFontsPPI', @VCLua_Control_ScaleFontsPPI);
+	TLuaMethodInfo.Create(ControlFuncs, 'BeforeDestruction', @VCLua_Control_BeforeDestruction);
+	TLuaMethodInfo.Create(ControlFuncs, 'EditingDone', @VCLua_Control_EditingDone);
+	TLuaMethodInfo.Create(ControlFuncs, 'ExecuteDefaultAction', @VCLua_Control_ExecuteDefaultAction);
+	TLuaMethodInfo.Create(ControlFuncs, 'ExecuteCancelAction', @VCLua_Control_ExecuteCancelAction);
+	TLuaMethodInfo.Create(ControlFuncs, 'BeginDrag', @VCLua_Control_BeginDrag);
+	TLuaMethodInfo.Create(ControlFuncs, 'EndDrag', @VCLua_Control_EndDrag);
+	TLuaMethodInfo.Create(ControlFuncs, 'BringToFront', @VCLua_Control_BringToFront);
+	TLuaMethodInfo.Create(ControlFuncs, 'HasParent', @VCLua_Control_HasParent);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetParentComponent', @VCLua_Control_GetParentComponent);
+	TLuaMethodInfo.Create(ControlFuncs, 'IsParentOf', @VCLua_Control_IsParentOf);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetTopParent', @VCLua_Control_GetTopParent);
+	TLuaMethodInfo.Create(ControlFuncs, 'FindSubComponent', @VCLua_Control_FindSubComponent);
+	TLuaMethodInfo.Create(ControlFuncs, 'FormIsUpdating', @VCLua_Control_FormIsUpdating);
+	TLuaMethodInfo.Create(ControlFuncs, 'IsProcessingPaintMsg', @VCLua_Control_IsProcessingPaintMsg);
+	TLuaMethodInfo.Create(ControlFuncs, 'Hide', @VCLua_Control_Hide);
+	TLuaMethodInfo.Create(ControlFuncs, 'Refresh', @VCLua_Control_Refresh);
+	TLuaMethodInfo.Create(ControlFuncs, 'Repaint', @VCLua_Control_Repaint);
+	TLuaMethodInfo.Create(ControlFuncs, 'Invalidate', @VCLua_Control_Invalidate);
+	TLuaMethodInfo.Create(ControlFuncs, 'SendToBack', @VCLua_Control_SendToBack);
+	TLuaMethodInfo.Create(ControlFuncs, 'SetTempCursor', @VCLua_Control_SetTempCursor);
+	TLuaMethodInfo.Create(ControlFuncs, 'UpdateRolesForForm', @VCLua_Control_UpdateRolesForForm);
+	TLuaMethodInfo.Create(ControlFuncs, 'ActiveDefaultControlChanged', @VCLua_Control_ActiveDefaultControlChanged);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetTextBuf', @VCLua_Control_GetTextBuf);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetTextLen', @VCLua_Control_GetTextLen);
+	TLuaMethodInfo.Create(ControlFuncs, 'SetTextBuf', @VCLua_Control_SetTextBuf);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScreenToClient', @VCLua_Control_ScreenToClient);
+	TLuaMethodInfo.Create(ControlFuncs, 'ClientToScreen', @VCLua_Control_ClientToScreen);
+	TLuaMethodInfo.Create(ControlFuncs, 'ScreenToControl', @VCLua_Control_ScreenToControl);
+	TLuaMethodInfo.Create(ControlFuncs, 'ControlToScreen', @VCLua_Control_ControlToScreen);
+	TLuaMethodInfo.Create(ControlFuncs, 'ClientToParent', @VCLua_Control_ClientToParent);
+	TLuaMethodInfo.Create(ControlFuncs, 'ParentToClient', @VCLua_Control_ParentToClient);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetChildrenRect', @VCLua_Control_GetChildrenRect);
+	TLuaMethodInfo.Create(ControlFuncs, 'Show', @VCLua_Control_Show);
+	TLuaMethodInfo.Create(ControlFuncs, 'Update', @VCLua_Control_Update);
+	TLuaMethodInfo.Create(ControlFuncs, 'HandleObjectShouldBeVisible', @VCLua_Control_HandleObjectShouldBeVisible);
+	TLuaMethodInfo.Create(ControlFuncs, 'ParentDestroyingHandle', @VCLua_Control_ParentDestroyingHandle);
+	TLuaMethodInfo.Create(ControlFuncs, 'ParentHandlesAllocated', @VCLua_Control_ParentHandlesAllocated);
+	TLuaMethodInfo.Create(ControlFuncs, 'InitiateAction', @VCLua_Control_InitiateAction);
+	TLuaMethodInfo.Create(ControlFuncs, 'ShowHelp', @VCLua_Control_ShowHelp);
+	TLuaMethodInfo.Create(ControlFuncs, 'HasHelp', @VCLua_Control_HasHelp);
+	TLuaMethodInfo.Create(ControlFuncs, 'AccessibleName', @VCLua_Control_VCLuaGetAccessibleName, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'AccessibleDescription', @VCLua_Control_VCLuaGetAccessibleDescription, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'AccessibleValue', @VCLua_Control_VCLuaGetAccessibleValue, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'AccessibleRole', @VCLua_Control_VCLuaGetAccessibleRole, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Action', @VCLua_Control_VCLuaGetAction, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Align', @VCLua_Control_VCLuaGetAlign, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'AnchorSide', @VCLua_Control_AnchorSide);
+	TLuaMethodInfo.Create(ControlFuncs, 'AutoSize', @VCLua_Control_VCLuaGetAutoSize, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'BorderSpacing', @VCLua_Control_VCLuaGetBorderSpacing, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'BoundsRect', @VCLua_Control_VCLuaGetBoundsRect, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'BoundsRectForNewParent', @VCLua_Control_VCLuaGetBoundsRectForNewParent, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Caption', @VCLua_Control_VCLuaGetCaption, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ClientHeight', @VCLua_Control_VCLuaGetClientHeight, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ClientOrigin', @VCLua_Control_VCLuaGetClientOrigin, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ClientRect', @VCLua_Control_VCLuaGetClientRect, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ClientWidth', @VCLua_Control_VCLuaGetClientWidth, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Color', @VCLua_Control_VCLuaGetColor, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Constraints', @VCLua_Control_VCLuaGetConstraints, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ControlOrigin', @VCLua_Control_VCLuaGetControlOrigin, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ControlState', @VCLua_Control_VCLuaGetControlState, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ControlStyle', @VCLua_Control_VCLuaGetControlStyle, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Enabled', @VCLua_Control_VCLuaGetEnabled, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Font', @VCLua_Control_VCLuaGetFont, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'IsControl', @VCLua_Control_VCLuaGetIsControl, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'MouseInClient', @VCLua_Control_VCLuaGetMouseInClient, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Parent', @VCLua_Control_VCLuaGetParent, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'PopupMenu', @VCLua_Control_VCLuaGetPopupMenu, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ShowHint', @VCLua_Control_VCLuaGetShowHint, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Visible', @VCLua_Control_VCLuaGetVisible, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'DockOrientation', @VCLua_Control_VCLuaGetDockOrientation, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'Floating', @VCLua_Control_VCLuaGetFloating, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'HostDockSite', @VCLua_Control_VCLuaGetHostDockSite, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'LRDockWidth', @VCLua_Control_VCLuaGetLRDockWidth, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'TBDockHeight', @VCLua_Control_VCLuaGetTBDockHeight, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'BiDiMode', @VCLua_Control_VCLuaGetBiDiMode, mfCall);
+	TLuaMethodInfo.Create(ControlFuncs, 'ParentBiDiMode', @VCLua_Control_VCLuaGetParentBiDiMode, mfCall);
+	ControlSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ControlSets, 'OnConstrainedResize', @VCLua_Control_VCLuaSetOnConstrainedResize, mfCall, TypeInfo(TConstrainedResizeEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnContextPopup', @VCLua_Control_VCLuaSetOnContextPopup, mfCall, TypeInfo(TContextPopupEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnDblClick', @VCLua_Control_VCLuaSetOnDblClick, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnTripleClick', @VCLua_Control_VCLuaSetOnTripleClick, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnQuadClick', @VCLua_Control_VCLuaSetOnQuadClick, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnDragDrop', @VCLua_Control_VCLuaSetOnDragDrop, mfCall, TypeInfo(TDragDropEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnDragOver', @VCLua_Control_VCLuaSetOnDragOver, mfCall, TypeInfo(TDragOverEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnEndDock', @VCLua_Control_VCLuaSetOnEndDock, mfCall, TypeInfo(TEndDragEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnEndDrag', @VCLua_Control_VCLuaSetOnEndDrag, mfCall, TypeInfo(TEndDragEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseDown', @VCLua_Control_VCLuaSetOnMouseDown, mfCall, TypeInfo(TMouseEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseMove', @VCLua_Control_VCLuaSetOnMouseMove, mfCall, TypeInfo(TMouseMoveEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseUp', @VCLua_Control_VCLuaSetOnMouseUp, mfCall, TypeInfo(TMouseEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseEnter', @VCLua_Control_VCLuaSetOnMouseEnter, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseLeave', @VCLua_Control_VCLuaSetOnMouseLeave, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheel', @VCLua_Control_VCLuaSetOnMouseWheel, mfCall, TypeInfo(TMouseWheelEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelDown', @VCLua_Control_VCLuaSetOnMouseWheelDown, mfCall, TypeInfo(TMouseWheelUpDownEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelUp', @VCLua_Control_VCLuaSetOnMouseWheelUp, mfCall, TypeInfo(TMouseWheelUpDownEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelHorz', @VCLua_Control_VCLuaSetOnMouseWheelHorz, mfCall, TypeInfo(TMouseWheelEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelLeft', @VCLua_Control_VCLuaSetOnMouseWheelLeft, mfCall, TypeInfo(TMouseWheelUpDownEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnMouseWheelRight', @VCLua_Control_VCLuaSetOnMouseWheelRight, mfCall, TypeInfo(TMouseWheelUpDownEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnStartDock', @VCLua_Control_VCLuaSetOnStartDock, mfCall, TypeInfo(TStartDockEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnStartDrag', @VCLua_Control_VCLuaSetOnStartDrag, mfCall, TypeInfo(TStartDragEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnEditingDone', @VCLua_Control_VCLuaSetOnEditingDone, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'AccessibleName', @VCLua_Control_VCLuaSetAccessibleName, mfCall, TypeInfo(TCaption));
+	TLuaMethodInfo.Create(ControlSets, 'AccessibleDescription', @VCLua_Control_VCLuaSetAccessibleDescription, mfCall, TypeInfo(TCaption));
+	TLuaMethodInfo.Create(ControlSets, 'AccessibleValue', @VCLua_Control_VCLuaSetAccessibleValue, mfCall, TypeInfo(TCaption));
+	TLuaMethodInfo.Create(ControlSets, 'AccessibleRole', @VCLua_Control_VCLuaSetAccessibleRole, mfCall, TypeInfo(TLazAccessibilityRole));
+	TLuaMethodInfo.Create(ControlSets, 'Action', @VCLua_Control_VCLuaSetAction, mfCall, TypeInfo(TBasicAction));
+	TLuaMethodInfo.Create(ControlSets, 'Align', @VCLua_Control_VCLuaSetAlign, mfCall, TypeInfo(TAlign));
+	TLuaMethodInfo.Create(ControlSets, 'AutoSize', @VCLua_Control_VCLuaSetAutoSize, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(ControlSets, 'BorderSpacing', @VCLua_Control_VCLuaSetBorderSpacing, mfCall, TypeInfo(TControlBorderSpacing));
+	TLuaMethodInfo.Create(ControlSets, 'BoundsRect', @VCLua_Control_VCLuaSetBoundsRect, mfCall, TypeInfo(TRect));
+	TLuaMethodInfo.Create(ControlSets, 'BoundsRectForNewParent', @VCLua_Control_VCLuaSetBoundsRectForNewParent, mfCall, TypeInfo(TRect));
+	TLuaMethodInfo.Create(ControlSets, 'Caption', @VCLua_Control_VCLuaSetCaption, mfCall, TypeInfo(TCaption));
+	TLuaMethodInfo.Create(ControlSets, 'ClientHeight', @VCLua_Control_VCLuaSetClientHeight, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(ControlSets, 'ClientWidth', @VCLua_Control_VCLuaSetClientWidth, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(ControlSets, 'Color', @VCLua_Control_VCLuaSetColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(ControlSets, 'Constraints', @VCLua_Control_VCLuaSetConstraints, mfCall, TypeInfo(TSizeConstraints));
+	TLuaMethodInfo.Create(ControlSets, 'ControlState', @VCLua_Control_VCLuaSetControlState, mfCall, TypeInfo(TControlState));
+	TLuaMethodInfo.Create(ControlSets, 'ControlStyle', @VCLua_Control_VCLuaSetControlStyle, mfCall, TypeInfo(TControlStyle));
+	TLuaMethodInfo.Create(ControlSets, 'Enabled', @VCLua_Control_VCLuaSetEnabled, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(ControlSets, 'Font', @VCLua_Control_VCLuaSetFont, mfCall, TypeInfo(TFont));
+	TLuaMethodInfo.Create(ControlSets, 'IsControl', @VCLua_Control_VCLuaSetIsControl, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(ControlSets, 'OnChangeBounds', @VCLua_Control_VCLuaSetOnChangeBounds, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnClick', @VCLua_Control_VCLuaSetOnClick, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'OnResize', @VCLua_Control_VCLuaSetOnResize, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'Parent', @VCLua_Control_VCLuaSetParent, mfCall, TypeInfo(TWinControl));
+	TLuaMethodInfo.Create(ControlSets, 'PopupMenu', @VCLua_Control_VCLuaSetPopupMenu, mfCall, TypeInfo(TPopupmenu));
+	TLuaMethodInfo.Create(ControlSets, 'ShowHint', @VCLua_Control_VCLuaSetShowHint, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(ControlSets, 'Visible', @VCLua_Control_VCLuaSetVisible, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(ControlSets, 'DockOrientation', @VCLua_Control_VCLuaSetDockOrientation, mfCall, TypeInfo(TDockOrientation));
+	TLuaMethodInfo.Create(ControlSets, 'HostDockSite', @VCLua_Control_VCLuaSetHostDockSite, mfCall, TypeInfo(TWinControl));
+	TLuaMethodInfo.Create(ControlSets, 'LRDockWidth', @VCLua_Control_VCLuaSetLRDockWidth, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(ControlSets, 'TBDockHeight', @VCLua_Control_VCLuaSetTBDockHeight, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(ControlSets, 'BiDiMode', @VCLua_Control_VCLuaSetBiDiMode, mfCall, TypeInfo(TBiDiMode));
+	TLuaMethodInfo.Create(ControlSets, 'ParentBiDiMode', @VCLua_Control_VCLuaSetParentBiDiMode, mfCall, TypeInfo(Boolean));
 end.

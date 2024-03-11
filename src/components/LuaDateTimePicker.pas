@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaDateTimePicker;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, DateTimePicker, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, DateTimePicker;
 
 function CreateDateTimePicker(L: Plua_State): Integer; cdecl;
-procedure DateTimePickerToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TDateTimePicker; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaDateTimePicker = class(TDateTimePicker)
         LuaCtl: TVCLuaControl;
     end;
+var
+    DateTimePickerFuncs: TLuaVmt;
+    DateTimePickerSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure DateTimePickerToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TDateTimePicker; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TDateTimePicker',v);
 end;
 function CreateDateTimePicker(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDateTimePicker := TLuaDateTimePicker.Create(Parent);
 	lDateTimePicker.Parent := TWinControl(Parent);
-	lDateTimePicker.LuaCtl := TVCLuaControl.Create(TControl(lDateTimePicker),L,@DateTimePickerToTable);
+	lDateTimePicker.LuaCtl := TVCLuaControl.Create(lDateTimePicker as TComponent,L,nil,'TDateTimePicker');
+	CreateTableForKnownType(L,'TDateTimePicker',lDateTimePicker);
 	InitControl(L,lDateTimePicker,Name);
-	DateTimePickerToTable(L, -1, lDateTimePicker);
 	Result := 1;
 end;
 
+begin
+	DateTimePickerFuncs := TLuaVmt.Create;
+	
+	DateTimePickerSets := TLuaVmt.Create;
+	
 end.

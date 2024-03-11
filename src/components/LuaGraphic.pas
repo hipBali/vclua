@@ -4,293 +4,393 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaGraphic;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, LCLType;
+Uses Lua, LuaController, TypInfo, LuaVmt, Graphics;
 
-procedure GraphicToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TGraphic; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaGraphic = class(TGraphic)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
+var
+    GraphicFuncs: TLuaVmt;
+    GraphicSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LCLType, LuaClassesEvents, LuaEvent, LuaFPImageEvents;
 
 function VCLua_Graphic_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ASource:TPersistent;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ASource := TPersistent(GetLuaObject(L,2));
-	lGraphic.Assign(ASource);
-	
-	Result := 0;
+	luaL_check(L,2,@ASource);
+	try
+		lGraphic.Assign(ASource);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'Assign', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 begin
 	CheckArg(L, 1);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	lGraphic.Clear();
-	
-	Result := 0;
+	try
+		lGraphic.Clear();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'Clear', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_Equals(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Obj:TObject;
 	ret:Boolean;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Obj := TObject(GetLuaObject(L,2));
-	ret := lGraphic.Equals(Obj);
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Obj);
+	try
+		ret := lGraphic.Equals(Obj);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'Equals', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Graphic_LazarusResourceTypeValid(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	AResourceType:string;
 	ret:boolean;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	AResourceType := lua_toStringCP(L,2);
-	ret := lGraphic.LazarusResourceTypeValid(AResourceType);
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@AResourceType);
+	try
+		ret := lGraphic.LazarusResourceTypeValid(AResourceType);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LazarusResourceTypeValid', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Graphic_LoadFromFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Filename:string;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Filename := lua_toStringCP(L,2);
-	lGraphic.LoadFromFile(Filename);
-	
-	Result := 0;
+	luaL_check(L,2,@Filename);
+	try
+		lGraphic.LoadFromFile(Filename);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromFile', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_LoadFromStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Stream:TStream;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
-	lGraphic.LoadFromStream(Stream);
-	
-	Result := 0;
+	luaL_check(L,2,@Stream);
+	try
+		lGraphic.LoadFromStream(Stream);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromStream', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_LoadFromMimeStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	AStream:TStream;
 	AMimeType:string;
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	AStream := TStream(GetLuaObject(L,2));
-	AMimeType := lua_toStringCP(L,3);
-	lGraphic.LoadFromMimeStream(AStream,AMimeType);
-	
-	Result := 0;
+	luaL_check(L,2,@AStream);
+	luaL_check(L,3,@AMimeType);
+	try
+		lGraphic.LoadFromMimeStream(AStream,AMimeType);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromMimeStream', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_LoadFromLazarusResource(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ResName:String;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ResName := lua_toStringCP(L,2);
-	lGraphic.LoadFromLazarusResource(ResName);
-	
-	Result := 0;
+	luaL_check(L,2,@ResName);
+	try
+		lGraphic.LoadFromLazarusResource(ResName);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromLazarusResource', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_LoadFromResourceName(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Instance:THandle;
 	ResName:String;
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Instance := THandle(lua_tointeger(L,2));
-	ResName := lua_toStringCP(L,3);
-	lGraphic.LoadFromResourceName(Instance,ResName);
-	
-	Result := 0;
+	luaL_check(L,2,@Instance);
+	luaL_check(L,3,@ResName);
+	try
+		lGraphic.LoadFromResourceName(Instance,ResName);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromResourceName', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_LoadFromResourceID(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Instance:THandle;
 	ResID:PtrInt;
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Instance := THandle(lua_tointeger(L,2));
-	ResID := lua_tointeger(L,3);
-	lGraphic.LoadFromResourceID(Instance,ResID);
-	
-	Result := 0;
+	luaL_check(L,2,@Instance);
+	luaL_check(L,3,@ResID);
+	try
+		lGraphic.LoadFromResourceID(Instance,ResID);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromResourceID', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_LoadFromClipboardFormat(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	FormatID:TClipboardFormat;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	FormatID := TClipboardFormat(GetLuaObject(L,2));
-	lGraphic.LoadFromClipboardFormat(FormatID);
-	
-	Result := 0;
+	luaL_check(L,2,@FormatID);
+	try
+		lGraphic.LoadFromClipboardFormat(FormatID);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromClipboardFormat', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_LoadFromClipboardFormatID(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ClipboardType:TClipboardType;
 	FormatID:TClipboardFormat;
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ClipboardType := TClipboardType(GetLuaObject(L,2));
-	FormatID := TClipboardFormat(GetLuaObject(L,3));
-	lGraphic.LoadFromClipboardFormatID(ClipboardType,FormatID);
-	
-	Result := 0;
+	luaL_check(L,2,@ClipboardType,TypeInfo(TClipboardType));
+	luaL_check(L,3,@FormatID);
+	try
+		lGraphic.LoadFromClipboardFormatID(ClipboardType,FormatID);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'LoadFromClipboardFormatID', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_SaveToFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Filename:string;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Filename := lua_toStringCP(L,2);
-	lGraphic.SaveToFile(Filename);
-	
-	Result := 0;
+	luaL_check(L,2,@Filename);
+	try
+		lGraphic.SaveToFile(Filename);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SaveToFile', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_SaveToStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	Stream:TStream;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
-	lGraphic.SaveToStream(Stream);
-	
-	Result := 0;
+	luaL_check(L,2,@Stream);
+	try
+		lGraphic.SaveToStream(Stream);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SaveToStream', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_SaveToClipboardFormat(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	FormatID:TClipboardFormat;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	FormatID := TClipboardFormat(GetLuaObject(L,2));
-	lGraphic.SaveToClipboardFormat(FormatID);
-	
-	Result := 0;
+	luaL_check(L,2,@FormatID);
+	try
+		lGraphic.SaveToClipboardFormat(FormatID);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SaveToClipboardFormat', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_SaveToClipboardFormatID(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ClipboardType:TClipboardType;
 	FormatID:TClipboardFormat;
 begin
 	CheckArg(L, 3);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ClipboardType := TClipboardType(GetLuaObject(L,2));
-	FormatID := TClipboardFormat(GetLuaObject(L,3));
-	lGraphic.SaveToClipboardFormatID(ClipboardType,FormatID);
-	
-	Result := 0;
+	luaL_check(L,2,@ClipboardType,TypeInfo(TClipboardType));
+	luaL_check(L,3,@FormatID);
+	try
+		lGraphic.SaveToClipboardFormatID(ClipboardType,FormatID);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SaveToClipboardFormatID', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_GetSupportedSourceMimeTypes(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	List:TStrings;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	List := TStrings(GetLuaObject(L,2));
-	lGraphic.GetSupportedSourceMimeTypes(List);
-	
-	Result := 0;
+	luaL_check(L,2,@List);
+	try
+		lGraphic.GetSupportedSourceMimeTypes(List);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetSupportedSourceMimeTypes', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Graphic_GetResourceType(L: Plua_State): Integer; cdecl;
-var 
+var
 	lGraphic:TLuaGraphic;
 	ret:TResourceType;
 begin
 	CheckArg(L, 1);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ret := lGraphic.GetResourceType();
-	lua_pushstring(L,PChar(ret));
-	
-	Result := 1;
+	try
+		ret := lGraphic.GetResourceType();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetResourceType', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
-procedure GraphicToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_Graphic_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Graphic_Assign);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_Graphic_Clear);
-	LuaSetTableFunction(L, Index, 'Equals', @VCLua_Graphic_Equals);
-	LuaSetTableFunction(L, Index, 'LazarusResourceTypeValid', @VCLua_Graphic_LazarusResourceTypeValid);
-	LuaSetTableFunction(L, Index, 'LoadFromFile', @VCLua_Graphic_LoadFromFile);
-	LuaSetTableFunction(L, Index, 'LoadFromStream', @VCLua_Graphic_LoadFromStream);
-	LuaSetTableFunction(L, Index, 'LoadFromMimeStream', @VCLua_Graphic_LoadFromMimeStream);
-	LuaSetTableFunction(L, Index, 'LoadFromLazarusResource', @VCLua_Graphic_LoadFromLazarusResource);
-	LuaSetTableFunction(L, Index, 'LoadFromResourceName', @VCLua_Graphic_LoadFromResourceName);
-	LuaSetTableFunction(L, Index, 'LoadFromResourceID', @VCLua_Graphic_LoadFromResourceID);
-	LuaSetTableFunction(L, Index, 'LoadFromClipboardFormat', @VCLua_Graphic_LoadFromClipboardFormat);
-	LuaSetTableFunction(L, Index, 'LoadFromClipboardFormatID', @VCLua_Graphic_LoadFromClipboardFormatID);
-	LuaSetTableFunction(L, Index, 'SaveToFile', @VCLua_Graphic_SaveToFile);
-	LuaSetTableFunction(L, Index, 'SaveToStream', @VCLua_Graphic_SaveToStream);
-	LuaSetTableFunction(L, Index, 'SaveToClipboardFormat', @VCLua_Graphic_SaveToClipboardFormat);
-	LuaSetTableFunction(L, Index, 'SaveToClipboardFormatID', @VCLua_Graphic_SaveToClipboardFormatID);
-	LuaSetTableFunction(L, Index, 'GetSupportedSourceMimeTypes', @VCLua_Graphic_GetSupportedSourceMimeTypes);
-	LuaSetTableFunction(L, Index, 'GetResourceType', @VCLua_Graphic_GetResourceType);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lGraphic.OnChange));
+	lGraphic.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
 end;
 
+function VCLua_Graphic_VCLuaSetOnProgress(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+begin
+	CheckArg(L, 2);
+	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lGraphic.OnProgress));
+	lGraphic.OnProgress := TLuaEvent.Factory<TProgressEvent,TLuaFPImgProgressEvent>(L);
+	Result := 0;
+end;
+
+procedure lua_push(L: Plua_State; const v: TGraphic; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TGraphic',v);
+end;
+
+begin
+	GraphicFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(GraphicFuncs, 'Assign', @VCLua_Graphic_Assign);
+	TLuaMethodInfo.Create(GraphicFuncs, 'Clear', @VCLua_Graphic_Clear);
+	TLuaMethodInfo.Create(GraphicFuncs, 'Equals', @VCLua_Graphic_Equals);
+	TLuaMethodInfo.Create(GraphicFuncs, 'LazarusResourceTypeValid', @VCLua_Graphic_LazarusResourceTypeValid);
+	TLuaMethodInfo.Create(GraphicFuncs, 'LoadFromFile', @VCLua_Graphic_LoadFromFile);
+	TLuaMethodInfo.Create(GraphicFuncs, 'LoadFromStream', @VCLua_Graphic_LoadFromStream);
+	TLuaMethodInfo.Create(GraphicFuncs, 'LoadFromMimeStream', @VCLua_Graphic_LoadFromMimeStream);
+	TLuaMethodInfo.Create(GraphicFuncs, 'LoadFromLazarusResource', @VCLua_Graphic_LoadFromLazarusResource);
+	TLuaMethodInfo.Create(GraphicFuncs, 'LoadFromResourceName', @VCLua_Graphic_LoadFromResourceName);
+	TLuaMethodInfo.Create(GraphicFuncs, 'LoadFromResourceID', @VCLua_Graphic_LoadFromResourceID);
+	TLuaMethodInfo.Create(GraphicFuncs, 'LoadFromClipboardFormat', @VCLua_Graphic_LoadFromClipboardFormat);
+	TLuaMethodInfo.Create(GraphicFuncs, 'LoadFromClipboardFormatID', @VCLua_Graphic_LoadFromClipboardFormatID);
+	TLuaMethodInfo.Create(GraphicFuncs, 'SaveToFile', @VCLua_Graphic_SaveToFile);
+	TLuaMethodInfo.Create(GraphicFuncs, 'SaveToStream', @VCLua_Graphic_SaveToStream);
+	TLuaMethodInfo.Create(GraphicFuncs, 'SaveToClipboardFormat', @VCLua_Graphic_SaveToClipboardFormat);
+	TLuaMethodInfo.Create(GraphicFuncs, 'SaveToClipboardFormatID', @VCLua_Graphic_SaveToClipboardFormatID);
+	TLuaMethodInfo.Create(GraphicFuncs, 'GetSupportedSourceMimeTypes', @VCLua_Graphic_GetSupportedSourceMimeTypes);
+	TLuaMethodInfo.Create(GraphicFuncs, 'GetResourceType', @VCLua_Graphic_GetResourceType);
+	GraphicSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(GraphicSets, 'OnChange', @VCLua_Graphic_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(GraphicSets, 'OnProgress', @VCLua_Graphic_VCLuaSetOnProgress, mfCall, TypeInfo(TProgressEvent));
 end.

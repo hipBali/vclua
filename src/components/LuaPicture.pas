@@ -4,151 +4,233 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaPicture;	
 
+{$MODE Delphi}{$T+}
+
 interface
 
-Uses Classes, Lua, LuaController, Graphics;
+Uses Lua, LuaController, TypInfo, LuaVmt, Graphics;
 
 function CreatePicture(L: Plua_State): Integer; cdecl;
-procedure PictureToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TPicture; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaPicture = class(TPicture)
-		public
-			L:Plua_State;
+    public
+      L:Plua_State;
     end;
+var
+    PictureFuncs: TLuaVmt;
+    PictureSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent, LuaFPImageEvents;
 
 function VCLua_Picture_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 begin
 	CheckArg(L, 1);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	lPicture.Clear();
-	
-	Result := 0;
+	try
+		lPicture.Clear();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'Clear', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Picture_LoadFromFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Filename:string;
 begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Filename := lua_toStringCP(L,2);
-	lPicture.LoadFromFile(Filename);
-	
-	Result := 0;
+	luaL_check(L,2,@Filename);
+	try
+		lPicture.LoadFromFile(Filename);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'LoadFromFile', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Picture_LoadFromResourceName(L: Plua_State): Integer; cdecl;
+var
+	lPicture:TLuaPicture;
+	Instance:THandle;
+	ResName:String;
+begin
+	CheckArg(L, 3);
+	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	luaL_check(L,2,@Instance);
+	luaL_check(L,3,@ResName);
+	try
+		lPicture.LoadFromResourceName(Instance,ResName);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'LoadFromResourceName', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Picture_LoadFromStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Stream:TStream;
 begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
-	lPicture.LoadFromStream(Stream);
-	
-	Result := 0;
+	luaL_check(L,2,@Stream);
+	try
+		lPicture.LoadFromStream(Stream);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'LoadFromStream', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Picture_LoadFromStreamWithFileExt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Stream:TStream;
 	FileExt:string;
 begin
 	CheckArg(L, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
-	FileExt := lua_toStringCP(L,3);
-	lPicture.LoadFromStreamWithFileExt(Stream,FileExt);
-	
-	Result := 0;
+	luaL_check(L,2,@Stream);
+	luaL_check(L,3,@FileExt);
+	try
+		lPicture.LoadFromStreamWithFileExt(Stream,FileExt);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'LoadFromStreamWithFileExt', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Picture_SaveToFile(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Filename:string;
 	FileExt:string;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Filename := lua_toStringCP(L,2);
-	FileExt := luaL_optstring(L,3,'');
-	lPicture.SaveToFile(Filename,FileExt);
-	
-	Result := 0;
+	luaL_check(L,2,@Filename);
+	TTrait<string>.luaL_optcheck(L, 3, @FileExt, '');
+	try
+		lPicture.SaveToFile(Filename,FileExt);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'SaveToFile', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Picture_SaveToStream(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Stream:TStream;
 begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
-	lPicture.SaveToStream(Stream);
-	
-	Result := 0;
+	luaL_check(L,2,@Stream);
+	try
+		lPicture.SaveToStream(Stream);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'SaveToStream', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Picture_SaveToStreamWithFileExt(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Stream:TStream;
 	FileExt:string;
 begin
 	CheckArg(L, 3);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Stream := TStream(GetLuaObject(L,2));
-	FileExt := lua_toStringCP(L,3);
-	lPicture.SaveToStreamWithFileExt(Stream,FileExt);
-	
-	Result := 0;
+	luaL_check(L,2,@Stream);
+	luaL_check(L,3,@FileExt);
+	try
+		lPicture.SaveToStreamWithFileExt(Stream,FileExt);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'SaveToStreamWithFileExt', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Picture_Assign(L: Plua_State): Integer; cdecl;
-var 
+var
 	lPicture:TLuaPicture;
 	Source:TPersistent;
 begin
 	CheckArg(L, 2);
 	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	Source := TPersistent(GetLuaObject(L,2));
-	lPicture.Assign(Source);
-	
+	luaL_check(L,2,@Source);
+	try
+		lPicture.Assign(Source);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'Assign', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Picture_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lPicture:TLuaPicture;
+begin
+	CheckArg(L, 2);
+	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lPicture.OnChange));
+	lPicture.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
 end;
 
-procedure PictureToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_Picture_VCLuaSetOnProgress(L: Plua_State): Integer; cdecl;
+var
+	lPicture:TLuaPicture;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_Picture_Clear);
-	LuaSetTableFunction(L, Index, 'LoadFromFile', @VCLua_Picture_LoadFromFile);
-	LuaSetTableFunction(L, Index, 'LoadFromStream', @VCLua_Picture_LoadFromStream);
-	LuaSetTableFunction(L, Index, 'LoadFromStreamWithFileExt', @VCLua_Picture_LoadFromStreamWithFileExt);
-	LuaSetTableFunction(L, Index, 'SaveToFile', @VCLua_Picture_SaveToFile);
-	LuaSetTableFunction(L, Index, 'SaveToStream', @VCLua_Picture_SaveToStream);
-	LuaSetTableFunction(L, Index, 'SaveToStreamWithFileExt', @VCLua_Picture_SaveToStreamWithFileExt);
-	LuaSetTableFunction(L, Index, 'Assign', @VCLua_Picture_Assign);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lPicture.OnProgress));
+	lPicture.OnProgress := TLuaEvent.Factory<TProgressEvent,TLuaFPImgProgressEvent>(L);
+	Result := 0;
+end;
+
+procedure lua_push(L: Plua_State; const v: TPicture; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TPicture',v);
 end;
 function CreatePicture(L: Plua_State): Integer; cdecl;
 var
 	lPicture:TLuaPicture;
 begin
 	lPicture := TLuaPicture.Create;
-	PictureToTable(L, -1, lPicture);
+	CreateTableForKnownType(L,'TPicture',lPicture);
 	Result := 1;
 end;
+begin
+	PictureFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PictureFuncs, 'Clear', @VCLua_Picture_Clear);
+	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromFile', @VCLua_Picture_LoadFromFile);
+	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromResourceName', @VCLua_Picture_LoadFromResourceName);
+	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromStream', @VCLua_Picture_LoadFromStream);
+	TLuaMethodInfo.Create(PictureFuncs, 'LoadFromStreamWithFileExt', @VCLua_Picture_LoadFromStreamWithFileExt);
+	TLuaMethodInfo.Create(PictureFuncs, 'SaveToFile', @VCLua_Picture_SaveToFile);
+	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStream', @VCLua_Picture_SaveToStream);
+	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStreamWithFileExt', @VCLua_Picture_SaveToStreamWithFileExt);
+	TLuaMethodInfo.Create(PictureFuncs, 'Assign', @VCLua_Picture_Assign);
+	PictureSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PictureSets, 'OnChange', @VCLua_Picture_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(PictureSets, 'OnProgress', @VCLua_Picture_VCLuaSetOnProgress, mfCall, TypeInfo(TProgressEvent));
 end.

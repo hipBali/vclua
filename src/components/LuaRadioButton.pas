@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaRadioButton;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, StdCtrls;
 
 function CreateRadioButton(L: Plua_State): Integer; cdecl;
-procedure RadioButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TRadioButton; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaRadioButton = class(TRadioButton)
         LuaCtl: TVCLuaControl;
     end;
+var
+    RadioButtonFuncs: TLuaVmt;
+    RadioButtonSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure RadioButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TRadioButton; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TRadioButton',v);
 end;
 function CreateRadioButton(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lRadioButton := TLuaRadioButton.Create(Parent);
 	lRadioButton.Parent := TWinControl(Parent);
-	lRadioButton.LuaCtl := TVCLuaControl.Create(TControl(lRadioButton),L,@RadioButtonToTable);
+	lRadioButton.LuaCtl := TVCLuaControl.Create(lRadioButton as TComponent,L,nil,'TRadioButton');
+	CreateTableForKnownType(L,'TRadioButton',lRadioButton);
 	InitControl(L,lRadioButton,Name);
-	RadioButtonToTable(L, -1, lRadioButton);
 	Result := 1;
 end;
 
+begin
+	RadioButtonFuncs := TLuaVmt.Create;
+	
+	RadioButtonSets := TLuaVmt.Create;
+	
 end.

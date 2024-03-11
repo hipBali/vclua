@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaMaskEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, MaskEdit, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, MaskEdit;
 
 function CreateMaskEdit(L: Plua_State): Integer; cdecl;
-procedure MaskEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TMaskEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaMaskEdit = class(TMaskEdit)
         LuaCtl: TVCLuaControl;
     end;
+var
+    MaskEditFuncs: TLuaVmt;
+    MaskEditSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure MaskEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TMaskEdit; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TMaskEdit',v);
 end;
 function CreateMaskEdit(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMaskEdit := TLuaMaskEdit.Create(Parent);
 	lMaskEdit.Parent := TWinControl(Parent);
-	lMaskEdit.LuaCtl := TVCLuaControl.Create(TControl(lMaskEdit),L,@MaskEditToTable);
+	lMaskEdit.LuaCtl := TVCLuaControl.Create(lMaskEdit as TComponent,L,nil,'TMaskEdit');
+	CreateTableForKnownType(L,'TMaskEdit',lMaskEdit);
 	InitControl(L,lMaskEdit,Name);
-	MaskEditToTable(L, -1, lMaskEdit);
 	Result := 1;
 end;
 
+begin
+	MaskEditFuncs := TLuaVmt.Create;
+	
+	MaskEditSets := TLuaVmt.Create;
+	
 end.

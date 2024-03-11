@@ -4,31 +4,41 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaEditButton;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, EditBtn;
 
 function CreateEditButton(L: Plua_State): Integer; cdecl;
-procedure EditButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TEditButton; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaEditButton = class(TEditButton)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomEditButtonFuncs: TLuaVmt;
+    CustomEditButtonSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
-
-procedure EditButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_EditButton_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
+var
+	lEditButton:TLuaEditButton;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lEditButton := TLuaEditButton(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lEditButton.OnButtonClick));
+	lEditButton.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+procedure lua_push(L: Plua_State; const v: TEditButton; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TCustomEditButton',v);
 end;
 function CreateEditButton(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +49,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lEditButton := TLuaEditButton.Create(Parent);
 	lEditButton.Parent := TWinControl(Parent);
-	lEditButton.LuaCtl := TVCLuaControl.Create(TControl(lEditButton),L,@EditButtonToTable);
+	lEditButton.LuaCtl := TVCLuaControl.Create(lEditButton as TComponent,L,nil,'TCustomEditButton');
+	CreateTableForKnownType(L,'TCustomEditButton',lEditButton);
 	InitControl(L,lEditButton,Name);
-	EditButtonToTable(L, -1, lEditButton);
 	Result := 1;
 end;
 
+begin
+	CustomEditButtonFuncs := TLuaVmt.Create;
+	
+	CustomEditButtonSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomEditButtonSets, 'OnButtonClick', @VCLua_EditButton_VCLuaSetOnButtonClick, mfCall, TypeInfo(TNotifyEvent));
 end.

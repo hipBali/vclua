@@ -4,101 +4,184 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaBasicAction;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, Classes;
 
 function CreateBasicAction(L: Plua_State): Integer; cdecl;
-procedure BasicActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TBasicAction; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaBasicAction = class(TBasicAction)
         LuaCtl: TVCLuaControl;
     end;
+var
+    BasicActionFuncs: TLuaVmt;
+    BasicActionSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaClassesEvents, LuaEvent;
+
+function VCLua_BasicAction_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+begin
+	CheckArg(L, 2);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lBasicAction.OnChange));
+	lBasicAction.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
 
 function VCLua_BasicAction_HandlesTarget(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	Target:TObject;
 	ret:Boolean;
 begin
 	CheckArg(L, 2);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	Target := TObject(GetLuaObject(L,2));
-	ret := lBasicAction.HandlesTarget(Target);
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Target);
+	try
+		ret := lBasicAction.HandlesTarget(Target);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'HandlesTarget', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_BasicAction_UpdateTarget(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	Target:TObject;
 begin
 	CheckArg(L, 2);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	Target := TObject(GetLuaObject(L,2));
-	lBasicAction.UpdateTarget(Target);
-	
-	Result := 0;
+	luaL_check(L,2,@Target);
+	try
+		lBasicAction.UpdateTarget(Target);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'UpdateTarget', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_BasicAction_ExecuteTarget(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	Target:TObject;
 begin
 	CheckArg(L, 2);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	Target := TObject(GetLuaObject(L,2));
-	lBasicAction.ExecuteTarget(Target);
-	
-	Result := 0;
+	luaL_check(L,2,@Target);
+	try
+		lBasicAction.ExecuteTarget(Target);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'ExecuteTarget', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_BasicAction_Execute(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	ret := lBasicAction.Execute();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lBasicAction.Execute();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'Execute', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_BasicAction_Update(L: Plua_State): Integer; cdecl;
-var 
+var
 	lBasicAction:TLuaBasicAction;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
-	ret := lBasicAction.Update();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lBasicAction.Update();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'Update', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
-procedure BasicActionToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_BasicAction_VCLuaSetActionComponent(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+	val:TComponent;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'HandlesTarget', @VCLua_BasicAction_HandlesTarget);
-	LuaSetTableFunction(L, Index, 'UpdateTarget', @VCLua_BasicAction_UpdateTarget);
-	LuaSetTableFunction(L, Index, 'ExecuteTarget', @VCLua_BasicAction_ExecuteTarget);
-	LuaSetTableFunction(L, Index, 'Execute', @VCLua_BasicAction_Execute);
-	LuaSetTableFunction(L, Index, 'Update', @VCLua_BasicAction_Update);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lBasicAction.ActionComponent := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'ActionComponent', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_BasicAction_VCLuaGetActionComponent(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+	ret:TComponent;
+begin
+	CheckArg(L, 1);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	try
+		ret := lBasicAction.ActionComponent;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'BasicAction', 'ActionComponent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_BasicAction_VCLuaSetOnExecute(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+begin
+	CheckArg(L, 2);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lBasicAction.OnExecute));
+	lBasicAction.OnExecute := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_BasicAction_VCLuaSetOnUpdate(L: Plua_State): Integer; cdecl;
+var
+	lBasicAction:TLuaBasicAction;
+begin
+	CheckArg(L, 2);
+	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lBasicAction.OnUpdate));
+	lBasicAction.OnUpdate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+procedure lua_push(L: Plua_State; const v: TBasicAction; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TBasicAction',v);
 end;
 function CreateBasicAction(L: Plua_State): Integer; cdecl;
 var
@@ -109,10 +192,23 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBasicAction := TLuaBasicAction.Create(Parent);
 	// := TWinControl(Parent);
-	lBasicAction.LuaCtl := TVCLuaControl.Create(TControl(lBasicAction),L,@BasicActionToTable);
+	lBasicAction.LuaCtl := TVCLuaControl.Create(lBasicAction as TComponent,L,nil,'TBasicAction');
+	CreateTableForKnownType(L,'TBasicAction',lBasicAction);
 	InitControl(L,lBasicAction,Name);
-	BasicActionToTable(L, -1, lBasicAction);
 	Result := 1;
 end;
 
+begin
+	BasicActionFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BasicActionFuncs, 'HandlesTarget', @VCLua_BasicAction_HandlesTarget);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'UpdateTarget', @VCLua_BasicAction_UpdateTarget);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'ExecuteTarget', @VCLua_BasicAction_ExecuteTarget);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'Execute', @VCLua_BasicAction_Execute);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'Update', @VCLua_BasicAction_Update);
+	TLuaMethodInfo.Create(BasicActionFuncs, 'ActionComponent', @VCLua_BasicAction_VCLuaGetActionComponent, mfCall);
+	BasicActionSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BasicActionSets, 'OnChange', @VCLua_BasicAction_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(BasicActionSets, 'ActionComponent', @VCLua_BasicAction_VCLuaSetActionComponent, mfCall, TypeInfo(TComponent));
+	TLuaMethodInfo.Create(BasicActionSets, 'OnExecute', @VCLua_BasicAction_VCLuaSetOnExecute, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(BasicActionSets, 'OnUpdate', @VCLua_BasicAction_VCLuaSetOnUpdate, mfCall, TypeInfo(TNotifyEvent));
 end.

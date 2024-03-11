@@ -14,6 +14,7 @@ mainFrm._ = {
 	caption='VCLua Button example',
 	width=640,
 	height=480,
+	BorderWidth=5,
 	position="poScreenCenter",
 }
 
@@ -26,9 +27,23 @@ button._ = {
 	caption='Click Me...',
 	top=200,
 	left=300,
-	onClick = function(b)
+	OnClick = function(b)
 		VCL.ShowMessage('Hello world!')
 		b.caption = 'Clicked!'
+		b.OnClick = nil
+	end,
+	OnMouseUp = function(b, _, _, x, y)
+		local p = {x=x,y=y}
+		-- test a method with optional parameter, these 3 are equal per LCL docs
+		print(b:ClientToParent(p).x, 'no param')
+		print(b:ClientToParent(p, nil).x, 'nil')
+		print(b:ClientToParent(p, b.Parent).x, 'b.Parent')
+		-- mainPanel is the same b.Parent but of more concrete type, so the result is the same
+		print(b:ClientToParent(p, mainPanel).x, 'mainPanel')
+		-- this should produce an integer larger than previous integers by 5 (BorderWidth)
+		print(b:ClientToParent(p, mainFrm).x, 'mainFrm')
+		-- uncomment to see exception handling
+		-- print(b:ClientToParent(p, bottomPanel).x, 'bottomPanel')
 	end
 }
 

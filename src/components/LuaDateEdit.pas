@@ -4,14 +4,14 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaDateEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, EditBtn;
 
 function CreateDateEdit(L: Plua_State): Integer; cdecl;
-procedure DateEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TDateEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaDateEdit = class(TDateEdit)
@@ -20,15 +20,22 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
-
-procedure DateEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_DateEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
+var
+	lDateEdit:TLuaDateEdit;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lDateEdit := TLuaDateEdit(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lDateEdit.OnButtonClick));
+	lDateEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+procedure lua_push(L: Plua_State; const v: TDateEdit; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TCustomEditButton',v);
 end;
 function CreateDateEdit(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +46,11 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDateEdit := TLuaDateEdit.Create(Parent);
 	lDateEdit.Parent := TWinControl(Parent);
-	lDateEdit.LuaCtl := TVCLuaControl.Create(TControl(lDateEdit),L,@DateEditToTable);
+	lDateEdit.LuaCtl := TVCLuaControl.Create(lDateEdit as TComponent,L,nil,'TCustomEditButton');
+	CreateTableForKnownType(L,'TCustomEditButton',lDateEdit);
 	InitControl(L,lDateEdit,Name);
-	DateEditToTable(L, -1, lDateEdit);
 	Result := 1;
 end;
 
+begin
 end.

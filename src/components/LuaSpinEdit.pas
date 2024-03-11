@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaSpinEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, Spin, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, Spin;
 
 function CreateSpinEdit(L: Plua_State): Integer; cdecl;
-procedure SpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TSpinEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaSpinEdit = class(TSpinEdit)
         LuaCtl: TVCLuaControl;
     end;
+var
+    SpinEditFuncs: TLuaVmt;
+    SpinEditSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure SpinEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TSpinEdit; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TSpinEdit',v);
 end;
 function CreateSpinEdit(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSpinEdit := TLuaSpinEdit.Create(Parent);
 	lSpinEdit.Parent := TWinControl(Parent);
-	lSpinEdit.LuaCtl := TVCLuaControl.Create(TControl(lSpinEdit),L,@SpinEditToTable);
+	lSpinEdit.LuaCtl := TVCLuaControl.Create(lSpinEdit as TComponent,L,nil,'TSpinEdit');
+	CreateTableForKnownType(L,'TSpinEdit',lSpinEdit);
 	InitControl(L,lSpinEdit,Name);
-	SpinEditToTable(L, -1, lSpinEdit);
 	Result := 1;
 end;
 
+begin
+	SpinEditFuncs := TLuaVmt.Create;
+	
+	SpinEditSets := TLuaVmt.Create;
+	
 end.

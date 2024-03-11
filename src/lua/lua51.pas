@@ -287,7 +287,7 @@ procedure lua_pushinteger(L : Plua_State; n : lua_Integer);
   cdecl; external LuaDLL;
 procedure lua_pushlstring(L : Plua_State; const s : PChar; ls : size_t);
   cdecl; external LuaDLL;
-procedure lua_pushstring(L : Plua_State; const s : PChar);
+procedure lua_pushstring(L : Plua_State; const s : PChar); overload;
   cdecl; external LuaDLL;
 function  lua_pushvfstring(L : Plua_State;
                            const fmt : PChar; argp : Pointer) : PChar;
@@ -428,13 +428,14 @@ function lua_isnone(L : Plua_State; n : Integer) : Boolean;
 function lua_isnoneornil(L : Plua_State; n : Integer) : Boolean;
 
 procedure lua_pushliteral(L : Plua_State; s : PChar);
+procedure lua_pushstring(L: Plua_State; const s: AnsiString); inline; overload; // added for Pascal
 
 procedure lua_setglobal(L : Plua_State; s : PChar);
 procedure lua_getglobal(L : Plua_State; s : PChar);
 
 function lua_tostring(L : Plua_State; idx : Integer) : PChar;
 
-
+function lua_rawlen(L: Plua_State; idx: Integer): size_t;
 (*
 ** compatibility macros and functions
 *)
@@ -599,7 +600,7 @@ type
     func : lua_CFunction;
   end;
   PluaL_Reg = ^luaL_Reg;
-
+  aoluaL_Reg = array of luaL_Reg;
 
 procedure luaL_openlib(L : Plua_State; const libname : PChar;
                        const lr : PluaL_Reg; nup : Integer);
@@ -706,6 +707,10 @@ function luaL_dofile(L : Plua_State; fn : PChar) : Integer;
 function luaL_dostring(L : Plua_State; s : PChar) : Integer;
 
 procedure luaL_getmetatable(L : Plua_State; n : PChar);
+
+procedure luaL_newlib(L: Plua_State; lr: array of luaL_Reg);
+procedure luaL_setfuncs(L: Plua_State; lr: array of luaL_Reg; nup: Integer); overload;
+procedure luaL_setfuncs(L: Plua_State; lr: PluaL_Reg; nup: Integer); cdecl; overload;
 
 (* not implemented yet
 #define luaL_opt(L,f,n,d) (lua_isnoneornil(L,(n)) ? (d) : f(L,(n)))
@@ -875,6 +880,11 @@ begin
   lua_pushlstring(L, s, StrLen(s));
 end;
 
+procedure lua_pushstring(L: Plua_State; const s: AnsiString);
+begin
+  lua_pushlstring(L, PAnsiChar(s), Length(s));
+end;
+
 procedure lua_setglobal(L : Plua_State; s : PChar);
 begin
   lua_setfield(L, LUA_GLOBALSINDEX, s);
@@ -888,6 +898,11 @@ end;
 function lua_tostring(L : Plua_State; idx : Integer) : PChar;
 begin
   result := lua_tolstring(L, idx, nil);
+end;
+
+function lua_rawlen(L: Plua_State; idx: Integer): size_t;
+begin
+  result := lua_objlen(L, idx);
 end;
 
 function lua_open : Plua_State;
@@ -990,6 +1005,21 @@ end;
 procedure luaL_getmetatable(L : Plua_State; n : PChar);
 begin
   lua_getfield(L, LUA_REGISTRYINDEX, n);
+end;
+
+procedure luaL_newlib(L: Plua_State; lr: array of luaL_Reg);
+begin
+  lua_createtable(L, 0, High(lr));
+  luaL_register(L, nil, PluaL_Reg(lr));
+end;
+procedure luaL_setfuncs(L: Plua_State; lr: PluaL_Reg; nup: Integer); cdecl;
+begin
+  luaL_openlib(L, nil, lr, nup);
+end;
+
+procedure luaL_setfuncs(L: Plua_State; lr: array of luaL_Reg; nup: Integer);
+begin
+   luaL_setfuncs(L, @lr, nup);
 end;
 
 procedure luaL_addchar(B : PluaL_Buffer; c : Char);

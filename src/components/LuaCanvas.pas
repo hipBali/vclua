@@ -4,116 +4,151 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaCanvas;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, Graphics, GraphType;
+Uses Lua, LuaController, TypInfo, LuaVmt, Graphics;
 
-procedure CanvasToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TCanvas; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaCanvas = class(TCanvas)
-		public
-			L:Plua_State;   
+    public
+      L:Plua_State;
     end;
+var
+    CanvasFuncs: TLuaVmt;
+    CanvasSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, GraphType, LuaClassesEvents, LuaEvent;
 
 function VCLua_Canvas_Lock(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Lock();
-	
-	Result := 0;
+	try
+		lCanvas.Lock();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Lock', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_TryLock(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ret := lCanvas.TryLock();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lCanvas.TryLock();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TryLock', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Canvas_Unlock(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Unlock();
-	
-	Result := 0;
+	try
+		lCanvas.Unlock();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Unlock', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Refresh(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Refresh();
-	
-	Result := 0;
+	try
+		lCanvas.Refresh();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Refresh', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Changing(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Changing();
-	
-	Result := 0;
+	try
+		lCanvas.Changing();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Changing', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Changed(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.Changed();
-	
-	Result := 0;
+	try
+		lCanvas.Changed();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Changed', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_SaveHandleState(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.SaveHandleState();
-	
-	Result := 0;
+	try
+		lCanvas.SaveHandleState();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'SaveHandleState', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_RestoreHandleState(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	lCanvas.RestoreHandleState();
-	
-	Result := 0;
+	try
+		lCanvas.RestoreHandleState();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'RestoreHandleState', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Arc(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ALeft:Integer;
 	ATop:Integer;
@@ -124,19 +159,23 @@ var
 begin
 	CheckArg(L, 7);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ALeft := lua_tointeger(L,2);
-	ATop := lua_tointeger(L,3);
-	ARight := lua_tointeger(L,4);
-	ABottom := lua_tointeger(L,5);
-	Angle16Deg := lua_tointeger(L,6);
-	Angle16DegLength := lua_tointeger(L,7);
-	lCanvas.Arc(ALeft,ATop,ARight,ABottom,Angle16Deg,Angle16DegLength);
-	
-	Result := 0;
+	luaL_check(L,2,@ALeft);
+	luaL_check(L,3,@ATop);
+	luaL_check(L,4,@ARight);
+	luaL_check(L,5,@ABottom);
+	luaL_check(L,6,@Angle16Deg);
+	luaL_check(L,7,@Angle16DegLength);
+	try
+		lCanvas.Arc(ALeft,ATop,ARight,ABottom,Angle16Deg,Angle16DegLength);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Arc', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Arc2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ALeft:Integer;
 	ATop:Integer;
@@ -149,21 +188,25 @@ var
 begin
 	CheckArg(L, 9);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ALeft := lua_tointeger(L,2);
-	ATop := lua_tointeger(L,3);
-	ARight := lua_tointeger(L,4);
-	ABottom := lua_tointeger(L,5);
-	SX := lua_tointeger(L,6);
-	SY := lua_tointeger(L,7);
-	EX := lua_tointeger(L,8);
-	EY := lua_tointeger(L,9);
-	lCanvas.Arc(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY);
-	
-	Result := 0;
+	luaL_check(L,2,@ALeft);
+	luaL_check(L,3,@ATop);
+	luaL_check(L,4,@ARight);
+	luaL_check(L,5,@ABottom);
+	luaL_check(L,6,@SX);
+	luaL_check(L,7,@SY);
+	luaL_check(L,8,@EX);
+	luaL_check(L,9,@EY);
+	try
+		lCanvas.Arc(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Arc', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_AngleArc(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	X:Integer;
 	Y:Integer;
@@ -173,18 +216,22 @@ var
 begin
 	CheckArg(L, 6);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
-	Radius := lua_tointeger(L,4);
-	StartAngle := lua_tonumber(L,5);
-	SweepAngle := lua_tonumber(L,6);
-	lCanvas.AngleArc(X,Y,Radius,StartAngle,SweepAngle);
-	
-	Result := 0;
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
+	luaL_check(L,4,@Radius);
+	luaL_check(L,5,@StartAngle);
+	luaL_check(L,6,@SweepAngle);
+	try
+		lCanvas.AngleArc(X,Y,Radius,StartAngle,SweepAngle);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'AngleArc', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_BrushCopy(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ADestRect:TRect;
 	ABitmap:TBitmap;
@@ -193,17 +240,21 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ADestRect := lua_toTRect(L,2);
-	ABitmap := TBitmap(GetLuaObject(L,3));
-	ASourceRect := lua_toTRect(L,4);
-	ATransparentColor := TColor(lua_tointeger(L,5));
-	lCanvas.BrushCopy(ADestRect,ABitmap,ASourceRect,ATransparentColor);
-	
-	Result := 0;
+	luaL_check(L,2,@ADestRect);
+	luaL_check(L,3,@ABitmap);
+	luaL_check(L,4,@ASourceRect);
+	ATransparentColor := luaL_checkColor(L,5);
+	try
+		lCanvas.BrushCopy(ADestRect,ABitmap,ASourceRect,ATransparentColor);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'BrushCopy', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Chord(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	x1:Integer;
 	y1:Integer;
@@ -214,19 +265,23 @@ var
 begin
 	CheckArg(L, 7);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	x1 := lua_tointeger(L,2);
-	y1 := lua_tointeger(L,3);
-	x2 := lua_tointeger(L,4);
-	y2 := lua_tointeger(L,5);
-	Angle16Deg := lua_tointeger(L,6);
-	Angle16DegLength := lua_tointeger(L,7);
-	lCanvas.Chord(x1,y1,x2,y2,Angle16Deg,Angle16DegLength);
-	
-	Result := 0;
+	luaL_check(L,2,@x1);
+	luaL_check(L,3,@y1);
+	luaL_check(L,4,@x2);
+	luaL_check(L,5,@y2);
+	luaL_check(L,6,@Angle16Deg);
+	luaL_check(L,7,@Angle16DegLength);
+	try
+		lCanvas.Chord(x1,y1,x2,y2,Angle16Deg,Angle16DegLength);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Chord', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Chord2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	x1:Integer;
 	y1:Integer;
@@ -239,21 +294,25 @@ var
 begin
 	CheckArg(L, 9);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	x1 := lua_tointeger(L,2);
-	y1 := lua_tointeger(L,3);
-	x2 := lua_tointeger(L,4);
-	y2 := lua_tointeger(L,5);
-	SX := lua_tointeger(L,6);
-	SY := lua_tointeger(L,7);
-	EX := lua_tointeger(L,8);
-	EY := lua_tointeger(L,9);
-	lCanvas.Chord(x1,y1,x2,y2,SX,SY,EX,EY);
-	
-	Result := 0;
+	luaL_check(L,2,@x1);
+	luaL_check(L,3,@y1);
+	luaL_check(L,4,@x2);
+	luaL_check(L,5,@y2);
+	luaL_check(L,6,@SX);
+	luaL_check(L,7,@SY);
+	luaL_check(L,8,@EX);
+	luaL_check(L,9,@EY);
+	try
+		lCanvas.Chord(x1,y1,x2,y2,SX,SY,EX,EY);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Chord', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_CopyRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Dest:TRect;
 	SrcCanvas:TCanvas;
@@ -261,16 +320,20 @@ var
 begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Dest := lua_toTRect(L,2);
-	SrcCanvas := TCanvas(GetLuaObject(L,3));
-	Source := lua_toTRect(L,4);
-	lCanvas.CopyRect(Dest,SrcCanvas,Source);
-	
-	Result := 0;
+	luaL_check(L,2,@Dest);
+	luaL_check(L,3,@SrcCanvas);
+	luaL_check(L,4,@Source);
+	try
+		lCanvas.CopyRect(Dest,SrcCanvas,Source);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'CopyRect', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Draw(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	X:Integer;
 	Y:Integer;
@@ -278,57 +341,73 @@ var
 begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
-	SrcGraphic := TGraphic(GetLuaObject(L,4));
-	lCanvas.Draw(X,Y,SrcGraphic);
-	
-	Result := 0;
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
+	luaL_check(L,4,@SrcGraphic);
+	try
+		lCanvas.Draw(X,Y,SrcGraphic);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Draw', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_DrawFocusRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ARect := lua_toTRect(L,2);
-	lCanvas.DrawFocusRect(ARect);
-	
-	Result := 0;
+	luaL_check(L,2,@ARect);
+	try
+		lCanvas.DrawFocusRect(ARect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'DrawFocusRect', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_StretchDraw(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	DestRect:TRect;
 	SrcGraphic:TGraphic;
 begin
 	CheckArg(L, 3);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	DestRect := lua_toTRect(L,2);
-	SrcGraphic := TGraphic(GetLuaObject(L,3));
-	lCanvas.StretchDraw(DestRect,SrcGraphic);
-	
-	Result := 0;
+	luaL_check(L,2,@DestRect);
+	luaL_check(L,3,@SrcGraphic);
+	try
+		lCanvas.StretchDraw(DestRect,SrcGraphic);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'StretchDraw', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Ellipse(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ARect := lua_toTRect(L,2);
-	lCanvas.Ellipse(ARect);
-	
-	Result := 0;
+	luaL_check(L,2,@ARect);
+	try
+		lCanvas.Ellipse(ARect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Ellipse', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Ellipse2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	x1:Integer;
 	y1:Integer;
@@ -337,30 +416,38 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	x1 := lua_tointeger(L,2);
-	y1 := lua_tointeger(L,3);
-	x2 := lua_tointeger(L,4);
-	y2 := lua_tointeger(L,5);
-	lCanvas.Ellipse(x1,y1,x2,y2);
-	
-	Result := 0;
+	luaL_check(L,2,@x1);
+	luaL_check(L,3,@y1);
+	luaL_check(L,4,@x2);
+	luaL_check(L,5,@y2);
+	try
+		lCanvas.Ellipse(x1,y1,x2,y2);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Ellipse', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_FillRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ARect := lua_toTRect(L,2);
-	lCanvas.FillRect(ARect);
-	
-	Result := 0;
+	luaL_check(L,2,@ARect);
+	try
+		lCanvas.FillRect(ARect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'FillRect', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_FillRect2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	X1:Integer;
 	Y1:Integer;
@@ -369,17 +456,21 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X1 := lua_tointeger(L,2);
-	Y1 := lua_tointeger(L,3);
-	X2 := lua_tointeger(L,4);
-	Y2 := lua_tointeger(L,5);
-	lCanvas.FillRect(X1,Y1,X2,Y2);
-	
-	Result := 0;
+	luaL_check(L,2,@X1);
+	luaL_check(L,3,@Y1);
+	luaL_check(L,4,@X2);
+	luaL_check(L,5,@Y2);
+	try
+		lCanvas.FillRect(X1,Y1,X2,Y2);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'FillRect', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_FloodFill(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	X:Integer;
 	Y:Integer;
@@ -388,17 +479,21 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
-	FillColor := TColor(lua_tointeger(L,4));
-	FillStyle := TFillStyle(GetLuaObject(L,5));
-	lCanvas.FloodFill(X,Y,FillColor,FillStyle);
-	
-	Result := 0;
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
+	FillColor := luaL_checkColor(L,4);
+	luaL_check(L,5,@FillStyle,TypeInfo(TFillStyle));
+	try
+		lCanvas.FloodFill(X,Y,FillColor,FillStyle);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'FloodFill', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Frame3d(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
 	FrameWidth:integer;
@@ -406,15 +501,42 @@ var
 begin
 	CheckArg(L, 3);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	FrameWidth := lua_tointeger(L,2);
-	Style := TGraphicsBevelCut(GetLuaObject(L,3));
-	lCanvas.Frame3d(ARect,FrameWidth,Style);
-	lua_pushTRect(L,ARect);
-	Result := 1;
+	luaL_check(L,2,@FrameWidth);
+	luaL_check(L,3,@Style,TypeInfo(TGraphicsBevelCut));
+	try
+		lCanvas.Frame3d(ARect,FrameWidth,Style);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame3d', E.ClassName, E.Message);
+	end;
+	lua_push(L,ARect);
 end;
 
-function VCLua_Canvas_Frame3D_(L: Plua_State): Integer; cdecl;
-var 
+function VCLua_Canvas_Frame3d2(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	ARect:TRect;
+	FrameWidth:integer;
+	Style:TGraphicsBevelCut;
+begin
+	CheckArg(L, 4);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@ARect);
+	luaL_check(L,3,@FrameWidth);
+	luaL_check(L,4,@Style,TypeInfo(TGraphicsBevelCut));
+	try
+		lCanvas.Frame3d(ARect,FrameWidth,Style);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame3d', E.ClassName, E.Message);
+	end;
+	lua_push(L,ARect);
+end;
+
+function VCLua_Canvas_Frame3D3(L: Plua_State): Integer; cdecl;
+var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
 	TopColor:TColor;
@@ -423,16 +545,45 @@ var
 begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	TopColor := TColor(lua_tointeger(L,2));
-	BottomColor := TColor(lua_tointeger(L,3));
-	FrameWidth := lua_tointeger(L,4);
-	lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
-	lua_pushTRect(L,ARect);
-	Result := 1;
+	TopColor := luaL_checkColor(L,2);
+	BottomColor := luaL_checkColor(L,3);
+	luaL_check(L,4,@FrameWidth);
+	try
+		lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame3D', E.ClassName, E.Message);
+	end;
+	lua_push(L,ARect);
+end;
+
+function VCLua_Canvas_Frame3D4(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	ARect:TRect;
+	TopColor:TColor;
+	BottomColor:TColor;
+	FrameWidth:integer;
+begin
+	CheckArg(L, 5);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@ARect);
+	TopColor := luaL_checkColor(L,3);
+	BottomColor := luaL_checkColor(L,4);
+	luaL_check(L,5,@FrameWidth);
+	try
+		lCanvas.Frame3D(ARect,TopColor,BottomColor,FrameWidth);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame3D', E.ClassName, E.Message);
+	end;
+	lua_push(L,ARect);
 end;
 
 function VCLua_Canvas_GradientFill(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
 	AStart:TColor;
@@ -441,17 +592,21 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ARect := lua_toTRect(L,2);
-	AStart := TColor(lua_tointeger(L,3));
-	AStop := TColor(lua_tointeger(L,4));
-	ADirection := TGradientDirection(GetLuaObject(L,5));
-	lCanvas.GradientFill(ARect,AStart,AStop,ADirection);
-	
-	Result := 0;
+	luaL_check(L,2,@ARect);
+	AStart := luaL_checkColor(L,3);
+	AStop := luaL_checkColor(L,4);
+	luaL_check(L,5,@ADirection,TypeInfo(TGradientDirection));
+	try
+		lCanvas.GradientFill(ARect,AStart,AStop,ADirection);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'GradientFill', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_RadialPie(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	x1:Integer;
 	y1:Integer;
@@ -462,19 +617,23 @@ var
 begin
 	CheckArg(L, 7);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	x1 := lua_tointeger(L,2);
-	y1 := lua_tointeger(L,3);
-	x2 := lua_tointeger(L,4);
-	y2 := lua_tointeger(L,5);
-	StartAngle16Deg := lua_tointeger(L,6);
-	Angle16DegLength := lua_tointeger(L,7);
-	lCanvas.RadialPie(x1,y1,x2,y2,StartAngle16Deg,Angle16DegLength);
-	
-	Result := 0;
+	luaL_check(L,2,@x1);
+	luaL_check(L,3,@y1);
+	luaL_check(L,4,@x2);
+	luaL_check(L,5,@y2);
+	luaL_check(L,6,@StartAngle16Deg);
+	luaL_check(L,7,@Angle16DegLength);
+	try
+		lCanvas.RadialPie(x1,y1,x2,y2,StartAngle16Deg,Angle16DegLength);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'RadialPie', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Pie(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	EllipseX1:Integer;
 	EllipseY1:Integer;
@@ -487,100 +646,124 @@ var
 begin
 	CheckArg(L, 9);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	EllipseX1 := lua_tointeger(L,2);
-	EllipseY1 := lua_tointeger(L,3);
-	EllipseX2 := lua_tointeger(L,4);
-	EllipseY2 := lua_tointeger(L,5);
-	StartX := lua_tointeger(L,6);
-	StartY := lua_tointeger(L,7);
-	EndX := lua_tointeger(L,8);
-	EndY := lua_tointeger(L,9);
-	lCanvas.Pie(EllipseX1,EllipseY1,EllipseX2,EllipseY2,StartX,StartY,EndX,EndY);
-	
-	Result := 0;
+	luaL_check(L,2,@EllipseX1);
+	luaL_check(L,3,@EllipseY1);
+	luaL_check(L,4,@EllipseX2);
+	luaL_check(L,5,@EllipseY2);
+	luaL_check(L,6,@StartX);
+	luaL_check(L,7,@StartY);
+	luaL_check(L,8,@EndX);
+	luaL_check(L,9,@EndY);
+	try
+		lCanvas.Pie(EllipseX1,EllipseY1,EllipseX2,EllipseY2,StartX,StartY,EndX,EndY);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Pie', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_PolyBezier(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Points:array of TPoint;
 	Filled:boolean;
 	Continuous:boolean;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 2, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Points := lua_toTPointArray(L,2);
-	Filled := luaL_optbool(L,3,False);
-	Continuous := luaL_optbool(L,4,True);
-	lCanvas.PolyBezier(Points,Filled,Continuous);
-	
-	Result := 0;
+	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
+	TTrait<boolean>.luaL_optcheck(L, 3, @Filled, False);
+	TTrait<boolean>.luaL_optcheck(L, 4, @Continuous, True);
+	try
+		lCanvas.PolyBezier(Points,Filled,Continuous);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'PolyBezier', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Polygon(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Points:array of TPoint;
 	Winding:Boolean;
 	StartIndex:Integer;
 	NumPts:Integer;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 3, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Points := lua_toTPointArray(L,2);
-	Winding := lua_toboolean(L,3);
-	StartIndex := luaL_optint(L,4,0);
-	NumPts := luaL_optint(L,5,-1);
-	lCanvas.Polygon(Points,Winding,StartIndex,NumPts);
-	
-	Result := 0;
+	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
+	luaL_check(L,3,@Winding);
+	TTrait<Integer>.luaL_optcheck(L, 4, @StartIndex, 0);
+	TTrait<Integer>.luaL_optcheck(L, 5, @NumPts, -1);
+	try
+		lCanvas.Polygon(Points,Winding,StartIndex,NumPts);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Polygon', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Polygon2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Points:array of TPoint;
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Points := lua_toTPointArray(L,2);
-	lCanvas.Polygon(Points);
-	
-	Result := 0;
+	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
+	try
+		lCanvas.Polygon(Points);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Polygon', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Polyline(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Points:array of TPoint;
 	StartIndex:Integer;
 	NumPts:Integer;
 begin
-	CheckArg(L, -1);
+	CheckArg(L, 3, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Points := lua_toTPointArray(L,2);
-	StartIndex := lua_tointeger(L,3);
-	NumPts := luaL_optint(L,4,-1);
-	lCanvas.Polyline(Points,StartIndex,NumPts);
-	
-	Result := 0;
+	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
+	luaL_check(L,3,@StartIndex);
+	TTrait<Integer>.luaL_optcheck(L, 4, @NumPts, -1);
+	try
+		lCanvas.Polyline(Points,StartIndex,NumPts);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Polyline', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Polyline2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Points:array of TPoint;
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Points := lua_toTPointArray(L,2);
-	lCanvas.Polyline(Points);
-	
-	Result := 0;
+	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
+	try
+		lCanvas.Polyline(Points);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Polyline', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Rectangle(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	X1:Integer;
 	Y1:Integer;
@@ -589,30 +772,38 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X1 := lua_tointeger(L,2);
-	Y1 := lua_tointeger(L,3);
-	X2 := lua_tointeger(L,4);
-	Y2 := lua_tointeger(L,5);
-	lCanvas.Rectangle(X1,Y1,X2,Y2);
-	
-	Result := 0;
+	luaL_check(L,2,@X1);
+	luaL_check(L,3,@Y1);
+	luaL_check(L,4,@X2);
+	luaL_check(L,5,@Y2);
+	try
+		lCanvas.Rectangle(X1,Y1,X2,Y2);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Rectangle', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_Rectangle2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ARect := lua_toTRect(L,2);
-	lCanvas.Rectangle(ARect);
-	
-	Result := 0;
+	luaL_check(L,2,@ARect);
+	try
+		lCanvas.Rectangle(ARect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Rectangle', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_RoundRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	X1:Integer;
 	Y1:Integer;
@@ -623,19 +814,23 @@ var
 begin
 	CheckArg(L, 7);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X1 := lua_tointeger(L,2);
-	Y1 := lua_tointeger(L,3);
-	X2 := lua_tointeger(L,4);
-	Y2 := lua_tointeger(L,5);
-	RX := lua_tointeger(L,6);
-	RY := lua_tointeger(L,7);
-	lCanvas.RoundRect(X1,Y1,X2,Y2,RX,RY);
-	
-	Result := 0;
+	luaL_check(L,2,@X1);
+	luaL_check(L,3,@Y1);
+	luaL_check(L,4,@X2);
+	luaL_check(L,5,@Y2);
+	luaL_check(L,6,@RX);
+	luaL_check(L,7,@RY);
+	try
+		lCanvas.RoundRect(X1,Y1,X2,Y2,RX,RY);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'RoundRect', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_RoundRect2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Rect:TRect;
 	RX:Integer;
@@ -643,16 +838,20 @@ var
 begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Rect := lua_toTRect(L,2);
-	RX := lua_tointeger(L,3);
-	RY := lua_tointeger(L,4);
-	lCanvas.RoundRect(Rect,RX,RY);
-	
-	Result := 0;
+	luaL_check(L,2,@Rect);
+	luaL_check(L,3,@RX);
+	luaL_check(L,4,@RY);
+	try
+		lCanvas.RoundRect(Rect,RX,RY);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'RoundRect', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_TextOut(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	X:Integer;
 	Y:Integer;
@@ -660,16 +859,20 @@ var
 begin
 	CheckArg(L, 4);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	X := lua_tointeger(L,2);
-	Y := lua_tointeger(L,3);
-	Text := lua_toStringCP(L,4);
-	lCanvas.TextOut(X,Y,Text);
-	
-	Result := 0;
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
+	luaL_check(L,4,@Text);
+	try
+		lCanvas.TextOut(X,Y,Text);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextOut', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_TextRect(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
 	X:integer;
@@ -678,17 +881,21 @@ var
 begin
 	CheckArg(L, 5);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ARect := lua_toTRect(L,2);
-	X := lua_tointeger(L,3);
-	Y := lua_tointeger(L,4);
-	Text := lua_toStringCP(L,5);
-	lCanvas.TextRect(ARect,X,Y,Text);
-	
-	Result := 0;
+	luaL_check(L,2,@ARect);
+	luaL_check(L,3,@X);
+	luaL_check(L,4,@Y);
+	luaL_check(L,5,@Text);
+	try
+		lCanvas.TextRect(ARect,X,Y,Text);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextRect', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_TextRect2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ARect:TRect;
 	X:integer;
@@ -698,48 +905,60 @@ var
 begin
 	CheckArg(L, 6);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ARect := lua_toTRect(L,2);
-	X := lua_tointeger(L,3);
-	Y := lua_tointeger(L,4);
-	Text := lua_toStringCP(L,5);
-	Style := lua_toTextStyle(L,6);
-	lCanvas.TextRect(ARect,X,Y,Text,Style);
-	
-	Result := 0;
+	luaL_check(L,2,@ARect);
+	luaL_check(L,3,@X);
+	luaL_check(L,4,@Y);
+	luaL_check(L,5,@Text);
+	luaL_check(L,6,@Style);
+	try
+		lCanvas.TextRect(ARect,X,Y,Text,Style);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextRect', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_TextHeight(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Text:string;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Text := lua_toStringCP(L,2);
-	ret := lCanvas.TextHeight(Text);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Text);
+	try
+		ret := lCanvas.TextHeight(Text);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Canvas_TextWidth(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Text:string;
 	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Text := lua_toStringCP(L,2);
-	ret := lCanvas.TextWidth(Text);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Text);
+	try
+		ret := lCanvas.TextWidth(Text);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Canvas_TextFitInfo(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	Text:string;
 	MaxWidth:Integer;
@@ -747,25 +966,116 @@ var
 begin
 	CheckArg(L, 3);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	Text := lua_toStringCP(L,2);
-	MaxWidth := lua_tointeger(L,3);
-	ret := lCanvas.TextFitInfo(Text,MaxWidth);
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	luaL_check(L,2,@Text);
+	luaL_check(L,3,@MaxWidth);
+	try
+		ret := lCanvas.TextFitInfo(Text,MaxWidth);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextFitInfo', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Canvas_HandleAllocated(L: Plua_State): Integer; cdecl;
-var 
+var
 	lCanvas:TLuaCanvas;
 	ret:boolean;
 begin
 	CheckArg(L, 1);
 	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
-	ret := lCanvas.HandleAllocated();
-	lua_pushboolean(L,ret);
-	
-	Result := 1;
+	try
+		ret := lCanvas.HandleAllocated();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'HandleAllocated', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Canvas_Pixels(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	X:Integer;
+	Y:Integer;
+	ret:TColor;
+begin
+	CheckArg(L, 3, 4);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@X);
+	luaL_check(L,3,@Y);
+	try
+		if lua_isnone(L, 4) then begin
+			ret := lCanvas.Pixels[X,Y];
+			lua_push(L,ret);
+			Result := 1;
+		end else begin
+			ret := luaL_checkColor(L,4);
+			lCanvas.Pixels[X,Y] := ret;
+			Result := 0;
+		end;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Pixels', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Canvas_VCLuaSetTextStyle(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	val:TTextStyle;
+begin
+	CheckArg(L, 2);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCanvas.TextStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Canvas_VCLuaGetTextStyle(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	ret:TTextStyle;
+begin
+	CheckArg(L, 1);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	try
+		ret := lCanvas.TextStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'TextStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Canvas_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+begin
+	CheckArg(L, 2);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCanvas.OnChange));
+	lCanvas.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Canvas_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+begin
+	CheckArg(L, 2);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCanvas.OnChanging));
+	lCanvas.OnChanging := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
 end;
 
 function VCLua_Canvas_SetPixel(L: Plua_State): Integer; cdecl;
@@ -784,56 +1094,64 @@ begin
     Result := 0;
 end;
 
-procedure CanvasToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TCanvas; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Lock', @VCLua_Canvas_Lock);
-	LuaSetTableFunction(L, Index, 'TryLock', @VCLua_Canvas_TryLock);
-	LuaSetTableFunction(L, Index, 'Unlock', @VCLua_Canvas_Unlock);
-	LuaSetTableFunction(L, Index, 'Refresh', @VCLua_Canvas_Refresh);
-	LuaSetTableFunction(L, Index, 'Changing', @VCLua_Canvas_Changing);
-	LuaSetTableFunction(L, Index, 'Changed', @VCLua_Canvas_Changed);
-	LuaSetTableFunction(L, Index, 'SaveHandleState', @VCLua_Canvas_SaveHandleState);
-	LuaSetTableFunction(L, Index, 'RestoreHandleState', @VCLua_Canvas_RestoreHandleState);
-	LuaSetTableFunction(L, Index, 'Arc', @VCLua_Canvas_Arc);
-	LuaSetTableFunction(L, Index, 'Arc2', @VCLua_Canvas_Arc2);
-	LuaSetTableFunction(L, Index, 'AngleArc', @VCLua_Canvas_AngleArc);
-	LuaSetTableFunction(L, Index, 'BrushCopy', @VCLua_Canvas_BrushCopy);
-	LuaSetTableFunction(L, Index, 'Chord', @VCLua_Canvas_Chord);
-	LuaSetTableFunction(L, Index, 'Chord2', @VCLua_Canvas_Chord2);
-	LuaSetTableFunction(L, Index, 'CopyRect', @VCLua_Canvas_CopyRect);
-	LuaSetTableFunction(L, Index, 'Draw', @VCLua_Canvas_Draw);
-	LuaSetTableFunction(L, Index, 'DrawFocusRect', @VCLua_Canvas_DrawFocusRect);
-	LuaSetTableFunction(L, Index, 'StretchDraw', @VCLua_Canvas_StretchDraw);
-	LuaSetTableFunction(L, Index, 'Ellipse', @VCLua_Canvas_Ellipse);
-	LuaSetTableFunction(L, Index, 'Ellipse2', @VCLua_Canvas_Ellipse2);
-	LuaSetTableFunction(L, Index, 'FillRect', @VCLua_Canvas_FillRect);
-	LuaSetTableFunction(L, Index, 'FillRect2', @VCLua_Canvas_FillRect2);
-	LuaSetTableFunction(L, Index, 'FloodFill', @VCLua_Canvas_FloodFill);
-	LuaSetTableFunction(L, Index, 'Frame3d', @VCLua_Canvas_Frame3d);
-	LuaSetTableFunction(L, Index, 'Frame3D', @VCLua_Canvas_Frame3D_);
-	LuaSetTableFunction(L, Index, 'GradientFill', @VCLua_Canvas_GradientFill);
-	LuaSetTableFunction(L, Index, 'RadialPie', @VCLua_Canvas_RadialPie);
-	LuaSetTableFunction(L, Index, 'Pie', @VCLua_Canvas_Pie);
-	LuaSetTableFunction(L, Index, 'PolyBezier', @VCLua_Canvas_PolyBezier);
-	LuaSetTableFunction(L, Index, 'Polygon', @VCLua_Canvas_Polygon);
-	LuaSetTableFunction(L, Index, 'Polygon2', @VCLua_Canvas_Polygon2);
-	LuaSetTableFunction(L, Index, 'Polyline', @VCLua_Canvas_Polyline);
-	LuaSetTableFunction(L, Index, 'Polyline2', @VCLua_Canvas_Polyline2);
-	LuaSetTableFunction(L, Index, 'Rectangle', @VCLua_Canvas_Rectangle);
-	LuaSetTableFunction(L, Index, 'Rectangle2', @VCLua_Canvas_Rectangle2);
-	LuaSetTableFunction(L, Index, 'RoundRect', @VCLua_Canvas_RoundRect);
-	LuaSetTableFunction(L, Index, 'RoundRect2', @VCLua_Canvas_RoundRect2);
-	LuaSetTableFunction(L, Index, 'TextOut', @VCLua_Canvas_TextOut);
-	LuaSetTableFunction(L, Index, 'TextRect', @VCLua_Canvas_TextRect);
-	LuaSetTableFunction(L, Index, 'TextRect2', @VCLua_Canvas_TextRect2);
-	LuaSetTableFunction(L, Index, 'TextHeight', @VCLua_Canvas_TextHeight);
-	LuaSetTableFunction(L, Index, 'TextWidth', @VCLua_Canvas_TextWidth);
-	LuaSetTableFunction(L, Index, 'TextFitInfo', @VCLua_Canvas_TextFitInfo);
-	LuaSetTableFunction(L, Index, 'HandleAllocated', @VCLua_Canvas_HandleAllocated);
-	LuaSetTableFunction(L, Index, 'SetPixel', @VCLua_Canvas_SetPixel);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TCanvas',v);
 end;
 
+begin
+	CanvasFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CanvasFuncs, 'Lock', @VCLua_Canvas_Lock);
+	TLuaMethodInfo.Create(CanvasFuncs, 'TryLock', @VCLua_Canvas_TryLock);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Unlock', @VCLua_Canvas_Unlock);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Refresh', @VCLua_Canvas_Refresh);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Changing', @VCLua_Canvas_Changing);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Changed', @VCLua_Canvas_Changed);
+	TLuaMethodInfo.Create(CanvasFuncs, 'SaveHandleState', @VCLua_Canvas_SaveHandleState);
+	TLuaMethodInfo.Create(CanvasFuncs, 'RestoreHandleState', @VCLua_Canvas_RestoreHandleState);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Arc', @VCLua_Canvas_Arc);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Arc2', @VCLua_Canvas_Arc2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'AngleArc', @VCLua_Canvas_AngleArc);
+	TLuaMethodInfo.Create(CanvasFuncs, 'BrushCopy', @VCLua_Canvas_BrushCopy);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Chord', @VCLua_Canvas_Chord);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Chord2', @VCLua_Canvas_Chord2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'CopyRect', @VCLua_Canvas_CopyRect);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Draw', @VCLua_Canvas_Draw);
+	TLuaMethodInfo.Create(CanvasFuncs, 'DrawFocusRect', @VCLua_Canvas_DrawFocusRect);
+	TLuaMethodInfo.Create(CanvasFuncs, 'StretchDraw', @VCLua_Canvas_StretchDraw);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Ellipse', @VCLua_Canvas_Ellipse);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Ellipse2', @VCLua_Canvas_Ellipse2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'FillRect', @VCLua_Canvas_FillRect);
+	TLuaMethodInfo.Create(CanvasFuncs, 'FillRect2', @VCLua_Canvas_FillRect2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'FloodFill', @VCLua_Canvas_FloodFill);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Frame3d', @VCLua_Canvas_Frame3d);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Frame3d2', @VCLua_Canvas_Frame3d2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Frame3D3', @VCLua_Canvas_Frame3D3);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Frame3D4', @VCLua_Canvas_Frame3D4);
+	TLuaMethodInfo.Create(CanvasFuncs, 'GradientFill', @VCLua_Canvas_GradientFill);
+	TLuaMethodInfo.Create(CanvasFuncs, 'RadialPie', @VCLua_Canvas_RadialPie);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Pie', @VCLua_Canvas_Pie);
+	TLuaMethodInfo.Create(CanvasFuncs, 'PolyBezier', @VCLua_Canvas_PolyBezier);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Polygon', @VCLua_Canvas_Polygon);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Polygon2', @VCLua_Canvas_Polygon2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Polyline', @VCLua_Canvas_Polyline);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Polyline2', @VCLua_Canvas_Polyline2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Rectangle', @VCLua_Canvas_Rectangle);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Rectangle2', @VCLua_Canvas_Rectangle2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'RoundRect', @VCLua_Canvas_RoundRect);
+	TLuaMethodInfo.Create(CanvasFuncs, 'RoundRect2', @VCLua_Canvas_RoundRect2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'TextOut', @VCLua_Canvas_TextOut);
+	TLuaMethodInfo.Create(CanvasFuncs, 'TextRect', @VCLua_Canvas_TextRect);
+	TLuaMethodInfo.Create(CanvasFuncs, 'TextRect2', @VCLua_Canvas_TextRect2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'TextHeight', @VCLua_Canvas_TextHeight);
+	TLuaMethodInfo.Create(CanvasFuncs, 'TextWidth', @VCLua_Canvas_TextWidth);
+	TLuaMethodInfo.Create(CanvasFuncs, 'TextFitInfo', @VCLua_Canvas_TextFitInfo);
+	TLuaMethodInfo.Create(CanvasFuncs, 'HandleAllocated', @VCLua_Canvas_HandleAllocated);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Pixels', @VCLua_Canvas_Pixels);
+	TLuaMethodInfo.Create(CanvasFuncs, 'TextStyle', @VCLua_Canvas_VCLuaGetTextStyle, mfCall);
+	TLuaMethodInfo.Create(CanvasFuncs, 'SetPixel', @VCLua_Canvas_SetPixel);
+	CanvasSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CanvasSets, 'TextStyle', @VCLua_Canvas_VCLuaSetTextStyle, mfCall, TypeInfo(TTextStyle));
+	TLuaMethodInfo.Create(CanvasSets, 'OnChange', @VCLua_Canvas_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CanvasSets, 'OnChanging', @VCLua_Canvas_VCLuaSetOnChanging, mfCall, TypeInfo(TNotifyEvent));
 end.

@@ -4,14 +4,14 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaSplitter;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls, LuaControl;
+Uses Lua, LuaController, TypInfo, LuaVmt, ExtCtrls;
 
 function CreateSplitter(L: Plua_State): Integer; cdecl;
-procedure SplitterToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TSplitter; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaSplitter = class(TSplitter)
@@ -19,88 +19,341 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    CustomSplitterFuncs: TLuaVmt;
+    CustomSplitterSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaControl, LuaEvent, LuaExtCtrlsEvents;
 
 function VCLua_Splitter_AnchorSplitter(L: Plua_State): Integer; cdecl;
-var 
+var
 	lSplitter:TLuaSplitter;
 	Kind:TAnchorKind;
 	AControl:TControl;
 begin
 	CheckArg(L, 3);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	Kind := TAnchorKind(GetLuaObject(L,2));
-	AControl := TControl(GetLuaObject(L,3));
-	lSplitter.AnchorSplitter(Kind,AControl);
-	
-	Result := 0;
+	luaL_check(L,2,@Kind,TypeInfo(TAnchorKind));
+	luaL_check(L,3,@AControl);
+	try
+		lSplitter.AnchorSplitter(Kind,AControl);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'AnchorSplitter', E.ClassName, E.Message);
+	end;
 end;
 
-function VCLua_Splitter_GetOtherResizeControl(L: Plua_State): Integer; cdecl;
-var 
+function VCLua_Splitter_VCLuaSetResizeControl(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	val:TControl;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lSplitter.ResizeControl := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'ResizeControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Splitter_VCLuaGetResizeControl(L: Plua_State): Integer; cdecl;
+var
 	lSplitter:TLuaSplitter;
 	ret:TControl;
 begin
 	CheckArg(L, 1);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	ret := lSplitter.GetOtherResizeControl();
-	lua_pushlightuserdata(L,ret);
-	
-	Result := 1;
+	try
+		ret := lSplitter.ResizeControl;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'ResizeControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Splitter_GetOtherResizeControl(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	ret:TControl;
+begin
+	CheckArg(L, 1);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	try
+		ret := lSplitter.GetOtherResizeControl();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'GetOtherResizeControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Splitter_MoveSplitter(L: Plua_State): Integer; cdecl;
-var 
+var
 	lSplitter:TLuaSplitter;
 	Offset:integer;
 begin
 	CheckArg(L, 2);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	Offset := lua_tointeger(L,2);
-	lSplitter.MoveSplitter(Offset);
-	
-	Result := 0;
+	luaL_check(L,2,@Offset);
+	try
+		lSplitter.MoveSplitter(Offset);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'MoveSplitter', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Splitter_SetSplitterPosition(L: Plua_State): Integer; cdecl;
-var 
+var
 	lSplitter:TLuaSplitter;
 	NewPosition:integer;
 begin
 	CheckArg(L, 2);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	NewPosition := lua_tointeger(L,2);
-	lSplitter.SetSplitterPosition(NewPosition);
-	
-	Result := 0;
+	luaL_check(L,2,@NewPosition);
+	try
+		lSplitter.SetSplitterPosition(NewPosition);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'SetSplitterPosition', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Splitter_GetSplitterPosition(L: Plua_State): Integer; cdecl;
-var 
+var
 	lSplitter:TLuaSplitter;
 	ret:integer;
 begin
 	CheckArg(L, 1);
 	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
-	ret := lSplitter.GetSplitterPosition();
-	lua_pushinteger(L,ret);
-	
-	Result := 1;
+	try
+		ret := lSplitter.GetSplitterPosition();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'GetSplitterPosition', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
-procedure SplitterToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_Splitter_VCLuaSetAutoSnap(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	val:boolean;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'AnchorSplitter', @VCLua_Splitter_AnchorSplitter);
-	LuaSetTableFunction(L, Index, 'GetOtherResizeControl', @VCLua_Splitter_GetOtherResizeControl);
-	LuaSetTableFunction(L, Index, 'MoveSplitter', @VCLua_Splitter_MoveSplitter);
-	LuaSetTableFunction(L, Index, 'SetSplitterPosition', @VCLua_Splitter_SetSplitterPosition);
-	LuaSetTableFunction(L, Index, 'GetSplitterPosition', @VCLua_Splitter_GetSplitterPosition);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lSplitter.AutoSnap := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'AutoSnap', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Splitter_VCLuaGetAutoSnap(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	try
+		ret := lSplitter.AutoSnap;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'AutoSnap', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Splitter_VCLuaSetBeveled(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	val:boolean;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lSplitter.Beveled := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'Beveled', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Splitter_VCLuaGetBeveled(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	try
+		ret := lSplitter.Beveled;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'Beveled', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Splitter_VCLuaSetMinSize(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	val:integer;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lSplitter.MinSize := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'MinSize', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Splitter_VCLuaGetMinSize(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	try
+		ret := lSplitter.MinSize;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'MinSize', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Splitter_VCLuaSetOnCanOffset(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lSplitter.OnCanOffset));
+	lSplitter.OnCanOffset := TLuaEvent.Factory<TCanOffsetEvent,TLuaCanOffsetEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Splitter_VCLuaSetOnCanResize(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lSplitter.OnCanResize));
+	lSplitter.OnCanResize := TLuaEvent.Factory<TCanResizeEvent,TLuaCanResizeEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Splitter_VCLuaSetOnMoved(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lSplitter.OnMoved));
+	lSplitter.OnMoved := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_Splitter_VCLuaSetResizeAnchor(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	val:TAnchorKind;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TAnchorKind));
+	try
+		lSplitter.ResizeAnchor := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'ResizeAnchor', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Splitter_VCLuaGetResizeAnchor(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	ret:TAnchorKind;
+begin
+	CheckArg(L, 1);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	try
+		ret := lSplitter.ResizeAnchor;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'ResizeAnchor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Splitter_VCLuaSetResizeStyle(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	val:TResizeStyle;
+begin
+	CheckArg(L, 2);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TResizeStyle));
+	try
+		lSplitter.ResizeStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'ResizeStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Splitter_VCLuaGetResizeStyle(L: Plua_State): Integer; cdecl;
+var
+	lSplitter:TLuaSplitter;
+	ret:TResizeStyle;
+begin
+	CheckArg(L, 1);
+	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	try
+		ret := lSplitter.ResizeStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Splitter', 'ResizeStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+procedure lua_push(L: Plua_State; const v: TSplitter; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TCustomSplitter',v);
 end;
 function CreateSplitter(L: Plua_State): Integer; cdecl;
 var
@@ -111,10 +364,33 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSplitter := TLuaSplitter.Create(Parent);
 	lSplitter.Parent := TWinControl(Parent);
-	lSplitter.LuaCtl := TVCLuaControl.Create(TControl(lSplitter),L,@SplitterToTable);
+	lSplitter.LuaCtl := TVCLuaControl.Create(lSplitter as TComponent,L,nil,'TCustomSplitter');
+	CreateTableForKnownType(L,'TCustomSplitter',lSplitter);
 	InitControl(L,lSplitter,Name);
-	SplitterToTable(L, -1, lSplitter);
 	Result := 1;
 end;
 
+begin
+	CustomSplitterFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'AnchorSplitter', @VCLua_Splitter_AnchorSplitter);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'ResizeControl', @VCLua_Splitter_VCLuaGetResizeControl, mfCall);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'GetOtherResizeControl', @VCLua_Splitter_GetOtherResizeControl);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'MoveSplitter', @VCLua_Splitter_MoveSplitter);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'SetSplitterPosition', @VCLua_Splitter_SetSplitterPosition);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'GetSplitterPosition', @VCLua_Splitter_GetSplitterPosition);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'AutoSnap', @VCLua_Splitter_VCLuaGetAutoSnap, mfCall);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'Beveled', @VCLua_Splitter_VCLuaGetBeveled, mfCall);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'MinSize', @VCLua_Splitter_VCLuaGetMinSize, mfCall);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'ResizeAnchor', @VCLua_Splitter_VCLuaGetResizeAnchor, mfCall);
+	TLuaMethodInfo.Create(CustomSplitterFuncs, 'ResizeStyle', @VCLua_Splitter_VCLuaGetResizeStyle, mfCall);
+	CustomSplitterSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeControl', @VCLua_Splitter_VCLuaSetResizeControl, mfCall, TypeInfo(TControl));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'AutoSnap', @VCLua_Splitter_VCLuaSetAutoSnap, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'Beveled', @VCLua_Splitter_VCLuaSetBeveled, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'MinSize', @VCLua_Splitter_VCLuaSetMinSize, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'OnCanOffset', @VCLua_Splitter_VCLuaSetOnCanOffset, mfCall, TypeInfo(TCanOffsetEvent));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'OnCanResize', @VCLua_Splitter_VCLuaSetOnCanResize, mfCall, TypeInfo(TCanResizeEvent));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'OnMoved', @VCLua_Splitter_VCLuaSetOnMoved, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeAnchor', @VCLua_Splitter_VCLuaSetResizeAnchor, mfCall, TypeInfo(TAnchorKind));
+	TLuaMethodInfo.Create(CustomSplitterSets, 'ResizeStyle', @VCLua_Splitter_VCLuaSetResizeStyle, mfCall, TypeInfo(TResizeStyle));
 end.

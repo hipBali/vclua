@@ -4,7 +4,7 @@ interface
 
 uses
   Dialogs,
-  Classes, SysUtils, Lua;
+  Classes, SysUtils, TypInfo, Lua;
 
 const
   HandleStr = 'Handle';
@@ -17,10 +17,13 @@ const
 function RunSeparate(L: Plua_State):integer;cdecl;
 
 procedure LuaError(L: Plua_State; text: String; err: String);
+procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
+procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo); inline;
 procedure DoScript(L: Plua_State; fileName: String);
 procedure DoCall(L: Plua_State; paramCount:integer);
 
-procedure CheckArg(L: Plua_State; N: Integer);
+procedure CheckArg(L: Plua_State; N: Integer);overload;
+procedure CheckArg(L: Plua_State; N,M: Integer);overload;
 function GetLuaObject(L: Plua_State; Index: Integer): TObject;
 function GetLuaUserData(L: Plua_State; Index: Integer): Pointer;
 function LuaGetTableLightUserData(L: Plua_State; TableIndex: Integer; const Key: string): Pointer;
@@ -162,6 +165,29 @@ begin
      // Halt;
 end;
 
+procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
+begin
+  ShowMessage(Format('LCL Error:'+#13+'calling %s.%s got %s:'+#13+err, [className, methodName, text]));
+  luaL_error(L, 'LCL Error');
+end;
+
+procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo);
+var t,v:string;
+begin
+  index := LuaAbsIndex(L, index);
+  t := lua_typename(L, lua_type(L, index));
+  {$IFNDEF LUA51}
+  v := luaL_tolstring(L, index, nil);
+  {$ELSE}
+  lua_getglobal(L, 'tostring');
+  lua_pushvalue(L, index);
+  lua_call(L, 1, 1);
+  v := lua_tostring(L, -1);
+  {$ENDIF}
+  lua_pop(L, 1);
+  LuaError(L, 'Wrong type', format('Expected value convertible to ''%s'', got ''%s'' of Lua type ''%s''', [pti^.Name, v, t]));
+end;
+
 procedure DoScript(L: Plua_State; fileName: String);
 begin
      if (luaL_loadfile(L, PChar(FileName)) <> 0) then begin
@@ -186,7 +212,7 @@ end;
 function GetLuaObject(L: Plua_State; Index: Integer): TObject;
 begin
 	if (not lua_isnil(L, Index)) then
-		Result := TObject(LuaGetTableLightUserData(L, Index, HandleStr))
+		Result := TObject(LuaRawGetTableLightUserData(L, Index, HandleStr))
 	else
 		Result := nil;
 end;
@@ -241,6 +267,8 @@ begin
     lua_settable(L, TableIndex);
     lua_pushnil(L);
   end;
+  lua_pushnil(L);
+  lua_setmetatable(L,TableIndex);
 end;
 
 procedure LuaPushKeyString(L: Plua_State; var Index: Integer; const Key: string);
@@ -269,7 +297,15 @@ end;
 procedure CheckArg(L: Plua_State; N: Integer);
 begin
   if ((lua_gettop(L) <> N) and (N<>-1)) then
-    LuaError(L, 'BAD parameter call!', IntToStr(N)+ 'params required!');
+    LuaError(L, 'BAD parameter call!', IntToStr(N)+ ' params required!');
+end;
+procedure CheckArg(L: Plua_State; N,M: Integer);
+var
+  top:Integer;
+begin
+  top := lua_gettop(L);
+  if ((top < N) and (N<>-1)) or (top > M) then
+    LuaError(L, 'BAD parameter call!', Format('From %d to %d params required! Got %d', [N, M, top]));
 end;
 
 procedure LuaRawSetTableFunction(L: Plua_State; TableIndex: Integer; const Key: string; F: lua_CFunction);
@@ -406,6 +442,7 @@ begin
   top := lua_gettop(L);
   ds := '';
   for i := 1 to top do begin
+         ds := ds + IntToStr(i) + ': ';
          t := lua_type(L, i);
          case (t) of
 
@@ -418,7 +455,7 @@ begin
            else
              ds := ds + string(lua_typename(L, t));
          end;
-         ds := IntToStr(i) + ': ' + ds + #10#13;
+         ds := ds + #10#13;
   end;
   result := ds;
 end;

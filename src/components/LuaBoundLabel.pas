@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaBoundLabel;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, ExtCtrls;
 
 function CreateBoundLabel(L: Plua_State): Integer; cdecl;
-procedure BoundLabelToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TBoundLabel; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaBoundLabel = class(TBoundLabel)
         LuaCtl: TVCLuaControl;
     end;
+var
+    BoundLabelFuncs: TLuaVmt;
+    BoundLabelSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure BoundLabelToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TBoundLabel; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TBoundLabel',v);
 end;
 function CreateBoundLabel(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBoundLabel := TLuaBoundLabel.Create(Parent);
 	lBoundLabel.Parent := TWinControl(Parent);
-	lBoundLabel.LuaCtl := TVCLuaControl.Create(TControl(lBoundLabel),L,@BoundLabelToTable);
+	lBoundLabel.LuaCtl := TVCLuaControl.Create(lBoundLabel as TComponent,L,nil,'TBoundLabel');
+	CreateTableForKnownType(L,'TBoundLabel',lBoundLabel);
 	InitControl(L,lBoundLabel,Name);
-	BoundLabelToTable(L, -1, lBoundLabel);
 	Result := 1;
 end;
 
+begin
+	BoundLabelFuncs := TLuaVmt.Create;
+	
+	BoundLabelSets := TLuaVmt.Create;
+	
 end.

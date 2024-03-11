@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaToggleBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, StdCtrls;
 
 function CreateToggleBox(L: Plua_State): Integer; cdecl;
-procedure ToggleBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TToggleBox; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaToggleBox = class(TToggleBox)
         LuaCtl: TVCLuaControl;
     end;
+var
+    ToggleBoxFuncs: TLuaVmt;
+    ToggleBoxSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure ToggleBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TToggleBox; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TToggleBox',v);
 end;
 function CreateToggleBox(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToggleBox := TLuaToggleBox.Create(Parent);
 	lToggleBox.Parent := TWinControl(Parent);
-	lToggleBox.LuaCtl := TVCLuaControl.Create(TControl(lToggleBox),L,@ToggleBoxToTable);
+	lToggleBox.LuaCtl := TVCLuaControl.Create(lToggleBox as TComponent,L,nil,'TToggleBox');
+	CreateTableForKnownType(L,'TToggleBox',lToggleBox);
 	InitControl(L,lToggleBox,Name);
-	ToggleBoxToTable(L, -1, lToggleBox);
 	Result := 1;
 end;
 
+begin
+	ToggleBoxFuncs := TLuaVmt.Create;
+	
+	ToggleBoxSets := TLuaVmt.Create;
+	
 end.

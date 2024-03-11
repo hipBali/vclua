@@ -4,59 +4,306 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaMemo;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, StdCtrls;
 
 function CreateMemo(L: Plua_State): Integer; cdecl;
-procedure MemoToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TMemo; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaMemo = class(TMemo)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomMemoFuncs: TLuaVmt;
+    CustomMemoSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaStrings;
 
 function VCLua_Memo_Append(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMemo:TLuaMemo;
 	AValue:String;
 begin
 	CheckArg(L, 2);
 	lMemo := TLuaMemo(GetLuaObject(L, 1));
-	AValue := lua_toStringCP(L,2);
-	lMemo.Append(AValue);
-	
-	Result := 0;
+	luaL_check(L,2,@AValue);
+	try
+		lMemo.Append(AValue);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'Append', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Memo_ScrollBy(L: Plua_State): Integer; cdecl;
-var 
+var
 	lMemo:TLuaMemo;
 	DeltaX:Integer;
 	DeltaY:Integer;
 begin
 	CheckArg(L, 3);
 	lMemo := TLuaMemo(GetLuaObject(L, 1));
-	DeltaX := lua_tointeger(L,2);
-	DeltaY := lua_tointeger(L,3);
-	lMemo.ScrollBy(DeltaX,DeltaY);
-	
-	Result := 0;
+	luaL_check(L,2,@DeltaX);
+	luaL_check(L,3,@DeltaY);
+	try
+		lMemo.ScrollBy(DeltaX,DeltaY);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'ScrollBy', E.ClassName, E.Message);
+	end;
 end;
 
-procedure MemoToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_Memo_VCLuaSetLines(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	val:TStrings;
+	valNeedsFree:Boolean = False;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'Append', @VCLua_Memo_Append);
-	LuaSetTableFunction(L, Index, 'ScrollBy', @VCLua_Memo_ScrollBy);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
+	try
+		lMemo.Lines := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'Lines', E.ClassName, E.Message);
+	end;
+	if valNeedsFree then val.Free;
+end;
+
+function VCLua_Memo_VCLuaGetLines(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	ret:TStrings;
+begin
+	CheckArg(L, 1);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	try
+		ret := lMemo.Lines;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'Lines', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Memo_VCLuaSetHorzScrollBar(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	val:TMemoScrollBar;
+begin
+	CheckArg(L, 2);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lMemo.HorzScrollBar := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'HorzScrollBar', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Memo_VCLuaGetHorzScrollBar(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	ret:TMemoScrollBar;
+begin
+	CheckArg(L, 1);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	try
+		ret := lMemo.HorzScrollBar;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'HorzScrollBar', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Memo_VCLuaSetVertScrollBar(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	val:TMemoScrollBar;
+begin
+	CheckArg(L, 2);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lMemo.VertScrollBar := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'VertScrollBar', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Memo_VCLuaGetVertScrollBar(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	ret:TMemoScrollBar;
+begin
+	CheckArg(L, 1);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	try
+		ret := lMemo.VertScrollBar;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'VertScrollBar', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Memo_VCLuaSetScrollBars(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	val:TScrollStyle;
+begin
+	CheckArg(L, 2);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TScrollStyle));
+	try
+		lMemo.ScrollBars := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'ScrollBars', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Memo_VCLuaGetScrollBars(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	ret:TScrollStyle;
+begin
+	CheckArg(L, 1);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	try
+		ret := lMemo.ScrollBars;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'ScrollBars', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Memo_VCLuaSetWantReturns(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lMemo.WantReturns := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'WantReturns', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Memo_VCLuaGetWantReturns(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	try
+		ret := lMemo.WantReturns;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'WantReturns', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Memo_VCLuaSetWantTabs(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lMemo.WantTabs := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'WantTabs', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Memo_VCLuaGetWantTabs(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	try
+		ret := lMemo.WantTabs;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'WantTabs', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Memo_VCLuaSetWordWrap(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lMemo.WordWrap := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'WordWrap', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Memo_VCLuaGetWordWrap(L: Plua_State): Integer; cdecl;
+var
+	lMemo:TLuaMemo;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	try
+		ret := lMemo.WordWrap;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Memo', 'WordWrap', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+procedure lua_push(L: Plua_State; const v: TMemo; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TCustomMemo',v);
 end;
 function CreateMemo(L: Plua_State): Integer; cdecl;
 var
@@ -67,10 +314,29 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMemo := TLuaMemo.Create(Parent);
 	lMemo.Parent := TWinControl(Parent);
-	lMemo.LuaCtl := TVCLuaControl.Create(TControl(lMemo),L,@MemoToTable);
+	lMemo.LuaCtl := TVCLuaControl.Create(lMemo as TComponent,L,nil,'TCustomMemo');
+	CreateTableForKnownType(L,'TCustomMemo',lMemo);
 	InitControl(L,lMemo,Name);
-	MemoToTable(L, -1, lMemo);
 	Result := 1;
 end;
 
+begin
+	CustomMemoFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'Append', @VCLua_Memo_Append);
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'ScrollBy', @VCLua_Memo_ScrollBy);
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'Lines', @VCLua_Memo_VCLuaGetLines, mfCall);
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'HorzScrollBar', @VCLua_Memo_VCLuaGetHorzScrollBar, mfCall);
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'VertScrollBar', @VCLua_Memo_VCLuaGetVertScrollBar, mfCall);
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'ScrollBars', @VCLua_Memo_VCLuaGetScrollBars, mfCall);
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'WantReturns', @VCLua_Memo_VCLuaGetWantReturns, mfCall);
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'WantTabs', @VCLua_Memo_VCLuaGetWantTabs, mfCall);
+	TLuaMethodInfo.Create(CustomMemoFuncs, 'WordWrap', @VCLua_Memo_VCLuaGetWordWrap, mfCall);
+	CustomMemoSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomMemoSets, 'Lines', @VCLua_Memo_VCLuaSetLines, mfCall, TypeInfo(TStrings));
+	TLuaMethodInfo.Create(CustomMemoSets, 'HorzScrollBar', @VCLua_Memo_VCLuaSetHorzScrollBar, mfCall, TypeInfo(TMemoScrollBar));
+	TLuaMethodInfo.Create(CustomMemoSets, 'VertScrollBar', @VCLua_Memo_VCLuaSetVertScrollBar, mfCall, TypeInfo(TMemoScrollBar));
+	TLuaMethodInfo.Create(CustomMemoSets, 'ScrollBars', @VCLua_Memo_VCLuaSetScrollBars, mfCall, TypeInfo(TScrollStyle));
+	TLuaMethodInfo.Create(CustomMemoSets, 'WantReturns', @VCLua_Memo_VCLuaSetWantReturns, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomMemoSets, 'WantTabs', @VCLua_Memo_VCLuaSetWantTabs, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomMemoSets, 'WordWrap', @VCLua_Memo_VCLuaSetWordWrap, mfCall, TypeInfo(Boolean));
 end.

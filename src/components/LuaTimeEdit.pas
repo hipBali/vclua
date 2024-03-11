@@ -4,14 +4,14 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaTimeEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, EditBtn;
 
 function CreateTimeEdit(L: Plua_State): Integer; cdecl;
-procedure TimeEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TTimeEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaTimeEdit = class(TTimeEdit)
@@ -20,15 +20,22 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
-
-procedure TimeEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_TimeEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
+var
+	lTimeEdit:TLuaTimeEdit;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lTimeEdit := TLuaTimeEdit(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lTimeEdit.OnButtonClick));
+	lTimeEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+procedure lua_push(L: Plua_State; const v: TTimeEdit; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TCustomEditButton',v);
 end;
 function CreateTimeEdit(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +46,11 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTimeEdit := TLuaTimeEdit.Create(Parent);
 	lTimeEdit.Parent := TWinControl(Parent);
-	lTimeEdit.LuaCtl := TVCLuaControl.Create(TControl(lTimeEdit),L,@TimeEditToTable);
+	lTimeEdit.LuaCtl := TVCLuaControl.Create(lTimeEdit as TComponent,L,nil,'TCustomEditButton');
+	CreateTableForKnownType(L,'TCustomEditButton',lTimeEdit);
 	InitControl(L,lTimeEdit,Name);
-	TimeEditToTable(L, -1, lTimeEdit);
 	Result := 1;
 end;
 
+begin
 end.

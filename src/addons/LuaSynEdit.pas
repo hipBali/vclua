@@ -5,7 +5,7 @@ unit LuaSynEdit;
 interface
 
 Uses Classes, Controls, Forms, ComCtrls, TypInfo,
-     LuaPas,
+     Lua,
      LuaController,
      SynEdit,
      SynEditHighlighter,
@@ -538,8 +538,8 @@ begin
 
   anysyn.LuaCtl := TVCLuaControl.Create(anysyn,L, @HLToTable);
   lSynEdit.Highlighter := anysyn;
-  InitControl(L,lSynEdit,Name);
   ToTable(L, -1, lSynEdit);
+  InitControl(L,lSynEdit,Name);
   Result := 1;
 end;
 

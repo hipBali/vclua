@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaGroupBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, StdCtrls;
 
 function CreateGroupBox(L: Plua_State): Integer; cdecl;
-procedure GroupBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TGroupBox; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaGroupBox = class(TGroupBox)
         LuaCtl: TVCLuaControl;
     end;
+var
+    GroupBoxFuncs: TLuaVmt;
+    GroupBoxSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure GroupBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TGroupBox; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TGroupBox',v);
 end;
 function CreateGroupBox(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lGroupBox := TLuaGroupBox.Create(Parent);
 	lGroupBox.Parent := TWinControl(Parent);
-	lGroupBox.LuaCtl := TVCLuaControl.Create(TControl(lGroupBox),L,@GroupBoxToTable);
+	lGroupBox.LuaCtl := TVCLuaControl.Create(lGroupBox as TComponent,L,nil,'TGroupBox');
+	CreateTableForKnownType(L,'TGroupBox',lGroupBox);
 	InitControl(L,lGroupBox,Name);
-	GroupBoxToTable(L, -1, lGroupBox);
 	Result := 1;
 end;
 
+begin
+	GroupBoxFuncs := TLuaVmt.Create;
+	
+	GroupBoxSets := TLuaVmt.Create;
+	
 end.

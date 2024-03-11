@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaPaintBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, ExtCtrls;
 
 function CreatePaintBox(L: Plua_State): Integer; cdecl;
-procedure PaintBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TPaintBox; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaPaintBox = class(TPaintBox)
         LuaCtl: TVCLuaControl;
     end;
+var
+    PaintBoxFuncs: TLuaVmt;
+    PaintBoxSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure PaintBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TPaintBox; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TPaintBox',v);
 end;
 function CreatePaintBox(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPaintBox := TLuaPaintBox.Create(Parent);
 	lPaintBox.Parent := TWinControl(Parent);
-	lPaintBox.LuaCtl := TVCLuaControl.Create(TControl(lPaintBox),L,@PaintBoxToTable);
+	lPaintBox.LuaCtl := TVCLuaControl.Create(lPaintBox as TComponent,L,nil,'TPaintBox');
+	CreateTableForKnownType(L,'TPaintBox',lPaintBox);
 	InitControl(L,lPaintBox,Name);
-	PaintBoxToTable(L, -1, lPaintBox);
 	Result := 1;
 end;
 
+begin
+	PaintBoxFuncs := TLuaVmt.Create;
+	
+	PaintBoxSets := TLuaVmt.Create;
+	
 end.

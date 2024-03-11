@@ -113,7 +113,7 @@ begin
   CheckArg(L, 2);
   pg := TLuaPropertyGrid(GetLuaObject(L, 1));
   try
-     lua_pushobject(L,pg.Rows[lua_tointeger(L,2)],-1);
+     lua_pushobject(L,-1,pg.Rows[lua_tointeger(L,2)]);
   except
      lua_pushnil(L);
   end;
@@ -175,8 +175,8 @@ begin
   lPGrid := TLuaPropertyGrid.Create(Parent);
   lPGrid.Parent := Parent;
   lPGrid.LuaCtl := TVCLuaControl.Create(lPGrid,L,@ToTable);
-  InitControl(L,lPGrid,Name);
   ToTable(L, -1, lPGrid);
+  InitControl(L,lPGrid,Name);
   lPGrid.OnEditorFilter := @lPGrid.EditorFilterEvent;
   Result := 1;
 end;

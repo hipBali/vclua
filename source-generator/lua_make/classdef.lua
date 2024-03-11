@@ -6,98 +6,110 @@
 --                                                      --
 -- **************************************************** --
 
-VCLUA_TOLUA = {
-	-- String UTF-8 cp
-	["string"] = "lua_pushStringCP(L,ret);",
-	["pchar"] = "lua_pushStringCP(L,ret);",
-	
-	["integer"] = "lua_pushinteger(L,ret);",
-	["boolean"] = "lua_pushboolean(L,ret);",
-	["longint"] = "lua_pushinteger(L,ret);",
-	["cardinal"] = "lua_pushinteger(L,ret);",
-	["double"] = "lua_pushnumber(L,ret);",
-	["word"] = "lua_pushinteger(L,ret);",
-	["qword"] = "lua_pushinteger(L,ret);",
-	["byte"] = "lua_pushinteger(L,ret);",
-	["int64"] = "lua_pushnumber(L,ret);",
-	["pointer"] = "lua_pushlightuserdata(L,ret);",
-	["thandle"] = "lua_pushinteger(L,ret);",
-	["tcontrol"] = "lua_pushlightuserdata(L,ret);",
-	["tcomponent"] = "lua_pushlightuserdata(L,ret);",
-	["tcolor"] = "lua_pushinteger(L,ret);",
-	["tpoint"] = "lua_pushTPoint(L,ret);",
-	["trect"] = "lua_pushTRect(L,ret);",
-	["hicon"] = "lua_pushlightuserdata(L,@ret);",
-	["hbitmap"] = "lua_pushinteger(L,ret);",
-	["tresourcetype"] = "lua_pushstring(L,PChar(ret));",
-	["tcontrolrolesforform"] = "lua_pushlightuserdata(L,@ret);",
-	["tcustomform"] = "lua_pushlightuserdata(L,@ret);",
-	["thelpcontext"] = "lua_pushinteger(L,ret);",
-	["tcalendarpart"] = "lua_pushlightuserdata(L,@ret);",
-	["tcalendarview"] = "lua_pushlightuserdata(L,@ret);",
-	
-	-- treeview
-	["ttreeviewinsertmarktype"] = "lua_pushstring(L,PChar(GetEnumName(typeInfo(TTreeViewInsertMarkType), Ord(ret))));",
-	["ttreenode"] = "TreeNodeToTable(L,-1,ret);",
-	
-	-- stringgrid
-	["tgridcolumn"] = "GridColumnToTable(L,-1,ret);",
-	
-	-- inherited classes
-	["tcustomimagelist"] = "ImageListToTable(L,-1,ret);",
-	["tcontainedaction"] = "ActionToTable(L,-1,ret);",
-	
+-- map of types to Refs
+typeRef = {}
+vcluaTypeRef = {}
+
+-- Generic templates
+VCLUA_TOSET = "luaL_checkSet(L,#,@#VAR,TypeInfo(#TYP));"
+VCLUA_TOARRAY = "TTrait<#TYP>.luaL_checkArray(L, #, @#VAR);"
+VCLUA_OPT_DEFAULT = "TTraitPti<#TYP>.luaL_optcheck(L, #, @#VAR, #DEF, TypeInfo(#TYP));"
+VCLUA_FROMLUA_TEMP = "#VARNeedsFree := luaL_checkOrFromTable(L,#,@#VAR,@#PROC);"
+VCLUA_FROMLUA_FULL = "luaL_check(L,#,@#VAR,TypeInfo(#TYP));"
+VCLUA_PUSHARRAY = "lua_pushArray<#TYP>(L, #VAR);"
+VCLUA_TOLUA_FULL = "lua_push(L,#VAR,TypeInfo(#VAR));"
+VCLUA_OPT_INLINE_FROMLUA = [[
+if not lua_isnoneornil(L, #) then begin
+		#FROMLUA
+	end else
+		#VAR := #DEF;
+]]
+
+VCLUA_OPT_INLINE_FROMLUA_LIST = {
+  tcolor = 1,
+  tgraphicscolor = 1,
 }
+
+VCLUA_FROMLUA_TEMP_MAP = {
+  tstrings = "luaL_checkStringList",
+  tstringlist = "luaL_checkStringList",
+}
+
+if checkTypeSupport then
+
+-- enums and sets
+VCLUA_ES = {
+"TPenStyle",
+}
+
+VCLUA_TOLUA_DEFAULT = "lua_push(L,#VAR);"
+
+VCLUA_TOLUA = {
+	["pointer"] = "lua_pushlightuserdata(L,#VAR);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
+	["tshortcut"] = "lua_pushShortCut(L,#VAR);",
+
+	-- if src ~= "T"..cdef.name
+	["tcustomimagelist"] = VCLUA_TOLUA_FULL,
+	["tcustompage"] = VCLUA_TOLUA_FULL,
+	["tcustomform"] = VCLUA_TOLUA_FULL,
+	["tcustomlistview"] = VCLUA_TOLUA_FULL,
+	["tcustomactionlist"] = VCLUA_TOLUA_FULL,
+	["tcustomtreeview"] = VCLUA_TOLUA_FULL,
+	["tcustomheadercontrol"] = VCLUA_TOLUA_FULL,
+	["tcustomtabcontrol"] = VCLUA_TOLUA_FULL,
+	["tcustomcolorbox"] = VCLUA_TOLUA_FULL,
+
+	["tobject"] = VCLUA_TOLUA_FULL,
+	["tcomponent"] = VCLUA_TOLUA_FULL,
+	["twincontrol"] = VCLUA_TOLUA_FULL,
+	["tpage"] = VCLUA_TOLUA_FULL,
+	["tlistcolumn"] = VCLUA_TOLUA_FULL,
+	["theadersection"] = VCLUA_TOLUA_FULL,
+	["tanchorside"] = VCLUA_TOLUA_FULL,
+	["ticon"] = VCLUA_TOLUA_FULL,
+	["tmergedmenuitems"] = VCLUA_TOLUA_FULL,
+	["tmemoscrollbar"] = VCLUA_TOLUA_FULL,
+	["ticonoptions"] = VCLUA_TOLUA_FULL,
+	["tborderstyle"] = VCLUA_TOLUA_FULL,
+	["tcontrolborderspacing"] = VCLUA_TOLUA_FULL,
+	["tsizeconstraints"] = VCLUA_TOLUA_FULL,
+	["tleftright"] = VCLUA_TOLUA_FULL,
+	["tshortcutlist"] = VCLUA_TOLUA_FULL,
+	["tmonitor"] = VCLUA_TOLUA_FULL,
+	["tcustomcolorlistbox"] = VCLUA_TOLUA_FULL,
+}
+
+VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR);"
+VCLUA_OPT = "TTrait<#TYP>.luaL_optcheck(L, #, @#VAR, #DEF);"
 
 VCLUA_FROMLUA = {
-
-	-- default values
-	
-	["def_string"] = "luaL_optstring(L,#IDX,'#DEF');",
-	["def_char"] = "char(luaL_optstring(L,#IDX,'#DEF'));",
-	["def_boolean"] = "luaL_optbool(L,#IDX,#DEF);",
-	["def_integer"] = "luaL_optint(L,#IDX,#DEF);",
-	["def_tshiftstate"] = "lua_toTShiftState(L,#IDX,#DEF);",
-	
-	-- String UTF-8 cp
-	["string"] = "lua_toStringCP(L,#);",
-	["pchar"] = "PChar(lua_toStringCP(L,#));",
-	
-	["array of string"] = "lua_toStringArray(L,#);",
-	["char"] = "Char(lua_tostring(L,#));",
-	["integer"] = "lua_tointeger(L,#);",
-	["boolean"] = "lua_toboolean(L,#);",
-	["pointer"] = "Pointer(lua_touserdata(L,#));",
-	["longint"] = "lua_tointeger(L,#);",
-	["cardinal"] = "lua_tointeger(L,#);",
-	["double"] = "lua_tonumber(L,#);",
-	["longword"] = "lua_tointeger(L,#);",
-	["single"] = "lua_tonumber(L,#);",
-	["word"] = "Word(lua_tointeger(L,#));",
-	["qword"] = "QWord(lua_tointeger(L,#));",
-	["byte"] = "Byte(lua_tointeger(L,#));",
-	["int64"] = "Int64(lua_tonumber(L,#));",
-	["thandle"] = "THandle(lua_tointeger(L,#));",
-	["ptrint"] = "lua_tointeger(L,#);",
-	["tcolor"] = "TColor(lua_tointeger(L,#));",
-	["tcursor"] = "TCursor(lua_tointeger(L,#));",
-	["hicon"] = "THandle(lua_tointeger(L,#));",
-	["hbitmap"] = "lua_tointeger(L,#);",
-	["toverlay"] = "lua_tointeger(L,#);",
-	["tpenpattern"] = "lua_toLongWordArray(L,#);",
-	["tutf8char"] = "TUTF8Char(lua_tostring(L,#));",
-	
-	-- LuaProxy 
-	["tpoint"] = "lua_toTPoint(L,#);",
-	["array of tpoint"] = "lua_toTPointArray(L,#);",
-	["trect"] = "lua_toTRect(L,#);",
-	["tsize"] = "lua_toTSize(L,#);",
-	["array of tmenuitem"] = "lua_toTMenuItem(L,#);",
-	["array of ttreenode"] = "lua_toTTreeNode(L,#);",
-	["ttextstyle"] = "lua_toTextStyle(L,#);",
-	["tshiftstate"] = "lua_toTShiftState(L,#);",
-		
+	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
+	["tborderstyle"] = VCLUA_FROMLUA_FULL,
+	["tleftright"] = VCLUA_FROMLUA_FULL,
+	["tshortcut"] = "#VAR := luaL_checkShortCut(L,#);",
+	["tcolor"] = "#VAR := luaL_checkColor(L,#);",
+	["tgraphicscolor"] = "#VAR := luaL_checkColor(L,#);",
 }
 
--- Generic 'set' template
-VCLUA_TOSET_TEMP = "%s(GetEnumValue(TypeInfo(%s),lua_tostring(L,#)));"
+VCLUA_ES_CHECK = {}
+for _,t in pairs(VCLUA_ES) do
+  local tl = t:lower()
+  VCLUA_TOLUA[tl] = VCLUA_TOLUA_FULL
+  VCLUA_FROMLUA[tl] = VCLUA_FROMLUA_FULL
+  VCLUA_ES_CHECK[tl] = true
+end
+
+else
+VCLUA_TOLUA_DEFAULT = VCLUA_TOLUA_FULL
+
+VCLUA_TOLUA = {
+	["pointer"] = "lua_pushlightuserdata(L,#VAR);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
+}
+
+VCLUA_FROMLUA_DEFAULT = VCLUA_FROMLUA_FULL
+VCLUA_OPT = VCLUA_OPT_DEFAULT
+
+VCLUA_FROMLUA = {
+	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
+}
+end

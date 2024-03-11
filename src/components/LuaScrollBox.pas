@@ -4,14 +4,14 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaScrollBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, Forms, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, Forms;
 
 function CreateScrollBox(L: Plua_State): Integer; cdecl;
-procedure ScrollBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TScrollBox; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaScrollBox = class(TScrollBox)
@@ -19,18 +19,18 @@ type
 	  published
 	    property Canvas;
     end;
+var
+    ScrollBoxFuncs: TLuaVmt;
+    ScrollBoxSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure ScrollBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TScrollBox; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TScrollBox',v);
 end;
 function CreateScrollBox(L: Plua_State): Integer; cdecl;
 var
@@ -41,10 +41,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lScrollBox := TLuaScrollBox.Create(Parent);
 	lScrollBox.Parent := TWinControl(Parent);
-	lScrollBox.LuaCtl := TVCLuaControl.Create(TControl(lScrollBox),L,@ScrollBoxToTable);
+	lScrollBox.LuaCtl := TVCLuaControl.Create(lScrollBox as TComponent,L,nil,'TScrollBox');
+	CreateTableForKnownType(L,'TScrollBox',lScrollBox);
 	InitControl(L,lScrollBox,Name);
-	ScrollBoxToTable(L, -1, lScrollBox);
 	Result := 1;
 end;
 
+begin
+	ScrollBoxFuncs := TLuaVmt.Create;
+	
+	ScrollBoxSets := TLuaVmt.Create;
+	
 end.

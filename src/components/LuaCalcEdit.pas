@@ -4,14 +4,14 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaCalcEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, EditBtn, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, EditBtn;
 
 function CreateCalcEdit(L: Plua_State): Integer; cdecl;
-procedure CalcEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaCalcEdit = class(TCalcEdit)
@@ -20,15 +20,22 @@ type
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
-
-procedure CalcEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_CalcEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
+var
+	lCalcEdit:TLuaCalcEdit;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lCalcEdit := TLuaCalcEdit(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lCalcEdit.OnButtonClick));
+	lCalcEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TCustomEditButton',v);
 end;
 function CreateCalcEdit(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +46,11 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCalcEdit := TLuaCalcEdit.Create(Parent);
 	lCalcEdit.Parent := TWinControl(Parent);
-	lCalcEdit.LuaCtl := TVCLuaControl.Create(TControl(lCalcEdit),L,@CalcEditToTable);
+	lCalcEdit.LuaCtl := TVCLuaControl.Create(lCalcEdit as TComponent,L,nil,'TCustomEditButton');
+	CreateTableForKnownType(L,'TCustomEditButton',lCalcEdit);
 	InitControl(L,lCalcEdit,Name);
-	CalcEditToTable(L, -1, lCalcEdit);
 	Result := 1;
 end;
 
+begin
 end.

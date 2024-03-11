@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaTimer;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, ExtCtrls;
 
 function CreateTimer(L: Plua_State): Integer; cdecl;
-procedure TimerToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TTimer; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaTimer = class(TTimer)
         LuaCtl: TVCLuaControl;
     end;
+var
+    TimerFuncs: TLuaVmt;
+    TimerSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure TimerToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TTimer; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TTimer',v);
 end;
 function CreateTimer(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTimer := TLuaTimer.Create(Parent);
 	// := TWinControl(Parent);
-	lTimer.LuaCtl := TVCLuaControl.Create(TControl(lTimer),L,@TimerToTable);
+	lTimer.LuaCtl := TVCLuaControl.Create(lTimer as TComponent,L,nil,'TTimer');
+	CreateTableForKnownType(L,'TTimer',lTimer);
 	InitControl(L,lTimer,Name);
-	TimerToTable(L, -1, lTimer);
 	Result := 1;
 end;
 
+begin
+	TimerFuncs := TLuaVmt.Create;
+	
+	TimerSets := TLuaVmt.Create;
+	
 end.

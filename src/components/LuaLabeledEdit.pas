@@ -4,31 +4,115 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaLabeledEdit;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, ExtCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, ExtCtrls;
 
 function CreateLabeledEdit(L: Plua_State): Integer; cdecl;
-procedure LabeledEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TLabeledEdit; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaLabeledEdit = class(TLabeledEdit)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomLabeledEditFuncs: TLuaVmt;
+    CustomLabeledEditSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaBoundLabel;
 
-
-procedure LabeledEditToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_LabeledEdit_VCLuaGetEditLabel(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	ret:TBoundLabel;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 1);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	try
+		ret := lLabeledEdit.EditLabel;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'EditLabel', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_LabeledEdit_VCLuaSetLabelPosition(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	val:TLabelPosition;
+begin
+	CheckArg(L, 2);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TLabelPosition));
+	try
+		lLabeledEdit.LabelPosition := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'LabelPosition', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_LabeledEdit_VCLuaGetLabelPosition(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	ret:TLabelPosition;
+begin
+	CheckArg(L, 1);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	try
+		ret := lLabeledEdit.LabelPosition;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'LabelPosition', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_LabeledEdit_VCLuaSetLabelSpacing(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lLabeledEdit.LabelSpacing := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'LabelSpacing', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_LabeledEdit_VCLuaGetLabelSpacing(L: Plua_State): Integer; cdecl;
+var
+	lLabeledEdit:TLuaLabeledEdit;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	try
+		ret := lLabeledEdit.LabelSpacing;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'LabeledEdit', 'LabelSpacing', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+procedure lua_push(L: Plua_State; const v: TLabeledEdit; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TCustomLabeledEdit',v);
 end;
 function CreateLabeledEdit(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +123,18 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lLabeledEdit := TLuaLabeledEdit.Create(Parent);
 	lLabeledEdit.Parent := TWinControl(Parent);
-	lLabeledEdit.LuaCtl := TVCLuaControl.Create(TControl(lLabeledEdit),L,@LabeledEditToTable);
+	lLabeledEdit.LuaCtl := TVCLuaControl.Create(lLabeledEdit as TComponent,L,nil,'TCustomLabeledEdit');
+	CreateTableForKnownType(L,'TCustomLabeledEdit',lLabeledEdit);
 	InitControl(L,lLabeledEdit,Name);
-	LabeledEditToTable(L, -1, lLabeledEdit);
 	Result := 1;
 end;
 
+begin
+	CustomLabeledEditFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomLabeledEditFuncs, 'EditLabel', @VCLua_LabeledEdit_VCLuaGetEditLabel, mfCall);
+	TLuaMethodInfo.Create(CustomLabeledEditFuncs, 'LabelPosition', @VCLua_LabeledEdit_VCLuaGetLabelPosition, mfCall);
+	TLuaMethodInfo.Create(CustomLabeledEditFuncs, 'LabelSpacing', @VCLua_LabeledEdit_VCLuaGetLabelSpacing, mfCall);
+	CustomLabeledEditSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomLabeledEditSets, 'LabelPosition', @VCLua_LabeledEdit_VCLuaSetLabelPosition, mfCall, TypeInfo(TLabelPosition));
+	TLuaMethodInfo.Create(CustomLabeledEditSets, 'LabelSpacing', @VCLua_LabeledEdit_VCLuaSetLabelSpacing, mfCall, TypeInfo(Integer));
 end.

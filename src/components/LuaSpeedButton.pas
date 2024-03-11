@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaSpeedButton;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, Buttons, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, Buttons;
 
 function CreateSpeedButton(L: Plua_State): Integer; cdecl;
-procedure SpeedButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TSpeedButton; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaSpeedButton = class(TSpeedButton)
         LuaCtl: TVCLuaControl;
     end;
+var
+    SpeedButtonFuncs: TLuaVmt;
+    SpeedButtonSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure SpeedButtonToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TSpeedButton; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TSpeedButton',v);
 end;
 function CreateSpeedButton(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSpeedButton := TLuaSpeedButton.Create(Parent);
 	lSpeedButton.Parent := TWinControl(Parent);
-	lSpeedButton.LuaCtl := TVCLuaControl.Create(TControl(lSpeedButton),L,@SpeedButtonToTable);
+	lSpeedButton.LuaCtl := TVCLuaControl.Create(lSpeedButton as TComponent,L,nil,'TSpeedButton');
+	CreateTableForKnownType(L,'TSpeedButton',lSpeedButton);
 	InitControl(L,lSpeedButton,Name);
-	SpeedButtonToTable(L, -1, lSpeedButton);
 	Result := 1;
 end;
 
+begin
+	SpeedButtonFuncs := TLuaVmt.Create;
+	
+	SpeedButtonSets := TLuaVmt.Create;
+	
 end.

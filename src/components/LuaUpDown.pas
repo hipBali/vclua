@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaUpDown;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, ComCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, ComCtrls;
 
 function CreateUpDown(L: Plua_State): Integer; cdecl;
-procedure UpDownToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TUpDown; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaUpDown = class(TUpDown)
         LuaCtl: TVCLuaControl;
     end;
+var
+    UpDownFuncs: TLuaVmt;
+    UpDownSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure UpDownToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TUpDown; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TUpDown',v);
 end;
 function CreateUpDown(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lUpDown := TLuaUpDown.Create(Parent);
 	lUpDown.Parent := TWinControl(Parent);
-	lUpDown.LuaCtl := TVCLuaControl.Create(TControl(lUpDown),L,@UpDownToTable);
+	lUpDown.LuaCtl := TVCLuaControl.Create(lUpDown as TComponent,L,nil,'TUpDown');
+	CreateTableForKnownType(L,'TUpDown',lUpDown);
 	InitControl(L,lUpDown,Name);
-	UpDownToTable(L, -1, lUpDown);
 	Result := 1;
 end;
 
+begin
+	UpDownFuncs := TLuaVmt.Create;
+	
+	UpDownSets := TLuaVmt.Create;
+	
 end.

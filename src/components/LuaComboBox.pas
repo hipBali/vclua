@@ -4,52 +4,140 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaComboBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, StdCtrls, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, StdCtrls;
 
 function CreateComboBox(L: Plua_State): Integer; cdecl;
-procedure ComboBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TComboBox; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaComboBox = class(TComboBox)
         LuaCtl: TVCLuaControl;
     end;
+var
+    CustomComboBoxFuncs: TLuaVmt;
+    CustomComboBoxSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LCLType, LuaCanvas, LuaClassesEvents, LuaEvent, LuaStdCtrlsEvents, LuaStrings;
+
+function VCLua_ComboBox_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnChange));
+	lComboBox.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnCloseUp(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnCloseUp));
+	lComboBox.OnCloseUp := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnDrawItem));
+	lComboBox.OnDrawItem := TLuaEvent.Factory<TDrawItemEvent,TLuaDrawItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnDropDown(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnDropDown));
+	lComboBox.OnDropDown := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnGetItems(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnGetItems));
+	lComboBox.OnGetItems := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnMeasureItem(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnMeasureItem));
+	lComboBox.OnMeasureItem := TLuaEvent.Factory<TMeasureItemEvent,TLuaMeasureItemEvent>(L);
+	Result := 0;
+end;
+
+function VCLua_ComboBox_VCLuaSetOnSelect(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnSelect));
+	lComboBox.OnSelect := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
+	Result := 0;
+end;
 
 function VCLua_ComboBox_IntfGetItems(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 begin
 	CheckArg(L, 1);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	lComboBox.IntfGetItems();
-	
-	Result := 0;
+	try
+		lComboBox.IntfGetItems();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'IntfGetItems', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_ComboBox_AddItem(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 	Item:String;
 	AnObject:TObject;
 begin
 	CheckArg(L, 3);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	Item := lua_toStringCP(L,2);
-	AnObject := TObject(GetLuaObject(L,3));
-	lComboBox.AddItem(Item,AnObject);
-	
-	Result := 0;
+	luaL_check(L,2,@Item);
+	luaL_check(L,3,@AnObject);
+	try
+		lComboBox.AddItem(Item,AnObject);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AddItem', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_ComboBox_AddHistoryItem(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 	Item:string;
 	MaxHistoryCount:integer;
@@ -58,17 +146,21 @@ var
 begin
 	CheckArg(L, 5);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	Item := lua_toStringCP(L,2);
-	MaxHistoryCount := lua_tointeger(L,3);
-	SetAsText := lua_toboolean(L,4);
-	CaseSensitive := lua_toboolean(L,5);
-	lComboBox.AddHistoryItem(Item,MaxHistoryCount,SetAsText,CaseSensitive);
-	
-	Result := 0;
+	luaL_check(L,2,@Item);
+	luaL_check(L,3,@MaxHistoryCount);
+	luaL_check(L,4,@SetAsText);
+	luaL_check(L,5,@CaseSensitive);
+	try
+		lComboBox.AddHistoryItem(Item,MaxHistoryCount,SetAsText,CaseSensitive);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AddHistoryItem', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_ComboBox_AddHistoryItem2(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 	Item:string;
 	AnObject:TObject;
@@ -78,49 +170,631 @@ var
 begin
 	CheckArg(L, 6);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	Item := lua_toStringCP(L,2);
-	AnObject := TObject(GetLuaObject(L,3));
-	MaxHistoryCount := lua_tointeger(L,4);
-	SetAsText := lua_toboolean(L,5);
-	CaseSensitive := lua_toboolean(L,6);
-	lComboBox.AddHistoryItem(Item,AnObject,MaxHistoryCount,SetAsText,CaseSensitive);
-	
-	Result := 0;
+	luaL_check(L,2,@Item);
+	luaL_check(L,3,@AnObject);
+	luaL_check(L,4,@MaxHistoryCount);
+	luaL_check(L,5,@SetAsText);
+	luaL_check(L,6,@CaseSensitive);
+	try
+		lComboBox.AddHistoryItem(Item,AnObject,MaxHistoryCount,SetAsText,CaseSensitive);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AddHistoryItem', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_ComboBox_Clear(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 begin
 	CheckArg(L, 1);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	lComboBox.Clear();
-	
-	Result := 0;
+	try
+		lComboBox.Clear();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'Clear', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaSetCharCase(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:TEditCharCase;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TEditCharCase));
+	try
+		lComboBox.CharCase := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'CharCase', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetCharCase(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:TEditCharCase;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.CharCase;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'CharCase', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_ComboBox_VCLuaSetDroppedDown(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.DroppedDown := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'DroppedDown', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetDroppedDown(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.DroppedDown;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'DroppedDown', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetDroppingDown(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.DroppingDown := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'DroppingDown', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetDroppingDown(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.DroppingDown;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'DroppingDown', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_ComboBox_SelectAll(L: Plua_State): Integer; cdecl;
-var 
+var
 	lComboBox:TLuaComboBox;
 begin
 	CheckArg(L, 1);
 	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
-	lComboBox.SelectAll();
-	
-	Result := 0;
+	try
+		lComboBox.SelectAll();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'SelectAll', E.ClassName, E.Message);
+	end;
 end;
 
-procedure ComboBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+function VCLua_ComboBox_VCLuaSetAutoComplete(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:boolean;
 begin
-	SetDefaultMethods(L,Index,Sender);
-	LuaSetTableFunction(L, Index, 'IntfGetItems', @VCLua_ComboBox_IntfGetItems);
-	LuaSetTableFunction(L, Index, 'AddItem', @VCLua_ComboBox_AddItem);
-	LuaSetTableFunction(L, Index, 'AddHistoryItem', @VCLua_ComboBox_AddHistoryItem);
-	LuaSetTableFunction(L, Index, 'AddHistoryItem2', @VCLua_ComboBox_AddHistoryItem2);
-	LuaSetTableFunction(L, Index, 'Clear', @VCLua_ComboBox_Clear);
-	LuaSetTableFunction(L, Index, 'SelectAll', @VCLua_ComboBox_SelectAll);
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.AutoComplete := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoComplete', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetAutoComplete(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.AutoComplete;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoComplete', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetAutoCompleteText(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:TComboBoxAutoCompleteText;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_checkSet(L,2,@val,TypeInfo(TComboBoxAutoCompleteText));
+	try
+		lComboBox.AutoCompleteText := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoCompleteText', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetAutoCompleteText(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:TComboBoxAutoCompleteText;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.AutoCompleteText;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoCompleteText', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_ComboBox_VCLuaSetAutoDropDown(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.AutoDropDown := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoDropDown', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetAutoDropDown(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.AutoDropDown;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoDropDown', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetAutoSelect(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.AutoSelect := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoSelect', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetAutoSelect(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.AutoSelect;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoSelect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetAutoSelected(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.AutoSelected := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoSelected', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetAutoSelected(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.AutoSelected;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'AutoSelected', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetArrowKeysTraverseList(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.ArrowKeysTraverseList := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'ArrowKeysTraverseList', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetArrowKeysTraverseList(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.ArrowKeysTraverseList;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'ArrowKeysTraverseList', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaGetCanvas(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:TCanvas;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.Canvas;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'Canvas', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetDropDownCount(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:Integer;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.DropDownCount := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'DropDownCount', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetDropDownCount(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.DropDownCount;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'DropDownCount', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaGetEmulatedTextHintStatus(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:TEmulatedTextHintStatus;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.EmulatedTextHintStatus;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'EmulatedTextHintStatus', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_ComboBox_VCLuaSetItems(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:TStrings;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.Items := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'Items', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetItems(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:TStrings;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.Items;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'Items', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetItemIndex(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:integer;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.ItemIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'ItemIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetItemIndex(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:integer;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.ItemIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'ItemIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetReadOnly(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:Boolean;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.ReadOnly := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'ReadOnly', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetReadOnly(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.ReadOnly;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'ReadOnly', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetSelText(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:String;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.SelText := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'SelText', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetSelText(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:String;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.SelText;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'SelText', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetStyle(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:TComboBoxStyle;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TComboBoxStyle));
+	try
+		lComboBox.Style := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'Style', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetStyle(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:TComboBoxStyle;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.Style;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'Style', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_ComboBox_VCLuaSetTextHint(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:TTranslateString;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.TextHint := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'TextHint', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetTextHint(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:TTranslateString;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		ret := lComboBox.TextHint;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'TextHint', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+procedure lua_push(L: Plua_State; const v: TComboBox; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TCustomComboBox',v);
 end;
 function CreateComboBox(L: Plua_State): Integer; cdecl;
 var
@@ -131,10 +805,60 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lComboBox := TLuaComboBox.Create(Parent);
 	lComboBox.Parent := TWinControl(Parent);
-	lComboBox.LuaCtl := TVCLuaControl.Create(TControl(lComboBox),L,@ComboBoxToTable);
+	lComboBox.LuaCtl := TVCLuaControl.Create(lComboBox as TComponent,L,nil,'TCustomComboBox');
+	CreateTableForKnownType(L,'TCustomComboBox',lComboBox);
 	InitControl(L,lComboBox,Name);
-	ComboBoxToTable(L, -1, lComboBox);
 	Result := 1;
 end;
 
+begin
+	CustomComboBoxFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'IntfGetItems', @VCLua_ComboBox_IntfGetItems);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddItem', @VCLua_ComboBox_AddItem);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddHistoryItem', @VCLua_ComboBox_AddHistoryItem);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddHistoryItem2', @VCLua_ComboBox_AddHistoryItem2);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Clear', @VCLua_ComboBox_Clear);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'CharCase', @VCLua_ComboBox_VCLuaGetCharCase, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'DroppedDown', @VCLua_ComboBox_VCLuaGetDroppedDown, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'DroppingDown', @VCLua_ComboBox_VCLuaGetDroppingDown, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'SelectAll', @VCLua_ComboBox_SelectAll);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AutoComplete', @VCLua_ComboBox_VCLuaGetAutoComplete, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AutoCompleteText', @VCLua_ComboBox_VCLuaGetAutoCompleteText, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AutoDropDown', @VCLua_ComboBox_VCLuaGetAutoDropDown, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AutoSelect', @VCLua_ComboBox_VCLuaGetAutoSelect, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AutoSelected', @VCLua_ComboBox_VCLuaGetAutoSelected, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'ArrowKeysTraverseList', @VCLua_ComboBox_VCLuaGetArrowKeysTraverseList, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Canvas', @VCLua_ComboBox_VCLuaGetCanvas, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'DropDownCount', @VCLua_ComboBox_VCLuaGetDropDownCount, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'EmulatedTextHintStatus', @VCLua_ComboBox_VCLuaGetEmulatedTextHintStatus, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Items', @VCLua_ComboBox_VCLuaGetItems, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'ItemIndex', @VCLua_ComboBox_VCLuaGetItemIndex, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'ReadOnly', @VCLua_ComboBox_VCLuaGetReadOnly, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'SelText', @VCLua_ComboBox_VCLuaGetSelText, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Style', @VCLua_ComboBox_VCLuaGetStyle, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'TextHint', @VCLua_ComboBox_VCLuaGetTextHint, mfCall);
+	CustomComboBoxSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnChange', @VCLua_ComboBox_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnCloseUp', @VCLua_ComboBox_VCLuaSetOnCloseUp, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnDrawItem', @VCLua_ComboBox_VCLuaSetOnDrawItem, mfCall, TypeInfo(TDrawItemEvent));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnDropDown', @VCLua_ComboBox_VCLuaSetOnDropDown, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnGetItems', @VCLua_ComboBox_VCLuaSetOnGetItems, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnMeasureItem', @VCLua_ComboBox_VCLuaSetOnMeasureItem, mfCall, TypeInfo(TMeasureItemEvent));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnSelect', @VCLua_ComboBox_VCLuaSetOnSelect, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'CharCase', @VCLua_ComboBox_VCLuaSetCharCase, mfCall, TypeInfo(TEditCharCase));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'DroppedDown', @VCLua_ComboBox_VCLuaSetDroppedDown, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'DroppingDown', @VCLua_ComboBox_VCLuaSetDroppingDown, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'AutoComplete', @VCLua_ComboBox_VCLuaSetAutoComplete, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'AutoCompleteText', @VCLua_ComboBox_VCLuaSetAutoCompleteText, mfCall, TypeInfo(TComboBoxAutoCompleteText));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'AutoDropDown', @VCLua_ComboBox_VCLuaSetAutoDropDown, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'AutoSelect', @VCLua_ComboBox_VCLuaSetAutoSelect, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'AutoSelected', @VCLua_ComboBox_VCLuaSetAutoSelected, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'ArrowKeysTraverseList', @VCLua_ComboBox_VCLuaSetArrowKeysTraverseList, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'DropDownCount', @VCLua_ComboBox_VCLuaSetDropDownCount, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'Items', @VCLua_ComboBox_VCLuaSetItems, mfCall, TypeInfo(TStrings));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'ItemIndex', @VCLua_ComboBox_VCLuaSetItemIndex, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'ReadOnly', @VCLua_ComboBox_VCLuaSetReadOnly, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'SelText', @VCLua_ComboBox_VCLuaSetSelText, mfCall, TypeInfo(String));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'Style', @VCLua_ComboBox_VCLuaSetStyle, mfCall, TypeInfo(TComboBoxStyle));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'TextHint', @VCLua_ComboBox_VCLuaSetTextHint, mfCall, TypeInfo(TTranslateString));
 end.

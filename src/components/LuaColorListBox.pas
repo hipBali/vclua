@@ -4,31 +4,31 @@ Generated with Lua-fpc parser/generator
 *)
 unit LuaColorListBox;	
 
-{$MODE Delphi}
+{$MODE Delphi}{$T+}
 
 interface
 
-Uses Classes, Lua, LuaController, ColorBox, Controls;
+Uses Lua, LuaController, TypInfo, LuaVmt, ColorBox;
 
 function CreateColorListBox(L: Plua_State): Integer; cdecl;
-procedure ColorListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLuaColorListBox = class(TColorListBox)
         LuaCtl: TVCLuaControl;
     end;
+var
+    ColorListBoxFuncs: TLuaVmt;
+    ColorListBoxSets: TLuaVmt;
 
 
 implementation
-Uses LuaProperties, TypInfo, LuaProxy, LuaObject, LuaHelper, LCLClasses; 
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 
-procedure ColorListBoxToTable(L:Plua_State; Index:Integer; Sender:TObject);
+procedure lua_push(L: Plua_State; const v: TColorListBox; pti: PTypeInfo);
 begin
-	SetDefaultMethods(L,Index,Sender);
-	
-	LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
-	LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
+	CreateTableForKnownType(L,'TColorListBox',v);
 end;
 function CreateColorListBox(L: Plua_State): Integer; cdecl;
 var
@@ -39,10 +39,15 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorListBox := TLuaColorListBox.Create(Parent);
 	lColorListBox.Parent := TWinControl(Parent);
-	lColorListBox.LuaCtl := TVCLuaControl.Create(TControl(lColorListBox),L,@ColorListBoxToTable);
+	lColorListBox.LuaCtl := TVCLuaControl.Create(lColorListBox as TComponent,L,nil,'TColorListBox');
+	CreateTableForKnownType(L,'TColorListBox',lColorListBox);
 	InitControl(L,lColorListBox,Name);
-	ColorListBoxToTable(L, -1, lColorListBox);
 	Result := 1;
 end;
 
+begin
+	ColorListBoxFuncs := TLuaVmt.Create;
+	
+	ColorListBoxSets := TLuaVmt.Create;
+	
 end.
