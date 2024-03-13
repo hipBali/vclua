@@ -29,8 +29,7 @@ function VCLua_EditButton_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
 var
 	lEditButton:TLuaEditButton;
 begin
-	CheckArg(L, 2);
-	lEditButton := TLuaEditButton(GetLuaObject(L, 1));
+	lEditButton := TLuaEditButton(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lEditButton.OnButtonClick));
 	lEditButton.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

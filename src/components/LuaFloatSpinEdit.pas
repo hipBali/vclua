@@ -87,8 +87,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFloatSpinEdit.DecimalPlaces := val;
@@ -104,8 +103,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFloatSpinEdit.DecimalPlaces;
 		Result := 1;
@@ -121,8 +119,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFloatSpinEdit.EditorEnabled := val;
@@ -138,8 +135,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFloatSpinEdit.EditorEnabled;
 		Result := 1;
@@ -155,8 +151,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	val:Double;
 begin
-	CheckArg(L, 2);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFloatSpinEdit.Increment := val;
@@ -172,8 +167,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	ret:Double;
 begin
-	CheckArg(L, 1);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFloatSpinEdit.Increment;
 		Result := 1;
@@ -189,8 +183,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	val:Double;
 begin
-	CheckArg(L, 2);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFloatSpinEdit.MinValue := val;
@@ -206,8 +199,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	ret:Double;
 begin
-	CheckArg(L, 1);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFloatSpinEdit.MinValue;
 		Result := 1;
@@ -223,8 +215,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	val:Double;
 begin
-	CheckArg(L, 2);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFloatSpinEdit.MaxValue := val;
@@ -240,8 +231,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	ret:Double;
 begin
-	CheckArg(L, 1);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFloatSpinEdit.MaxValue;
 		Result := 1;
@@ -257,8 +247,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	val:Double;
 begin
-	CheckArg(L, 2);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFloatSpinEdit.Value := val;
@@ -274,8 +263,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	ret:Double;
 begin
-	CheckArg(L, 1);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFloatSpinEdit.Value;
 		Result := 1;
@@ -291,8 +279,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFloatSpinEdit.ValueEmpty := val;
@@ -308,8 +295,7 @@ var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
+	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFloatSpinEdit.ValueEmpty;
 		Result := 1;

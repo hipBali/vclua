@@ -387,8 +387,7 @@ function VCLua_ValueListEditor_VCLuaSetOnGetPickList(L: Plua_State): Integer; cd
 var
 	lValueListEditor:TLuaValueListEditor;
 begin
-	CheckArg(L, 2);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	lValueListEditor := TLuaValueListEditor(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lValueListEditor.OnGetPickList));
 	lValueListEditor.OnGetPickList := TLuaEvent.Factory<TGetPickListEvent,TLuaGetPickListEvent>(L);
 	Result := 0;
@@ -398,8 +397,7 @@ function VCLua_ValueListEditor_VCLuaSetOnStringsChange(L: Plua_State): Integer; 
 var
 	lValueListEditor:TLuaValueListEditor;
 begin
-	CheckArg(L, 2);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	lValueListEditor := TLuaValueListEditor(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lValueListEditor.OnStringsChange));
 	lValueListEditor.OnStringsChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -409,8 +407,7 @@ function VCLua_ValueListEditor_VCLuaSetOnStringsChanging(L: Plua_State): Integer
 var
 	lValueListEditor:TLuaValueListEditor;
 begin
-	CheckArg(L, 2);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	lValueListEditor := TLuaValueListEditor(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lValueListEditor.OnStringsChanging));
 	lValueListEditor.OnStringsChanging := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -420,8 +417,7 @@ function VCLua_ValueListEditor_VCLuaSetOnValidate(L: Plua_State): Integer; cdecl
 var
 	lValueListEditor:TLuaValueListEditor;
 begin
-	CheckArg(L, 2);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	lValueListEditor := TLuaValueListEditor(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lValueListEditor.OnValidate));
 	lValueListEditor.OnValidate := TLuaEvent.Factory<TOnValidateEvent,TLuaOnValidateEvent>(L);
 	Result := 0;

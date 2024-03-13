@@ -66,8 +66,7 @@ var
 	lCalendar:TLuaCalendar;
 	val:String;
 begin
-	CheckArg(L, 2);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCalendar.Date := val;
@@ -83,8 +82,7 @@ var
 	lCalendar:TLuaCalendar;
 	ret:String;
 begin
-	CheckArg(L, 1);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCalendar.Date;
 		Result := 1;
@@ -100,8 +98,7 @@ var
 	lCalendar:TLuaCalendar;
 	val:TDateTime;
 begin
-	CheckArg(L, 2);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCalendar.DateTime := val;
@@ -117,8 +114,7 @@ var
 	lCalendar:TLuaCalendar;
 	ret:TDateTime;
 begin
-	CheckArg(L, 1);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCalendar.DateTime;
 		Result := 1;
@@ -134,8 +130,7 @@ var
 	lCalendar:TLuaCalendar;
 	val:TDisplaySettings;
 begin
-	CheckArg(L, 2);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TDisplaySettings));
 	try
 		lCalendar.DisplaySettings := val;
@@ -151,8 +146,7 @@ var
 	lCalendar:TLuaCalendar;
 	ret:TDisplaySettings;
 begin
-	CheckArg(L, 1);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCalendar.DisplaySettings;
 		Result := 1;
@@ -168,8 +162,7 @@ var
 	lCalendar:TLuaCalendar;
 	val:TCalDayOfWeek;
 begin
-	CheckArg(L, 2);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TCalDayOfWeek));
 	try
 		lCalendar.FirstDayOfWeek := val;
@@ -185,8 +178,7 @@ var
 	lCalendar:TLuaCalendar;
 	ret:TCalDayOfWeek;
 begin
-	CheckArg(L, 1);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCalendar.FirstDayOfWeek;
 		Result := 1;
@@ -201,8 +193,7 @@ function VCLua_Calendar_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lCalendar:TLuaCalendar;
 begin
-	CheckArg(L, 2);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCalendar.OnChange));
 	lCalendar.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -212,8 +203,7 @@ function VCLua_Calendar_VCLuaSetOnDayChanged(L: Plua_State): Integer; cdecl;
 var
 	lCalendar:TLuaCalendar;
 begin
-	CheckArg(L, 2);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCalendar.OnDayChanged));
 	lCalendar.OnDayChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -223,8 +213,7 @@ function VCLua_Calendar_VCLuaSetOnMonthChanged(L: Plua_State): Integer; cdecl;
 var
 	lCalendar:TLuaCalendar;
 begin
-	CheckArg(L, 2);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCalendar.OnMonthChanged));
 	lCalendar.OnMonthChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -234,8 +223,7 @@ function VCLua_Calendar_VCLuaSetOnYearChanged(L: Plua_State): Integer; cdecl;
 var
 	lCalendar:TLuaCalendar;
 begin
-	CheckArg(L, 2);
-	lCalendar := TLuaCalendar(GetLuaObject(L, 1));
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCalendar.OnYearChanged));
 	lCalendar.OnYearChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

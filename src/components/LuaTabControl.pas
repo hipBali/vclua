@@ -52,8 +52,7 @@ var
 	lTabSheet:TLuaTabSheet;
 	val:TPageControl;
 begin
-	CheckArg(L, 2);
-	lTabSheet := TLuaTabSheet(GetLuaObject(L, 1));
+	lTabSheet := TLuaTabSheet(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabSheet.PageControl := val;
@@ -69,8 +68,7 @@ var
 	lTabSheet:TLuaTabSheet;
 	ret:TPageControl;
 begin
-	CheckArg(L, 1);
-	lTabSheet := TLuaTabSheet(GetLuaObject(L, 1));
+	lTabSheet := TLuaTabSheet(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabSheet.PageControl;
 		Result := 1;
@@ -86,8 +84,7 @@ var
 	lTabSheet:TLuaTabSheet;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lTabSheet := TLuaTabSheet(GetLuaObject(L, 1));
+	lTabSheet := TLuaTabSheet(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabSheet.TabIndex;
 		Result := 1;
@@ -102,8 +99,7 @@ function VCLua_TabControl_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lTabControl:TLuaTabControl;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTabControl.OnChange));
 	lTabControl.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -296,8 +292,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.HotTrack := val;
@@ -313,8 +308,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.HotTrack;
 		Result := 1;
@@ -330,8 +324,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:TCustomImageList;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.Images := val;
@@ -347,8 +340,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:TCustomImageList;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.Images;
 		Result := 1;
@@ -364,8 +356,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.ImagesWidth := val;
@@ -381,8 +372,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.ImagesWidth;
 		Result := 1;
@@ -398,8 +388,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.MultiLine := val;
@@ -415,8 +404,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.MultiLine;
 		Result := 1;
@@ -432,8 +420,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.MultiSelect := val;
@@ -449,8 +436,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.MultiSelect;
 		Result := 1;
@@ -465,8 +451,7 @@ function VCLua_TabControl_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
 var
 	lTabControl:TLuaTabControl;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTabControl.OnChanging));
 	lTabControl.OnChanging := TLuaEvent.Factory<TTabChangingEvent,TLuaTabChangingEvent>(L);
 	Result := 0;
@@ -476,8 +461,7 @@ function VCLua_TabControl_VCLuaSetOnCloseTabClicked(L: Plua_State): Integer; cde
 var
 	lTabControl:TLuaTabControl;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTabControl.OnCloseTabClicked));
 	lTabControl.OnCloseTabClicked := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -487,8 +471,7 @@ function VCLua_TabControl_VCLuaSetOnGetImageIndex(L: Plua_State): Integer; cdecl
 var
 	lTabControl:TLuaTabControl;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTabControl.OnGetImageIndex));
 	lTabControl.OnGetImageIndex := TLuaEvent.Factory<TTabGetImageEvent,TLuaTabGetImageEvent>(L);
 	Result := 0;
@@ -499,8 +482,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:TCTabControlOptions;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TCTabControlOptions));
 	try
 		lTabControl.Options := val;
@@ -516,8 +498,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:TCTabControlOptions;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.Options;
 		Result := 1;
@@ -533,8 +514,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.OwnerDraw := val;
@@ -550,8 +530,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.OwnerDraw;
 		Result := 1;
@@ -586,8 +565,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.PageCount;
 		Result := 1;
@@ -603,8 +581,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.PageIndex := val;
@@ -620,8 +597,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.PageIndex;
 		Result := 1;
@@ -637,8 +613,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:TStrings;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.Pages := val;
@@ -654,8 +629,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:TStrings;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.Pages;
 		Result := 1;
@@ -671,8 +645,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.RaggedRight := val;
@@ -688,8 +661,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.RaggedRight;
 		Result := 1;
@@ -705,8 +677,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.ScrollOpposite := val;
@@ -722,8 +693,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.ScrollOpposite;
 		Result := 1;
@@ -739,8 +709,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.ShowTabs := val;
@@ -756,8 +725,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.ShowTabs;
 		Result := 1;
@@ -773,8 +741,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:TTabStyle;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TTabStyle));
 	try
 		lTabControl.Style := val;
@@ -790,8 +757,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:TTabStyle;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.Style;
 		Result := 1;
@@ -807,8 +773,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Smallint;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.TabHeight := val;
@@ -824,8 +789,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Smallint;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.TabHeight;
 		Result := 1;
@@ -841,8 +805,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:TTabPosition;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TTabPosition));
 	try
 		lTabControl.TabPosition := val;
@@ -858,8 +821,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:TTabPosition;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.TabPosition;
 		Result := 1;
@@ -875,8 +837,7 @@ var
 	lTabControl:TLuaTabControl;
 	val:Smallint;
 begin
-	CheckArg(L, 2);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTabControl.TabWidth := val;
@@ -892,8 +853,7 @@ var
 	lTabControl:TLuaTabControl;
 	ret:Smallint;
 begin
-	CheckArg(L, 1);
-	lTabControl := TLuaTabControl(GetLuaObject(L, 1));
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTabControl.TabWidth;
 		Result := 1;
@@ -1080,8 +1040,7 @@ var
 	lPageControl:TLuaPageControl;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
+	lPageControl := TLuaPageControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lPageControl.ActivePageIndex := val;
@@ -1097,8 +1056,7 @@ var
 	lPageControl:TLuaPageControl;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lPageControl := TLuaPageControl(GetLuaObject(L, 1));
+	lPageControl := TLuaPageControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lPageControl.ActivePageIndex;
 		Result := 1;

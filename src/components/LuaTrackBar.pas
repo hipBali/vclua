@@ -46,8 +46,7 @@ function VCLua_TrackBar_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lTrackBar:TLuaTrackBar;
 begin
-	CheckArg(L, 2);
-	lTrackBar := TLuaTrackBar(GetLuaObject(L, 1));
+	lTrackBar := TLuaTrackBar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTrackBar.OnChange));
 	lTrackBar.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

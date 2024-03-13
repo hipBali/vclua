@@ -173,8 +173,7 @@ var
 	lStringList:TLuaStringList;
 	val:TDuplicates;
 begin
-	CheckArg(L, 2);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TDuplicates));
 	try
 		lStringList.Duplicates := val;
@@ -190,8 +189,7 @@ var
 	lStringList:TLuaStringList;
 	ret:TDuplicates;
 begin
-	CheckArg(L, 1);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStringList.Duplicates;
 		Result := 1;
@@ -207,8 +205,7 @@ var
 	lStringList:TLuaStringList;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStringList.Sorted := val;
@@ -224,8 +221,7 @@ var
 	lStringList:TLuaStringList;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStringList.Sorted;
 		Result := 1;
@@ -241,8 +237,7 @@ var
 	lStringList:TLuaStringList;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStringList.CaseSensitive := val;
@@ -258,8 +253,7 @@ var
 	lStringList:TLuaStringList;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStringList.CaseSensitive;
 		Result := 1;
@@ -274,8 +268,7 @@ function VCLua_StringList_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lStringList:TLuaStringList;
 begin
-	CheckArg(L, 2);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lStringList.OnChange));
 	lStringList.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -285,8 +278,7 @@ function VCLua_StringList_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
 var
 	lStringList:TLuaStringList;
 begin
-	CheckArg(L, 2);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lStringList.OnChanging));
 	lStringList.OnChanging := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -297,8 +289,7 @@ var
 	lStringList:TLuaStringList;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStringList.OwnsObjects := val;
@@ -314,8 +305,7 @@ var
 	lStringList:TLuaStringList;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStringList.OwnsObjects;
 		Result := 1;
@@ -331,8 +321,7 @@ var
 	lStringList:TLuaStringList;
 	val:TStringsSortStyle;
 begin
-	CheckArg(L, 2);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TStringsSortStyle));
 	try
 		lStringList.SortStyle := val;
@@ -348,8 +337,7 @@ var
 	lStringList:TLuaStringList;
 	ret:TStringsSortStyle;
 begin
-	CheckArg(L, 1);
-	lStringList := TLuaStringList(GetLuaObject(L, 1));
+	lStringList := TLuaStringList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStringList.SortStyle;
 		Result := 1;

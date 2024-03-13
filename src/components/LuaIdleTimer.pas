@@ -30,8 +30,7 @@ var
 	lIdleTimer:TLuaIdleTimer;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lIdleTimer := TLuaIdleTimer(GetLuaObject(L, 1));
+	lIdleTimer := TLuaIdleTimer(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lIdleTimer.AutoEnabled := val;
@@ -47,8 +46,7 @@ var
 	lIdleTimer:TLuaIdleTimer;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lIdleTimer := TLuaIdleTimer(GetLuaObject(L, 1));
+	lIdleTimer := TLuaIdleTimer(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lIdleTimer.AutoEnabled;
 		Result := 1;
@@ -64,8 +62,7 @@ var
 	lIdleTimer:TLuaIdleTimer;
 	val:TIdleTimerAutoEvent;
 begin
-	CheckArg(L, 2);
-	lIdleTimer := TLuaIdleTimer(GetLuaObject(L, 1));
+	lIdleTimer := TLuaIdleTimer(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TIdleTimerAutoEvent));
 	try
 		lIdleTimer.AutoStartEvent := val;
@@ -81,8 +78,7 @@ var
 	lIdleTimer:TLuaIdleTimer;
 	ret:TIdleTimerAutoEvent;
 begin
-	CheckArg(L, 1);
-	lIdleTimer := TLuaIdleTimer(GetLuaObject(L, 1));
+	lIdleTimer := TLuaIdleTimer(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lIdleTimer.AutoStartEvent;
 		Result := 1;
@@ -98,8 +94,7 @@ var
 	lIdleTimer:TLuaIdleTimer;
 	val:TIdleTimerAutoEvent;
 begin
-	CheckArg(L, 2);
-	lIdleTimer := TLuaIdleTimer(GetLuaObject(L, 1));
+	lIdleTimer := TLuaIdleTimer(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TIdleTimerAutoEvent));
 	try
 		lIdleTimer.AutoEndEvent := val;
@@ -115,8 +110,7 @@ var
 	lIdleTimer:TLuaIdleTimer;
 	ret:TIdleTimerAutoEvent;
 begin
-	CheckArg(L, 1);
-	lIdleTimer := TLuaIdleTimer(GetLuaObject(L, 1));
+	lIdleTimer := TLuaIdleTimer(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lIdleTimer.AutoEndEvent;
 		Result := 1;
@@ -132,8 +126,7 @@ var
 	lIdleTimer:TLuaIdleTimer;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lIdleTimer := TLuaIdleTimer(GetLuaObject(L, 1));
+	lIdleTimer := TLuaIdleTimer(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lIdleTimer.FireOnIdle := val;
@@ -149,8 +142,7 @@ var
 	lIdleTimer:TLuaIdleTimer;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lIdleTimer := TLuaIdleTimer(GetLuaObject(L, 1));
+	lIdleTimer := TLuaIdleTimer(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lIdleTimer.FireOnIdle;
 		Result := 1;

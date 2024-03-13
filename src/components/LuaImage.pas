@@ -30,8 +30,7 @@ var
 	lImage:TLuaImage;
 	ret:TCanvas;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.Canvas;
 		Result := 1;
@@ -79,8 +78,7 @@ var
 	lImage:TLuaImage;
 	val:TAntialiasingMode;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TAntialiasingMode));
 	try
 		lImage.AntialiasingMode := val;
@@ -96,8 +94,7 @@ var
 	lImage:TLuaImage;
 	ret:TAntialiasingMode;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.AntialiasingMode;
 		Result := 1;
@@ -113,8 +110,7 @@ var
 	lImage:TLuaImage;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImage.Center := val;
@@ -130,8 +126,7 @@ var
 	lImage:TLuaImage;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.Center;
 		Result := 1;
@@ -147,8 +142,7 @@ var
 	lImage:TLuaImage;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImage.KeepOriginXWhenClipped := val;
@@ -164,8 +158,7 @@ var
 	lImage:TLuaImage;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.KeepOriginXWhenClipped;
 		Result := 1;
@@ -181,8 +174,7 @@ var
 	lImage:TLuaImage;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImage.KeepOriginYWhenClipped := val;
@@ -198,8 +190,7 @@ var
 	lImage:TLuaImage;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.KeepOriginYWhenClipped;
 		Result := 1;
@@ -215,8 +206,7 @@ var
 	lImage:TLuaImage;
 	val:TPicture;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImage.Picture := val;
@@ -232,8 +222,7 @@ var
 	lImage:TLuaImage;
 	ret:TPicture;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.Picture;
 		Result := 1;
@@ -249,8 +238,7 @@ var
 	lImage:TLuaImage;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImage.Stretch := val;
@@ -266,8 +254,7 @@ var
 	lImage:TLuaImage;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.Stretch;
 		Result := 1;
@@ -283,8 +270,7 @@ var
 	lImage:TLuaImage;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImage.StretchOutEnabled := val;
@@ -300,8 +286,7 @@ var
 	lImage:TLuaImage;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.StretchOutEnabled;
 		Result := 1;
@@ -317,8 +302,7 @@ var
 	lImage:TLuaImage;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImage.StretchInEnabled := val;
@@ -334,8 +318,7 @@ var
 	lImage:TLuaImage;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.StretchInEnabled;
 		Result := 1;
@@ -351,8 +334,7 @@ var
 	lImage:TLuaImage;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImage.Transparent := val;
@@ -368,8 +350,7 @@ var
 	lImage:TLuaImage;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.Transparent;
 		Result := 1;
@@ -385,8 +366,7 @@ var
 	lImage:TLuaImage;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImage.Proportional := val;
@@ -402,8 +382,7 @@ var
 	lImage:TLuaImage;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImage.Proportional;
 		Result := 1;
@@ -418,8 +397,7 @@ function VCLua_Image_VCLuaSetOnPictureChanged(L: Plua_State): Integer; cdecl;
 var
 	lImage:TLuaImage;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lImage.OnPictureChanged));
 	lImage.OnPictureChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -429,8 +407,7 @@ function VCLua_Image_VCLuaSetOnPaintBackground(L: Plua_State): Integer; cdecl;
 var
 	lImage:TLuaImage;
 begin
-	CheckArg(L, 2);
-	lImage := TLuaImage(GetLuaObject(L, 1));
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lImage.OnPaintBackground));
 	lImage.OnPaintBackground := TLuaEvent.Factory<TImagePaintBackgroundEvent,TLuaImagePaintBackgroundEvent>(L);
 	Result := 0;

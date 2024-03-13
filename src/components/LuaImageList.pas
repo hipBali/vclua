@@ -891,8 +891,7 @@ var
 	lImageList:TLuaImageList;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.HasOverlays;
 		Result := 1;
@@ -1110,8 +1109,7 @@ var
 	lImageList:TLuaImageList;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImageList.AllocBy := val;
@@ -1127,8 +1125,7 @@ var
 	lImageList:TLuaImageList;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.AllocBy;
 		Result := 1;
@@ -1144,8 +1141,7 @@ var
 	lImageList:TLuaImageList;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lImageList.BlendColor := val;
@@ -1161,8 +1157,7 @@ var
 	lImageList:TLuaImageList;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.BlendColor;
 		Result := 1;
@@ -1178,8 +1173,7 @@ var
 	lImageList:TLuaImageList;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lImageList.BkColor := val;
@@ -1195,8 +1189,7 @@ var
 	lImageList:TLuaImageList;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.BkColor;
 		Result := 1;
@@ -1212,8 +1205,7 @@ var
 	lImageList:TLuaImageList;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.Count;
 		Result := 1;
@@ -1229,8 +1221,7 @@ var
 	lImageList:TLuaImageList;
 	val:TDrawingStyle;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TDrawingStyle));
 	try
 		lImageList.DrawingStyle := val;
@@ -1246,8 +1237,7 @@ var
 	lImageList:TLuaImageList;
 	ret:TDrawingStyle;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.DrawingStyle;
 		Result := 1;
@@ -1263,8 +1253,7 @@ var
 	lImageList:TLuaImageList;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImageList.Height := val;
@@ -1280,8 +1269,7 @@ var
 	lImageList:TLuaImageList;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.Height;
 		Result := 1;
@@ -1337,8 +1325,7 @@ var
 	lImageList:TLuaImageList;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImageList.Width := val;
@@ -1354,8 +1341,7 @@ var
 	lImageList:TLuaImageList;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.Width;
 		Result := 1;
@@ -1412,8 +1398,7 @@ function VCLua_ImageList_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lImageList:TLuaImageList;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lImageList.OnChange));
 	lImageList.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1424,8 +1409,7 @@ var
 	lImageList:TLuaImageList;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImageList.Masked := val;
@@ -1441,8 +1425,7 @@ var
 	lImageList:TLuaImageList;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.Masked;
 		Result := 1;
@@ -1458,8 +1441,7 @@ var
 	lImageList:TLuaImageList;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.ResolutionCount;
 		Result := 1;
@@ -1475,8 +1457,7 @@ var
 	lImageList:TLuaImageList;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImageList.Scaled := val;
@@ -1492,8 +1473,7 @@ var
 	lImageList:TLuaImageList;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.Scaled;
 		Result := 1;
@@ -1509,8 +1489,7 @@ var
 	lImageList:TLuaImageList;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lImageList.ShareImages := val;
@@ -1526,8 +1505,7 @@ var
 	lImageList:TLuaImageList;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.ShareImages;
 		Result := 1;
@@ -1543,8 +1521,7 @@ var
 	lImageList:TLuaImageList;
 	val:TImageType;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TImageType));
 	try
 		lImageList.ImageType := val;
@@ -1560,8 +1537,7 @@ var
 	lImageList:TLuaImageList;
 	ret:TImageType;
 begin
-	CheckArg(L, 1);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lImageList.ImageType;
 		Result := 1;
@@ -1576,8 +1552,7 @@ function VCLua_ImageList_VCLuaSetOnGetWidthForPPI(L: Plua_State): Integer; cdecl
 var
 	lImageList:TLuaImageList;
 begin
-	CheckArg(L, 2);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lImageList.OnGetWidthForPPI));
 	lImageList.OnGetWidthForPPI := TLuaEvent.Factory<TCustomImageListGetWidthForPPI,TLuaCustomImageListGetWidthForPPI>(L);
 	Result := 0;

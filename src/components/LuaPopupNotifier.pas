@@ -78,8 +78,7 @@ function VCLua_PopupNotifier_VCLuaSetOnClose(L: Plua_State): Integer; cdecl;
 var
 	lPopupNotifier:TLuaPopupNotifier;
 begin
-	CheckArg(L, 2);
-	lPopupNotifier := TLuaPopupNotifier(GetLuaObject(L, 1));
+	lPopupNotifier := TLuaPopupNotifier(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lPopupNotifier.OnClose));
 	lPopupNotifier.OnClose := TLuaEvent.Factory<TCloseEvent,TLuaCloseEvent>(L);
 	Result := 0;

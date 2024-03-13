@@ -124,8 +124,7 @@ var
 	lStatusPanels:TLuaStatusPanels;
 	ret:TStatusBar;
 begin
-	CheckArg(L, 1);
-	lStatusPanels := TLuaStatusPanels(GetLuaObject(L, 1));
+	lStatusPanels := TLuaStatusPanels(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStatusPanels.StatusBar;
 		Result := 1;
@@ -264,8 +263,7 @@ var
 	lStatusBar:TLuaStatusBar;
 	ret:TCanvas;
 begin
-	CheckArg(L, 1);
-	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
+	lStatusBar := TLuaStatusBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStatusBar.Canvas;
 		Result := 1;
@@ -280,8 +278,7 @@ function VCLua_StatusBar_VCLuaSetOnDrawPanel(L: Plua_State): Integer; cdecl;
 var
 	lStatusBar:TLuaStatusBar;
 begin
-	CheckArg(L, 2);
-	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
+	lStatusBar := TLuaStatusBar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lStatusBar.OnDrawPanel));
 	lStatusBar.OnDrawPanel := TLuaEvent.Factory<TDrawPanelEvent,TLuaDrawPanelEvent>(L);
 	Result := 0;
@@ -291,8 +288,7 @@ function VCLua_StatusBar_VCLuaSetOnHint(L: Plua_State): Integer; cdecl;
 var
 	lStatusBar:TLuaStatusBar;
 begin
-	CheckArg(L, 2);
-	lStatusBar := TLuaStatusBar(GetLuaObject(L, 1));
+	lStatusBar := TLuaStatusBar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lStatusBar.OnHint));
 	lStatusBar.OnHint := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

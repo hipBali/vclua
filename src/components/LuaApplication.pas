@@ -405,8 +405,7 @@ var
 	lApplication:TLuaApplication;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.Active;
 		Result := 1;
@@ -422,8 +421,7 @@ var
 	lApplication:TLuaApplication;
 	val:TApplicationType;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TApplicationType));
 	try
 		lApplication.ApplicationType := val;
@@ -439,8 +437,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TApplicationType;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.ApplicationType;
 		Result := 1;
@@ -456,8 +453,7 @@ var
 	lApplication:TLuaApplication;
 	val:TBiDiMode;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TBiDiMode));
 	try
 		lApplication.BidiMode := val;
@@ -473,8 +469,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TBiDiMode;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.BidiMode;
 		Result := 1;
@@ -490,8 +485,7 @@ var
 	lApplication:TLuaApplication;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.CaptureExceptions := val;
@@ -507,8 +501,7 @@ var
 	lApplication:TLuaApplication;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.CaptureExceptions;
 		Result := 1;
@@ -524,8 +517,7 @@ var
 	lApplication:TLuaApplication;
 	val:TApplicationDoubleBuffered;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TApplicationDoubleBuffered));
 	try
 		lApplication.DoubleBuffered := val;
@@ -541,8 +533,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TApplicationDoubleBuffered;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.DoubleBuffered;
 		Result := 1;
@@ -558,8 +549,7 @@ var
 	lApplication:TLuaApplication;
 	val:TApplicationExceptionDlg;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TApplicationExceptionDlg));
 	try
 		lApplication.ExceptionDialog := val;
@@ -575,8 +565,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TApplicationExceptionDlg;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.ExceptionDialog;
 		Result := 1;
@@ -592,8 +581,7 @@ var
 	lApplication:TLuaApplication;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.FindGlobalComponentEnabled := val;
@@ -609,8 +597,7 @@ var
 	lApplication:TLuaApplication;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.FindGlobalComponentEnabled;
 		Result := 1;
@@ -626,8 +613,7 @@ var
 	lApplication:TLuaApplication;
 	val:TApplicationFlags;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TApplicationFlags));
 	try
 		lApplication.Flags := val;
@@ -643,8 +629,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TApplicationFlags;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.Flags;
 		Result := 1;
@@ -660,8 +645,7 @@ var
 	lApplication:TLuaApplication;
 	val:THandle;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.Handle := val;
@@ -677,8 +661,7 @@ var
 	lApplication:TLuaApplication;
 	ret:THandle;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.Handle;
 		Result := 1;
@@ -694,8 +677,7 @@ var
 	lApplication:TLuaApplication;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.Hint := val;
@@ -711,8 +693,7 @@ var
 	lApplication:TLuaApplication;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.Hint;
 		Result := 1;
@@ -728,8 +709,7 @@ var
 	lApplication:TLuaApplication;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lApplication.HintColor := val;
@@ -745,8 +725,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.HintColor;
 		Result := 1;
@@ -762,8 +741,7 @@ var
 	lApplication:TLuaApplication;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.HintHidePause := val;
@@ -779,8 +757,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.HintHidePause;
 		Result := 1;
@@ -796,8 +773,7 @@ var
 	lApplication:TLuaApplication;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.HintHidePausePerChar := val;
@@ -813,8 +789,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.HintHidePausePerChar;
 		Result := 1;
@@ -830,8 +805,7 @@ var
 	lApplication:TLuaApplication;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.HintPause := val;
@@ -847,8 +821,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.HintPause;
 		Result := 1;
@@ -864,8 +837,7 @@ var
 	lApplication:TLuaApplication;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.HintShortCuts := val;
@@ -881,8 +853,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.HintShortCuts;
 		Result := 1;
@@ -898,8 +869,7 @@ var
 	lApplication:TLuaApplication;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.HintShortPause := val;
@@ -915,8 +885,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.HintShortPause;
 		Result := 1;
@@ -932,8 +901,7 @@ var
 	lApplication:TLuaApplication;
 	val:TIcon;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.Icon := val;
@@ -949,8 +917,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TIcon;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.Icon;
 		Result := 1;
@@ -966,8 +933,7 @@ var
 	lApplication:TLuaApplication;
 	val:TLayoutAdjustmentPolicy;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TLayoutAdjustmentPolicy));
 	try
 		lApplication.LayoutAdjustmentPolicy := val;
@@ -983,8 +949,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TLayoutAdjustmentPolicy;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.LayoutAdjustmentPolicy;
 		Result := 1;
@@ -1000,8 +965,7 @@ var
 	lApplication:TLuaApplication;
 	val:TApplicationNavigationOptions;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TApplicationNavigationOptions));
 	try
 		lApplication.Navigation := val;
@@ -1017,8 +981,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TApplicationNavigationOptions;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.Navigation;
 		Result := 1;
@@ -1034,8 +997,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TForm;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.MainForm;
 		Result := 1;
@@ -1051,8 +1013,7 @@ var
 	lApplication:TLuaApplication;
 	ret:HWND;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.MainFormHandle;
 		Result := 1;
@@ -1068,8 +1029,7 @@ var
 	lApplication:TLuaApplication;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.MainFormOnTaskBar := val;
@@ -1085,8 +1045,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.MainFormOnTaskBar;
 		Result := 1;
@@ -1102,8 +1061,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.ModalLevel;
 		Result := 1;
@@ -1119,8 +1077,7 @@ var
 	lApplication:TLuaApplication;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.MoveFormFocusToChildren := val;
@@ -1136,8 +1093,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.MoveFormFocusToChildren;
 		Result := 1;
@@ -1153,8 +1109,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TControl;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.MouseControl;
 		Result := 1;
@@ -1170,8 +1125,7 @@ var
 	lApplication:TLuaApplication;
 	val:TTaskBarBehavior;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TTaskBarBehavior));
 	try
 		lApplication.TaskBarBehavior := val;
@@ -1187,8 +1141,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TTaskBarBehavior;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.TaskBarBehavior;
 		Result := 1;
@@ -1204,8 +1157,7 @@ var
 	lApplication:TLuaApplication;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.UpdateFormatSettings := val;
@@ -1221,8 +1173,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.UpdateFormatSettings;
 		Result := 1;
@@ -1237,8 +1188,7 @@ function VCLua_Application_VCLuaSetOnActionExecute(L: Plua_State): Integer; cdec
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnActionExecute));
 	lApplication.OnActionExecute := TLuaEvent.Factory<TActionEvent,TLuaActionEvent>(L);
 	Result := 0;
@@ -1248,8 +1198,7 @@ function VCLua_Application_VCLuaSetOnActionUpdate(L: Plua_State): Integer; cdecl
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnActionUpdate));
 	lApplication.OnActionUpdate := TLuaEvent.Factory<TActionEvent,TLuaActionEvent>(L);
 	Result := 0;
@@ -1259,8 +1208,7 @@ function VCLua_Application_VCLuaSetOnActivate(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnActivate));
 	lApplication.OnActivate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1270,8 +1218,7 @@ function VCLua_Application_VCLuaSetOnDeactivate(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnDeactivate));
 	lApplication.OnDeactivate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1281,8 +1228,7 @@ function VCLua_Application_VCLuaSetOnGetMainFormHandle(L: Plua_State): Integer; 
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnGetMainFormHandle));
 	lApplication.OnGetMainFormHandle := TLuaEvent.Factory<TGetHandleEvent,TLuaGetHandleEvent>(L);
 	Result := 0;
@@ -1292,8 +1238,7 @@ function VCLua_Application_VCLuaSetOnIdle(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnIdle));
 	lApplication.OnIdle := TLuaEvent.Factory<TIdleEvent,TLuaIdleEvent>(L);
 	Result := 0;
@@ -1303,8 +1248,7 @@ function VCLua_Application_VCLuaSetOnIdleEnd(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnIdleEnd));
 	lApplication.OnIdleEnd := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1314,8 +1258,7 @@ function VCLua_Application_VCLuaSetOnEndSession(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnEndSession));
 	lApplication.OnEndSession := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1325,8 +1268,7 @@ function VCLua_Application_VCLuaSetOnQueryEndSession(L: Plua_State): Integer; cd
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnQueryEndSession));
 	lApplication.OnQueryEndSession := TLuaEvent.Factory<TQueryEndSessionEvent,TLuaQueryEndSessionEvent>(L);
 	Result := 0;
@@ -1336,8 +1278,7 @@ function VCLua_Application_VCLuaSetOnMinimize(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnMinimize));
 	lApplication.OnMinimize := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1347,8 +1288,7 @@ function VCLua_Application_VCLuaSetOnMessageDialogFinished(L: Plua_State): Integ
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnMessageDialogFinished));
 	lApplication.OnMessageDialogFinished := TLuaEvent.Factory<TModalDialogFinished,TLuaModalDialogFinished>(L);
 	Result := 0;
@@ -1358,8 +1298,7 @@ function VCLua_Application_VCLuaSetOnModalBegin(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnModalBegin));
 	lApplication.OnModalBegin := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1369,8 +1308,7 @@ function VCLua_Application_VCLuaSetOnModalEnd(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnModalEnd));
 	lApplication.OnModalEnd := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1380,8 +1318,7 @@ function VCLua_Application_VCLuaSetOnRestore(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnRestore));
 	lApplication.OnRestore := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1391,8 +1328,7 @@ function VCLua_Application_VCLuaSetOnDropFiles(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnDropFiles));
 	lApplication.OnDropFiles := TLuaEvent.Factory<TDropFilesEvent,TLuaDropFilesEvent>(L);
 	Result := 0;
@@ -1402,8 +1338,7 @@ function VCLua_Application_VCLuaSetOnHint(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnHint));
 	lApplication.OnHint := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1413,8 +1348,7 @@ function VCLua_Application_VCLuaSetOnUserInput(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnUserInput));
 	lApplication.OnUserInput := TLuaEvent.Factory<TOnUserInputEvent,TLuaOnUserInputEvent>(L);
 	Result := 0;
@@ -1424,8 +1358,7 @@ function VCLua_Application_VCLuaSetOnDestroy(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnDestroy));
 	lApplication.OnDestroy := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1436,8 +1369,7 @@ var
 	lApplication:TLuaApplication;
 	val:TApplicationShowGlyphs;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TApplicationShowGlyphs));
 	try
 		lApplication.ShowButtonGlyphs := val;
@@ -1453,8 +1385,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TApplicationShowGlyphs;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.ShowButtonGlyphs;
 		Result := 1;
@@ -1470,8 +1401,7 @@ var
 	lApplication:TLuaApplication;
 	val:TApplicationShowGlyphs;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TApplicationShowGlyphs));
 	try
 		lApplication.ShowMenuGlyphs := val;
@@ -1487,8 +1417,7 @@ var
 	lApplication:TLuaApplication;
 	ret:TApplicationShowGlyphs;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.ShowMenuGlyphs;
 		Result := 1;
@@ -1504,8 +1433,7 @@ var
 	lApplication:TLuaApplication;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.ShowHint := val;
@@ -1521,8 +1449,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.ShowHint;
 		Result := 1;
@@ -1538,8 +1465,7 @@ var
 	lApplication:TLuaApplication;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.ShowMainForm := val;
@@ -1555,8 +1481,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.ShowMainForm;
 		Result := 1;
@@ -1572,8 +1497,7 @@ var
 	lApplication:TLuaApplication;
 	val:String;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.Title := val;
@@ -1589,8 +1513,7 @@ var
 	lApplication:TLuaApplication;
 	ret:String;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.Title;
 		Result := 1;
@@ -1606,8 +1529,7 @@ var
 	lApplication:TLuaApplication;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lApplication.Scaled := val;
@@ -1623,8 +1545,7 @@ var
 	lApplication:TLuaApplication;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lApplication.Scaled;
 		Result := 1;

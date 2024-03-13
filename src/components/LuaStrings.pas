@@ -1041,8 +1041,7 @@ var
 	lStrings:TLuaStrings;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.AlwaysQuote := val;
@@ -1058,8 +1057,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.AlwaysQuote;
 		Result := 1;
@@ -1075,8 +1073,7 @@ var
 	lStrings:TLuaStrings;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.Capacity := val;
@@ -1092,8 +1089,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.Capacity;
 		Result := 1;
@@ -1109,8 +1105,7 @@ var
 	lStrings:TLuaStrings;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.CommaText := val;
@@ -1126,8 +1121,7 @@ var
 	lStrings:TLuaStrings;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.CommaText;
 		Result := 1;
@@ -1143,8 +1137,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.Count;
 		Result := 1;
@@ -1160,8 +1153,7 @@ var
 	lStrings:TLuaStrings;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.DelimitedText := val;
@@ -1177,8 +1169,7 @@ var
 	lStrings:TLuaStrings;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.DelimitedText;
 		Result := 1;
@@ -1194,8 +1185,7 @@ var
 	lStrings:TLuaStrings;
 	val:Char;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.Delimiter := val;
@@ -1211,8 +1201,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Char;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.Delimiter;
 		Result := 1;
@@ -1228,8 +1217,7 @@ var
 	lStrings:TLuaStrings;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.LineBreak := val;
@@ -1245,8 +1233,7 @@ var
 	lStrings:TLuaStrings;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.LineBreak;
 		Result := 1;
@@ -1262,8 +1249,7 @@ var
 	lStrings:TLuaStrings;
 	val:TMissingNameValueSeparatorAction;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TMissingNameValueSeparatorAction));
 	try
 		lStrings.MissingNameValueSeparatorAction := val;
@@ -1279,8 +1265,7 @@ var
 	lStrings:TLuaStrings;
 	ret:TMissingNameValueSeparatorAction;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.MissingNameValueSeparatorAction;
 		Result := 1;
@@ -1315,8 +1300,7 @@ var
 	lStrings:TLuaStrings;
 	val:Char;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.NameValueSeparator := val;
@@ -1332,8 +1316,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Char;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.NameValueSeparator;
 		Result := 1;
@@ -1374,8 +1357,7 @@ var
 	lStrings:TLuaStrings;
 	val:TStringsOptions;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TStringsOptions));
 	try
 		lStrings.Options := val;
@@ -1391,8 +1373,7 @@ var
 	lStrings:TLuaStrings;
 	ret:TStringsOptions;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.Options;
 		Result := 1;
@@ -1408,8 +1389,7 @@ var
 	lStrings:TLuaStrings;
 	val:Char;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.QuoteChar := val;
@@ -1425,8 +1405,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Char;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.QuoteChar;
 		Result := 1;
@@ -1442,8 +1421,7 @@ var
 	lStrings:TLuaStrings;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.SkipLastLineBreak := val;
@@ -1459,8 +1437,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.SkipLastLineBreak;
 		Result := 1;
@@ -1476,8 +1453,7 @@ var
 	lStrings:TLuaStrings;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.TrailingLineBreak := val;
@@ -1493,8 +1469,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.TrailingLineBreak;
 		Result := 1;
@@ -1510,8 +1485,7 @@ var
 	lStrings:TLuaStrings;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.StrictDelimiter := val;
@@ -1527,8 +1501,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.StrictDelimiter;
 		Result := 1;
@@ -1569,8 +1542,7 @@ var
 	lStrings:TLuaStrings;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.Text := val;
@@ -1586,8 +1558,7 @@ var
 	lStrings:TLuaStrings;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.Text;
 		Result := 1;
@@ -1603,8 +1574,7 @@ var
 	lStrings:TLuaStrings;
 	val:TTextLineBreakStyle;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TTextLineBreakStyle));
 	try
 		lStrings.TextLineBreakStyle := val;
@@ -1620,8 +1590,7 @@ var
 	lStrings:TLuaStrings;
 	ret:TTextLineBreakStyle;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.TextLineBreakStyle;
 		Result := 1;
@@ -1637,8 +1606,7 @@ var
 	lStrings:TLuaStrings;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.UseLocale := val;
@@ -1654,8 +1622,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.UseLocale;
 		Result := 1;
@@ -1721,8 +1688,7 @@ var
 	lStrings:TLuaStrings;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStrings.WriteBOM := val;
@@ -1738,8 +1704,7 @@ var
 	lStrings:TLuaStrings;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStrings.WriteBOM;
 		Result := 1;

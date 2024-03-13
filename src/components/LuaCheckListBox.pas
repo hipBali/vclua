@@ -126,8 +126,7 @@ var
 	lCheckListBox:TLuaCheckListBox;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	lCheckListBox := TLuaCheckListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCheckListBox.AllowGrayed := val;
@@ -143,8 +142,7 @@ var
 	lCheckListBox:TLuaCheckListBox;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	lCheckListBox := TLuaCheckListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckListBox.AllowGrayed;
 		Result := 1;
@@ -259,8 +257,7 @@ function VCLua_CheckListBox_VCLuaSetOnClickCheck(L: Plua_State): Integer; cdecl;
 var
 	lCheckListBox:TLuaCheckListBox;
 begin
-	CheckArg(L, 2);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	lCheckListBox := TLuaCheckListBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCheckListBox.OnClickCheck));
 	lCheckListBox.OnClickCheck := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -270,8 +267,7 @@ function VCLua_CheckListBox_VCLuaSetOnItemClick(L: Plua_State): Integer; cdecl;
 var
 	lCheckListBox:TLuaCheckListBox;
 begin
-	CheckArg(L, 2);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	lCheckListBox := TLuaCheckListBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCheckListBox.OnItemClick));
 	lCheckListBox.OnItemClick := TLuaEvent.Factory<TCheckListClicked,TLuaCheckListClicked>(L);
 	Result := 0;

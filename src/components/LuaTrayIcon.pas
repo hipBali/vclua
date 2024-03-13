@@ -111,8 +111,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.Animate := val;
@@ -128,8 +127,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.Animate;
 		Result := 1;
@@ -145,8 +143,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:Cardinal;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.AnimateInterval := val;
@@ -162,8 +159,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:Cardinal;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.AnimateInterval;
 		Result := 1;
@@ -179,8 +175,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:TBalloonFlags;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TBalloonFlags));
 	try
 		lTrayIcon.BalloonFlags := val;
@@ -196,8 +191,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:TBalloonFlags;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.BalloonFlags;
 		Result := 1;
@@ -213,8 +207,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.BalloonHint := val;
@@ -230,8 +223,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.BalloonHint;
 		Result := 1;
@@ -247,8 +239,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.BalloonTimeout := val;
@@ -264,8 +255,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.BalloonTimeout;
 		Result := 1;
@@ -281,8 +271,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.BalloonTitle := val;
@@ -298,8 +287,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.BalloonTitle;
 		Result := 1;
@@ -315,8 +303,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:TCanvas;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.Canvas;
 		Result := 1;
@@ -332,8 +319,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:TPopupMenu;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.PopUpMenu := val;
@@ -349,8 +335,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:TPopupMenu;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.PopUpMenu;
 		Result := 1;
@@ -366,8 +351,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:TIcon;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.Icon := val;
@@ -383,8 +367,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:TIcon;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.Icon;
 		Result := 1;
@@ -400,8 +383,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:TCustomImageList;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.Icons := val;
@@ -417,8 +399,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:TCustomImageList;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.Icons;
 		Result := 1;
@@ -434,8 +415,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.Hint := val;
@@ -451,8 +431,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.Hint;
 		Result := 1;
@@ -468,8 +447,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.ShowIcon := val;
@@ -485,8 +463,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.ShowIcon;
 		Result := 1;
@@ -502,8 +479,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTrayIcon.Visible := val;
@@ -519,8 +495,7 @@ var
 	lTrayIcon:TLuaTrayIcon;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTrayIcon.Visible;
 		Result := 1;
@@ -535,8 +510,7 @@ function VCLua_TrayIcon_VCLuaSetOnClick(L: Plua_State): Integer; cdecl;
 var
 	lTrayIcon:TLuaTrayIcon;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnClick));
 	lTrayIcon.OnClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -546,8 +520,7 @@ function VCLua_TrayIcon_VCLuaSetOnDblClick(L: Plua_State): Integer; cdecl;
 var
 	lTrayIcon:TLuaTrayIcon;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnDblClick));
 	lTrayIcon.OnDblClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -557,8 +530,7 @@ function VCLua_TrayIcon_VCLuaSetOnMouseDown(L: Plua_State): Integer; cdecl;
 var
 	lTrayIcon:TLuaTrayIcon;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnMouseDown));
 	lTrayIcon.OnMouseDown := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
 	Result := 0;
@@ -568,8 +540,7 @@ function VCLua_TrayIcon_VCLuaSetOnMouseUp(L: Plua_State): Integer; cdecl;
 var
 	lTrayIcon:TLuaTrayIcon;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnMouseUp));
 	lTrayIcon.OnMouseUp := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
 	Result := 0;
@@ -579,8 +550,7 @@ function VCLua_TrayIcon_VCLuaSetOnMouseMove(L: Plua_State): Integer; cdecl;
 var
 	lTrayIcon:TLuaTrayIcon;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnMouseMove));
 	lTrayIcon.OnMouseMove := TLuaEvent.Factory<TMouseMoveEvent,TLuaMouseMoveEvent>(L);
 	Result := 0;
@@ -590,8 +560,7 @@ function VCLua_TrayIcon_VCLuaSetOnPaint(L: Plua_State): Integer; cdecl;
 var
 	lTrayIcon:TLuaTrayIcon;
 begin
-	CheckArg(L, 2);
-	lTrayIcon := TLuaTrayIcon(GetLuaObject(L, 1));
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTrayIcon.OnPaint));
 	lTrayIcon.OnPaint := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

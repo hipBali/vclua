@@ -124,8 +124,7 @@ var
 	lButton:TLuaButton;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lButton := TLuaButton(GetLuaObject(L, 1));
+	lButton := TLuaButton(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lButton.Active;
 		Result := 1;
@@ -141,8 +140,7 @@ var
 	lButton:TLuaButton;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lButton := TLuaButton(GetLuaObject(L, 1));
+	lButton := TLuaButton(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lButton.Default := val;
@@ -158,8 +156,7 @@ var
 	lButton:TLuaButton;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lButton := TLuaButton(GetLuaObject(L, 1));
+	lButton := TLuaButton(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lButton.Default;
 		Result := 1;
@@ -175,8 +172,7 @@ var
 	lButton:TLuaButton;
 	val:TModalResult;
 begin
-	CheckArg(L, 2);
-	lButton := TLuaButton(GetLuaObject(L, 1));
+	lButton := TLuaButton(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lButton.ModalResult := val;
@@ -192,8 +188,7 @@ var
 	lButton:TLuaButton;
 	ret:TModalResult;
 begin
-	CheckArg(L, 1);
-	lButton := TLuaButton(GetLuaObject(L, 1));
+	lButton := TLuaButton(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lButton.ModalResult;
 		Result := 1;
@@ -209,8 +204,7 @@ var
 	lButton:TLuaButton;
 	ret:TShortcut;
 begin
-	CheckArg(L, 1);
-	lButton := TLuaButton(GetLuaObject(L, 1));
+	lButton := TLuaButton(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lButton.ShortCut;
 		Result := 1;
@@ -226,8 +220,7 @@ var
 	lButton:TLuaButton;
 	ret:TShortcut;
 begin
-	CheckArg(L, 1);
-	lButton := TLuaButton(GetLuaObject(L, 1));
+	lButton := TLuaButton(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lButton.ShortCutKey2;
 		Result := 1;
@@ -243,8 +236,7 @@ var
 	lButton:TLuaButton;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lButton := TLuaButton(GetLuaObject(L, 1));
+	lButton := TLuaButton(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lButton.Cancel := val;
@@ -260,8 +252,7 @@ var
 	lButton:TLuaButton;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lButton := TLuaButton(GetLuaObject(L, 1));
+	lButton := TLuaButton(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lButton.Cancel;
 		Result := 1;

@@ -69,6 +69,16 @@ begin
 end;
 ]]
 
+VCLua_CDEF_LUAPROP = [[
+function #FNAME(L: Plua_State): Integer; cdecl;
+var
+	l#CNAME:TLua#CNAME;#VARS#RETVAR;
+begin
+	l#CNAME := TLua#CNAME(GetLuaObjectUnsafe(L, 1));#TOVCLUA
+#FUNC#PUSHTOLUA#PUSHOUTS
+end;
+]]
+
 VCLua_TRY = [[
 	try
 #STMTS

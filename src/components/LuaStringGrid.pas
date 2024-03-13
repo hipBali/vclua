@@ -133,8 +133,7 @@ var
 	lGridColumn:TLuaGridColumn;
 	ret:TCustomGrid;
 begin
-	CheckArg(L, 1);
-	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
+	lGridColumn := TLuaGridColumn(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lGridColumn.Grid;
 		Result := 1;
@@ -150,8 +149,7 @@ var
 	lGridColumn:TLuaGridColumn;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
+	lGridColumn := TLuaGridColumn(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lGridColumn.DefaultWidth;
 		Result := 1;
@@ -167,8 +165,7 @@ var
 	lGridColumn:TLuaGridColumn;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
+	lGridColumn := TLuaGridColumn(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lGridColumn.StoredWidth;
 		Result := 1;
@@ -184,8 +181,7 @@ var
 	lGridColumn:TLuaGridColumn;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
+	lGridColumn := TLuaGridColumn(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lGridColumn.WidthChanged;
 		Result := 1;
@@ -345,8 +341,7 @@ var
 	lGridColumns:TLuaGridColumns;
 	ret:TCustomGrid;
 begin
-	CheckArg(L, 1);
-	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
+	lGridColumns := TLuaGridColumns(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lGridColumns.Grid;
 		Result := 1;
@@ -387,8 +382,7 @@ var
 	lGridColumns:TLuaGridColumns;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
+	lGridColumns := TLuaGridColumns(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lGridColumns.VisibleCount;
 		Result := 1;
@@ -404,8 +398,7 @@ var
 	lGridColumns:TLuaGridColumns;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
+	lGridColumns := TLuaGridColumns(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lGridColumns.Enabled;
 		Result := 1;
@@ -420,8 +413,7 @@ function VCLua_StringGrid_VCLuaSetOnCellProcess(L: Plua_State): Integer; cdecl;
 var
 	lStringGrid:TLuaStringGrid;
 begin
-	CheckArg(L, 2);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lStringGrid.OnCellProcess));
 	lStringGrid.OnCellProcess := TLuaEvent.Factory<TCellProcessEvent,TLuaCellProcessEvent>(L);
 	Result := 0;

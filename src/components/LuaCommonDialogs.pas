@@ -118,8 +118,7 @@ function VCLua_ColorButton_VCLuaSetOnColorChanged(L: Plua_State): Integer; cdecl
 var
 	lColorButton:TLuaColorButton;
 begin
-	CheckArg(L, 2);
-	lColorButton := TLuaColorButton(GetLuaObject(L, 1));
+	lColorButton := TLuaColorButton(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lColorButton.OnColorChanged));
 	lColorButton.OnColorChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -213,8 +212,7 @@ function VCLua_OpenDialog_VCLuaSetOnFolderChange(L: Plua_State): Integer; cdecl;
 var
 	lOpenDialog:TLuaOpenDialog;
 begin
-	CheckArg(L, 2);
-	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
+	lOpenDialog := TLuaOpenDialog(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lOpenDialog.OnFolderChange));
 	lOpenDialog.OnFolderChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -224,8 +222,7 @@ function VCLua_OpenDialog_VCLuaSetOnSelectionChange(L: Plua_State): Integer; cde
 var
 	lOpenDialog:TLuaOpenDialog;
 begin
-	CheckArg(L, 2);
-	lOpenDialog := TLuaOpenDialog(GetLuaObject(L, 1));
+	lOpenDialog := TLuaOpenDialog(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lOpenDialog.OnSelectionChange));
 	lOpenDialog.OnSelectionChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -286,8 +283,7 @@ function VCLua_FontDialog_VCLuaSetOnApplyClicked(L: Plua_State): Integer; cdecl;
 var
 	lFontDialog:TLuaFontDialog;
 begin
-	CheckArg(L, 2);
-	lFontDialog := TLuaFontDialog(GetLuaObject(L, 1));
+	lFontDialog := TLuaFontDialog(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lFontDialog.OnApplyClicked));
 	lFontDialog.OnApplyClicked := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -306,8 +302,7 @@ function VCLua_FindDialog_VCLuaSetOnReplace(L: Plua_State): Integer; cdecl;
 var
 	lFindDialog:TLuaFindDialog;
 begin
-	CheckArg(L, 2);
-	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	lFindDialog := TLuaFindDialog(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lFindDialog.OnReplace));
 	lFindDialog.OnReplace := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -350,8 +345,7 @@ var
 	lFindDialog:TLuaFindDialog;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	lFindDialog := TLuaFindDialog(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFindDialog.Left := val;
@@ -367,8 +361,7 @@ var
 	lFindDialog:TLuaFindDialog;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	lFindDialog := TLuaFindDialog(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFindDialog.Left;
 		Result := 1;
@@ -384,8 +377,7 @@ var
 	lFindDialog:TLuaFindDialog;
 	val:TPoint;
 begin
-	CheckArg(L, 2);
-	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	lFindDialog := TLuaFindDialog(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFindDialog.Position := val;
@@ -401,8 +393,7 @@ var
 	lFindDialog:TLuaFindDialog;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	lFindDialog := TLuaFindDialog(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFindDialog.Position;
 		Result := 1;
@@ -418,8 +409,7 @@ var
 	lFindDialog:TLuaFindDialog;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	lFindDialog := TLuaFindDialog(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFindDialog.Top := val;
@@ -435,8 +425,7 @@ var
 	lFindDialog:TLuaFindDialog;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	lFindDialog := TLuaFindDialog(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFindDialog.Top;
 		Result := 1;
@@ -451,8 +440,7 @@ function VCLua_FindDialog_VCLuaSetOnFind(L: Plua_State): Integer; cdecl;
 var
 	lFindDialog:TLuaFindDialog;
 begin
-	CheckArg(L, 2);
-	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	lFindDialog := TLuaFindDialog(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lFindDialog.OnFind));
 	lFindDialog.OnFind := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -462,8 +450,7 @@ function VCLua_FindDialog_VCLuaSetOnHelpClicked(L: Plua_State): Integer; cdecl;
 var
 	lFindDialog:TLuaFindDialog;
 begin
-	CheckArg(L, 2);
-	lFindDialog := TLuaFindDialog(GetLuaObject(L, 1));
+	lFindDialog := TLuaFindDialog(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lFindDialog.OnHelpClicked));
 	lFindDialog.OnHelpClicked := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -473,8 +460,7 @@ function VCLua_ReplaceDialog_VCLuaSetOnReplace(L: Plua_State): Integer; cdecl;
 var
 	lReplaceDialog:TLuaReplaceDialog;
 begin
-	CheckArg(L, 2);
-	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lReplaceDialog.OnReplace));
 	lReplaceDialog.OnReplace := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -517,8 +503,7 @@ var
 	lReplaceDialog:TLuaReplaceDialog;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lReplaceDialog.Left := val;
@@ -534,8 +519,7 @@ var
 	lReplaceDialog:TLuaReplaceDialog;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lReplaceDialog.Left;
 		Result := 1;
@@ -551,8 +535,7 @@ var
 	lReplaceDialog:TLuaReplaceDialog;
 	val:TPoint;
 begin
-	CheckArg(L, 2);
-	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lReplaceDialog.Position := val;
@@ -568,8 +551,7 @@ var
 	lReplaceDialog:TLuaReplaceDialog;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lReplaceDialog.Position;
 		Result := 1;
@@ -585,8 +567,7 @@ var
 	lReplaceDialog:TLuaReplaceDialog;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lReplaceDialog.Top := val;
@@ -602,8 +583,7 @@ var
 	lReplaceDialog:TLuaReplaceDialog;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lReplaceDialog.Top;
 		Result := 1;
@@ -618,8 +598,7 @@ function VCLua_ReplaceDialog_VCLuaSetOnFind(L: Plua_State): Integer; cdecl;
 var
 	lReplaceDialog:TLuaReplaceDialog;
 begin
-	CheckArg(L, 2);
-	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lReplaceDialog.OnFind));
 	lReplaceDialog.OnFind := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -629,8 +608,7 @@ function VCLua_ReplaceDialog_VCLuaSetOnHelpClicked(L: Plua_State): Integer; cdec
 var
 	lReplaceDialog:TLuaReplaceDialog;
 begin
-	CheckArg(L, 2);
-	lReplaceDialog := TLuaReplaceDialog(GetLuaObject(L, 1));
+	lReplaceDialog := TLuaReplaceDialog(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lReplaceDialog.OnHelpClicked));
 	lReplaceDialog.OnHelpClicked := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

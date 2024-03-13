@@ -38,8 +38,7 @@ function VCLua_CustomGrid_VCLuaSetOnAfterSelection(L: Plua_State): Integer; cdec
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnAfterSelection));
 	lCustomGrid.OnAfterSelection := TLuaEvent.Factory<TOnSelectEvent,TLuaOnSelectEvent>(L);
 	Result := 0;
@@ -49,8 +48,7 @@ function VCLua_CustomGrid_VCLuaSetOnBeforeSelection(L: Plua_State): Integer; cde
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnBeforeSelection));
 	lCustomGrid.OnBeforeSelection := TLuaEvent.Factory<TOnSelectEvent,TLuaOnSelectEvent>(L);
 	Result := 0;
@@ -60,8 +58,7 @@ function VCLua_CustomGrid_VCLuaSetOnCheckboxToggled(L: Plua_State): Integer; cde
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnCheckboxToggled));
 	lCustomGrid.OnCheckboxToggled := TLuaEvent.Factory<TToggledCheckboxEvent,TLuaToggledCheckboxEvent>(L);
 	Result := 0;
@@ -71,8 +68,7 @@ function VCLua_CustomGrid_VCLuaSetOnCompareCells(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnCompareCells));
 	lCustomGrid.OnCompareCells := TLuaEvent.Factory<TOnCompareCells,TLuaOnCompareCells>(L);
 	Result := 0;
@@ -82,8 +78,7 @@ function VCLua_CustomGrid_VCLuaSetOnPrepareCanvas(L: Plua_State): Integer; cdecl
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnPrepareCanvas));
 	lCustomGrid.OnPrepareCanvas := TLuaEvent.Factory<TOnPrepareCanvasEvent,TLuaOnPrepareCanvasEvent>(L);
 	Result := 0;
@@ -93,8 +88,7 @@ function VCLua_CustomGrid_VCLuaSetOnDrawCell(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnDrawCell));
 	lCustomGrid.OnDrawCell := TLuaEvent.Factory<TOnDrawCell,TLuaOnDrawCell>(L);
 	Result := 0;
@@ -104,8 +98,7 @@ function VCLua_CustomGrid_VCLuaSetOnEditButtonClick(L: Plua_State): Integer; cde
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnEditButtonClick));
 	lCustomGrid.OnEditButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -115,8 +108,7 @@ function VCLua_CustomGrid_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnButtonClick));
 	lCustomGrid.OnButtonClick := TLuaEvent.Factory<TOnSelectEvent,TLuaOnSelectEvent>(L);
 	Result := 0;
@@ -126,8 +118,7 @@ function VCLua_CustomGrid_VCLuaSetOnPickListSelect(L: Plua_State): Integer; cdec
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnPickListSelect));
 	lCustomGrid.OnPickListSelect := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -137,8 +128,7 @@ function VCLua_CustomGrid_VCLuaSetOnSelection(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnSelection));
 	lCustomGrid.OnSelection := TLuaEvent.Factory<TOnSelectEvent,TLuaOnSelectEvent>(L);
 	Result := 0;
@@ -148,8 +138,7 @@ function VCLua_CustomGrid_VCLuaSetOnSelectEditor(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnSelectEditor));
 	lCustomGrid.OnSelectEditor := TLuaEvent.Factory<TSelectEditorEvent,TLuaSelectEditorEvent>(L);
 	Result := 0;
@@ -159,8 +148,7 @@ function VCLua_CustomGrid_VCLuaSetOnTopLeftChanged(L: Plua_State): Integer; cdec
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnTopLeftChanged));
 	lCustomGrid.OnTopLeftChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -170,8 +158,7 @@ function VCLua_CustomGrid_VCLuaSetOnUserCheckboxBitmap(L: Plua_State): Integer; 
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnUserCheckboxBitmap));
 	lCustomGrid.OnUserCheckboxBitmap := TLuaEvent.Factory<TUserCheckboxBitmapEvent,TLuaUserCheckboxBitmapEvent>(L);
 	Result := 0;
@@ -181,8 +168,7 @@ function VCLua_CustomGrid_VCLuaSetOnUserCheckboxImage(L: Plua_State): Integer; c
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnUserCheckboxImage));
 	lCustomGrid.OnUserCheckboxImage := TLuaEvent.Factory<TUserCheckBoxImageEvent,TLuaUserCheckBoxImageEvent>(L);
 	Result := 0;
@@ -192,8 +178,7 @@ function VCLua_CustomGrid_VCLuaSetOnValidateEntry(L: Plua_State): Integer; cdecl
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnValidateEntry));
 	lCustomGrid.OnValidateEntry := TLuaEvent.Factory<TValidateEntryEvent,TLuaValidateEntryEvent>(L);
 	Result := 0;
@@ -203,8 +188,7 @@ function VCLua_CustomGrid_VCLuaSetOnGetCellHint(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnGetCellHint));
 	lCustomGrid.OnGetCellHint := TLuaEvent.Factory<TGetCellHintEvent,TLuaGetCellHintEvent>(L);
 	Result := 0;
@@ -1035,8 +1019,7 @@ var
 	lCustomGrid:TLuaCustomGrid;
 	ret:TGridCursorState;
 begin
-	CheckArg(L, 1);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCustomGrid.CursorState;
 		Result := 1;
@@ -1071,8 +1054,7 @@ var
 	lCustomGrid:TLuaCustomGrid;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCustomGrid.SelectedRangeCount;
 		Result := 1;
@@ -1088,8 +1070,7 @@ var
 	lCustomGrid:TLuaCustomGrid;
 	val:TSortOrder;
 begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TSortOrder));
 	try
 		lCustomGrid.SortOrder := val;
@@ -1105,8 +1086,7 @@ var
 	lCustomGrid:TLuaCustomGrid;
 	ret:TSortOrder;
 begin
-	CheckArg(L, 1);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCustomGrid.SortOrder;
 		Result := 1;
@@ -1122,8 +1102,7 @@ var
 	lCustomGrid:TLuaCustomGrid;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCustomGrid.SortColumn;
 		Result := 1;
@@ -1138,8 +1117,7 @@ function VCLua_DrawGrid_VCLuaSetOnGetCheckboxState(L: Plua_State): Integer; cdec
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnGetCheckboxState));
 	lDrawGrid.OnGetCheckboxState := TLuaEvent.Factory<TGetCheckboxStateEvent,TLuaGetCheckboxStateEvent>(L);
 	Result := 0;
@@ -1149,8 +1127,7 @@ function VCLua_DrawGrid_VCLuaSetOnSetCheckboxState(L: Plua_State): Integer; cdec
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnSetCheckboxState));
 	lDrawGrid.OnSetCheckboxState := TLuaEvent.Factory<TSetCheckboxStateEvent,TLuaSetCheckboxStateEvent>(L);
 	Result := 0;
@@ -1363,8 +1340,7 @@ function VCLua_DrawGrid_VCLuaSetOnColRowDeleted(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnColRowDeleted));
 	lDrawGrid.OnColRowDeleted := TLuaEvent.Factory<TgridOperationEvent,TLuagridOperationEvent>(L);
 	Result := 0;
@@ -1374,8 +1350,7 @@ function VCLua_DrawGrid_VCLuaSetOnColRowExchanged(L: Plua_State): Integer; cdecl
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnColRowExchanged));
 	lDrawGrid.OnColRowExchanged := TLuaEvent.Factory<TgridOperationEvent,TLuagridOperationEvent>(L);
 	Result := 0;
@@ -1385,8 +1360,7 @@ function VCLua_DrawGrid_VCLuaSetOnColRowInserted(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnColRowInserted));
 	lDrawGrid.OnColRowInserted := TLuaEvent.Factory<TGridOperationEvent,TLuaGridOperationEvent>(L);
 	Result := 0;
@@ -1396,8 +1370,7 @@ function VCLua_DrawGrid_VCLuaSetOnColRowMoved(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnColRowMoved));
 	lDrawGrid.OnColRowMoved := TLuaEvent.Factory<TgridOperationEvent,TLuagridOperationEvent>(L);
 	Result := 0;
@@ -1407,8 +1380,7 @@ function VCLua_DrawGrid_VCLuaSetOnGetEditMask(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnGetEditMask));
 	lDrawGrid.OnGetEditMask := TLuaEvent.Factory<TGetEditEvent,TLuaGetEditEvent>(L);
 	Result := 0;
@@ -1418,8 +1390,7 @@ function VCLua_DrawGrid_VCLuaSetOnGetEditText(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnGetEditText));
 	lDrawGrid.OnGetEditText := TLuaEvent.Factory<TGetEditEvent,TLuaGetEditEvent>(L);
 	Result := 0;
@@ -1429,8 +1400,7 @@ function VCLua_DrawGrid_VCLuaSetOnHeaderClick(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnHeaderClick));
 	lDrawGrid.OnHeaderClick := TLuaEvent.Factory<THdrEvent,TLuaHdrEvent>(L);
 	Result := 0;
@@ -1440,8 +1410,7 @@ function VCLua_DrawGrid_VCLuaSetOnHeaderSized(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnHeaderSized));
 	lDrawGrid.OnHeaderSized := TLuaEvent.Factory<THdrEvent,TLuaHdrEvent>(L);
 	Result := 0;
@@ -1451,8 +1420,7 @@ function VCLua_DrawGrid_VCLuaSetOnHeaderSizing(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnHeaderSizing));
 	lDrawGrid.OnHeaderSizing := TLuaEvent.Factory<THeaderSizingEvent,TLuaHeaderSizingEvent>(L);
 	Result := 0;
@@ -1462,8 +1430,7 @@ function VCLua_DrawGrid_VCLuaSetOnSelectCell(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnSelectCell));
 	lDrawGrid.OnSelectCell := TLuaEvent.Factory<TOnSelectCellEvent,TLuaOnSelectCellEvent>(L);
 	Result := 0;
@@ -1473,8 +1440,7 @@ function VCLua_DrawGrid_VCLuaSetOnSetEditText(L: Plua_State): Integer; cdecl;
 var
 	lDrawGrid:TLuaDrawGrid;
 begin
-	CheckArg(L, 2);
-	lDrawGrid := TLuaDrawGrid(GetLuaObject(L, 1));
+	lDrawGrid := TLuaDrawGrid(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDrawGrid.OnSetEditText));
 	lDrawGrid.OnSetEditText := TLuaEvent.Factory<TSetEditEvent,TLuaSetEditEvent>(L);
 	Result := 0;

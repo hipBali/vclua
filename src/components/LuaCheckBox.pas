@@ -30,8 +30,7 @@ var
 	lCheckBox:TLuaCheckBox;
 	val:TLeftRight;
 begin
-	CheckArg(L, 2);
-	lCheckBox := TLuaCheckBox(GetLuaObject(L, 1));
+	lCheckBox := TLuaCheckBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TLeftRight));
 	try
 		lCheckBox.Alignment := val;
@@ -47,8 +46,7 @@ var
 	lCheckBox:TLuaCheckBox;
 	ret:TLeftRight;
 begin
-	CheckArg(L, 1);
-	lCheckBox := TLuaCheckBox(GetLuaObject(L, 1));
+	lCheckBox := TLuaCheckBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckBox.Alignment;
 		Result := 1;
@@ -64,8 +62,7 @@ var
 	lCheckBox:TLuaCheckBox;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lCheckBox := TLuaCheckBox(GetLuaObject(L, 1));
+	lCheckBox := TLuaCheckBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCheckBox.AllowGrayed := val;
@@ -81,8 +78,7 @@ var
 	lCheckBox:TLuaCheckBox;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lCheckBox := TLuaCheckBox(GetLuaObject(L, 1));
+	lCheckBox := TLuaCheckBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckBox.AllowGrayed;
 		Result := 1;
@@ -98,8 +94,7 @@ var
 	lCheckBox:TLuaCheckBox;
 	val:TCheckBoxState;
 begin
-	CheckArg(L, 2);
-	lCheckBox := TLuaCheckBox(GetLuaObject(L, 1));
+	lCheckBox := TLuaCheckBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TCheckBoxState));
 	try
 		lCheckBox.State := val;
@@ -115,8 +110,7 @@ var
 	lCheckBox:TLuaCheckBox;
 	ret:TCheckBoxState;
 begin
-	CheckArg(L, 1);
-	lCheckBox := TLuaCheckBox(GetLuaObject(L, 1));
+	lCheckBox := TLuaCheckBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckBox.State;
 		Result := 1;
@@ -132,8 +126,7 @@ var
 	lCheckBox:TLuaCheckBox;
 	ret:TShortcut;
 begin
-	CheckArg(L, 1);
-	lCheckBox := TLuaCheckBox(GetLuaObject(L, 1));
+	lCheckBox := TLuaCheckBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckBox.ShortCut;
 		Result := 1;
@@ -149,8 +142,7 @@ var
 	lCheckBox:TLuaCheckBox;
 	ret:TShortcut;
 begin
-	CheckArg(L, 1);
-	lCheckBox := TLuaCheckBox(GetLuaObject(L, 1));
+	lCheckBox := TLuaCheckBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckBox.ShortCutKey2;
 		Result := 1;

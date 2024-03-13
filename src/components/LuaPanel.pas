@@ -30,8 +30,7 @@ var
 	lPanel:TLuaPanel;
 	val:TAlignment;
 begin
-	CheckArg(L, 2);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TAlignment));
 	try
 		lPanel.Alignment := val;
@@ -47,8 +46,7 @@ var
 	lPanel:TLuaPanel;
 	ret:TAlignment;
 begin
-	CheckArg(L, 1);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lPanel.Alignment;
 		Result := 1;
@@ -64,8 +62,7 @@ var
 	lPanel:TLuaPanel;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lPanel.BevelColor := val;
@@ -81,8 +78,7 @@ var
 	lPanel:TLuaPanel;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lPanel.BevelColor;
 		Result := 1;
@@ -98,8 +94,7 @@ var
 	lPanel:TLuaPanel;
 	val:TPanelBevel;
 begin
-	CheckArg(L, 2);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TPanelBevel));
 	try
 		lPanel.BevelInner := val;
@@ -115,8 +110,7 @@ var
 	lPanel:TLuaPanel;
 	ret:TPanelBevel;
 begin
-	CheckArg(L, 1);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lPanel.BevelInner;
 		Result := 1;
@@ -132,8 +126,7 @@ var
 	lPanel:TLuaPanel;
 	val:TPanelBevel;
 begin
-	CheckArg(L, 2);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TPanelBevel));
 	try
 		lPanel.BevelOuter := val;
@@ -149,8 +142,7 @@ var
 	lPanel:TLuaPanel;
 	ret:TPanelBevel;
 begin
-	CheckArg(L, 1);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lPanel.BevelOuter;
 		Result := 1;
@@ -166,8 +158,7 @@ var
 	lPanel:TLuaPanel;
 	val:TBevelWidth;
 begin
-	CheckArg(L, 2);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lPanel.BevelWidth := val;
@@ -183,8 +174,7 @@ var
 	lPanel:TLuaPanel;
 	ret:TBevelWidth;
 begin
-	CheckArg(L, 1);
-	lPanel := TLuaPanel(GetLuaObject(L, 1));
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lPanel.BevelWidth;
 		Result := 1;

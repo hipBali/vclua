@@ -29,8 +29,7 @@ function VCLua_Control_VCLuaSetOnConstrainedResize(L: Plua_State): Integer; cdec
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnConstrainedResize));
 	lControl.OnConstrainedResize := TLuaEvent.Factory<TConstrainedResizeEvent,TLuaConstrainedResizeEvent>(L);
 	Result := 0;
@@ -40,8 +39,7 @@ function VCLua_Control_VCLuaSetOnContextPopup(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnContextPopup));
 	lControl.OnContextPopup := TLuaEvent.Factory<TContextPopupEvent,TLuaContextPopupEvent>(L);
 	Result := 0;
@@ -51,8 +49,7 @@ function VCLua_Control_VCLuaSetOnDblClick(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnDblClick));
 	lControl.OnDblClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -62,8 +59,7 @@ function VCLua_Control_VCLuaSetOnTripleClick(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnTripleClick));
 	lControl.OnTripleClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -73,8 +69,7 @@ function VCLua_Control_VCLuaSetOnQuadClick(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnQuadClick));
 	lControl.OnQuadClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -84,8 +79,7 @@ function VCLua_Control_VCLuaSetOnDragDrop(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnDragDrop));
 	lControl.OnDragDrop := TLuaEvent.Factory<TDragDropEvent,TLuaDragDropEvent>(L);
 	Result := 0;
@@ -95,8 +89,7 @@ function VCLua_Control_VCLuaSetOnDragOver(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnDragOver));
 	lControl.OnDragOver := TLuaEvent.Factory<TDragOverEvent,TLuaDragOverEvent>(L);
 	Result := 0;
@@ -106,8 +99,7 @@ function VCLua_Control_VCLuaSetOnEndDock(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnEndDock));
 	lControl.OnEndDock := TLuaEvent.Factory<TEndDragEvent,TLuaEndDragEvent>(L);
 	Result := 0;
@@ -117,8 +109,7 @@ function VCLua_Control_VCLuaSetOnEndDrag(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnEndDrag));
 	lControl.OnEndDrag := TLuaEvent.Factory<TEndDragEvent,TLuaEndDragEvent>(L);
 	Result := 0;
@@ -128,8 +119,7 @@ function VCLua_Control_VCLuaSetOnMouseDown(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseDown));
 	lControl.OnMouseDown := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
 	Result := 0;
@@ -139,8 +129,7 @@ function VCLua_Control_VCLuaSetOnMouseMove(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseMove));
 	lControl.OnMouseMove := TLuaEvent.Factory<TMouseMoveEvent,TLuaMouseMoveEvent>(L);
 	Result := 0;
@@ -150,8 +139,7 @@ function VCLua_Control_VCLuaSetOnMouseUp(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseUp));
 	lControl.OnMouseUp := TLuaEvent.Factory<TMouseEvent,TLuaMouseEvent>(L);
 	Result := 0;
@@ -161,8 +149,7 @@ function VCLua_Control_VCLuaSetOnMouseEnter(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseEnter));
 	lControl.OnMouseEnter := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -172,8 +159,7 @@ function VCLua_Control_VCLuaSetOnMouseLeave(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseLeave));
 	lControl.OnMouseLeave := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -183,8 +169,7 @@ function VCLua_Control_VCLuaSetOnMouseWheel(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheel));
 	lControl.OnMouseWheel := TLuaEvent.Factory<TMouseWheelEvent,TLuaMouseWheelEvent>(L);
 	Result := 0;
@@ -194,8 +179,7 @@ function VCLua_Control_VCLuaSetOnMouseWheelDown(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelDown));
 	lControl.OnMouseWheelDown := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
 	Result := 0;
@@ -205,8 +189,7 @@ function VCLua_Control_VCLuaSetOnMouseWheelUp(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelUp));
 	lControl.OnMouseWheelUp := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
 	Result := 0;
@@ -216,8 +199,7 @@ function VCLua_Control_VCLuaSetOnMouseWheelHorz(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelHorz));
 	lControl.OnMouseWheelHorz := TLuaEvent.Factory<TMouseWheelEvent,TLuaMouseWheelEvent>(L);
 	Result := 0;
@@ -227,8 +209,7 @@ function VCLua_Control_VCLuaSetOnMouseWheelLeft(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelLeft));
 	lControl.OnMouseWheelLeft := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
 	Result := 0;
@@ -238,8 +219,7 @@ function VCLua_Control_VCLuaSetOnMouseWheelRight(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnMouseWheelRight));
 	lControl.OnMouseWheelRight := TLuaEvent.Factory<TMouseWheelUpDownEvent,TLuaMouseWheelUpDownEvent>(L);
 	Result := 0;
@@ -249,8 +229,7 @@ function VCLua_Control_VCLuaSetOnStartDock(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnStartDock));
 	lControl.OnStartDock := TLuaEvent.Factory<TStartDockEvent,TLuaStartDockEvent>(L);
 	Result := 0;
@@ -260,8 +239,7 @@ function VCLua_Control_VCLuaSetOnStartDrag(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnStartDrag));
 	lControl.OnStartDrag := TLuaEvent.Factory<TStartDragEvent,TLuaStartDragEvent>(L);
 	Result := 0;
@@ -271,8 +249,7 @@ function VCLua_Control_VCLuaSetOnEditingDone(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnEditingDone));
 	lControl.OnEditingDone := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1099,8 +1076,7 @@ var
 	lControl:TLuaControl;
 	ret:TRect;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.BaseBounds;
 		Result := 1;
@@ -1116,8 +1092,7 @@ var
 	lControl:TLuaControl;
 	ret:TRect;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ReadBounds;
 		Result := 1;
@@ -1133,8 +1108,7 @@ var
 	lControl:TLuaControl;
 	ret:TSize;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.BaseParentClientSize;
 		Result := 1;
@@ -1904,8 +1878,7 @@ var
 	lControl:TLuaControl;
 	val:TCaption;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.AccessibleName := val;
@@ -1921,8 +1894,7 @@ var
 	lControl:TLuaControl;
 	ret:TCaption;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.AccessibleName;
 		Result := 1;
@@ -1938,8 +1910,7 @@ var
 	lControl:TLuaControl;
 	val:TCaption;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.AccessibleDescription := val;
@@ -1955,8 +1926,7 @@ var
 	lControl:TLuaControl;
 	ret:TCaption;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.AccessibleDescription;
 		Result := 1;
@@ -1972,8 +1942,7 @@ var
 	lControl:TLuaControl;
 	val:TCaption;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.AccessibleValue := val;
@@ -1989,8 +1958,7 @@ var
 	lControl:TLuaControl;
 	ret:TCaption;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.AccessibleValue;
 		Result := 1;
@@ -2006,8 +1974,7 @@ var
 	lControl:TLuaControl;
 	val:TLazAccessibilityRole;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TLazAccessibilityRole));
 	try
 		lControl.AccessibleRole := val;
@@ -2023,8 +1990,7 @@ var
 	lControl:TLuaControl;
 	ret:TLazAccessibilityRole;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.AccessibleRole;
 		Result := 1;
@@ -2040,8 +2006,7 @@ var
 	lControl:TLuaControl;
 	val:TBasicAction;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.Action := val;
@@ -2057,8 +2022,7 @@ var
 	lControl:TLuaControl;
 	ret:TBasicAction;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Action;
 		Result := 1;
@@ -2074,8 +2038,7 @@ var
 	lControl:TLuaControl;
 	val:TAlign;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TAlign));
 	try
 		lControl.Align := val;
@@ -2091,8 +2054,7 @@ var
 	lControl:TLuaControl;
 	ret:TAlign;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Align;
 		Result := 1;
@@ -2127,8 +2089,7 @@ var
 	lControl:TLuaControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.AutoSize := val;
@@ -2144,8 +2105,7 @@ var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.AutoSize;
 		Result := 1;
@@ -2161,8 +2121,7 @@ var
 	lControl:TLuaControl;
 	val:TControlBorderSpacing;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.BorderSpacing := val;
@@ -2178,8 +2137,7 @@ var
 	lControl:TLuaControl;
 	ret:TControlBorderSpacing;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.BorderSpacing;
 		Result := 1;
@@ -2195,8 +2153,7 @@ var
 	lControl:TLuaControl;
 	val:TRect;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.BoundsRect := val;
@@ -2212,8 +2169,7 @@ var
 	lControl:TLuaControl;
 	ret:TRect;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.BoundsRect;
 		Result := 1;
@@ -2229,8 +2185,7 @@ var
 	lControl:TLuaControl;
 	val:TRect;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.BoundsRectForNewParent := val;
@@ -2246,8 +2201,7 @@ var
 	lControl:TLuaControl;
 	ret:TRect;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.BoundsRectForNewParent;
 		Result := 1;
@@ -2263,8 +2217,7 @@ var
 	lControl:TLuaControl;
 	val:TCaption;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.Caption := val;
@@ -2280,8 +2233,7 @@ var
 	lControl:TLuaControl;
 	ret:TCaption;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Caption;
 		Result := 1;
@@ -2297,8 +2249,7 @@ var
 	lControl:TLuaControl;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.ClientHeight := val;
@@ -2314,8 +2265,7 @@ var
 	lControl:TLuaControl;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ClientHeight;
 		Result := 1;
@@ -2331,8 +2281,7 @@ var
 	lControl:TLuaControl;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ClientOrigin;
 		Result := 1;
@@ -2348,8 +2297,7 @@ var
 	lControl:TLuaControl;
 	ret:TRect;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ClientRect;
 		Result := 1;
@@ -2365,8 +2313,7 @@ var
 	lControl:TLuaControl;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.ClientWidth := val;
@@ -2382,8 +2329,7 @@ var
 	lControl:TLuaControl;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ClientWidth;
 		Result := 1;
@@ -2399,8 +2345,7 @@ var
 	lControl:TLuaControl;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lControl.Color := val;
@@ -2416,8 +2361,7 @@ var
 	lControl:TLuaControl;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Color;
 		Result := 1;
@@ -2433,8 +2377,7 @@ var
 	lControl:TLuaControl;
 	val:TSizeConstraints;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.Constraints := val;
@@ -2450,8 +2393,7 @@ var
 	lControl:TLuaControl;
 	ret:TSizeConstraints;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Constraints;
 		Result := 1;
@@ -2467,8 +2409,7 @@ var
 	lControl:TLuaControl;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ControlOrigin;
 		Result := 1;
@@ -2484,8 +2425,7 @@ var
 	lControl:TLuaControl;
 	val:TControlState;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TControlState));
 	try
 		lControl.ControlState := val;
@@ -2501,8 +2441,7 @@ var
 	lControl:TLuaControl;
 	ret:TControlState;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ControlState;
 		Result := 1;
@@ -2518,8 +2457,7 @@ var
 	lControl:TLuaControl;
 	val:TControlStyle;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TControlStyle));
 	try
 		lControl.ControlStyle := val;
@@ -2535,8 +2473,7 @@ var
 	lControl:TLuaControl;
 	ret:TControlStyle;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ControlStyle;
 		Result := 1;
@@ -2552,8 +2489,7 @@ var
 	lControl:TLuaControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.Enabled := val;
@@ -2569,8 +2505,7 @@ var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Enabled;
 		Result := 1;
@@ -2586,8 +2521,7 @@ var
 	lControl:TLuaControl;
 	val:TFont;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.Font := val;
@@ -2603,8 +2537,7 @@ var
 	lControl:TLuaControl;
 	ret:TFont;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Font;
 		Result := 1;
@@ -2620,8 +2553,7 @@ var
 	lControl:TLuaControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.IsControl := val;
@@ -2637,8 +2569,7 @@ var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.IsControl;
 		Result := 1;
@@ -2654,8 +2585,7 @@ var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.MouseInClient;
 		Result := 1;
@@ -2670,8 +2600,7 @@ function VCLua_Control_VCLuaSetOnChangeBounds(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnChangeBounds));
 	lControl.OnChangeBounds := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -2681,8 +2610,7 @@ function VCLua_Control_VCLuaSetOnClick(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnClick));
 	lControl.OnClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -2692,8 +2620,7 @@ function VCLua_Control_VCLuaSetOnResize(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lControl.OnResize));
 	lControl.OnResize := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -2704,8 +2631,7 @@ var
 	lControl:TLuaControl;
 	val:TWinControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.Parent := val;
@@ -2721,8 +2647,7 @@ var
 	lControl:TLuaControl;
 	ret:TWinControl;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Parent;
 		Result := 1;
@@ -2738,8 +2663,7 @@ var
 	lControl:TLuaControl;
 	val:TPopupmenu;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.PopupMenu := val;
@@ -2755,8 +2679,7 @@ var
 	lControl:TLuaControl;
 	ret:TPopupmenu;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.PopupMenu;
 		Result := 1;
@@ -2772,8 +2695,7 @@ var
 	lControl:TLuaControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.ShowHint := val;
@@ -2789,8 +2711,7 @@ var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ShowHint;
 		Result := 1;
@@ -2806,8 +2727,7 @@ var
 	lControl:TLuaControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.Visible := val;
@@ -2823,8 +2743,7 @@ var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Visible;
 		Result := 1;
@@ -2840,8 +2759,7 @@ var
 	lControl:TLuaControl;
 	val:TDockOrientation;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TDockOrientation));
 	try
 		lControl.DockOrientation := val;
@@ -2857,8 +2775,7 @@ var
 	lControl:TLuaControl;
 	ret:TDockOrientation;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.DockOrientation;
 		Result := 1;
@@ -2874,8 +2791,7 @@ var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.Floating;
 		Result := 1;
@@ -2891,8 +2807,7 @@ var
 	lControl:TLuaControl;
 	val:TWinControl;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.HostDockSite := val;
@@ -2908,8 +2823,7 @@ var
 	lControl:TLuaControl;
 	ret:TWinControl;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.HostDockSite;
 		Result := 1;
@@ -2925,8 +2839,7 @@ var
 	lControl:TLuaControl;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.LRDockWidth := val;
@@ -2942,8 +2855,7 @@ var
 	lControl:TLuaControl;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.LRDockWidth;
 		Result := 1;
@@ -2959,8 +2871,7 @@ var
 	lControl:TLuaControl;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.TBDockHeight := val;
@@ -2976,8 +2887,7 @@ var
 	lControl:TLuaControl;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.TBDockHeight;
 		Result := 1;
@@ -2993,8 +2903,7 @@ var
 	lControl:TLuaControl;
 	val:TBiDiMode;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TBiDiMode));
 	try
 		lControl.BiDiMode := val;
@@ -3010,8 +2919,7 @@ var
 	lControl:TLuaControl;
 	ret:TBiDiMode;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.BiDiMode;
 		Result := 1;
@@ -3027,8 +2935,7 @@ var
 	lControl:TLuaControl;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lControl.ParentBiDiMode := val;
@@ -3044,8 +2951,7 @@ var
 	lControl:TLuaControl;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lControl.ParentBiDiMode;
 		Result := 1;

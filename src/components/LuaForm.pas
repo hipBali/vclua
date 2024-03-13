@@ -624,8 +624,7 @@ var
 	lForm:TLuaForm;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.Active;
 		Result := 1;
@@ -641,8 +640,7 @@ var
 	lForm:TLuaForm;
 	val:TWinControl;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.ActiveControl := val;
@@ -658,8 +656,7 @@ var
 	lForm:TLuaForm;
 	ret:TWinControl;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.ActiveControl;
 		Result := 1;
@@ -675,8 +672,7 @@ var
 	lForm:TLuaForm;
 	val:TControl;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.ActiveDefaultControl := val;
@@ -692,8 +688,7 @@ var
 	lForm:TLuaForm;
 	ret:TControl;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.ActiveDefaultControl;
 		Result := 1;
@@ -709,8 +704,7 @@ var
 	lForm:TLuaForm;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.AllowDropFiles := val;
@@ -726,8 +720,7 @@ var
 	lForm:TLuaForm;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.AllowDropFiles;
 		Result := 1;
@@ -743,8 +736,7 @@ var
 	lForm:TLuaForm;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.AlphaBlend := val;
@@ -760,8 +752,7 @@ var
 	lForm:TLuaForm;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.AlphaBlend;
 		Result := 1;
@@ -777,8 +768,7 @@ var
 	lForm:TLuaForm;
 	val:Byte;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.AlphaBlendValue := val;
@@ -794,8 +784,7 @@ var
 	lForm:TLuaForm;
 	ret:Byte;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.AlphaBlendValue;
 		Result := 1;
@@ -811,8 +800,7 @@ var
 	lForm:TLuaForm;
 	val:TFormBorderStyle;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TFormBorderStyle));
 	try
 		lForm.BorderStyle := val;
@@ -828,8 +816,7 @@ var
 	lForm:TLuaForm;
 	ret:TFormBorderStyle;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.BorderStyle;
 		Result := 1;
@@ -845,8 +832,7 @@ var
 	lForm:TLuaForm;
 	val:TControl;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.CancelControl := val;
@@ -862,8 +848,7 @@ var
 	lForm:TLuaForm;
 	ret:TControl;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.CancelControl;
 		Result := 1;
@@ -879,8 +864,7 @@ var
 	lForm:TLuaForm;
 	val:TControl;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.DefaultControl := val;
@@ -896,8 +880,7 @@ var
 	lForm:TLuaForm;
 	ret:TControl;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.DefaultControl;
 		Result := 1;
@@ -913,8 +896,7 @@ var
 	lForm:TLuaForm;
 	val:TDefaultMonitor;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TDefaultMonitor));
 	try
 		lForm.DefaultMonitor := val;
@@ -930,8 +912,7 @@ var
 	lForm:TLuaForm;
 	ret:TDefaultMonitor;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.DefaultMonitor;
 		Result := 1;
@@ -947,8 +928,7 @@ var
 	lForm:TLuaForm;
 	ret:TShowInTaskBar;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.EffectiveShowInTaskBar;
 		Result := 1;
@@ -964,8 +944,7 @@ var
 	lForm:TLuaForm;
 	ret:TFormState;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.FormState;
 		Result := 1;
@@ -981,8 +960,7 @@ var
 	lForm:TLuaForm;
 	val:TFormStyle;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TFormStyle));
 	try
 		lForm.FormStyle := val;
@@ -998,8 +976,7 @@ var
 	lForm:TLuaForm;
 	ret:TFormStyle;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.FormStyle;
 		Result := 1;
@@ -1015,8 +992,7 @@ var
 	lForm:TLuaForm;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.HelpFile := val;
@@ -1032,8 +1008,7 @@ var
 	lForm:TLuaForm;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.HelpFile;
 		Result := 1;
@@ -1049,8 +1024,7 @@ var
 	lForm:TLuaForm;
 	val:TIcon;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.Icon := val;
@@ -1066,8 +1040,7 @@ var
 	lForm:TLuaForm;
 	ret:TIcon;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.Icon;
 		Result := 1;
@@ -1083,8 +1056,7 @@ var
 	lForm:TLuaForm;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.KeyPreview := val;
@@ -1100,8 +1072,7 @@ var
 	lForm:TLuaForm;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.KeyPreview;
 		Result := 1;
@@ -1136,8 +1107,7 @@ var
 	lForm:TLuaForm;
 	val:TMainMenu;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.Menu := val;
@@ -1153,8 +1123,7 @@ var
 	lForm:TLuaForm;
 	ret:TMainMenu;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.Menu;
 		Result := 1;
@@ -1170,8 +1139,7 @@ var
 	lForm:TLuaForm;
 	val:TModalResult;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.ModalResult := val;
@@ -1187,8 +1155,7 @@ var
 	lForm:TLuaForm;
 	ret:TModalResult;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.ModalResult;
 		Result := 1;
@@ -1204,8 +1171,7 @@ var
 	lForm:TLuaForm;
 	ret:TMonitor;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.Monitor;
 		Result := 1;
@@ -1221,8 +1187,7 @@ var
 	lForm:TLuaForm;
 	ret:TWinControl;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.LastActiveControl;
 		Result := 1;
@@ -1238,8 +1203,7 @@ var
 	lForm:TLuaForm;
 	val:TPopupMode;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TPopupMode));
 	try
 		lForm.PopupMode := val;
@@ -1255,8 +1219,7 @@ var
 	lForm:TLuaForm;
 	ret:TPopupMode;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.PopupMode;
 		Result := 1;
@@ -1272,8 +1235,7 @@ var
 	lForm:TLuaForm;
 	val:TCustomForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lForm.PopupParent := val;
@@ -1289,8 +1251,7 @@ var
 	lForm:TLuaForm;
 	ret:TCustomForm;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.PopupParent;
 		Result := 1;
@@ -1305,8 +1266,7 @@ function VCLua_Form_VCLuaSetOnActivate(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnActivate));
 	lForm.OnActivate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1316,8 +1276,7 @@ function VCLua_Form_VCLuaSetOnClose(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnClose));
 	lForm.OnClose := TLuaEvent.Factory<TCloseEvent,TLuaCloseEvent>(L);
 	Result := 0;
@@ -1327,8 +1286,7 @@ function VCLua_Form_VCLuaSetOnCloseQuery(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnCloseQuery));
 	lForm.OnCloseQuery := TLuaEvent.Factory<TCloseQueryEvent,TLuaCloseQueryEvent>(L);
 	Result := 0;
@@ -1338,8 +1296,7 @@ function VCLua_Form_VCLuaSetOnCreate(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnCreate));
 	lForm.OnCreate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1349,8 +1306,7 @@ function VCLua_Form_VCLuaSetOnDeactivate(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnDeactivate));
 	lForm.OnDeactivate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1360,8 +1316,7 @@ function VCLua_Form_VCLuaSetOnDestroy(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnDestroy));
 	lForm.OnDestroy := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1371,8 +1326,7 @@ function VCLua_Form_VCLuaSetOnDropFiles(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnDropFiles));
 	lForm.OnDropFiles := TLuaEvent.Factory<TDropFilesEvent,TLuaDropFilesEvent>(L);
 	Result := 0;
@@ -1382,8 +1336,7 @@ function VCLua_Form_VCLuaSetOnHide(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnHide));
 	lForm.OnHide := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1393,8 +1346,7 @@ function VCLua_Form_VCLuaSetOnShow(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnShow));
 	lForm.OnShow := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1404,8 +1356,7 @@ function VCLua_Form_VCLuaSetOnShowModalFinished(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnShowModalFinished));
 	lForm.OnShowModalFinished := TLuaEvent.Factory<TModalDialogFinished,TLuaModalDialogFinished>(L);
 	Result := 0;
@@ -1415,8 +1366,7 @@ function VCLua_Form_VCLuaSetOnWindowStateChange(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lForm.OnWindowStateChange));
 	lForm.OnWindowStateChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1427,8 +1377,7 @@ var
 	lForm:TLuaForm;
 	val:TPosition;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TPosition));
 	try
 		lForm.Position := val;
@@ -1444,8 +1393,7 @@ var
 	lForm:TLuaForm;
 	ret:TPosition;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.Position;
 		Result := 1;
@@ -1461,8 +1409,7 @@ var
 	lForm:TLuaForm;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.RestoredLeft;
 		Result := 1;
@@ -1478,8 +1425,7 @@ var
 	lForm:TLuaForm;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.RestoredTop;
 		Result := 1;
@@ -1495,8 +1441,7 @@ var
 	lForm:TLuaForm;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.RestoredWidth;
 		Result := 1;
@@ -1512,8 +1457,7 @@ var
 	lForm:TLuaForm;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.RestoredHeight;
 		Result := 1;
@@ -1529,8 +1473,7 @@ var
 	lForm:TLuaForm;
 	val:TShowInTaskbar;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TShowInTaskbar));
 	try
 		lForm.ShowInTaskBar := val;
@@ -1546,8 +1489,7 @@ var
 	lForm:TLuaForm;
 	ret:TShowInTaskbar;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.ShowInTaskBar;
 		Result := 1;
@@ -1563,8 +1505,7 @@ var
 	lForm:TLuaForm;
 	val:TWindowState;
 begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TWindowState));
 	try
 		lForm.WindowState := val;
@@ -1580,8 +1521,7 @@ var
 	lForm:TLuaForm;
 	ret:TWindowState;
 begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
+	lForm := TLuaForm(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lForm.WindowState;
 		Result := 1;

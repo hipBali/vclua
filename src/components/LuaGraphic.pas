@@ -345,8 +345,7 @@ function VCLua_Graphic_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lGraphic:TLuaGraphic;
 begin
-	CheckArg(L, 2);
-	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lGraphic.OnChange));
 	lGraphic.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -356,8 +355,7 @@ function VCLua_Graphic_VCLuaSetOnProgress(L: Plua_State): Integer; cdecl;
 var
 	lGraphic:TLuaGraphic;
 begin
-	CheckArg(L, 2);
-	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lGraphic.OnProgress));
 	lGraphic.OnProgress := TLuaEvent.Factory<TProgressEvent,TLuaFPImgProgressEvent>(L);
 	Result := 0;

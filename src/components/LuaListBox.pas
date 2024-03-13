@@ -349,8 +349,7 @@ var
 	lListBox:TLuaListBox;
 	ret:TCanvas;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.Canvas;
 		Result := 1;
@@ -366,8 +365,7 @@ var
 	lListBox:TLuaListBox;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.ClickOnSelChange := val;
@@ -383,8 +381,7 @@ var
 	lListBox:TLuaListBox;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.ClickOnSelChange;
 		Result := 1;
@@ -400,8 +397,7 @@ var
 	lListBox:TLuaListBox;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.Columns := val;
@@ -417,8 +413,7 @@ var
 	lListBox:TLuaListBox;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.Columns;
 		Result := 1;
@@ -434,8 +429,7 @@ var
 	lListBox:TLuaListBox;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.ExtendedSelect := val;
@@ -451,8 +445,7 @@ var
 	lListBox:TLuaListBox;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.ExtendedSelect;
 		Result := 1;
@@ -468,8 +461,7 @@ var
 	lListBox:TLuaListBox;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.ItemHeight := val;
@@ -485,8 +477,7 @@ var
 	lListBox:TLuaListBox;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.ItemHeight;
 		Result := 1;
@@ -502,8 +493,7 @@ var
 	lListBox:TLuaListBox;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.ItemIndex := val;
@@ -519,8 +509,7 @@ var
 	lListBox:TLuaListBox;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.ItemIndex;
 		Result := 1;
@@ -536,8 +525,7 @@ var
 	lListBox:TLuaListBox;
 	val:TStrings;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.Items := val;
@@ -553,8 +541,7 @@ var
 	lListBox:TLuaListBox;
 	ret:TStrings;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.Items;
 		Result := 1;
@@ -570,8 +557,7 @@ var
 	lListBox:TLuaListBox;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.MultiSelect := val;
@@ -587,8 +573,7 @@ var
 	lListBox:TLuaListBox;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.MultiSelect;
 		Result := 1;
@@ -603,8 +588,7 @@ function VCLua_ListBox_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
 var
 	lListBox:TLuaListBox;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListBox.OnDrawItem));
 	lListBox.OnDrawItem := TLuaEvent.Factory<TDrawItemEvent,TLuaDrawItemEvent>(L);
 	Result := 0;
@@ -614,8 +598,7 @@ function VCLua_ListBox_VCLuaSetOnMeasureItem(L: Plua_State): Integer; cdecl;
 var
 	lListBox:TLuaListBox;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListBox.OnMeasureItem));
 	lListBox.OnMeasureItem := TLuaEvent.Factory<TMeasureItemEvent,TLuaMeasureItemEvent>(L);
 	Result := 0;
@@ -625,8 +608,7 @@ function VCLua_ListBox_VCLuaSetOnSelectionChange(L: Plua_State): Integer; cdecl;
 var
 	lListBox:TLuaListBox;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListBox.OnSelectionChange));
 	lListBox.OnSelectionChange := TLuaEvent.Factory<TSelectionChangeEvent,TLuaSelectionChangeEvent>(L);
 	Result := 0;
@@ -637,8 +619,7 @@ var
 	lListBox:TLuaListBox;
 	val:TListBoxOptions;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TListBoxOptions));
 	try
 		lListBox.Options := val;
@@ -654,8 +635,7 @@ var
 	lListBox:TLuaListBox;
 	ret:TListBoxOptions;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.Options;
 		Result := 1;
@@ -671,8 +651,7 @@ var
 	lListBox:TLuaListBox;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.ScrollWidth := val;
@@ -688,8 +667,7 @@ var
 	lListBox:TLuaListBox;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.ScrollWidth;
 		Result := 1;
@@ -705,8 +683,7 @@ var
 	lListBox:TLuaListBox;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.SelCount;
 		Result := 1;
@@ -747,8 +724,7 @@ var
 	lListBox:TLuaListBox;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.Sorted := val;
@@ -764,8 +740,7 @@ var
 	lListBox:TLuaListBox;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.Sorted;
 		Result := 1;
@@ -781,8 +756,7 @@ var
 	lListBox:TLuaListBox;
 	val:TListBoxStyle;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TListBoxStyle));
 	try
 		lListBox.Style := val;
@@ -798,8 +772,7 @@ var
 	lListBox:TLuaListBox;
 	ret:TListBoxStyle;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.Style;
 		Result := 1;
@@ -815,8 +788,7 @@ var
 	lListBox:TLuaListBox;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListBox.TopIndex := val;
@@ -832,8 +804,7 @@ var
 	lListBox:TLuaListBox;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListBox.TopIndex;
 		Result := 1;

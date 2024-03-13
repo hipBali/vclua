@@ -148,8 +148,7 @@ function VCLua_HeaderControl_VCLuaSetOnSectionDrag(L: Plua_State): Integer; cdec
 var
 	lHeaderControl:TLuaHeaderControl;
 begin
-	CheckArg(L, 2);
-	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
+	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionDrag));
 	lHeaderControl.OnSectionDrag := TLuaEvent.Factory<TSectionDragEvent,TLuaSectionDragEvent>(L);
 	Result := 0;
@@ -159,8 +158,7 @@ function VCLua_HeaderControl_VCLuaSetOnSectionEndDrag(L: Plua_State): Integer; c
 var
 	lHeaderControl:TLuaHeaderControl;
 begin
-	CheckArg(L, 2);
-	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
+	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionEndDrag));
 	lHeaderControl.OnSectionEndDrag := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -170,8 +168,7 @@ function VCLua_HeaderControl_VCLuaSetOnSectionClick(L: Plua_State): Integer; cde
 var
 	lHeaderControl:TLuaHeaderControl;
 begin
-	CheckArg(L, 2);
-	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
+	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionClick));
 	lHeaderControl.OnSectionClick := TLuaEvent.Factory<TCustomSectionNotifyEvent,TLuaCustomSectionNotifyEvent>(L);
 	Result := 0;
@@ -181,8 +178,7 @@ function VCLua_HeaderControl_VCLuaSetOnSectionResize(L: Plua_State): Integer; cd
 var
 	lHeaderControl:TLuaHeaderControl;
 begin
-	CheckArg(L, 2);
-	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
+	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionResize));
 	lHeaderControl.OnSectionResize := TLuaEvent.Factory<TCustomSectionNotifyEvent,TLuaCustomSectionNotifyEvent>(L);
 	Result := 0;
@@ -192,8 +188,7 @@ function VCLua_HeaderControl_VCLuaSetOnSectionTrack(L: Plua_State): Integer; cde
 var
 	lHeaderControl:TLuaHeaderControl;
 begin
-	CheckArg(L, 2);
-	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
+	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionTrack));
 	lHeaderControl.OnSectionTrack := TLuaEvent.Factory<TCustomSectionTrackEvent,TLuaCustomSectionTrackEvent>(L);
 	Result := 0;
@@ -203,8 +198,7 @@ function VCLua_HeaderControl_VCLuaSetOnSectionSeparatorDblClick(L: Plua_State): 
 var
 	lHeaderControl:TLuaHeaderControl;
 begin
-	CheckArg(L, 2);
-	lHeaderControl := TLuaHeaderControl(GetLuaObject(L, 1));
+	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionSeparatorDblClick));
 	lHeaderControl.OnSectionSeparatorDblClick := TLuaEvent.Factory<TCustomSectionNotifyEvent,TLuaCustomSectionNotifyEvent>(L);
 	Result := 0;

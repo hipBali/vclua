@@ -92,8 +92,7 @@ var
 	lFont:TLuaFont;
 	val:HFONT;
 begin
-	CheckArg(L, 2);
-	lFont := TLuaFont(GetLuaObject(L, 1));
+	lFont := TLuaFont(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFont.Handle := val;
@@ -109,8 +108,7 @@ var
 	lFont:TLuaFont;
 	ret:HFONT;
 begin
-	CheckArg(L, 1);
-	lFont := TLuaFont(GetLuaObject(L, 1));
+	lFont := TLuaFont(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFont.Handle;
 		Result := 1;
@@ -162,8 +160,7 @@ var
 	lFont:TLuaFont;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lFont := TLuaFont(GetLuaObject(L, 1));
+	lFont := TLuaFont(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFont.IsMonoSpace;
 		Result := 1;
@@ -194,8 +191,7 @@ var
 	lFont:TLuaFont;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lFont := TLuaFont(GetLuaObject(L, 1));
+	lFont := TLuaFont(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lFont.PixelsPerInch := val;
@@ -211,8 +207,7 @@ var
 	lFont:TLuaFont;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lFont := TLuaFont(GetLuaObject(L, 1));
+	lFont := TLuaFont(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lFont.PixelsPerInch;
 		Result := 1;

@@ -29,8 +29,7 @@ function VCLua_BasicAction_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lBasicAction:TLuaBasicAction;
 begin
-	CheckArg(L, 2);
-	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	lBasicAction := TLuaBasicAction(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lBasicAction.OnChange));
 	lBasicAction.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -128,8 +127,7 @@ var
 	lBasicAction:TLuaBasicAction;
 	val:TComponent;
 begin
-	CheckArg(L, 2);
-	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	lBasicAction := TLuaBasicAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lBasicAction.ActionComponent := val;
@@ -145,8 +143,7 @@ var
 	lBasicAction:TLuaBasicAction;
 	ret:TComponent;
 begin
-	CheckArg(L, 1);
-	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	lBasicAction := TLuaBasicAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lBasicAction.ActionComponent;
 		Result := 1;
@@ -161,8 +158,7 @@ function VCLua_BasicAction_VCLuaSetOnExecute(L: Plua_State): Integer; cdecl;
 var
 	lBasicAction:TLuaBasicAction;
 begin
-	CheckArg(L, 2);
-	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	lBasicAction := TLuaBasicAction(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lBasicAction.OnExecute));
 	lBasicAction.OnExecute := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -172,8 +168,7 @@ function VCLua_BasicAction_VCLuaSetOnUpdate(L: Plua_State): Integer; cdecl;
 var
 	lBasicAction:TLuaBasicAction;
 begin
-	CheckArg(L, 2);
-	lBasicAction := TLuaBasicAction(GetLuaObject(L, 1));
+	lBasicAction := TLuaBasicAction(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lBasicAction.OnUpdate));
 	lBasicAction.OnUpdate := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

@@ -26,8 +26,7 @@ function VCLua_DirectoryEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdec
 var
 	lDirectoryEdit:TLuaDirectoryEdit;
 begin
-	CheckArg(L, 2);
-	lDirectoryEdit := TLuaDirectoryEdit(GetLuaObject(L, 1));
+	lDirectoryEdit := TLuaDirectoryEdit(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDirectoryEdit.OnButtonClick));
 	lDirectoryEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

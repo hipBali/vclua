@@ -67,8 +67,7 @@ var
 	val:TStrings;
 	valNeedsFree:Boolean = False;
 begin
-	CheckArg(L, 2);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
 	try
 		lMemo.Lines := val;
@@ -85,8 +84,7 @@ var
 	lMemo:TLuaMemo;
 	ret:TStrings;
 begin
-	CheckArg(L, 1);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMemo.Lines;
 		Result := 1;
@@ -102,8 +100,7 @@ var
 	lMemo:TLuaMemo;
 	val:TMemoScrollBar;
 begin
-	CheckArg(L, 2);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMemo.HorzScrollBar := val;
@@ -119,8 +116,7 @@ var
 	lMemo:TLuaMemo;
 	ret:TMemoScrollBar;
 begin
-	CheckArg(L, 1);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMemo.HorzScrollBar;
 		Result := 1;
@@ -136,8 +132,7 @@ var
 	lMemo:TLuaMemo;
 	val:TMemoScrollBar;
 begin
-	CheckArg(L, 2);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMemo.VertScrollBar := val;
@@ -153,8 +148,7 @@ var
 	lMemo:TLuaMemo;
 	ret:TMemoScrollBar;
 begin
-	CheckArg(L, 1);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMemo.VertScrollBar;
 		Result := 1;
@@ -170,8 +164,7 @@ var
 	lMemo:TLuaMemo;
 	val:TScrollStyle;
 begin
-	CheckArg(L, 2);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TScrollStyle));
 	try
 		lMemo.ScrollBars := val;
@@ -187,8 +180,7 @@ var
 	lMemo:TLuaMemo;
 	ret:TScrollStyle;
 begin
-	CheckArg(L, 1);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMemo.ScrollBars;
 		Result := 1;
@@ -204,8 +196,7 @@ var
 	lMemo:TLuaMemo;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMemo.WantReturns := val;
@@ -221,8 +212,7 @@ var
 	lMemo:TLuaMemo;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMemo.WantReturns;
 		Result := 1;
@@ -238,8 +228,7 @@ var
 	lMemo:TLuaMemo;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMemo.WantTabs := val;
@@ -255,8 +244,7 @@ var
 	lMemo:TLuaMemo;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMemo.WantTabs;
 		Result := 1;
@@ -272,8 +260,7 @@ var
 	lMemo:TLuaMemo;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMemo.WordWrap := val;
@@ -289,8 +276,7 @@ var
 	lMemo:TLuaMemo;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
+	lMemo := TLuaMemo(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMemo.WordWrap;
 		Result := 1;

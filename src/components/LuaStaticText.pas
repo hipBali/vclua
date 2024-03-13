@@ -30,8 +30,7 @@ var
 	lStaticText:TLuaStaticText;
 	val:TAlignment;
 begin
-	CheckArg(L, 2);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TAlignment));
 	try
 		lStaticText.Alignment := val;
@@ -47,8 +46,7 @@ var
 	lStaticText:TLuaStaticText;
 	ret:TAlignment;
 begin
-	CheckArg(L, 1);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStaticText.Alignment;
 		Result := 1;
@@ -64,8 +62,7 @@ var
 	lStaticText:TLuaStaticText;
 	val:TStaticBorderStyle;
 begin
-	CheckArg(L, 2);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TStaticBorderStyle));
 	try
 		lStaticText.BorderStyle := val;
@@ -81,8 +78,7 @@ var
 	lStaticText:TLuaStaticText;
 	ret:TStaticBorderStyle;
 begin
-	CheckArg(L, 1);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStaticText.BorderStyle;
 		Result := 1;
@@ -98,8 +94,7 @@ var
 	lStaticText:TLuaStaticText;
 	val:TWinControl;
 begin
-	CheckArg(L, 2);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStaticText.FocusControl := val;
@@ -115,8 +110,7 @@ var
 	lStaticText:TLuaStaticText;
 	ret:TWinControl;
 begin
-	CheckArg(L, 1);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStaticText.FocusControl;
 		Result := 1;
@@ -132,8 +126,7 @@ var
 	lStaticText:TLuaStaticText;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStaticText.ShowAccelChar := val;
@@ -149,8 +142,7 @@ var
 	lStaticText:TLuaStaticText;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStaticText.ShowAccelChar;
 		Result := 1;
@@ -166,8 +158,7 @@ var
 	lStaticText:TLuaStaticText;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lStaticText.Transparent := val;
@@ -183,8 +174,7 @@ var
 	lStaticText:TLuaStaticText;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lStaticText := TLuaStaticText(GetLuaObject(L, 1));
+	lStaticText := TLuaStaticText(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lStaticText.Transparent;
 		Result := 1;

@@ -62,8 +62,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lProgressBar.Max := val;
@@ -79,8 +78,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lProgressBar.Max;
 		Result := 1;
@@ -96,8 +94,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lProgressBar.Min := val;
@@ -113,8 +110,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lProgressBar.Min;
 		Result := 1;
@@ -130,8 +126,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	val:TProgressBarOrientation;
 begin
-	CheckArg(L, 2);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TProgressBarOrientation));
 	try
 		lProgressBar.Orientation := val;
@@ -147,8 +142,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	ret:TProgressBarOrientation;
 begin
-	CheckArg(L, 1);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lProgressBar.Orientation;
 		Result := 1;
@@ -164,8 +158,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lProgressBar.Position := val;
@@ -181,8 +174,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lProgressBar.Position;
 		Result := 1;
@@ -198,8 +190,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lProgressBar.Smooth := val;
@@ -215,8 +206,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lProgressBar.Smooth;
 		Result := 1;
@@ -232,8 +222,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lProgressBar.Step := val;
@@ -249,8 +238,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lProgressBar.Step;
 		Result := 1;
@@ -266,8 +254,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	val:TProgressBarStyle;
 begin
-	CheckArg(L, 2);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TProgressBarStyle));
 	try
 		lProgressBar.Style := val;
@@ -283,8 +270,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	ret:TProgressBarStyle;
 begin
-	CheckArg(L, 1);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lProgressBar.Style;
 		Result := 1;
@@ -300,8 +286,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lProgressBar.BarShowText := val;
@@ -317,8 +302,7 @@ var
 	lProgressBar:TLuaProgressBar;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lProgressBar := TLuaProgressBar(GetLuaObject(L, 1));
+	lProgressBar := TLuaProgressBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lProgressBar.BarShowText;
 		Result := 1;

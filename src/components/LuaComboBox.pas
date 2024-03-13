@@ -29,8 +29,7 @@ function VCLua_ComboBox_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnChange));
 	lComboBox.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -40,8 +39,7 @@ function VCLua_ComboBox_VCLuaSetOnCloseUp(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnCloseUp));
 	lComboBox.OnCloseUp := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -51,8 +49,7 @@ function VCLua_ComboBox_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnDrawItem));
 	lComboBox.OnDrawItem := TLuaEvent.Factory<TDrawItemEvent,TLuaDrawItemEvent>(L);
 	Result := 0;
@@ -62,8 +59,7 @@ function VCLua_ComboBox_VCLuaSetOnDropDown(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnDropDown));
 	lComboBox.OnDropDown := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -73,8 +69,7 @@ function VCLua_ComboBox_VCLuaSetOnGetItems(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnGetItems));
 	lComboBox.OnGetItems := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -84,8 +79,7 @@ function VCLua_ComboBox_VCLuaSetOnMeasureItem(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnMeasureItem));
 	lComboBox.OnMeasureItem := TLuaEvent.Factory<TMeasureItemEvent,TLuaMeasureItemEvent>(L);
 	Result := 0;
@@ -95,8 +89,7 @@ function VCLua_ComboBox_VCLuaSetOnSelect(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lComboBox.OnSelect));
 	lComboBox.OnSelect := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -204,8 +197,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:TEditCharCase;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TEditCharCase));
 	try
 		lComboBox.CharCase := val;
@@ -221,8 +213,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:TEditCharCase;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.CharCase;
 		Result := 1;
@@ -238,8 +229,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.DroppedDown := val;
@@ -255,8 +245,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.DroppedDown;
 		Result := 1;
@@ -272,8 +261,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.DroppingDown := val;
@@ -289,8 +277,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.DroppingDown;
 		Result := 1;
@@ -321,8 +308,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.AutoComplete := val;
@@ -338,8 +324,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.AutoComplete;
 		Result := 1;
@@ -355,8 +340,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:TComboBoxAutoCompleteText;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TComboBoxAutoCompleteText));
 	try
 		lComboBox.AutoCompleteText := val;
@@ -372,8 +356,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:TComboBoxAutoCompleteText;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.AutoCompleteText;
 		Result := 1;
@@ -389,8 +372,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.AutoDropDown := val;
@@ -406,8 +388,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.AutoDropDown;
 		Result := 1;
@@ -423,8 +404,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.AutoSelect := val;
@@ -440,8 +420,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.AutoSelect;
 		Result := 1;
@@ -457,8 +436,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.AutoSelected := val;
@@ -474,8 +452,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.AutoSelected;
 		Result := 1;
@@ -491,8 +468,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.ArrowKeysTraverseList := val;
@@ -508,8 +484,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.ArrowKeysTraverseList;
 		Result := 1;
@@ -525,8 +500,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:TCanvas;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.Canvas;
 		Result := 1;
@@ -542,8 +516,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.DropDownCount := val;
@@ -559,8 +532,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.DropDownCount;
 		Result := 1;
@@ -576,8 +548,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:TEmulatedTextHintStatus;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.EmulatedTextHintStatus;
 		Result := 1;
@@ -593,8 +564,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:TStrings;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.Items := val;
@@ -610,8 +580,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:TStrings;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.Items;
 		Result := 1;
@@ -627,8 +596,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.ItemIndex := val;
@@ -644,8 +612,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.ItemIndex;
 		Result := 1;
@@ -661,8 +628,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.ReadOnly := val;
@@ -678,8 +644,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.ReadOnly;
 		Result := 1;
@@ -695,8 +660,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:String;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.SelText := val;
@@ -712,8 +676,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:String;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.SelText;
 		Result := 1;
@@ -729,8 +692,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:TComboBoxStyle;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TComboBoxStyle));
 	try
 		lComboBox.Style := val;
@@ -746,8 +708,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:TComboBoxStyle;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.Style;
 		Result := 1;
@@ -763,8 +724,7 @@ var
 	lComboBox:TLuaComboBox;
 	val:TTranslateString;
 begin
-	CheckArg(L, 2);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lComboBox.TextHint := val;
@@ -780,8 +740,7 @@ var
 	lComboBox:TLuaComboBox;
 	ret:TTranslateString;
 begin
-	CheckArg(L, 1);
-	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lComboBox.TextHint;
 		Result := 1;

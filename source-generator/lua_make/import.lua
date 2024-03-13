@@ -594,7 +594,7 @@ function createUnitBody(cdef, ref, refs)
 		end
 
     for _,vv in ipairs(vars) do
-      local s = VCLua_CDEF_LUAFUNC
+      local s = pi and not pi.i and VCLua_CDEF_LUAPROP or VCLua_CDEF_LUAFUNC
 
       -- check overloaded methods
       local finalMethodName = mName

@@ -62,8 +62,7 @@ function VCLua_Menu_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lMenu:TLuaMenu;
 begin
-	CheckArg(L, 2);
-	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lMenu.OnChange));
 	lMenu.OnChange := TLuaEvent.Factory<TMenuChangeEvent,TLuaMenuChangeEvent>(L);
 	Result := 0;
@@ -233,8 +232,7 @@ var
 	lMenu:TLuaMenu;
 	ret:HMenu;
 begin
-	CheckArg(L, 1);
-	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenu.Handle;
 		Result := 1;
@@ -250,8 +248,7 @@ var
 	lMenu:TLuaMenu;
 	val:TComponent;
 begin
-	CheckArg(L, 2);
-	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMenu.Parent := val;
@@ -267,8 +264,7 @@ var
 	lMenu:TLuaMenu;
 	ret:TComponent;
 begin
-	CheckArg(L, 1);
-	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenu.Parent;
 		Result := 1;
@@ -284,8 +280,7 @@ var
 	lMenu:TLuaMenu;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMenu.ShortcutHandled := val;
@@ -301,8 +296,7 @@ var
 	lMenu:TLuaMenu;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenu.ShortcutHandled;
 		Result := 1;
@@ -317,8 +311,7 @@ function VCLua_Menu_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
 var
 	lMenu:TLuaMenu;
 begin
-	CheckArg(L, 2);
-	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lMenu.OnDrawItem));
 	lMenu.OnDrawItem := TLuaEvent.Factory<TMenuDrawItemEvent,TLuaMenuDrawItemEvent>(L);
 	Result := 0;
@@ -328,8 +321,7 @@ function VCLua_Menu_VCLuaSetOnMeasureItem(L: Plua_State): Integer; cdecl;
 var
 	lMenu:TLuaMenu;
 begin
-	CheckArg(L, 2);
-	lMenu := TLuaMenu(GetLuaObject(L, 1));
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lMenu.OnMeasureItem));
 	lMenu.OnMeasureItem := TLuaEvent.Factory<TMenuMeasureItemEvent,TLuaMenuMeasureItemEvent>(L);
 	Result := 0;
@@ -374,8 +366,7 @@ var
 	lPopupMenu:TLuaPopupMenu;
 	val:TComponent;
 begin
-	CheckArg(L, 2);
-	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
+	lPopupMenu := TLuaPopupMenu(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lPopupMenu.PopupComponent := val;
@@ -391,8 +382,7 @@ var
 	lPopupMenu:TLuaPopupMenu;
 	ret:TComponent;
 begin
-	CheckArg(L, 1);
-	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
+	lPopupMenu := TLuaPopupMenu(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lPopupMenu.PopupComponent;
 		Result := 1;
@@ -408,8 +398,7 @@ var
 	lPopupMenu:TLuaPopupMenu;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
+	lPopupMenu := TLuaPopupMenu(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lPopupMenu.PopupPoint;
 		Result := 1;
@@ -439,8 +428,7 @@ function VCLua_PopupMenu_VCLuaSetOnPopup(L: Plua_State): Integer; cdecl;
 var
 	lPopupMenu:TLuaPopupMenu;
 begin
-	CheckArg(L, 2);
-	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
+	lPopupMenu := TLuaPopupMenu(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lPopupMenu.OnPopup));
 	lPopupMenu.OnPopup := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -450,8 +438,7 @@ function VCLua_PopupMenu_VCLuaSetOnClose(L: Plua_State): Integer; cdecl;
 var
 	lPopupMenu:TLuaPopupMenu;
 begin
-	CheckArg(L, 2);
-	lPopupMenu := TLuaPopupMenu(GetLuaObject(L, 1));
+	lPopupMenu := TLuaPopupMenu(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lPopupMenu.OnClose));
 	lPopupMenu.OnClose := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1002,8 +989,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:TMenuItem;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.Merged;
 		Result := 1;
@@ -1019,8 +1005,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:TMenuItem;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.MergedWith;
 		Result := 1;
@@ -1036,8 +1021,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.Count;
 		Result := 1;
@@ -1053,8 +1037,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	val:HMenu;
 begin
-	CheckArg(L, 2);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMenuItem.Handle := val;
@@ -1070,8 +1053,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:HMenu;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.Handle;
 		Result := 1;
@@ -1106,8 +1088,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:TMergedMenuItems;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.MergedItems;
 		Result := 1;
@@ -1123,8 +1104,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMenuItem.MenuIndex := val;
@@ -1140,8 +1120,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.MenuIndex;
 		Result := 1;
@@ -1157,8 +1136,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:TMenu;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.Menu;
 		Result := 1;
@@ -1174,8 +1152,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:TMenuItem;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.Parent;
 		Result := 1;
@@ -1191,8 +1168,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:TMenuItem;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.MergedParent;
 		Result := 1;
@@ -1208,8 +1184,7 @@ var
 	lMenuItem:TLuaMenuItem;
 	ret:Word;
 begin
-	CheckArg(L, 1);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMenuItem.Command;
 		Result := 1;
@@ -1258,8 +1233,7 @@ function VCLua_MenuItem_VCLuaSetOnClick(L: Plua_State): Integer; cdecl;
 var
 	lMenuItem:TLuaMenuItem;
 begin
-	CheckArg(L, 2);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lMenuItem.OnClick));
 	lMenuItem.OnClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1269,8 +1243,7 @@ function VCLua_MenuItem_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
 var
 	lMenuItem:TLuaMenuItem;
 begin
-	CheckArg(L, 2);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lMenuItem.OnDrawItem));
 	lMenuItem.OnDrawItem := TLuaEvent.Factory<TMenuDrawItemEvent,TLuaMenuDrawItemEvent>(L);
 	Result := 0;
@@ -1280,8 +1253,7 @@ function VCLua_MenuItem_VCLuaSetOnMeasureItem(L: Plua_State): Integer; cdecl;
 var
 	lMenuItem:TLuaMenuItem;
 begin
-	CheckArg(L, 2);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lMenuItem.OnMeasureItem));
 	lMenuItem.OnMeasureItem := TLuaEvent.Factory<TMenuMeasureItemEvent,TLuaMenuMeasureItemEvent>(L);
 	Result := 0;
@@ -1326,8 +1298,7 @@ var
 	lMainMenu:TLuaMainMenu;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lMainMenu := TLuaMainMenu(GetLuaObject(L, 1));
+	lMainMenu := TLuaMainMenu(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMainMenu.Height;
 		Result := 1;
@@ -1343,8 +1314,7 @@ var
 	lMainMenu:TLuaMainMenu;
 	val:HWND;
 begin
-	CheckArg(L, 2);
-	lMainMenu := TLuaMainMenu(GetLuaObject(L, 1));
+	lMainMenu := TLuaMainMenu(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lMainMenu.WindowHandle := val;
@@ -1360,8 +1330,7 @@ var
 	lMainMenu:TLuaMainMenu;
 	ret:HWND;
 begin
-	CheckArg(L, 1);
-	lMainMenu := TLuaMainMenu(GetLuaObject(L, 1));
+	lMainMenu := TLuaMainMenu(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lMainMenu.WindowHandle;
 		Result := 1;

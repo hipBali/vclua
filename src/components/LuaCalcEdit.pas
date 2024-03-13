@@ -26,8 +26,7 @@ function VCLua_CalcEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
 var
 	lCalcEdit:TLuaCalcEdit;
 begin
-	CheckArg(L, 2);
-	lCalcEdit := TLuaCalcEdit(GetLuaObject(L, 1));
+	lCalcEdit := TLuaCalcEdit(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCalcEdit.OnButtonClick));
 	lCalcEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

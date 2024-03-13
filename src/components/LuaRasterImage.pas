@@ -319,8 +319,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	ret:TCanvas;
 begin
-	CheckArg(L, 1);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRasterImage.Canvas;
 		Result := 1;
@@ -353,8 +352,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	val:HBITMAP;
 begin
-	CheckArg(L, 2);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lRasterImage.BitmapHandle := val;
@@ -370,8 +368,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	ret:HBITMAP;
 begin
-	CheckArg(L, 1);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRasterImage.BitmapHandle;
 		Result := 1;
@@ -387,8 +384,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lRasterImage.Masked := val;
@@ -404,8 +400,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRasterImage.Masked;
 		Result := 1;
@@ -421,8 +416,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	val:HBITMAP;
 begin
-	CheckArg(L, 2);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lRasterImage.MaskHandle := val;
@@ -438,8 +432,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	ret:HBITMAP;
 begin
-	CheckArg(L, 1);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRasterImage.MaskHandle;
 		Result := 1;
@@ -455,8 +448,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	val:TPixelFormat;
 begin
-	CheckArg(L, 2);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TPixelFormat));
 	try
 		lRasterImage.PixelFormat := val;
@@ -472,8 +464,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	ret:TPixelFormat;
 begin
-	CheckArg(L, 1);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRasterImage.PixelFormat;
 		Result := 1;
@@ -489,8 +480,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lRasterImage.TransparentColor := val;
@@ -506,8 +496,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRasterImage.TransparentColor;
 		Result := 1;
@@ -523,8 +512,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	val:TTransparentMode;
 begin
-	CheckArg(L, 2);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TTransparentMode));
 	try
 		lRasterImage.TransparentMode := val;
@@ -540,8 +528,7 @@ var
 	lRasterImage:TLuaRasterImage;
 	ret:TTransparentMode;
 begin
-	CheckArg(L, 1);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	lRasterImage := TLuaRasterImage(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRasterImage.TransparentMode;
 		Result := 1;

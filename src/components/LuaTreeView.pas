@@ -48,8 +48,7 @@ var
 	lTreeNode:TLuaTreeNode;
 	val:Pointer;
 begin
-	CheckArg(L, 2);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	lTreeNode := TLuaTreeNode(GetLuaObjectUnsafe(L, 1));
 	val := Pointer(lua_touserdata(L,2));
 	try
 		lTreeNode.Data := val;
@@ -65,8 +64,7 @@ var
 	lTreeNode:TLuaTreeNode;
 	ret:Pointer;
 begin
-	CheckArg(L, 1);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	lTreeNode := TLuaTreeNode(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeNode.Data;
 		Result := 1;
@@ -780,8 +778,7 @@ var
 	lTreeNodes:TLuaTreeNodes;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
+	lTreeNodes := TLuaTreeNodes(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeNodes.TopLvlCount;
 		Result := 1;
@@ -822,8 +819,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.AccessibilityOn := val;
@@ -839,8 +835,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.AccessibilityOn;
 		Result := 1;
@@ -855,8 +850,7 @@ function VCLua_TreeView_VCLuaSetOnAddition(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnAddition));
 	lTreeView.OnAddition := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
 	Result := 0;
@@ -866,8 +860,7 @@ function VCLua_TreeView_VCLuaSetOnAdvancedCustomDraw(L: Plua_State): Integer; cd
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnAdvancedCustomDraw));
 	lTreeView.OnAdvancedCustomDraw := TLuaEvent.Factory<TTVAdvancedCustomDrawEvent,TLuaTVAdvancedCustomDrawEvent>(L);
 	Result := 0;
@@ -877,8 +870,7 @@ function VCLua_TreeView_VCLuaSetOnAdvancedCustomDrawItem(L: Plua_State): Integer
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnAdvancedCustomDrawItem));
 	lTreeView.OnAdvancedCustomDrawItem := TLuaEvent.Factory<TTVAdvancedCustomDrawItemEvent,TLuaTVAdvancedCustomDrawItemEvent>(L);
 	Result := 0;
@@ -888,8 +880,7 @@ function VCLua_TreeView_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnChange));
 	lTreeView.OnChange := TLuaEvent.Factory<TTVChangedEvent,TLuaTVChangedEvent>(L);
 	Result := 0;
@@ -899,8 +890,7 @@ function VCLua_TreeView_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnChanging));
 	lTreeView.OnChanging := TLuaEvent.Factory<TTVChangingEvent,TLuaTVChangingEvent>(L);
 	Result := 0;
@@ -910,8 +900,7 @@ function VCLua_TreeView_VCLuaSetOnCollapsed(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCollapsed));
 	lTreeView.OnCollapsed := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
 	Result := 0;
@@ -921,8 +910,7 @@ function VCLua_TreeView_VCLuaSetOnCollapsing(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCollapsing));
 	lTreeView.OnCollapsing := TLuaEvent.Factory<TTVCollapsingEvent,TLuaTVCollapsingEvent>(L);
 	Result := 0;
@@ -932,8 +920,7 @@ function VCLua_TreeView_VCLuaSetOnCompare(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCompare));
 	lTreeView.OnCompare := TLuaEvent.Factory<TTVCompareEvent,TLuaTVCompareEvent>(L);
 	Result := 0;
@@ -943,8 +930,7 @@ function VCLua_TreeView_VCLuaSetOnCustomCreateItem(L: Plua_State): Integer; cdec
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCustomCreateItem));
 	lTreeView.OnCustomCreateItem := TLuaEvent.Factory<TTVCustomCreateNodeEvent,TLuaTVCustomCreateNodeEvent>(L);
 	Result := 0;
@@ -954,8 +940,7 @@ function VCLua_TreeView_VCLuaSetOnCustomDraw(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCustomDraw));
 	lTreeView.OnCustomDraw := TLuaEvent.Factory<TTVCustomDrawEvent,TLuaTVCustomDrawEvent>(L);
 	Result := 0;
@@ -965,8 +950,7 @@ function VCLua_TreeView_VCLuaSetOnCustomDrawItem(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCustomDrawItem));
 	lTreeView.OnCustomDrawItem := TLuaEvent.Factory<TTVCustomDrawItemEvent,TLuaTVCustomDrawItemEvent>(L);
 	Result := 0;
@@ -976,8 +960,7 @@ function VCLua_TreeView_VCLuaSetOnCustomDrawArrow(L: Plua_State): Integer; cdecl
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnCustomDrawArrow));
 	lTreeView.OnCustomDrawArrow := TLuaEvent.Factory<TTVCustomDrawArrowEvent,TLuaTVCustomDrawArrowEvent>(L);
 	Result := 0;
@@ -987,8 +970,7 @@ function VCLua_TreeView_VCLuaSetOnDeletion(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnDeletion));
 	lTreeView.OnDeletion := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
 	Result := 0;
@@ -998,8 +980,7 @@ function VCLua_TreeView_VCLuaSetOnEdited(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnEdited));
 	lTreeView.OnEdited := TLuaEvent.Factory<TTVEditedEvent,TLuaTVEditedEvent>(L);
 	Result := 0;
@@ -1009,8 +990,7 @@ function VCLua_TreeView_VCLuaSetOnEditing(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnEditing));
 	lTreeView.OnEditing := TLuaEvent.Factory<TTVEditingEvent,TLuaTVEditingEvent>(L);
 	Result := 0;
@@ -1020,8 +1000,7 @@ function VCLua_TreeView_VCLuaSetOnEditingEnd(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnEditingEnd));
 	lTreeView.OnEditingEnd := TLuaEvent.Factory<TTVEditingEndEvent,TLuaTVEditingEndEvent>(L);
 	Result := 0;
@@ -1031,8 +1010,7 @@ function VCLua_TreeView_VCLuaSetOnExpanded(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnExpanded));
 	lTreeView.OnExpanded := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
 	Result := 0;
@@ -1042,8 +1020,7 @@ function VCLua_TreeView_VCLuaSetOnExpanding(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnExpanding));
 	lTreeView.OnExpanding := TLuaEvent.Factory<TTVExpandingEvent,TLuaTVExpandingEvent>(L);
 	Result := 0;
@@ -1053,8 +1030,7 @@ function VCLua_TreeView_VCLuaSetOnGetImageIndex(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnGetImageIndex));
 	lTreeView.OnGetImageIndex := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
 	Result := 0;
@@ -1064,8 +1040,7 @@ function VCLua_TreeView_VCLuaSetOnGetSelectedIndex(L: Plua_State): Integer; cdec
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnGetSelectedIndex));
 	lTreeView.OnGetSelectedIndex := TLuaEvent.Factory<TTVExpandedEvent,TLuaTVExpandedEvent>(L);
 	Result := 0;
@@ -1075,8 +1050,7 @@ function VCLua_TreeView_VCLuaSetOnNodeChanged(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnNodeChanged));
 	lTreeView.OnNodeChanged := TLuaEvent.Factory<TTVNodeChangedEvent,TLuaTVNodeChangedEvent>(L);
 	Result := 0;
@@ -1086,8 +1060,7 @@ function VCLua_TreeView_VCLuaSetOnSelectionChanged(L: Plua_State): Integer; cdec
 var
 	lTreeView:TLuaTreeView;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTreeView.OnSelectionChanged));
 	lTreeView.OnSelectionChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1735,8 +1708,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lTreeView.BackgroundColor := val;
@@ -1752,8 +1724,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.BackgroundColor;
 		Result := 1;
@@ -1769,8 +1740,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TTreeNode;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.BottomItem := val;
@@ -1786,8 +1756,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.BottomItem;
 		Result := 1;
@@ -1803,8 +1772,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.DefaultItemHeight := val;
@@ -1820,8 +1788,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.DefaultItemHeight;
 		Result := 1;
@@ -1837,8 +1804,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TTreeNode;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.DropTarget := val;
@@ -1854,8 +1820,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.DropTarget;
 		Result := 1;
@@ -1871,8 +1836,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lTreeView.ExpandSignColor := val;
@@ -1888,8 +1852,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.ExpandSignColor;
 		Result := 1;
@@ -1905,8 +1868,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.ExpandSignSize := val;
@@ -1922,8 +1884,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.ExpandSignSize;
 		Result := 1;
@@ -1939,8 +1900,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TTreeViewExpandSignType;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TTreeViewExpandSignType));
 	try
 		lTreeView.ExpandSignType := val;
@@ -1956,8 +1916,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TTreeViewExpandSignType;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.ExpandSignType;
 		Result := 1;
@@ -1973,8 +1932,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TCustomImageList;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.Images := val;
@@ -1990,8 +1948,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TCustomImageList;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.Images;
 		Result := 1;
@@ -2007,8 +1964,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.ImagesWidth := val;
@@ -2024,8 +1980,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.ImagesWidth;
 		Result := 1;
@@ -2041,8 +1996,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TTreeNode;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.InsertMarkNode := val;
@@ -2058,8 +2012,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.InsertMarkNode;
 		Result := 1;
@@ -2075,8 +2028,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TTreeViewInsertMarkType;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TTreeViewInsertMarkType));
 	try
 		lTreeView.InsertMarkType := val;
@@ -2092,8 +2044,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TTreeViewInsertMarkType;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.InsertMarkType;
 		Result := 1;
@@ -2109,8 +2060,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TTreeNodes;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.Items := val;
@@ -2126,8 +2076,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TTreeNodes;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.Items;
 		Result := 1;
@@ -2143,8 +2092,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.KeepCollapsedNodes := val;
@@ -2160,8 +2108,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.KeepCollapsedNodes;
 		Result := 1;
@@ -2177,8 +2124,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TMultiSelectStyle;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TMultiSelectStyle));
 	try
 		lTreeView.MultiSelectStyle := val;
@@ -2194,8 +2140,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TMultiSelectStyle;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.MultiSelectStyle;
 		Result := 1;
@@ -2211,8 +2156,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TTreeViewOptions;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TTreeViewOptions));
 	try
 		lTreeView.Options := val;
@@ -2228,8 +2172,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TTreeViewOptions;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.Options;
 		Result := 1;
@@ -2245,8 +2188,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TScrollStyle;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TScrollStyle));
 	try
 		lTreeView.ScrollBars := val;
@@ -2262,8 +2204,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TScrollStyle;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.ScrollBars;
 		Result := 1;
@@ -2279,8 +2220,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TTreeNode;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.Selected := val;
@@ -2296,8 +2236,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.Selected;
 		Result := 1;
@@ -2313,8 +2252,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lTreeView.SelectionColor := val;
@@ -2330,8 +2268,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.SelectionColor;
 		Result := 1;
@@ -2347,8 +2284,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:Cardinal;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.SelectionCount;
 		Result := 1;
@@ -2364,8 +2300,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lTreeView.SelectionFontColor := val;
@@ -2381,8 +2316,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.SelectionFontColor;
 		Result := 1;
@@ -2398,8 +2332,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.SelectionFontColorUsed := val;
@@ -2415,8 +2348,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.SelectionFontColorUsed;
 		Result := 1;
@@ -2451,8 +2383,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lTreeView.SeparatorColor := val;
@@ -2468,8 +2399,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.SeparatorColor;
 		Result := 1;
@@ -2485,8 +2415,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TCustomImageList;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.StateImages := val;
@@ -2502,8 +2431,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TCustomImageList;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.StateImages;
 		Result := 1;
@@ -2519,8 +2447,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.StateImagesWidth := val;
@@ -2536,8 +2463,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.StateImagesWidth;
 		Result := 1;
@@ -2553,8 +2479,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TTreeNode;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTreeView.TopItem := val;
@@ -2570,8 +2495,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.TopItem;
 		Result := 1;
@@ -2587,8 +2511,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lTreeView.TreeLineColor := val;
@@ -2604,8 +2527,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.TreeLineColor;
 		Result := 1;
@@ -2621,8 +2543,7 @@ var
 	lTreeView:TLuaTreeView;
 	val:TPenStyle;
 begin
-	CheckArg(L, 2);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TPenStyle));
 	try
 		lTreeView.TreeLinePenStyle := val;
@@ -2638,8 +2559,7 @@ var
 	lTreeView:TLuaTreeView;
 	ret:TPenStyle;
 begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTreeView.TreeLinePenStyle;
 		Result := 1;

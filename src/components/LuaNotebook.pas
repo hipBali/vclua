@@ -85,8 +85,7 @@ var
 	lNotebook:TLuaNotebook;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lNotebook := TLuaNotebook(GetLuaObject(L, 1));
+	lNotebook := TLuaNotebook(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lNotebook.PageCount;
 		Result := 1;

@@ -307,8 +307,7 @@ var
 	lTextStrings:TLuaTextStrings;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
+	lTextStrings := TLuaTextStrings(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lTextStrings.Text := val;
@@ -324,8 +323,7 @@ var
 	lTextStrings:TLuaTextStrings;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
+	lTextStrings := TLuaTextStrings(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lTextStrings.Text;
 		Result := 1;
@@ -340,8 +338,7 @@ function VCLua_TextStrings_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lTextStrings:TLuaTextStrings;
 begin
-	CheckArg(L, 2);
-	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
+	lTextStrings := TLuaTextStrings(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTextStrings.OnChange));
 	lTextStrings.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -351,8 +348,7 @@ function VCLua_TextStrings_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
 var
 	lTextStrings:TLuaTextStrings;
 begin
-	CheckArg(L, 2);
-	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
+	lTextStrings := TLuaTextStrings(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTextStrings.OnChanging));
 	lTextStrings.OnChanging := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

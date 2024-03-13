@@ -181,8 +181,7 @@ var
 	lToolButton:TLuaToolButton;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
+	lToolButton := TLuaToolButton(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lToolButton.Index;
 		Result := 1;
@@ -218,8 +217,7 @@ function VCLua_ToolButton_VCLuaSetOnArrowClick(L: Plua_State): Integer; cdecl;
 var
 	lToolButton:TLuaToolButton;
 begin
-	CheckArg(L, 2);
-	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
+	lToolButton := TLuaToolButton(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lToolButton.OnArrowClick));
 	lToolButton.OnArrowClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -298,8 +296,7 @@ var
 	lToolBar:TLuaToolBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
+	lToolBar := TLuaToolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lToolBar.ButtonCount;
 		Result := 1;
@@ -334,8 +331,7 @@ var
 	lToolBar:TLuaToolBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
+	lToolBar := TLuaToolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lToolBar.RowCount;
 		Result := 1;
@@ -351,8 +347,7 @@ var
 	lToolBar:TLuaToolBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
+	lToolBar := TLuaToolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lToolBar.ButtonDropWidth;
 		Result := 1;
@@ -367,8 +362,7 @@ function VCLua_ToolBar_VCLuaSetOnPaintButton(L: Plua_State): Integer; cdecl;
 var
 	lToolBar:TLuaToolBar;
 begin
-	CheckArg(L, 2);
-	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
+	lToolBar := TLuaToolBar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lToolBar.OnPaintButton));
 	lToolBar.OnPaintButton := TLuaEvent.Factory<TToolBarOnPaintButton,TLuaToolBarOnPaintButton>(L);
 	Result := 0;
@@ -378,8 +372,7 @@ function VCLua_ToolBar_VCLuaSetOnPaint(L: Plua_State): Integer; cdecl;
 var
 	lToolBar:TLuaToolBar;
 begin
-	CheckArg(L, 2);
-	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
+	lToolBar := TLuaToolBar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lToolBar.OnPaint));
 	lToolBar.OnPaint := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

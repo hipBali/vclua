@@ -154,8 +154,7 @@ var
 	lListItem:TLuaListItem;
 	val:Pointer;
 begin
-	CheckArg(L, 2);
-	lListItem := TLuaListItem(GetLuaObject(L, 1));
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
 	val := Pointer(lua_touserdata(L,2));
 	try
 		lListItem.Data := val;
@@ -171,8 +170,7 @@ var
 	lListItem:TLuaListItem;
 	ret:Pointer;
 begin
-	CheckArg(L, 1);
-	lListItem := TLuaListItem(GetLuaObject(L, 1));
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListItem.Data;
 		Result := 1;
@@ -188,8 +186,7 @@ var
 	lListItem:TLuaListItem;
 	val:TPoint;
 begin
-	CheckArg(L, 2);
-	lListItem := TLuaListItem(GetLuaObject(L, 1));
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListItem.Position := val;
@@ -205,8 +202,7 @@ var
 	lListItem:TLuaListItem;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lListItem := TLuaListItem(GetLuaObject(L, 1));
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListItem.Position;
 		Result := 1;
@@ -511,8 +507,7 @@ var
 	lListItems:TLuaListItems;
 	ret:TListItemsFlags;
 begin
-	CheckArg(L, 1);
-	lListItems := TLuaListItems(GetLuaObject(L, 1));
+	lListItems := TLuaListItems(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListItems.Flags;
 		Result := 1;
@@ -528,8 +523,7 @@ var
 	lListItems:TLuaListItems;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lListItems := TLuaListItems(GetLuaObject(L, 1));
+	lListItems := TLuaListItems(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListItems.Count := val;
@@ -545,8 +539,7 @@ var
 	lListItems:TLuaListItems;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lListItems := TLuaListItems(GetLuaObject(L, 1));
+	lListItems := TLuaListItems(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListItems.Count;
 		Result := 1;
@@ -587,8 +580,7 @@ var
 	lListItems:TLuaListItems;
 	ret:TCustomListView;
 begin
-	CheckArg(L, 1);
-	lListItems := TLuaListItems(GetLuaObject(L, 1));
+	lListItems := TLuaListItems(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListItems.Owner;
 		Result := 1;
@@ -603,8 +595,7 @@ function VCLua_ListView_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnChange));
 	lListView.OnChange := TLuaEvent.Factory<TLVChangeEvent,TLuaLVChangeEvent>(L);
 	Result := 0;
@@ -614,8 +605,7 @@ function VCLua_ListView_VCLuaSetOnColumnClick(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnColumnClick));
 	lListView.OnColumnClick := TLuaEvent.Factory<TLVColumnClickEvent,TLuaLVColumnClickEvent>(L);
 	Result := 0;
@@ -625,8 +615,7 @@ function VCLua_ListView_VCLuaSetOnCompare(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnCompare));
 	lListView.OnCompare := TLuaEvent.Factory<TLVCompareEvent,TLuaLVCompareEvent>(L);
 	Result := 0;
@@ -636,8 +625,7 @@ function VCLua_ListView_VCLuaSetOnData(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnData));
 	lListView.OnData := TLuaEvent.Factory<TLVDataEvent,TLuaLVDeletedEvent>(L);
 	Result := 0;
@@ -647,8 +635,7 @@ function VCLua_ListView_VCLuaSetOnDataFind(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnDataFind));
 	lListView.OnDataFind := TLuaEvent.Factory<TLVDataFindEvent,TLuaLVDataFindEvent>(L);
 	Result := 0;
@@ -658,8 +645,7 @@ function VCLua_ListView_VCLuaSetOnDataHint(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnDataHint));
 	lListView.OnDataHint := TLuaEvent.Factory<TLVDataHintEvent,TLuaLVDataHintEvent>(L);
 	Result := 0;
@@ -669,8 +655,7 @@ function VCLua_ListView_VCLuaSetOnDataStateChange(L: Plua_State): Integer; cdecl
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnDataStateChange));
 	lListView.OnDataStateChange := TLuaEvent.Factory<TLVDataStateChangeEvent,TLuaLVDataStateChangeEvent>(L);
 	Result := 0;
@@ -680,8 +665,7 @@ function VCLua_ListView_VCLuaSetOnDeletion(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnDeletion));
 	lListView.OnDeletion := TLuaEvent.Factory<TLVDeletedEvent,TLuaLVDeletedEvent>(L);
 	Result := 0;
@@ -691,8 +675,7 @@ function VCLua_ListView_VCLuaSetOnEdited(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnEdited));
 	lListView.OnEdited := TLuaEvent.Factory<TLVEditedEvent,TLuaLVEditedEvent>(L);
 	Result := 0;
@@ -702,8 +685,7 @@ function VCLua_ListView_VCLuaSetOnEditing(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnEditing));
 	lListView.OnEditing := TLuaEvent.Factory<TLVEditingEvent,TLuaLVEditingEvent>(L);
 	Result := 0;
@@ -713,8 +695,7 @@ function VCLua_ListView_VCLuaSetOnInsert(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnInsert));
 	lListView.OnInsert := TLuaEvent.Factory<TLVInsertEvent,TLuaLVDeletedEvent>(L);
 	Result := 0;
@@ -724,8 +705,7 @@ function VCLua_ListView_VCLuaSetOnItemChecked(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnItemChecked));
 	lListView.OnItemChecked := TLuaEvent.Factory<TLVCheckedItemEvent,TLuaLVCheckedItemEvent>(L);
 	Result := 0;
@@ -735,8 +715,7 @@ function VCLua_ListView_VCLuaSetOnSelectItem(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnSelectItem));
 	lListView.OnSelectItem := TLuaEvent.Factory<TLVSelectItemEvent,TLuaLVSelectItemEvent>(L);
 	Result := 0;
@@ -746,8 +725,7 @@ function VCLua_ListView_VCLuaSetOnCustomDraw(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnCustomDraw));
 	lListView.OnCustomDraw := TLuaEvent.Factory<TLVCustomDrawEvent,TLuaLVCustomDrawEvent>(L);
 	Result := 0;
@@ -757,8 +735,7 @@ function VCLua_ListView_VCLuaSetOnCustomDrawItem(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnCustomDrawItem));
 	lListView.OnCustomDrawItem := TLuaEvent.Factory<TLVCustomDrawItemEvent,TLuaLVCustomDrawItemEvent>(L);
 	Result := 0;
@@ -768,8 +745,7 @@ function VCLua_ListView_VCLuaSetOnCustomDrawSubItem(L: Plua_State): Integer; cde
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnCustomDrawSubItem));
 	lListView.OnCustomDrawSubItem := TLuaEvent.Factory<TLVCustomDrawSubItemEvent,TLuaLVCustomDrawSubItemEvent>(L);
 	Result := 0;
@@ -779,8 +755,7 @@ function VCLua_ListView_VCLuaSetOnAdvancedCustomDraw(L: Plua_State): Integer; cd
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnAdvancedCustomDraw));
 	lListView.OnAdvancedCustomDraw := TLuaEvent.Factory<TLVAdvancedCustomDrawEvent,TLuaLVAdvancedCustomDrawEvent>(L);
 	Result := 0;
@@ -790,8 +765,7 @@ function VCLua_ListView_VCLuaSetOnAdvancedCustomDrawItem(L: Plua_State): Integer
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnAdvancedCustomDrawItem));
 	lListView.OnAdvancedCustomDrawItem := TLuaEvent.Factory<TLVAdvancedCustomDrawItemEvent,TLuaLVAdvancedCustomDrawItemEvent>(L);
 	Result := 0;
@@ -801,8 +775,7 @@ function VCLua_ListView_VCLuaSetOnAdvancedCustomDrawSubItem(L: Plua_State): Inte
 var
 	lListView:TLuaListView;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lListView.OnAdvancedCustomDrawSubItem));
 	lListView.OnAdvancedCustomDrawSubItem := TLuaEvent.Factory<TLVAdvancedCustomDrawSubItemEvent,TLuaLVAdvancedCustomDrawSubItemEvent>(L);
 	Result := 0;
@@ -1056,8 +1029,7 @@ var
 	lListView:TLuaListView;
 	ret:TRect;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.BoundingRect;
 		Result := 1;
@@ -1073,8 +1045,7 @@ var
 	lListView:TLuaListView;
 	ret:TCanvas;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.Canvas;
 		Result := 1;
@@ -1090,8 +1061,7 @@ var
 	lListView:TLuaListView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.Checkboxes := val;
@@ -1107,8 +1077,7 @@ var
 	lListView:TLuaListView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.Checkboxes;
 		Result := 1;
@@ -1143,8 +1112,7 @@ var
 	lListView:TLuaListView;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.ColumnCount;
 		Result := 1;
@@ -1160,8 +1128,7 @@ var
 	lListView:TLuaListView;
 	val:TListItem;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.DropTarget := val;
@@ -1177,8 +1144,7 @@ var
 	lListView:TLuaListView;
 	ret:TListItem;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.DropTarget;
 		Result := 1;
@@ -1194,8 +1160,7 @@ var
 	lListView:TLuaListView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.FlatScrollBars := val;
@@ -1211,8 +1176,7 @@ var
 	lListView:TLuaListView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.FlatScrollBars;
 		Result := 1;
@@ -1228,8 +1192,7 @@ var
 	lListView:TLuaListView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.FullDrag := val;
@@ -1245,8 +1208,7 @@ var
 	lListView:TLuaListView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.FullDrag;
 		Result := 1;
@@ -1262,8 +1224,7 @@ var
 	lListView:TLuaListView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.GridLines := val;
@@ -1279,8 +1240,7 @@ var
 	lListView:TLuaListView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.GridLines;
 		Result := 1;
@@ -1296,8 +1256,7 @@ var
 	lListView:TLuaListView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.HotTrack := val;
@@ -1313,8 +1272,7 @@ var
 	lListView:TLuaListView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.HotTrack;
 		Result := 1;
@@ -1330,8 +1288,7 @@ var
 	lListView:TLuaListView;
 	val:TListHotTrackStyles;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_checkSet(L,2,@val,TypeInfo(TListHotTrackStyles));
 	try
 		lListView.HotTrackStyles := val;
@@ -1347,8 +1304,7 @@ var
 	lListView:TLuaListView;
 	ret:TListHotTrackStyles;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.HotTrackStyles;
 		Result := 1;
@@ -1364,8 +1320,7 @@ var
 	lListView:TLuaListView;
 	val:TIconOptions;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.IconOptions := val;
@@ -1381,8 +1336,7 @@ var
 	lListView:TLuaListView;
 	ret:TIconOptions;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.IconOptions;
 		Result := 1;
@@ -1398,8 +1352,7 @@ var
 	lListView:TLuaListView;
 	val:TListItem;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.ItemFocused := val;
@@ -1415,8 +1368,7 @@ var
 	lListView:TLuaListView;
 	ret:TListItem;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.ItemFocused;
 		Result := 1;
@@ -1432,8 +1384,7 @@ var
 	lListView:TLuaListView;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.ItemIndex := val;
@@ -1449,8 +1400,7 @@ var
 	lListView:TLuaListView;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.ItemIndex;
 		Result := 1;
@@ -1466,8 +1416,7 @@ var
 	lListView:TLuaListView;
 	val:TListItems;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.Items := val;
@@ -1483,8 +1432,7 @@ var
 	lListView:TLuaListView;
 	ret:TListItems;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.Items;
 		Result := 1;
@@ -1500,8 +1448,7 @@ var
 	lListView:TLuaListView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.MultiSelect := val;
@@ -1517,8 +1464,7 @@ var
 	lListView:TLuaListView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.MultiSelect;
 		Result := 1;
@@ -1534,8 +1480,7 @@ var
 	lListView:TLuaListView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.OwnerData := val;
@@ -1551,8 +1496,7 @@ var
 	lListView:TLuaListView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.OwnerData;
 		Result := 1;
@@ -1568,8 +1512,7 @@ var
 	lListView:TLuaListView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.ReadOnly := val;
@@ -1585,8 +1528,7 @@ var
 	lListView:TLuaListView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.ReadOnly;
 		Result := 1;
@@ -1602,8 +1544,7 @@ var
 	lListView:TLuaListView;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.RowSelect := val;
@@ -1619,8 +1560,7 @@ var
 	lListView:TLuaListView;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.RowSelect;
 		Result := 1;
@@ -1636,8 +1576,7 @@ var
 	lListView:TLuaListView;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.SelCount;
 		Result := 1;
@@ -1653,8 +1592,7 @@ var
 	lListView:TLuaListView;
 	val:TListItem;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.Selected := val;
@@ -1670,8 +1608,7 @@ var
 	lListView:TLuaListView;
 	ret:TListItem;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.Selected;
 		Result := 1;
@@ -1687,8 +1624,7 @@ var
 	lListView:TLuaListView;
 	ret:TListItem;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.LastSelected;
 		Result := 1;
@@ -1704,8 +1640,7 @@ var
 	lListView:TLuaListView;
 	ret:TListItem;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.TopItem;
 		Result := 1;
@@ -1721,8 +1656,7 @@ var
 	lListView:TLuaListView;
 	val:TPoint;
 begin
-	CheckArg(L, 2);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lListView.ViewOrigin := val;
@@ -1738,8 +1672,7 @@ var
 	lListView:TLuaListView;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.ViewOrigin;
 		Result := 1;
@@ -1755,8 +1688,7 @@ var
 	lListView:TLuaListView;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lListView.VisibleRowCount;
 		Result := 1;

@@ -49,8 +49,7 @@ var
 	lSplitter:TLuaSplitter;
 	val:TControl;
 begin
-	CheckArg(L, 2);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lSplitter.ResizeControl := val;
@@ -66,8 +65,7 @@ var
 	lSplitter:TLuaSplitter;
 	ret:TControl;
 begin
-	CheckArg(L, 1);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lSplitter.ResizeControl;
 		Result := 1;
@@ -151,8 +149,7 @@ var
 	lSplitter:TLuaSplitter;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lSplitter.AutoSnap := val;
@@ -168,8 +165,7 @@ var
 	lSplitter:TLuaSplitter;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lSplitter.AutoSnap;
 		Result := 1;
@@ -185,8 +181,7 @@ var
 	lSplitter:TLuaSplitter;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lSplitter.Beveled := val;
@@ -202,8 +197,7 @@ var
 	lSplitter:TLuaSplitter;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lSplitter.Beveled;
 		Result := 1;
@@ -219,8 +213,7 @@ var
 	lSplitter:TLuaSplitter;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lSplitter.MinSize := val;
@@ -236,8 +229,7 @@ var
 	lSplitter:TLuaSplitter;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lSplitter.MinSize;
 		Result := 1;
@@ -252,8 +244,7 @@ function VCLua_Splitter_VCLuaSetOnCanOffset(L: Plua_State): Integer; cdecl;
 var
 	lSplitter:TLuaSplitter;
 begin
-	CheckArg(L, 2);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lSplitter.OnCanOffset));
 	lSplitter.OnCanOffset := TLuaEvent.Factory<TCanOffsetEvent,TLuaCanOffsetEvent>(L);
 	Result := 0;
@@ -263,8 +254,7 @@ function VCLua_Splitter_VCLuaSetOnCanResize(L: Plua_State): Integer; cdecl;
 var
 	lSplitter:TLuaSplitter;
 begin
-	CheckArg(L, 2);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lSplitter.OnCanResize));
 	lSplitter.OnCanResize := TLuaEvent.Factory<TCanResizeEvent,TLuaCanResizeEvent>(L);
 	Result := 0;
@@ -274,8 +264,7 @@ function VCLua_Splitter_VCLuaSetOnMoved(L: Plua_State): Integer; cdecl;
 var
 	lSplitter:TLuaSplitter;
 begin
-	CheckArg(L, 2);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lSplitter.OnMoved));
 	lSplitter.OnMoved := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -286,8 +275,7 @@ var
 	lSplitter:TLuaSplitter;
 	val:TAnchorKind;
 begin
-	CheckArg(L, 2);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TAnchorKind));
 	try
 		lSplitter.ResizeAnchor := val;
@@ -303,8 +291,7 @@ var
 	lSplitter:TLuaSplitter;
 	ret:TAnchorKind;
 begin
-	CheckArg(L, 1);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lSplitter.ResizeAnchor;
 		Result := 1;
@@ -320,8 +307,7 @@ var
 	lSplitter:TLuaSplitter;
 	val:TResizeStyle;
 begin
-	CheckArg(L, 2);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TResizeStyle));
 	try
 		lSplitter.ResizeStyle := val;
@@ -337,8 +323,7 @@ var
 	lSplitter:TLuaSplitter;
 	ret:TResizeStyle;
 begin
-	CheckArg(L, 1);
-	lSplitter := TLuaSplitter(GetLuaObject(L, 1));
+	lSplitter := TLuaSplitter(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lSplitter.ResizeStyle;
 		Result := 1;

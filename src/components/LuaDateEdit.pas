@@ -26,8 +26,7 @@ function VCLua_DateEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
 var
 	lDateEdit:TLuaDateEdit;
 begin
-	CheckArg(L, 2);
-	lDateEdit := TLuaDateEdit(GetLuaObject(L, 1));
+	lDateEdit := TLuaDateEdit(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lDateEdit.OnButtonClick));
 	lDateEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

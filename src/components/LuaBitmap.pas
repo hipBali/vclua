@@ -210,8 +210,7 @@ var
 	lCustomBitmap:TLuaCustomBitmap;
 	val:TBitmapHandleType;
 begin
-	CheckArg(L, 2);
-	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
+	lCustomBitmap := TLuaCustomBitmap(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TBitmapHandleType));
 	try
 		lCustomBitmap.HandleType := val;
@@ -227,8 +226,7 @@ var
 	lCustomBitmap:TLuaCustomBitmap;
 	ret:TBitmapHandleType;
 begin
-	CheckArg(L, 1);
-	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
+	lCustomBitmap := TLuaCustomBitmap(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCustomBitmap.HandleType;
 		Result := 1;
@@ -244,8 +242,7 @@ var
 	lCustomBitmap:TLuaCustomBitmap;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
+	lCustomBitmap := TLuaCustomBitmap(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCustomBitmap.Monochrome := val;
@@ -261,8 +258,7 @@ var
 	lCustomBitmap:TLuaCustomBitmap;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lCustomBitmap := TLuaCustomBitmap(GetLuaObject(L, 1));
+	lCustomBitmap := TLuaCustomBitmap(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCustomBitmap.Monochrome;
 		Result := 1;

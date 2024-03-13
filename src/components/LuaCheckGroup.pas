@@ -64,8 +64,7 @@ var
 	lCheckGroup:TLuaCheckGroup;
 	val:boolean;
 begin
-	CheckArg(L, 2);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCheckGroup.AutoFill := val;
@@ -81,8 +80,7 @@ var
 	lCheckGroup:TLuaCheckGroup;
 	ret:boolean;
 begin
-	CheckArg(L, 1);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckGroup.AutoFill;
 		Result := 1;
@@ -98,8 +96,7 @@ var
 	lCheckGroup:TLuaCheckGroup;
 	val:TStrings;
 begin
-	CheckArg(L, 2);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCheckGroup.Items := val;
@@ -115,8 +112,7 @@ var
 	lCheckGroup:TLuaCheckGroup;
 	ret:TStrings;
 begin
-	CheckArg(L, 1);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckGroup.Items;
 		Result := 1;
@@ -182,8 +178,7 @@ var
 	lCheckGroup:TLuaCheckGroup;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCheckGroup.Columns := val;
@@ -199,8 +194,7 @@ var
 	lCheckGroup:TLuaCheckGroup;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckGroup.Columns;
 		Result := 1;
@@ -216,8 +210,7 @@ var
 	lCheckGroup:TLuaCheckGroup;
 	val:TColumnLayout;
 begin
-	CheckArg(L, 2);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TColumnLayout));
 	try
 		lCheckGroup.ColumnLayout := val;
@@ -233,8 +226,7 @@ var
 	lCheckGroup:TLuaCheckGroup;
 	ret:TColumnLayout;
 begin
-	CheckArg(L, 1);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCheckGroup.ColumnLayout;
 		Result := 1;
@@ -249,8 +241,7 @@ function VCLua_CheckGroup_VCLuaSetOnItemClick(L: Plua_State): Integer; cdecl;
 var
 	lCheckGroup:TLuaCheckGroup;
 begin
-	CheckArg(L, 2);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCheckGroup.OnItemClick));
 	lCheckGroup.OnItemClick := TLuaEvent.Factory<TCheckGroupClicked,TLuaCheckGroupClicked>(L);
 	Result := 0;

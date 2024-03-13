@@ -81,8 +81,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lRadioGroup.AutoFill := val;
@@ -98,8 +97,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRadioGroup.AutoFill;
 		Result := 1;
@@ -115,8 +113,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lRadioGroup.ItemIndex := val;
@@ -132,8 +129,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRadioGroup.ItemIndex;
 		Result := 1;
@@ -149,8 +145,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	val:TStrings;
 begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lRadioGroup.Items := val;
@@ -166,8 +161,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	ret:TStrings;
 begin
-	CheckArg(L, 1);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRadioGroup.Items;
 		Result := 1;
@@ -183,8 +177,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lRadioGroup.Columns := val;
@@ -200,8 +193,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRadioGroup.Columns;
 		Result := 1;
@@ -217,8 +209,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	val:TColumnLayout;
 begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TColumnLayout));
 	try
 		lRadioGroup.ColumnLayout := val;
@@ -234,8 +225,7 @@ var
 	lRadioGroup:TLuaRadioGroup;
 	ret:TColumnLayout;
 begin
-	CheckArg(L, 1);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lRadioGroup.ColumnLayout;
 		Result := 1;
@@ -250,8 +240,7 @@ function VCLua_RadioGroup_VCLuaSetOnClick(L: Plua_State): Integer; cdecl;
 var
 	lRadioGroup:TLuaRadioGroup;
 begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lRadioGroup.OnClick));
 	lRadioGroup.OnClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -261,8 +250,7 @@ function VCLua_RadioGroup_VCLuaSetOnItemEnter(L: Plua_State): Integer; cdecl;
 var
 	lRadioGroup:TLuaRadioGroup;
 begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lRadioGroup.OnItemEnter));
 	lRadioGroup.OnItemEnter := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -272,8 +260,7 @@ function VCLua_RadioGroup_VCLuaSetOnItemExit(L: Plua_State): Integer; cdecl;
 var
 	lRadioGroup:TLuaRadioGroup;
 begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lRadioGroup.OnItemExit));
 	lRadioGroup.OnItemExit := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -283,8 +270,7 @@ function VCLua_RadioGroup_VCLuaSetOnSelectionChanged(L: Plua_State): Integer; cd
 var
 	lRadioGroup:TLuaRadioGroup;
 begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
+	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lRadioGroup.OnSelectionChanged));
 	lRadioGroup.OnSelectionChanged := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

@@ -187,8 +187,7 @@ function VCLua_Picture_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lPicture:TLuaPicture;
 begin
-	CheckArg(L, 2);
-	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	lPicture := TLuaPicture(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lPicture.OnChange));
 	lPicture.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -198,8 +197,7 @@ function VCLua_Picture_VCLuaSetOnProgress(L: Plua_State): Integer; cdecl;
 var
 	lPicture:TLuaPicture;
 begin
-	CheckArg(L, 2);
-	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	lPicture := TLuaPicture(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lPicture.OnProgress));
 	lPicture.OnProgress := TLuaEvent.Factory<TProgressEvent,TLuaFPImgProgressEvent>(L);
 	Result := 0;

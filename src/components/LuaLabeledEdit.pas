@@ -30,8 +30,7 @@ var
 	lLabeledEdit:TLuaLabeledEdit;
 	ret:TBoundLabel;
 begin
-	CheckArg(L, 1);
-	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lLabeledEdit.EditLabel;
 		Result := 1;
@@ -47,8 +46,7 @@ var
 	lLabeledEdit:TLuaLabeledEdit;
 	val:TLabelPosition;
 begin
-	CheckArg(L, 2);
-	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TLabelPosition));
 	try
 		lLabeledEdit.LabelPosition := val;
@@ -64,8 +62,7 @@ var
 	lLabeledEdit:TLuaLabeledEdit;
 	ret:TLabelPosition;
 begin
-	CheckArg(L, 1);
-	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lLabeledEdit.LabelPosition;
 		Result := 1;
@@ -81,8 +78,7 @@ var
 	lLabeledEdit:TLuaLabeledEdit;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lLabeledEdit.LabelSpacing := val;
@@ -98,8 +94,7 @@ var
 	lLabeledEdit:TLuaLabeledEdit;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lLabeledEdit := TLuaLabeledEdit(GetLuaObject(L, 1));
+	lLabeledEdit := TLuaLabeledEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lLabeledEdit.LabelSpacing;
 		Result := 1;

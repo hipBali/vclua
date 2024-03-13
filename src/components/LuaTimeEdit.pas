@@ -26,8 +26,7 @@ function VCLua_TimeEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
 var
 	lTimeEdit:TLuaTimeEdit;
 begin
-	CheckArg(L, 2);
-	lTimeEdit := TLuaTimeEdit(GetLuaObject(L, 1));
+	lTimeEdit := TLuaTimeEdit(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lTimeEdit.OnButtonClick));
 	lTimeEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

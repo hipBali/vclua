@@ -152,8 +152,7 @@ var
 	lEdit:TLuaEdit;
 	val:TAlignment;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TAlignment));
 	try
 		lEdit.Alignment := val;
@@ -169,8 +168,7 @@ var
 	lEdit:TLuaEdit;
 	ret:TAlignment;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.Alignment;
 		Result := 1;
@@ -186,8 +184,7 @@ var
 	lEdit:TLuaEdit;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.CanUndo;
 		Result := 1;
@@ -203,8 +200,7 @@ var
 	lEdit:TLuaEdit;
 	val:TPoint;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.CaretPos := val;
@@ -220,8 +216,7 @@ var
 	lEdit:TLuaEdit;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.CaretPos;
 		Result := 1;
@@ -237,8 +232,7 @@ var
 	lEdit:TLuaEdit;
 	val:TEditCharCase;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TEditCharCase));
 	try
 		lEdit.CharCase := val;
@@ -254,8 +248,7 @@ var
 	lEdit:TLuaEdit;
 	ret:TEditCharCase;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.CharCase;
 		Result := 1;
@@ -271,8 +264,7 @@ var
 	lEdit:TLuaEdit;
 	val:TEchoMode;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TEchoMode));
 	try
 		lEdit.EchoMode := val;
@@ -288,8 +280,7 @@ var
 	lEdit:TLuaEdit;
 	ret:TEchoMode;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.EchoMode;
 		Result := 1;
@@ -305,8 +296,7 @@ var
 	lEdit:TLuaEdit;
 	ret:TEmulatedTextHintStatus;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.EmulatedTextHintStatus;
 		Result := 1;
@@ -322,8 +312,7 @@ var
 	lEdit:TLuaEdit;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.HideSelection := val;
@@ -339,8 +328,7 @@ var
 	lEdit:TLuaEdit;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.HideSelection;
 		Result := 1;
@@ -356,8 +344,7 @@ var
 	lEdit:TLuaEdit;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.MaxLength := val;
@@ -373,8 +360,7 @@ var
 	lEdit:TLuaEdit;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.MaxLength;
 		Result := 1;
@@ -390,8 +376,7 @@ var
 	lEdit:TLuaEdit;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.Modified := val;
@@ -407,8 +392,7 @@ var
 	lEdit:TLuaEdit;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.Modified;
 		Result := 1;
@@ -424,8 +408,7 @@ var
 	lEdit:TLuaEdit;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.NumbersOnly := val;
@@ -441,8 +424,7 @@ var
 	lEdit:TLuaEdit;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.NumbersOnly;
 		Result := 1;
@@ -457,8 +439,7 @@ function VCLua_Edit_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lEdit:TLuaEdit;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lEdit.OnChange));
 	lEdit.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -469,8 +450,7 @@ var
 	lEdit:TLuaEdit;
 	val:Char;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.PasswordChar := val;
@@ -486,8 +466,7 @@ var
 	lEdit:TLuaEdit;
 	ret:Char;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.PasswordChar;
 		Result := 1;
@@ -503,8 +482,7 @@ var
 	lEdit:TLuaEdit;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.ReadOnly := val;
@@ -520,8 +498,7 @@ var
 	lEdit:TLuaEdit;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.ReadOnly;
 		Result := 1;
@@ -537,8 +514,7 @@ var
 	lEdit:TLuaEdit;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.SelLength := val;
@@ -554,8 +530,7 @@ var
 	lEdit:TLuaEdit;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.SelLength;
 		Result := 1;
@@ -571,8 +546,7 @@ var
 	lEdit:TLuaEdit;
 	val:integer;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.SelStart := val;
@@ -588,8 +562,7 @@ var
 	lEdit:TLuaEdit;
 	ret:integer;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.SelStart;
 		Result := 1;
@@ -605,8 +578,7 @@ var
 	lEdit:TLuaEdit;
 	val:String;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.SelText := val;
@@ -622,8 +594,7 @@ var
 	lEdit:TLuaEdit;
 	ret:String;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.SelText;
 		Result := 1;
@@ -639,8 +610,7 @@ var
 	lEdit:TLuaEdit;
 	val:TTranslateString;
 begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lEdit.TextHint := val;
@@ -656,8 +626,7 @@ var
 	lEdit:TLuaEdit;
 	ret:TTranslateString;
 begin
-	CheckArg(L, 1);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
+	lEdit := TLuaEdit(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lEdit.TextHint;
 		Result := 1;

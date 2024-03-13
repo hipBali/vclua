@@ -120,8 +120,7 @@ var
 	lContainedAction:TLuaContainedAction;
 	val:TCustomActionList;
 begin
-	CheckArg(L, 2);
-	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
+	lContainedAction := TLuaContainedAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lContainedAction.ActionList := val;
@@ -137,8 +136,7 @@ var
 	lContainedAction:TLuaContainedAction;
 	ret:TCustomActionList;
 begin
-	CheckArg(L, 1);
-	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
+	lContainedAction := TLuaContainedAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lContainedAction.ActionList;
 		Result := 1;
@@ -154,8 +152,7 @@ var
 	lContainedAction:TLuaContainedAction;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
+	lContainedAction := TLuaContainedAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lContainedAction.Index := val;
@@ -171,8 +168,7 @@ var
 	lContainedAction:TLuaContainedAction;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
+	lContainedAction := TLuaContainedAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lContainedAction.Index;
 		Result := 1;
@@ -244,8 +240,7 @@ var
 	lAction:TLuaAction;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.AutoCheck := val;
@@ -261,8 +256,7 @@ var
 	lAction:TLuaAction;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.AutoCheck;
 		Result := 1;
@@ -278,8 +272,7 @@ var
 	lAction:TLuaAction;
 	val:TTranslateString;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.Caption := val;
@@ -295,8 +288,7 @@ var
 	lAction:TLuaAction;
 	ret:TTranslateString;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.Caption;
 		Result := 1;
@@ -312,8 +304,7 @@ var
 	lAction:TLuaAction;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.Checked := val;
@@ -329,8 +320,7 @@ var
 	lAction:TLuaAction;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.Checked;
 		Result := 1;
@@ -346,8 +336,7 @@ var
 	lAction:TLuaAction;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.DisableIfNoHandler := val;
@@ -363,8 +352,7 @@ var
 	lAction:TLuaAction;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.DisableIfNoHandler;
 		Result := 1;
@@ -380,8 +368,7 @@ var
 	lAction:TLuaAction;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.Enabled := val;
@@ -397,8 +384,7 @@ var
 	lAction:TLuaAction;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.Enabled;
 		Result := 1;
@@ -414,8 +400,7 @@ var
 	lAction:TLuaAction;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.GroupIndex := val;
@@ -431,8 +416,7 @@ var
 	lAction:TLuaAction;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.GroupIndex;
 		Result := 1;
@@ -448,8 +432,7 @@ var
 	lAction:TLuaAction;
 	val:THelpContext;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.HelpContext := val;
@@ -465,8 +448,7 @@ var
 	lAction:TLuaAction;
 	ret:THelpContext;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.HelpContext;
 		Result := 1;
@@ -482,8 +464,7 @@ var
 	lAction:TLuaAction;
 	val:string;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.HelpKeyword := val;
@@ -499,8 +480,7 @@ var
 	lAction:TLuaAction;
 	ret:string;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.HelpKeyword;
 		Result := 1;
@@ -516,8 +496,7 @@ var
 	lAction:TLuaAction;
 	val:THelpType;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(THelpType));
 	try
 		lAction.HelpType := val;
@@ -533,8 +512,7 @@ var
 	lAction:TLuaAction;
 	ret:THelpType;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.HelpType;
 		Result := 1;
@@ -550,8 +528,7 @@ var
 	lAction:TLuaAction;
 	val:TTranslateString;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.Hint := val;
@@ -567,8 +544,7 @@ var
 	lAction:TLuaAction;
 	ret:TTranslateString;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.Hint;
 		Result := 1;
@@ -584,8 +560,7 @@ var
 	lAction:TLuaAction;
 	val:TImageIndex;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.ImageIndex := val;
@@ -601,8 +576,7 @@ var
 	lAction:TLuaAction;
 	ret:TImageIndex;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.ImageIndex;
 		Result := 1;
@@ -617,8 +591,7 @@ function VCLua_Action_VCLuaSetOnHint(L: Plua_State): Integer; cdecl;
 var
 	lAction:TLuaAction;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lAction.OnHint));
 	lAction.OnHint := TLuaEvent.Factory<THintEvent,TLuaHintEvent>(L);
 	Result := 0;
@@ -629,8 +602,7 @@ var
 	lAction:TLuaAction;
 	val:TShortCutList;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.SecondaryShortCuts := val;
@@ -646,8 +618,7 @@ var
 	lAction:TLuaAction;
 	ret:TShortCutList;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.SecondaryShortCuts;
 		Result := 1;
@@ -663,8 +634,7 @@ var
 	lAction:TLuaAction;
 	val:TShortCut;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkShortCut(L,2);
 	try
 		lAction.ShortCut := val;
@@ -680,8 +650,7 @@ var
 	lAction:TLuaAction;
 	ret:TShortCut;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.ShortCut;
 		Result := 1;
@@ -697,8 +666,7 @@ var
 	lAction:TLuaAction;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lAction.Visible := val;
@@ -714,8 +682,7 @@ var
 	lAction:TLuaAction;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lAction.Visible;
 		Result := 1;
@@ -730,8 +697,7 @@ function VCLua_ActionList_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lActionList:TLuaActionList;
 begin
-	CheckArg(L, 2);
-	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	lActionList := TLuaActionList(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lActionList.OnChange));
 	lActionList.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -741,8 +707,7 @@ function VCLua_ActionList_VCLuaSetOnExecute(L: Plua_State): Integer; cdecl;
 var
 	lActionList:TLuaActionList;
 begin
-	CheckArg(L, 2);
-	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	lActionList := TLuaActionList(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lActionList.OnExecute));
 	lActionList.OnExecute := TLuaEvent.Factory<TActionEvent,TLuaActionEvent>(L);
 	Result := 0;
@@ -752,8 +717,7 @@ function VCLua_ActionList_VCLuaSetOnUpdate(L: Plua_State): Integer; cdecl;
 var
 	lActionList:TLuaActionList;
 begin
-	CheckArg(L, 2);
-	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	lActionList := TLuaActionList(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lActionList.OnUpdate));
 	lActionList.OnUpdate := TLuaEvent.Factory<TActionEvent,TLuaActionEvent>(L);
 	Result := 0;
@@ -865,8 +829,7 @@ var
 	lActionList:TLuaActionList;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	lActionList := TLuaActionList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lActionList.ActionCount;
 		Result := 1;
@@ -882,8 +845,7 @@ var
 	lActionList:TLuaActionList;
 	val:TCustomImageList;
 begin
-	CheckArg(L, 2);
-	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	lActionList := TLuaActionList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lActionList.Images := val;
@@ -899,8 +861,7 @@ var
 	lActionList:TLuaActionList;
 	ret:TCustomImageList;
 begin
-	CheckArg(L, 1);
-	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	lActionList := TLuaActionList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lActionList.Images;
 		Result := 1;
@@ -916,8 +877,7 @@ var
 	lActionList:TLuaActionList;
 	val:TActionListState;
 begin
-	CheckArg(L, 2);
-	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	lActionList := TLuaActionList(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TActionListState));
 	try
 		lActionList.State := val;
@@ -933,8 +893,7 @@ var
 	lActionList:TLuaActionList;
 	ret:TActionListState;
 begin
-	CheckArg(L, 1);
-	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	lActionList := TLuaActionList(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lActionList.State;
 		Result := 1;

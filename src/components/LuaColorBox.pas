@@ -30,8 +30,7 @@ var
 	lColorBox:TLuaColorBox;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lColorBox.ColorRectWidth := val;
@@ -47,8 +46,7 @@ var
 	lColorBox:TLuaColorBox;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lColorBox.ColorRectWidth;
 		Result := 1;
@@ -64,8 +62,7 @@ var
 	lColorBox:TLuaColorBox;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lColorBox.ColorRectOffset := val;
@@ -81,8 +78,7 @@ var
 	lColorBox:TLuaColorBox;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lColorBox.ColorRectOffset;
 		Result := 1;
@@ -136,8 +132,7 @@ var
 	lColorBox:TLuaColorBox;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lColorBox.Selected := val;
@@ -153,8 +148,7 @@ var
 	lColorBox:TLuaColorBox;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lColorBox.Selected;
 		Result := 1;
@@ -170,8 +164,7 @@ var
 	lColorBox:TLuaColorBox;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lColorBox.DefaultColorColor := val;
@@ -187,8 +180,7 @@ var
 	lColorBox:TLuaColorBox;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lColorBox.DefaultColorColor;
 		Result := 1;
@@ -204,8 +196,7 @@ var
 	lColorBox:TLuaColorBox;
 	val:TColor;
 begin
-	CheckArg(L, 2);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	val := luaL_checkColor(L,2);
 	try
 		lColorBox.NoneColorColor := val;
@@ -221,8 +212,7 @@ var
 	lColorBox:TLuaColorBox;
 	ret:TColor;
 begin
-	CheckArg(L, 1);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lColorBox.NoneColorColor;
 		Result := 1;
@@ -237,8 +227,7 @@ function VCLua_ColorBox_VCLuaSetOnGetColors(L: Plua_State): Integer; cdecl;
 var
 	lColorBox:TLuaColorBox;
 begin
-	CheckArg(L, 2);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lColorBox.OnGetColors));
 	lColorBox.OnGetColors := TLuaEvent.Factory<TGetColorsEvent,TLuaGetColorsEvent>(L);
 	Result := 0;
@@ -249,8 +238,7 @@ var
 	lColorBox:TLuaColorBox;
 	val:TcolorDialog;
 begin
-	CheckArg(L, 2);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lColorBox.ColorDialog := val;
@@ -266,8 +254,7 @@ var
 	lColorBox:TLuaColorBox;
 	ret:TcolorDialog;
 begin
-	CheckArg(L, 1);
-	lColorBox := TLuaColorBox(GetLuaObject(L, 1));
+	lColorBox := TLuaColorBox(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lColorBox.ColorDialog;
 		Result := 1;

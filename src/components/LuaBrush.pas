@@ -64,8 +64,7 @@ var
 	lBrush:TLuaBrush;
 	val:TCustomBitmap;
 begin
-	CheckArg(L, 2);
-	lBrush := TLuaBrush(GetLuaObject(L, 1));
+	lBrush := TLuaBrush(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lBrush.Bitmap := val;
@@ -81,8 +80,7 @@ var
 	lBrush:TLuaBrush;
 	ret:TCustomBitmap;
 begin
-	CheckArg(L, 1);
-	lBrush := TLuaBrush(GetLuaObject(L, 1));
+	lBrush := TLuaBrush(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lBrush.Bitmap;
 		Result := 1;

@@ -85,8 +85,7 @@ var
 	lDragObject:TLuaDragObject;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDragObject.AlwaysShowDragImages := val;
@@ -102,8 +101,7 @@ var
 	lDragObject:TLuaDragObject;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragObject.AlwaysShowDragImages;
 		Result := 1;
@@ -119,8 +117,7 @@ var
 	lDragObject:TLuaDragObject;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragObject.AutoCreated;
 		Result := 1;
@@ -136,8 +133,7 @@ var
 	lDragObject:TLuaDragObject;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragObject.AutoFree;
 		Result := 1;
@@ -153,8 +149,7 @@ var
 	lDragObject:TLuaDragObject;
 	val:TPoint;
 begin
-	CheckArg(L, 2);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDragObject.DragPos := val;
@@ -170,8 +165,7 @@ var
 	lDragObject:TLuaDragObject;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragObject.DragPos;
 		Result := 1;
@@ -187,8 +181,7 @@ var
 	lDragObject:TLuaDragObject;
 	val:TControl;
 begin
-	CheckArg(L, 2);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDragObject.DragTarget := val;
@@ -204,8 +197,7 @@ var
 	lDragObject:TLuaDragObject;
 	ret:TControl;
 begin
-	CheckArg(L, 1);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragObject.DragTarget;
 		Result := 1;
@@ -221,8 +213,7 @@ var
 	lDragObject:TLuaDragObject;
 	val:TPoint;
 begin
-	CheckArg(L, 2);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDragObject.DragTargetPos := val;
@@ -238,8 +229,7 @@ var
 	lDragObject:TLuaDragObject;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragObject.DragTargetPos;
 		Result := 1;
@@ -255,8 +245,7 @@ var
 	lDragObject:TLuaDragObject;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lDragObject := TLuaDragObject(GetLuaObject(L, 1));
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragObject.Dropped;
 		Result := 1;
@@ -272,8 +261,7 @@ var
 	lDragDockObject:TLuaDragDockObject;
 	val:TPoint;
 begin
-	CheckArg(L, 2);
-	lDragDockObject := TLuaDragDockObject(GetLuaObject(L, 1));
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDragDockObject.DockOffset := val;
@@ -289,8 +277,7 @@ var
 	lDragDockObject:TLuaDragDockObject;
 	ret:TPoint;
 begin
-	CheckArg(L, 1);
-	lDragDockObject := TLuaDragDockObject(GetLuaObject(L, 1));
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragDockObject.DockOffset;
 		Result := 1;
@@ -306,8 +293,7 @@ var
 	lDragDockObject:TLuaDragDockObject;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lDragDockObject := TLuaDragDockObject(GetLuaObject(L, 1));
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDragDockObject.Floating := val;
@@ -323,8 +309,7 @@ var
 	lDragDockObject:TLuaDragDockObject;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lDragDockObject := TLuaDragDockObject(GetLuaObject(L, 1));
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragDockObject.Floating;
 		Result := 1;
@@ -340,8 +325,7 @@ var
 	lDragDockObject:TLuaDragDockObject;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lDragDockObject := TLuaDragDockObject(GetLuaObject(L, 1));
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragDockObject.IncreaseDockArea;
 		Result := 1;
@@ -357,8 +341,7 @@ var
 	lDragDockObject:TLuaDragDockObject;
 	val:TRect;
 begin
-	CheckArg(L, 2);
-	lDragDockObject := TLuaDragDockObject(GetLuaObject(L, 1));
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDragDockObject.EraseDockRect := val;
@@ -374,8 +357,7 @@ var
 	lDragDockObject:TLuaDragDockObject;
 	ret:TRect;
 begin
-	CheckArg(L, 1);
-	lDragDockObject := TLuaDragDockObject(GetLuaObject(L, 1));
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDragDockObject.EraseDockRect;
 		Result := 1;
@@ -601,8 +583,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:TControl;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.ChildControl;
 		Result := 1;
@@ -618,8 +599,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.ChildCount;
 		Result := 1;
@@ -635,8 +615,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:TDockZone;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.FirstChild;
 		Result := 1;
@@ -652,8 +631,7 @@ var
 	lDockZone:TLuaDockZone;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDockZone.Height := val;
@@ -669,8 +647,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.Height;
 		Result := 1;
@@ -686,8 +663,7 @@ var
 	lDockZone:TLuaDockZone;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDockZone.Left := val;
@@ -703,8 +679,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.Left;
 		Result := 1;
@@ -720,8 +695,7 @@ var
 	lDockZone:TLuaDockZone;
 	val:TDockOrientation;
 begin
-	CheckArg(L, 2);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TDockOrientation));
 	try
 		lDockZone.Orientation := val;
@@ -737,8 +711,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:TDockOrientation;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.Orientation;
 		Result := 1;
@@ -754,8 +727,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:TDockZone;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.Parent;
 		Result := 1;
@@ -771,8 +743,7 @@ var
 	lDockZone:TLuaDockZone;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDockZone.Top := val;
@@ -788,8 +759,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.Top;
 		Result := 1;
@@ -805,8 +775,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:TDockTree;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.Tree;
 		Result := 1;
@@ -822,8 +791,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.Visible;
 		Result := 1;
@@ -839,8 +807,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.VisibleChildCount;
 		Result := 1;
@@ -856,8 +823,7 @@ var
 	lDockZone:TLuaDockZone;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDockZone.Width := val;
@@ -873,8 +839,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.Width;
 		Result := 1;
@@ -890,8 +855,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:TDockZone;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.NextSibling;
 		Result := 1;
@@ -907,8 +871,7 @@ var
 	lDockZone:TLuaDockZone;
 	ret:TDockZone;
 begin
-	CheckArg(L, 1);
-	lDockZone := TLuaDockZone(GetLuaObject(L, 1));
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockZone.PrevSibling;
 		Result := 1;
@@ -1182,8 +1145,7 @@ var
 	lDockTree:TLuaDockTree;
 	val:TWinControl;
 begin
-	CheckArg(L, 2);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
+	lDockTree := TLuaDockTree(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lDockTree.DockSite := val;
@@ -1199,8 +1161,7 @@ var
 	lDockTree:TLuaDockTree;
 	ret:TWinControl;
 begin
-	CheckArg(L, 1);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
+	lDockTree := TLuaDockTree(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockTree.DockSite;
 		Result := 1;
@@ -1216,8 +1177,7 @@ var
 	lDockTree:TLuaDockTree;
 	ret:TDockZone;
 begin
-	CheckArg(L, 1);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
+	lDockTree := TLuaDockTree(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lDockTree.RootZone;
 		Result := 1;

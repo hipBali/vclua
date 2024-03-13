@@ -26,8 +26,7 @@ function VCLua_FileNameEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl
 var
 	lFileNameEdit:TLuaFileNameEdit;
 begin
-	CheckArg(L, 2);
-	lFileNameEdit := TLuaFileNameEdit(GetLuaObject(L, 1));
+	lFileNameEdit := TLuaFileNameEdit(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lFileNameEdit.OnButtonClick));
 	lFileNameEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

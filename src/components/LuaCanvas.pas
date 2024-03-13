@@ -1025,8 +1025,7 @@ var
 	lCanvas:TLuaCanvas;
 	val:TTextStyle;
 begin
-	CheckArg(L, 2);
-	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	lCanvas := TLuaCanvas(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCanvas.TextStyle := val;
@@ -1042,8 +1041,7 @@ var
 	lCanvas:TLuaCanvas;
 	ret:TTextStyle;
 begin
-	CheckArg(L, 1);
-	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	lCanvas := TLuaCanvas(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCanvas.TextStyle;
 		Result := 1;
@@ -1058,8 +1056,7 @@ function VCLua_Canvas_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lCanvas:TLuaCanvas;
 begin
-	CheckArg(L, 2);
-	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	lCanvas := TLuaCanvas(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCanvas.OnChange));
 	lCanvas.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
@@ -1069,8 +1066,7 @@ function VCLua_Canvas_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
 var
 	lCanvas:TLuaCanvas;
 begin
-	CheckArg(L, 2);
-	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	lCanvas := TLuaCanvas(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCanvas.OnChanging));
 	lCanvas.OnChanging := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;

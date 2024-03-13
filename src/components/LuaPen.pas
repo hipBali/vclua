@@ -45,8 +45,7 @@ var
 	lPen:TLuaPen;
 	val:HPEN;
 begin
-	CheckArg(L, 2);
-	lPen := TLuaPen(GetLuaObject(L, 1));
+	lPen := TLuaPen(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lPen.Handle := val;
@@ -62,8 +61,7 @@ var
 	lPen:TLuaPen;
 	ret:HPEN;
 begin
-	CheckArg(L, 1);
-	lPen := TLuaPen(GetLuaObject(L, 1));
+	lPen := TLuaPen(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lPen.Handle;
 		Result := 1;

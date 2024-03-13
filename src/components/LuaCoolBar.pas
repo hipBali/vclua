@@ -134,8 +134,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:TBorderStyle;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TBorderStyle));
 	try
 		lCoolBar.BandBorderStyle := val;
@@ -151,8 +150,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:TBorderStyle;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.BandBorderStyle;
 		Result := 1;
@@ -168,8 +166,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:TCoolBandMaximize;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TCoolBandMaximize));
 	try
 		lCoolBar.BandMaximize := val;
@@ -185,8 +182,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:TCoolBandMaximize;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.BandMaximize;
 		Result := 1;
@@ -202,8 +198,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:TBitmap;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.Bitmap := val;
@@ -219,8 +214,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:TBitmap;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.Bitmap;
 		Result := 1;
@@ -236,8 +230,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.FixedSize := val;
@@ -253,8 +246,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.FixedSize;
 		Result := 1;
@@ -270,8 +262,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.FixedOrder := val;
@@ -287,8 +278,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.FixedOrder;
 		Result := 1;
@@ -304,8 +294,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:TGrabStyle;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val,TypeInfo(TGrabStyle));
 	try
 		lCoolBar.GrabStyle := val;
@@ -321,8 +310,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:TGrabStyle;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.GrabStyle;
 		Result := 1;
@@ -338,8 +326,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.GrabWidth := val;
@@ -355,8 +342,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.GrabWidth;
 		Result := 1;
@@ -372,8 +358,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.HorizontalSpacing := val;
@@ -389,8 +374,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.HorizontalSpacing;
 		Result := 1;
@@ -406,8 +390,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:TCustomImageList;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.Images := val;
@@ -423,8 +406,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:TCustomImageList;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.Images;
 		Result := 1;
@@ -440,8 +422,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.ImagesWidth := val;
@@ -457,8 +438,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.ImagesWidth;
 		Result := 1;
@@ -474,8 +454,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.ShowText := val;
@@ -491,8 +470,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.ShowText;
 		Result := 1;
@@ -508,8 +486,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.Themed := val;
@@ -525,8 +502,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.Themed;
 		Result := 1;
@@ -542,8 +518,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:Boolean;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.Vertical := val;
@@ -559,8 +534,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:Boolean;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.Vertical;
 		Result := 1;
@@ -576,8 +550,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	val:Integer;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
 	try
 		lCoolBar.VerticalSpacing := val;
@@ -593,8 +566,7 @@ var
 	lCoolBar:TLuaCoolBar;
 	ret:Integer;
 begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	try
 		ret := lCoolBar.VerticalSpacing;
 		Result := 1;
@@ -609,8 +581,7 @@ function VCLua_CoolBar_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lCoolBar:TLuaCoolBar;
 begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
+	lCoolBar := TLuaCoolBar(GetLuaObjectUnsafe(L, 1));
 	TLuaEvent.MaybeFree(TLuaCb(lCoolBar.OnChange));
 	lCoolBar.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
