@@ -34,6 +34,11 @@ var res:string;
   i,j:integer;
   cur,curSets:PLuaVmt;
 begin
+  luaL_newmetatable(L, 'VCLO');
+  i := lua_gettop(L);
+  LuaSetTableFunctionAbs(L, i, '__index', @LuaGetProperty);
+  LuaSetTableFunctionAbs(L, i, '__newindex', @LuaSetProperty);
+  lua_pop(L, 1);
   // luaL_openlib is deprecated?
   {$IFNDEF LUA51}
      luaL_newlibtable(l, vcl_lib);
@@ -96,14 +101,14 @@ begin
   for i := High(metaPtis) downto 0 do begin
       pti := metaPtis[i];
       ptiCur := GetTypeData(pti)^.ParentInfo;
-      cur := vmts[pti^.Name];
-      curSets := propSets[pti^.Name];
+      cur := vmts.Find(pti^.Name);
+      curSets := propSets.Find(pti^.Name);
       repeat
         pti := GetTypeData(pti)^.ParentInfo;
       until (pti = nil) or (vmts.Find(pti^.Name) <> nil);
       if pti <> nil then begin
-         cur^.Merge(vmts[pti^.Name]^);
-         curSets^.Merge(propSets[pti^.Name]^);
+         cur^.Merge(vmts.Find(pti^.Name));
+         curSets^.Merge(propSets.Find(pti^.Name));
          vmts.GetVmt(ptiCur);
          propSets.GetVmt(ptiCur);
       end;

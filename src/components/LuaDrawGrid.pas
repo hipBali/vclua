@@ -636,7 +636,7 @@ var
 	aRefresh:boolean;
 begin
 	CheckArg(L, 1, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
+	lCustomGrid := TLuaCustomGrid(CheckLuaObjectPop(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @aRefresh, true);
 	try
 		lCustomGrid.EndUpdate(aRefresh);

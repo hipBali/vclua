@@ -134,7 +134,7 @@ var
 	ret:boolean;
 begin
 	CheckArg(L, 2, 3);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	try
 		if lua_isnone(L, 3) then begin
@@ -159,7 +159,7 @@ var
 	ret:boolean;
 begin
 	CheckArg(L, 2, 3);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
+	lCheckGroup := TLuaCheckGroup(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	try
 		if lua_isnone(L, 3) then begin

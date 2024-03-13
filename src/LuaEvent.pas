@@ -59,8 +59,10 @@ class function TLuaEvent.Factory<ET,LT>(L: Plua_State):ET;
 begin
   if lua_isnil(L, 2) then
     Result := nil
-  else
+  else begin
+    lua_settop(L, 2);
     Result := LT.Create(L).Handler;
+  end;
 end;
 
 class procedure TLuaEvent.MaybeFree(cb: TLuaCb);

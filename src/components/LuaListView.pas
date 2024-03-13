@@ -224,7 +224,7 @@ var
 	ret:Integer;
 begin
 	CheckArg(L, 2, 3);
-	lListItem := TLuaListItem(GetLuaObject(L, 1));
+	lListItem := TLuaListItem(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AIndex);
 	try
 		if lua_isnone(L, 3) then begin
@@ -388,7 +388,7 @@ var
 	ret:TListItem;
 begin
 	CheckArg(L, 6, 7);
-	lListItems := TLuaListItems(GetLuaObject(L, 1));
+	lListItems := TLuaListItems(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@StartIndex);
 	luaL_check(L,3,@Value);
 	luaL_check(L,4,@Partial);
@@ -564,7 +564,7 @@ var
 	ret:TListItem;
 begin
 	CheckArg(L, 2, 3);
-	lListItems := TLuaListItems(GetLuaObject(L, 1));
+	lListItems := TLuaListItems(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AIndex);
 	try
 		if lua_isnone(L, 3) then begin
@@ -914,7 +914,7 @@ var
 	ret:TListItem;
 begin
 	CheckArg(L, 6, 7);
-	lListView := TLuaListView(GetLuaObject(L, 1));
+	lListView := TLuaListView(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@StartIndex);
 	luaL_check(L,3,@Value);
 	luaL_check(L,4,@Partial);

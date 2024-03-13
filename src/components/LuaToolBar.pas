@@ -137,7 +137,7 @@ var
 	WithThemeSpace:boolean;
 begin
 	CheckArg(L, 1, 3);
-	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
+	lToolButton := TLuaToolButton(CheckLuaObjectPop(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
 	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
 	try
@@ -160,7 +160,7 @@ var
 	WithThemeSpace:boolean;
 begin
 	CheckArg(L, 3, 5);
-	lToolButton := TLuaToolButton(GetLuaObject(L, 1));
+	lToolButton := TLuaToolButton(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@PreferredWidth);
 	luaL_check(L,3,@PreferredHeight);
 	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);

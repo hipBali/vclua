@@ -5,7 +5,7 @@ unit LuaVmt;
 interface
 
 uses
-  Lua, HashMap, TypInfo, SysUtils, Contnrs;
+  Lua, HashList, TypInfo, SysUtils, Contnrs;
 
 type
   TMethodFlag = (mfNone, mfCall);
@@ -18,15 +18,13 @@ type
   end;
   TLuaVmt = THashList;
   PLuaVmt = ^TLuaVmt;
-  TLuaVmts = THashMap<PLuaVmt>;
+  TLuaVmts = TFPHashList;
 
   TLuaVmtsHelper = class helper for TLuaVmts
     function GetVmt(pti: PTypeInfo):PLuaVmt;
   end;
 
-function GetPropSets(L: Plua_State; index: Integer):PLuaVmt;
-function GetPropSetsPop(L: Plua_State; index: Integer):PLuaVmt;inline;
-function HasMethod(const pvmt: PLuaVmt; const PropName:string; out mi: TLuaMethodInfo):Boolean;
+function HasMethod(const pvmt: PLuaVmt; const PropName:shortstring; out mi: TLuaMethodInfo):Boolean;
 procedure CallSetter(L: Plua_State; const mi: TLuaMethodInfo; objIndex, valIndex: Integer);
 function InheritsFrom(pti: PTypeInfo; const cName: shortstring):boolean;
 
@@ -48,31 +46,20 @@ var
   orig: PTypeInfo;
 begin
   orig := pti;
-  result := Self[pti^.Name];
+  result := Self.Find(pti^.Name);
+  if result <> nil then exit;
   while (result = nil) and (GetTypeData(pti)^.ParentInfo <> nil) do begin
     pti := GetTypeData(pti)^.ParentInfo;
-    result := Self[pti^.Name];
+    result := Self.Find(pti^.Name);
   end;
   if result <> nil then
      while orig <> pti do begin
-       Self[orig^.Name] := result;
+       Self.Add(orig^.Name, result);
        orig := GetTypeData(orig)^.ParentInfo;
      end;
 end;
 
-function GetPropSets(L: Plua_State; index: Integer):PLuaVmt;
-begin
-  lua_pushliteral(L,'propSets');
-  lua_rawget(L,index);
-  result := lua_touserdata(L,-1);
-end;
-function GetPropSetsPop(L: Plua_State; index: Integer):PLuaVmt;
-begin
-  result := GetPropSets(L, index);
-  lua_pop(L, 1);
-end;
-
-function HasMethod(const pvmt: PLuaVmt; const PropName:string; out mi: TLuaMethodInfo):Boolean;
+function HasMethod(const pvmt: PLuaVmt; const PropName:shortstring; out mi: TLuaMethodInfo):Boolean;
 begin
   if pvmt <> nil then begin
     mi := TLuaMethodInfo(pvmt^.Find(PropName));

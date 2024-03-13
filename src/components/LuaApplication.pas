@@ -32,7 +32,7 @@ var
 	CheckHintControlChange:Boolean;
 begin
 	CheckArg(L, 2, 3);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@CursorPos);
 	TTrait<Boolean>.luaL_optcheck(L, 3, @CheckHintControlChange, False);
 	try
@@ -199,7 +199,7 @@ var
 	ASystemTopAlso:Boolean;
 begin
 	CheckArg(L, 1, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(CheckLuaObjectPop(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASystemTopAlso, False);
 	try
 		lApplication.RemoveStayOnTop(ASystemTopAlso);
@@ -216,7 +216,7 @@ var
 	ASystemTopAlso:Boolean;
 begin
 	CheckArg(L, 1, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	lApplication := TLuaApplication(CheckLuaObjectPop(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @ASystemTopAlso, False);
 	try
 		lApplication.RestoreStayOnTop(ASystemTopAlso);

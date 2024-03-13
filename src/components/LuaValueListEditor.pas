@@ -242,7 +242,7 @@ var
 	SkipEmptyLines:Boolean;
 begin
 	CheckArg(L, 2, 6);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	lValueListEditor := TLuaValueListEditor(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AStream);
 	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
 	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
@@ -322,7 +322,7 @@ var
 	ACol:TVleSortCol;
 begin
 	CheckArg(L, 1, 2);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	lValueListEditor := TLuaValueListEditor(CheckLuaObjectPop(L, 1));
 	TTraitPti<TVleSortCol>.luaL_optcheck(L, 2, @ACol, colKey, TypeInfo(TVleSortCol));
 	try
 		lValueListEditor.Sort(ACol);
@@ -340,7 +340,7 @@ var
 	ret:string;
 begin
 	CheckArg(L, 2, 3);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	lValueListEditor := TLuaValueListEditor(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	try
 		if lua_isnone(L, 3) then begin
@@ -365,7 +365,7 @@ var
 	ret:string;
 begin
 	CheckArg(L, 2, 3);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
+	lValueListEditor := TLuaValueListEditor(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Key);
 	try
 		if lua_isnone(L, 3) then begin

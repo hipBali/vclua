@@ -375,7 +375,7 @@ end;
 
 procedure HLToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
-  SetDefaultMethods(L, Index, Sender);
+  PushDefaultMethods(L, Sender);
   LuaSetTableFunction(L, Index, 'SaveToFile', @SaveHLToFile);
   LuaSetTableFunction(L, Index, 'LoadFromFile', @LoadHLFromFile);
   LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
@@ -490,7 +490,7 @@ end;
 
 procedure ToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
-  SetDefaultMethods(L, Index, Sender);
+  PushDefaultMethods(L, Sender);
 
   LuaSetTableFunction(L, index, 'FindReplace', @FindReplace);
   LuaSetTableFunction(L, index, 'WordAtCursor', @WordAtCursor);

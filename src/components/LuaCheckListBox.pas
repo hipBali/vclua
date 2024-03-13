@@ -89,7 +89,7 @@ var
 	aAllowDisabled:Boolean;
 begin
 	CheckArg(L, 2, 4);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	lCheckListBox := TLuaCheckListBox(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AState,TypeInfo(TCheckBoxState));
 	TTrait<Boolean>.luaL_optcheck(L, 3, @aAllowGrayed, True);
 	TTrait<Boolean>.luaL_optcheck(L, 4, @aAllowDisabled, True);
@@ -162,7 +162,7 @@ var
 	ret:Boolean;
 begin
 	CheckArg(L, 2, 3);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	lCheckListBox := TLuaCheckListBox(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AIndex);
 	try
 		if lua_isnone(L, 3) then begin
@@ -187,7 +187,7 @@ var
 	ret:Boolean;
 begin
 	CheckArg(L, 2, 3);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	lCheckListBox := TLuaCheckListBox(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AIndex);
 	try
 		if lua_isnone(L, 3) then begin
@@ -212,7 +212,7 @@ var
 	ret:Boolean;
 begin
 	CheckArg(L, 2, 3);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	lCheckListBox := TLuaCheckListBox(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AIndex);
 	try
 		if lua_isnone(L, 3) then begin
@@ -237,7 +237,7 @@ var
 	ret:TCheckBoxState;
 begin
 	CheckArg(L, 2, 3);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	lCheckListBox := TLuaCheckListBox(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AIndex);
 	try
 		if lua_isnone(L, 3) then begin

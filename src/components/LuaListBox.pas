@@ -724,7 +724,7 @@ var
 	ret:boolean;
 begin
 	CheckArg(L, 2, 3);
-	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	lListBox := TLuaListBox(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	try
 		if lua_isnone(L, 3) then begin

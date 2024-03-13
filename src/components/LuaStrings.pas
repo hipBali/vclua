@@ -1351,7 +1351,7 @@ var
 	ret:TObject;
 begin
 	CheckArg(L, 2, 3);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	try
 		if lua_isnone(L, 3) then begin
@@ -1546,7 +1546,7 @@ var
 	ret:string;
 begin
 	CheckArg(L, 2, 3);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	try
 		if lua_isnone(L, 3) then begin
@@ -1673,7 +1673,7 @@ var
 	ret:string;
 begin
 	CheckArg(L, 2, 3);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	try
 		if lua_isnone(L, 3) then begin
@@ -1698,7 +1698,7 @@ var
 	ret:string;
 begin
 	CheckArg(L, 2, 3);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
+	lStrings := TLuaStrings(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Name);
 	try
 		if lua_isnone(L, 3) then begin

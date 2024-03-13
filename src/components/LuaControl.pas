@@ -328,7 +328,7 @@ var
 	ret:Boolean;
 begin
 	CheckArg(L, 2, 5);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@NewDockSite);
 	TTrait<TControl>.luaL_optcheck(L, 3, @DropControl, nil);
 	TTraitPti<TAlign>.luaL_optcheck(L, 4, @ControlSide, alNone, TypeInfo(TAlign));
@@ -351,7 +351,7 @@ var
 	ret:Boolean;
 begin
 	CheckArg(L, 2, 3);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@TheScreenRect);
 	TTrait<Boolean>.luaL_optcheck(L, 3, @KeepDockSiteSize, true);
 	try
@@ -698,7 +698,7 @@ var
 	FreeCompositeSide:boolean;
 begin
 	CheckArg(L, 4, 5);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
 	luaL_check(L,3,@Space);
 	luaL_check(L,4,@Sibling);
@@ -881,7 +881,7 @@ var
 	WithThemeSpace:boolean;
 begin
 	CheckArg(L, 1, 3);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
 	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
 	try
@@ -904,7 +904,7 @@ var
 	WithThemeSpace:boolean;
 begin
 	CheckArg(L, 3, 5);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@PreferredWidth);
 	luaL_check(L,3,@PreferredHeight);
 	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
@@ -1288,7 +1288,7 @@ var
 	Threshold:Integer;
 begin
 	CheckArg(L, 2, 3);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Immediate);
 	TTrait<Integer>.luaL_optcheck(L, 3, @Threshold, -1);
 	try
@@ -1718,7 +1718,7 @@ var
 	ret:TPoint;
 begin
 	CheckArg(L, 2, 3);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Point);
 	TTrait<TWinControl>.luaL_optcheck(L, 3, @AParent, nil);
 	try
@@ -1739,7 +1739,7 @@ var
 	ret:TPoint;
 begin
 	CheckArg(L, 2, 3);
-	lControl := TLuaControl(GetLuaObject(L, 1));
+	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Point);
 	TTrait<TWinControl>.luaL_optcheck(L, 3, @AParent, nil);
 	try

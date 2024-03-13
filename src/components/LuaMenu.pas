@@ -886,7 +886,7 @@ var
 	forced:Boolean;
 begin
 	CheckArg(L, 1, 2);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(CheckLuaObjectPop(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @forced, false);
 	try
 		lMenuItem.UpdateImage(forced);
@@ -903,7 +903,7 @@ var
 	forced:Boolean;
 begin
 	CheckArg(L, 1, 2);
-	lMenuItem := TLuaMenuItem(GetLuaObject(L, 1));
+	lMenuItem := TLuaMenuItem(CheckLuaObjectPop(L, 1));
 	TTrait<Boolean>.luaL_optcheck(L, 2, @forced, false);
 	try
 		lMenuItem.UpdateImages(forced);

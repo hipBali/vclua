@@ -669,7 +669,7 @@ var
 	Continuous:boolean;
 begin
 	CheckArg(L, 2, 4);
-	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	lCanvas := TLuaCanvas(CheckLuaObjectPop(L, 1));
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
 	TTrait<boolean>.luaL_optcheck(L, 3, @Filled, False);
 	TTrait<boolean>.luaL_optcheck(L, 4, @Continuous, True);
@@ -691,7 +691,7 @@ var
 	NumPts:Integer;
 begin
 	CheckArg(L, 3, 5);
-	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	lCanvas := TLuaCanvas(CheckLuaObjectPop(L, 1));
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
 	luaL_check(L,3,@Winding);
 	TTrait<Integer>.luaL_optcheck(L, 4, @StartIndex, 0);
@@ -730,7 +730,7 @@ var
 	NumPts:Integer;
 begin
 	CheckArg(L, 3, 4);
-	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	lCanvas := TLuaCanvas(CheckLuaObjectPop(L, 1));
 	TTrait<TPoint>.luaL_checkArray(L, 2, @Points);
 	luaL_check(L,3,@StartIndex);
 	TTrait<Integer>.luaL_optcheck(L, 4, @NumPts, -1);
@@ -1001,7 +1001,7 @@ var
 	ret:TColor;
 begin
 	CheckArg(L, 3, 4);
-	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	lCanvas := TLuaCanvas(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@X);
 	luaL_check(L,3,@Y);
 	try

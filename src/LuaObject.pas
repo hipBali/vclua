@@ -92,9 +92,7 @@ begin
   end;
   if not lua_istable(L, i) then
      LuaTypeError(L, i, GetPti(v^, pti));
-  lua_pushstring(L, HandleStr);
-  lua_rawget(L, i);
-  v^ := TObject(lua_touserdata(L, -1));
+  v^ := GetLuaObjectUnsafe(L, i);
   if v^ = nil then begin
     Result := True;
     proc(L, i, v, pti);

@@ -364,7 +364,7 @@ var
 	ret:TGridColumn;
 begin
 	CheckArg(L, 2, 3);
-	lGridColumns := TLuaGridColumns(GetLuaObject(L, 1));
+	lGridColumns := TLuaGridColumns(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	try
 		if lua_isnone(L, 3) then begin
@@ -541,7 +541,7 @@ var
 	AUseSelection:boolean;
 begin
 	CheckArg(L, 1, 2);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(CheckLuaObjectPop(L, 1));
 	TTrait<boolean>.luaL_optcheck(L, 2, @AUseSelection, false);
 	try
 		lStringGrid.CopyToClipboard(AUseSelection);
@@ -581,7 +581,7 @@ var
 	SkipEmptyLines:Boolean;
 begin
 	CheckArg(L, 2, 6);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AStream);
 	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
 	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
@@ -606,7 +606,7 @@ var
 	SkipEmptyLines:Boolean;
 begin
 	CheckArg(L, 2, 6);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AFilename);
 	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
 	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
@@ -630,7 +630,7 @@ var
 	VisibleColumnsOnly:boolean;
 begin
 	CheckArg(L, 2, 5);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AStream);
 	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
 	TTrait<boolean>.luaL_optcheck(L, 4, @WriteTitles, true);
@@ -653,7 +653,7 @@ var
 	VisibleColumnsOnly:boolean;
 begin
 	CheckArg(L, 2, 5);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AFileName);
 	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
 	TTrait<boolean>.luaL_optcheck(L, 4, @WriteTitles, true);
@@ -675,7 +675,7 @@ var
 	ret:string;
 begin
 	CheckArg(L, 3, 4);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ACol);
 	luaL_check(L,3,@ARow);
 	try
@@ -702,7 +702,7 @@ var
 	retNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2, 3);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@index);
 	try
 		if lua_isnone(L, 3) then begin
@@ -729,7 +729,7 @@ var
 	ret:TObject;
 begin
 	CheckArg(L, 3, 4);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ACol);
 	luaL_check(L,3,@ARow);
 	try
@@ -756,7 +756,7 @@ var
 	retNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2, 3);
-	lStringGrid := TLuaStringGrid(GetLuaObject(L, 1));
+	lStringGrid := TLuaStringGrid(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@index);
 	try
 		if lua_isnone(L, 3) then begin

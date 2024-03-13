@@ -118,7 +118,7 @@ var
 	FileExt:string;
 begin
 	CheckArg(L, 2, 3);
-	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	lPicture := TLuaPicture(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Filename);
 	TTrait<string>.luaL_optcheck(L, 3, @FileExt, '');
 	try

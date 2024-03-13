@@ -424,7 +424,8 @@ type
 
 procedure GetControlParents(L: Plua_State; var Parent:TWinControl; var Name:String);
 procedure InitControl(L: Plua_State; luaObj:TObject; var Name:String);
-procedure SetDefaultMethods(L: Plua_State; Index:Integer; Sender:TObject);
+procedure PushDefaultMethods(L: Plua_State; Sender:TObject);
+procedure SetDefaultMetatable(L: Plua_State; absindex: Integer);
 procedure CreateTableForKnownType(L: Plua_State; TypeName:String; Sender:TObject);inline;
 procedure SetAsMainForm(aForm:TForm);
 
@@ -499,37 +500,36 @@ end;
 // ***********************************************
 // LUA Control Methods
 // ***********************************************
-procedure SetDefaultMethods(L: Plua_State; Index: Integer; Sender: TObject);
+procedure PushDefaultMethods(L: Plua_State; Sender: TObject);
+var
+  index: Integer;
 begin
-	lua_newtable(L);
-	LuaSetTableLightUserData(L, Index, HandleStr, Pointer(Sender));
-	LuaSetTableFunction(L, index, 'Free', @ControlFree);
-        if Sender is TWinControl then begin
-           LuaSetTableFunction(L, index, 'SetFocus', @ControlFocus);
-           LuaSetTableFunction(L, index, 'EndUpdateBounds', @ControlEndUpdateBounds);
-           LuaSetTableFunction(L, index, 'BeginUpdateBounds', @ControlBeginUpdateBounds);
-        end;
+  lua_newtable(L);
+  index := lua_gettop(L);
+  lua_pushlightuserdata(L, Pointer(Sender));
+  lua_setfield(L, index, HandleStr);
+  LuaSetTableFunctionAbs(L, index, 'Free', @ControlFree);
+  if Sender is TWinControl then begin
+     LuaSetTableFunctionAbs(L, index, 'SetFocus', @ControlFocus);
+     LuaSetTableFunctionAbs(L, index, 'EndUpdateBounds', @ControlEndUpdateBounds);
+     LuaSetTableFunctionAbs(L, index, 'BeginUpdateBounds', @ControlBeginUpdateBounds);
+  end;
+end;
+
+procedure SetDefaultMetatable(L: Plua_State; absindex: Integer);
+begin
+  luaL_getmetatable(L, 'VCLO');
+  lua_setmetatable(L, absindex);
 end;
 
 procedure CreateTableForKnownType(L: Plua_State; TypeName:String; Sender:TObject);
-var top:integer;
 begin
   if Sender = nil then begin
     lua_pushnil(L);
     Exit;
   end;
-  SetDefaultMethods(L,-1,Sender);
-  top := lua_gettop(L);
-  if TypeName <> '' then begin
-    lua_pushliteral(L,'vmt');
-    lua_pushlightuserdata(L,vmts[TypeName]);
-    lua_rawset(L,top);
-    lua_pushliteral(L,'propSets');
-    lua_pushlightuserdata(L,propSets[TypeName]);
-    lua_rawset(L,top);
-  end;
-  LuaSetMetaFunction(L, top, '__index', @LuaGetProperty);
-  LuaSetMetaFunction(L, top, '__newindex', @LuaSetProperty);
+  PushDefaultMethods(L, Sender);
+  SetDefaultMetatable(L, lua_gettop(L));
 end;
 
 // -----------------------------------------------------------------------------
@@ -555,7 +555,7 @@ begin
   n := lua_gettop(L);
   if n>0 then begin
     if lua_istable(L,1) then begin
-       Parent := TWinControl(GetLuaObject(L, 1));
+       Parent := TWinControl(GetLuaObjectPop(L, 1));
        if (n=2) and (lua_isstring(L,2)) then
           Name := lua_tostring(L,2);
     end
@@ -575,8 +575,8 @@ var
   tindex: Integer;
 begin
      tindex := lua_gettop(L) - 1;
-     if (tindex>0) and (lua_istable(L,tindex)) and (GetLuaObject(L,tindex) = nil) then
-        UpdatePropertiesFromLuaTable(L, '', tindex + 1, tindex, luaObj)
+     if (tindex>0) and (lua_istable(L,tindex)) and (GetLuaObjectUnsafePop(L,tindex) = nil) then
+        UpdatePropertiesFromLuaTable(L, luaObj.ClassName, tindex + 1, tindex, luaObj)
      else
        try
           (luaObj as TComponent).Name := Name;

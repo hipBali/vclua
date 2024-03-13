@@ -643,7 +643,9 @@ function createUnitBody(cdef, ref, refs)
         if pi and pi.r and not pi.w then
           s = s:gsub("#VARCOUNT",defVars,1)
         elseif defVars then
-          s = s:gsub("#VARCOUNT",defVars..", "..idx,1)
+          -- so that unpopped userdata doesn't interfere with optional arguments
+          -- also checks if first arg is nil since with default args 'checkArg' call wouldn't suffice
+          s = s:gsub("#VARCOUNT",defVars..", "..idx,1):gsub('GetLuaObject','CheckLuaObjectPop',1)
         else
           s = s:gsub("#VARCOUNT",idx,1)
         end

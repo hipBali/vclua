@@ -11,7 +11,7 @@ function LuaSetProperty(L: Plua_State): Integer; cdecl;
 function LuaListProperties(L: Plua_State): Integer; cdecl;
 function LuaListMethods(L: Plua_State): Integer; cdecl;
 function LuaGetCallable(L: Plua_State): Integer; cdecl;
-procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: String; oindex,vindex: Integer; o: TObject);overload;
+procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: shortstring; oindex,vindex: Integer; o: TObject);overload;
 
 implementation
 
@@ -104,7 +104,7 @@ begin
       pti := apiPtis.Find(cName);
     end;
     LUA_TTABLE: begin
-      PObj := GetLuaObject(L, 1);
+      PObj := GetLuaObjectUnsafePop(L, 1); // pop not to confuse CheckArg later
       if PObj <> nil then
           pti := PObj.ClassInfo;
     end;
@@ -195,7 +195,7 @@ begin
        LuaError(L, '', 'GetCallable for published properties needs VCLua object');
     if isSet then
        LuaError(L, '', 'Getting callable for set published property is unsupported yet');
-    PushPropertyGetter(L, GetLuaObject(L, 1), GetPropInfo(pti, pName));
+    PushPropertyGetter(L, GetLuaObjectUnsafe(L, 1), GetPropInfo(pti, pName));
   end;
 end;
 
@@ -310,10 +310,11 @@ end;
 // ****************************************************************
 // Sets Property Value
 // ****************************************************************
+// index is absolute
 procedure SetProperty(L:Plua_State; Index:Integer; Comp:TObject; PInfo:PPropInfo);
 Var
   LuaFuncPInfo: PPropInfo;
-  Str: String;
+  Str: shortstring;
   tm: TMethod;
   cc: TVCLuaControl;
   gotValue:boolean = false;
@@ -357,7 +358,7 @@ begin
     tkClass:
       begin
         vo := GetLuaObject(L, index);
-        if (vo = nil) and InheritsFrom(pti, 'TStrings') then begin
+        if (vo = nil) and lua_istable(L, index) and InheritsFrom(pti, 'TStrings') then begin
           vo := TObject(luaL_checkStringList(L, index));
           gotValue := true;
         end;
@@ -392,19 +393,19 @@ begin
     tkInt64:
       SetInt64Prop(Comp, PInfo, luaL_checkInt64(L, index, pti));
   else
-     LuaError(L, 'Setting published property not supported!', string(PInfo^.Name) + ' of type ' + pti^.Name);
+     LuaError(L, 'Setting published property not supported!', PInfo^.Name + ' of type ' + pti^.Name);
   end;
 end;
 
 // ****************************************************************
 // Sets Property Values from a Lua table
 // ****************************************************************
-function SetOrUpdateGeneratedProperty(L: Plua_State; oindex,vindex: Integer; const PropName: String): boolean;forward;
-function SetOrUpdatePublishedProperty(L: Plua_State; o: TObject; vindex: Integer; const PropName: String): boolean;forward;
+function SetOrUpdateGeneratedProperty(L: Plua_State; o: TObject; oindex,vindex: Integer; const PropName: shortstring): boolean;forward;
+function SetOrUpdatePublishedProperty(L: Plua_State; o: TObject; vindex: Integer; const PropName: shortstring): boolean;forward;
 
-procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: String; oindex,vindex: Integer; o: TObject);overload;
+procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: shortstring; oindex,vindex: Integer; o: TObject);overload;
 var
-  pName: String;
+  pName: shortstring;
   kindex,pvindex: Integer;
 begin
   if o = nil then
@@ -414,19 +415,19 @@ begin
   pvindex := kindex + 1;
   while lua_next(L, vindex) <> 0 do begin
     if lua_type(L, kindex) = LUA_TSTRING then begin
-      pName := lua_tostring(L, kindex);
-      if not SetOrUpdateGeneratedProperty(L, oindex, pvindex, pName) and not SetOrUpdatePublishedProperty(L, o, pvindex, pName) then
-         LuaError(L,'Property not found!', o.ClassName+'.'+pName);
+      pName := lua_tostring(L, kindex); // important to be typed shortstring, not just PChar, otherwise access violation after exiting SetOrUpdate*
+      if not SetOrUpdateGeneratedProperty(L, o, oindex, pvindex, pName) and not SetOrUpdatePublishedProperty(L, o, pvindex, pName) then
+         LuaError(L,'Property not found!', o.ClassName+'.'+string(lua_tostring(L, kindex))); // another read for the case of length>255
     end;
     lua_settop(L, kindex);
   end;
 end;
 
-procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: String; oindex, vindex: Integer);overload;inline;
+procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: shortstring; oindex, vindex: Integer);overload;inline;
 begin
   UpdatePropertiesFromLuaTable(L, UpdatedPropName, oindex, vindex, GetLuaObject(L, oindex));
 end;
-procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: String; o: TObject; vindex: Integer);overload;inline;
+procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: shortstring; o: TObject; vindex: Integer);overload;inline;
 begin
   lua_push(L, o, nil);
   UpdatePropertiesFromLuaTable(L, UpdatedPropName, lua_gettop(L), vindex, o);
@@ -436,16 +437,14 @@ function IsPropertyTable(L: Plua_State; absindex: Integer):boolean;
 begin
   result := false;
   if lua_istable(L, absindex) then begin
-    lua_pushstring(L, HandleStr);
-    lua_rawget(L, absindex);
-    if lua_touserdata(L, -1) = nil then begin
+    if GetLuaObjectUnsafe(L, absindex) = nil then begin
       lua_rawgeti(L, absindex, 1);
       result := lua_isnil(L, -1);
     end;
   end;
 end;
 
-function SetOrUpdatePublishedProperty(L: Plua_State; o: TObject; vindex: Integer; const PropName: String): boolean;
+function SetOrUpdatePublishedProperty(L: Plua_State; o: TObject; vindex: Integer; const PropName: shortstring): boolean;
 var
   PInfo:PPropInfo;
 begin
@@ -459,19 +458,15 @@ begin
   result := true;
 end;
 
-function SetOrUpdateGeneratedProperty(L: Plua_State; oindex,vindex: Integer; const PropName: String): boolean;
+function SetOrUpdateGeneratedProperty(L: Plua_State; o: TObject; oindex,vindex: Integer; const PropName: shortstring): boolean;
 var
   pvmt: PLuaVmt;
   mi: TLuaMethodInfo;
 begin
   if not lua_checkstack(L, 6) then Exit(false);
-  pvmt := GetPropSets(L, oindex);
-  if HasMethod(pvmt, PropName, mi) then begin
+  if HasMethod(propSets.GetVmt(o.ClassInfo), PropName, mi) then begin
     if mi.isObj and IsPropertyTable(L, vindex) then begin
-      lua_pushliteral(L, 'vmt');
-      lua_rawget(L, oindex);
-      pvmt := lua_touserdata(L, -1);
-      if HasMethod(pvmt, PropName, mi) then begin
+      if HasMethod(vmts.GetVmt(o.ClassInfo), PropName, mi) then begin
         lua_pushcfunction(L, mi.pf);
         lua_pushvalue(L, oindex);
         lua_call(L, 1, 1);
@@ -482,21 +477,19 @@ begin
        CallSetter(L, mi, oindex, vindex);
     Exit(true);
   end;
-  lua_pop(L, 1);
   result := false;
 end;
 
 function LuaSetProperty(L: Plua_State): Integer; cdecl;
 var
   o: TObject;
-  propname: String;
+  PropName: shortstring;
+  len: size_t;
 begin
   Result := 0;
-  o := GetLuaObject(L, 1);
-  PropName := lua_tostring(L, 2);
-  if o = nil then
-     LuaError(L, 'Can''t set null object property!', PropName);
-  if not SetOrUpdateGeneratedProperty(L, 1, 3, PropName) and not SetOrUpdatePublishedProperty(L, o, 3, PropName) then
+  o := GetLuaObjectUnsafe(L, 1);
+  PropName := lua_tolstring(L, 2, @len);
+  if (len > 255) or (not SetOrUpdateGeneratedProperty(L, o, 1, 3, PropName) and not SetOrUpdatePublishedProperty(L, o, 3, PropName)) then
     if PropName = '_' then
        UpdatePropertiesFromLuaTable(L, PropName, 1, 3, o)
     else begin
@@ -610,60 +603,59 @@ begin
   lua_setmetatable(L, top);
 end;
 
-function GetPublishedProperty(L: Plua_State; Comp: TPersistent; PropName: String): boolean;
+function GetPublishedProperty(L: Plua_State; Comp: TObject; PropName: shortstring): boolean;
 var
   PInfo: PPropInfo;
   m: TMethod;
   ref:Integer = -1;
 begin
-     PInfo := GetPropInfo(Comp.ClassInfo, PropName);
-     Result := false;
-     if PInfo <> nil then begin
-        case PInfo^.Proptype^.Kind of
-          tkMethod:
-            begin
-              m := GetMethodProp(Comp, PInfo);
-              if TObject(m.Data) is TVCLuaControl then
-                 ref := GetOrdProp(TVCLuaControl(m.Data), PInfo^.Name + '_Function')
-              else if TObject(m.Data) is TLuaEvent then
-                 ref := TLuaEvent(m.Data).ref;
-              lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-            end;
-          tkSet:
-            lua_pushSet(L,GetOrdProp(Comp, PInfo),PInfo^.PropType);
-          tkClass:
-            lua_pushobject(L, -1, GetObjectProp(Comp, PInfo));
-          tkInteger,
-          tkInt64,
-          tkQWord:
-            if PInfo^.Proptype^.Name='TShortCut' then
-               lua_pushShortCut(L,GetOrdProp(Comp, PInfo))
-            else
-                lua_push(L,GetOrdProp(Comp, PInfo));
-          tkChar,
-          tkWChar: // noone cares about WChar, right?
-            lua_push(L,Char(GetOrdProp(Comp, PInfo)));
-          tkBool:
-            lua_push(L,boolean(GetOrdProp(Comp, PInfo)));
-          tkEnumeration:
-            lua_pushEnum(L,GetOrdProp(Comp, PInfo),PInfo^.PropType);
-          tkFloat:
-            lua_push(L,GetFloatProp(Comp, PInfo));
-          tkSString,
-          tkLString,
-          tkAString,
-          tkWString:
-            lua_push(L,GetStrProp(Comp, PInfo));
-        else
-            LuaError(L, 'Getting published property not supported!', PropName + ' of type ' + PInfo^.Proptype^.Name);
-        end;
-        Result := true;
-     end;
+  PInfo := GetPropInfo(Comp.ClassInfo, PropName);
+  if PInfo = nil then Exit(false);
+  case PInfo^.Proptype^.Kind of
+    tkMethod:
+      //lua_pushPropMethod(L, Comp, PInfo);
+      begin
+        m := GetMethodProp(Comp, PInfo);
+        if TObject(m.Data) is TVCLuaControl then
+           ref := GetOrdProp(TVCLuaControl(m.Data), PInfo^.Name + '_Function')
+        else if TObject(m.Data) is TLuaEvent then
+           ref := TLuaEvent(m.Data).ref;
+        lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+      end;
+    tkSet:
+      lua_pushSet(L,GetOrdProp(Comp, PInfo),PInfo^.PropType);
+    tkClass:
+      lua_pushobject(L, -1, GetObjectProp(Comp, PInfo));
+    tkInteger,
+    tkInt64,
+    tkQWord:
+      if PInfo^.Proptype^.Name='TShortCut' then
+         lua_pushShortCut(L,GetOrdProp(Comp, PInfo))
+      else
+          lua_push(L,GetOrdProp(Comp, PInfo));
+    tkChar,
+    tkWChar: // noone cares about WChar, right?
+      lua_push(L,Char(GetOrdProp(Comp, PInfo)));
+    tkBool:
+      lua_push(L,boolean(GetOrdProp(Comp, PInfo)));
+    tkEnumeration:
+      lua_pushEnum(L,GetOrdProp(Comp, PInfo),PInfo^.PropType);
+    tkFloat:
+      lua_push(L,GetFloatProp(Comp, PInfo));
+    tkSString,
+    tkLString,
+    tkAString,
+    tkWString:
+      lua_push(L,GetStrProp(Comp, PInfo));
+  else
+      LuaError(L, 'Getting published property not supported!', PropName + ' of type ' + PInfo^.Proptype^.Name);
+  end;
+  Result := true;
 end;
 
 // here go either non-published properties or not properties at all (procedures and class procedures)
 // begin+end left for easier 'debugln' insertion
-function GetSpecialProperty(L: Plua_State; o: TObject; PropNameLower: String): boolean;
+function GetSpecialProperty(L: Plua_State; o: TObject; PropNameLower: shortstring): boolean;
 begin
   Result := true;
   if PropNameLower = 'classname' then begin
@@ -676,22 +668,14 @@ end;
 function LuaGetProperty(L: Plua_State): Integer; cdecl;
 var
   o: TObject;
-  PropName: String;
-  pvmt: PLuaVmt;
+  PropName: shortstring;
   mi: TLuaMethodInfo;
 begin
   Result := 1;
-  o := GetLuaObject(L, 1);
+  o := GetLuaObjectUnsafe(L, 1);
   PropName := lua_tostring(L, 2);
-  // shouldn't really happen since we push nil instead of creating function tables with null handle
-  if o = nil then
-     LuaError(L, 'Can''t get null object property!', PropName);
-  // since o<>nil here, that means that lua_type(L,1)=LUA_TTABLE
   // first try to get as generated method
-  lua_pushliteral(L,'vmt');
-  lua_rawget(L,1);
-  pvmt := lua_touserdata(L,3);
-  if HasMethod(pvmt, PropName, mi) then begin
+  if HasMethod(vmts.GetVmt(o.ClassInfo), PropName, mi) then begin
     lua_pushcfunction(L, mi.pf);
     if mi.mf = mfCall then begin
       lua_pushvalue(L, 1);
@@ -699,11 +683,10 @@ begin
     end;
     Exit;
   end;
-  lua_pop(L,1);
   // now try to get as property
-  if not ((o is TPersistent) and GetPublishedProperty(L, TPersistent(o), PropName) or GetSpecialProperty(L, o, lowercase(PropName))) then begin
-     // no rawget needed since it's the first thing Lua tried
-     lua_pushnil(L);
+  if not (GetPublishedProperty(L, o, PropName) or GetSpecialProperty(L, o, lowercase(PropName))) then begin
+    // no rawget needed since it's the first thing Lua tried, also silently return nil for props of length>255
+    lua_pushnil(L);
   end;
 end;
 

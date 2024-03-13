@@ -325,7 +325,7 @@ var
 	ret:integer;
 begin
 	CheckArg(L, 2, 3);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ResourceName);
 	if not lua_isnoneornil(L, 3) then begin
 		MaskColor := luaL_checkColor(L,3);
@@ -351,7 +351,7 @@ var
 	ret:integer;
 begin
 	CheckArg(L, 3, 4);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Instance);
 	luaL_check(L,3,@ResourceName);
 	if not lua_isnoneornil(L, 4) then begin
@@ -426,7 +426,7 @@ var
 	AEnabled:Boolean;
 begin
 	CheckArg(L, 5, 6);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ACanvas);
 	luaL_check(L,3,@AX);
 	luaL_check(L,4,@AY);
@@ -478,7 +478,7 @@ var
 	AEnabled:Boolean;
 begin
 	CheckArg(L, 7, 8);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ACanvas);
 	luaL_check(L,3,@AX);
 	luaL_check(L,4,@AY);
@@ -537,7 +537,7 @@ var
 	AEnabled:Boolean;
 begin
 	CheckArg(L, 8, 9);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ACanvas);
 	luaL_check(L,3,@AX);
 	luaL_check(L,4,@AY);
@@ -597,7 +597,7 @@ var
 	AEnabled:Boolean;
 begin
 	CheckArg(L, 6, 7);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ACanvas);
 	luaL_check(L,3,@AX);
 	luaL_check(L,4,@AY);
@@ -718,7 +718,7 @@ var
 	AEffect:TGraphicsDrawEffect;
 begin
 	CheckArg(L, 2, 3);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Image);
 	TTraitPti<TGraphicsDrawEffect>.luaL_optcheck(L, 3, @AEffect, gdeNormal, TypeInfo(TGraphicsDrawEffect));
 	try
@@ -912,7 +912,7 @@ var
 	AllResolutions:Boolean;
 begin
 	CheckArg(L, 4, 5);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@AImage);
 	luaL_check(L,4,@AMask);
@@ -935,7 +935,7 @@ var
 	AllResolutions:Boolean;
 begin
 	CheckArg(L, 4, 5);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@Image);
 	luaL_check(L,4,@AImageRect);
@@ -958,7 +958,7 @@ var
 	AllResolutions:Boolean;
 begin
 	CheckArg(L, 4, 5);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@AIndex);
 	luaL_check(L,3,@AImageWidth);
 	luaL_check(L,4,@Image);
@@ -1000,7 +1000,7 @@ var
 	AllResolutions:Boolean;
 begin
 	CheckArg(L, 4, 5);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	luaL_check(L,3,@NewImage);
 	MaskColor := luaL_checkColor(L,4);
@@ -1040,7 +1040,7 @@ var
 	Enabled:Boolean;
 begin
 	CheckArg(L, 4, 5);
-	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	lImageList := TLuaImageList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Canvas);
 	luaL_check(L,3,@Index);
 	luaL_check(L,4,@ARect);

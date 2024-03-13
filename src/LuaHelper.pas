@@ -25,12 +25,17 @@ procedure DoCall(L: Plua_State; paramCount:integer);
 
 procedure CheckArg(L: Plua_State; N: Integer);overload;
 procedure CheckArg(L: Plua_State; N,M: Integer);overload;
+function GetLuaObjectUnsafe(L: Plua_State; Index: Integer): TObject;
+function GetLuaObjectUnsafePop(L: Plua_State; Index: Integer): TObject; inline;
 function GetLuaObject(L: Plua_State; Index: Integer): TObject;
+function GetLuaObjectPop(L: Plua_State; Index: Integer): TObject;
+function CheckLuaObjectPop(L: Plua_State; Index: Integer): TObject;
 function GetLuaUserData(L: Plua_State; Index: Integer): Pointer;
 function LuaGetTableLightUserData(L: Plua_State; TableIndex: Integer; const Key: string): Pointer;
 procedure LuaGetTable(L: Plua_State; TableIndex: Integer; const Key: string);
 
 procedure LuaSetTableLightUserData(L: Plua_State; TableIndex: Integer; const Key: string; P: Pointer);
+procedure LuaSetTableFunctionAbs(L: Plua_State; TableIndex: Integer; const Key: PChar; F: lua_CFunction);
 procedure LuaSetTableFunction(L: Plua_State; TableIndex: Integer; const Key: string; F: lua_CFunction);
 procedure LuaSetTableClear(L: Plua_State; TableIndex: Integer);
 
@@ -220,13 +225,39 @@ begin
 end;
 
 // ****************************************************************
+function GetLuaObjectUnsafe(L: Plua_State; Index: Integer): TObject;
+begin
+  lua_getfield(L, Index, HandleStr);
+  Result := TObject(lua_touserdata(L, -1));
+end;
+
+function GetLuaObjectUnsafePop(L: Plua_State; Index: Integer): TObject;
+begin
+  Result := GetLuaObjectUnsafe(L, Index);
+  lua_pop(L, 1);
+end;
 
 function GetLuaObject(L: Plua_State; Index: Integer): TObject;
 begin
-	if (not lua_isnil(L, Index)) then
-		Result := TObject(LuaRawGetTableLightUserData(L, Index, HandleStr))
-	else
-		Result := nil;
+  if lua_istable(L, Index) then
+     Exit(GetLuaObjectUnsafe(L, Index));
+  Result := nil;
+end;
+
+function GetLuaObjectPop(L: Plua_State; Index: Integer): TObject;
+begin
+  if lua_istable(L, Index) then begin
+     Result := GetLuaObjectUnsafe(L, Index);
+     lua_pop(L, 1);
+  end else
+      Result := nil;
+end;
+
+function CheckLuaObjectPop(L: Plua_State; Index: Integer): TObject;
+begin
+  result := GetLuaObjectPop(L, Index);
+  if result = nil then
+     LuaError(L, 'Use o:Method, not o.Method','Missing self in method call');
 end;
 
 function GetLuaUserData(L: Plua_State; Index: Integer): Pointer;
@@ -259,6 +290,12 @@ begin
   LuaPushKeyString(L, TableIndex, Key);
   lua_pushlightuserdata(L, P);
   lua_settable(L, TableIndex);
+end;
+
+procedure LuaSetTableFunctionAbs(L: Plua_State; TableIndex: Integer; const Key: PChar; F: lua_CFunction);
+begin
+  lua_pushcfunction(L, F);
+  lua_setfield(L, TableIndex, Key);
 end;
 
 procedure LuaSetTableFunction(L: Plua_State; TableIndex: Integer; const Key: string; F: lua_CFunction);

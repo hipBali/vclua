@@ -842,7 +842,7 @@ var
 	ret:TContainedAction;
 begin
 	CheckArg(L, 2, 3);
-	lActionList := TLuaActionList(GetLuaObject(L, 1));
+	lActionList := TLuaActionList(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Index);
 	try
 		if lua_isnone(L, 3) then begin

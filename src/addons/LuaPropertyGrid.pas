@@ -32,7 +32,7 @@ Uses SysUtils, LuaProperties, LuaObject, LuaHelper,
 
 procedure RowToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
-  SetDefaultMethods(L, Index, Sender);
+  PushDefaultMethods(L, Sender);
   LuaSetMetaFunction(L, index, '__index', @LuaGetProperty);
   LuaSetMetaFunction(L, index, '__newindex', @LuaSetProperty);
 end;
@@ -154,7 +154,7 @@ end;
 
 procedure ToTable(L:Plua_State; Index:Integer; Sender:TObject);
 begin
-  SetDefaultMethods(L, Index, Sender);
+  PushDefaultMethods(L, Sender);
   LuaSetTableFunction(L, index, 'GetActiveRow', @GetActiveRow);
   LuaSetTableFunction(L, index, 'PropertyPath', @PropertyPath);
   LuaSetTableFunction(L, index, 'GetActiveProperty', @GetActiveProperty);
