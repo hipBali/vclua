@@ -1,4 +1,4 @@
-outer_iterations = 5
+outer_iterations = 15
 inner_iterations = 1000000
 one_per_type = false
 digits=3
@@ -84,6 +84,8 @@ for t,list in pairs(bytype) do
             local f = F.f
             local sum = 0.
             for j=1,outer_iterations do
+                collectgarbage()
+                collectgarbage("stop")
                 local runtime = os.clock()
                 for i = 1,inner_iterations do f() end
                 runtime = os.clock() - runtime
@@ -93,13 +95,17 @@ for t,list in pairs(bytype) do
             avgs[i] = string.format("%."..(digits+1).."f",sum/outer_iterations)
             print('average', avgs[i])
         end
-        local tbl = {}
-        for _,a in ipairs(avgs) do table.insert(tbl,a) end
+        local tbl, n = {}, #avgs
+        for i,a in ipairs(avgs) do
+            table.insert(tbl,a)
+            if i < n then table.insert(tbl,string.format("%."..(digits+1).."f",a-avgs[i+1])) end
+        end
         table.insert(tbl,p..':'..t..'='..tostring(val))
         orig_print(table.concat(tbl,' '))
     end
 end
 
 if not show_progress then print = orig_print end
+collectgarbage("restart")
 
 --frmMain:ShowModal()
