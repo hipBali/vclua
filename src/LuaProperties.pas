@@ -606,51 +606,13 @@ end;
 function GetPublishedProperty(L: Plua_State; Comp: TObject; PropName: shortstring): boolean;
 var
   PInfo: PPropInfo;
-  m: TMethod;
-  ref:Integer = -1;
+  getter: TPropertyPusherProc;
 begin
   PInfo := GetPropInfo(Comp.ClassInfo, PropName);
-  if PInfo = nil then Exit(false);
-  case PInfo^.Proptype^.Kind of
-    tkMethod:
-      //lua_pushPropMethod(L, Comp, PInfo);
-      begin
-        m := GetMethodProp(Comp, PInfo);
-        if TObject(m.Data) is TVCLuaControl then
-           ref := GetOrdProp(TVCLuaControl(m.Data), PInfo^.Name + '_Function')
-        else if TObject(m.Data) is TLuaEvent then
-           ref := TLuaEvent(m.Data).ref;
-        lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-      end;
-    tkSet:
-      lua_pushSet(L,GetOrdProp(Comp, PInfo),PInfo^.PropType);
-    tkClass:
-      lua_pushobject(L, -1, GetObjectProp(Comp, PInfo));
-    tkInteger,
-    tkInt64,
-    tkQWord:
-      if PInfo^.Proptype^.Name='TShortCut' then
-         lua_pushShortCut(L,GetOrdProp(Comp, PInfo))
-      else
-          lua_push(L,GetOrdProp(Comp, PInfo));
-    tkChar,
-    tkWChar: // noone cares about WChar, right?
-      lua_push(L,Char(GetOrdProp(Comp, PInfo)));
-    tkBool:
-      lua_push(L,boolean(GetOrdProp(Comp, PInfo)));
-    tkEnumeration:
-      lua_pushEnum(L,GetOrdProp(Comp, PInfo),PInfo^.PropType);
-    tkFloat:
-      lua_push(L,GetFloatProp(Comp, PInfo));
-    tkSString,
-    tkLString,
-    tkAString,
-    tkWString:
-      lua_push(L,GetStrProp(Comp, PInfo));
-  else
-      LuaError(L, 'Getting published property not supported!', PropName + ' of type ' + PInfo^.Proptype^.Name);
-  end;
-  Result := true;
+  getter := GetPublishedPropertyGetter(L, PInfo);
+  Result := Assigned(getter);
+  if Result then
+    getter(L, Comp, PInfo);
 end;
 
 // here go either non-published properties or not properties at all (procedures and class procedures)
