@@ -962,8 +962,8 @@ vclinc = vclinc:gsub("#LIBCOUNT",libcount,1)
 saveTextToFile(HDR_INFO .. vclinc,out_path.."src/vcl.inc")
 saveTextToFile(HDR_INFO .. table.concat(luaobject_uses,",\n"),out_path.."src/luaobject_uses.inc")
 saveTextToFile(HDR_INFO .. "\n\t" .. pasSrcStr,out_path.."src/luacontroller_uses.inc")
-saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(init)),out_path.."src/init_map.inc")
+saveTextToFile(HDR_INFO .. "\n" .. table.concat(init),out_path.."src/init_map.inc")
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(meta_srcs),",\n"),out_path.."src/meta_srcs.inc")
-saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(api_srcs),"\n"),out_path.."src/api_srcs.inc")
+saveTextToFile(HDR_INFO .. "\n" .. table.concat(api_srcs,"\n"),out_path.."src/api_srcs.inc")
 
 
