@@ -165,26 +165,39 @@ begin
   pvmt^.ForEachCall(PushOne, L);
 end;
 
+procedure PushPropertyGetter(L: Plua_State; ao: TObject; aPInfo: PPropInfo); forward;
+
 function LuaGetCallable(L: Plua_State): Integer; cdecl;
 var
+  pName: string;
   pti: PTypeInfo = nil;
   pvmt,pset: PLuaVmt;
   mi: TLuaMethodInfo;
+  isSet: boolean;
 begin
-  CheckArg(L, 2, 3);
+  CheckArg(L, 2, 4);
   Result := 1;
   LuaPtiHelper(L, 'GetCallable', pti);
-  pvmt := vmts.GetVmt(pti);
-  pset := propSets.GetVmt(pti);
-  if lua_toboolean(L, 3) then
-     pvmt := pset;
-  mi := TLuaMethodInfo(pvmt^.Find(lua_tostring(L, 2)));
-  if Assigned(mi) then
-     lua_pushcfunction(L, mi.pf)
-  else
+  pName := luaL_checkPChar(L, 2, TypeInfo(pName));
+  isSet := lua_toboolean(L, 3);
+  if not lua_toboolean(L, 4) then begin
+    pvmt := vmts.GetVmt(pti);
+    pset := propSets.GetVmt(pti);
+    if isSet then
+       pvmt := pset;
+    mi := TLuaMethodInfo(pvmt^.Find(pName));
+    if Assigned(mi) then
+       lua_pushcfunction(L, mi.pf)
+    else
       lua_pushnil(L);
+  end else begin
+    if not lua_istable(L, 1) then
+       LuaError(L, '', 'GetCallable for published properties needs VCLua object');
+    if isSet then
+       LuaError(L, '', 'Getting callable for set published property is unsupported yet');
+    PushPropertyGetter(L, GetLuaObject(L, 1), GetPropInfo(pti, pName));
+  end;
 end;
-
 
 // ****************************************************************
 
@@ -495,6 +508,108 @@ end;
 // ****************************************************************
 // Gets Property Value
 // ****************************************************************
+type
+  TPropertyPusherProc = procedure(L: Plua_State; o: TObject; PInfo: PPropInfo);
+  TPropertyGetter = class
+    public
+      PInfo: PPropInfo;
+      proc: TPropertyPusherProc;
+      o: TObject;
+      constructor Create(L: Plua_State; ao: TObject; aPInfo: PPropInfo);
+  end;
+
+procedure lua_pushPropMethod(L: Plua_State; o: TObject; PInfo: PPropInfo);
+var
+  m: TMethod;
+  ref:Integer = -1;
+begin
+  m := GetMethodProp(o, PInfo);
+  if TObject(m.Data) is TVCLuaControl then
+     ref := GetOrdProp(TVCLuaControl(m.Data), PInfo.Name + '_Function')
+  else if TObject(m.Data) is TLuaEvent then
+     ref := TLuaEvent(m.Data).ref;
+  lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+end;
+procedure lua_pushPropSet(L: Plua_State; o: TObject; PInfo: PPropInfo);     begin lua_pushSet(L,GetOrdProp(o, PInfo),PInfo^.PropType); end;
+procedure lua_pushPropClass(L: Plua_State; o: TObject; PInfo: PPropInfo);   begin CreateTableForKnownType(L, PInfo^.PropType^.Name, GetObjectProp(o, PInfo)); end;
+procedure lua_pushPropShortCut(L: Plua_State; o: TObject; PInfo: PPropInfo);begin lua_pushShortCut(L,GetOrdProp(o, PInfo)); end;
+procedure lua_pushPropInteger(L: Plua_State; o: TObject; PInfo: PPropInfo); begin lua_push(L,GetOrdProp(o, PInfo)); end;
+procedure lua_pushPropChar(L: Plua_State; o: TObject; PInfo: PPropInfo);    begin lua_push(L,Char(GetOrdProp(o, PInfo))); end;
+procedure lua_pushPropBool(L: Plua_State; o: TObject; PInfo: PPropInfo);    begin lua_push(L,boolean(GetOrdProp(o, PInfo))); end;
+procedure lua_pushPropEnum(L: Plua_State; o: TObject; PInfo: PPropInfo);    begin lua_pushEnum(L,GetOrdProp(o, PInfo),PInfo^.PropType); end;
+procedure lua_pushPropFloat(L: Plua_State; o: TObject; PInfo: PPropInfo);   begin lua_push(L,GetFloatProp(o, PInfo)); end;
+procedure lua_pushPropString(L: Plua_State; o: TObject; PInfo: PPropInfo);  begin lua_push(L,GetStrProp(o, PInfo)); end;
+
+function GetPublishedPropertyGetter(L: Plua_State; PInfo: PPropInfo): TPropertyPusherProc;
+begin
+  if PInfo = nil then Exit(nil);
+  case PInfo^.Proptype^.Kind of
+    tkMethod: Exit(lua_pushPropMethod);
+    tkSet: Exit(lua_pushPropSet);
+    tkClass: Exit(lua_pushPropClass);
+    tkInteger,
+    tkInt64,
+    tkQWord:
+      if PInfo^.Proptype^.Name<>'TShortCut' then
+         Exit(lua_pushPropInteger)
+      else
+          Exit(lua_pushPropShortCut);
+    tkChar,
+    tkWChar: // noone cares about WChar, right?
+      Exit(lua_pushPropChar);
+    tkBool: Exit(lua_pushPropBool);
+    tkEnumeration: Exit(lua_pushPropEnum);
+    tkFloat: Exit(lua_pushPropFloat);
+    tkSString,
+    tkLString,
+    tkAString,
+    tkWString:
+      Exit(lua_pushPropString);
+  else
+      LuaError(L, 'Getting published property not supported!', PInfo^.Name + ' of type ' + PInfo^.Proptype^.Name);
+  end;
+end;
+
+constructor TPropertyGetter.Create(L: Plua_State; ao: TObject; aPInfo: PPropInfo);
+begin
+  PInfo := aPInfo;
+  proc := GetPublishedPropertyGetter(L, PInfo);
+  o := ao;
+end;
+
+function LuaCallGetter(L: Plua_State): Integer; cdecl;
+var
+  pg: TPropertyGetter;
+begin
+  pg := TPropertyGetter(PPointer(lua_touserdata(L, 1))^);
+  result := 1;
+  pg.proc(L, pg.o, pg.PInfo);
+end;
+
+procedure PushPropertyGetter(L: Plua_State; ao: TObject; aPInfo: PPropInfo);
+var
+  pg: TPropertyGetter;
+  top: integer;
+begin
+  pg := TPropertyGetter.Create(L, ao, aPInfo);
+  if pg.PInfo = nil then begin
+    pg.Free;
+    lua_pushnil(L);
+    Exit;
+  end;
+  ppointer(lua_newuserdata(L, SizeOf(pointer)))^ := pointer(pg);
+  top := lua_gettop(L);
+  if luaL_newmetatable(L, 'TPropertyGetter') = 1 then begin
+    lua_pushliteral(L, '__gc');
+    lua_pushcfunction(L, @LuaFpGc);
+    lua_rawset(L, top+1);
+    lua_pushliteral(L, '__call');
+    lua_pushcfunction(L, @LuaCallGetter);
+    lua_rawset(L, top+1);
+  end;
+  lua_setmetatable(L, top);
+end;
+
 function GetPublishedProperty(L: Plua_State; Comp: TPersistent; PropName: String): boolean;
 var
   PInfo: PPropInfo;
@@ -509,7 +624,7 @@ begin
             begin
               m := GetMethodProp(Comp, PInfo);
               if TObject(m.Data) is TVCLuaControl then
-                 ref := GetOrdProp(TVCLuaControl(m.Data), PropName + '_Function')
+                 ref := GetOrdProp(TVCLuaControl(m.Data), PInfo^.Name + '_Function')
               else if TObject(m.Data) is TLuaEvent then
                  ref := TLuaEvent(m.Data).ref;
               lua_rawgeti(L, LUA_REGISTRYINDEX, ref);

@@ -14,6 +14,7 @@ const
        'mrAll','mrNoToAll','mrYesToAll');
 
 
+function LuaFpGc(L: Plua_State): Integer; cdecl;
 function RunSeparate(L: Plua_State):integer;cdecl;
 
 procedure LuaError(L: Plua_State; text: String; err: String);
@@ -62,6 +63,17 @@ function luaL_optbool(L : Plua_State; n: Integer; d: boolean): Boolean;
 implementation
 
 Uses Forms;
+
+function LuaFpGc(L: Plua_State): Integer; cdecl;
+var
+  p: pointer;
+begin
+  p := PPointer(lua_touserdata(L, 1))^;
+  //if p <> nil then
+  //  debugln('freeing ', TObject(p).ClassName);
+  TObject(p).Free;
+  result := 0;
+end;
 
 // *****************************************************************************
 
