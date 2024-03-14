@@ -4,6 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 	
 	// GENERATED SOURCES ***********************
+	LuaStream,
 	LuaStrings,
 	LuaStringList,
 	LuaTextStrings,
@@ -108,7 +109,8 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..86] of lual_reg = (
+	vcl_lib : array[0..87] of lual_reg = (
+		(name:'MemoryStream'; func:@CreateMemoryStream),
 		(name:'StringList'; func:@CreateStringList),
 		(name:'TextStrings'; func:@CreateTextStrings),
 		(name:'Picture'; func:@CreatePicture),

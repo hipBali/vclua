@@ -15,7 +15,6 @@ uses
   LuaObject in 'LuaObject.pas',
   LuaProxy in 'LuaProxy.pas',
   LuaDialogs in 'LuaDialogs.pas',
-  LuaStream in 'LuaStream.pas',
   LuaVmt,
   {$IFDEF PROPERTYGRID}
     LuaPropertyGrid in 'addons/LuaPropertyGrid.pas',
@@ -55,8 +54,6 @@ begin
   lua_setfield(L, -2, 'ListMethods');
   lua_pushcfunction(L, @LuaGetCallable);
   lua_setfield(L, -2, 'GetCallable');
-  lua_pushcfunction(L, @CreateStream);
-  lua_setfield(L, -2, 'Stream');
   lua_pushcfunction(L, @LuaShowMessage);
   lua_setfield(L, -2, 'ShowMessage');
   lua_pushcfunction(L, @LuaMessageDlg);

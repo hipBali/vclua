@@ -89,4 +89,35 @@ end;
 		vcluaMethodName="SetPixel",
 },
 
+["LoadFromHex"] = {src = [[
+function #FNAME(L: Plua_State): Integer; cdecl;
+var
+  lMemoryStream:TLuaMemoryStream;
+  s:String;
+  from:Int64;
+begin
+  CheckArg(L, 2, 3);
+  lMemoryStream := TLuaMemoryStream(GetLuaObjectPop(L, 1));
+  s := luaL_checkPChar(L, 2, TypeInfo(s));
+  TTrait<Int64>.luaL_optcheck(L, 3, @from, 1);
+  try
+     lMemoryStream.Clear;
+     // eg. to skip first 4 bytes (size) in bitmap pass from=5
+     from := 2*from-1;
+     While from<=Length(s) Do Begin
+       lMemoryStream.WriteByte(StrToIntDef('$'+Copy(s,from,2),0));
+       Inc(from,2);
+     End;
+     lMemoryStream.Seek(0, soFromBeginning);
+  except
+    on E: Exception do
+       CallError(L, 'MemoryStream', 'LoadFromHex', E.ClassName, E.Message);
+  end;
+  Result := 0;
+end;
+]],
+		finalMethodName="LoadFromHex",
+		vcluaMethodName="LoadFromHex",
+},
+
 }

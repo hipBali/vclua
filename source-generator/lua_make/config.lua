@@ -71,9 +71,15 @@ toInfer = {
 classes = {
 	
 	-- classes
-	-- built-in
-	-- { name = "Stream", src = "TStream", base=true, nocreate=true },
+	-- built-in PropertyGrid
 	------------------------------------------------------------------
+	{ unit = "Stream", ref = "Classes",
+		classes = {
+			{ name = "Stream", src = "TStream", base=true, nocreate=true },
+			{ name = "CustomMemoryStream", src = "TCustomMemoryStream", base=true, nocreate=true },
+			{ name = "MemoryStream", src = "TMemoryStream", nv=true, noparent=true, impl="LoadFromHex" },
+		}
+	},
 	-- TStrings and descenants
 	{ name = "Strings", src = "TStrings", ref="Classes", nv=true, nocreate=true },
 	{ name = "StringList", src = "TStringList", ref="Classes", nv=true, noparent=true },

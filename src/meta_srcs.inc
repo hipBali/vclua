@@ -103,4 +103,7 @@ TFont.ClassInfo,
 TGraphic.ClassInfo,
 TTextStrings.ClassInfo,
 TStringList.ClassInfo,
-TStrings.ClassInfo
+TStrings.ClassInfo,
+TMemoryStream.ClassInfo,
+TCustomMemoryStream.ClassInfo,
+TStream.ClassInfo

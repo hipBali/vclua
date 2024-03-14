@@ -3,6 +3,7 @@ Generated with Lua-fpc parser/generator
 (C) 2018-2024 Hi-Project Ltd.
 *)
 
+	LuaStream,
 	LuaStrings,
 	LuaStringList,
 	LuaTextStrings,

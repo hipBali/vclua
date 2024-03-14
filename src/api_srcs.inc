@@ -3,6 +3,9 @@ Generated with Lua-fpc parser/generator
 (C) 2018-2024 Hi-Project Ltd.
 *)
 
+apiPtis.Add('TStream', TStream.ClassInfo);
+apiPtis.Add('TCustomMemoryStream', TCustomMemoryStream.ClassInfo);
+apiPtis.Add('TMemoryStream', TMemoryStream.ClassInfo);
 apiPtis.Add('TStrings', TStrings.ClassInfo);
 apiPtis.Add('TStringList', TStringList.ClassInfo);
 apiPtis.Add('TTextStrings', TTextStrings.ClassInfo);

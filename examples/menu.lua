@@ -157,13 +157,12 @@ local function setupImages()
 	local str
 	local add = function(t,b)
 		img = VCL.Image()	
-		str = VCL.Stream()
-		-- skip first 8 bytes
-		local memStr,size = str.LoadFromHex(b:sub(9))
-		img.picture:LoadFromStream(memStr) 	
-		memStr:Free()
-		local toolImg = t:Add(img.picture.bitmap,nil)
+		str = VCL.MemoryStream()
+		-- skip first 4 bytes (0x36040000)
+		str:LoadFromHex(b,5)
+		img.picture:LoadFromStream(str)
 		str:Free()
+		local toolImg = t:Add(img.picture.bitmap,nil)
 		img:Free()
 		return toolImg
 	end
