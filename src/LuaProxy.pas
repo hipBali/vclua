@@ -310,11 +310,11 @@ end;
 
 procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT);
 begin
-  luaL_check(L, -1, addr);
+  luaL_check(L, i, addr);
 end;
 procedure luaL_checkProxyPti<PT>(L: Plua_State; i: Integer; addr: PT; pti : PTypeInfo);
 begin
-  luaL_check(L, -1, addr, pti);
+  luaL_check(L, i, addr, pti);
 end;
 
 class procedure TTrait<T>.luaL_checkArray(L: Plua_State; i: Integer; v: PaoT);
