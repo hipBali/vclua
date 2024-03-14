@@ -70,16 +70,15 @@ begin
       end;
 end;
 
-function GetPti(const v: TObject; pti : PTypeInfo = nil):PTypeInfo;
+function GetPti(pti : PTypeInfo = nil):PTypeInfo;
 begin
   if pti <> nil then Result := pti
-  else if v <> nil then Result := v.ClassInfo
   else Result := TypeInfo(TObject);
 end;
 
 procedure LuaTypeError(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo); overload;
 begin
-  LuaTypeError(L, i, GetPti(v^, pti));
+  LuaTypeError(L, i, GetPti(pti));
 end;
 
 function luaL_checkOrFromTable(L: Plua_State; i: Integer; v: PObject; proc: OnNilCheckProc; pti : PTypeInfo = nil):Boolean;
@@ -91,7 +90,7 @@ begin
     Exit;
   end;
   if not lua_istable(L, i) then
-     LuaTypeError(L, i, GetPti(v^, pti));
+     LuaTypeError(L, i, GetPti(pti));
   v^ := GetLuaObjectUnsafe(L, i);
   if v^ = nil then begin
     Result := True;
