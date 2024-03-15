@@ -335,7 +335,7 @@ local function processClass(def,cdef,ref)
 		if c==cdef.src then
 			classTable[cname] = {}
 			cLog(string.format("PARSING %s %s LINE:%d",cname, c,n),"INFO")
-			stage="parse"
+			stage="fill"
 			processed = true
 		end
 		local lword = ln[1]:lower()
