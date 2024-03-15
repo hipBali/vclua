@@ -214,6 +214,9 @@ local function updRef(refs, tp, tl, className, pushed)
 		cLog('Adding '..r..' to refs because of '..tp..' in '..className, 'INFO')
 	end
 end
+local function updRefs(refs, hashed, className, pushed)
+  for _,t in ipairs(HashedToSorted(hashed)) do updRef(refs,t,t:lower(),className, pushed) end
+end
 local eventSrcs = {}
 local eventAlias = {}
 local excludeType = loadMap("exclude/VarTypes")
@@ -278,14 +281,13 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
       local md = {method=line,propInfo=true,name=typename,refs={}} -- propInfo for ensuring #md.vars==1
       processParams(md)
       for t,_ in pairs(md.mtypes) do
-        local tl = t:lower()
-        if excludeType[tl] then
+        if excludeType[t:lower()] then
           cLog(" ** EXCLUDED:"..line.." "..t, "DEBUG")
           excludeType[c] = 1
           return
         end
-        updRef(md.refs,t,tl,typename)
       end
+      updRefs(md.refs,md.mtypes,typename)
       eventSrcs[ref] = eventSrcs[ref] or {}
       eventSrcs[ref][c] = md
       vcluaTypeRef[c] = 'Lua'..ref..'Events'
@@ -565,8 +567,8 @@ function createUnitBody(cdef, ref, refs)
 		local ret, reto = nil, md.reto
 		local retCount = 0
 		local vars, varlist, funcparams, out, mtypes, pushTypes = md.vars, md.varlist, md.funcparams, md.out, md.mtypes, md.pushTypes
-		for typ,_ in pairs(mtypes) do updRef(refs,typ,typ:lower(),className) end
-		for typ,_ in pairs(pushTypes) do updRef(refs,typ,typ:lower(),className,true) end
+		updRefs(refs,mtypes,className)
+		updRefs(refs,pushTypes,className,true)
 		if pi and pi.isEvent and pi.w then
 			local t = md.vars[1][1].type
 			local tl = t:lower()
@@ -951,7 +953,7 @@ for _,kv in ipairs(HashedToSorted(eventSrcs)) do
     def = def:gsub('#PAR',md.ptypelist,1):gsub('#TYP',typ,1)
     table.insert(defs, def)
     -- have to do it here, only after all processClass calls
-    for typ,_ in pairs(md.mtypes) do updRef(implrefs,typ,typ:lower(),md.name,true) end
+    updRefs(implrefs,md.mtypes,md.name,true)
     implrefs[uname] = nil
     local decl = VCLUA_EVENT_HANDLER_DECL:gsub('#PAR',md.ptypelist,1):gsub('#TYP',typ,1)
     table.insert(decls, decl)
