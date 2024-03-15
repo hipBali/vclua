@@ -500,6 +500,19 @@ end;
 // ***********************************************
 // LUA Control Methods
 // ***********************************************
+function LuaIs(L: Plua_State): Integer; cdecl;
+var
+  o: TObject;
+begin
+  CheckArg(L, 2);
+  Result := 1;
+  o := GetLuaObject(L, 1);
+  if o = nil then
+     lua_push(L, false)
+  else
+    lua_push(L, InheritsFrom(o.ClassInfo, luaL_checkPChar(L, 2, TypeInfo(shortstring))));
+end;
+
 procedure PushDefaultMethods(L: Plua_State; Sender: TObject);
 var
   index: Integer;
@@ -509,6 +522,7 @@ begin
   lua_pushlightuserdata(L, Pointer(Sender));
   lua_setfield(L, index, HandleStr);
   LuaSetTableFunctionAbs(L, index, 'Free', @ControlFree);
+  LuaSetTableFunctionAbs(L, index, 'is', @LuaIs);
   if Sender is TWinControl then begin
      LuaSetTableFunctionAbs(L, index, 'SetFocus', @ControlFocus);
      LuaSetTableFunctionAbs(L, index, 'EndUpdateBounds', @ControlEndUpdateBounds);
