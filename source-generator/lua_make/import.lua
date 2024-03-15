@@ -232,7 +232,13 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
     line = line..cfile[merged]
   end
   pos = pos + 1
-  if line:find("^%s*set%s+of%s*",pos) then
+  if line:find("^%s*set%s+of%s+",pos) then
+    local _,_,cc = line:find("^%s*set%s+of%s+([_%w]+)",pos)
+    if cc and excludeType[cc:lower()] then
+      cLog(" ** EXCLUDED:"..line.." "..typename, "DEBUG")
+      excludeType[c] = 1
+      return
+    end
     cLog(string.format("SET FOUND %s LINE:%d", typename, n),"INFO")
     VCLUA_FROMLUA[c] = VCLUA_TOSET
     if VCLUA_ES_CHECK then
@@ -242,6 +248,11 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
   else
     local _,_,cc = line:find("^%s*array%s+of%s+([_%w]+)",pos)
     if cc then
+      if excludeType[cc:lower()] then
+        cLog(" ** EXCLUDED:"..line.." "..typename, "DEBUG")
+        excludeType[c] = 1
+        return
+      end
       VCLUA_FROMLUA[c] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
       VCLUA_TOLUA[c] = VCLUA_PUSHARRAY:gsub("#TYP",cc,1)
       cLog(string.format("ARRAY FOUND %s LINE:%d", typename, n),"INFO")
