@@ -60,6 +60,7 @@ VCLUA_TOLUA = {
 	["tcustomcolorbox"] = VCLUA_TOLUA_FULL,
 
 	["tobject"] = VCLUA_TOLUA_FULL,
+	["tpersistent"] = VCLUA_TOLUA_FULL,
 	["tcomponent"] = VCLUA_TOLUA_FULL,
 	["twincontrol"] = VCLUA_TOLUA_FULL,
 	["tpage"] = VCLUA_TOLUA_FULL,

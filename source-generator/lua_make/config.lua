@@ -73,6 +73,12 @@ classes = {
 	-- classes
 	-- built-in PropertyGrid
 	------------------------------------------------------------------
+	{ unit = "Collection", ref = "Classes",
+		classes = {
+			{ name = "CollectionItem", src = "TCollectionItem", nocreate=true },
+			{ name = "Collection", src = "TCollection", base=true, nocreate=true },
+		}
+	},
 	{ unit = "Stream", ref = "Classes",
 		classes = {
 			{ name = "Stream", src = "TStream", base=true, nocreate=true },

@@ -4,6 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 	
 	// GENERATED SOURCES ***********************
+	LuaCollection,
 	LuaStream,
 	LuaStrings,
 	LuaStringList,

@@ -106,4 +106,6 @@ TStringList.ClassInfo,
 TStrings.ClassInfo,
 TMemoryStream.ClassInfo,
 TCustomMemoryStream.ClassInfo,
-TStream.ClassInfo
+TStream.ClassInfo,
+TCollection.ClassInfo,
+TCollectionItem.ClassInfo

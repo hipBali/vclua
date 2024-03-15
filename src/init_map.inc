@@ -3,6 +3,10 @@ Generated with Lua-fpc parser/generator
 (C) 2018-2024 Hi-Project Ltd.
 *)
 
+  vmts.Add('TCollectionItem', @CollectionItemFuncs);
+  propSets.Add('TCollectionItem', @CollectionItemSets);
+  vmts.Add('TCollection', @CollectionFuncs);
+  propSets.Add('TCollection', @CollectionSets);
   vmts.Add('TStream', @StreamFuncs);
   propSets.Add('TStream', @StreamSets);
   vmts.Add('TCustomMemoryStream', @CustomMemoryStreamFuncs);
