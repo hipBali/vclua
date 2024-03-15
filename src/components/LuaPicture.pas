@@ -22,7 +22,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent, LuaFPImageEvents;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LCLType, LuaClassesEvents, LuaEvent, LuaFPImageEvents;
 
 function VCLua_Picture_Clear(L: Plua_State): Integer; cdecl;
 var
@@ -166,6 +166,25 @@ begin
 	end;
 end;
 
+function VCLua_Picture_SupportsClipboardFormat(L: Plua_State): Integer; cdecl;
+var
+	lPicture:TLuaPicture;
+	FormatID:TClipboardFormat;
+	ret:Boolean;
+begin
+	CheckArg(L, 2);
+	lPicture := TLuaPicture(GetLuaObject(L, 1));
+	luaL_check(L,2,@FormatID);
+	try
+		ret := lPicture.SupportsClipboardFormat(FormatID);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Picture', 'SupportsClipboardFormat', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Picture_Assign(L: Plua_State): Integer; cdecl;
 var
 	lPicture:TLuaPicture;
@@ -225,6 +244,7 @@ begin
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToFile', @VCLua_Picture_SaveToFile);
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStream', @VCLua_Picture_SaveToStream);
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStreamWithFileExt', @VCLua_Picture_SaveToStreamWithFileExt);
+	TLuaMethodInfo.Create(PictureFuncs, 'SupportsClipboardFormat', @VCLua_Picture_SupportsClipboardFormat);
 	TLuaMethodInfo.Create(PictureFuncs, 'Assign', @VCLua_Picture_Assign);
 	PictureSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(PictureSets, 'OnChange', @VCLua_Picture_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));

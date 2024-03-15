@@ -23,7 +23,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaBitmap, LuaClassesEvents, LuaControl, LuaEvent, LuaFormsEvents, LuaMenu, Menus, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaBitmap, LuaClassesEvents, LuaControl, LuaEvent, LuaFormsEvents, LuaMenu, Menus, Types, LCLType;
 
 function VCLua_Form_AfterConstruction(L: Plua_State): Integer; cdecl;
 var
@@ -53,6 +53,23 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'BeforeDestruction', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_Form_GetControlClassDefaultSize(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+	ret:TSize;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		ret := lForm.GetControlClassDefaultSize();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'GetControlClassDefaultSize', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_Form_BigIconHandle(L: Plua_State): Integer; cdecl;
@@ -1555,6 +1572,7 @@ begin
 	CustomFormFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomFormFuncs, 'AfterConstruction', @VCLua_Form_AfterConstruction);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'BeforeDestruction', @VCLua_Form_BeforeDestruction);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'GetControlClassDefaultSize', @VCLua_Form_GetControlClassDefaultSize);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'BigIconHandle', @VCLua_Form_BigIconHandle);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Close', @VCLua_Form_Close);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'CloseQuery', @VCLua_Form_CloseQuery);

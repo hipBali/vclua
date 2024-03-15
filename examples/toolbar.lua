@@ -17,6 +17,8 @@ local add_img = function(imgList, fName)
 	-- Picture can load several formats, not just one
 	Picture = VCL.Picture()
 	Picture:LoadFromFile(fName)
+	-- class functions work when supplied with the object (note ':')
+	print(Picture.Graphic:GetFileExtensions())
 	-- ImageList needs a CustomBitmap descendant
 	local SrcBmp = VCL.Bitmap()
 	-- This converts the format (png->bmp)

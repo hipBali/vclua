@@ -355,9 +355,15 @@ local function processClass(def,cdef,ref)
 		end
 		local isOnlyProp = stage=="fillprop"
 		if (stage=="fill" or isOnlyProp) and classTable[cname] then
+			local classm = lword=='class'
+			local mName = ln[2]
+			if classm then
+				lword = ln[2]:lower()
+				mName = ln[3]
+			end
 			local isProp = lword=="property"
 			if (not isOnlyProp and (lword=="procedure" or lword=="function")) or isProp then
-				local mId = lword.." "..ln[2]
+				local mId = (classm and 'class ' or '')..lword.." "..mName
 				if exclude[mId] then
 					cLog(" ** EXCLUDE:"..mId, "DEBUG")
 				else
@@ -391,7 +397,7 @@ local function processClass(def,cdef,ref)
 						local ok=true
 						local mds={{method=l}}
 						if isProp then
-							if isOnlyProp and not ln[2]:find('^On%S') then ok = false
+							if (isOnlyProp and not mName:find('^On%S')) or classm then ok = false
 							else
 								mds = propertyToProc(l)
 								if not mds then ok = false end
@@ -399,7 +405,7 @@ local function processClass(def,cdef,ref)
 						end
 						if ok then
 							for _,md in ipairs(mds) do
-								md.mName=ln[2]
+								md.mName=mName
 								local reason
 								if lword=="function" or (isProp and md.propInfo.r and not md.propInfo.i) then
 									local ret = md.method:split(":")

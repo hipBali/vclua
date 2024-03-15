@@ -341,6 +341,42 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Graphic_GetFileExtensions(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	ret:string;
+begin
+	CheckArg(L, 1);
+	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
+	try
+		ret := lGraphic.GetFileExtensions();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetFileExtensions', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Graphic_IsStreamFormatSupported(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	Stream:TStream;
+	ret:Boolean;
+begin
+	CheckArg(L, 2);
+	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
+	luaL_check(L,2,@Stream);
+	try
+		ret := lGraphic.IsStreamFormatSupported(Stream);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'IsStreamFormatSupported', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Graphic_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lGraphic:TLuaGraphic;
@@ -386,6 +422,8 @@ begin
 	TLuaMethodInfo.Create(GraphicFuncs, 'SaveToClipboardFormatID', @VCLua_Graphic_SaveToClipboardFormatID);
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetSupportedSourceMimeTypes', @VCLua_Graphic_GetSupportedSourceMimeTypes);
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetResourceType', @VCLua_Graphic_GetResourceType);
+	TLuaMethodInfo.Create(GraphicFuncs, 'GetFileExtensions', @VCLua_Graphic_GetFileExtensions);
+	TLuaMethodInfo.Create(GraphicFuncs, 'IsStreamFormatSupported', @VCLua_Graphic_IsStreamFormatSupported);
 	GraphicSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(GraphicSets, 'OnChange', @VCLua_Graphic_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(GraphicSets, 'OnProgress', @VCLua_Graphic_VCLuaSetOnProgress, mfCall, TypeInfo(TProgressEvent));

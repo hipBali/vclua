@@ -269,6 +269,23 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Bitmap_GetFileExtensions(L: Plua_State): Integer; cdecl;
+var
+	lBitmap:TLuaBitmap;
+	ret:string;
+begin
+	CheckArg(L, 1);
+	lBitmap := TLuaBitmap(GetLuaObject(L, 1));
+	try
+		ret := lBitmap.GetFileExtensions();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Bitmap', 'GetFileExtensions', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Bitmap_GetResourceType(L: Plua_State): Integer; cdecl;
 var
 	lBitmap:TLuaBitmap;
@@ -340,6 +357,7 @@ begin
 	TLuaMethodInfo.Create(CustomBitmapSets, 'HandleType', @VCLua_CustomBitmap_VCLuaSetHandleType, mfCall, TypeInfo(TBitmapHandleType));
 	TLuaMethodInfo.Create(CustomBitmapSets, 'Monochrome', @VCLua_CustomBitmap_VCLuaSetMonochrome, mfCall, TypeInfo(Boolean));
 	BitmapFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(BitmapFuncs, 'GetFileExtensions', @VCLua_Bitmap_GetFileExtensions);
 	TLuaMethodInfo.Create(BitmapFuncs, 'GetResourceType', @VCLua_Bitmap_GetResourceType);
 	TLuaMethodInfo.Create(BitmapFuncs, 'LoadFromStream', @VCLua_Bitmap_LoadFromStream);
 	BitmapSets := TLuaVmt.Create;
