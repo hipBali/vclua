@@ -203,6 +203,37 @@ begin
 	end;
 end;
 
+function VCLua_Canvas_ArcTo(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	ALeft:Integer;
+	ATop:Integer;
+	ARight:Integer;
+	ABottom:Integer;
+	SX:Integer;
+	SY:Integer;
+	EX:Integer;
+	EY:Integer;
+begin
+	CheckArg(L, 9);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@ALeft);
+	luaL_check(L,3,@ATop);
+	luaL_check(L,4,@ARight);
+	luaL_check(L,5,@ABottom);
+	luaL_check(L,6,@SX);
+	luaL_check(L,7,@SY);
+	luaL_check(L,8,@EX);
+	luaL_check(L,9,@EY);
+	try
+		lCanvas.ArcTo(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'ArcTo', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_Canvas_AngleArc(L: Plua_State): Integer; cdecl;
 var
 	lCanvas:TLuaCanvas;
@@ -578,6 +609,86 @@ begin
 			CallError(L, 'Canvas', 'Frame3D', E.ClassName, E.Message);
 	end;
 	lua_push(L,ARect);
+end;
+
+function VCLua_Canvas_Frame(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	ARect:TRect;
+begin
+	CheckArg(L, 2);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@ARect);
+	try
+		lCanvas.Frame(ARect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Canvas_Frame2(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	X1:Integer;
+	Y1:Integer;
+	X2:Integer;
+	Y2:Integer;
+begin
+	CheckArg(L, 5);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@X1);
+	luaL_check(L,3,@Y1);
+	luaL_check(L,4,@X2);
+	luaL_check(L,5,@Y2);
+	try
+		lCanvas.Frame(X1,Y1,X2,Y2);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'Frame', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Canvas_FrameRect(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	ARect:TRect;
+begin
+	CheckArg(L, 2);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@ARect);
+	try
+		lCanvas.FrameRect(ARect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'FrameRect', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Canvas_FrameRect2(L: Plua_State): Integer; cdecl;
+var
+	lCanvas:TLuaCanvas;
+	X1:Integer;
+	Y1:Integer;
+	X2:Integer;
+	Y2:Integer;
+begin
+	CheckArg(L, 5);
+	lCanvas := TLuaCanvas(GetLuaObject(L, 1));
+	luaL_check(L,2,@X1);
+	luaL_check(L,3,@Y1);
+	luaL_check(L,4,@X2);
+	luaL_check(L,5,@Y2);
+	try
+		lCanvas.FrameRect(X1,Y1,X2,Y2);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Canvas', 'FrameRect', E.ClassName, E.Message);
+	end;
 end;
 
 function VCLua_Canvas_GradientFill(L: Plua_State): Integer; cdecl;
@@ -1105,6 +1216,7 @@ begin
 	TLuaMethodInfo.Create(CanvasFuncs, 'RestoreHandleState', @VCLua_Canvas_RestoreHandleState);
 	TLuaMethodInfo.Create(CanvasFuncs, 'Arc', @VCLua_Canvas_Arc);
 	TLuaMethodInfo.Create(CanvasFuncs, 'Arc2', @VCLua_Canvas_Arc2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'ArcTo', @VCLua_Canvas_ArcTo);
 	TLuaMethodInfo.Create(CanvasFuncs, 'AngleArc', @VCLua_Canvas_AngleArc);
 	TLuaMethodInfo.Create(CanvasFuncs, 'BrushCopy', @VCLua_Canvas_BrushCopy);
 	TLuaMethodInfo.Create(CanvasFuncs, 'Chord', @VCLua_Canvas_Chord);
@@ -1122,6 +1234,10 @@ begin
 	TLuaMethodInfo.Create(CanvasFuncs, 'Frame3d2', @VCLua_Canvas_Frame3d2);
 	TLuaMethodInfo.Create(CanvasFuncs, 'Frame3D3', @VCLua_Canvas_Frame3D3);
 	TLuaMethodInfo.Create(CanvasFuncs, 'Frame3D4', @VCLua_Canvas_Frame3D4);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Frame', @VCLua_Canvas_Frame);
+	TLuaMethodInfo.Create(CanvasFuncs, 'Frame2', @VCLua_Canvas_Frame2);
+	TLuaMethodInfo.Create(CanvasFuncs, 'FrameRect', @VCLua_Canvas_FrameRect);
+	TLuaMethodInfo.Create(CanvasFuncs, 'FrameRect2', @VCLua_Canvas_FrameRect2);
 	TLuaMethodInfo.Create(CanvasFuncs, 'GradientFill', @VCLua_Canvas_GradientFill);
 	TLuaMethodInfo.Create(CanvasFuncs, 'RadialPie', @VCLua_Canvas_RadialPie);
 	TLuaMethodInfo.Create(CanvasFuncs, 'Pie', @VCLua_Canvas_Pie);

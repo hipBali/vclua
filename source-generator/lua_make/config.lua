@@ -104,7 +104,7 @@ classes = {
 			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true },
 		}
 	},
-	{ name = "Brush", src = "TBrush", ref = "Graphics", base=true, nocreate=true },
+	{ name = "Brush", src = "TBrush", ref = "Graphics", implref = "LCLType", base=true, nocreate=true },
 
 	-- imagelist
 	{ name = "ImageList", src = "TCustomImageList", ref = "ImgList, Controls", noparent=true},

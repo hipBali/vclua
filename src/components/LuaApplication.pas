@@ -544,6 +544,38 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
+function VCLua_Application_VCLuaSetExtendedKeysSupport(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+	val:Boolean;
+begin
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lApplication.ExtendedKeysSupport := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'ExtendedKeysSupport', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Application_VCLuaGetExtendedKeysSupport(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+	ret:Boolean;
+begin
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lApplication.ExtendedKeysSupport;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'ExtendedKeysSupport', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Application_VCLuaSetExceptionDialog(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
@@ -1605,6 +1637,7 @@ begin
 	TLuaMethodInfo.Create(ApplicationFuncs, 'BidiMode', @VCLua_Application_VCLuaGetBidiMode, mfCall);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'CaptureExceptions', @VCLua_Application_VCLuaGetCaptureExceptions, mfCall);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'DoubleBuffered', @VCLua_Application_VCLuaGetDoubleBuffered, mfCall);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'ExtendedKeysSupport', @VCLua_Application_VCLuaGetExtendedKeysSupport, mfCall);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'ExceptionDialog', @VCLua_Application_VCLuaGetExceptionDialog, mfCall);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'FindGlobalComponentEnabled', @VCLua_Application_VCLuaGetFindGlobalComponentEnabled, mfCall);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'Flags', @VCLua_Application_VCLuaGetFlags, mfCall);
@@ -1638,6 +1671,7 @@ begin
 	TLuaMethodInfo.Create(ApplicationSets, 'BidiMode', @VCLua_Application_VCLuaSetBidiMode, mfCall, TypeInfo(TBiDiMode));
 	TLuaMethodInfo.Create(ApplicationSets, 'CaptureExceptions', @VCLua_Application_VCLuaSetCaptureExceptions, mfCall, TypeInfo(boolean));
 	TLuaMethodInfo.Create(ApplicationSets, 'DoubleBuffered', @VCLua_Application_VCLuaSetDoubleBuffered, mfCall, TypeInfo(TApplicationDoubleBuffered));
+	TLuaMethodInfo.Create(ApplicationSets, 'ExtendedKeysSupport', @VCLua_Application_VCLuaSetExtendedKeysSupport, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(ApplicationSets, 'ExceptionDialog', @VCLua_Application_VCLuaSetExceptionDialog, mfCall, TypeInfo(TApplicationExceptionDlg));
 	TLuaMethodInfo.Create(ApplicationSets, 'FindGlobalComponentEnabled', @VCLua_Application_VCLuaSetFindGlobalComponentEnabled, mfCall, TypeInfo(boolean));
 	TLuaMethodInfo.Create(ApplicationSets, 'Flags', @VCLua_Application_VCLuaSetFlags, mfCall, TypeInfo(TApplicationFlags));

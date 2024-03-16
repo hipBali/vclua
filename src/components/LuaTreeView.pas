@@ -413,6 +413,57 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_TreeNodes_GetLastExpandedSubNode(L: Plua_State): Integer; cdecl;
+var
+	lTreeNodes:TLuaTreeNodes;
+	ret:TTreeNode;
+begin
+	CheckArg(L, 1);
+	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
+	try
+		ret := lTreeNodes.GetLastExpandedSubNode();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'GetLastExpandedSubNode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TreeNodes_GetLastNode(L: Plua_State): Integer; cdecl;
+var
+	lTreeNodes:TLuaTreeNodes;
+	ret:TTreeNode;
+begin
+	CheckArg(L, 1);
+	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
+	try
+		ret := lTreeNodes.GetLastNode();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'GetLastNode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TreeNodes_GetLastSubNode(L: Plua_State): Integer; cdecl;
+var
+	lTreeNodes:TLuaTreeNodes;
+	ret:TTreeNode;
+begin
+	CheckArg(L, 1);
+	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
+	try
+		ret := lTreeNodes.GetLastSubNode();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'GetLastSubNode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_TreeNodes_GetLastVisibleNode(L: Plua_State): Integer; cdecl;
 var
 	lTreeNodes:TLuaTreeNodes;
@@ -2621,6 +2672,9 @@ begin
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'FindTopLvlNode', @VCLua_TreeNodes_FindTopLvlNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetFirstNode', @VCLua_TreeNodes_GetFirstNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetFirstVisibleNode', @VCLua_TreeNodes_GetFirstVisibleNode);
+	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetLastExpandedSubNode', @VCLua_TreeNodes_GetLastExpandedSubNode);
+	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetLastNode', @VCLua_TreeNodes_GetLastNode);
+	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetLastSubNode', @VCLua_TreeNodes_GetLastSubNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetLastVisibleNode', @VCLua_TreeNodes_GetLastVisibleNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetSelections', @VCLua_TreeNodes_GetSelections);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'Insert', @VCLua_TreeNodes_Insert);

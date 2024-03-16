@@ -21,7 +21,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LuaBitmap;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LuaBitmap, LCLType;
 
 function VCLua_Brush_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -91,6 +91,38 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Brush_VCLuaSetHandle(L: Plua_State): Integer; cdecl;
+var
+	lBrush:TLuaBrush;
+	val:HBRUSH;
+begin
+	lBrush := TLuaBrush(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lBrush.Handle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Brush', 'Handle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Brush_VCLuaGetHandle(L: Plua_State): Integer; cdecl;
+var
+	lBrush:TLuaBrush;
+	ret:HBRUSH;
+begin
+	lBrush := TLuaBrush(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lBrush.Handle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Brush', 'Handle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 procedure lua_push(L: Plua_State; const v: TBrush; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TBrush',v);
@@ -101,6 +133,8 @@ begin
 	TLuaMethodInfo.Create(BrushFuncs, 'Assign', @VCLua_Brush_Assign);
 	TLuaMethodInfo.Create(BrushFuncs, 'EqualsBrush', @VCLua_Brush_EqualsBrush);
 	TLuaMethodInfo.Create(BrushFuncs, 'Bitmap', @VCLua_Brush_VCLuaGetBitmap, mfCall);
+	TLuaMethodInfo.Create(BrushFuncs, 'Handle', @VCLua_Brush_VCLuaGetHandle, mfCall);
 	BrushSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(BrushSets, 'Bitmap', @VCLua_Brush_VCLuaSetBitmap, mfCall, TypeInfo(TCustomBitmap));
+	TLuaMethodInfo.Create(BrushSets, 'Handle', @VCLua_Brush_VCLuaSetHandle, mfCall, TypeInfo(HBRUSH));
 end.

@@ -93,6 +93,11 @@ function string:trim()
  return from > #s and "" or s:match(".*%S", from)
 end
 
+function string:concatable(nospace)
+  local res = self:gsub('^%s*',nospace and '' or ' '):gsub('//.*','')
+  return res == ' ' and '' or res
+end
+
 function string:split(sep)
    local sep, fields = sep or ":", {}
    local pattern = string.format("([^%s]+)", sep)
@@ -152,22 +157,15 @@ local function propertyToProc(decl)
 end
 
 function removeInnerComment(l)
-	local cstart = l:find("{")
-	local cend = l:find("}")
-	if cstart and cend then
-		local ll =  l:sub(1,cstart-1)..l:sub(cend+1)
-		if ll:len()>0 then
-			return ll
-		end
-	end
-	return l
+	return (l:gsub('{[^}]*}',' '))
 end
 
 function removeIfdef(str)
-	local s1,_ = str:find("%{$IFDEF%s*%w+%}%w+")
-	local _,l2 = str:find("%{$ENDIF%}")
-	local s2 = str:find("%{$IFDEF")
-	if s2 and str:upper():find("DEBUG") then
+	local stru = str:upper()
+	local s1,_ = stru:find("%{$IFDEF%s*%w+%}%w+")
+	local _,l2 = stru:find("%{$ENDIF%}")
+	local s2 = stru:find("%{$IFDEF")
+	if s2 and stru:find("DEBUG") then
 		return str:sub(1,s2-1)..str:sub(l2+1)
 	end
 	if s1 and l2 then
@@ -175,35 +173,6 @@ function removeIfdef(str)
 	else
 		return str
 	end
-end
-
--- test against comments
-function testCStart(l)
-	local cstart = l:trim():find("{")
-	if cstart then
-		if l:sub(-1)=="}" then
-			cLog(" ** SKIP LINE ".. l, "DEBUG")
-			return 1
-		elseif cstart==1 then
-			cLog(" ** START SKIP 1 "..l..":"..cstart, "DEBUG")
-			return 2
-		end
-	else
-		cstart = l:gsub("^%s*", ""):find("//")
-		if cstart then 
-			return 1
-		end
-	end
-	return 0
-end
-
-function testCEnd(l)
-	local cend = l:trim():find("}")
-	if cend then
-		cLog(" ** STOP SKIP 1 ".. l, "DEBUG")
-		return 1
-	end
-	return 0
 end
 
 local function updRef(refs, tp, tl, className, pushed)
@@ -217,6 +186,36 @@ end
 local function updRefs(refs, hashed, className, pushed)
   for _,t in ipairs(HashedToSorted(hashed)) do updRef(refs,t,t:lower(),className, pushed) end
 end
+local function skip_multiline(n, line, def, ref)
+  local function do_skip(n, line, def, ref)
+    local multiline_start = line:find('{[^$}][^}]*$') or line:find('{$')
+    local line_comment_start = line:find('//')
+    if multiline_start and (not line_comment_start or multiline_start < line_comment_start) then
+      local last = n + 1 -- must start from next line to avoid e.g. {%H-}...{...
+      while not def[last]:find('}') do last = last + 1 end
+      line = line:sub(1,multiline_start-1)..' '..def[last]:sub(def[last]:find('}') + 1)
+      if line:trim() ~= '' then cLog(('multiline %s %d %d %s'):format(ref, n, last, line), 'DEBUG') end
+      return do_skip(last, line, def, ref) -- to handle ...}...useful...{...
+    end
+    return n, line
+  end
+  local n, line = do_skip(n, line, def, ref)
+  return n, line:concatable(true)
+end
+local function concat_until(ref, n, line, def, pred, rm_inner)
+  local merged, t, l = n+1, {line, n=1}
+  while true do
+    merged, l = skip_multiline(merged, def[merged], def)
+    if rm_inner then l = removeInnerComment(l) end
+    t.n = t.n+1
+    t[t.n] = l
+    if pred(l) then break
+    else merged = merged + 1 end
+  end
+  local res = table.concat(t, ' ')
+  --if merged > n + 1 then cLog('merged '..line..' at '..ref..':'..n..' into '..res..' at '..merged, 'DEBUG') end
+  return merged, res
+end
 local eventSrcs = {}
 local eventAlias = {}
 local excludeType = loadMap("exclude/VarTypes")
@@ -224,80 +223,65 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
   local _, pos, typename = line:find("^%s*(T[_%w]+)%s*=%s*")
   if not pos then return end
   local c = typename:lower()
-  if excludeType[c] then return end
+  if excludeType[c] then return n end
   --cLog('Set typeRef '..ref..' to '..typename, 'INFO')
   typeRef[c] = ref
   local merged = n
   if pos == #line then
     -- declaration starts on another string as in GraphType
-    merged = n + 1
-    while cfile[merged] == '' do merged = merged + 1 end
-    line = line..cfile[merged]
+    merged, line = concat_until(ref, n, line, cfile, function(s) return #s>0 end)
   end
+  _, pos = line:find('^%s*',pos + 1)
   pos = pos + 1
-  if line:find("^%s*set%s+of%s+",pos) then
-    local _,_,cc = line:find("^%s*set%s+of%s+([_%w]+)",pos)
-    if cc and excludeType[cc:lower()] then
-      cLog(" ** EXCLUDED:"..line.." "..typename, "DEBUG")
-      excludeType[c] = 1
-      return
-    end
+  local do_exclude
+  if line:find("^set%s+of%s*",pos) then
     cLog(string.format("SET FOUND %s LINE:%d", typename, n),"INFO")
     VCLUA_FROMLUA[c] = VCLUA_TOSET
     if VCLUA_ES_CHECK then
       VCLUA_ES_CHECK[c] = true
       VCLUA_TOLUA[c] = VCLUA_TOLUA_FULL
     end
-  else
-    local _,_,cc = line:find("^%s*array%s+of%s+([_%w]+)",pos)
-    if cc then
-      if excludeType[cc:lower()] then
-        cLog(" ** EXCLUDED:"..line.." "..typename, "DEBUG")
-        excludeType[c] = 1
-        return
+  elseif line:find("^%(",pos) then
+    cLog(string.format("ENUM FOUND %s LINE:%d %s", typename, n, line),"INFO")
+    if VCLUA_ES_CHECK then
+      VCLUA_ES_CHECK[c] = true
+      VCLUA_FROMLUA[c] = VCLUA_FROMLUA_FULL
+      VCLUA_TOLUA[c] = VCLUA_TOLUA_FULL
+    end
+  elseif line:find('^class%s+of[^_%w]',pos) or line:find('^[fF]unction%s*%(',pos) then -- or line:find('^[oO]bject',pos)
+    do_exclude = 'typekind'
+  elseif line:find("^[pP]rocedure%s*%(",pos) then
+    local function pred(s) return s:find("%);") or s:find("%)%s*of%s+[oO]bject;") end
+    if not pred(line) then merged, line = concat_until(ref, merged, line, cfile, pred) end
+    if line:find("%);") then return merged end
+    local md = {method=line,propInfo=true,name=typename,refs={}} -- propInfo for ensuring #md.vars==1
+    processParams(md)
+    for _,t in ipairs(HashedToSorted(md.mtypes)) do
+      if excludeType[t:lower()] then
+        do_exclude = t
+        break
       end
-      VCLUA_FROMLUA[c] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
-      VCLUA_TOLUA[c] = VCLUA_PUSHARRAY:gsub("#TYP",cc,1)
-      cLog(string.format("ARRAY FOUND %s LINE:%d", typename, n),"INFO")
-    elseif line:find('^%s*class%s+of[^_%w]',pos) or line:find('^%s*[Ff]unction%s*%(',pos) then
-      excludeType[c] = 1
-    elseif line:find("^%s*%(",pos) then
-      cLog(string.format("ENUM FOUND %s LINE:%d %s", typename, n, line),"INFO")
-      if VCLUA_ES_CHECK then
-        VCLUA_ES_CHECK[c] = true
-        VCLUA_FROMLUA[c] = VCLUA_FROMLUA_FULL
-        VCLUA_TOLUA[c] = VCLUA_TOLUA_FULL
-      end
-    elseif line:find("^%s*[pP]rocedure%s*%(",pos) then
-      if line:find("%);")==nil and line:find("%)%s*of%s+[oO]bject;")==nil then
-        local bl
-        repeat
-          merged = merged + 1
-          bl = cfile[merged]:gsub("^%s*", " ")
-          line = line..bl
-        until bl:find("%);") or bl:find("%)%s*of%s+[oO]bject;")
-      end
-      if line:find("%);") then return end
-      local md = {method=line,propInfo=true,name=typename,refs={}} -- propInfo for ensuring #md.vars==1
-      processParams(md)
-      for t,_ in pairs(md.mtypes) do
-        if excludeType[t:lower()] then
-          cLog(" ** EXCLUDED:"..line.." "..t, "DEBUG")
-          excludeType[c] = 1
-          return
-        end
-      end
+    end
+    if not do_exclude then
       updRefs(md.refs,md.mtypes,typename)
       eventSrcs[ref] = eventSrcs[ref] or {}
       eventSrcs[ref][c] = md
       vcluaTypeRef[c] = 'Lua'..ref..'Events'
+    end
+  else
+    local _,_,cc = line:find("^array%s+of%s+([_%w]+)",pos)
+    if cc then
+      if excludeType[cc:lower()] then do_exclude = cc
+      else
+        cLog(string.format("ARRAY FOUND %s LINE:%d", typename, n),"INFO")
+        VCLUA_FROMLUA[c] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
+        VCLUA_TOLUA[c] = VCLUA_PUSHARRAY:gsub("#TYP",cc,1)
+      end
     else
-      local _,_,alias = line:find('^%s*([_%w]+);$',pos)
+      local _,_,alias = line:find('^([_%w]+);$',pos)
       if alias then
         local lalias = alias:lower()
-        if excludeType[lalias] then
-          excludeType[c] = 1
-          cLog(" ** EXCLUDED:"..line.." "..alias, "DEBUG")
+        if excludeType[lalias] then do_exclude = alias
         elseif VCLUA_FROMLUA[lalias] or VCLUA_TOLUA[lalias] or (VCLUA_ES_CHECK and VCLUA_ES_CHECK[lalias]) then
           VCLUA_FROMLUA[c] = VCLUA_FROMLUA[lalias]
           VCLUA_TOLUA[c] = VCLUA_TOLUA[lalias]
@@ -313,9 +297,16 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
             end
           end
         end
+      else
+        return --all checks failed, return nothing to indicate that 'line' wasn't handled
       end
     end
   end
+  if do_exclude then
+    excludeType[c] = 1
+    if do_exclude ~= 'typekind' then cLog(" ** EXCLUDED:"..line.." "..do_exclude, "DEBUG") end
+  end
+  return merged
 end
 
 local excludeFuncs = loadMap("exclude/AnyClass")
@@ -325,14 +316,16 @@ local parsedRefs = {}
 local function processClass(def,cdef,ref)
 	local processed
 	local cname = cdef.name
-	local skip
 	local exclude = loadMap("exclude/"..cname) or {}
 	for k, v in pairs(excludeFuncs) do exclude[k] = v end
 	local reparse = cdef.reparse or not parsedRefs[ref]
 	if reparse then cLog('Reparsing '..ref, 'DEBUG') end
 	parsedRefs[ref] = true
 
-	local function processLine(n, line)
+	local processLine
+	processLine = function(n, line)
+		n, line = skip_multiline(n, line, def, ref)
+		-- multiline comment doesn't start on or before 'line'
 		-- find classdef
 		local ln = {}
 		local index = 1
@@ -340,8 +333,11 @@ local function processClass(def,cdef,ref)
 			ln[index] = value
 			index = index + 1
 		end
-		if not ln[1] then return false end
-		if reparse then inferTypeKindFromLine(n, line, def, ref) end
+		if not ln[1] then return n end
+		if reparse then
+			local last = inferTypeKindFromLine(n, line, def, ref)
+			if last then return last end
+		end
 		-- parse class
 		local _,_,c = line:find("([_%w]+)%s*=%s*class%s*%([_%w]+%s*")
 		if not c then _,_,c = line:find("([_%w]+)%s*=%s*class%s*$") end
@@ -353,7 +349,7 @@ local function processClass(def,cdef,ref)
 		end
 		local lword = ln[1]:lower()
 		if proc[lword] and stage~="scan" and proc[lword]() then
-			return true
+			return -n
 		end
 		local isOnlyProp = stage=="fillprop"
 		if (stage=="fill" or isOnlyProp) and classTable[cname] then
@@ -372,71 +368,55 @@ local function processClass(def,cdef,ref)
 					-- test comment
 					line = removeIfdef(line)
 					line = removeInnerComment(line)
-					local lt = testCStart(line)
-					if skip then
-						-- wait for end 
-						if testCEnd(line)==1 then
-							skip = nil
+					-- join broken lines
+					if isProp and not line:find(";") then
+						n, line = concat_until(ref, n, line, def, function(s) return s:find(';') end, true)
+					elseif line:find("%(") and not line:find("%)") then
+						n, line = concat_until(ref, n, line, def, function(s) return s:find('%)') end, true)
+					end
+					-- test exclusions
+					local ok=true
+					local mds={{method=line}}
+					if isProp then
+						if (isOnlyProp and not mName:find('^On%S')) or classm then ok = false
+						else
+							mds = propertyToProc(line)
+							if not mds then ok = false end
 						end
-					elseif lt == 0 then 
-						local l = line:gsub("^%s*", ""):trim()
-						-- join broken lines
-						local function appendUntil(pattern)
-							local m = n + 1
-							local bl
-							repeat
-								bl = def[m]:gsub("^%s*", "")
-								l = l .. ' ' .. bl
-								m = m + 1
-							until bl:find(pattern)
-						end
-						if isProp and line:find(";") == nil then
-							appendUntil(';')
-						elseif line:find("%(") and line:find("%)")==nil then
-							appendUntil("%)")
-						end
-						-- test exclusions
-						local ok=true
-						local mds={{method=l}}
-						if isProp then
-							if (isOnlyProp and not mName:find('^On%S')) or classm then ok = false
-							else
-								mds = propertyToProc(l)
-								if not mds then ok = false end
+					end
+					if ok then
+						for _,md in ipairs(mds) do
+							md.mName=mName
+							local reason
+							if lword=="function" or (isProp and md.propInfo.r and not md.propInfo.i) then
+								local ret = md.method:split(":")
+								md.reto = ret[#ret]:match("%w+")
+								ok = not excludeType[md.reto:lower()]
+								reason = md.reto
 							end
-						end
-						if ok then
-							for _,md in ipairs(mds) do
-								md.mName=mName
-								local reason
-								if lword=="function" or (isProp and md.propInfo.r and not md.propInfo.i) then
-									local ret = md.method:split(":")
-									md.reto = ret[#ret]:match("%w+")
-									ok = not excludeType[md.reto:lower()]
-									reason = md.reto
+							processParams(md)
+							for t,_ in pairs(md.mtypes) do
+								if excludeType[t:lower()] then
+									reason = t
+									ok = false
+									break
 								end
-								processParams(md)
-								for t,_ in pairs(md.mtypes) do
-									if excludeType[t:lower()] then
-										reason = t
-										ok = false
-										break
-									end
-								end
-								if ok then table.insert(classTable[cname], md)
-								else cLog(" ** EXCLUDED:"..l.." "..reason, "DEBUG") end
 							end
+							if ok then table.insert(classTable[cname], md)
+							else cLog(" ** EXCLUDED:"..line.." "..reason, "DEBUG") end
 						end
-					elseif lt == 2 then
-						skip = true
 					end
 				end
 			end
 		end
-		return false
+		return n
 	end
-	for n, line in pairs(def) do
-		if (processLine(n, line) and not reparse) or line == 'implementation' then break end
+	local n, lines = 1, #def
+	while n <= lines do
+		local line = def[n]
+		local last = processLine(n, line)
+		if (last < 0 and not reparse) or line == 'implementation' then break end
+		n = math.abs(last) + 1
 	end
 	return processed
 end
@@ -468,9 +448,9 @@ function processParams(md)
 			-- copy prefix (out, var) to list elements
 			local prefix = ""
 			if #pp>1 then
-				if pp[1]:find("out%s*") or pp[1]:find("Out%s*") then
+				if pp[1]:find("[oO]ut%s+") then
 					prefix ="out "
-				elseif pp[1]:find("var%s*") or pp[1]:find("Var%s*") then
+				elseif pp[1]:find("[vV]ar%s+") then
 					prefix ="var "
 				end
 			end
@@ -483,7 +463,7 @@ function processParams(md)
 		-- process params
 		for n,t in pairs(vart) do
 			local p = t:split(":")
-			local varName = p[1]:gsub("var ",""):gsub("out ",""):gsub("Var ",""):gsub("Out ","")
+			local varName = p[1]:gsub("[vV]ar%s+",""):gsub("[oO]ut%s+","")
 			local varType = p[2]
 			
 
@@ -783,9 +763,13 @@ for _,kv in pairs(toInfer) do
   local ref,filename = kv.ref,kv.src
   cfile = loadTable(filename)
   cLog(ref.." "..filename,"INFO")
-  for n, line in ipairs(cfile) do
+  local n, lines = 1, #cfile
+  while n <= lines do
+    local line = cfile[n]
     if line == 'implementation' then break end
-    inferTypeKindFromLine(n, line, cfile, ref)
+    n, line = skip_multiline(n, line, cfile, ref)
+    local nxt = inferTypeKindFromLine(n, line, cfile, ref)
+    n = (nxt and nxt or n) + 1
   end
   parsedRefs[ref] = true
 end

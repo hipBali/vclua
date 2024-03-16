@@ -600,6 +600,21 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Form_AutoScale(L: Plua_State): Integer; cdecl;
+var
+	lForm:TLuaForm;
+begin
+	CheckArg(L, 1);
+	lForm := TLuaForm(GetLuaObject(L, 1));
+	try
+		lForm.AutoScale();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Form', 'AutoScale', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_Form_Dock(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
@@ -1603,6 +1618,7 @@ begin
 	TLuaMethodInfo.Create(CustomFormFuncs, 'ActiveMDIChild', @VCLua_Form_ActiveMDIChild);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'GetMDIChildren', @VCLua_Form_GetMDIChildren);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'MDIChildCount', @VCLua_Form_MDIChildCount);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'AutoScale', @VCLua_Form_AutoScale);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Dock', @VCLua_Form_Dock);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'UpdateDockCaption', @VCLua_Form_UpdateDockCaption);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Active', @VCLua_Form_VCLuaGetActive, mfCall);

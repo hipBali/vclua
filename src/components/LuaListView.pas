@@ -751,6 +751,16 @@ begin
 	Result := 0;
 end;
 
+function VCLua_ListView_VCLuaSetOnDrawItem(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+begin
+	lListView := TLuaListView(GetLuaObjectUnsafe(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lListView.OnDrawItem));
+	lListView.OnDrawItem := TLuaEvent.Factory<TLVDrawItemEvent,TLuaLVDrawItemEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_ListView_VCLuaSetOnAdvancedCustomDraw(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
@@ -798,6 +808,23 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'AddItem', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_ListView_AlphaSort(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	try
+		ret := lListView.AlphaSort();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'AlphaSort', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_ListView_Sort(L: Plua_State): Integer; cdecl;
@@ -1022,6 +1049,23 @@ begin
 		on E: Exception do
 			CallError(L, 'ListView', 'SelectAll', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_ListView_IsEditing(L: Plua_State): Integer; cdecl;
+var
+	lListView:TLuaListView;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lListView := TLuaListView(GetLuaObject(L, 1));
+	try
+		ret := lListView.IsEditing();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListView', 'IsEditing', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_ListView_VCLuaGetBoundingRect(L: Plua_State): Integer; cdecl;
@@ -1765,6 +1809,7 @@ begin
 	TLuaMethodInfo.Create(ListItemsSets, 'Count', @VCLua_ListItems_VCLuaSetCount, mfCall, TypeInfo(Integer));
 	CustomListViewFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'AddItem', @VCLua_ListView_AddItem);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'AlphaSort', @VCLua_ListView_AlphaSort);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'Sort', @VCLua_ListView_Sort);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'BeginUpdate', @VCLua_ListView_BeginUpdate);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'Clear', @VCLua_ListView_Clear);
@@ -1777,6 +1822,7 @@ begin
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'GetNextItem', @VCLua_ListView_GetNextItem);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'ClearSelection', @VCLua_ListView_ClearSelection);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'SelectAll', @VCLua_ListView_SelectAll);
+	TLuaMethodInfo.Create(CustomListViewFuncs, 'IsEditing', @VCLua_ListView_IsEditing);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'BoundingRect', @VCLua_ListView_VCLuaGetBoundingRect, mfCall);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'Canvas', @VCLua_ListView_VCLuaGetCanvas, mfCall);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'Checkboxes', @VCLua_ListView_VCLuaGetCheckboxes, mfCall);
@@ -1819,6 +1865,7 @@ begin
 	TLuaMethodInfo.Create(CustomListViewSets, 'OnCustomDraw', @VCLua_ListView_VCLuaSetOnCustomDraw, mfCall, TypeInfo(TLVCustomDrawEvent));
 	TLuaMethodInfo.Create(CustomListViewSets, 'OnCustomDrawItem', @VCLua_ListView_VCLuaSetOnCustomDrawItem, mfCall, TypeInfo(TLVCustomDrawItemEvent));
 	TLuaMethodInfo.Create(CustomListViewSets, 'OnCustomDrawSubItem', @VCLua_ListView_VCLuaSetOnCustomDrawSubItem, mfCall, TypeInfo(TLVCustomDrawSubItemEvent));
+	TLuaMethodInfo.Create(CustomListViewSets, 'OnDrawItem', @VCLua_ListView_VCLuaSetOnDrawItem, mfCall, TypeInfo(TLVDrawItemEvent));
 	TLuaMethodInfo.Create(CustomListViewSets, 'OnAdvancedCustomDraw', @VCLua_ListView_VCLuaSetOnAdvancedCustomDraw, mfCall, TypeInfo(TLVAdvancedCustomDrawEvent));
 	TLuaMethodInfo.Create(CustomListViewSets, 'OnAdvancedCustomDrawItem', @VCLua_ListView_VCLuaSetOnAdvancedCustomDrawItem, mfCall, TypeInfo(TLVAdvancedCustomDrawItemEvent));
 	TLuaMethodInfo.Create(CustomListViewSets, 'OnAdvancedCustomDrawSubItem', @VCLua_ListView_VCLuaSetOnAdvancedCustomDrawSubItem, mfCall, TypeInfo(TLVAdvancedCustomDrawSubItemEvent));

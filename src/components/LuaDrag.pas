@@ -144,6 +144,38 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_DragObject_VCLuaSetControl(L: Plua_State): Integer; cdecl;
+var
+	lDragObject:TLuaDragObject;
+	val:TControl;
+begin
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lDragObject.Control := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DragObject', 'Control', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DragObject_VCLuaGetControl(L: Plua_State): Integer; cdecl;
+var
+	lDragObject:TLuaDragObject;
+	ret:TControl;
+begin
+	lDragObject := TLuaDragObject(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lDragObject.Control;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DragObject', 'Control', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_DragObject_VCLuaSetDragPos(L: Plua_State): Integer; cdecl;
 var
 	lDragObject:TLuaDragObject;
@@ -284,6 +316,102 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'DragDockObject', 'DockOffset', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_DragDockObject_VCLuaSetDockRect(L: Plua_State): Integer; cdecl;
+var
+	lDragDockObject:TLuaDragDockObject;
+	val:TRect;
+begin
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lDragDockObject.DockRect := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DragDockObject', 'DockRect', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DragDockObject_VCLuaGetDockRect(L: Plua_State): Integer; cdecl;
+var
+	lDragDockObject:TLuaDragDockObject;
+	ret:TRect;
+begin
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lDragDockObject.DockRect;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DragDockObject', 'DockRect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_DragDockObject_VCLuaSetDropAlign(L: Plua_State): Integer; cdecl;
+var
+	lDragDockObject:TLuaDragDockObject;
+	val:TAlign;
+begin
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TAlign));
+	try
+		lDragDockObject.DropAlign := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DragDockObject', 'DropAlign', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DragDockObject_VCLuaGetDropAlign(L: Plua_State): Integer; cdecl;
+var
+	lDragDockObject:TLuaDragDockObject;
+	ret:TAlign;
+begin
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lDragDockObject.DropAlign;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DragDockObject', 'DropAlign', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_DragDockObject_VCLuaSetDropOnControl(L: Plua_State): Integer; cdecl;
+var
+	lDragDockObject:TLuaDragDockObject;
+	val:TControl;
+begin
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lDragDockObject.DropOnControl := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DragDockObject', 'DropOnControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DragDockObject_VCLuaGetDropOnControl(L: Plua_State): Integer; cdecl;
+var
+	lDragDockObject:TLuaDragDockObject;
+	ret:TControl;
+begin
+	lDragDockObject := TLuaDragDockObject(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lDragDockObject.DropOnControl;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DragDockObject', 'DropOnControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -686,6 +814,70 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'DockZone', 'Left', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_DockZone_VCLuaSetLimitBegin(L: Plua_State): Integer; cdecl;
+var
+	lDockZone:TLuaDockZone;
+	val:Integer;
+begin
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lDockZone.LimitBegin := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockZone', 'LimitBegin', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockZone_VCLuaGetLimitBegin(L: Plua_State): Integer; cdecl;
+var
+	lDockZone:TLuaDockZone;
+	ret:Integer;
+begin
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lDockZone.LimitBegin;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DockZone', 'LimitBegin', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_DockZone_VCLuaSetLimitSize(L: Plua_State): Integer; cdecl;
+var
+	lDockZone:TLuaDockZone;
+	val:Integer;
+begin
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lDockZone.LimitSize := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockZone', 'LimitSize', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockZone_VCLuaGetLimitSize(L: Plua_State): Integer; cdecl;
+var
+	lDockZone:TLuaDockZone;
+	ret:Integer;
+begin
+	lDockZone := TLuaDockZone(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lDockZone.LimitSize;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DockZone', 'LimitSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1215,22 +1407,30 @@ begin
 	TLuaMethodInfo.Create(DragObjectFuncs, 'AlwaysShowDragImages', @VCLua_DragObject_VCLuaGetAlwaysShowDragImages, mfCall);
 	TLuaMethodInfo.Create(DragObjectFuncs, 'AutoCreated', @VCLua_DragObject_VCLuaGetAutoCreated, mfCall);
 	TLuaMethodInfo.Create(DragObjectFuncs, 'AutoFree', @VCLua_DragObject_VCLuaGetAutoFree, mfCall);
+	TLuaMethodInfo.Create(DragObjectFuncs, 'Control', @VCLua_DragObject_VCLuaGetControl, mfCall);
 	TLuaMethodInfo.Create(DragObjectFuncs, 'DragPos', @VCLua_DragObject_VCLuaGetDragPos, mfCall);
 	TLuaMethodInfo.Create(DragObjectFuncs, 'DragTarget', @VCLua_DragObject_VCLuaGetDragTarget, mfCall);
 	TLuaMethodInfo.Create(DragObjectFuncs, 'DragTargetPos', @VCLua_DragObject_VCLuaGetDragTargetPos, mfCall);
 	TLuaMethodInfo.Create(DragObjectFuncs, 'Dropped', @VCLua_DragObject_VCLuaGetDropped, mfCall);
 	DragObjectSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(DragObjectSets, 'AlwaysShowDragImages', @VCLua_DragObject_VCLuaSetAlwaysShowDragImages, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(DragObjectSets, 'Control', @VCLua_DragObject_VCLuaSetControl, mfCall, TypeInfo(TControl));
 	TLuaMethodInfo.Create(DragObjectSets, 'DragPos', @VCLua_DragObject_VCLuaSetDragPos, mfCall, TypeInfo(TPoint));
 	TLuaMethodInfo.Create(DragObjectSets, 'DragTarget', @VCLua_DragObject_VCLuaSetDragTarget, mfCall, TypeInfo(TControl));
 	TLuaMethodInfo.Create(DragObjectSets, 'DragTargetPos', @VCLua_DragObject_VCLuaSetDragTargetPos, mfCall, TypeInfo(TPoint));
 	DragDockObjectFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(DragDockObjectFuncs, 'DockOffset', @VCLua_DragDockObject_VCLuaGetDockOffset, mfCall);
+	TLuaMethodInfo.Create(DragDockObjectFuncs, 'DockRect', @VCLua_DragDockObject_VCLuaGetDockRect, mfCall);
+	TLuaMethodInfo.Create(DragDockObjectFuncs, 'DropAlign', @VCLua_DragDockObject_VCLuaGetDropAlign, mfCall);
+	TLuaMethodInfo.Create(DragDockObjectFuncs, 'DropOnControl', @VCLua_DragDockObject_VCLuaGetDropOnControl, mfCall);
 	TLuaMethodInfo.Create(DragDockObjectFuncs, 'Floating', @VCLua_DragDockObject_VCLuaGetFloating, mfCall);
 	TLuaMethodInfo.Create(DragDockObjectFuncs, 'IncreaseDockArea', @VCLua_DragDockObject_VCLuaGetIncreaseDockArea, mfCall);
 	TLuaMethodInfo.Create(DragDockObjectFuncs, 'EraseDockRect', @VCLua_DragDockObject_VCLuaGetEraseDockRect, mfCall);
 	DragDockObjectSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(DragDockObjectSets, 'DockOffset', @VCLua_DragDockObject_VCLuaSetDockOffset, mfCall, TypeInfo(TPoint));
+	TLuaMethodInfo.Create(DragDockObjectSets, 'DockRect', @VCLua_DragDockObject_VCLuaSetDockRect, mfCall, TypeInfo(TRect));
+	TLuaMethodInfo.Create(DragDockObjectSets, 'DropAlign', @VCLua_DragDockObject_VCLuaSetDropAlign, mfCall, TypeInfo(TAlign));
+	TLuaMethodInfo.Create(DragDockObjectSets, 'DropOnControl', @VCLua_DragDockObject_VCLuaSetDropOnControl, mfCall, TypeInfo(TControl));
 	TLuaMethodInfo.Create(DragDockObjectSets, 'Floating', @VCLua_DragDockObject_VCLuaSetFloating, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(DragDockObjectSets, 'EraseDockRect', @VCLua_DragDockObject_VCLuaSetEraseDockRect, mfCall, TypeInfo(TRect));
 	DockZoneFuncs := TLuaVmt.Create;
@@ -1251,6 +1451,8 @@ begin
 	TLuaMethodInfo.Create(DockZoneFuncs, 'FirstChild', @VCLua_DockZone_VCLuaGetFirstChild, mfCall);
 	TLuaMethodInfo.Create(DockZoneFuncs, 'Height', @VCLua_DockZone_VCLuaGetHeight, mfCall);
 	TLuaMethodInfo.Create(DockZoneFuncs, 'Left', @VCLua_DockZone_VCLuaGetLeft, mfCall);
+	TLuaMethodInfo.Create(DockZoneFuncs, 'LimitBegin', @VCLua_DockZone_VCLuaGetLimitBegin, mfCall);
+	TLuaMethodInfo.Create(DockZoneFuncs, 'LimitSize', @VCLua_DockZone_VCLuaGetLimitSize, mfCall);
 	TLuaMethodInfo.Create(DockZoneFuncs, 'Orientation', @VCLua_DockZone_VCLuaGetOrientation, mfCall);
 	TLuaMethodInfo.Create(DockZoneFuncs, 'Parent', @VCLua_DockZone_VCLuaGetParent, mfCall);
 	TLuaMethodInfo.Create(DockZoneFuncs, 'Top', @VCLua_DockZone_VCLuaGetTop, mfCall);
@@ -1263,6 +1465,8 @@ begin
 	DockZoneSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(DockZoneSets, 'Height', @VCLua_DockZone_VCLuaSetHeight, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(DockZoneSets, 'Left', @VCLua_DockZone_VCLuaSetLeft, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(DockZoneSets, 'LimitBegin', @VCLua_DockZone_VCLuaSetLimitBegin, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(DockZoneSets, 'LimitSize', @VCLua_DockZone_VCLuaSetLimitSize, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(DockZoneSets, 'Orientation', @VCLua_DockZone_VCLuaSetOrientation, mfCall, TypeInfo(TDockOrientation));
 	TLuaMethodInfo.Create(DockZoneSets, 'Top', @VCLua_DockZone_VCLuaSetTop, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(DockZoneSets, 'Width', @VCLua_DockZone_VCLuaSetWidth, mfCall, TypeInfo(Integer));

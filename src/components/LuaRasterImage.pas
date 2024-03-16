@@ -280,6 +280,25 @@ begin
 	end;
 end;
 
+function VCLua_RasterImage_SetHandles(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	ABitmap:HBITMAP;
+	AMask:HBITMAP;
+begin
+	CheckArg(L, 3);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	luaL_check(L,2,@ABitmap);
+	luaL_check(L,3,@AMask);
+	try
+		lRasterImage.SetHandles(ABitmap,AMask);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'SetHandles', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_RasterImage_ReleaseBitmapHandle(L: Plua_State): Integer; cdecl;
 var
 	lRasterImage:TLuaRasterImage;
@@ -475,6 +494,25 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
+function VCLua_RasterImage_ScanLine(L: Plua_State): Integer; cdecl;
+var
+	lRasterImage:TLuaRasterImage;
+	Row:Integer;
+	ret:Pointer;
+begin
+	CheckArg(L, 2);
+	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
+	luaL_check(L,2,@Row);
+	try
+		ret := lRasterImage.ScanLine[Row];
+		lua_pushlightuserdata(L,ret);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'RasterImage', 'ScanLine', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_RasterImage_VCLuaSetTransparentColor(L: Plua_State): Integer; cdecl;
 var
 	lRasterImage:TLuaRasterImage;
@@ -561,6 +599,7 @@ begin
 	TLuaMethodInfo.Create(RasterImageFuncs, 'GetSupportedSourceMimeTypes', @VCLua_RasterImage_GetSupportedSourceMimeTypes);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'GetSize', @VCLua_RasterImage_GetSize);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'Mask', @VCLua_RasterImage_Mask);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'SetHandles', @VCLua_RasterImage_SetHandles);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'ReleaseBitmapHandle', @VCLua_RasterImage_ReleaseBitmapHandle);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'ReleaseMaskHandle', @VCLua_RasterImage_ReleaseMaskHandle);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'Canvas', @VCLua_RasterImage_VCLuaGetCanvas, mfCall);
@@ -569,6 +608,7 @@ begin
 	TLuaMethodInfo.Create(RasterImageFuncs, 'Masked', @VCLua_RasterImage_VCLuaGetMasked, mfCall);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'MaskHandle', @VCLua_RasterImage_VCLuaGetMaskHandle, mfCall);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'PixelFormat', @VCLua_RasterImage_VCLuaGetPixelFormat, mfCall);
+	TLuaMethodInfo.Create(RasterImageFuncs, 'ScanLine', @VCLua_RasterImage_ScanLine);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'TransparentColor', @VCLua_RasterImage_VCLuaGetTransparentColor, mfCall);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'TransparentMode', @VCLua_RasterImage_VCLuaGetTransparentMode, mfCall);
 	RasterImageSets := TLuaVmt.Create;

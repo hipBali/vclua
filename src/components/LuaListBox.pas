@@ -44,6 +44,21 @@ begin
 	end;
 end;
 
+function VCLua_ListBox_Click(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+begin
+	CheckArg(L, 1);
+	lListBox := TLuaListBox(GetLuaObject(L, 1));
+	try
+		lListBox.Click();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Click', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_ListBox_Clear(L: Plua_State): Integer; cdecl;
 var
 	lListBox:TLuaListBox;
@@ -424,6 +439,22 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_ListBox_VCLuaGetCount(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:Integer;
+begin
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListBox.Count;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'Count', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ListBox_VCLuaSetExtendedSelect(L: Plua_State): Integer; cdecl;
 var
 	lListBox:TLuaListBox;
@@ -452,6 +483,38 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'ListBox', 'ExtendedSelect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListBox_VCLuaSetIntegralHeight(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	val:boolean;
+begin
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListBox.IntegralHeight := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'IntegralHeight', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListBox_VCLuaGetIntegralHeight(L: Plua_State): Integer; cdecl;
+var
+	lListBox:TLuaListBox;
+	ret:boolean;
+begin
+	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListBox.IntegralHeight;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListBox', 'IntegralHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -837,6 +900,7 @@ end;
 begin
 	CustomListBoxFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'AddItem', @VCLua_ListBox_AddItem);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Click', @VCLua_ListBox_Click);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Clear', @VCLua_ListBox_Clear);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ClearSelection', @VCLua_ListBox_ClearSelection);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'GetIndexAtXY', @VCLua_ListBox_GetIndexAtXY);
@@ -857,7 +921,9 @@ begin
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Canvas', @VCLua_ListBox_VCLuaGetCanvas, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ClickOnSelChange', @VCLua_ListBox_VCLuaGetClickOnSelChange, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Columns', @VCLua_ListBox_VCLuaGetColumns, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Count', @VCLua_ListBox_VCLuaGetCount, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ExtendedSelect', @VCLua_ListBox_VCLuaGetExtendedSelect, mfCall);
+	TLuaMethodInfo.Create(CustomListBoxFuncs, 'IntegralHeight', @VCLua_ListBox_VCLuaGetIntegralHeight, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ItemHeight', @VCLua_ListBox_VCLuaGetItemHeight, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'ItemIndex', @VCLua_ListBox_VCLuaGetItemIndex, mfCall);
 	TLuaMethodInfo.Create(CustomListBoxFuncs, 'Items', @VCLua_ListBox_VCLuaGetItems, mfCall);
@@ -873,6 +939,7 @@ begin
 	TLuaMethodInfo.Create(CustomListBoxSets, 'ClickOnSelChange', @VCLua_ListBox_VCLuaSetClickOnSelChange, mfCall, TypeInfo(boolean));
 	TLuaMethodInfo.Create(CustomListBoxSets, 'Columns', @VCLua_ListBox_VCLuaSetColumns, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(CustomListBoxSets, 'ExtendedSelect', @VCLua_ListBox_VCLuaSetExtendedSelect, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomListBoxSets, 'IntegralHeight', @VCLua_ListBox_VCLuaSetIntegralHeight, mfCall, TypeInfo(boolean));
 	TLuaMethodInfo.Create(CustomListBoxSets, 'ItemHeight', @VCLua_ListBox_VCLuaSetItemHeight, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(CustomListBoxSets, 'ItemIndex', @VCLua_ListBox_VCLuaSetItemIndex, mfCall, TypeInfo(integer));
 	TLuaMethodInfo.Create(CustomListBoxSets, 'Items', @VCLua_ListBox_VCLuaSetItems, mfCall, TypeInfo(TStrings));

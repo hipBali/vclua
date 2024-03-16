@@ -205,6 +205,38 @@ begin
 	end;
 end;
 
+function VCLua_CustomBitmap_VCLuaSetHandle(L: Plua_State): Integer; cdecl;
+var
+	lCustomBitmap:TLuaCustomBitmap;
+	val:HBITMAP;
+begin
+	lCustomBitmap := TLuaCustomBitmap(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCustomBitmap.Handle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'Handle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CustomBitmap_VCLuaGetHandle(L: Plua_State): Integer; cdecl;
+var
+	lCustomBitmap:TLuaCustomBitmap;
+	ret:HBITMAP;
+begin
+	lCustomBitmap := TLuaCustomBitmap(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lCustomBitmap.Handle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CustomBitmap', 'Handle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_CustomBitmap_VCLuaSetHandleType(L: Plua_State): Integer; cdecl;
 var
 	lCustomBitmap:TLuaCustomBitmap;
@@ -351,9 +383,11 @@ begin
 	TLuaMethodInfo.Create(CustomBitmapFuncs, 'ReleaseHandle', @VCLua_CustomBitmap_ReleaseHandle);
 	TLuaMethodInfo.Create(CustomBitmapFuncs, 'SetHandles', @VCLua_CustomBitmap_SetHandles);
 	TLuaMethodInfo.Create(CustomBitmapFuncs, 'SetSize', @VCLua_CustomBitmap_SetSize);
+	TLuaMethodInfo.Create(CustomBitmapFuncs, 'Handle', @VCLua_CustomBitmap_VCLuaGetHandle, mfCall);
 	TLuaMethodInfo.Create(CustomBitmapFuncs, 'HandleType', @VCLua_CustomBitmap_VCLuaGetHandleType, mfCall);
 	TLuaMethodInfo.Create(CustomBitmapFuncs, 'Monochrome', @VCLua_CustomBitmap_VCLuaGetMonochrome, mfCall);
 	CustomBitmapSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomBitmapSets, 'Handle', @VCLua_CustomBitmap_VCLuaSetHandle, mfCall, TypeInfo(HBITMAP));
 	TLuaMethodInfo.Create(CustomBitmapSets, 'HandleType', @VCLua_CustomBitmap_VCLuaSetHandleType, mfCall, TypeInfo(TBitmapHandleType));
 	TLuaMethodInfo.Create(CustomBitmapSets, 'Monochrome', @VCLua_CustomBitmap_VCLuaSetMonochrome, mfCall, TypeInfo(Boolean));
 	BitmapFuncs := TLuaVmt.Create;

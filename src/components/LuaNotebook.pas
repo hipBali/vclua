@@ -61,6 +61,38 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Notebook_VCLuaGetActivePage(L: Plua_State): Integer; cdecl;
+var
+	lNotebook:TLuaNotebook;
+	ret:String;
+begin
+	lNotebook := TLuaNotebook(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lNotebook.ActivePage;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Notebook', 'ActivePage', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Notebook_VCLuaGetActivePageComponent(L: Plua_State): Integer; cdecl;
+var
+	lNotebook:TLuaNotebook;
+	ret:TPage;
+begin
+	lNotebook := TLuaNotebook(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lNotebook.ActivePageComponent;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Notebook', 'ActivePageComponent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
 function VCLua_Notebook_Page(L: Plua_State): Integer; cdecl;
 var
 	lNotebook:TLuaNotebook;
@@ -119,6 +151,8 @@ begin
 	NotebookFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(NotebookFuncs, 'ShowControl', @VCLua_Notebook_ShowControl);
 	TLuaMethodInfo.Create(NotebookFuncs, 'IndexOf', @VCLua_Notebook_IndexOf);
+	TLuaMethodInfo.Create(NotebookFuncs, 'ActivePage', @VCLua_Notebook_VCLuaGetActivePage, mfCall);
+	TLuaMethodInfo.Create(NotebookFuncs, 'ActivePageComponent', @VCLua_Notebook_VCLuaGetActivePageComponent, mfCall);
 	TLuaMethodInfo.Create(NotebookFuncs, 'Page', @VCLua_Notebook_Page);
 	TLuaMethodInfo.Create(NotebookFuncs, 'PageCount', @VCLua_Notebook_VCLuaGetPageCount, mfCall);
 	NotebookSets := TLuaVmt.Create;

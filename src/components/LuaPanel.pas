@@ -185,6 +185,38 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Panel_VCLuaSetFullRepaint(L: Plua_State): Integer; cdecl;
+var
+	lPanel:TLuaPanel;
+	val:Boolean;
+begin
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lPanel.FullRepaint := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Panel', 'FullRepaint', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Panel_VCLuaGetFullRepaint(L: Plua_State): Integer; cdecl;
+var
+	lPanel:TLuaPanel;
+	ret:Boolean;
+begin
+	lPanel := TLuaPanel(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lPanel.FullRepaint;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Panel', 'FullRepaint', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 procedure lua_push(L: Plua_State; const v: TPanel; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomPanel',v);
@@ -211,10 +243,12 @@ begin
 	TLuaMethodInfo.Create(CustomPanelFuncs, 'BevelInner', @VCLua_Panel_VCLuaGetBevelInner, mfCall);
 	TLuaMethodInfo.Create(CustomPanelFuncs, 'BevelOuter', @VCLua_Panel_VCLuaGetBevelOuter, mfCall);
 	TLuaMethodInfo.Create(CustomPanelFuncs, 'BevelWidth', @VCLua_Panel_VCLuaGetBevelWidth, mfCall);
+	TLuaMethodInfo.Create(CustomPanelFuncs, 'FullRepaint', @VCLua_Panel_VCLuaGetFullRepaint, mfCall);
 	CustomPanelSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomPanelSets, 'Alignment', @VCLua_Panel_VCLuaSetAlignment, mfCall, TypeInfo(TAlignment));
 	TLuaMethodInfo.Create(CustomPanelSets, 'BevelColor', @VCLua_Panel_VCLuaSetBevelColor, mfCall, TypeInfo(TColor));
 	TLuaMethodInfo.Create(CustomPanelSets, 'BevelInner', @VCLua_Panel_VCLuaSetBevelInner, mfCall, TypeInfo(TPanelBevel));
 	TLuaMethodInfo.Create(CustomPanelSets, 'BevelOuter', @VCLua_Panel_VCLuaSetBevelOuter, mfCall, TypeInfo(TPanelBevel));
 	TLuaMethodInfo.Create(CustomPanelSets, 'BevelWidth', @VCLua_Panel_VCLuaSetBevelWidth, mfCall, TypeInfo(TBevelWidth));
+	TLuaMethodInfo.Create(CustomPanelSets, 'FullRepaint', @VCLua_Panel_VCLuaSetFullRepaint, mfCall, TypeInfo(Boolean));
 end.

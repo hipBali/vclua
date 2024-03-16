@@ -197,6 +197,25 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_ImageList_AddMultipleResolutions(L: Plua_State): Integer; cdecl;
+var
+	lImageList:TLuaImageList;
+	Images:array of TCustomBitmap;
+	ret:Integer;
+begin
+	CheckArg(L, 2);
+	lImageList := TLuaImageList(GetLuaObject(L, 1));
+	TTrait<TCustomBitmap>.luaL_checkArray(L, 2, @Images);
+	try
+		ret := lImageList.AddMultipleResolutions(Images);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ImageList', 'AddMultipleResolutions', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ImageList_AddSliced(L: Plua_State): Integer; cdecl;
 var
 	lImageList:TLuaImageList;
@@ -1589,6 +1608,7 @@ begin
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'BeginUpdate', @VCLua_ImageList_BeginUpdate);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'EndUpdate', @VCLua_ImageList_EndUpdate);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'Add', @VCLua_ImageList_Add);
+	TLuaMethodInfo.Create(CustomImageListFuncs, 'AddMultipleResolutions', @VCLua_ImageList_AddMultipleResolutions);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'AddSliced', @VCLua_ImageList_AddSliced);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'AddSlice', @VCLua_ImageList_AddSlice);
 	TLuaMethodInfo.Create(CustomImageListFuncs, 'AddSliceCentered', @VCLua_ImageList_AddSliceCentered);

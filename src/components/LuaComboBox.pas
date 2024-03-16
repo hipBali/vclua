@@ -192,6 +192,21 @@ begin
 	end;
 end;
 
+function VCLua_ComboBox_ClearSelection(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+begin
+	CheckArg(L, 1);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	try
+		lComboBox.ClearSelection();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'ClearSelection', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_ComboBox_VCLuaSetCharCase(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
@@ -655,6 +670,70 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_ComboBox_VCLuaSetSelLength(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:integer;
+begin
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.SelLength := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'SelLength', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetSelLength(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:integer;
+begin
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lComboBox.SelLength;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'SelLength', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ComboBox_VCLuaSetSelStart(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	val:integer;
+begin
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lComboBox.SelStart := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'SelStart', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ComboBox_VCLuaGetSelStart(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	ret:integer;
+begin
+	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lComboBox.SelStart;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'SelStart', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ComboBox_VCLuaSetSelText(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
@@ -777,6 +856,7 @@ begin
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddHistoryItem', @VCLua_ComboBox_AddHistoryItem);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddHistoryItem2', @VCLua_ComboBox_AddHistoryItem2);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Clear', @VCLua_ComboBox_Clear);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'ClearSelection', @VCLua_ComboBox_ClearSelection);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'CharCase', @VCLua_ComboBox_VCLuaGetCharCase, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'DroppedDown', @VCLua_ComboBox_VCLuaGetDroppedDown, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'DroppingDown', @VCLua_ComboBox_VCLuaGetDroppingDown, mfCall);
@@ -793,6 +873,8 @@ begin
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Items', @VCLua_ComboBox_VCLuaGetItems, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'ItemIndex', @VCLua_ComboBox_VCLuaGetItemIndex, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'ReadOnly', @VCLua_ComboBox_VCLuaGetReadOnly, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'SelLength', @VCLua_ComboBox_VCLuaGetSelLength, mfCall);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'SelStart', @VCLua_ComboBox_VCLuaGetSelStart, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'SelText', @VCLua_ComboBox_VCLuaGetSelText, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Style', @VCLua_ComboBox_VCLuaGetStyle, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'TextHint', @VCLua_ComboBox_VCLuaGetTextHint, mfCall);
@@ -817,6 +899,8 @@ begin
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'Items', @VCLua_ComboBox_VCLuaSetItems, mfCall, TypeInfo(TStrings));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'ItemIndex', @VCLua_ComboBox_VCLuaSetItemIndex, mfCall, TypeInfo(integer));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'ReadOnly', @VCLua_ComboBox_VCLuaSetReadOnly, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'SelLength', @VCLua_ComboBox_VCLuaSetSelLength, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CustomComboBoxSets, 'SelStart', @VCLua_ComboBox_VCLuaSetSelStart, mfCall, TypeInfo(integer));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'SelText', @VCLua_ComboBox_VCLuaSetSelText, mfCall, TypeInfo(String));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'Style', @VCLua_ComboBox_VCLuaSetStyle, mfCall, TypeInfo(TComboBoxStyle));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'TextHint', @VCLua_ComboBox_VCLuaSetTextHint, mfCall, TypeInfo(TTranslateString));
