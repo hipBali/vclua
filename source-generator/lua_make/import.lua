@@ -259,7 +259,7 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
       VCLUA_FROMLUA[c] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
       VCLUA_TOLUA[c] = VCLUA_PUSHARRAY:gsub("#TYP",cc,1)
       cLog(string.format("ARRAY FOUND %s LINE:%d", typename, n),"INFO")
-    elseif line:find('^%s*class%s+of[^_%w]',pos) then
+    elseif line:find('^%s*class%s+of[^_%w]',pos) or line:find('^%s*[Ff]unction%s*%(',pos) then
       excludeType[c] = 1
     elseif line:find("^%s*%(",pos) then
       cLog(string.format("ENUM FOUND %s LINE:%d %s", typename, n, line),"INFO")
