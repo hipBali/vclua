@@ -38,6 +38,7 @@ procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = ni
 function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo):PChar; inline;
 function luaL_checkCP(L: Plua_State; i: Integer; pti : PTypeInfo):String; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PShortString; pti : PTypeInfo = nil); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil); overload; inline;
 // single char, no conversion
@@ -188,9 +189,10 @@ begin
   if (is_vclua_utf8_conv) then
     Result := WinCPToUTF8(Result);
 end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil);    begin v^ :=           luaL_checkCP(L, i, TypeInfo(v^)) ; end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil);     begin v^ :=     PChar(luaL_checkCP(L, i, TypeInfo(v^))); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil); begin v^ := TUTF8Char(luaL_checkCP(L, i, TypeInfo(v^))); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil);      begin v^ :=             luaL_checkCP(L, i, TypeInfo(v^)) ; end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PShortString; pti : PTypeInfo = nil); begin v^ := shortstring(luaL_checkCP(L, i, TypeInfo(v^))); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil);       begin v^ :=       PChar(luaL_checkCP(L, i, TypeInfo(v^))); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil);   begin v^ :=   TUTF8Char(luaL_checkCP(L, i, TypeInfo(v^))); end;
 procedure luaL_check(L: Plua_State; i: Integer; v: PChar; pti : PTypeInfo = nil);
 var s:String;
 begin
