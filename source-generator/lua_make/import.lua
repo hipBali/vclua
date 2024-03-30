@@ -359,6 +359,22 @@ local function processClass(def,cdef,ref)
 				lword = ln[2]:lower()
 				mName = ln[3]
 			end
+			-- just skip for now, to handle broken lines
+			if lword=='constructor' then
+				line = removeIfdef(line)
+				line = removeInnerComment(line)
+				-- join broken lines
+				if line:find("%(") and not line:find("%)") then
+					n, line = concat_until(ref, n, line, def, function(s) return s:find('%)') end, true)
+				end
+				return n
+			end
+			if stage=="fill" and line:match('^%s*[_%w]+%s*:%s*[_%w]+%s*;%s*$') then
+				cLog(("transforming public var into property: %s %d %s"):format(cname, n, line), 'WARN')
+				mName = ln[1]
+				line = 'property '..line:sub(1,-2)..' read _ write _;'
+				lword = 'property'
+			end
 			local isProp = lword=="property"
 			if (not isOnlyProp and (lword=="procedure" or lword=="function")) or isProp then
 				local mId = (classm and 'class ' or '')..lword.." "..mName

@@ -25,6 +25,38 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Forms, LuaEvent, LuaFormsEvents;
 
+function VCLua_PopupNotifier_VCLuaSetvNotifierForm(L: Plua_State): Integer; cdecl;
+var
+	lPopupNotifier:TLuaPopupNotifier;
+	val:TNotifierForm;
+begin
+	lPopupNotifier := TLuaPopupNotifier(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lPopupNotifier.vNotifierForm := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'PopupNotifier', 'SetvNotifierForm', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_PopupNotifier_VCLuaGetvNotifierForm(L: Plua_State): Integer; cdecl;
+var
+	lPopupNotifier:TLuaPopupNotifier;
+	ret:TNotifierForm;
+begin
+	lPopupNotifier := TLuaPopupNotifier(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lPopupNotifier.vNotifierForm;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'PopupNotifier', 'GetvNotifierForm', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
 function VCLua_PopupNotifier_Hide(L: Plua_State): Integer; cdecl;
 var
 	lPopupNotifier:TLuaPopupNotifier;
@@ -105,9 +137,11 @@ end;
 
 begin
 	PopupNotifierFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PopupNotifierFuncs, 'vNotifierForm', @VCLua_PopupNotifier_VCLuaGetvNotifierForm, mfCall);
 	TLuaMethodInfo.Create(PopupNotifierFuncs, 'Hide', @VCLua_PopupNotifier_Hide);
 	TLuaMethodInfo.Create(PopupNotifierFuncs, 'Show', @VCLua_PopupNotifier_Show);
 	TLuaMethodInfo.Create(PopupNotifierFuncs, 'ShowAtPos', @VCLua_PopupNotifier_ShowAtPos);
 	PopupNotifierSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(PopupNotifierSets, 'vNotifierForm', @VCLua_PopupNotifier_VCLuaSetvNotifierForm, mfCall, TypeInfo(TNotifierForm));
 	TLuaMethodInfo.Create(PopupNotifierSets, 'OnClose', @VCLua_PopupNotifier_VCLuaSetOnClose, mfCall, TypeInfo(TCloseEvent));
 end.

@@ -78,6 +78,7 @@ VCLUA_TOLUA = {
 	["tshortcutlist"] = VCLUA_TOLUA_FULL,
 	["tmonitor"] = VCLUA_TOLUA_FULL,
 	["tcustomcolorlistbox"] = VCLUA_TOLUA_FULL,
+	["tnotifierform"] = VCLUA_TOLUA_FULL,
 }
 
 VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR);"

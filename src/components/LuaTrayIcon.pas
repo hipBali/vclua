@@ -23,7 +23,39 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaCanvas, LuaClassesEvents, LuaControlsEvents, LuaEvent, LuaImageList, LuaMenu, Menus;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaCanvas, LuaClassesEvents, LuaControlsEvents, LuaEvent, LuaImageList, LuaMenu, Menus, LCLType;
+
+function VCLua_TrayIcon_VCLuaSetHandle(L: Plua_State): Integer; cdecl;
+var
+	lTrayIcon:TLuaTrayIcon;
+	val:HWND;
+begin
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTrayIcon.Handle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TrayIcon', 'SetHandle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TrayIcon_VCLuaGetHandle(L: Plua_State): Integer; cdecl;
+var
+	lTrayIcon:TLuaTrayIcon;
+	ret:HWND;
+begin
+	lTrayIcon := TLuaTrayIcon(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lTrayIcon.Handle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TrayIcon', 'GetHandle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
 
 function VCLua_TrayIcon_Hide(L: Plua_State): Integer; cdecl;
 var
@@ -587,6 +619,7 @@ end;
 
 begin
 	CustomTrayIconFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'Handle', @VCLua_TrayIcon_VCLuaGetHandle, mfCall);
 	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'Hide', @VCLua_TrayIcon_Hide);
 	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'Show', @VCLua_TrayIcon_Show);
 	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'InternalUpdate', @VCLua_TrayIcon_InternalUpdate);
@@ -606,6 +639,7 @@ begin
 	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'ShowIcon', @VCLua_TrayIcon_VCLuaGetShowIcon, mfCall);
 	TLuaMethodInfo.Create(CustomTrayIconFuncs, 'Visible', @VCLua_TrayIcon_VCLuaGetVisible, mfCall);
 	CustomTrayIconSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomTrayIconSets, 'Handle', @VCLua_TrayIcon_VCLuaSetHandle, mfCall, TypeInfo(HWND));
 	TLuaMethodInfo.Create(CustomTrayIconSets, 'Animate', @VCLua_TrayIcon_VCLuaSetAnimate, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomTrayIconSets, 'AnimateInterval', @VCLua_TrayIcon_VCLuaSetAnimateInterval, mfCall, TypeInfo(Cardinal));
 	TLuaMethodInfo.Create(CustomTrayIconSets, 'BalloonFlags', @VCLua_TrayIcon_VCLuaSetBalloonFlags, mfCall, TypeInfo(TBalloonFlags));

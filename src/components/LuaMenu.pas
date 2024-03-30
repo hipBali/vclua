@@ -68,6 +68,38 @@ begin
 	Result := 0;
 end;
 
+function VCLua_Menu_VCLuaSetFCompStyle(L: Plua_State): Integer; cdecl;
+var
+	lMenu:TLuaMenu;
+	val:LongInt;
+begin
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lMenu.FCompStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'SetFCompStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Menu_VCLuaGetFCompStyle(L: Plua_State): Integer; cdecl;
+var
+	lMenu:TLuaMenu;
+	ret:LongInt;
+begin
+	lMenu := TLuaMenu(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lMenu.FCompStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Menu', 'GetFCompStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Menu_DestroyHandle(L: Plua_State): Integer; cdecl;
 var
 	lMenu:TLuaMenu;
@@ -442,6 +474,38 @@ begin
 	TLuaEvent.MaybeFree(TLuaCb(lPopupMenu.OnClose));
 	lPopupMenu.OnClose := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
 	Result := 0;
+end;
+
+function VCLua_MenuItem_VCLuaSetFCompStyle(L: Plua_State): Integer; cdecl;
+var
+	lMenuItem:TLuaMenuItem;
+	val:LongInt;
+begin
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lMenuItem.FCompStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'SetFCompStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_MenuItem_VCLuaGetFCompStyle(L: Plua_State): Integer; cdecl;
+var
+	lMenuItem:TLuaMenuItem;
+	ret:LongInt;
+begin
+	lMenuItem := TLuaMenuItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lMenuItem.FCompStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'MenuItem', 'GetFCompStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_MenuItem_Find(L: Plua_State): Integer; cdecl;
@@ -1419,6 +1483,7 @@ end;
 
 begin
 	MenuFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(MenuFuncs, 'FCompStyle', @VCLua_Menu_VCLuaGetFCompStyle, mfCall);
 	TLuaMethodInfo.Create(MenuFuncs, 'DestroyHandle', @VCLua_Menu_DestroyHandle);
 	TLuaMethodInfo.Create(MenuFuncs, 'FindItem', @VCLua_Menu_FindItem);
 	TLuaMethodInfo.Create(MenuFuncs, 'GetHelpContext', @VCLua_Menu_GetHelpContext);
@@ -1433,6 +1498,7 @@ begin
 	TLuaMethodInfo.Create(MenuFuncs, 'ShortcutHandled', @VCLua_Menu_VCLuaGetShortcutHandled, mfCall);
 	MenuSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(MenuSets, 'OnChange', @VCLua_Menu_VCLuaSetOnChange, mfCall, TypeInfo(TMenuChangeEvent));
+	TLuaMethodInfo.Create(MenuSets, 'FCompStyle', @VCLua_Menu_VCLuaSetFCompStyle, mfCall, TypeInfo(LongInt));
 	TLuaMethodInfo.Create(MenuSets, 'Parent', @VCLua_Menu_VCLuaSetParent, mfCall, TypeInfo(TComponent));
 	TLuaMethodInfo.Create(MenuSets, 'ShortcutHandled', @VCLua_Menu_VCLuaSetShortcutHandled, mfCall, TypeInfo(boolean));
 	TLuaMethodInfo.Create(MenuSets, 'OnDrawItem', @VCLua_Menu_VCLuaSetOnDrawItem, mfCall, TypeInfo(TMenuDrawItemEvent));
@@ -1448,6 +1514,7 @@ begin
 	TLuaMethodInfo.Create(PopupMenuSets, 'OnPopup', @VCLua_PopupMenu_VCLuaSetOnPopup, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(PopupMenuSets, 'OnClose', @VCLua_PopupMenu_VCLuaSetOnClose, mfCall, TypeInfo(TNotifyEvent));
 	MenuItemFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(MenuItemFuncs, 'FCompStyle', @VCLua_MenuItem_VCLuaGetFCompStyle, mfCall);
 	TLuaMethodInfo.Create(MenuItemFuncs, 'Find', @VCLua_MenuItem_Find);
 	TLuaMethodInfo.Create(MenuItemFuncs, 'GetImageList', @VCLua_MenuItem_GetImageList);
 	TLuaMethodInfo.Create(MenuItemFuncs, 'GetImageList2', @VCLua_MenuItem_GetImageList2);
@@ -1494,6 +1561,7 @@ begin
 	TLuaMethodInfo.Create(MenuItemFuncs, 'MenuVisibleIndex', @VCLua_MenuItem_MenuVisibleIndex);
 	TLuaMethodInfo.Create(MenuItemFuncs, 'WriteDebugReport', @VCLua_MenuItem_WriteDebugReport);
 	MenuItemSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(MenuItemSets, 'FCompStyle', @VCLua_MenuItem_VCLuaSetFCompStyle, mfCall, TypeInfo(LongInt));
 	TLuaMethodInfo.Create(MenuItemSets, 'Handle', @VCLua_MenuItem_VCLuaSetHandle, mfCall, TypeInfo(HMenu));
 	TLuaMethodInfo.Create(MenuItemSets, 'MenuIndex', @VCLua_MenuItem_VCLuaSetMenuIndex, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(MenuItemSets, 'OnClick', @VCLua_MenuItem_VCLuaSetOnClick, mfCall, TypeInfo(TNotifyEvent));

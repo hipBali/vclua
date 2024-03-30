@@ -167,7 +167,7 @@ classes = {
 	{ name = "BoundLabel", src = "TBoundLabel", ref = "ExtCtrls" },
 	{ name = "LabeledEdit", src = "TCustomLabeledEdit", ref = "ExtCtrls" },
 	{ name = "Panel", src = "TCustomPanel", ref = "ExtCtrls" },
-	{ name = "TrayIcon", src = "TCustomTrayIcon", ref = "ExtCtrls", noparent=true },
+	{ name = "TrayIcon", src = "TCustomTrayIcon", ref = "ExtCtrls", implref = "LCLType", noparent=true },
 	-- com controls
 	{ name = "TrackBar", src = "TCustomTrackBar", ref = "ComCtrls" },
 	{ name = "ProgressBar", src = "TCustomProgressBar", ref = "ComCtrls" },

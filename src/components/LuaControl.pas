@@ -255,6 +255,38 @@ begin
 	Result := 0;
 end;
 
+function VCLua_Control_VCLuaSetFCompStyle(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	val:Byte;
+begin
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lControl.FCompStyle := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'SetFCompStyle', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_VCLuaGetFCompStyle(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Byte;
+begin
+	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lControl.FCompStyle;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetFCompStyle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Control_DragDrop(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
@@ -3148,6 +3180,7 @@ end;
 
 begin
 	ControlFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ControlFuncs, 'FCompStyle', @VCLua_Control_VCLuaGetFCompStyle, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'DragDrop', @VCLua_Control_DragDrop);
 	TLuaMethodInfo.Create(ControlFuncs, 'Dock', @VCLua_Control_Dock);
 	TLuaMethodInfo.Create(ControlFuncs, 'ManualDock', @VCLua_Control_ManualDock);
@@ -3305,6 +3338,7 @@ begin
 	TLuaMethodInfo.Create(ControlSets, 'OnStartDock', @VCLua_Control_VCLuaSetOnStartDock, mfCall, TypeInfo(TStartDockEvent));
 	TLuaMethodInfo.Create(ControlSets, 'OnStartDrag', @VCLua_Control_VCLuaSetOnStartDrag, mfCall, TypeInfo(TStartDragEvent));
 	TLuaMethodInfo.Create(ControlSets, 'OnEditingDone', @VCLua_Control_VCLuaSetOnEditingDone, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ControlSets, 'FCompStyle', @VCLua_Control_VCLuaSetFCompStyle, mfCall, TypeInfo(Byte));
 	TLuaMethodInfo.Create(ControlSets, 'AccessibleName', @VCLua_Control_VCLuaSetAccessibleName, mfCall, TypeInfo(TCaption));
 	TLuaMethodInfo.Create(ControlSets, 'AccessibleDescription', @VCLua_Control_VCLuaSetAccessibleDescription, mfCall, TypeInfo(TCaption));
 	TLuaMethodInfo.Create(ControlSets, 'AccessibleValue', @VCLua_Control_VCLuaSetAccessibleValue, mfCall, TypeInfo(TCaption));
