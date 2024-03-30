@@ -41,6 +41,13 @@ fpcSrc = {
 	["IniFiles"] 	= FPCSOURCE.."packages/fcl-base/src/inifiles.pp",
 	["ValEdit"] 	= LAZPATH.."lcl/valedit.pas",
 	["TextStrings"] 	= LAZPATH.."/components/lazutils/textstrings.pas",
+
+	["CollectionPropEditForm"]	= LAZPATH.."components/ideintf/collectionpropeditform.pas",
+	["PropEdits"]			= LAZPATH.."components/ideintf/propedits.pp",
+	["OIFavoriteProperties"]	= LAZPATH.."components/ideintf/oifavoriteproperties.pas",
+	["ObjectInspector"]		= LAZPATH.."components/ideintf/objectinspector.pp",
+	["RTTICtrls"]			= LAZPATH.."components/rtticontrols/rttictrls.pas",
+	["RTTIGrids"]			= LAZPATH.."components/rtticontrols/rttigrids.pas",
 }
 
 toInfer = {
@@ -65,9 +72,6 @@ toInfer = {
 -- wclass: item class for collections
 
 classes = {
-	
-	-- classes
-	-- built-in PropertyGrid
 	------------------------------------------------------------------
 	{ name = "Persistent", src = "TPersistent", ref="Classes", nocreate=true },
 	{ unit = "Collection", ref = "Classes",
@@ -276,6 +280,42 @@ classes = {
 	{ name = "ColorBox", src = "TCustomColorBox", ref = "ColorBox" },
 	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox" },
 
+	--RTTI
+	{ name = "CollectionPropertyEditorForm", src = "TCollectionPropertyEditorForm", ref = "CollectionPropEditForm", nocreate=true },
+	{ unit = "PropEdits", ref = "PropEdits",
+		classes = {
+			{ name = "PropertyEditorHook", src = "TPropertyEditorHook", nocreate=true },
+			{ name = "PropertyEditor", src = "TPropertyEditor", nocreate=true },
+			{ name = "CollectionPropertyEditor", src = "TCollectionPropertyEditor", nocreate=true },
+		},
+	},
+	{ unit = "OIFavoriteProperties", ref = "OIFavoriteProperties", implref = "LCLPlatformDef",
+		classes = {
+			{ name = "OIFavoriteProperty", src = "TOIFavoriteProperty", nocreate=true },
+			{ name = "OIRestrictedProperty", src = "TOIRestrictedProperty", nocreate=true },
+			{ name = "OIFavoriteProperties", src = "TOIFavoriteProperties", nocreate=true },
+		},
+	},
+	{ unit = "ObjectInspector", ref = "ObjectInspector",
+		classes = {
+			{ name = "OIPropertyGridRow", src = "TOIPropertyGridRow", nocreate=true },
+			{ name = "OICustomPropertyGrid", src = "TOICustomPropertyGrid", nocreate=true },
+			{ name = "CustomPropertiesGrid", src = "TCustomPropertiesGrid", nocreate=true },
+		},
+	},
+	{ unit = "RTTICtrls", ref = "RTTICtrls",
+		classes = {
+			{ name = "AliasStrings", src = "TAliasStrings", nv=true, noparent=true },
+		},
+	},
+	{ unit = "PropertyGrid", ref = "RTTIGrids",
+		classes = {
+			{ name = "TIPropertyGrid", src = "TTIPropertyGrid" },
+			{ name = "TIGridProperty", src = "TTIGridProperty", nocreate=true },
+			{ name = "TICustomGrid", src = "TTICustomGrid", nocreate=true },
+			{ name = "TIGrid", src = "TTIGrid" },
+		},
+	},
 }	
 
 eventRefs = {

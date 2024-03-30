@@ -44,3 +44,12 @@ txmlconfig
 tclipboardrequestevent
 tlistchangeevent
 trgbaquad
+ptypeinfo
+pinstprop
+tmethod
+widestring
+unicodestring
+ptypedata
+tpersistentselectionlist
+tconfigstorage
+tinstprop

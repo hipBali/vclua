@@ -16,9 +16,6 @@ uses
   LuaProxy in 'LuaProxy.pas',
   LuaDialogs in 'LuaDialogs.pas',
   LuaVmt,
-  {$IFDEF PROPERTYGRID}
-    LuaPropertyGrid in 'addons/LuaPropertyGrid.pas',
-  {$ENDIF}
   {$IFDEF EXTENDED}
   LuaRichMemo in 'addons/LuaRichMemo.pas',
   LuaSynEdit in 'addons/LuaSynEdit.pas',
@@ -63,10 +60,6 @@ begin
   // UTF-8 CP
   lua_pushcfunction(L, @set_vclua_utf8_conv);
   lua_setfield(L, -2, 'setCPWin');
-  {$IFDEF PROPERTYGRID}
-  lua_pushcfunction(L, @CreatePropertyGrid);
-  lua_setfield(L, -2, 'PropertyGrid');
-  {$ENDIF}
   {$IFDEF EXTENDED}
   lua_pushcfunction(L, @CreateSynEdit);
   lua_setfield(L, -2, 'SynEdit');

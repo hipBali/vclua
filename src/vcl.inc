@@ -86,6 +86,12 @@ Generated with Lua-fpc parser/generator
 	LuaCommonDialogs,
 	LuaColorBox,
 	LuaColorListBox,
+	LuaCollectionPropertyEditorForm,
+	LuaPropEdits,
+	LuaOIFavoriteProperties,
+	LuaObjectInspector,
+	LuaRTTICtrls,
+	LuaPropertyGrid,
 	LuaActnListEvents,
 	LuaCheckLstEvents,
 	LuaClassesEvents,
@@ -102,6 +108,10 @@ Generated with Lua-fpc parser/generator
 	LuaImgListEvents,
 	LuaLCLTypeEvents,
 	LuaMenusEvents,
+	LuaObjectInspectorEvents,
+	LuaPropEditsEvents,
+	LuaRTTICtrlsEvents,
+	LuaRTTIGridsEvents,
 	LuaStdCtrlsEvents,
 	LuaTypesEvents,
 	LuaValEditEvents;
@@ -111,7 +121,7 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..87] of lual_reg = (
+	vcl_lib : array[0..90] of lual_reg = (
 		(name:'MemoryStream'; func:@CreateMemoryStream),
 		(name:'StringList'; func:@CreateStringList),
 		(name:'TextStrings'; func:@CreateTextStrings),
@@ -199,5 +209,8 @@ Generated with Lua-fpc parser/generator
 		(name:'ReplaceDialog'; func:@CreateReplaceDialog),
 		(name:'ColorBox'; func:@CreateColorBox),
 		(name:'ColorListBox'; func:@CreateColorListBox),
+		(name:'AliasStrings'; func:@CreateAliasStrings),
+		(name:'TIPropertyGrid'; func:@CreateTIPropertyGrid),
+		(name:'TIGrid'; func:@CreateTIGrid),
 		(name:nil;func:nil)
 	);

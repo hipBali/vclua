@@ -32,7 +32,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
       <RevisionNr Value="2"/>
-      <BuildNr Value="294"/>
+      <BuildNr Value="295"/>
       <Language Value="0809"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPreRelease="True"/>
@@ -259,8 +259,7 @@
         <ShowNotes Value="False"/>
         <ShowHints Value="False"/>
       </Verbosity>
-      <CustomOptions Value="-dLUA54
--dPROPERTYGRID"/>
+      <CustomOptions Value="-dLUA54"/>
     </Other>
   </CompilerOptions>
 </CONFIG>

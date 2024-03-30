@@ -40,6 +40,9 @@ if checkTypeSupport then
 -- enums and sets
 VCLUA_ES = {
 "TPenStyle",
+"TTypeKind",
+"TTypeKinds",
+"TLCLPlatforms",
 }
 
 VCLUA_TOLUA_DEFAULT = "lua_push(L,#VAR);"

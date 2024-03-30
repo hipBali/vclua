@@ -3,6 +3,21 @@ Generated with Lua-fpc parser/generator
 (C) 2018-2024 Hi-Project Ltd.
 *)
 
+TTIGrid.ClassInfo,
+TTICustomGrid.ClassInfo,
+TTIGridProperty.ClassInfo,
+TTIPropertyGrid.ClassInfo,
+TAliasStrings.ClassInfo,
+TCustomPropertiesGrid.ClassInfo,
+TOICustomPropertyGrid.ClassInfo,
+TOIPropertyGridRow.ClassInfo,
+TOIFavoriteProperties.ClassInfo,
+TOIRestrictedProperty.ClassInfo,
+TOIFavoriteProperty.ClassInfo,
+TCollectionPropertyEditor.ClassInfo,
+TPropertyEditor.ClassInfo,
+TPropertyEditorHook.ClassInfo,
+TCollectionPropertyEditorForm.ClassInfo,
 TColorListBox.ClassInfo,
 TCustomColorBox.ClassInfo,
 TFindDialog.ClassInfo,
