@@ -1082,7 +1082,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BaseBounds', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetBaseBounds', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1098,7 +1098,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ReadBounds', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetReadBounds', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1114,7 +1114,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BaseParentClientSize', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetBaseParentClientSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1970,7 +1970,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AccessibleName', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetAccessibleName', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1985,7 +1985,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AccessibleName', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetAccessibleName', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2002,7 +2002,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AccessibleDescription', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetAccessibleDescription', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2017,7 +2017,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AccessibleDescription', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetAccessibleDescription', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2034,7 +2034,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AccessibleValue', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetAccessibleValue', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2049,7 +2049,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AccessibleValue', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetAccessibleValue', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2066,7 +2066,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AccessibleRole', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetAccessibleRole', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2081,7 +2081,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AccessibleRole', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetAccessibleRole', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2098,7 +2098,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Action', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetAction', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2113,7 +2113,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Action', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetAction', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2130,7 +2130,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Align', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetAlign', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2145,7 +2145,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Align', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetAlign', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2181,7 +2181,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AutoSize', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetAutoSize', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2196,7 +2196,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'AutoSize', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetAutoSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2213,7 +2213,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BorderSpacing', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetBorderSpacing', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2228,7 +2228,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BorderSpacing', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetBorderSpacing', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2245,7 +2245,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BoundsRect', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetBoundsRect', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2260,7 +2260,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BoundsRect', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetBoundsRect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2277,7 +2277,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BoundsRectForNewParent', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetBoundsRectForNewParent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2292,7 +2292,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BoundsRectForNewParent', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetBoundsRectForNewParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2309,7 +2309,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Caption', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetCaption', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2324,7 +2324,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Caption', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetCaption', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2341,7 +2341,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ClientHeight', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetClientHeight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2356,7 +2356,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ClientHeight', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetClientHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2372,7 +2372,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ClientOrigin', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetClientOrigin', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2388,7 +2388,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ClientRect', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetClientRect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2405,7 +2405,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ClientWidth', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetClientWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2420,7 +2420,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ClientWidth', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetClientWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2437,7 +2437,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Color', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2452,7 +2452,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Color', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2469,7 +2469,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Constraints', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetConstraints', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2484,7 +2484,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Constraints', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetConstraints', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2500,7 +2500,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ControlOrigin', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetControlOrigin', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2517,7 +2517,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ControlState', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetControlState', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2532,7 +2532,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ControlState', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetControlState', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2549,7 +2549,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ControlStyle', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetControlStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2564,7 +2564,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ControlStyle', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetControlStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2581,7 +2581,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Enabled', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetEnabled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2596,7 +2596,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Enabled', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetEnabled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2613,7 +2613,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Font', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetFont', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2628,7 +2628,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Font', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetFont', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2645,7 +2645,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'IsControl', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetIsControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2660,7 +2660,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'IsControl', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetIsControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2676,7 +2676,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'MouseEntered', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetMouseEntered', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2692,7 +2692,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'MouseInClient', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetMouseInClient', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2739,7 +2739,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Parent', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetParent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2754,7 +2754,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Parent', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2771,7 +2771,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'PopupMenu', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetPopupMenu', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2786,7 +2786,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'PopupMenu', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetPopupMenu', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2803,7 +2803,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ShowHint', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetShowHint', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2818,7 +2818,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ShowHint', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetShowHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2835,7 +2835,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Visible', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetVisible', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2850,7 +2850,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Visible', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetVisible', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2867,7 +2867,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'DockOrientation', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetDockOrientation', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2882,7 +2882,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'DockOrientation', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetDockOrientation', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2898,7 +2898,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'Floating', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetFloating', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2915,7 +2915,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'HostDockSite', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetHostDockSite', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2930,7 +2930,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'HostDockSite', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetHostDockSite', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2947,7 +2947,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'LRDockWidth', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetLRDockWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2962,7 +2962,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'LRDockWidth', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetLRDockWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2979,7 +2979,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'TBDockHeight', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetTBDockHeight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2994,7 +2994,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'TBDockHeight', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetTBDockHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -3011,7 +3011,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'UndockHeight', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetUndockHeight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -3026,7 +3026,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'UndockHeight', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetUndockHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -3043,7 +3043,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'UndockWidth', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetUndockWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -3058,7 +3058,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'UndockWidth', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetUndockWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -3075,7 +3075,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BiDiMode', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetBiDiMode', E.ClassName, E.Message);
 	end;
 end;
 
@@ -3090,7 +3090,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'BiDiMode', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetBiDiMode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -3107,7 +3107,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ParentBiDiMode', E.ClassName, E.Message);
+			CallError(L, 'Control', 'SetParentBiDiMode', E.ClassName, E.Message);
 	end;
 end;
 
@@ -3122,7 +3122,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Control', 'ParentBiDiMode', E.ClassName, E.Message);
+			CallError(L, 'Control', 'GetParentBiDiMode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

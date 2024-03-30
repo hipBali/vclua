@@ -346,7 +346,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'Canvas', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'GetCanvas', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -380,7 +380,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'BitmapHandle', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'SetBitmapHandle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -395,7 +395,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'BitmapHandle', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'GetBitmapHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -412,7 +412,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'Masked', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'SetMasked', E.ClassName, E.Message);
 	end;
 end;
 
@@ -427,7 +427,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'Masked', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'GetMasked', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -444,7 +444,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'MaskHandle', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'SetMaskHandle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -459,7 +459,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'MaskHandle', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'GetMaskHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -476,7 +476,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'PixelFormat', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'SetPixelFormat', E.ClassName, E.Message);
 	end;
 end;
 
@@ -491,7 +491,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'PixelFormat', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'GetPixelFormat', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -527,7 +527,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'TransparentColor', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'SetTransparentColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -542,7 +542,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'TransparentColor', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'GetTransparentColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -559,7 +559,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'TransparentMode', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'SetTransparentMode', E.ClassName, E.Message);
 	end;
 end;
 
@@ -574,7 +574,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RasterImage', 'TransparentMode', E.ClassName, E.Message);
+			CallError(L, 'RasterImage', 'GetTransparentMode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

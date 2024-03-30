@@ -187,7 +187,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ToolButton', 'Index', E.ClassName, E.Message);
+			CallError(L, 'ToolButton', 'GetIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -302,7 +302,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ToolBar', 'ButtonCount', E.ClassName, E.Message);
+			CallError(L, 'ToolBar', 'GetButtonCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -337,7 +337,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ToolBar', 'RowCount', E.ClassName, E.Message);
+			CallError(L, 'ToolBar', 'GetRowCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -353,7 +353,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ToolBar', 'ButtonDropWidth', E.ClassName, E.Message);
+			CallError(L, 'ToolBar', 'GetButtonDropWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

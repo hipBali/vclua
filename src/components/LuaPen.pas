@@ -52,7 +52,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Pen', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'Pen', 'SetHandle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -67,7 +67,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Pen', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'Pen', 'GetHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

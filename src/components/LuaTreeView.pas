@@ -55,7 +55,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeNode', 'Data', E.ClassName, E.Message);
+			CallError(L, 'TreeNode', 'SetData', E.ClassName, E.Message);
 	end;
 end;
 
@@ -70,7 +70,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeNode', 'Data', E.ClassName, E.Message);
+			CallError(L, 'TreeNode', 'GetData', E.ClassName, E.Message);
 	end;
 	lua_pushlightuserdata(L,ret);
 end;
@@ -835,7 +835,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeNodes', 'TopLvlCount', E.ClassName, E.Message);
+			CallError(L, 'TreeNodes', 'GetTopLvlCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -877,7 +877,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'AccessibilityOn', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetAccessibilityOn', E.ClassName, E.Message);
 	end;
 end;
 
@@ -892,7 +892,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'AccessibilityOn', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetAccessibilityOn', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1768,7 +1768,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'BackgroundColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetBackgroundColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1783,7 +1783,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'BackgroundColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetBackgroundColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1800,7 +1800,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'BottomItem', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetBottomItem', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1815,7 +1815,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'BottomItem', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetBottomItem', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1832,7 +1832,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'DefaultItemHeight', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetDefaultItemHeight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1847,7 +1847,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'DefaultItemHeight', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetDefaultItemHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1864,7 +1864,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'DropTarget', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetDropTarget', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1879,7 +1879,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'DropTarget', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetDropTarget', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1896,7 +1896,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ExpandSignColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetExpandSignColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1911,7 +1911,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ExpandSignColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetExpandSignColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1928,7 +1928,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ExpandSignSize', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetExpandSignSize', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1943,7 +1943,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ExpandSignSize', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetExpandSignSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1960,7 +1960,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ExpandSignType', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetExpandSignType', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1975,7 +1975,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ExpandSignType', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetExpandSignType', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1992,7 +1992,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'Images', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetImages', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2007,7 +2007,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'Images', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetImages', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2024,7 +2024,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ImagesWidth', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetImagesWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2039,7 +2039,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ImagesWidth', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetImagesWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2056,7 +2056,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'InsertMarkNode', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetInsertMarkNode', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2071,7 +2071,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'InsertMarkNode', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetInsertMarkNode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2088,7 +2088,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'InsertMarkType', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetInsertMarkType', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2103,7 +2103,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'InsertMarkType', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetInsertMarkType', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2120,7 +2120,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'Items', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetItems', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2135,7 +2135,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'Items', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetItems', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2152,7 +2152,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'KeepCollapsedNodes', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetKeepCollapsedNodes', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2167,7 +2167,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'KeepCollapsedNodes', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetKeepCollapsedNodes', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2184,7 +2184,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'MultiSelectStyle', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetMultiSelectStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2199,7 +2199,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'MultiSelectStyle', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetMultiSelectStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2216,7 +2216,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'Options', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetOptions', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2231,7 +2231,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'Options', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetOptions', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2248,7 +2248,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ScrollBars', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetScrollBars', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2263,7 +2263,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'ScrollBars', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetScrollBars', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2280,7 +2280,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'Selected', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetSelected', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2295,7 +2295,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'Selected', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetSelected', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2312,7 +2312,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'SelectionColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetSelectionColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2327,7 +2327,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'SelectionColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetSelectionColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2343,7 +2343,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'SelectionCount', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetSelectionCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2360,7 +2360,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'SelectionFontColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetSelectionFontColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2375,7 +2375,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'SelectionFontColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetSelectionFontColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2392,7 +2392,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'SelectionFontColorUsed', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetSelectionFontColorUsed', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2407,7 +2407,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'SelectionFontColorUsed', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetSelectionFontColorUsed', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2443,7 +2443,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'SeparatorColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetSeparatorColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2458,7 +2458,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'SeparatorColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetSeparatorColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2475,7 +2475,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'StateImages', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetStateImages', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2490,7 +2490,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'StateImages', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetStateImages', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -2507,7 +2507,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'StateImagesWidth', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetStateImagesWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2522,7 +2522,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'StateImagesWidth', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetStateImagesWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2539,7 +2539,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'TopItem', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetTopItem', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2554,7 +2554,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'TopItem', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetTopItem', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2571,7 +2571,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'TreeLineColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetTreeLineColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2586,7 +2586,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'TreeLineColor', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetTreeLineColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -2603,7 +2603,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'TreeLinePenStyle', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'SetTreeLinePenStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -2618,7 +2618,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TreeView', 'TreeLinePenStyle', E.ClassName, E.Message);
+			CallError(L, 'TreeView', 'GetTreeLinePenStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

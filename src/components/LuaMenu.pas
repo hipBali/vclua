@@ -238,7 +238,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Menu', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'Menu', 'GetHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -255,7 +255,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Menu', 'Parent', E.ClassName, E.Message);
+			CallError(L, 'Menu', 'SetParent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -270,7 +270,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Menu', 'Parent', E.ClassName, E.Message);
+			CallError(L, 'Menu', 'GetParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -287,7 +287,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Menu', 'ShortcutHandled', E.ClassName, E.Message);
+			CallError(L, 'Menu', 'SetShortcutHandled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -302,7 +302,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Menu', 'ShortcutHandled', E.ClassName, E.Message);
+			CallError(L, 'Menu', 'GetShortcutHandled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -373,7 +373,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'PopupMenu', 'PopupComponent', E.ClassName, E.Message);
+			CallError(L, 'PopupMenu', 'SetPopupComponent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -388,7 +388,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'PopupMenu', 'PopupComponent', E.ClassName, E.Message);
+			CallError(L, 'PopupMenu', 'GetPopupComponent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -404,7 +404,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'PopupMenu', 'PopupPoint', E.ClassName, E.Message);
+			CallError(L, 'PopupMenu', 'GetPopupPoint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -995,7 +995,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'Merged', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetMerged', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1011,7 +1011,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'MergedWith', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetMergedWith', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1027,7 +1027,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'Count', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1044,7 +1044,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'SetHandle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1059,7 +1059,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1094,7 +1094,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'MergedItems', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetMergedItems', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1111,7 +1111,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'MenuIndex', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'SetMenuIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1126,7 +1126,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'MenuIndex', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetMenuIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1142,7 +1142,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'Menu', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetMenu', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1158,7 +1158,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'Parent', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1174,7 +1174,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'MergedParent', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetMergedParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1190,7 +1190,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MenuItem', 'Command', E.ClassName, E.Message);
+			CallError(L, 'MenuItem', 'GetCommand', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1304,7 +1304,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MainMenu', 'Height', E.ClassName, E.Message);
+			CallError(L, 'MainMenu', 'GetHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1321,7 +1321,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'MainMenu', 'WindowHandle', E.ClassName, E.Message);
+			CallError(L, 'MainMenu', 'SetWindowHandle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1336,7 +1336,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'MainMenu', 'WindowHandle', E.ClassName, E.Message);
+			CallError(L, 'MainMenu', 'GetWindowHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

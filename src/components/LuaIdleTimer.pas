@@ -37,7 +37,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'IdleTimer', 'AutoEnabled', E.ClassName, E.Message);
+			CallError(L, 'IdleTimer', 'SetAutoEnabled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -52,7 +52,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'IdleTimer', 'AutoEnabled', E.ClassName, E.Message);
+			CallError(L, 'IdleTimer', 'GetAutoEnabled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -69,7 +69,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'IdleTimer', 'AutoStartEvent', E.ClassName, E.Message);
+			CallError(L, 'IdleTimer', 'SetAutoStartEvent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -84,7 +84,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'IdleTimer', 'AutoStartEvent', E.ClassName, E.Message);
+			CallError(L, 'IdleTimer', 'GetAutoStartEvent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -101,7 +101,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'IdleTimer', 'AutoEndEvent', E.ClassName, E.Message);
+			CallError(L, 'IdleTimer', 'SetAutoEndEvent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -116,7 +116,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'IdleTimer', 'AutoEndEvent', E.ClassName, E.Message);
+			CallError(L, 'IdleTimer', 'GetAutoEndEvent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -133,7 +133,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'IdleTimer', 'FireOnIdle', E.ClassName, E.Message);
+			CallError(L, 'IdleTimer', 'SetFireOnIdle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -148,7 +148,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'IdleTimer', 'FireOnIdle', E.ClassName, E.Message);
+			CallError(L, 'IdleTimer', 'GetFireOnIdle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

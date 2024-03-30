@@ -88,7 +88,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'AutoFill', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'SetAutoFill', E.ClassName, E.Message);
 	end;
 end;
 
@@ -103,7 +103,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'AutoFill', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'GetAutoFill', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -120,7 +120,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'ItemIndex', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'SetItemIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -135,7 +135,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'ItemIndex', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'GetItemIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -153,7 +153,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'Items', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'SetItems', E.ClassName, E.Message);
 	end;
 	if valNeedsFree then val.Free;
 end;
@@ -169,7 +169,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'Items', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'GetItems', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -186,7 +186,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'Columns', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'SetColumns', E.ClassName, E.Message);
 	end;
 end;
 
@@ -201,7 +201,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'Columns', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'GetColumns', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -218,7 +218,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'ColumnLayout', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'SetColumnLayout', E.ClassName, E.Message);
 	end;
 end;
 
@@ -233,7 +233,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'RadioGroup', 'ColumnLayout', E.ClassName, E.Message);
+			CallError(L, 'RadioGroup', 'GetColumnLayout', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

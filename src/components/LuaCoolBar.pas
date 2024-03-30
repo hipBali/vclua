@@ -141,7 +141,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'BandBorderStyle', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetBandBorderStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -156,7 +156,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'BandBorderStyle', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetBandBorderStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -173,7 +173,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'BandMaximize', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetBandMaximize', E.ClassName, E.Message);
 	end;
 end;
 
@@ -188,7 +188,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'BandMaximize', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetBandMaximize', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -205,7 +205,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'Bitmap', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetBitmap', E.ClassName, E.Message);
 	end;
 end;
 
@@ -220,7 +220,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'Bitmap', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetBitmap', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -237,7 +237,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'FixedSize', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetFixedSize', E.ClassName, E.Message);
 	end;
 end;
 
@@ -252,7 +252,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'FixedSize', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetFixedSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -269,7 +269,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'FixedOrder', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetFixedOrder', E.ClassName, E.Message);
 	end;
 end;
 
@@ -284,7 +284,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'FixedOrder', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetFixedOrder', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -301,7 +301,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'GrabStyle', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetGrabStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -316,7 +316,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'GrabStyle', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetGrabStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -333,7 +333,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'GrabWidth', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetGrabWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -348,7 +348,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'GrabWidth', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetGrabWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -365,7 +365,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'HorizontalSpacing', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetHorizontalSpacing', E.ClassName, E.Message);
 	end;
 end;
 
@@ -380,7 +380,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'HorizontalSpacing', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetHorizontalSpacing', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -397,7 +397,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'Images', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetImages', E.ClassName, E.Message);
 	end;
 end;
 
@@ -412,7 +412,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'Images', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetImages', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -429,7 +429,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'ImagesWidth', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetImagesWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -444,7 +444,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'ImagesWidth', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetImagesWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -461,7 +461,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'ShowText', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetShowText', E.ClassName, E.Message);
 	end;
 end;
 
@@ -476,7 +476,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'ShowText', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetShowText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -493,7 +493,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'Themed', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetThemed', E.ClassName, E.Message);
 	end;
 end;
 
@@ -508,7 +508,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'Themed', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetThemed', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -525,7 +525,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'Vertical', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetVertical', E.ClassName, E.Message);
 	end;
 end;
 
@@ -540,7 +540,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'Vertical', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetVertical', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -557,7 +557,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'VerticalSpacing', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'SetVerticalSpacing', E.ClassName, E.Message);
 	end;
 end;
 
@@ -572,7 +572,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CoolBar', 'VerticalSpacing', E.ClassName, E.Message);
+			CallError(L, 'CoolBar', 'GetVerticalSpacing', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

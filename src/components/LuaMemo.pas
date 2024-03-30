@@ -74,7 +74,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'Lines', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'SetLines', E.ClassName, E.Message);
 	end;
 	if valNeedsFree then val.Free;
 end;
@@ -90,7 +90,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'Lines', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'GetLines', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -107,7 +107,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'HorzScrollBar', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'SetHorzScrollBar', E.ClassName, E.Message);
 	end;
 end;
 
@@ -122,7 +122,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'HorzScrollBar', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'GetHorzScrollBar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -139,7 +139,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'VertScrollBar', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'SetVertScrollBar', E.ClassName, E.Message);
 	end;
 end;
 
@@ -154,7 +154,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'VertScrollBar', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'GetVertScrollBar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -171,7 +171,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'ScrollBars', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'SetScrollBars', E.ClassName, E.Message);
 	end;
 end;
 
@@ -186,7 +186,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'ScrollBars', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'GetScrollBars', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -203,7 +203,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'WantReturns', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'SetWantReturns', E.ClassName, E.Message);
 	end;
 end;
 
@@ -218,7 +218,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'WantReturns', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'GetWantReturns', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -235,7 +235,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'WantTabs', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'SetWantTabs', E.ClassName, E.Message);
 	end;
 end;
 
@@ -250,7 +250,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'WantTabs', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'GetWantTabs', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -267,7 +267,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'WordWrap', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'SetWordWrap', E.ClassName, E.Message);
 	end;
 end;
 
@@ -282,7 +282,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Memo', 'WordWrap', E.ClassName, E.Message);
+			CallError(L, 'Memo', 'GetWordWrap', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

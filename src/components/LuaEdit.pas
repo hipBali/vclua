@@ -159,7 +159,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'Alignment', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetAlignment', E.ClassName, E.Message);
 	end;
 end;
 
@@ -174,7 +174,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'Alignment', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetAlignment', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -190,7 +190,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'CanUndo', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetCanUndo', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -207,7 +207,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'CaretPos', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetCaretPos', E.ClassName, E.Message);
 	end;
 end;
 
@@ -222,7 +222,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'CaretPos', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetCaretPos', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -239,7 +239,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'CharCase', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetCharCase', E.ClassName, E.Message);
 	end;
 end;
 
@@ -254,7 +254,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'CharCase', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetCharCase', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -271,7 +271,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'EchoMode', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetEchoMode', E.ClassName, E.Message);
 	end;
 end;
 
@@ -286,7 +286,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'EchoMode', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetEchoMode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -302,7 +302,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'EmulatedTextHintStatus', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetEmulatedTextHintStatus', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -319,7 +319,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'HideSelection', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetHideSelection', E.ClassName, E.Message);
 	end;
 end;
 
@@ -334,7 +334,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'HideSelection', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetHideSelection', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -351,7 +351,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'MaxLength', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetMaxLength', E.ClassName, E.Message);
 	end;
 end;
 
@@ -366,7 +366,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'MaxLength', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetMaxLength', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -383,7 +383,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'Modified', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetModified', E.ClassName, E.Message);
 	end;
 end;
 
@@ -398,7 +398,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'Modified', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetModified', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -415,7 +415,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'NumbersOnly', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetNumbersOnly', E.ClassName, E.Message);
 	end;
 end;
 
@@ -430,7 +430,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'NumbersOnly', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetNumbersOnly', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -457,7 +457,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'PasswordChar', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetPasswordChar', E.ClassName, E.Message);
 	end;
 end;
 
@@ -472,7 +472,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'PasswordChar', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetPasswordChar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -489,7 +489,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'ReadOnly', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetReadOnly', E.ClassName, E.Message);
 	end;
 end;
 
@@ -504,7 +504,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'ReadOnly', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetReadOnly', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -521,7 +521,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'SelLength', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetSelLength', E.ClassName, E.Message);
 	end;
 end;
 
@@ -536,7 +536,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'SelLength', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetSelLength', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -553,7 +553,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'SelStart', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetSelStart', E.ClassName, E.Message);
 	end;
 end;
 
@@ -568,7 +568,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'SelStart', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetSelStart', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -585,7 +585,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'SelText', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetSelText', E.ClassName, E.Message);
 	end;
 end;
 
@@ -600,7 +600,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'SelText', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetSelText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -617,7 +617,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'TextHint', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'SetTextHint', E.ClassName, E.Message);
 	end;
 end;
 
@@ -632,7 +632,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Edit', 'TextHint', E.ClassName, E.Message);
+			CallError(L, 'Edit', 'GetTextHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

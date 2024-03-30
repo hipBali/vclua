@@ -130,7 +130,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Button', 'Active', E.ClassName, E.Message);
+			CallError(L, 'Button', 'GetActive', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -147,7 +147,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Button', 'Default', E.ClassName, E.Message);
+			CallError(L, 'Button', 'SetDefault', E.ClassName, E.Message);
 	end;
 end;
 
@@ -162,7 +162,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Button', 'Default', E.ClassName, E.Message);
+			CallError(L, 'Button', 'GetDefault', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -179,7 +179,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Button', 'ModalResult', E.ClassName, E.Message);
+			CallError(L, 'Button', 'SetModalResult', E.ClassName, E.Message);
 	end;
 end;
 
@@ -194,7 +194,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Button', 'ModalResult', E.ClassName, E.Message);
+			CallError(L, 'Button', 'GetModalResult', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -210,7 +210,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Button', 'ShortCut', E.ClassName, E.Message);
+			CallError(L, 'Button', 'GetShortCut', E.ClassName, E.Message);
 	end;
 	lua_pushShortCut(L,ret);
 end;
@@ -226,7 +226,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Button', 'ShortCutKey2', E.ClassName, E.Message);
+			CallError(L, 'Button', 'GetShortCutKey2', E.ClassName, E.Message);
 	end;
 	lua_pushShortCut(L,ret);
 end;
@@ -243,7 +243,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Button', 'Cancel', E.ClassName, E.Message);
+			CallError(L, 'Button', 'SetCancel', E.ClassName, E.Message);
 	end;
 end;
 
@@ -258,7 +258,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Button', 'Cancel', E.ClassName, E.Message);
+			CallError(L, 'Button', 'GetCancel', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

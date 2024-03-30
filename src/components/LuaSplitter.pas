@@ -56,7 +56,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'ResizeControl', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'SetResizeControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -71,7 +71,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'ResizeControl', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'GetResizeControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -156,7 +156,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'AutoSnap', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'SetAutoSnap', E.ClassName, E.Message);
 	end;
 end;
 
@@ -171,7 +171,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'AutoSnap', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'GetAutoSnap', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -188,7 +188,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'Beveled', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'SetBeveled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -203,7 +203,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'Beveled', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'GetBeveled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -220,7 +220,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'MinSize', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'SetMinSize', E.ClassName, E.Message);
 	end;
 end;
 
@@ -235,7 +235,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'MinSize', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'GetMinSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -282,7 +282,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'ResizeAnchor', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'SetResizeAnchor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -297,7 +297,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'ResizeAnchor', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'GetResizeAnchor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -314,7 +314,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'ResizeStyle', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'SetResizeStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -329,7 +329,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Splitter', 'ResizeStyle', E.ClassName, E.Message);
+			CallError(L, 'Splitter', 'GetResizeStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

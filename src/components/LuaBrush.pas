@@ -71,7 +71,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Brush', 'Bitmap', E.ClassName, E.Message);
+			CallError(L, 'Brush', 'SetBitmap', E.ClassName, E.Message);
 	end;
 end;
 
@@ -86,7 +86,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Brush', 'Bitmap', E.ClassName, E.Message);
+			CallError(L, 'Brush', 'GetBitmap', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -103,7 +103,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Brush', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'Brush', 'SetHandle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -118,7 +118,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Brush', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'Brush', 'GetHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

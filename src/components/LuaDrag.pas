@@ -92,7 +92,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'AlwaysShowDragImages', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'SetAlwaysShowDragImages', E.ClassName, E.Message);
 	end;
 end;
 
@@ -107,7 +107,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'AlwaysShowDragImages', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'GetAlwaysShowDragImages', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -123,7 +123,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'AutoCreated', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'GetAutoCreated', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -139,7 +139,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'AutoFree', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'GetAutoFree', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -156,7 +156,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'Control', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'SetControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -171,7 +171,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'Control', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'GetControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -188,7 +188,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'DragPos', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'SetDragPos', E.ClassName, E.Message);
 	end;
 end;
 
@@ -203,7 +203,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'DragPos', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'GetDragPos', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -220,7 +220,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'DragTarget', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'SetDragTarget', E.ClassName, E.Message);
 	end;
 end;
 
@@ -235,7 +235,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'DragTarget', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'GetDragTarget', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -252,7 +252,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'DragTargetPos', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'SetDragTargetPos', E.ClassName, E.Message);
 	end;
 end;
 
@@ -267,7 +267,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'DragTargetPos', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'GetDragTargetPos', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -283,7 +283,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragObject', 'Dropped', E.ClassName, E.Message);
+			CallError(L, 'DragObject', 'GetDropped', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -300,7 +300,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'DockOffset', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'SetDockOffset', E.ClassName, E.Message);
 	end;
 end;
 
@@ -315,7 +315,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'DockOffset', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'GetDockOffset', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -332,7 +332,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'DockRect', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'SetDockRect', E.ClassName, E.Message);
 	end;
 end;
 
@@ -347,7 +347,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'DockRect', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'GetDockRect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -364,7 +364,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'DropAlign', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'SetDropAlign', E.ClassName, E.Message);
 	end;
 end;
 
@@ -379,7 +379,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'DropAlign', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'GetDropAlign', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -396,7 +396,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'DropOnControl', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'SetDropOnControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -411,7 +411,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'DropOnControl', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'GetDropOnControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -428,7 +428,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'Floating', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'SetFloating', E.ClassName, E.Message);
 	end;
 end;
 
@@ -443,7 +443,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'Floating', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'GetFloating', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -459,7 +459,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'IncreaseDockArea', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'GetIncreaseDockArea', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -476,7 +476,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'EraseDockRect', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'SetEraseDockRect', E.ClassName, E.Message);
 	end;
 end;
 
@@ -491,7 +491,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DragDockObject', 'EraseDockRect', E.ClassName, E.Message);
+			CallError(L, 'DragDockObject', 'GetEraseDockRect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -717,7 +717,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'ChildControl', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetChildControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -733,7 +733,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'ChildCount', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetChildCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -749,7 +749,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'FirstChild', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetFirstChild', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -766,7 +766,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Height', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'SetHeight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -781,7 +781,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Height', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -798,7 +798,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Left', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'SetLeft', E.ClassName, E.Message);
 	end;
 end;
 
@@ -813,7 +813,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Left', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetLeft', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -830,7 +830,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'LimitBegin', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'SetLimitBegin', E.ClassName, E.Message);
 	end;
 end;
 
@@ -845,7 +845,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'LimitBegin', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetLimitBegin', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -862,7 +862,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'LimitSize', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'SetLimitSize', E.ClassName, E.Message);
 	end;
 end;
 
@@ -877,7 +877,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'LimitSize', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetLimitSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -894,7 +894,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Orientation', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'SetOrientation', E.ClassName, E.Message);
 	end;
 end;
 
@@ -909,7 +909,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Orientation', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetOrientation', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -925,7 +925,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Parent', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -942,7 +942,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Top', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'SetTop', E.ClassName, E.Message);
 	end;
 end;
 
@@ -957,7 +957,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Top', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetTop', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -973,7 +973,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Tree', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetTree', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -989,7 +989,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Visible', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetVisible', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1005,7 +1005,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'VisibleChildCount', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetVisibleChildCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1022,7 +1022,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Width', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'SetWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1037,7 +1037,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'Width', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1053,7 +1053,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'NextSibling', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetNextSibling', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1069,7 +1069,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockZone', 'PrevSibling', E.ClassName, E.Message);
+			CallError(L, 'DockZone', 'GetPrevSibling', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1344,7 +1344,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockTree', 'DockSite', E.ClassName, E.Message);
+			CallError(L, 'DockTree', 'SetDockSite', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1359,7 +1359,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockTree', 'DockSite', E.ClassName, E.Message);
+			CallError(L, 'DockTree', 'GetDockSite', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1375,7 +1375,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'DockTree', 'RootZone', E.ClassName, E.Message);
+			CallError(L, 'DockTree', 'GetRootZone', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

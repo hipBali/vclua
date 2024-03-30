@@ -61,7 +61,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CollectionItem', 'Collection', E.ClassName, E.Message);
+			CallError(L, 'CollectionItem', 'SetCollection', E.ClassName, E.Message);
 	end;
 end;
 
@@ -76,7 +76,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CollectionItem', 'Collection', E.ClassName, E.Message);
+			CallError(L, 'CollectionItem', 'GetCollection', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -92,7 +92,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CollectionItem', 'ID', E.ClassName, E.Message);
+			CallError(L, 'CollectionItem', 'GetID', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -109,7 +109,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CollectionItem', 'Index', E.ClassName, E.Message);
+			CallError(L, 'CollectionItem', 'SetIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -124,7 +124,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CollectionItem', 'Index', E.ClassName, E.Message);
+			CallError(L, 'CollectionItem', 'GetIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -141,7 +141,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CollectionItem', 'DisplayName', E.ClassName, E.Message);
+			CallError(L, 'CollectionItem', 'SetDisplayName', E.ClassName, E.Message);
 	end;
 end;
 
@@ -156,7 +156,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CollectionItem', 'DisplayName', E.ClassName, E.Message);
+			CallError(L, 'CollectionItem', 'GetDisplayName', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -378,7 +378,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Collection', 'Count', E.ClassName, E.Message);
+			CallError(L, 'Collection', 'GetCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

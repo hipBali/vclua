@@ -37,7 +37,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CheckBox', 'Alignment', E.ClassName, E.Message);
+			CallError(L, 'CheckBox', 'SetAlignment', E.ClassName, E.Message);
 	end;
 end;
 
@@ -52,7 +52,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckBox', 'Alignment', E.ClassName, E.Message);
+			CallError(L, 'CheckBox', 'GetAlignment', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -69,7 +69,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CheckBox', 'AllowGrayed', E.ClassName, E.Message);
+			CallError(L, 'CheckBox', 'SetAllowGrayed', E.ClassName, E.Message);
 	end;
 end;
 
@@ -84,7 +84,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckBox', 'AllowGrayed', E.ClassName, E.Message);
+			CallError(L, 'CheckBox', 'GetAllowGrayed', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -101,7 +101,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CheckBox', 'State', E.ClassName, E.Message);
+			CallError(L, 'CheckBox', 'SetState', E.ClassName, E.Message);
 	end;
 end;
 
@@ -116,7 +116,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckBox', 'State', E.ClassName, E.Message);
+			CallError(L, 'CheckBox', 'GetState', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -132,7 +132,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckBox', 'ShortCut', E.ClassName, E.Message);
+			CallError(L, 'CheckBox', 'GetShortCut', E.ClassName, E.Message);
 	end;
 	lua_pushShortCut(L,ret);
 end;
@@ -148,7 +148,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckBox', 'ShortCutKey2', E.ClassName, E.Message);
+			CallError(L, 'CheckBox', 'GetShortCutKey2', E.ClassName, E.Message);
 	end;
 	lua_pushShortCut(L,ret);
 end;

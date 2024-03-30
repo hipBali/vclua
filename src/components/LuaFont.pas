@@ -99,7 +99,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Font', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'Font', 'SetHandle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -114,7 +114,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Font', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'Font', 'GetHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -166,7 +166,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Font', 'IsMonoSpace', E.ClassName, E.Message);
+			CallError(L, 'Font', 'GetIsMonoSpace', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -198,7 +198,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Font', 'PixelsPerInch', E.ClassName, E.Message);
+			CallError(L, 'Font', 'SetPixelsPerInch', E.ClassName, E.Message);
 	end;
 end;
 
@@ -213,7 +213,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Font', 'PixelsPerInch', E.ClassName, E.Message);
+			CallError(L, 'Font', 'GetPixelsPerInch', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

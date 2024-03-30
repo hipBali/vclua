@@ -134,7 +134,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'BasicAction', 'ActionComponent', E.ClassName, E.Message);
+			CallError(L, 'BasicAction', 'SetActionComponent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -149,7 +149,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'BasicAction', 'ActionComponent', E.ClassName, E.Message);
+			CallError(L, 'BasicAction', 'GetActionComponent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

@@ -94,7 +94,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'DecimalPlaces', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'SetDecimalPlaces', E.ClassName, E.Message);
 	end;
 end;
 
@@ -109,7 +109,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'DecimalPlaces', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'GetDecimalPlaces', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -126,7 +126,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'EditorEnabled', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'SetEditorEnabled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -141,7 +141,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'EditorEnabled', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'GetEditorEnabled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -158,7 +158,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'Increment', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'SetIncrement', E.ClassName, E.Message);
 	end;
 end;
 
@@ -173,7 +173,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'Increment', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'GetIncrement', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -190,7 +190,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'MinValue', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'SetMinValue', E.ClassName, E.Message);
 	end;
 end;
 
@@ -205,7 +205,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'MinValue', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'GetMinValue', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -222,7 +222,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'MaxValue', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'SetMaxValue', E.ClassName, E.Message);
 	end;
 end;
 
@@ -237,7 +237,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'MaxValue', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'GetMaxValue', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -254,7 +254,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'Value', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'SetValue', E.ClassName, E.Message);
 	end;
 end;
 
@@ -269,7 +269,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'Value', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'GetValue', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -286,7 +286,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'ValueEmpty', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'SetValueEmpty', E.ClassName, E.Message);
 	end;
 end;
 
@@ -301,7 +301,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FloatSpinEdit', 'ValueEmpty', E.ClassName, E.Message);
+			CallError(L, 'FloatSpinEdit', 'GetValueEmpty', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

@@ -1025,7 +1025,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CustomGrid', 'CursorState', E.ClassName, E.Message);
+			CallError(L, 'CustomGrid', 'GetCursorState', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1060,7 +1060,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CustomGrid', 'SelectedRangeCount', E.ClassName, E.Message);
+			CallError(L, 'CustomGrid', 'GetSelectedRangeCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1077,7 +1077,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CustomGrid', 'SortOrder', E.ClassName, E.Message);
+			CallError(L, 'CustomGrid', 'SetSortOrder', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1092,7 +1092,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CustomGrid', 'SortOrder', E.ClassName, E.Message);
+			CallError(L, 'CustomGrid', 'GetSortOrder', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1108,7 +1108,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CustomGrid', 'SortColumn', E.ClassName, E.Message);
+			CallError(L, 'CustomGrid', 'GetSortColumn', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

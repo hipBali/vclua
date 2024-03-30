@@ -46,7 +46,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'GraphicControl', 'Canvas', E.ClassName, E.Message);
+			CallError(L, 'GraphicControl', 'GetCanvas', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

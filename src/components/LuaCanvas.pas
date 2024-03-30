@@ -1143,7 +1143,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Canvas', 'TextStyle', E.ClassName, E.Message);
+			CallError(L, 'Canvas', 'SetTextStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1158,7 +1158,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Canvas', 'TextStyle', E.ClassName, E.Message);
+			CallError(L, 'Canvas', 'GetTextStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

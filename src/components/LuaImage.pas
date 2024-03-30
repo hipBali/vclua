@@ -36,7 +36,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Canvas', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetCanvas', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -85,7 +85,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'AntialiasingMode', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetAntialiasingMode', E.ClassName, E.Message);
 	end;
 end;
 
@@ -100,7 +100,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'AntialiasingMode', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetAntialiasingMode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -117,7 +117,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Center', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetCenter', E.ClassName, E.Message);
 	end;
 end;
 
@@ -132,7 +132,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Center', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetCenter', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -149,7 +149,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'KeepOriginXWhenClipped', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetKeepOriginXWhenClipped', E.ClassName, E.Message);
 	end;
 end;
 
@@ -164,7 +164,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'KeepOriginXWhenClipped', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetKeepOriginXWhenClipped', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -181,7 +181,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'KeepOriginYWhenClipped', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetKeepOriginYWhenClipped', E.ClassName, E.Message);
 	end;
 end;
 
@@ -196,7 +196,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'KeepOriginYWhenClipped', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetKeepOriginYWhenClipped', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -213,7 +213,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Picture', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetPicture', E.ClassName, E.Message);
 	end;
 end;
 
@@ -228,7 +228,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Picture', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetPicture', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -245,7 +245,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Stretch', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetStretch', E.ClassName, E.Message);
 	end;
 end;
 
@@ -260,7 +260,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Stretch', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetStretch', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -277,7 +277,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'StretchOutEnabled', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetStretchOutEnabled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -292,7 +292,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'StretchOutEnabled', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetStretchOutEnabled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -309,7 +309,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'StretchInEnabled', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetStretchInEnabled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -324,7 +324,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'StretchInEnabled', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetStretchInEnabled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -341,7 +341,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Transparent', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetTransparent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -356,7 +356,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Transparent', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetTransparent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -373,7 +373,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Proportional', E.ClassName, E.Message);
+			CallError(L, 'Image', 'SetProportional', E.ClassName, E.Message);
 	end;
 end;
 
@@ -388,7 +388,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Image', 'Proportional', E.ClassName, E.Message);
+			CallError(L, 'Image', 'GetProportional', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

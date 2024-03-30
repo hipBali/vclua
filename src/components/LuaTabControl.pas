@@ -59,7 +59,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabSheet', 'PageControl', E.ClassName, E.Message);
+			CallError(L, 'TabSheet', 'SetPageControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -74,7 +74,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabSheet', 'PageControl', E.ClassName, E.Message);
+			CallError(L, 'TabSheet', 'GetPageControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -90,7 +90,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabSheet', 'TabIndex', E.ClassName, E.Message);
+			CallError(L, 'TabSheet', 'GetTabIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -299,7 +299,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'HotTrack', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetHotTrack', E.ClassName, E.Message);
 	end;
 end;
 
@@ -314,7 +314,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'HotTrack', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetHotTrack', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -331,7 +331,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'Images', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetImages', E.ClassName, E.Message);
 	end;
 end;
 
@@ -346,7 +346,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'Images', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetImages', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -363,7 +363,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'ImagesWidth', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetImagesWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -378,7 +378,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'ImagesWidth', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetImagesWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -395,7 +395,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'MultiLine', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetMultiLine', E.ClassName, E.Message);
 	end;
 end;
 
@@ -410,7 +410,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'MultiLine', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetMultiLine', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -427,7 +427,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'MultiSelect', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetMultiSelect', E.ClassName, E.Message);
 	end;
 end;
 
@@ -442,7 +442,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'MultiSelect', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetMultiSelect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -489,7 +489,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'Options', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetOptions', E.ClassName, E.Message);
 	end;
 end;
 
@@ -504,7 +504,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'Options', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetOptions', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -521,7 +521,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'OwnerDraw', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetOwnerDraw', E.ClassName, E.Message);
 	end;
 end;
 
@@ -536,7 +536,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'OwnerDraw', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetOwnerDraw', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -571,7 +571,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'PageCount', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetPageCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -588,7 +588,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'PageIndex', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetPageIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -603,7 +603,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'PageIndex', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetPageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -621,7 +621,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'Pages', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetPages', E.ClassName, E.Message);
 	end;
 	if valNeedsFree then val.Free;
 end;
@@ -637,7 +637,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'Pages', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetPages', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -654,7 +654,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'RaggedRight', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetRaggedRight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -669,7 +669,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'RaggedRight', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetRaggedRight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -686,7 +686,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'ScrollOpposite', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetScrollOpposite', E.ClassName, E.Message);
 	end;
 end;
 
@@ -701,7 +701,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'ScrollOpposite', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetScrollOpposite', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -718,7 +718,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'ShowTabs', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetShowTabs', E.ClassName, E.Message);
 	end;
 end;
 
@@ -733,7 +733,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'ShowTabs', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetShowTabs', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -750,7 +750,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'Style', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -765,7 +765,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'Style', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -782,7 +782,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'TabHeight', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetTabHeight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -797,7 +797,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'TabHeight', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetTabHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -814,7 +814,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'TabPosition', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetTabPosition', E.ClassName, E.Message);
 	end;
 end;
 
@@ -829,7 +829,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'TabPosition', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetTabPosition', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -846,7 +846,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'TabWidth', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'SetTabWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -861,7 +861,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TabControl', 'TabWidth', E.ClassName, E.Message);
+			CallError(L, 'TabControl', 'GetTabWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1049,7 +1049,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'PageControl', 'ActivePageIndex', E.ClassName, E.Message);
+			CallError(L, 'PageControl', 'SetActivePageIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1064,7 +1064,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'PageControl', 'ActivePageIndex', E.ClassName, E.Message);
+			CallError(L, 'PageControl', 'GetActivePageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

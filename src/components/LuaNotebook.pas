@@ -72,7 +72,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Notebook', 'ActivePage', E.ClassName, E.Message);
+			CallError(L, 'Notebook', 'GetActivePage', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -88,7 +88,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Notebook', 'ActivePageComponent', E.ClassName, E.Message);
+			CallError(L, 'Notebook', 'GetActivePageComponent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -123,7 +123,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Notebook', 'PageCount', E.ClassName, E.Message);
+			CallError(L, 'Notebook', 'GetPageCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

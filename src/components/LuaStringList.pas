@@ -180,7 +180,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'Duplicates', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'SetDuplicates', E.ClassName, E.Message);
 	end;
 end;
 
@@ -195,7 +195,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'Duplicates', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'GetDuplicates', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -212,7 +212,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'Sorted', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'SetSorted', E.ClassName, E.Message);
 	end;
 end;
 
@@ -227,7 +227,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'Sorted', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'GetSorted', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -244,7 +244,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'CaseSensitive', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'SetCaseSensitive', E.ClassName, E.Message);
 	end;
 end;
 
@@ -259,7 +259,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'CaseSensitive', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'GetCaseSensitive', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -296,7 +296,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'OwnsObjects', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'SetOwnsObjects', E.ClassName, E.Message);
 	end;
 end;
 
@@ -311,7 +311,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'OwnsObjects', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'GetOwnsObjects', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -328,7 +328,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'SortStyle', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'SetSortStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -343,7 +343,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StringList', 'SortStyle', E.ClassName, E.Message);
+			CallError(L, 'StringList', 'GetSortStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

@@ -133,7 +133,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CheckListBox', 'AllowGrayed', E.ClassName, E.Message);
+			CallError(L, 'CheckListBox', 'SetAllowGrayed', E.ClassName, E.Message);
 	end;
 end;
 
@@ -148,7 +148,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckListBox', 'AllowGrayed', E.ClassName, E.Message);
+			CallError(L, 'CheckListBox', 'GetAllowGrayed', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

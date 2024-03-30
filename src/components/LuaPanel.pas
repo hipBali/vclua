@@ -37,7 +37,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'Alignment', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'SetAlignment', E.ClassName, E.Message);
 	end;
 end;
 
@@ -52,7 +52,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'Alignment', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'GetAlignment', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -69,7 +69,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'BevelColor', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'SetBevelColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -84,7 +84,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'BevelColor', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'GetBevelColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -101,7 +101,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'BevelInner', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'SetBevelInner', E.ClassName, E.Message);
 	end;
 end;
 
@@ -116,7 +116,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'BevelInner', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'GetBevelInner', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -133,7 +133,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'BevelOuter', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'SetBevelOuter', E.ClassName, E.Message);
 	end;
 end;
 
@@ -148,7 +148,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'BevelOuter', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'GetBevelOuter', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -165,7 +165,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'BevelWidth', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'SetBevelWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -180,7 +180,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'BevelWidth', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'GetBevelWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -197,7 +197,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'FullRepaint', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'SetFullRepaint', E.ClassName, E.Message);
 	end;
 end;
 
@@ -212,7 +212,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Panel', 'FullRepaint', E.ClassName, E.Message);
+			CallError(L, 'Panel', 'GetFullRepaint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

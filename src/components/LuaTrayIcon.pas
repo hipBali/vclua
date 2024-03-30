@@ -118,7 +118,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Animate', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetAnimate', E.ClassName, E.Message);
 	end;
 end;
 
@@ -133,7 +133,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Animate', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetAnimate', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -150,7 +150,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'AnimateInterval', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetAnimateInterval', E.ClassName, E.Message);
 	end;
 end;
 
@@ -165,7 +165,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'AnimateInterval', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetAnimateInterval', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -182,7 +182,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'BalloonFlags', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetBalloonFlags', E.ClassName, E.Message);
 	end;
 end;
 
@@ -197,7 +197,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'BalloonFlags', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetBalloonFlags', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -214,7 +214,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'BalloonHint', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetBalloonHint', E.ClassName, E.Message);
 	end;
 end;
 
@@ -229,7 +229,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'BalloonHint', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetBalloonHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -246,7 +246,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'BalloonTimeout', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetBalloonTimeout', E.ClassName, E.Message);
 	end;
 end;
 
@@ -261,7 +261,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'BalloonTimeout', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetBalloonTimeout', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -278,7 +278,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'BalloonTitle', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetBalloonTitle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -293,7 +293,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'BalloonTitle', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetBalloonTitle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -309,7 +309,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Canvas', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetCanvas', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -326,7 +326,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'PopUpMenu', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetPopUpMenu', E.ClassName, E.Message);
 	end;
 end;
 
@@ -341,7 +341,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'PopUpMenu', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetPopUpMenu', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -358,7 +358,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Icon', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetIcon', E.ClassName, E.Message);
 	end;
 end;
 
@@ -373,7 +373,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Icon', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetIcon', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -390,7 +390,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Icons', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetIcons', E.ClassName, E.Message);
 	end;
 end;
 
@@ -405,7 +405,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Icons', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetIcons', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -422,7 +422,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Hint', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetHint', E.ClassName, E.Message);
 	end;
 end;
 
@@ -437,7 +437,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Hint', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -454,7 +454,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'ShowIcon', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetShowIcon', E.ClassName, E.Message);
 	end;
 end;
 
@@ -469,7 +469,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'ShowIcon', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetShowIcon', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -486,7 +486,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Visible', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'SetVisible', E.ClassName, E.Message);
 	end;
 end;
 
@@ -501,7 +501,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TrayIcon', 'Visible', E.ClassName, E.Message);
+			CallError(L, 'TrayIcon', 'GetVisible', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

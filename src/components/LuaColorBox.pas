@@ -37,7 +37,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'ColorRectWidth', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'SetColorRectWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -52,7 +52,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'ColorRectWidth', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'GetColorRectWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -69,7 +69,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'ColorRectOffset', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'SetColorRectOffset', E.ClassName, E.Message);
 	end;
 end;
 
@@ -84,7 +84,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'ColorRectOffset', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'GetColorRectOffset', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -139,7 +139,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'Selected', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'SetSelected', E.ClassName, E.Message);
 	end;
 end;
 
@@ -154,7 +154,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'Selected', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'GetSelected', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -171,7 +171,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'DefaultColorColor', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'SetDefaultColorColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -186,7 +186,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'DefaultColorColor', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'GetDefaultColorColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -203,7 +203,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'NoneColorColor', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'SetNoneColorColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -218,7 +218,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'NoneColorColor', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'GetNoneColorColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -245,7 +245,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'ColorDialog', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'SetColorDialog', E.ClassName, E.Message);
 	end;
 end;
 
@@ -260,7 +260,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ColorBox', 'ColorDialog', E.ClassName, E.Message);
+			CallError(L, 'ColorBox', 'GetColorDialog', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

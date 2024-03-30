@@ -664,7 +664,10 @@ function createUnitBody(cdef, ref, refs)
         stmts = stmts:gsub('#PAR',pi and '' or '('..fParams..')',1)
         stmts = stmts:gsub('#RET',ret and "ret := " or "",1)
       end
-      local call = (pi and pi.isEvent and stmts or VCLua_TRY:gsub('#STMTS',stmts,1)):gsub('#CNAME',className):gsub('#MNAME',mName)
+      local function debug_rename()
+        return (not pi or pi.i) and VCLua_TRY or pi.r and VCLua_TRY:gsub('#MNAME','Get#MNAME',1) or VCLua_TRY:gsub('#MNAME','Set#MNAME',1)
+      end
+      local call = (pi and pi.isEvent and stmts or debug_rename():gsub('#STMTS',stmts,1)):gsub('#CNAME',className):gsub('#MNAME',mName)
       if ret then
         local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
         s = s:gsub("#FUNC",call,1)

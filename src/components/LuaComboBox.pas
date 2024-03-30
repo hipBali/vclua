@@ -219,7 +219,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'CharCase', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetCharCase', E.ClassName, E.Message);
 	end;
 end;
 
@@ -234,7 +234,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'CharCase', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetCharCase', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -251,7 +251,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'DroppedDown', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetDroppedDown', E.ClassName, E.Message);
 	end;
 end;
 
@@ -266,7 +266,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'DroppedDown', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetDroppedDown', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -283,7 +283,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'DroppingDown', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetDroppingDown', E.ClassName, E.Message);
 	end;
 end;
 
@@ -298,7 +298,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'DroppingDown', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetDroppingDown', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -330,7 +330,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoComplete', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetAutoComplete', E.ClassName, E.Message);
 	end;
 end;
 
@@ -345,7 +345,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoComplete', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetAutoComplete', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -362,7 +362,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoCompleteText', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetAutoCompleteText', E.ClassName, E.Message);
 	end;
 end;
 
@@ -377,7 +377,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoCompleteText', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetAutoCompleteText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -394,7 +394,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoDropDown', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetAutoDropDown', E.ClassName, E.Message);
 	end;
 end;
 
@@ -409,7 +409,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoDropDown', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetAutoDropDown', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -426,7 +426,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoSelect', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetAutoSelect', E.ClassName, E.Message);
 	end;
 end;
 
@@ -441,7 +441,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoSelect', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetAutoSelect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -458,7 +458,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoSelected', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetAutoSelected', E.ClassName, E.Message);
 	end;
 end;
 
@@ -473,7 +473,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'AutoSelected', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetAutoSelected', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -490,7 +490,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'ArrowKeysTraverseList', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetArrowKeysTraverseList', E.ClassName, E.Message);
 	end;
 end;
 
@@ -505,7 +505,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'ArrowKeysTraverseList', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetArrowKeysTraverseList', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -521,7 +521,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'Canvas', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetCanvas', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -538,7 +538,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'DropDownCount', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetDropDownCount', E.ClassName, E.Message);
 	end;
 end;
 
@@ -553,7 +553,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'DropDownCount', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetDropDownCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -569,7 +569,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'EmulatedTextHintStatus', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetEmulatedTextHintStatus', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -587,7 +587,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'Items', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetItems', E.ClassName, E.Message);
 	end;
 	if valNeedsFree then val.Free;
 end;
@@ -603,7 +603,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'Items', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetItems', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -620,7 +620,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'ItemIndex', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetItemIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -635,7 +635,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'ItemIndex', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetItemIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -652,7 +652,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'ReadOnly', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetReadOnly', E.ClassName, E.Message);
 	end;
 end;
 
@@ -667,7 +667,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'ReadOnly', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetReadOnly', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -684,7 +684,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'SelLength', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetSelLength', E.ClassName, E.Message);
 	end;
 end;
 
@@ -699,7 +699,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'SelLength', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetSelLength', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -716,7 +716,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'SelStart', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetSelStart', E.ClassName, E.Message);
 	end;
 end;
 
@@ -731,7 +731,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'SelStart', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetSelStart', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -748,7 +748,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'SelText', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetSelText', E.ClassName, E.Message);
 	end;
 end;
 
@@ -763,7 +763,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'SelText', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetSelText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -780,7 +780,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'Style', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -795,7 +795,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'Style', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -812,7 +812,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'TextHint', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'SetTextHint', E.ClassName, E.Message);
 	end;
 end;
 
@@ -827,7 +827,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ComboBox', 'TextHint', E.ClassName, E.Message);
+			CallError(L, 'ComboBox', 'GetTextHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

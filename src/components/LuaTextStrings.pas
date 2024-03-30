@@ -316,7 +316,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'TextStrings', 'Text', E.ClassName, E.Message);
+			CallError(L, 'TextStrings', 'SetText', E.ClassName, E.Message);
 	end;
 end;
 
@@ -331,7 +331,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'TextStrings', 'Text', E.ClassName, E.Message);
+			CallError(L, 'TextStrings', 'GetText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

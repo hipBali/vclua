@@ -127,7 +127,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ContainedAction', 'ActionList', E.ClassName, E.Message);
+			CallError(L, 'ContainedAction', 'SetActionList', E.ClassName, E.Message);
 	end;
 end;
 
@@ -142,7 +142,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ContainedAction', 'ActionList', E.ClassName, E.Message);
+			CallError(L, 'ContainedAction', 'GetActionList', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -159,7 +159,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ContainedAction', 'Index', E.ClassName, E.Message);
+			CallError(L, 'ContainedAction', 'SetIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -174,7 +174,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ContainedAction', 'Index', E.ClassName, E.Message);
+			CallError(L, 'ContainedAction', 'GetIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -247,7 +247,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'AutoCheck', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetAutoCheck', E.ClassName, E.Message);
 	end;
 end;
 
@@ -262,7 +262,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'AutoCheck', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetAutoCheck', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -279,7 +279,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Caption', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetCaption', E.ClassName, E.Message);
 	end;
 end;
 
@@ -294,7 +294,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Caption', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetCaption', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -311,7 +311,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Checked', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetChecked', E.ClassName, E.Message);
 	end;
 end;
 
@@ -326,7 +326,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Checked', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetChecked', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -343,7 +343,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'DisableIfNoHandler', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetDisableIfNoHandler', E.ClassName, E.Message);
 	end;
 end;
 
@@ -358,7 +358,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'DisableIfNoHandler', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetDisableIfNoHandler', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -375,7 +375,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Enabled', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetEnabled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -390,7 +390,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Enabled', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetEnabled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -407,7 +407,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'GroupIndex', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetGroupIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -422,7 +422,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'GroupIndex', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetGroupIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -439,7 +439,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'HelpContext', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetHelpContext', E.ClassName, E.Message);
 	end;
 end;
 
@@ -454,7 +454,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'HelpContext', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetHelpContext', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -471,7 +471,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'HelpKeyword', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetHelpKeyword', E.ClassName, E.Message);
 	end;
 end;
 
@@ -486,7 +486,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'HelpKeyword', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetHelpKeyword', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -503,7 +503,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'HelpType', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetHelpType', E.ClassName, E.Message);
 	end;
 end;
 
@@ -518,7 +518,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'HelpType', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetHelpType', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -535,7 +535,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Hint', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetHint', E.ClassName, E.Message);
 	end;
 end;
 
@@ -550,7 +550,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Hint', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -567,7 +567,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'ImageIndex', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetImageIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -582,7 +582,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'ImageIndex', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetImageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -609,7 +609,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'SecondaryShortCuts', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetSecondaryShortCuts', E.ClassName, E.Message);
 	end;
 end;
 
@@ -624,7 +624,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'SecondaryShortCuts', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetSecondaryShortCuts', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -641,7 +641,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'ShortCut', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetShortCut', E.ClassName, E.Message);
 	end;
 end;
 
@@ -656,7 +656,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'ShortCut', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetShortCut', E.ClassName, E.Message);
 	end;
 	lua_pushShortCut(L,ret);
 end;
@@ -673,7 +673,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Visible', E.ClassName, E.Message);
+			CallError(L, 'Action', 'SetVisible', E.ClassName, E.Message);
 	end;
 end;
 
@@ -688,7 +688,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Action', 'Visible', E.ClassName, E.Message);
+			CallError(L, 'Action', 'GetVisible', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -835,7 +835,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ActionList', 'ActionCount', E.ClassName, E.Message);
+			CallError(L, 'ActionList', 'GetActionCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -852,7 +852,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ActionList', 'Images', E.ClassName, E.Message);
+			CallError(L, 'ActionList', 'SetImages', E.ClassName, E.Message);
 	end;
 end;
 
@@ -867,7 +867,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ActionList', 'Images', E.ClassName, E.Message);
+			CallError(L, 'ActionList', 'GetImages', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -884,7 +884,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ActionList', 'State', E.ClassName, E.Message);
+			CallError(L, 'ActionList', 'SetState', E.ClassName, E.Message);
 	end;
 end;
 
@@ -899,7 +899,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ActionList', 'State', E.ClassName, E.Message);
+			CallError(L, 'ActionList', 'GetState', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

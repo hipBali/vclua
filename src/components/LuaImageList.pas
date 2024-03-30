@@ -916,7 +916,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'HasOverlays', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetHasOverlays', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1135,7 +1135,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'AllocBy', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetAllocBy', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1150,7 +1150,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'AllocBy', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetAllocBy', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1167,7 +1167,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'BlendColor', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetBlendColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1182,7 +1182,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'BlendColor', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetBlendColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1199,7 +1199,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'BkColor', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetBkColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1214,7 +1214,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'BkColor', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetBkColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1230,7 +1230,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'Count', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1247,7 +1247,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'DrawingStyle', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetDrawingStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1262,7 +1262,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'DrawingStyle', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetDrawingStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1279,7 +1279,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'Height', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetHeight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1294,7 +1294,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'Height', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1351,7 +1351,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'Width', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1366,7 +1366,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'Width', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1435,7 +1435,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'Masked', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetMasked', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1450,7 +1450,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'Masked', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetMasked', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1466,7 +1466,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'ResolutionCount', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetResolutionCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1483,7 +1483,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'Scaled', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetScaled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1498,7 +1498,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'Scaled', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetScaled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1515,7 +1515,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'ShareImages', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetShareImages', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1530,7 +1530,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'ShareImages', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetShareImages', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1547,7 +1547,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'ImageType', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'SetImageType', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1562,7 +1562,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ImageList', 'ImageType', E.ClassName, E.Message);
+			CallError(L, 'ImageList', 'GetImageType', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

@@ -130,7 +130,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StatusPanels', 'StatusBar', E.ClassName, E.Message);
+			CallError(L, 'StatusPanels', 'GetStatusBar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -269,7 +269,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StatusBar', 'Canvas', E.ClassName, E.Message);
+			CallError(L, 'StatusBar', 'GetCanvas', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

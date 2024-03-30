@@ -37,7 +37,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'Alignment', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'SetAlignment', E.ClassName, E.Message);
 	end;
 end;
 
@@ -52,7 +52,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'Alignment', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'GetAlignment', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -69,7 +69,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'BorderStyle', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'SetBorderStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -84,7 +84,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'BorderStyle', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'GetBorderStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -101,7 +101,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'FocusControl', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'SetFocusControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -116,7 +116,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'FocusControl', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'GetFocusControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -133,7 +133,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'ShowAccelChar', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'SetShowAccelChar', E.ClassName, E.Message);
 	end;
 end;
 
@@ -148,7 +148,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'ShowAccelChar', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'GetShowAccelChar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -165,7 +165,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'Transparent', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'SetTransparent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -180,7 +180,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'StaticText', 'Transparent', E.ClassName, E.Message);
+			CallError(L, 'StaticText', 'GetTransparent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

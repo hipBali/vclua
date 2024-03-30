@@ -73,7 +73,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Calendar', 'Date', E.ClassName, E.Message);
+			CallError(L, 'Calendar', 'SetDate', E.ClassName, E.Message);
 	end;
 end;
 
@@ -88,7 +88,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Calendar', 'Date', E.ClassName, E.Message);
+			CallError(L, 'Calendar', 'GetDate', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -105,7 +105,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Calendar', 'DateTime', E.ClassName, E.Message);
+			CallError(L, 'Calendar', 'SetDateTime', E.ClassName, E.Message);
 	end;
 end;
 
@@ -120,7 +120,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Calendar', 'DateTime', E.ClassName, E.Message);
+			CallError(L, 'Calendar', 'GetDateTime', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -137,7 +137,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Calendar', 'DisplaySettings', E.ClassName, E.Message);
+			CallError(L, 'Calendar', 'SetDisplaySettings', E.ClassName, E.Message);
 	end;
 end;
 
@@ -152,7 +152,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Calendar', 'DisplaySettings', E.ClassName, E.Message);
+			CallError(L, 'Calendar', 'GetDisplaySettings', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -169,7 +169,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Calendar', 'FirstDayOfWeek', E.ClassName, E.Message);
+			CallError(L, 'Calendar', 'SetFirstDayOfWeek', E.ClassName, E.Message);
 	end;
 end;
 
@@ -184,7 +184,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Calendar', 'FirstDayOfWeek', E.ClassName, E.Message);
+			CallError(L, 'Calendar', 'GetFirstDayOfWeek', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

@@ -71,7 +71,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CheckGroup', 'AutoFill', E.ClassName, E.Message);
+			CallError(L, 'CheckGroup', 'SetAutoFill', E.ClassName, E.Message);
 	end;
 end;
 
@@ -86,7 +86,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckGroup', 'AutoFill', E.ClassName, E.Message);
+			CallError(L, 'CheckGroup', 'GetAutoFill', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -104,7 +104,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CheckGroup', 'Items', E.ClassName, E.Message);
+			CallError(L, 'CheckGroup', 'SetItems', E.ClassName, E.Message);
 	end;
 	if valNeedsFree then val.Free;
 end;
@@ -120,7 +120,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckGroup', 'Items', E.ClassName, E.Message);
+			CallError(L, 'CheckGroup', 'GetItems', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -187,7 +187,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CheckGroup', 'Columns', E.ClassName, E.Message);
+			CallError(L, 'CheckGroup', 'SetColumns', E.ClassName, E.Message);
 	end;
 end;
 
@@ -202,7 +202,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckGroup', 'Columns', E.ClassName, E.Message);
+			CallError(L, 'CheckGroup', 'GetColumns', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -219,7 +219,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CheckGroup', 'ColumnLayout', E.ClassName, E.Message);
+			CallError(L, 'CheckGroup', 'SetColumnLayout', E.ClassName, E.Message);
 	end;
 end;
 
@@ -234,7 +234,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CheckGroup', 'ColumnLayout', E.ClassName, E.Message);
+			CallError(L, 'CheckGroup', 'GetColumnLayout', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

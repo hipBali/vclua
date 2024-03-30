@@ -69,7 +69,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Max', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'SetMax', E.ClassName, E.Message);
 	end;
 end;
 
@@ -84,7 +84,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Max', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'GetMax', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -101,7 +101,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Min', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'SetMin', E.ClassName, E.Message);
 	end;
 end;
 
@@ -116,7 +116,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Min', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'GetMin', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -133,7 +133,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Orientation', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'SetOrientation', E.ClassName, E.Message);
 	end;
 end;
 
@@ -148,7 +148,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Orientation', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'GetOrientation', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -165,7 +165,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Position', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'SetPosition', E.ClassName, E.Message);
 	end;
 end;
 
@@ -180,7 +180,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Position', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'GetPosition', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -197,7 +197,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Smooth', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'SetSmooth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -212,7 +212,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Smooth', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'GetSmooth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -229,7 +229,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Step', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'SetStep', E.ClassName, E.Message);
 	end;
 end;
 
@@ -244,7 +244,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Step', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'GetStep', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -261,7 +261,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Style', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'SetStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -276,7 +276,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'Style', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'GetStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -293,7 +293,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'BarShowText', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'SetBarShowText', E.ClassName, E.Message);
 	end;
 end;
 
@@ -308,7 +308,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ProgressBar', 'BarShowText', E.ClassName, E.Message);
+			CallError(L, 'ProgressBar', 'GetBarShowText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

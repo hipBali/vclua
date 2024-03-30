@@ -36,7 +36,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'LabeledEdit', 'EditLabel', E.ClassName, E.Message);
+			CallError(L, 'LabeledEdit', 'GetEditLabel', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -53,7 +53,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'LabeledEdit', 'LabelPosition', E.ClassName, E.Message);
+			CallError(L, 'LabeledEdit', 'SetLabelPosition', E.ClassName, E.Message);
 	end;
 end;
 
@@ -68,7 +68,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'LabeledEdit', 'LabelPosition', E.ClassName, E.Message);
+			CallError(L, 'LabeledEdit', 'GetLabelPosition', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -85,7 +85,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'LabeledEdit', 'LabelSpacing', E.ClassName, E.Message);
+			CallError(L, 'LabeledEdit', 'SetLabelSpacing', E.ClassName, E.Message);
 	end;
 end;
 
@@ -100,7 +100,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'LabeledEdit', 'LabelSpacing', E.ClassName, E.Message);
+			CallError(L, 'LabeledEdit', 'GetLabelSpacing', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

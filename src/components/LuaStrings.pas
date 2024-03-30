@@ -1060,7 +1060,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'AlwaysQuote', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetAlwaysQuote', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1075,7 +1075,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'AlwaysQuote', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetAlwaysQuote', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1092,7 +1092,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'Capacity', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetCapacity', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1107,7 +1107,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'Capacity', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetCapacity', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1124,7 +1124,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'CommaText', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetCommaText', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1139,7 +1139,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'CommaText', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetCommaText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1155,7 +1155,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'Count', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1172,7 +1172,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'DelimitedText', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetDelimitedText', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1187,7 +1187,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'DelimitedText', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetDelimitedText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1204,7 +1204,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'Delimiter', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetDelimiter', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1219,7 +1219,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'Delimiter', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetDelimiter', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1236,7 +1236,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'LineBreak', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetLineBreak', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1251,7 +1251,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'LineBreak', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetLineBreak', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1268,7 +1268,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'MissingNameValueSeparatorAction', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetMissingNameValueSeparatorAction', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1283,7 +1283,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'MissingNameValueSeparatorAction', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetMissingNameValueSeparatorAction', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1319,7 +1319,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'NameValueSeparator', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetNameValueSeparator', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1334,7 +1334,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'NameValueSeparator', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetNameValueSeparator', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1376,7 +1376,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'Options', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetOptions', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1391,7 +1391,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'Options', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetOptions', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1408,7 +1408,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'QuoteChar', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetQuoteChar', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1423,7 +1423,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'QuoteChar', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetQuoteChar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1440,7 +1440,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'SkipLastLineBreak', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetSkipLastLineBreak', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1455,7 +1455,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'SkipLastLineBreak', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetSkipLastLineBreak', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1472,7 +1472,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'TrailingLineBreak', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetTrailingLineBreak', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1487,7 +1487,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'TrailingLineBreak', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetTrailingLineBreak', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1504,7 +1504,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'StrictDelimiter', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetStrictDelimiter', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1519,7 +1519,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'StrictDelimiter', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetStrictDelimiter', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1561,7 +1561,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'Text', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetText', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1576,7 +1576,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'Text', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetText', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1593,7 +1593,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'TextLineBreakStyle', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetTextLineBreakStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1608,7 +1608,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'TextLineBreakStyle', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetTextLineBreakStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1625,7 +1625,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'UseLocale', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetUseLocale', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1640,7 +1640,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'UseLocale', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetUseLocale', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1707,7 +1707,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'WriteBOM', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'SetWriteBOM', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1722,7 +1722,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Strings', 'WriteBOM', E.ClassName, E.Message);
+			CallError(L, 'Strings', 'GetWriteBOM', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

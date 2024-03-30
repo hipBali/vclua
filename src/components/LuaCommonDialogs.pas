@@ -352,7 +352,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FindDialog', 'Left', E.ClassName, E.Message);
+			CallError(L, 'FindDialog', 'SetLeft', E.ClassName, E.Message);
 	end;
 end;
 
@@ -367,7 +367,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FindDialog', 'Left', E.ClassName, E.Message);
+			CallError(L, 'FindDialog', 'GetLeft', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -384,7 +384,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FindDialog', 'Position', E.ClassName, E.Message);
+			CallError(L, 'FindDialog', 'SetPosition', E.ClassName, E.Message);
 	end;
 end;
 
@@ -399,7 +399,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FindDialog', 'Position', E.ClassName, E.Message);
+			CallError(L, 'FindDialog', 'GetPosition', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -416,7 +416,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'FindDialog', 'Top', E.ClassName, E.Message);
+			CallError(L, 'FindDialog', 'SetTop', E.ClassName, E.Message);
 	end;
 end;
 
@@ -431,7 +431,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'FindDialog', 'Top', E.ClassName, E.Message);
+			CallError(L, 'FindDialog', 'GetTop', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -510,7 +510,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ReplaceDialog', 'Left', E.ClassName, E.Message);
+			CallError(L, 'ReplaceDialog', 'SetLeft', E.ClassName, E.Message);
 	end;
 end;
 
@@ -525,7 +525,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ReplaceDialog', 'Left', E.ClassName, E.Message);
+			CallError(L, 'ReplaceDialog', 'GetLeft', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -542,7 +542,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ReplaceDialog', 'Position', E.ClassName, E.Message);
+			CallError(L, 'ReplaceDialog', 'SetPosition', E.ClassName, E.Message);
 	end;
 end;
 
@@ -557,7 +557,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ReplaceDialog', 'Position', E.ClassName, E.Message);
+			CallError(L, 'ReplaceDialog', 'GetPosition', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -574,7 +574,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ReplaceDialog', 'Top', E.ClassName, E.Message);
+			CallError(L, 'ReplaceDialog', 'SetTop', E.ClassName, E.Message);
 	end;
 end;
 
@@ -589,7 +589,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ReplaceDialog', 'Top', E.ClassName, E.Message);
+			CallError(L, 'ReplaceDialog', 'GetTop', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

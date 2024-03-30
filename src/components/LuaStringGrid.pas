@@ -139,7 +139,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'GridColumn', 'Grid', E.ClassName, E.Message);
+			CallError(L, 'GridColumn', 'GetGrid', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -155,7 +155,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'GridColumn', 'DefaultWidth', E.ClassName, E.Message);
+			CallError(L, 'GridColumn', 'GetDefaultWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -171,7 +171,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'GridColumn', 'StoredWidth', E.ClassName, E.Message);
+			CallError(L, 'GridColumn', 'GetStoredWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -187,7 +187,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'GridColumn', 'WidthChanged', E.ClassName, E.Message);
+			CallError(L, 'GridColumn', 'GetWidthChanged', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -347,7 +347,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'GridColumns', 'Grid', E.ClassName, E.Message);
+			CallError(L, 'GridColumns', 'GetGrid', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -388,7 +388,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'GridColumns', 'VisibleCount', E.ClassName, E.Message);
+			CallError(L, 'GridColumns', 'GetVisibleCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -404,7 +404,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'GridColumns', 'Enabled', E.ClassName, E.Message);
+			CallError(L, 'GridColumns', 'GetEnabled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

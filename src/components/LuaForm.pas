@@ -662,7 +662,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'Active', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetActive', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -679,7 +679,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'ActiveControl', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetActiveControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -694,7 +694,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'ActiveControl', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetActiveControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -711,7 +711,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'ActiveDefaultControl', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetActiveDefaultControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -726,7 +726,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'ActiveDefaultControl', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetActiveDefaultControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -743,7 +743,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'AllowDropFiles', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetAllowDropFiles', E.ClassName, E.Message);
 	end;
 end;
 
@@ -758,7 +758,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'AllowDropFiles', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetAllowDropFiles', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -775,7 +775,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'AlphaBlend', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetAlphaBlend', E.ClassName, E.Message);
 	end;
 end;
 
@@ -790,7 +790,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'AlphaBlend', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetAlphaBlend', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -807,7 +807,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'AlphaBlendValue', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetAlphaBlendValue', E.ClassName, E.Message);
 	end;
 end;
 
@@ -822,7 +822,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'AlphaBlendValue', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetAlphaBlendValue', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -839,7 +839,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'BorderStyle', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetBorderStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -854,7 +854,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'BorderStyle', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetBorderStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -871,7 +871,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'CancelControl', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetCancelControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -886,7 +886,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'CancelControl', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetCancelControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -903,7 +903,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'DefaultControl', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetDefaultControl', E.ClassName, E.Message);
 	end;
 end;
 
@@ -918,7 +918,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'DefaultControl', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetDefaultControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -935,7 +935,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'DefaultMonitor', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetDefaultMonitor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -950,7 +950,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'DefaultMonitor', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetDefaultMonitor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -966,7 +966,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'EffectiveShowInTaskBar', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetEffectiveShowInTaskBar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -982,7 +982,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'FormState', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetFormState', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -999,7 +999,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'FormStyle', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetFormStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1014,7 +1014,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'FormStyle', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetFormStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1031,7 +1031,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'HelpFile', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetHelpFile', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1046,7 +1046,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'HelpFile', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetHelpFile', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1063,7 +1063,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'Icon', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetIcon', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1078,7 +1078,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'Icon', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetIcon', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1095,7 +1095,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'KeyPreview', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetKeyPreview', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1110,7 +1110,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'KeyPreview', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetKeyPreview', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1146,7 +1146,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'Menu', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetMenu', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1161,7 +1161,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'Menu', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetMenu', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1178,7 +1178,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'ModalResult', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetModalResult', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1193,7 +1193,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'ModalResult', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetModalResult', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1209,7 +1209,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'Monitor', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetMonitor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1225,7 +1225,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'LastActiveControl', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetLastActiveControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1242,7 +1242,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'PopupMode', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetPopupMode', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1257,7 +1257,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'PopupMode', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetPopupMode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1274,7 +1274,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'PopupParent', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetPopupParent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1289,7 +1289,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'PopupParent', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetPopupParent', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1416,7 +1416,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'Position', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetPosition', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1431,7 +1431,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'Position', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetPosition', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1447,7 +1447,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'RestoredLeft', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetRestoredLeft', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1463,7 +1463,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'RestoredTop', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetRestoredTop', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1479,7 +1479,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'RestoredWidth', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetRestoredWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1495,7 +1495,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'RestoredHeight', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetRestoredHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1512,7 +1512,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'ShowInTaskBar', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetShowInTaskBar', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1527,7 +1527,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'ShowInTaskBar', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetShowInTaskBar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1544,7 +1544,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'WindowState', E.ClassName, E.Message);
+			CallError(L, 'Form', 'SetWindowState', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1559,7 +1559,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Form', 'WindowState', E.ClassName, E.Message);
+			CallError(L, 'Form', 'GetWindowState', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;

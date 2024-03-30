@@ -217,7 +217,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CustomBitmap', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'CustomBitmap', 'SetHandle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -232,7 +232,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CustomBitmap', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'CustomBitmap', 'GetHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -249,7 +249,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CustomBitmap', 'HandleType', E.ClassName, E.Message);
+			CallError(L, 'CustomBitmap', 'SetHandleType', E.ClassName, E.Message);
 	end;
 end;
 
@@ -264,7 +264,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CustomBitmap', 'HandleType', E.ClassName, E.Message);
+			CallError(L, 'CustomBitmap', 'GetHandleType', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -281,7 +281,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CustomBitmap', 'Monochrome', E.ClassName, E.Message);
+			CallError(L, 'CustomBitmap', 'SetMonochrome', E.ClassName, E.Message);
 	end;
 end;
 
@@ -296,7 +296,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CustomBitmap', 'Monochrome', E.ClassName, E.Message);
+			CallError(L, 'CustomBitmap', 'GetMonochrome', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

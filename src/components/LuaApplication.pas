@@ -411,7 +411,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Active', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetActive', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -428,7 +428,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ApplicationType', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetApplicationType', E.ClassName, E.Message);
 	end;
 end;
 
@@ -443,7 +443,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ApplicationType', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetApplicationType', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -460,7 +460,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'BidiMode', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetBidiMode', E.ClassName, E.Message);
 	end;
 end;
 
@@ -475,7 +475,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'BidiMode', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetBidiMode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -492,7 +492,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'CaptureExceptions', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetCaptureExceptions', E.ClassName, E.Message);
 	end;
 end;
 
@@ -507,7 +507,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'CaptureExceptions', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetCaptureExceptions', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -524,7 +524,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'DoubleBuffered', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetDoubleBuffered', E.ClassName, E.Message);
 	end;
 end;
 
@@ -539,7 +539,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'DoubleBuffered', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetDoubleBuffered', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -556,7 +556,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ExtendedKeysSupport', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetExtendedKeysSupport', E.ClassName, E.Message);
 	end;
 end;
 
@@ -571,7 +571,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ExtendedKeysSupport', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetExtendedKeysSupport', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -588,7 +588,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ExceptionDialog', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetExceptionDialog', E.ClassName, E.Message);
 	end;
 end;
 
@@ -603,7 +603,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ExceptionDialog', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetExceptionDialog', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -620,7 +620,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'FindGlobalComponentEnabled', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetFindGlobalComponentEnabled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -635,7 +635,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'FindGlobalComponentEnabled', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetFindGlobalComponentEnabled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -652,7 +652,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Flags', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetFlags', E.ClassName, E.Message);
 	end;
 end;
 
@@ -667,7 +667,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Flags', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetFlags', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -684,7 +684,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetHandle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -699,7 +699,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Handle', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -716,7 +716,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Hint', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetHint', E.ClassName, E.Message);
 	end;
 end;
 
@@ -731,7 +731,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Hint', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -748,7 +748,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintColor', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetHintColor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -763,7 +763,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintColor', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetHintColor', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -780,7 +780,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintHidePause', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetHintHidePause', E.ClassName, E.Message);
 	end;
 end;
 
@@ -795,7 +795,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintHidePause', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetHintHidePause', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -812,7 +812,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintHidePausePerChar', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetHintHidePausePerChar', E.ClassName, E.Message);
 	end;
 end;
 
@@ -827,7 +827,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintHidePausePerChar', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetHintHidePausePerChar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -844,7 +844,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintPause', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetHintPause', E.ClassName, E.Message);
 	end;
 end;
 
@@ -859,7 +859,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintPause', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetHintPause', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -876,7 +876,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintShortCuts', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetHintShortCuts', E.ClassName, E.Message);
 	end;
 end;
 
@@ -891,7 +891,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintShortCuts', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetHintShortCuts', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -908,7 +908,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintShortPause', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetHintShortPause', E.ClassName, E.Message);
 	end;
 end;
 
@@ -923,7 +923,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'HintShortPause', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetHintShortPause', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -940,7 +940,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Icon', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetIcon', E.ClassName, E.Message);
 	end;
 end;
 
@@ -955,7 +955,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Icon', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetIcon', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -972,7 +972,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'LayoutAdjustmentPolicy', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetLayoutAdjustmentPolicy', E.ClassName, E.Message);
 	end;
 end;
 
@@ -987,7 +987,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'LayoutAdjustmentPolicy', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetLayoutAdjustmentPolicy', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1004,7 +1004,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Navigation', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetNavigation', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1019,7 +1019,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Navigation', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetNavigation', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1035,7 +1035,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'MainForm', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetMainForm', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1051,7 +1051,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'MainFormHandle', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetMainFormHandle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1068,7 +1068,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'MainFormOnTaskBar', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetMainFormOnTaskBar', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1083,7 +1083,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'MainFormOnTaskBar', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetMainFormOnTaskBar', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1099,7 +1099,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ModalLevel', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetModalLevel', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1116,7 +1116,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'MoveFormFocusToChildren', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetMoveFormFocusToChildren', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1131,7 +1131,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'MoveFormFocusToChildren', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetMoveFormFocusToChildren', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1147,7 +1147,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'MouseControl', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetMouseControl', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1164,7 +1164,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'TaskBarBehavior', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetTaskBarBehavior', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1179,7 +1179,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'TaskBarBehavior', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetTaskBarBehavior', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1196,7 +1196,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'UpdateFormatSettings', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetUpdateFormatSettings', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1211,7 +1211,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'UpdateFormatSettings', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetUpdateFormatSettings', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1408,7 +1408,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ShowButtonGlyphs', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetShowButtonGlyphs', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1423,7 +1423,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ShowButtonGlyphs', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetShowButtonGlyphs', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1440,7 +1440,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ShowMenuGlyphs', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetShowMenuGlyphs', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1455,7 +1455,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ShowMenuGlyphs', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetShowMenuGlyphs', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -1472,7 +1472,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ShowHint', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetShowHint', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1487,7 +1487,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ShowHint', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetShowHint', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1504,7 +1504,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ShowMainForm', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetShowMainForm', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1519,7 +1519,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'ShowMainForm', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetShowMainForm', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1536,7 +1536,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Title', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetTitle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1551,7 +1551,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Title', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetTitle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -1568,7 +1568,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Scaled', E.ClassName, E.Message);
+			CallError(L, 'Application', 'SetScaled', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1583,7 +1583,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Application', 'Scaled', E.ClassName, E.Message);
+			CallError(L, 'Application', 'GetScaled', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

@@ -370,7 +370,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Canvas', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetCanvas', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -387,7 +387,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ClickOnSelChange', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetClickOnSelChange', E.ClassName, E.Message);
 	end;
 end;
 
@@ -402,7 +402,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ClickOnSelChange', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetClickOnSelChange', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -419,7 +419,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Columns', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetColumns', E.ClassName, E.Message);
 	end;
 end;
 
@@ -434,7 +434,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Columns', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetColumns', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -450,7 +450,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Count', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -467,7 +467,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ExtendedSelect', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetExtendedSelect', E.ClassName, E.Message);
 	end;
 end;
 
@@ -482,7 +482,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ExtendedSelect', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetExtendedSelect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -499,7 +499,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'IntegralHeight', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetIntegralHeight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -514,7 +514,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'IntegralHeight', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetIntegralHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -531,7 +531,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ItemHeight', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetItemHeight', E.ClassName, E.Message);
 	end;
 end;
 
@@ -546,7 +546,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ItemHeight', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetItemHeight', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -563,7 +563,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ItemIndex', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetItemIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -578,7 +578,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ItemIndex', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetItemIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -596,7 +596,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Items', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetItems', E.ClassName, E.Message);
 	end;
 	if valNeedsFree then val.Free;
 end;
@@ -612,7 +612,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Items', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetItems', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -629,7 +629,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'MultiSelect', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetMultiSelect', E.ClassName, E.Message);
 	end;
 end;
 
@@ -644,7 +644,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'MultiSelect', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetMultiSelect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -691,7 +691,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Options', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetOptions', E.ClassName, E.Message);
 	end;
 end;
 
@@ -706,7 +706,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Options', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetOptions', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -723,7 +723,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ScrollWidth', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetScrollWidth', E.ClassName, E.Message);
 	end;
 end;
 
@@ -738,7 +738,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'ScrollWidth', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetScrollWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -754,7 +754,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'SelCount', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetSelCount', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -796,7 +796,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Sorted', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetSorted', E.ClassName, E.Message);
 	end;
 end;
 
@@ -811,7 +811,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Sorted', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetSorted', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -828,7 +828,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Style', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetStyle', E.ClassName, E.Message);
 	end;
 end;
 
@@ -843,7 +843,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'Style', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetStyle', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret,TypeInfo(ret));
 end;
@@ -860,7 +860,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'TopIndex', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'SetTopIndex', E.ClassName, E.Message);
 	end;
 end;
 
@@ -875,7 +875,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'ListBox', 'TopIndex', E.ClassName, E.Message);
+			CallError(L, 'ListBox', 'GetTopIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

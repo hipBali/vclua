@@ -37,7 +37,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'CustomControl', 'Canvas', E.ClassName, E.Message);
+			CallError(L, 'CustomControl', 'SetCanvas', E.ClassName, E.Message);
 	end;
 end;
 
@@ -52,7 +52,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CustomControl', 'Canvas', E.ClassName, E.Message);
+			CallError(L, 'CustomControl', 'GetCanvas', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;

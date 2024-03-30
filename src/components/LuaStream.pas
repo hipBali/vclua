@@ -594,7 +594,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Stream', 'Position', E.ClassName, E.Message);
+			CallError(L, 'Stream', 'SetPosition', E.ClassName, E.Message);
 	end;
 end;
 
@@ -609,7 +609,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Stream', 'Position', E.ClassName, E.Message);
+			CallError(L, 'Stream', 'GetPosition', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -626,7 +626,7 @@ begin
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'Stream', 'Size', E.ClassName, E.Message);
+			CallError(L, 'Stream', 'SetSize', E.ClassName, E.Message);
 	end;
 end;
 
@@ -641,7 +641,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'Stream', 'Size', E.ClassName, E.Message);
+			CallError(L, 'Stream', 'GetSize', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -755,7 +755,7 @@ begin
 		Result := 1;
 	except
 		on E: Exception do
-			CallError(L, 'CustomMemoryStream', 'Memory', E.ClassName, E.Message);
+			CallError(L, 'CustomMemoryStream', 'GetMemory', E.ClassName, E.Message);
 	end;
 	lua_pushlightuserdata(L,ret);
 end;
