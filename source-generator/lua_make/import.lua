@@ -782,23 +782,19 @@ for n,cdef in pairs(classes) do
 	end
 	classTable = {}
 	classData = {}
-	local className
 	local unitRefs = {}
 	
 	if cdef.name then
-		className = cdef.name
-	-- single unit classes
+		-- single unit classes
 		if processClass(cfile,cdef,ref)==nil then
 			cLog("*CLASS NOT FOUND:"..cdef.name,"ERROR")
 			break
 		else
 			local body,create,intf,init = createUnitBody(cdef, ref, unitRefs)
 			table.insert(classData,{intf,body,create,init})
-			vcluaTypeRef[cdef.src:lower()] = 'Lua'..className
 		end
 	elseif cdef.classes and type(cdef.classes)=="table" then
-		className = cdef.unit
-	-- common unit classes
+		-- common unit classes
 		for _,ccdef in pairs(cdef.classes) do
 			local pc = processClass(cfile,ccdef,ref)
 			if pc==nil then 
@@ -808,13 +804,15 @@ for n,cdef in pairs(classes) do
 			local body,create,intf,init = createUnitBody(ccdef, ref, unitRefs)
 			table.insert(classData,{intf,body,create,init})
 		end
-		-- don't do this in the loop above to avoid self reference
-		for _,ccdef in pairs(cdef.classes) do
-			vcluaTypeRef[ccdef.src:lower()] = 'Lua'..className
-		end
 	else
 		cLog("*ERROR READING CONFIG AT LINE :"..n,"ERROR")
 		break
+	end
+	local className = cdef.unit or cdef.name
+	-- don't do this in the loop above to avoid self reference
+	for _,ccdef in pairs(cdef.classes or {cdef}) do
+		vcluaTypeRef[ccdef.src:lower()] = 'Lua'..className
+		vcluaTypeRef['t'..ccdef.name:lower()] = 'Lua'..className
 	end
 	-- export ------------------------------------
 	local classSource = HDR_INFO .. VCLua_CLASSDEF
