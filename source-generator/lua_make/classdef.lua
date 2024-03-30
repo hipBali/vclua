@@ -84,7 +84,7 @@ VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR);"
 VCLUA_OPT = "TTrait<#TYP>.luaL_optcheck(L, #, @#VAR, #DEF);"
 
 VCLUA_FROMLUA = {
-	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
+	["pointer"] = "#VAR := lua_touserdata(L,#);",
 	["tborderstyle"] = VCLUA_FROMLUA_FULL,
 	["tleftright"] = VCLUA_FROMLUA_FULL,
 	["tshortcut"] = "#VAR := luaL_checkShortCut(L,#);",
@@ -111,6 +111,6 @@ VCLUA_FROMLUA_DEFAULT = VCLUA_FROMLUA_FULL
 VCLUA_OPT = VCLUA_OPT_DEFAULT
 
 VCLUA_FROMLUA = {
-	["pointer"] = "#VAR := Pointer(lua_touserdata(L,#));",
+	["pointer"] = "#VAR := lua_touserdata(L,#);",
 }
 end

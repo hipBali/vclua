@@ -72,7 +72,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStream := TLuaStream(GetLuaObject(L, 1));
-	Buffer := Pointer(lua_touserdata(L,2));
+	Buffer := lua_touserdata(L,2);
 	luaL_check(L,3,@Count);
 	try
 		ret := lStream.Read(Buffer,Count);
@@ -94,7 +94,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStream := TLuaStream(GetLuaObject(L, 1));
-	Buffer := Pointer(lua_touserdata(L,2));
+	Buffer := lua_touserdata(L,2);
 	luaL_check(L,3,@Count);
 	try
 		ret := lStream.Write(Buffer,Count);
@@ -175,7 +175,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStream := TLuaStream(GetLuaObject(L, 1));
-	Buffer := Pointer(lua_touserdata(L,2));
+	Buffer := lua_touserdata(L,2);
 	luaL_check(L,3,@Count);
 	try
 		lStream.ReadBuffer(Buffer,Count);
@@ -195,7 +195,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStream := TLuaStream(GetLuaObject(L, 1));
-	Buffer := Pointer(lua_touserdata(L,2));
+	Buffer := lua_touserdata(L,2);
 	luaL_check(L,3,@Count);
 	try
 		lStream.WriteBuffer(Buffer,Count);
@@ -676,7 +676,7 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomMemoryStream := TLuaCustomMemoryStream(GetLuaObject(L, 1));
-	Buffer := Pointer(lua_touserdata(L,2));
+	Buffer := lua_touserdata(L,2);
 	luaL_check(L,3,@Count);
 	try
 		ret := lCustomMemoryStream.Read(Buffer,Count);
@@ -818,7 +818,7 @@ var
 begin
 	CheckArg(L, 3);
 	lMemoryStream := TLuaMemoryStream(GetLuaObject(L, 1));
-	Buffer := Pointer(lua_touserdata(L,2));
+	Buffer := lua_touserdata(L,2);
 	luaL_check(L,3,@Count);
 	try
 		ret := lMemoryStream.Write(Buffer,Count);

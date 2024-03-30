@@ -155,7 +155,7 @@ var
 	val:Pointer;
 begin
 	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
-	val := Pointer(lua_touserdata(L,2));
+	val := lua_touserdata(L,2);
 	try
 		lListItem.Data := val;
 		Result := 0;
@@ -409,7 +409,7 @@ var
 begin
 	CheckArg(L, 2);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
-	AData := Pointer(lua_touserdata(L,2));
+	AData := lua_touserdata(L,2);
 	try
 		ret := lListItems.FindData(AData);
 		Result := 1;
@@ -432,7 +432,7 @@ begin
 	CheckArg(L, 5);
 	lListItems := TLuaListItems(GetLuaObject(L, 1));
 	luaL_check(L,2,@StartIndex);
-	Value := Pointer(lua_touserdata(L,3));
+	Value := lua_touserdata(L,3);
 	luaL_check(L,4,@Inclusive);
 	luaL_check(L,5,@Wrap);
 	try
@@ -943,7 +943,7 @@ begin
 	CheckArg(L, 5);
 	lListView := TLuaListView(GetLuaObject(L, 1));
 	luaL_check(L,2,@StartIndex);
-	Value := Pointer(lua_touserdata(L,3));
+	Value := lua_touserdata(L,3);
 	luaL_check(L,4,@Inclusive);
 	luaL_check(L,5,@Wrap);
 	try

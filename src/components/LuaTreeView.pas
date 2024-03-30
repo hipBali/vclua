@@ -49,7 +49,7 @@ var
 	val:Pointer;
 begin
 	lTreeNode := TLuaTreeNode(GetLuaObjectUnsafe(L, 1));
-	val := Pointer(lua_touserdata(L,2));
+	val := lua_touserdata(L,2);
 	try
 		lTreeNode.Data := val;
 		Result := 0;
@@ -175,7 +175,7 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@ParentNode);
 	luaL_check(L,3,@S);
-	Data := Pointer(lua_touserdata(L,4));
+	Data := lua_touserdata(L,4);
 	try
 		ret := lTreeNodes.AddChildObject(ParentNode,S,Data);
 		Result := 1;
@@ -198,7 +198,7 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@ParentNode);
 	luaL_check(L,3,@S);
-	Data := Pointer(lua_touserdata(L,4));
+	Data := lua_touserdata(L,4);
 	try
 		ret := lTreeNodes.AddChildObjectFirst(ParentNode,S,Data);
 		Result := 1;
@@ -245,7 +245,7 @@ begin
 	luaL_check(L,2,@Node);
 	luaL_check(L,3,@Relative);
 	luaL_check(L,4,@S);
-	Ptr := Pointer(lua_touserdata(L,5));
+	Ptr := lua_touserdata(L,5);
 	luaL_check(L,6,@Method,TypeInfo(TNodeAttachMode));
 	try
 		ret := lTreeNodes.AddNode(Node,Relative,S,Ptr,Method);
@@ -269,7 +269,7 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@SiblingNode);
 	luaL_check(L,3,@S);
-	Data := Pointer(lua_touserdata(L,4));
+	Data := lua_touserdata(L,4);
 	try
 		ret := lTreeNodes.AddObject(SiblingNode,S,Data);
 		Result := 1;
@@ -292,7 +292,7 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@SiblingNode);
 	luaL_check(L,3,@S);
-	Data := Pointer(lua_touserdata(L,4));
+	Data := lua_touserdata(L,4);
 	try
 		ret := lTreeNodes.AddObjectFirst(SiblingNode,S,Data);
 		Result := 1;
@@ -311,7 +311,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	NodeData := Pointer(lua_touserdata(L,2));
+	NodeData := lua_touserdata(L,2);
 	try
 		ret := lTreeNodes.FindNodeWithData(NodeData);
 		Result := 1;
@@ -554,7 +554,7 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@NextNode);
 	luaL_check(L,3,@S);
-	Data := Pointer(lua_touserdata(L,4));
+	Data := lua_touserdata(L,4);
 	try
 		ret := lTreeNodes.InsertObject(NextNode,S,Data);
 		Result := 1;
@@ -577,7 +577,7 @@ begin
 	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
 	luaL_check(L,2,@PrevNode);
 	luaL_check(L,3,@S);
-	Data := Pointer(lua_touserdata(L,4));
+	Data := lua_touserdata(L,4);
 	try
 		ret := lTreeNodes.InsertObjectBehind(PrevNode,S,Data);
 		Result := 1;
