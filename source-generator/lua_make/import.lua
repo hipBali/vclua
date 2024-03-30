@@ -491,7 +491,7 @@ function processParams(md)
 				table.insert(md.vars[2], {name=varName, type=varType, value=def})
 			end
 			table.insert(md.funcparams, varName)
-			table.insert(md.varlist, varName..":"..varType)
+			table.insert(md.varlist, "\n\t"..varName..":"..varType..";")
 		end
 	end
 	if md.vars[2] then
@@ -606,7 +606,7 @@ function createUnitBody(cdef, ref, refs)
 
       local idx = 1
       if varlist then
-        s = s:gsub("#VARS",pi and pi.isEvent and '' or "\n\t"..table.concat(varlist,";\n\t")..';',1)
+        s = s:gsub("#VARS",pi and pi.isEvent and '' or table.concat(varlist),1)
         -- processing parameters
         local varsFromLua, tempVars, freeTemps = {}, {}, {}
         local defVars
