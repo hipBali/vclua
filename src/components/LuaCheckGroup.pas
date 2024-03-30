@@ -95,9 +95,10 @@ function VCLua_CheckGroup_VCLuaSetItems(L: Plua_State): Integer; cdecl;
 var
 	lCheckGroup:TLuaCheckGroup;
 	val:TStrings;
+	valNeedsFree:Boolean = False;
 begin
 	lCheckGroup := TLuaCheckGroup(GetLuaObjectUnsafe(L, 1));
-	luaL_check(L,2,@val);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
 	try
 		lCheckGroup.Items := val;
 		Result := 0;
@@ -105,6 +106,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CheckGroup', 'Items', E.ClassName, E.Message);
 	end;
+	if valNeedsFree then val.Free;
 end;
 
 function VCLua_CheckGroup_VCLuaGetItems(L: Plua_State): Integer; cdecl;

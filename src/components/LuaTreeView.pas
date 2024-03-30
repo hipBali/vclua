@@ -1638,10 +1638,11 @@ var
 	lTreeView:TLuaTreeView;
 	ASelection:TStringList;
 	FreeList:boolean;
+	ASelectionNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2, 3);
 	lTreeView := TLuaTreeView(CheckLuaObjectPop(L, 1));
-	luaL_check(L,2,@ASelection);
+	ASelectionNeedsFree := luaL_checkOrFromTable(L,2,@ASelection,@luaL_checkStringList);
 	TTrait<boolean>.luaL_optcheck(L, 3, @FreeList, True);
 	try
 		lTreeView.ApplyStoredSelection(ASelection,FreeList);
@@ -1650,6 +1651,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TreeView', 'ApplyStoredSelection', E.ClassName, E.Message);
 	end;
+	if ASelectionNeedsFree then ASelection.Free;
 end;
 
 function VCLua_TreeView_MoveToNextNode(L: Plua_State): Integer; cdecl;

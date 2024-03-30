@@ -587,9 +587,10 @@ function VCLua_ListBox_VCLuaSetItems(L: Plua_State): Integer; cdecl;
 var
 	lListBox:TLuaListBox;
 	val:TStrings;
+	valNeedsFree:Boolean = False;
 begin
 	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
-	luaL_check(L,2,@val);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
 	try
 		lListBox.Items := val;
 		Result := 0;
@@ -597,6 +598,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ListBox', 'Items', E.ClassName, E.Message);
 	end;
+	if valNeedsFree then val.Free;
 end;
 
 function VCLua_ListBox_VCLuaGetItems(L: Plua_State): Integer; cdecl;

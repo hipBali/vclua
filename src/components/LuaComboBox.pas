@@ -578,9 +578,10 @@ function VCLua_ComboBox_VCLuaSetItems(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
 	val:TStrings;
+	valNeedsFree:Boolean = False;
 begin
 	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
-	luaL_check(L,2,@val);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
 	try
 		lComboBox.Items := val;
 		Result := 0;
@@ -588,6 +589,7 @@ begin
 		on E: Exception do
 			CallError(L, 'ComboBox', 'Items', E.ClassName, E.Message);
 	end;
+	if valNeedsFree then val.Free;
 end;
 
 function VCLua_ComboBox_VCLuaGetItems(L: Plua_State): Integer; cdecl;

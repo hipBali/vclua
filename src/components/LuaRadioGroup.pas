@@ -144,9 +144,10 @@ function VCLua_RadioGroup_VCLuaSetItems(L: Plua_State): Integer; cdecl;
 var
 	lRadioGroup:TLuaRadioGroup;
 	val:TStrings;
+	valNeedsFree:Boolean = False;
 begin
 	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
-	luaL_check(L,2,@val);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
 	try
 		lRadioGroup.Items := val;
 		Result := 0;
@@ -154,6 +155,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RadioGroup', 'Items', E.ClassName, E.Message);
 	end;
+	if valNeedsFree then val.Free;
 end;
 
 function VCLua_RadioGroup_VCLuaGetItems(L: Plua_State): Integer; cdecl;

@@ -582,15 +582,6 @@ function createUnitBody(cdef, ref, refs)
 			retProp = table.remove(outStr)
 		end
 		local fParams = table.concat(funcparams or {},",")
-		local maybeTempVars = {}
-		if cdef.allowtemps and cdef.allowtemps[mName] and (not pi or pi.w) then
-			maybeTempVars = cdef.allowtemps[mName]:split(',')
-			varlist = varlist or {}
-			for _,v in ipairs(maybeTempVars) do
-				table.insert(varlist, v..'NeedsFree:Boolean = False')
-				table.insert(outStr, 'if '..v..'NeedsFree then '..v..'.Free;')
-			end
-		end
 
     for _,vv in ipairs(vars) do
       local s = pi and not pi.i and VCLua_CDEF_LUAPROP or VCLua_CDEF_LUAFUNC
@@ -617,26 +608,29 @@ function createUnitBody(cdef, ref, refs)
       if varlist then
         s = s:gsub("#VARS",pi and pi.isEvent and '' or "\n\t"..table.concat(varlist,";\n\t")..';',1)
         -- processing parameters
-        local varsFromLua = {}
+        local varsFromLua, tempVars, freeTemps = {}, {}, {}
         local defVars
         for n,p in ipairs(vv) do
           local varName,varType,varValue = p.name,p.type,p.value
           idx = idx + 1
           local vtLower = varType:lower()
-          local templ
-          for _,v in ipairs(maybeTempVars) do
-            if varName == v then templ = VCLUA_FROMLUA_TEMP:gsub('#PROC',VCLUA_FROMLUA_TEMP_MAP[vtLower]) end
+          local templ = VCLUA_FROMLUA_TEMP_MAP[vtLower] and VCLUA_FROMLUA_TEMP:gsub('#PROC',VCLUA_FROMLUA_TEMP_MAP[vtLower])
+          if templ then
+            table.insert(tempVars, '\n\t'..varName..'NeedsFree:Boolean = False;')
+            table.insert(freeTemps, '\n\tif '..varName..'NeedsFree then '..varName..'.Free;')
           end
           if pi and pi.isEvent then
           elseif varValue then
-            local inline = VCLUA_OPT_INLINE_FROMLUA_LIST[vtLower] and VCLUA_OPT_INLINE_FROMLUA:gsub('#FROMLUA',VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT,1)
-            templ = templ or (not VCLUA_ES_CHECK or VCLUA_ES_CHECK[vtLower]) and VCLUA_OPT_DEFAULT or inline or VCLUA_OPT
+            local inline = (templ or VCLUA_OPT_INLINE_FROMLUA_LIST[vtLower]) and VCLUA_OPT_INLINE_FROMLUA:gsub('#FROMLUA',templ or VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT,1)
+            templ = inline or templ or ((not VCLUA_ES_CHECK or VCLUA_ES_CHECK[vtLower]) and VCLUA_OPT_DEFAULT) or VCLUA_OPT
             table.insert(varsFromLua,(templ:gsub('#TYP',varType):gsub("#DEF",varValue,1):gsub('#VAR',varName):gsub("#",idx)))
             if not defVars then defVars = idx - 1 end
           else
             table.insert(varsFromLua, (applyFromLuaTempl(templ,varName,varType,vtLower):gsub("#",idx)))
           end
         end
+        s = s:gsub("#FREETEMPS",table.concat(freeTemps),1)
+        s = s:gsub("#TEMPVARS",table.concat(tempVars),1)
         -- input params checking
         defVars = pi and pi.r and (idx-1) or defVars
         if pi and pi.r and not pi.w then
@@ -651,9 +645,10 @@ function createUnitBody(cdef, ref, refs)
         setProp = pi and pi.i and table.remove(varsFromLua,idx-1)
         s = s:gsub("#TOVCLUA",varsFromLua[1] and "\n\t"..table.concat(varsFromLua,"\n\t") or '',1)
       else
-        s = s:gsub("#VARS","",1)
+        s = s:gsub("#VARS#TEMPVARS","",1)
         s = s:gsub("#VARCOUNT",1,1)
         s = s:gsub("#TOVCLUA","",1)
+        s = s:gsub("#FREETEMPS","",1)
       end
       local stmts
       if pi and pi.i then

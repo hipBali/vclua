@@ -61,21 +61,21 @@ function Create#CNAME(L: Plua_State): Integer; cdecl;
 VCLua_CDEF_LUAFUNC = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var
-	l#CNAME:TLua#CNAME;#VARS#RETVAR;
+	l#CNAME:TLua#CNAME;#VARS#TEMPVARS#RETVAR;
 begin
 	CheckArg(L, #VARCOUNT);
 	l#CNAME := TLua#CNAME(GetLuaObject(L, 1));#TOVCLUA
-#FUNC#PUSHTOLUA#PUSHOUTS
+#FUNC#PUSHTOLUA#PUSHOUTS#FREETEMPS
 end;
 ]]
 
 VCLua_CDEF_LUAPROP = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var
-	l#CNAME:TLua#CNAME;#VARS#RETVAR;
+	l#CNAME:TLua#CNAME;#VARS#TEMPVARS#RETVAR;
 begin
 	l#CNAME := TLua#CNAME(GetLuaObjectUnsafe(L, 1));#TOVCLUA
-#FUNC#PUSHTOLUA#PUSHOUTS
+#FUNC#PUSHTOLUA#PUSHOUTS#FREETEMPS
 end;
 ]]
 

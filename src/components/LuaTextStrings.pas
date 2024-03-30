@@ -255,10 +255,11 @@ function VCLua_TextStrings_AddStrings(L: Plua_State): Integer; cdecl;
 var
 	lTextStrings:TLuaTextStrings;
 	TheStrings:TStrings;
+	TheStringsNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	luaL_check(L,2,@TheStrings);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
 	try
 		lTextStrings.AddStrings(TheStrings);
 		Result := 0;
@@ -266,6 +267,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TextStrings', 'AddStrings', E.ClassName, E.Message);
 	end;
+	if TheStringsNeedsFree then TheStrings.Free;
 end;
 
 function VCLua_TextStrings_LoadFromFile(L: Plua_State): Integer; cdecl;

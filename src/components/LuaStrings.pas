@@ -187,10 +187,11 @@ function VCLua_Strings_AddStrings(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
 	TheStrings:TStrings;
+	TheStringsNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	luaL_check(L,2,@TheStrings);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
 	try
 		lStrings.AddStrings(TheStrings);
 		Result := 0;
@@ -198,6 +199,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
+	if TheStringsNeedsFree then TheStrings.Free;
 end;
 
 function VCLua_Strings_AddStrings2(L: Plua_State): Integer; cdecl;
@@ -205,10 +207,11 @@ var
 	lStrings:TLuaStrings;
 	TheStrings:TStrings;
 	ClearFirst:Boolean;
+	TheStringsNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	luaL_check(L,2,@TheStrings);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
 	luaL_check(L,3,@ClearFirst);
 	try
 		lStrings.AddStrings(TheStrings,ClearFirst);
@@ -217,6 +220,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'AddStrings', E.ClassName, E.Message);
 	end;
+	if TheStringsNeedsFree then TheStrings.Free;
 end;
 
 function VCLua_Strings_AddStrings3(L: Plua_State): Integer; cdecl;
@@ -259,10 +263,11 @@ function VCLua_Strings_SetStrings(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
 	TheStrings:TStrings;
+	TheStringsNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	luaL_check(L,2,@TheStrings);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
 	try
 		lStrings.SetStrings(TheStrings);
 		Result := 0;
@@ -270,6 +275,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'SetStrings', E.ClassName, E.Message);
 	end;
+	if TheStringsNeedsFree then TheStrings.Free;
 end;
 
 function VCLua_Strings_SetStrings2(L: Plua_State): Integer; cdecl;
@@ -480,11 +486,12 @@ function VCLua_Strings_Equals2(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
 	TheStrings:TStrings;
+	TheStringsNeedsFree:Boolean = False;
 	ret:Boolean;
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	luaL_check(L,2,@TheStrings);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
 	try
 		ret := lStrings.Equals(TheStrings);
 		Result := 1;
@@ -493,6 +500,7 @@ begin
 			CallError(L, 'Strings', 'Equals', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
+	if TheStringsNeedsFree then TheStrings.Free;
 end;
 
 function VCLua_Strings_Exchange(L: Plua_State): Integer; cdecl;
@@ -879,10 +887,11 @@ function VCLua_Strings_Reverse2(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
 	aList:TStrings;
+	aListNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	luaL_check(L,2,@aList);
+	aListNeedsFree := luaL_checkOrFromTable(L,2,@aList,@luaL_checkStringList);
 	try
 		lStrings.Reverse(aList);
 		Result := 0;
@@ -890,6 +899,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Reverse', E.ClassName, E.Message);
 	end;
+	if aListNeedsFree then aList.Free;
 end;
 
 function VCLua_Strings_SaveToFile(L: Plua_State): Integer; cdecl;
@@ -986,11 +996,12 @@ var
 	lStrings:TLuaStrings;
 	fromIndex:integer;
 	aList:TStrings;
+	aListNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@fromIndex);
-	luaL_check(L,3,@aList);
+	aListNeedsFree := luaL_checkOrFromTable(L,3,@aList,@luaL_checkStringList);
 	try
 		lStrings.Slice(fromIndex,aList);
 		Result := 0;
@@ -998,6 +1009,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Strings', 'Slice', E.ClassName, E.Message);
 	end;
+	if aListNeedsFree then aList.Free;
 end;
 
 function VCLua_Strings_Slice2(L: Plua_State): Integer; cdecl;

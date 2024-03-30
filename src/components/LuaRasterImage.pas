@@ -231,10 +231,11 @@ function VCLua_RasterImage_GetSupportedSourceMimeTypes(L: Plua_State): Integer; 
 var
 	lRasterImage:TLuaRasterImage;
 	List:TStrings;
+	ListNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2);
 	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	luaL_check(L,2,@List);
+	ListNeedsFree := luaL_checkOrFromTable(L,2,@List,@luaL_checkStringList);
 	try
 		lRasterImage.GetSupportedSourceMimeTypes(List);
 		Result := 0;
@@ -242,6 +243,7 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'GetSupportedSourceMimeTypes', E.ClassName, E.Message);
 	end;
+	if ListNeedsFree then List.Free;
 end;
 
 function VCLua_RasterImage_GetSize(L: Plua_State): Integer; cdecl;

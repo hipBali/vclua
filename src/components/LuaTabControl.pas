@@ -612,9 +612,10 @@ function VCLua_TabControl_VCLuaSetPages(L: Plua_State): Integer; cdecl;
 var
 	lTabControl:TLuaTabControl;
 	val:TStrings;
+	valNeedsFree:Boolean = False;
 begin
 	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
-	luaL_check(L,2,@val);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
 	try
 		lTabControl.Pages := val;
 		Result := 0;
@@ -622,6 +623,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TabControl', 'Pages', E.ClassName, E.Message);
 	end;
+	if valNeedsFree then val.Free;
 end;
 
 function VCLua_TabControl_VCLuaGetPages(L: Plua_State): Integer; cdecl;

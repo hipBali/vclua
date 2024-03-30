@@ -311,10 +311,11 @@ function VCLua_Graphic_GetSupportedSourceMimeTypes(L: Plua_State): Integer; cdec
 var
 	lGraphic:TLuaGraphic;
 	List:TStrings;
+	ListNeedsFree:Boolean = False;
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	luaL_check(L,2,@List);
+	ListNeedsFree := luaL_checkOrFromTable(L,2,@List,@luaL_checkStringList);
 	try
 		lGraphic.GetSupportedSourceMimeTypes(List);
 		Result := 0;
@@ -322,6 +323,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Graphic', 'GetSupportedSourceMimeTypes', E.ClassName, E.Message);
 	end;
+	if ListNeedsFree then List.Free;
 end;
 
 function VCLua_Graphic_GetResourceType(L: Plua_State): Integer; cdecl;

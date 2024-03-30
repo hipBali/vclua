@@ -63,10 +63,6 @@ toInfer = {
 -- canvas: publish canvas property (usually not needed since public properties are available, just add parent with Canvas to config)
 -- form: use CreateNew instead Create
 -- wclass: item class for collections
--- allowtemps: map from method names to comma-sep variable names
----- each variable of said method would be allowed to receive plain Lua tables in addition to variables of its type
----- table is converted to assignable type and the temporary is Free'd after the method to avoid memory leak
-
 
 classes = {
 	
@@ -149,7 +145,7 @@ classes = {
 	{ name = "ListBox", src = "TCustomListBox", ref = "StdCtrls" },
 	{ name = "ComboBox", src = "TCustomComboBox", ref = "StdCtrls" },
 	{ name = "Edit", src = "TCustomEdit", ref = "StdCtrls" },
-	{ name = "Memo", src = "TCustomMemo", ref = "StdCtrls", allowtemps={Lines="val"} },
+	{ name = "Memo", src = "TCustomMemo", ref = "StdCtrls" },
 	{ name = "StaticText", src = "TCustomStaticText", ref = "StdCtrls" },
 	{ name = "Button", src = "TCustomButton", ref = "StdCtrls" },
 	{ name = "CheckBox", src = "TCustomCheckBox", ref = "StdCtrls" },
@@ -255,7 +251,7 @@ classes = {
 		classes = {
 			{ name = "GridColumn", src = "TGridColumn", noparent=true, parentclass="TCollection", nocreate=true},
 			{ name = "GridColumns", src = "TGridColumns", noparent=true, parentclass="TCustomStringGrid", nocreate=true},--, wclass="TGridColumn"
-			{ name = "StringGrid", src = "TCustomStringGrid", allowtemps={Rows="ret",Cols="ret"},
+			{ name = "StringGrid", src = "TCustomStringGrid",
 			  impl="GetCells, SetCells, GetSelectedCell"},
 		},
 	},
