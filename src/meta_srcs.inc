@@ -108,4 +108,5 @@ TMemoryStream.ClassInfo,
 TCustomMemoryStream.ClassInfo,
 TStream.ClassInfo,
 TCollection.ClassInfo,
-TCollectionItem.ClassInfo
+TCollectionItem.ClassInfo,
+TPersistent.ClassInfo

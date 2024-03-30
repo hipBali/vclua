@@ -32,7 +32,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="9"/>
       <RevisionNr Value="2"/>
-      <BuildNr Value="280"/>
+      <BuildNr Value="294"/>
       <Language Value="0809"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPreRelease="True"/>
@@ -176,7 +176,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="11">
+    <Units Count="9">
       <Unit0>
         <Filename Value="src\vcl.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -211,17 +211,9 @@
         <IsPartOfProject Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="src\LuaStream.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
         <Filename Value="src\LuaVmt.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="src\HashMap.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit10>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

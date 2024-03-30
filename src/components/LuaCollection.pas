@@ -30,7 +30,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LuaPersistent;
 
 function VCLua_CollectionItem_GetNamePath(L: Plua_State): Integer; cdecl;
 var
@@ -175,7 +175,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Collection', 'Owner', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Collection_Add(L: Plua_State): Integer; cdecl;

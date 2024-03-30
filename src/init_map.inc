@@ -3,6 +3,8 @@ Generated with Lua-fpc parser/generator
 (C) 2018-2024 Hi-Project Ltd.
 *)
 
+  vmts.Add('TPersistent', @PersistentFuncs);
+  propSets.Add('TPersistent', @PersistentSets);
   vmts.Add('TCollectionItem', @CollectionItemFuncs);
   propSets.Add('TCollectionItem', @CollectionItemSets);
   vmts.Add('TCollection', @CollectionFuncs);

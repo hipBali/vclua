@@ -69,6 +69,7 @@ classes = {
 	-- classes
 	-- built-in PropertyGrid
 	------------------------------------------------------------------
+	{ name = "Persistent", src = "TPersistent", ref="Classes", nocreate=true },
 	{ unit = "Collection", ref = "Classes",
 		classes = {
 			{ name = "CollectionItem", src = "TCollectionItem", nocreate=true },

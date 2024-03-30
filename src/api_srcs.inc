@@ -3,6 +3,7 @@ Generated with Lua-fpc parser/generator
 (C) 2018-2024 Hi-Project Ltd.
 *)
 
+apiPtis.Add('TPersistent', TPersistent.ClassInfo);
 apiPtis.Add('TCollectionItem', TCollectionItem.ClassInfo);
 apiPtis.Add('TCollection', TCollection.ClassInfo);
 apiPtis.Add('TStream', TStream.ClassInfo);
