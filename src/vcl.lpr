@@ -15,6 +15,7 @@ uses
   LuaObject in 'LuaObject.pas',
   LuaProxy in 'LuaProxy.pas',
   LuaDialogs in 'LuaDialogs.pas',
+  AnchorSidePropertyEditor,
   LuaVmt,
   {$IFDEF EXTENDED}
   LuaRichMemo in 'addons/LuaRichMemo.pas',
