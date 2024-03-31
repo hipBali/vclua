@@ -311,7 +311,7 @@ end;
 // Sets Property Value
 // ****************************************************************
 // index is absolute
-procedure SetProperty(L:Plua_State; Index:Integer; Comp:TObject; PInfo:PPropInfo);
+procedure SetProperty(L:Plua_State; Index:Integer; Comp:TObject; PInfo:PPropInfo; TempPti: PTypeInfo = nil);
 Var
   LuaFuncPInfo: PPropInfo;
   Str: shortstring;
@@ -357,11 +357,11 @@ begin
       end;
     tkClass:
       begin
-        vo := GetLuaObject(L, index);
-        if (vo = nil) and lua_istable(L, index) and InheritsFrom(pti, 'TStrings') then begin
+        if TempPti = TypeInfo(TStrings) then begin
           vo := TObject(luaL_checkStringList(L, index));
           gotValue := true;
-        end;
+        end else
+            vo := GetLuaObject(L, index);
         SetObjectProp(Comp, PInfo, vo);
         if gotValue then vo.Free;
       end;
@@ -403,26 +403,6 @@ end;
 function SetOrUpdateGeneratedProperty(L: Plua_State; o: TObject; oindex,vindex: Integer; const PropName: shortstring): boolean;forward;
 function SetOrUpdatePublishedProperty(L: Plua_State; o: TObject; vindex: Integer; const PropName: shortstring): boolean;forward;
 
-procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: shortstring; oindex,vindex: Integer; o: TObject);overload;
-var
-  pName: shortstring;
-  kindex,pvindex: Integer;
-begin
-  if o = nil then
-     LuaError(L, 'Can''t update properties of a null property', UpdatedPropName);
-  lua_pushnil(L);
-  kindex := lua_gettop(L);
-  pvindex := kindex + 1;
-  while lua_next(L, vindex) <> 0 do begin
-    if lua_type(L, kindex) = LUA_TSTRING then begin
-      pName := lua_tostring(L, kindex); // important to be typed shortstring, not just PChar, otherwise access violation after exiting SetOrUpdate*
-      if not SetOrUpdateGeneratedProperty(L, o, oindex, pvindex, pName) and not SetOrUpdatePublishedProperty(L, o, pvindex, pName) then
-         LuaError(L,'Property not found!', o.ClassName+'.'+string(lua_tostring(L, kindex))); // another read for the case of length>255
-    end;
-    lua_settop(L, kindex);
-  end;
-end;
-
 procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: shortstring; oindex, vindex: Integer);overload;inline;
 begin
   UpdatePropertiesFromLuaTable(L, UpdatedPropName, oindex, vindex, GetLuaObject(L, oindex));
@@ -433,27 +413,71 @@ begin
   UpdatePropertiesFromLuaTable(L, UpdatedPropName, lua_gettop(L), vindex, o);
 end;
 
-function IsPropertyTable(L: Plua_State; absindex: Integer):boolean;
+function IsUnusualTable(L: Plua_State; absindex: Integer):boolean;
 begin
-  result := false;
-  if lua_istable(L, absindex) then begin
-    if GetLuaObjectUnsafe(L, absindex) = nil then begin
-      lua_rawgeti(L, absindex, 1);
-      result := lua_isnil(L, -1);
+  result := lua_istable(L, absindex) and (GetLuaObjectUnsafe(L, absindex) = nil);
+end;
+
+procedure UpdatePropertiesFromLuaTable(L: Plua_State; const UpdatedPropName: shortstring; oindex,vindex: Integer; o: TObject);overload;
+var
+  pName: shortstring;
+  i,colCount,kindex,pvindex: Integer;
+  vo: TObject;
+begin
+  lua_rawgeti(L, vindex, 1);
+  kindex := lua_gettop(L);
+  if lua_isnil(L, kindex) then begin
+    if o = nil then
+       LuaError(L, 'Can''t update properties of a null property', UpdatedPropName);
+    // hash table of properties
+    // rawgeti result also serves as input to lua_next
+    pvindex := kindex + 1;
+    while lua_next(L, vindex) <> 0 do begin
+      if lua_type(L, kindex) = LUA_TSTRING then begin
+        pName := lua_tostring(L, kindex); // important to be typed shortstring, not just PChar, otherwise access violation after exiting SetOrUpdate*
+        if not SetOrUpdateGeneratedProperty(L, o, oindex, pvindex, pName) and not SetOrUpdatePublishedProperty(L, o, pvindex, pName) then
+           LuaError(L,'Property not found!', o.ClassName+'.'+string(lua_tostring(L, kindex))); // another read for the case of length>255
+      end;
+      lua_settop(L, kindex);
     end;
-  end;
+  end else if o is TCollection then begin
+    // array table of either collection objects or array tables with their properties
+    // other collections-with-objects classes should also go here
+    // collection-with-nonobjects classes like TStrings are meant to be handled in SetProperty or near CallSetter
+    i := 0; // collection index i corresponds to table index i+1
+    colCount := TCollection(o).Count;
+    pvindex := kindex;
+    Dec(kindex);
+    repeat
+      if IsUnusualTable(L, pvindex) then begin
+        if not lua_checkstack(L, 3) then Exit;
+        if i < colCount then vo := TCollection(o).Items[i] else vo := TCollection(o).Add();
+        UpdatePropertiesFromLuaTable(L, IntToStr(i), vo, pvindex);
+      end else begin
+        luaL_check(L, pvindex, @vo, GetTypeData(TypeInfo(TCollection(o).ItemClass))^.InstanceTypeRef^);
+        if not (vo is TCollectionItem) then LuaTypeError(L, pvindex, GetTypeData(TypeInfo(TCollection(o).ItemClass))^.InstanceTypeRef^);
+        if i >= colCount then TCollection(o).Add();
+        TCollection(o).Items[i] := TCollectionItem(vo);
+      end;
+      Inc(i);
+      lua_settop(L, kindex);
+      lua_geti(L, vindex, i + 1); // allow meta call
+    until lua_isnil(L, pvindex);
+  end else
+      LuaError(L, 'Can''t update property from array table, or collection is nil', UpdatedPropName);
 end;
 
 function SetOrUpdatePublishedProperty(L: Plua_State; o: TObject; vindex: Integer; const PropName: shortstring): boolean;
 var
   PInfo:PPropInfo;
+  TempPti: PTypeInfo = nil;
 begin
   PInfo := GetPropInfo(o.ClassInfo, PropName);
   if (PInfo = nil) or (not lua_checkstack(L, 2)) then Exit(false);
-  if (PInfo^.PropType^.Kind = tkClass) and IsPropertyTable(L, vindex) then
+  if (PInfo^.PropType^.Kind = tkClass) and IsUnusualTable(L, vindex) and not InheritsFrom(PInfo^.PropType, 'TStrings', @TempPti) then
     UpdatePropertiesFromLuaTable(L, PropName, GetObjectProp(o, PInfo), vindex)
   else begin
-    SetProperty(L, vindex, o, PInfo);
+    SetProperty(L, vindex, o, PInfo, TempPti);
   end;
   result := true;
 end;
@@ -462,10 +486,11 @@ function SetOrUpdateGeneratedProperty(L: Plua_State; o: TObject; oindex,vindex: 
 var
   pvmt: PLuaVmt;
   mi: TLuaMethodInfo;
+  TempPti: PTypeInfo = nil;
 begin
   if not lua_checkstack(L, 6) then Exit(false);
   if HasMethod(propSets.GetVmt(o.ClassInfo), PropName, mi) then begin
-    if mi.isObj and IsPropertyTable(L, vindex) then begin
+    if mi.isObj and IsUnusualTable(L, vindex) and not InheritsFrom(mi.pti, 'TStrings', @TempPti) then begin
       if HasMethod(vmts.GetVmt(o.ClassInfo), PropName, mi) then begin
         lua_pushcfunction(L, mi.pf);
         lua_pushvalue(L, oindex);
@@ -473,8 +498,17 @@ begin
         UpdatePropertiesFromLuaTable(L, PropName, lua_gettop(L), vindex);
       end else
         LuaError(L, 'Can''t update properties of a property which is only settable', PropName);
-    end else
-       CallSetter(L, mi, oindex, vindex);
+    end else if TempPti = nil then
+      CallSetter(L, mi, oindex, vindex)
+    else begin
+      if TempPti = TypeInfo(TStrings) then
+         o := luaL_checkStringList(L, vindex)
+      else
+          LuaTypeError(L, vindex, TempPti);
+      lua_push(L, o, TempPti);
+      CallSetter(L, mi, oindex, lua_gettop(L));
+      o.Free;
+    end;
     Exit(true);
   end;
   result := false;

@@ -12,6 +12,7 @@ type
   TLuaMethodInfo = class(TFPHashObject)
     public
       pf: lua_CFunction;
+      pti: PTypeInfo;
       mf: TMethodFlag;
       isObj: Boolean;
       constructor Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction; aMf: TMethodFlag = mfNone; apti: PTypeInfo = nil);
@@ -26,7 +27,7 @@ type
 
 function HasMethod(const pvmt: PLuaVmt; const PropName:shortstring; out mi: TLuaMethodInfo):Boolean;
 procedure CallSetter(L: Plua_State; const mi: TLuaMethodInfo; objIndex, valIndex: Integer);
-function InheritsFrom(pti: PTypeInfo; const cName: shortstring):boolean;
+function InheritsFrom(pti: PTypeInfo; const cName: shortstring; res: PPTypeInfo = nil):boolean;
 
 var
   vmts,propSets: TLuaVmts;
@@ -36,6 +37,7 @@ implementation
 constructor TLuaMethodInfo.Create(list:TFPHashObjectList; const name:shortstring; aPf: lua_CFunction; aMf: TMethodFlag; apti: PTypeInfo);
 begin
   pf := aPf;
+  pti := apti;
   mf := aMf;
   isObj := (apti <> nil) and (apti^.Kind = tkClass);
   inherited Create(list, name);
@@ -77,11 +79,13 @@ begin
   lua_call(L, 2, 0);
 end;
 
-function InheritsFrom(pti: PTypeInfo; const cName: shortstring):boolean;
+function InheritsFrom(pti: PTypeInfo; const cName: shortstring; res: PPTypeInfo = nil):boolean;
 begin
   while (pti <> nil) and (ShortCompareText(pti^.Name, cName) <> 0) do
     pti := GetTypeData(pti)^.ParentInfo;
   result := pti <> nil;
+  if res <> nil then
+     res^ := pti;
 end;
 
 begin
