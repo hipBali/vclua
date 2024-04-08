@@ -740,8 +740,9 @@ function createUnitBody(cdef, ref, refs)
 		ccreate = VCLua_CDEF_TOTABLE
 	elseif cdef.nv then
 		intface = VCLua_CDEF_INTFCE_NV
-		ccreate = VCLua_CDEF_TOTABLE..VCLua_CDEF_FOOTER_BASE
+		ccreate = VCLua_CDEF_TOTABLE..VCLua_CDEF_FOOTER_NV
 	elseif cdef.base then
+		intface = VCLua_CDEF_INTFCE_NV
 		ccreate = VCLua_CDEF_TOTABLE..VCLua_CDEF_FOOTER_BASE
 	elseif cdef.wclass then
 		ccreate = VCLua_CDEF_TOTABLE..VCLua_CDEF_FOOTER_WCLASS

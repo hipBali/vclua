@@ -61,10 +61,10 @@ toInfer = {
 -- name: vclua class name
 -- src:  source class name		parentclass: the owner/parent class
 -- ref:  module reference(s), first must export 'src', required!
--- base: basic class (even if creatable, no parent, name or init supported)
+-- base: basic class (even if creatable, no name or init supported, but single param of type parentclass is required for constructor (else use nv))
 -- 
 -- noparent: not parented. Only descendants of Control can be parented
--- nv:		 non visible
+-- nv:		 non visible, no parent
 -- nocreate: no create method for this class. Currently only those classes can be Create'd which inherit TComponent or are non visible
 -- impl: implements method from funcdef.lua/function_defnitions
 -- canvas: publish canvas property (usually not needed since public properties are available, just add parent with Canvas to config)
@@ -134,8 +134,11 @@ classes = {
 	{ name = "CustomControl", src = "TCustomControl", ref = "Controls"},
 	{ unit = "Drag", ref = "Controls",
 		classes = {
-			{ name = "DragObject", src = "TDragObject", nocreate=true},
-			{ name = "DragDockObject", src = "TDragDockObject", nocreate=true},
+			{ name = "DragObject", src = "TDragObject", parentclass='TControl', base=true},
+			{ name = "DragControlObject", src = "TDragControlObject", parentclass='TControl', base=true},
+			{ name = "DragControlObjectEx", src = "TDragControlObjectEx", parentclass='TControl', base=true},
+			{ name = "DragDockObject", src = "TDragDockObject", parentclass='TControl', base=true},
+			{ name = "DragDockObjectEx", src = "TDragDockObjectEx", parentclass='TControl', base=true},
 			{ name = "DockZone", src = "TDockZone", nocreate=true},
 			{ name = "DockTree", src = "TDockTree", nocreate=true},
 		}

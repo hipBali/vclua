@@ -148,12 +148,24 @@ begin
 	l#CNAME := TLua#CNAME.CreateNew(Parent);
 ]]..VCLua_CDEF_SUFFIX
 
-VCLua_CDEF_FOOTER_BASE = [[
+VCLua_CDEF_FOOTER_NV = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
 var
 	l#CNAME:TLua#CNAME;
 begin
 	l#CNAME := TLua#CNAME.Create;
+	CreateTableForKnownType(L,'#CSRC',l#CNAME);
+	Result := 1;
+end;]]
+
+VCLua_CDEF_FOOTER_BASE = [[
+function Create#CNAME(L: Plua_State): Integer; cdecl;
+var
+	l#CNAME:TLua#CNAME;
+	Parent:#PARENTCLASS;
+begin
+	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	l#CNAME := TLua#CNAME.Create(Parent);
 	CreateTableForKnownType(L,'#CSRC',l#CNAME);
 	Result := 1;
 end;]]

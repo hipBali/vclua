@@ -10,6 +10,7 @@ interface
 
 Uses Lua, LuaController, TypInfo, LuaVmt, Controls;
 
+function CreateDragObject(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TDragObject; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -19,6 +20,27 @@ var
     DragObjectFuncs: TLuaVmt;
     DragObjectSets: TLuaVmt;
 
+function CreateDragControlObject(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TDragControlObject; pti: PTypeInfo = nil); overload; inline;
+
+type
+    TLuaDragControlObject = class(TDragControlObject)
+    end;
+var
+    DragControlObjectFuncs: TLuaVmt;
+    DragControlObjectSets: TLuaVmt;
+
+function CreateDragControlObjectEx(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TDragControlObjectEx; pti: PTypeInfo = nil); overload; inline;
+
+type
+    TLuaDragControlObjectEx = class(TDragControlObjectEx)
+    end;
+var
+    DragControlObjectExFuncs: TLuaVmt;
+    DragControlObjectExSets: TLuaVmt;
+
+function CreateDragDockObject(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TDragDockObject; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -27,6 +49,16 @@ type
 var
     DragDockObjectFuncs: TLuaVmt;
     DragDockObjectSets: TLuaVmt;
+
+function CreateDragDockObjectEx(L: Plua_State): Integer; cdecl;
+procedure lua_push(L: Plua_State; const v: TDragDockObjectEx; pti: PTypeInfo = nil); overload; inline;
+
+type
+    TLuaDragDockObjectEx = class(TDragDockObjectEx)
+    end;
+var
+    DragDockObjectExFuncs: TLuaVmt;
+    DragDockObjectExSets: TLuaVmt;
 
 procedure lua_push(L: Plua_State; const v: TDockZone; pti: PTypeInfo = nil); overload; inline;
 
@@ -288,6 +320,8 @@ begin
 	lua_push(L,ret);
 end;
 
+
+
 function VCLua_DragDockObject_VCLuaSetDockOffset(L: Plua_State): Integer; cdecl;
 var
 	lDragDockObject:TLuaDragDockObject;
@@ -495,6 +529,7 @@ begin
 	end;
 	lua_push(L,ret);
 end;
+
 
 function VCLua_DockZone_FindZone(L: Plua_State): Integer; cdecl;
 var
@@ -1384,12 +1419,72 @@ procedure lua_push(L: Plua_State; const v: TDragObject; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TDragObject',v);
 end;
-
+function CreateDragObject(L: Plua_State): Integer; cdecl;
+var
+	lDragObject:TLuaDragObject;
+	Parent:TControl;
+begin
+	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	lDragObject := TLuaDragObject.Create(Parent);
+	CreateTableForKnownType(L,'TDragObject',lDragObject);
+	Result := 1;
+end;
+procedure lua_push(L: Plua_State; const v: TDragControlObject; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TDragControlObject',v);
+end;
+function CreateDragControlObject(L: Plua_State): Integer; cdecl;
+var
+	lDragControlObject:TLuaDragControlObject;
+	Parent:TControl;
+begin
+	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	lDragControlObject := TLuaDragControlObject.Create(Parent);
+	CreateTableForKnownType(L,'TDragControlObject',lDragControlObject);
+	Result := 1;
+end;
+procedure lua_push(L: Plua_State; const v: TDragControlObjectEx; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TDragControlObjectEx',v);
+end;
+function CreateDragControlObjectEx(L: Plua_State): Integer; cdecl;
+var
+	lDragControlObjectEx:TLuaDragControlObjectEx;
+	Parent:TControl;
+begin
+	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	lDragControlObjectEx := TLuaDragControlObjectEx.Create(Parent);
+	CreateTableForKnownType(L,'TDragControlObjectEx',lDragControlObjectEx);
+	Result := 1;
+end;
 procedure lua_push(L: Plua_State; const v: TDragDockObject; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TDragDockObject',v);
 end;
-
+function CreateDragDockObject(L: Plua_State): Integer; cdecl;
+var
+	lDragDockObject:TLuaDragDockObject;
+	Parent:TControl;
+begin
+	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	lDragDockObject := TLuaDragDockObject.Create(Parent);
+	CreateTableForKnownType(L,'TDragDockObject',lDragDockObject);
+	Result := 1;
+end;
+procedure lua_push(L: Plua_State; const v: TDragDockObjectEx; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TDragDockObjectEx',v);
+end;
+function CreateDragDockObjectEx(L: Plua_State): Integer; cdecl;
+var
+	lDragDockObjectEx:TLuaDragDockObjectEx;
+	Parent:TControl;
+begin
+	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	lDragDockObjectEx := TLuaDragDockObjectEx.Create(Parent);
+	CreateTableForKnownType(L,'TDragDockObjectEx',lDragDockObjectEx);
+	Result := 1;
+end;
 procedure lua_push(L: Plua_State; const v: TDockZone; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TDockZone',v);
@@ -1418,6 +1513,14 @@ begin
 	TLuaMethodInfo.Create(DragObjectSets, 'DragPos', @VCLua_DragObject_VCLuaSetDragPos, mfCall, TypeInfo(TPoint));
 	TLuaMethodInfo.Create(DragObjectSets, 'DragTarget', @VCLua_DragObject_VCLuaSetDragTarget, mfCall, TypeInfo(TControl));
 	TLuaMethodInfo.Create(DragObjectSets, 'DragTargetPos', @VCLua_DragObject_VCLuaSetDragTargetPos, mfCall, TypeInfo(TPoint));
+	DragControlObjectFuncs := TLuaVmt.Create;
+	
+	DragControlObjectSets := TLuaVmt.Create;
+	
+	DragControlObjectExFuncs := TLuaVmt.Create;
+	
+	DragControlObjectExSets := TLuaVmt.Create;
+	
 	DragDockObjectFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(DragDockObjectFuncs, 'DockOffset', @VCLua_DragDockObject_VCLuaGetDockOffset, mfCall);
 	TLuaMethodInfo.Create(DragDockObjectFuncs, 'DockRect', @VCLua_DragDockObject_VCLuaGetDockRect, mfCall);
@@ -1433,6 +1536,10 @@ begin
 	TLuaMethodInfo.Create(DragDockObjectSets, 'DropOnControl', @VCLua_DragDockObject_VCLuaSetDropOnControl, mfCall, TypeInfo(TControl));
 	TLuaMethodInfo.Create(DragDockObjectSets, 'Floating', @VCLua_DragDockObject_VCLuaSetFloating, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(DragDockObjectSets, 'EraseDockRect', @VCLua_DragDockObject_VCLuaSetEraseDockRect, mfCall, TypeInfo(TRect));
+	DragDockObjectExFuncs := TLuaVmt.Create;
+	
+	DragDockObjectExSets := TLuaVmt.Create;
+	
 	DockZoneFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(DockZoneFuncs, 'FindZone', @VCLua_DockZone_FindZone);
 	TLuaMethodInfo.Create(DockZoneFuncs, 'FirstVisibleChild', @VCLua_DockZone_FirstVisibleChild);

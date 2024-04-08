@@ -121,7 +121,7 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..90] of lual_reg = (
+	vcl_lib : array[0..95] of lual_reg = (
 		(name:'MemoryStream'; func:@CreateMemoryStream),
 		(name:'StringList'; func:@CreateStringList),
 		(name:'TextStrings'; func:@CreateTextStrings),
@@ -139,6 +139,11 @@ Generated with Lua-fpc parser/generator
 		(name:'Control'; func:@CreateControl),
 		(name:'GraphicControl'; func:@CreateGraphicControl),
 		(name:'CustomControl'; func:@CreateCustomControl),
+		(name:'DragObject'; func:@CreateDragObject),
+		(name:'DragControlObject'; func:@CreateDragControlObject),
+		(name:'DragControlObjectEx'; func:@CreateDragControlObjectEx),
+		(name:'DragDockObject'; func:@CreateDragDockObject),
+		(name:'DragDockObjectEx'; func:@CreateDragDockObjectEx),
 		(name:'Application'; func:@CreateApplication),
 		(name:'Form'; func:@CreateForm),
 		(name:'ScrollBox'; func:@CreateScrollBox),

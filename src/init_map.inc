@@ -65,8 +65,14 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TCustomControl', @CustomControlSets);
   vmts.Add('TDragObject', @DragObjectFuncs);
   propSets.Add('TDragObject', @DragObjectSets);
+  vmts.Add('TDragControlObject', @DragControlObjectFuncs);
+  propSets.Add('TDragControlObject', @DragControlObjectSets);
+  vmts.Add('TDragControlObjectEx', @DragControlObjectExFuncs);
+  propSets.Add('TDragControlObjectEx', @DragControlObjectExSets);
   vmts.Add('TDragDockObject', @DragDockObjectFuncs);
   propSets.Add('TDragDockObject', @DragDockObjectSets);
+  vmts.Add('TDragDockObjectEx', @DragDockObjectExFuncs);
+  propSets.Add('TDragDockObjectEx', @DragDockObjectExSets);
   vmts.Add('TDockZone', @DockZoneFuncs);
   propSets.Add('TDockZone', @DockZoneSets);
   vmts.Add('TDockTree', @DockTreeFuncs);
