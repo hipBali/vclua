@@ -622,6 +622,89 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Control_AdjustSize(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		lControl.AdjustSize();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AdjustSize', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_AutoSizePhases(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:TControlAutoSizePhases;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.AutoSizePhases();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AutoSizePhases', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_AutoSizeDelayed(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.AutoSizeDelayed();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AutoSizeDelayed', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_AutoSizeDelayedReport(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:string;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.AutoSizeDelayedReport();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AutoSizeDelayedReport', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Control_AutoSizeDelayedHandle(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		ret := lControl.AutoSizeDelayedHandle();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'AutoSizeDelayedHandle', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Control_AnchorToNeighbour(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
@@ -1079,6 +1162,55 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'Control', 'InvalidatePreferredSize', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_GetAnchorsDependingOnParent(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	WithNormalAnchors:Boolean;
+	ret:TAnchors;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@WithNormalAnchors);
+	try
+		ret := lControl.GetAnchorsDependingOnParent(WithNormalAnchors);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'GetAnchorsDependingOnParent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_Control_DisableAutoSizing(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		lControl.DisableAutoSizing();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'DisableAutoSizing', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_EnableAutoSizing(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+begin
+	CheckArg(L, 1);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	try
+		lControl.EnableAutoSizing();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'EnableAutoSizing', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1603,6 +1735,23 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'Control', 'Invalidate', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Control_CheckNewParent(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	AParent:TWinControl;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@AParent);
+	try
+		lControl.CheckNewParent(AParent);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'CheckNewParent', E.ClassName, E.Message);
 	end;
 end;
 
@@ -3198,6 +3347,11 @@ begin
 	TLuaMethodInfo.Create(ControlFuncs, 'ScaleFontToScreen', @VCLua_Control_ScaleFontToScreen);
 	TLuaMethodInfo.Create(ControlFuncs, 'Scale96ToScreen', @VCLua_Control_Scale96ToScreen);
 	TLuaMethodInfo.Create(ControlFuncs, 'ScaleScreenTo96', @VCLua_Control_ScaleScreenTo96);
+	TLuaMethodInfo.Create(ControlFuncs, 'AdjustSize', @VCLua_Control_AdjustSize);
+	TLuaMethodInfo.Create(ControlFuncs, 'AutoSizePhases', @VCLua_Control_AutoSizePhases);
+	TLuaMethodInfo.Create(ControlFuncs, 'AutoSizeDelayed', @VCLua_Control_AutoSizeDelayed);
+	TLuaMethodInfo.Create(ControlFuncs, 'AutoSizeDelayedReport', @VCLua_Control_AutoSizeDelayedReport);
+	TLuaMethodInfo.Create(ControlFuncs, 'AutoSizeDelayedHandle', @VCLua_Control_AutoSizeDelayedHandle);
 	TLuaMethodInfo.Create(ControlFuncs, 'AnchorToNeighbour', @VCLua_Control_AnchorToNeighbour);
 	TLuaMethodInfo.Create(ControlFuncs, 'AnchorParallel', @VCLua_Control_AnchorParallel);
 	TLuaMethodInfo.Create(ControlFuncs, 'AnchorHorizontalCenterTo', @VCLua_Control_AnchorHorizontalCenterTo);
@@ -3222,6 +3376,9 @@ begin
 	TLuaMethodInfo.Create(ControlFuncs, 'GetSidePosition', @VCLua_Control_GetSidePosition);
 	TLuaMethodInfo.Create(ControlFuncs, 'CNPreferredSizeChanged', @VCLua_Control_CNPreferredSizeChanged);
 	TLuaMethodInfo.Create(ControlFuncs, 'InvalidatePreferredSize', @VCLua_Control_InvalidatePreferredSize);
+	TLuaMethodInfo.Create(ControlFuncs, 'GetAnchorsDependingOnParent', @VCLua_Control_GetAnchorsDependingOnParent);
+	TLuaMethodInfo.Create(ControlFuncs, 'DisableAutoSizing', @VCLua_Control_DisableAutoSizing);
+	TLuaMethodInfo.Create(ControlFuncs, 'EnableAutoSizing', @VCLua_Control_EnableAutoSizing);
 	TLuaMethodInfo.Create(ControlFuncs, 'UpdateBaseBounds', @VCLua_Control_UpdateBaseBounds);
 	TLuaMethodInfo.Create(ControlFuncs, 'BaseBounds', @VCLua_Control_VCLuaGetBaseBounds, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'ReadBounds', @VCLua_Control_VCLuaGetReadBounds, mfCall);
@@ -3253,6 +3410,7 @@ begin
 	TLuaMethodInfo.Create(ControlFuncs, 'Refresh', @VCLua_Control_Refresh);
 	TLuaMethodInfo.Create(ControlFuncs, 'Repaint', @VCLua_Control_Repaint);
 	TLuaMethodInfo.Create(ControlFuncs, 'Invalidate', @VCLua_Control_Invalidate);
+	TLuaMethodInfo.Create(ControlFuncs, 'CheckNewParent', @VCLua_Control_CheckNewParent);
 	TLuaMethodInfo.Create(ControlFuncs, 'SendToBack', @VCLua_Control_SendToBack);
 	TLuaMethodInfo.Create(ControlFuncs, 'SetTempCursor', @VCLua_Control_SetTempCursor);
 	TLuaMethodInfo.Create(ControlFuncs, 'UpdateRolesForForm', @VCLua_Control_UpdateRolesForForm);
