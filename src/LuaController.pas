@@ -568,11 +568,10 @@ begin
   Name := '';
   n := lua_gettop(L);
   if n>0 then begin
-    if lua_istable(L,1) then begin
+    if lua_istable(L,1) then
        Parent := TWinControl(GetLuaObjectPop(L, 1));
-       if (n=2) and (lua_isstring(L,2)) then
-          Name := lua_tostring(L,2);
-    end
+    if (n>=2) and lua_isstring(L,2) then
+       Name := lua_tostring(L,2);
   end;
   if not Assigned(Parent) then begin
      Parent := Application.MainForm;
@@ -590,14 +589,13 @@ var
 begin
      tindex := lua_gettop(L) - 1;
      if (tindex>0) and (lua_istable(L,tindex)) and (GetLuaObjectUnsafePop(L,tindex) = nil) then
-        UpdatePropertiesFromLuaTable(L, luaObj.ClassName, tindex + 1, tindex, luaObj)
-     else
-       try
-          (luaObj as TComponent).Name := Name;
-       except
-           on E: Exception do
-              LuaError(L, E.ClassName , E.Message );
-       end;
+        UpdatePropertiesFromLuaTable(L, luaObj.ClassName, tindex + 1, tindex, luaObj);
+     try
+        (luaObj as TComponent).Name := Name;
+     except
+         on E: Exception do
+            LuaError(L, E.ClassName , E.Message );
+     end;
 end;
 
 function ControlFree(L: Plua_State): Integer; cdecl;
