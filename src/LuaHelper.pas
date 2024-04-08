@@ -17,6 +17,7 @@ const
 function LuaFpGc(L: Plua_State): Integer; cdecl;
 function RunSeparate(L: Plua_State):integer;cdecl;
 
+function LuaTraceback(L: Plua_State; msg: String): PAnsiChar;
 procedure LuaError(L: Plua_State; text: String; err: String);
 procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
 procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo); inline;
@@ -168,6 +169,21 @@ begin
 end;
 
 // *****************************************************************************
+function LuaTraceback(L: Plua_State; msg: String): PAnsiChar;
+begin
+  lua_getglobal(L, 'debug');
+  result := '';
+  if lua_istable(L, -1) then begin
+     lua_getfield(L, -1, 'traceback');
+     if lua_isfunction(L, -1) then begin
+        lua_pushstring(L, msg);
+        lua_call(L, 1, 1);
+        result := lua_tostring(L, -1);
+     end;
+     lua_pop(L, 1);
+  end;
+  lua_pop(L, 1);
+end;
 
 procedure LuaError(L: Plua_State; text: String; err:String);
 begin
@@ -178,14 +194,13 @@ begin
          ShowMessage('LUA Error:'+#10#13+err+#10#13+text)
      else
         writeln('LUA Error:'+#10#13+err+#10#13+text);
-     luaL_error(L, 'VCLua Error');
-     // Halt;
+     luaL_error(L, LuaTraceback(L,'VCLua Error'));
 end;
 
 procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
 begin
   ShowMessage(Format('LCL Error:'+#13+'calling %s.%s got %s:'+#13+err, [className, methodName, text]));
-  luaL_error(L, 'LCL Error');
+  luaL_error(L, LuaTraceback(L,'LCL Error'));
 end;
 
 procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo);
