@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TListBox; pti: PTypeInfo = nil); over
 
 type
     TLuaListBox = class(TListBox)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomListBoxFuncs: TLuaVmt;
@@ -893,7 +892,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lListBox := TLuaListBox.Create(Parent);
 	lListBox.Parent := TWinControl(Parent);
-	lListBox.LuaCtl := TVCLuaControl.Create(lListBox as TComponent,L,nil,'TCustomListBox');
 	CreateTableForKnownType(L,'TCustomListBox',lListBox);
 	InitControl(L,lListBox,Name);
 	Result := 1;

@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TFileNameEdit; pti: PTypeInfo = nil);
 
 type
     TLuaFileNameEdit = class(TFileNameEdit)
-        LuaCtl: TVCLuaControl;
     end;
 
 
@@ -45,7 +44,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFileNameEdit := TLuaFileNameEdit.Create(Parent);
 	lFileNameEdit.Parent := TWinControl(Parent);
-	lFileNameEdit.LuaCtl := TVCLuaControl.Create(lFileNameEdit as TComponent,L,nil,'TCustomEditButton');
 	CreateTableForKnownType(L,'TCustomEditButton',lFileNameEdit);
 	InitControl(L,lFileNameEdit,Name);
 	Result := 1;

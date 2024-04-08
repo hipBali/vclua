@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TTimeEdit; pti: PTypeInfo = nil); ove
 
 type
     TLuaTimeEdit = class(TTimeEdit)
-        LuaCtl: TVCLuaControl;
     end;
 
 
@@ -45,7 +44,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTimeEdit := TLuaTimeEdit.Create(Parent);
 	lTimeEdit.Parent := TWinControl(Parent);
-	lTimeEdit.LuaCtl := TVCLuaControl.Create(lTimeEdit as TComponent,L,nil,'TCustomEditButton');
 	CreateTableForKnownType(L,'TCustomEditButton',lTimeEdit);
 	InitControl(L,lTimeEdit,Name);
 	Result := 1;

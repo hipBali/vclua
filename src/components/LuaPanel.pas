@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TPanel; pti: PTypeInfo = nil); overlo
 
 type
     TLuaPanel = class(TPanel)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomPanelFuncs: TLuaVmt;
@@ -230,7 +229,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPanel := TLuaPanel.Create(Parent);
 	lPanel.Parent := TWinControl(Parent);
-	lPanel.LuaCtl := TVCLuaControl.Create(lPanel as TComponent,L,nil,'TCustomPanel');
 	CreateTableForKnownType(L,'TCustomPanel',lPanel);
 	InitControl(L,lPanel,Name);
 	Result := 1;

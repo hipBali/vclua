@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TComboBox; pti: PTypeInfo = nil); ove
 
 type
     TLuaComboBox = class(TComboBox)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomComboBoxFuncs: TLuaVmt;
@@ -845,7 +844,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lComboBox := TLuaComboBox.Create(Parent);
 	lComboBox.Parent := TWinControl(Parent);
-	lComboBox.LuaCtl := TVCLuaControl.Create(lComboBox as TComponent,L,nil,'TCustomComboBox');
 	CreateTableForKnownType(L,'TCustomComboBox',lComboBox);
 	InitControl(L,lComboBox,Name);
 	Result := 1;

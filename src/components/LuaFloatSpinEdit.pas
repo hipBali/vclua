@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TFloatSpinEdit; pti: PTypeInfo = nil)
 
 type
     TLuaFloatSpinEdit = class(TFloatSpinEdit)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomFloatSpinEditFuncs: TLuaVmt;
@@ -319,7 +318,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFloatSpinEdit := TLuaFloatSpinEdit.Create(Parent);
 	lFloatSpinEdit.Parent := TWinControl(Parent);
-	lFloatSpinEdit.LuaCtl := TVCLuaControl.Create(lFloatSpinEdit as TComponent,L,nil,'TCustomFloatSpinEdit');
 	CreateTableForKnownType(L,'TCustomFloatSpinEdit',lFloatSpinEdit);
 	InitControl(L,lFloatSpinEdit,Name);
 	Result := 1;

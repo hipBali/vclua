@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TSplitter; pti: PTypeInfo = nil); ove
 
 type
     TLuaSplitter = class(TSplitter)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomSplitterFuncs: TLuaVmt;
@@ -347,7 +346,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSplitter := TLuaSplitter.Create(Parent);
 	lSplitter.Parent := TWinControl(Parent);
-	lSplitter.LuaCtl := TVCLuaControl.Create(lSplitter as TComponent,L,nil,'TCustomSplitter');
 	CreateTableForKnownType(L,'TCustomSplitter',lSplitter);
 	InitControl(L,lSplitter,Name);
 	Result := 1;

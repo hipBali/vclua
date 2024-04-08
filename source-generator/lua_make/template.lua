@@ -24,13 +24,14 @@ Uses LuaProxy, LuaObject, LuaHelper, SysUtils#IMPLREF;
 end.
 ]]
 
+-- reasons for TLua#CNAME to exist:
+-- 1) user can see from ClassName that the object was user-created, not created somewhere inside LCL
 VCLua_CDEF_INTFCE = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
 
 type
     TLua#CNAME = class(T#CNAME)
-        LuaCtl: TVCLuaControl;
     end;
 ]]
 
@@ -40,7 +41,6 @@ procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overl
 
 type
     TLua#CNAME = class(T#CNAME)
-	  LuaCtl: TVCLuaControl;
 	  published
 	    property Canvas;
     end;
@@ -119,7 +119,6 @@ end;
 
 VCLua_CDEF_SUFFIX = [[
 	l#CNAME.#PARENT := #PARENTCLASS(Parent);
-	l#CNAME.LuaCtl := TVCLuaControl.Create(l#CNAME as TComponent,L,nil,'#CSRC');
 	CreateTableForKnownType(L,'#CSRC',l#CNAME);
 	InitControl(L,l#CNAME,Name);
 	Result := 1;

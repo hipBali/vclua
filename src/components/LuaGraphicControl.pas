@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TGraphicControl; pti: PTypeInfo = nil
 
 type
     TLuaGraphicControl = class(TGraphicControl)
-        LuaCtl: TVCLuaControl;
     end;
 var
     GraphicControlFuncs: TLuaVmt;
@@ -64,7 +63,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lGraphicControl := TLuaGraphicControl.Create(Parent);
 	lGraphicControl.Parent := TWinControl(Parent);
-	lGraphicControl.LuaCtl := TVCLuaControl.Create(lGraphicControl as TComponent,L,nil,'TGraphicControl');
 	CreateTableForKnownType(L,'TGraphicControl',lGraphicControl);
 	InitControl(L,lGraphicControl,Name);
 	Result := 1;

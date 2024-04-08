@@ -33,7 +33,6 @@ procedure lua_push(L: Plua_State; const v: TListView; pti: PTypeInfo = nil); ove
 
 type
     TLuaListView = class(TListView)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomListViewFuncs: TLuaVmt;
@@ -1766,7 +1765,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lListView := TLuaListView.Create(Parent);
 	lListView.Parent := TWinControl(Parent);
-	lListView.LuaCtl := TVCLuaControl.Create(lListView as TComponent,L,nil,'TCustomListView');
 	CreateTableForKnownType(L,'TCustomListView',lListView);
 	InitControl(L,lListView,Name);
 	Result := 1;

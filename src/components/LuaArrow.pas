@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TArrow; pti: PTypeInfo = nil); overlo
 
 type
     TLuaArrow = class(TArrow)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ArrowFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lArrow := TLuaArrow.Create(Parent);
 	lArrow.Parent := TWinControl(Parent);
-	lArrow.LuaCtl := TVCLuaControl.Create(lArrow as TComponent,L,nil,'TArrow');
 	CreateTableForKnownType(L,'TArrow',lArrow);
 	InitControl(L,lArrow,Name);
 	Result := 1;

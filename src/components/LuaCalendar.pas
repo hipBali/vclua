@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TCalendar; pti: PTypeInfo = nil); ove
 
 type
     TLuaCalendar = class(TCalendar)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomCalendarFuncs: TLuaVmt;
@@ -242,7 +241,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCalendar := TLuaCalendar.Create(Parent);
 	lCalendar.Parent := TWinControl(Parent);
-	lCalendar.LuaCtl := TVCLuaControl.Create(lCalendar as TComponent,L,nil,'TCustomCalendar');
 	CreateTableForKnownType(L,'TCustomCalendar',lCalendar);
 	InitControl(L,lCalendar,Name);
 	Result := 1;

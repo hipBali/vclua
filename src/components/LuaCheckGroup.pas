@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TCheckGroup; pti: PTypeInfo = nil); o
 
 type
     TLuaCheckGroup = class(TCheckGroup)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomCheckGroupFuncs: TLuaVmt;
@@ -262,7 +261,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCheckGroup := TLuaCheckGroup.Create(Parent);
 	lCheckGroup.Parent := TWinControl(Parent);
-	lCheckGroup.LuaCtl := TVCLuaControl.Create(lCheckGroup as TComponent,L,nil,'TCustomCheckGroup');
 	CreateTableForKnownType(L,'TCustomCheckGroup',lCheckGroup);
 	InitControl(L,lCheckGroup,Name);
 	Result := 1;

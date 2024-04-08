@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TRadioButton; pti: PTypeInfo = nil); 
 
 type
     TLuaRadioButton = class(TRadioButton)
-        LuaCtl: TVCLuaControl;
     end;
 var
     RadioButtonFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lRadioButton := TLuaRadioButton.Create(Parent);
 	lRadioButton.Parent := TWinControl(Parent);
-	lRadioButton.LuaCtl := TVCLuaControl.Create(lRadioButton as TComponent,L,nil,'TRadioButton');
 	CreateTableForKnownType(L,'TRadioButton',lRadioButton);
 	InitControl(L,lRadioButton,Name);
 	Result := 1;

@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TDateTimePicker; pti: PTypeInfo = nil
 
 type
     TLuaDateTimePicker = class(TDateTimePicker)
-        LuaCtl: TVCLuaControl;
     end;
 var
     DateTimePickerFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDateTimePicker := TLuaDateTimePicker.Create(Parent);
 	lDateTimePicker.Parent := TWinControl(Parent);
-	lDateTimePicker.LuaCtl := TVCLuaControl.Create(lDateTimePicker as TComponent,L,nil,'TDateTimePicker');
 	CreateTableForKnownType(L,'TDateTimePicker',lDateTimePicker);
 	InitControl(L,lDateTimePicker,Name);
 	Result := 1;

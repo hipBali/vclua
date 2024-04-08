@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TUpDown; pti: PTypeInfo = nil); overl
 
 type
     TLuaUpDown = class(TUpDown)
-        LuaCtl: TVCLuaControl;
     end;
 var
     UpDownFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lUpDown := TLuaUpDown.Create(Parent);
 	lUpDown.Parent := TWinControl(Parent);
-	lUpDown.LuaCtl := TVCLuaControl.Create(lUpDown as TComponent,L,nil,'TUpDown');
 	CreateTableForKnownType(L,'TUpDown',lUpDown);
 	InitControl(L,lUpDown,Name);
 	Result := 1;

@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TLabeledEdit; pti: PTypeInfo = nil); 
 
 type
     TLuaLabeledEdit = class(TLabeledEdit)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomLabeledEditFuncs: TLuaVmt;
@@ -118,7 +117,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lLabeledEdit := TLuaLabeledEdit.Create(Parent);
 	lLabeledEdit.Parent := TWinControl(Parent);
-	lLabeledEdit.LuaCtl := TVCLuaControl.Create(lLabeledEdit as TComponent,L,nil,'TCustomLabeledEdit');
 	CreateTableForKnownType(L,'TCustomLabeledEdit',lLabeledEdit);
 	InitControl(L,lLabeledEdit,Name);
 	Result := 1;

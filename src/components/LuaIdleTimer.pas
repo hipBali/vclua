@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TIdleTimer; pti: PTypeInfo = nil); ov
 
 type
     TLuaIdleTimer = class(TIdleTimer)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomIdleTimerFuncs: TLuaVmt;
@@ -166,7 +165,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lIdleTimer := TLuaIdleTimer.Create(Parent);
 	// := TWinControl(Parent);
-	lIdleTimer.LuaCtl := TVCLuaControl.Create(lIdleTimer as TComponent,L,nil,'TCustomIdleTimer');
 	CreateTableForKnownType(L,'TCustomIdleTimer',lIdleTimer);
 	InitControl(L,lIdleTimer,Name);
 	Result := 1;

@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TStaticText; pti: PTypeInfo = nil); o
 
 type
     TLuaStaticText = class(TStaticText)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomStaticTextFuncs: TLuaVmt;
@@ -198,7 +197,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStaticText := TLuaStaticText.Create(Parent);
 	lStaticText.Parent := TWinControl(Parent);
-	lStaticText.LuaCtl := TVCLuaControl.Create(lStaticText as TComponent,L,nil,'TCustomStaticText');
 	CreateTableForKnownType(L,'TCustomStaticText',lStaticText);
 	InitControl(L,lStaticText,Name);
 	Result := 1;

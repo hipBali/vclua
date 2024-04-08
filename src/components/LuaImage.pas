@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TImage; pti: PTypeInfo = nil); overlo
 
 type
     TLuaImage = class(TImage)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomImageFuncs: TLuaVmt;
@@ -426,7 +425,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lImage := TLuaImage.Create(Parent);
 	lImage.Parent := TWinControl(Parent);
-	lImage.LuaCtl := TVCLuaControl.Create(lImage as TComponent,L,nil,'TCustomImage');
 	CreateTableForKnownType(L,'TCustomImage',lImage);
 	InitControl(L,lImage,Name);
 	Result := 1;

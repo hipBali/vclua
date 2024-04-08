@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TEdit; pti: PTypeInfo = nil); overloa
 
 type
     TLuaEdit = class(TEdit)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomEditFuncs: TLuaVmt;
@@ -650,7 +649,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lEdit := TLuaEdit.Create(Parent);
 	lEdit.Parent := TWinControl(Parent);
-	lEdit.LuaCtl := TVCLuaControl.Create(lEdit as TComponent,L,nil,'TCustomEdit');
 	CreateTableForKnownType(L,'TCustomEdit',lEdit);
 	InitControl(L,lEdit,Name);
 	Result := 1;

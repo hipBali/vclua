@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TCheckBox; pti: PTypeInfo = nil); ove
 
 type
     TLuaCheckBox = class(TCheckBox)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomCheckBoxFuncs: TLuaVmt;
@@ -166,7 +165,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCheckBox := TLuaCheckBox.Create(Parent);
 	lCheckBox.Parent := TWinControl(Parent);
-	lCheckBox.LuaCtl := TVCLuaControl.Create(lCheckBox as TComponent,L,nil,'TCustomCheckBox');
 	CreateTableForKnownType(L,'TCustomCheckBox',lCheckBox);
 	InitControl(L,lCheckBox,Name);
 	Result := 1;

@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TCoolBar; pti: PTypeInfo = nil); over
 
 type
     TLuaCoolBar = class(TCoolBar)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomCoolBarFuncs: TLuaVmt;
@@ -600,7 +599,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCoolBar := TLuaCoolBar.Create(Parent);
 	lCoolBar.Parent := TWinControl(Parent);
-	lCoolBar.LuaCtl := TVCLuaControl.Create(lCoolBar as TComponent,L,nil,'TCustomCoolBar');
 	CreateTableForKnownType(L,'TCustomCoolBar',lCoolBar);
 	InitControl(L,lCoolBar,Name);
 	Result := 1;

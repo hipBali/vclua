@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TNotebook; pti: PTypeInfo = nil); ove
 
 type
     TLuaNotebook = class(TNotebook)
-        LuaCtl: TVCLuaControl;
     end;
 var
     NotebookFuncs: TLuaVmt;
@@ -141,7 +140,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lNotebook := TLuaNotebook.Create(Parent);
 	lNotebook.Parent := TWinControl(Parent);
-	lNotebook.LuaCtl := TVCLuaControl.Create(lNotebook as TComponent,L,nil,'TNotebook');
 	CreateTableForKnownType(L,'TNotebook',lNotebook);
 	InitControl(L,lNotebook,Name);
 	Result := 1;

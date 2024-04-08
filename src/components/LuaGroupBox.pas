@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TGroupBox; pti: PTypeInfo = nil); ove
 
 type
     TLuaGroupBox = class(TGroupBox)
-        LuaCtl: TVCLuaControl;
     end;
 var
     GroupBoxFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lGroupBox := TLuaGroupBox.Create(Parent);
 	lGroupBox.Parent := TWinControl(Parent);
-	lGroupBox.LuaCtl := TVCLuaControl.Create(lGroupBox as TComponent,L,nil,'TGroupBox');
 	CreateTableForKnownType(L,'TGroupBox',lGroupBox);
 	InitControl(L,lGroupBox,Name);
 	Result := 1;

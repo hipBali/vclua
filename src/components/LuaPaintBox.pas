@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TPaintBox; pti: PTypeInfo = nil); ove
 
 type
     TLuaPaintBox = class(TPaintBox)
-        LuaCtl: TVCLuaControl;
     end;
 var
     PaintBoxFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPaintBox := TLuaPaintBox.Create(Parent);
 	lPaintBox.Parent := TWinControl(Parent);
-	lPaintBox.LuaCtl := TVCLuaControl.Create(lPaintBox as TComponent,L,nil,'TPaintBox');
 	CreateTableForKnownType(L,'TPaintBox',lPaintBox);
 	InitControl(L,lPaintBox,Name);
 	Result := 1;

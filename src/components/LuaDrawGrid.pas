@@ -24,7 +24,6 @@ procedure lua_push(L: Plua_State; const v: TDrawGrid; pti: PTypeInfo = nil); ove
 
 type
     TLuaDrawGrid = class(TDrawGrid)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomDrawGridFuncs: TLuaVmt;
@@ -1464,7 +1463,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDrawGrid := TLuaDrawGrid.Create(Parent);
 	lDrawGrid.Parent := TWinControl(Parent);
-	lDrawGrid.LuaCtl := TVCLuaControl.Create(lDrawGrid as TComponent,L,nil,'TCustomDrawGrid');
 	CreateTableForKnownType(L,'TCustomDrawGrid',lDrawGrid);
 	InitControl(L,lDrawGrid,Name);
 	Result := 1;

@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TToolButton; pti: PTypeInfo = nil); o
 
 type
     TLuaToolButton = class(TToolButton)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ToolButtonFuncs: TLuaVmt;
@@ -26,7 +25,6 @@ procedure lua_push(L: Plua_State; const v: TToolBar; pti: PTypeInfo = nil); over
 
 type
     TLuaToolBar = class(TToolBar)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ToolBarFuncs: TLuaVmt;
@@ -391,7 +389,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToolButton := TLuaToolButton.Create(Parent);
 	lToolButton.Parent := TWinControl(Parent);
-	lToolButton.LuaCtl := TVCLuaControl.Create(lToolButton as TComponent,L,nil,'TToolButton');
 	CreateTableForKnownType(L,'TToolButton',lToolButton);
 	InitControl(L,lToolButton,Name);
 	Result := 1;
@@ -410,7 +407,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToolBar := TLuaToolBar.Create(Parent);
 	lToolBar.Parent := TWinControl(Parent);
-	lToolBar.LuaCtl := TVCLuaControl.Create(lToolBar as TComponent,L,nil,'TToolBar');
 	CreateTableForKnownType(L,'TToolBar',lToolBar);
 	InitControl(L,lToolBar,Name);
 	Result := 1;

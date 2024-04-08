@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TForm; pti: PTypeInfo = nil); overloa
 
 type
     TLuaForm = class(TForm)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomFormFuncs: TLuaVmt;
@@ -1577,7 +1576,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lForm := TLuaForm.CreateNew(Parent);
 	lForm.Parent := TWinControl(Parent);
-	lForm.LuaCtl := TVCLuaControl.Create(lForm as TComponent,L,nil,'TCustomForm');
 	CreateTableForKnownType(L,'TCustomForm',lForm);
 	InitControl(L,lForm,Name);
 	Result := 1;

@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TMenu; pti: PTypeInfo = nil); overloa
 
 type
     TLuaMenu = class(TMenu)
-        LuaCtl: TVCLuaControl;
     end;
 var
     MenuFuncs: TLuaVmt;
@@ -26,7 +25,6 @@ procedure lua_push(L: Plua_State; const v: TPopupMenu; pti: PTypeInfo = nil); ov
 
 type
     TLuaPopupMenu = class(TPopupMenu)
-        LuaCtl: TVCLuaControl;
     end;
 var
     PopupMenuFuncs: TLuaVmt;
@@ -37,7 +35,6 @@ procedure lua_push(L: Plua_State; const v: TMenuItem; pti: PTypeInfo = nil); ove
 
 type
     TLuaMenuItem = class(TMenuItem)
-        LuaCtl: TVCLuaControl;
     end;
 var
     MenuItemFuncs: TLuaVmt;
@@ -48,7 +45,6 @@ procedure lua_push(L: Plua_State; const v: TMainMenu; pti: PTypeInfo = nil); ove
 
 type
     TLuaMainMenu = class(TMainMenu)
-        LuaCtl: TVCLuaControl;
     end;
 var
     MainMenuFuncs: TLuaVmt;
@@ -1418,7 +1414,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMenu := TLuaMenu.Create(Parent);
 	lMenu.Parent := TWinControl(Parent);
-	lMenu.LuaCtl := TVCLuaControl.Create(lMenu as TComponent,L,nil,'TMenu');
 	CreateTableForKnownType(L,'TMenu',lMenu);
 	InitControl(L,lMenu,Name);
 	Result := 1;
@@ -1437,7 +1432,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPopupMenu := TLuaPopupMenu.Create(Parent);
 	lPopupMenu.Parent := TWinControl(Parent);
-	lPopupMenu.LuaCtl := TVCLuaControl.Create(lPopupMenu as TComponent,L,nil,'TPopupMenu');
 	CreateTableForKnownType(L,'TPopupMenu',lPopupMenu);
 	InitControl(L,lPopupMenu,Name);
 	Result := 1;
@@ -1456,7 +1450,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMenuItem := TLuaMenuItem.Create(Parent);
 	// := TWinControl(Parent);
-	lMenuItem.LuaCtl := TVCLuaControl.Create(lMenuItem as TComponent,L,nil,'TMenuItem');
 	CreateTableForKnownType(L,'TMenuItem',lMenuItem);
 	InitControl(L,lMenuItem,Name);
 	Result := 1;
@@ -1475,7 +1468,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMainMenu := TLuaMainMenu.Create(Parent);
 	lMainMenu.Parent := TWinControl(Parent);
-	lMainMenu.LuaCtl := TVCLuaControl.Create(lMainMenu as TComponent,L,nil,'TMainMenu');
 	CreateTableForKnownType(L,'TMainMenu',lMainMenu);
 	InitControl(L,lMainMenu,Name);
 	Result := 1;

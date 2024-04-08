@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TTIPropertyGrid; pti: PTypeInfo = nil
 
 type
     TLuaTIPropertyGrid = class(TTIPropertyGrid)
-        LuaCtl: TVCLuaControl;
     end;
 var
     TIPropertyGridFuncs: TLuaVmt;
@@ -44,7 +43,6 @@ procedure lua_push(L: Plua_State; const v: TTIGrid; pti: PTypeInfo = nil); overl
 
 type
     TLuaTIGrid = class(TTIGrid)
-        LuaCtl: TVCLuaControl;
     end;
 var
     TIGridFuncs: TLuaVmt;
@@ -883,7 +881,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTIPropertyGrid := TLuaTIPropertyGrid.Create(Parent);
 	lTIPropertyGrid.Parent := TWinControl(Parent);
-	lTIPropertyGrid.LuaCtl := TVCLuaControl.Create(lTIPropertyGrid as TComponent,L,nil,'TTIPropertyGrid');
 	CreateTableForKnownType(L,'TTIPropertyGrid',lTIPropertyGrid);
 	InitControl(L,lTIPropertyGrid,Name);
 	Result := 1;
@@ -912,7 +909,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTIGrid := TLuaTIGrid.Create(Parent);
 	lTIGrid.Parent := TWinControl(Parent);
-	lTIGrid.LuaCtl := TVCLuaControl.Create(lTIGrid as TComponent,L,nil,'TTIGrid');
 	CreateTableForKnownType(L,'TTIGrid',lTIGrid);
 	InitControl(L,lTIGrid,Name);
 	Result := 1;

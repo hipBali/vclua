@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TCustomControl; pti: PTypeInfo = nil)
 
 type
     TLuaCustomControl = class(TCustomControl)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomControlFuncs: TLuaVmt;
@@ -80,7 +79,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCustomControl := TLuaCustomControl.Create(Parent);
 	lCustomControl.Parent := TWinControl(Parent);
-	lCustomControl.LuaCtl := TVCLuaControl.Create(lCustomControl as TComponent,L,nil,'TCustomControl');
 	CreateTableForKnownType(L,'TCustomControl',lCustomControl);
 	InitControl(L,lCustomControl,Name);
 	Result := 1;

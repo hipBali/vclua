@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TRadioGroup; pti: PTypeInfo = nil); o
 
 type
     TLuaRadioGroup = class(TRadioGroup)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomRadioGroupFuncs: TLuaVmt;
@@ -291,7 +290,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lRadioGroup := TLuaRadioGroup.Create(Parent);
 	lRadioGroup.Parent := TWinControl(Parent);
-	lRadioGroup.LuaCtl := TVCLuaControl.Create(lRadioGroup as TComponent,L,nil,'TCustomRadioGroup');
 	CreateTableForKnownType(L,'TCustomRadioGroup',lRadioGroup);
 	InitControl(L,lRadioGroup,Name);
 	Result := 1;

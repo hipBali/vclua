@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TTrackBar; pti: PTypeInfo = nil); ove
 
 type
     TLuaTrackBar = class(TTrackBar)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomTrackBarFuncs: TLuaVmt;
@@ -65,7 +64,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTrackBar := TLuaTrackBar.Create(Parent);
 	lTrackBar.Parent := TWinControl(Parent);
-	lTrackBar.LuaCtl := TVCLuaControl.Create(lTrackBar as TComponent,L,nil,'TCustomTrackBar');
 	CreateTableForKnownType(L,'TCustomTrackBar',lTrackBar);
 	InitControl(L,lTrackBar,Name);
 	Result := 1;

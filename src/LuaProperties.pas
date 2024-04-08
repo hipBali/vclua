@@ -314,9 +314,7 @@ end;
 procedure SetProperty(L:Plua_State; Index:Integer; Comp:TObject; PInfo:PPropInfo; TempPti: PTypeInfo = nil);
 Var
   LuaFuncPInfo: PPropInfo;
-  Str: shortstring;
   tm: TMethod;
-  cc: TVCLuaControl;
   gotValue:boolean = false;
   vo:TObject;
   ordValue: Int64;
@@ -327,28 +325,10 @@ begin
   case pti^.Kind of
     tkMethod:
       begin
-        Str := PInfo^.Name;
-        if not (Comp is TComponent) then
-           LuaError(L, 'Can only set methods on TComponent descendants!', string(Comp.ClassName) + ' isn''t a TComponent, propname ' + lua_tostring(L,index-1));
-        // omg watchout!
-        cc := GetLuaControl(Comp);
-        // OnXxxx_Function
-        LuaFuncPInfo := GetPropInfo(cc, Str+'_Function');
-        if LuaFuncPInfo = nil then
-           LuaError(L,'Method not found!', lua_tostring(L,index-1));
         if not lua_isfunction(L,index) then
            LuaTypeError(L, index, pti);
-        // store luafunc in component by LuaCtl
-        lua_pushvalue(L, index);
-        SetOrdProp(cc, LuaFuncPInfo, luaL_ref(L, LUA_REGISTRYINDEX));
-        // setup luaeventhandler
-        // OnXxxx -->OnLuaXxxx
-        insert('Lua',Str,3);
-        tm.Code := cc.MethodAddress(Str);
-        if tm.Code = nil then
-           LuaError(L,'Method not supported!', Str);
-        tm.Data := Pointer(cc);
-        SetMethodProp(Comp, PInfo, tm);
+        LuaError(L,'Method not supported!', PInfo^.Name);
+        //SetMethodProp(Comp, PInfo, tm);
       end;
     tkSet:
       begin
@@ -551,9 +531,7 @@ var
   ref:Integer = -1;
 begin
   m := GetMethodProp(o, PInfo);
-  if TObject(m.Data) is TVCLuaControl then
-     ref := GetOrdProp(TVCLuaControl(m.Data), PInfo.Name + '_Function')
-  else if TObject(m.Data) is TLuaEvent then
+  if TObject(m.Data) is TLuaEvent then
      ref := TLuaEvent(m.Data).ref;
   lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 end;

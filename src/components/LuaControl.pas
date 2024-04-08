@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TControl; pti: PTypeInfo = nil); over
 
 type
     TLuaControl = class(TControl)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ControlFuncs: TLuaVmt;
@@ -3321,7 +3320,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lControl := TLuaControl.Create(Parent);
 	lControl.Parent := TWinControl(Parent);
-	lControl.LuaCtl := TVCLuaControl.Create(lControl as TComponent,L,nil,'TControl');
 	CreateTableForKnownType(L,'TControl',lControl);
 	InitControl(L,lControl,Name);
 	Result := 1;

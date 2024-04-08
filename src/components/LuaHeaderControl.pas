@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: THeaderControl; pti: PTypeInfo = nil)
 
 type
     TLuaHeaderControl = class(THeaderControl)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomHeaderControlFuncs: TLuaVmt;
@@ -217,7 +216,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lHeaderControl := TLuaHeaderControl.Create(Parent);
 	lHeaderControl.Parent := TWinControl(Parent);
-	lHeaderControl.LuaCtl := TVCLuaControl.Create(lHeaderControl as TComponent,L,nil,'TCustomHeaderControl');
 	CreateTableForKnownType(L,'TCustomHeaderControl',lHeaderControl);
 	InitControl(L,lHeaderControl,Name);
 	Result := 1;

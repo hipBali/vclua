@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TShape; pti: PTypeInfo = nil); overlo
 
 type
     TLuaShape = class(TShape)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ShapeFuncs: TLuaVmt;
@@ -70,7 +69,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lShape := TLuaShape.Create(Parent);
 	lShape.Parent := TWinControl(Parent);
-	lShape.LuaCtl := TVCLuaControl.Create(lShape as TComponent,L,nil,'TShape');
 	CreateTableForKnownType(L,'TShape',lShape);
 	InitControl(L,lShape,Name);
 	Result := 1;

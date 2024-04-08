@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TProgressBar; pti: PTypeInfo = nil); 
 
 type
     TLuaProgressBar = class(TProgressBar)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomProgressBarFuncs: TLuaVmt;
@@ -326,7 +325,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lProgressBar := TLuaProgressBar.Create(Parent);
 	lProgressBar.Parent := TWinControl(Parent);
-	lProgressBar.LuaCtl := TVCLuaControl.Create(lProgressBar as TComponent,L,nil,'TCustomProgressBar');
 	CreateTableForKnownType(L,'TCustomProgressBar',lProgressBar);
 	InitControl(L,lProgressBar,Name);
 	Result := 1;

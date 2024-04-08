@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TBoundLabel; pti: PTypeInfo = nil); o
 
 type
     TLuaBoundLabel = class(TBoundLabel)
-        LuaCtl: TVCLuaControl;
     end;
 var
     BoundLabelFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBoundLabel := TLuaBoundLabel.Create(Parent);
 	lBoundLabel.Parent := TWinControl(Parent);
-	lBoundLabel.LuaCtl := TVCLuaControl.Create(lBoundLabel as TComponent,L,nil,'TBoundLabel');
 	CreateTableForKnownType(L,'TBoundLabel',lBoundLabel);
 	InitControl(L,lBoundLabel,Name);
 	Result := 1;

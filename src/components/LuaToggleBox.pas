@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TToggleBox; pti: PTypeInfo = nil); ov
 
 type
     TLuaToggleBox = class(TToggleBox)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ToggleBoxFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToggleBox := TLuaToggleBox.Create(Parent);
 	lToggleBox.Parent := TWinControl(Parent);
-	lToggleBox.LuaCtl := TVCLuaControl.Create(lToggleBox as TComponent,L,nil,'TToggleBox');
 	CreateTableForKnownType(L,'TToggleBox',lToggleBox);
 	InitControl(L,lToggleBox,Name);
 	Result := 1;

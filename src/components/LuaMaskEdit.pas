@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TMaskEdit; pti: PTypeInfo = nil); ove
 
 type
     TLuaMaskEdit = class(TMaskEdit)
-        LuaCtl: TVCLuaControl;
     end;
 var
     MaskEditFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMaskEdit := TLuaMaskEdit.Create(Parent);
 	lMaskEdit.Parent := TWinControl(Parent);
-	lMaskEdit.LuaCtl := TVCLuaControl.Create(lMaskEdit as TComponent,L,nil,'TMaskEdit');
 	CreateTableForKnownType(L,'TMaskEdit',lMaskEdit);
 	InitControl(L,lMaskEdit,Name);
 	Result := 1;

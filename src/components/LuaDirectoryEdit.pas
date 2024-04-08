@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TDirectoryEdit; pti: PTypeInfo = nil)
 
 type
     TLuaDirectoryEdit = class(TDirectoryEdit)
-        LuaCtl: TVCLuaControl;
     end;
 
 
@@ -45,7 +44,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDirectoryEdit := TLuaDirectoryEdit.Create(Parent);
 	lDirectoryEdit.Parent := TWinControl(Parent);
-	lDirectoryEdit.LuaCtl := TVCLuaControl.Create(lDirectoryEdit as TComponent,L,nil,'TCustomEditButton');
 	CreateTableForKnownType(L,'TCustomEditButton',lDirectoryEdit);
 	InitControl(L,lDirectoryEdit,Name);
 	Result := 1;

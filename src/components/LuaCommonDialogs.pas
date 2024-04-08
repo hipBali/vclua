@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TColorButton; pti: PTypeInfo = nil); 
 
 type
     TLuaColorButton = class(TColorButton)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ColorButtonFuncs: TLuaVmt;
@@ -26,7 +25,6 @@ procedure lua_push(L: Plua_State; const v: TOpenDialog; pti: PTypeInfo = nil); o
 
 type
     TLuaOpenDialog = class(TOpenDialog)
-        LuaCtl: TVCLuaControl;
     end;
 var
     OpenDialogFuncs: TLuaVmt;
@@ -37,7 +35,6 @@ procedure lua_push(L: Plua_State; const v: TSaveDialog; pti: PTypeInfo = nil); o
 
 type
     TLuaSaveDialog = class(TSaveDialog)
-        LuaCtl: TVCLuaControl;
     end;
 var
     SaveDialogFuncs: TLuaVmt;
@@ -48,7 +45,6 @@ procedure lua_push(L: Plua_State; const v: TSelectDirectoryDialog; pti: PTypeInf
 
 type
     TLuaSelectDirectoryDialog = class(TSelectDirectoryDialog)
-        LuaCtl: TVCLuaControl;
     end;
 var
     SelectDirectoryDialogFuncs: TLuaVmt;
@@ -59,7 +55,6 @@ procedure lua_push(L: Plua_State; const v: TColorDialog; pti: PTypeInfo = nil); 
 
 type
     TLuaColorDialog = class(TColorDialog)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ColorDialogFuncs: TLuaVmt;
@@ -70,7 +65,6 @@ procedure lua_push(L: Plua_State; const v: TFontDialog; pti: PTypeInfo = nil); o
 
 type
     TLuaFontDialog = class(TFontDialog)
-        LuaCtl: TVCLuaControl;
     end;
 var
     FontDialogFuncs: TLuaVmt;
@@ -81,7 +75,6 @@ procedure lua_push(L: Plua_State; const v: TFindDialog; pti: PTypeInfo = nil); o
 
 type
     TLuaFindDialog = class(TFindDialog)
-        LuaCtl: TVCLuaControl;
     end;
 var
     FindDialogFuncs: TLuaVmt;
@@ -92,7 +85,6 @@ procedure lua_push(L: Plua_State; const v: TReplaceDialog; pti: PTypeInfo = nil)
 
 type
     TLuaReplaceDialog = class(TReplaceDialog)
-        LuaCtl: TVCLuaControl;
     end;
 
 
@@ -627,7 +619,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorButton := TLuaColorButton.Create(Parent);
 	lColorButton.Parent := TWinControl(Parent);
-	lColorButton.LuaCtl := TVCLuaControl.Create(lColorButton as TComponent,L,nil,'TColorButton');
 	CreateTableForKnownType(L,'TColorButton',lColorButton);
 	InitControl(L,lColorButton,Name);
 	Result := 1;
@@ -646,7 +637,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lOpenDialog := TLuaOpenDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lOpenDialog.LuaCtl := TVCLuaControl.Create(lOpenDialog as TComponent,L,nil,'TOpenDialog');
 	CreateTableForKnownType(L,'TOpenDialog',lOpenDialog);
 	InitControl(L,lOpenDialog,Name);
 	Result := 1;
@@ -665,7 +655,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSaveDialog := TLuaSaveDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lSaveDialog.LuaCtl := TVCLuaControl.Create(lSaveDialog as TComponent,L,nil,'TSaveDialog');
 	CreateTableForKnownType(L,'TSaveDialog',lSaveDialog);
 	InitControl(L,lSaveDialog,Name);
 	Result := 1;
@@ -684,7 +673,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSelectDirectoryDialog := TLuaSelectDirectoryDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lSelectDirectoryDialog.LuaCtl := TVCLuaControl.Create(lSelectDirectoryDialog as TComponent,L,nil,'TSelectDirectoryDialog');
 	CreateTableForKnownType(L,'TSelectDirectoryDialog',lSelectDirectoryDialog);
 	InitControl(L,lSelectDirectoryDialog,Name);
 	Result := 1;
@@ -703,7 +691,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorDialog := TLuaColorDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lColorDialog.LuaCtl := TVCLuaControl.Create(lColorDialog as TComponent,L,nil,'TColorDialog');
 	CreateTableForKnownType(L,'TColorDialog',lColorDialog);
 	InitControl(L,lColorDialog,Name);
 	Result := 1;
@@ -722,7 +709,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFontDialog := TLuaFontDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lFontDialog.LuaCtl := TVCLuaControl.Create(lFontDialog as TComponent,L,nil,'TFontDialog');
 	CreateTableForKnownType(L,'TFontDialog',lFontDialog);
 	InitControl(L,lFontDialog,Name);
 	Result := 1;
@@ -741,7 +727,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFindDialog := TLuaFindDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lFindDialog.LuaCtl := TVCLuaControl.Create(lFindDialog as TComponent,L,nil,'TFindDialog');
 	CreateTableForKnownType(L,'TFindDialog',lFindDialog);
 	InitControl(L,lFindDialog,Name);
 	Result := 1;
@@ -760,7 +745,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lReplaceDialog := TLuaReplaceDialog.Create(Parent);
 	// := TWinControl(Parent);
-	lReplaceDialog.LuaCtl := TVCLuaControl.Create(lReplaceDialog as TComponent,L,nil,'TFindDialog');
 	CreateTableForKnownType(L,'TFindDialog',lReplaceDialog);
 	InitControl(L,lReplaceDialog,Name);
 	Result := 1;

@@ -33,7 +33,6 @@ procedure lua_push(L: Plua_State; const v: TStringGrid; pti: PTypeInfo = nil); o
 
 type
     TLuaStringGrid = class(TStringGrid)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomStringGridFuncs: TLuaVmt;
@@ -829,7 +828,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStringGrid := TLuaStringGrid.Create(Parent);
 	lStringGrid.Parent := TWinControl(Parent);
-	lStringGrid.LuaCtl := TVCLuaControl.Create(lStringGrid as TComponent,L,nil,'TCustomStringGrid');
 	CreateTableForKnownType(L,'TCustomStringGrid',lStringGrid);
 	InitControl(L,lStringGrid,Name);
 	Result := 1;

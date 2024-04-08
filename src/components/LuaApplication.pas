@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TApplication; pti: PTypeInfo = nil); 
 
 type
     TLuaApplication = class(TApplication)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ApplicationFuncs: TLuaVmt;
@@ -1601,7 +1600,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lApplication := TLuaApplication.Create(Parent);
 	// := TWinControl(Parent);
-	lApplication.LuaCtl := TVCLuaControl.Create(lApplication as TComponent,L,nil,'TApplication');
 	CreateTableForKnownType(L,'TApplication',lApplication);
 	InitControl(L,lApplication,Name);
 	Result := 1;

@@ -33,7 +33,6 @@ procedure lua_push(L: Plua_State; const v: TTreeView; pti: PTypeInfo = nil); ove
 
 type
     TLuaTreeView = class(TTreeView)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomTreeViewFuncs: TLuaVmt;
@@ -2646,7 +2645,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTreeView := TLuaTreeView.Create(Parent);
 	lTreeView.Parent := TWinControl(Parent);
-	lTreeView.LuaCtl := TVCLuaControl.Create(lTreeView as TComponent,L,nil,'TCustomTreeView');
 	CreateTableForKnownType(L,'TCustomTreeView',lTreeView);
 	InitControl(L,lTreeView,Name);
 	Result := 1;

@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TBitBtn; pti: PTypeInfo = nil); overl
 
 type
     TLuaBitBtn = class(TBitBtn)
-        LuaCtl: TVCLuaControl;
     end;
 var
     BitBtnFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBitBtn := TLuaBitBtn.Create(Parent);
 	lBitBtn.Parent := TWinControl(Parent);
-	lBitBtn.LuaCtl := TVCLuaControl.Create(lBitBtn as TComponent,L,nil,'TBitBtn');
 	CreateTableForKnownType(L,'TBitBtn',lBitBtn);
 	InitControl(L,lBitBtn,Name);
 	Result := 1;

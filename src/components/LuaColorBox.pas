@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TColorBox; pti: PTypeInfo = nil); ove
 
 type
     TLuaColorBox = class(TColorBox)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomColorBoxFuncs: TLuaVmt;
@@ -278,7 +277,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorBox := TLuaColorBox.Create(Parent);
 	lColorBox.Parent := TWinControl(Parent);
-	lColorBox.LuaCtl := TVCLuaControl.Create(lColorBox as TComponent,L,nil,'TCustomColorBox');
 	CreateTableForKnownType(L,'TCustomColorBox',lColorBox);
 	InitControl(L,lColorBox,Name);
 	Result := 1;

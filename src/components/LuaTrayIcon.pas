@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TTrayIcon; pti: PTypeInfo = nil); ove
 
 type
     TLuaTrayIcon = class(TTrayIcon)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomTrayIconFuncs: TLuaVmt;
@@ -611,7 +610,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTrayIcon := TLuaTrayIcon.Create(Parent);
 	// := TWinControl(Parent);
-	lTrayIcon.LuaCtl := TVCLuaControl.Create(lTrayIcon as TComponent,L,nil,'TCustomTrayIcon');
 	CreateTableForKnownType(L,'TCustomTrayIcon',lTrayIcon);
 	InitControl(L,lTrayIcon,Name);
 	Result := 1;

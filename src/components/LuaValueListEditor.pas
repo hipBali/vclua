@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TValueListEditor; pti: PTypeInfo = ni
 
 type
     TLuaValueListEditor = class(TValueListEditor)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ValueListEditorFuncs: TLuaVmt;
@@ -436,7 +435,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lValueListEditor := TLuaValueListEditor.Create(Parent);
 	lValueListEditor.Parent := TWinControl(Parent);
-	lValueListEditor.LuaCtl := TVCLuaControl.Create(lValueListEditor as TComponent,L,nil,'TValueListEditor');
 	CreateTableForKnownType(L,'TValueListEditor',lValueListEditor);
 	InitControl(L,lValueListEditor,Name);
 	Result := 1;

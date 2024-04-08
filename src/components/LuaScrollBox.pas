@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TScrollBox; pti: PTypeInfo = nil); ov
 
 type
     TLuaScrollBox = class(TScrollBox)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ScrollBoxFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lScrollBox := TLuaScrollBox.Create(Parent);
 	lScrollBox.Parent := TWinControl(Parent);
-	lScrollBox.LuaCtl := TVCLuaControl.Create(lScrollBox as TComponent,L,nil,'TScrollBox');
 	CreateTableForKnownType(L,'TScrollBox',lScrollBox);
 	InitControl(L,lScrollBox,Name);
 	Result := 1;

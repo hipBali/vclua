@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TSpeedButton; pti: PTypeInfo = nil); 
 
 type
     TLuaSpeedButton = class(TSpeedButton)
-        LuaCtl: TVCLuaControl;
     end;
 var
     SpeedButtonFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSpeedButton := TLuaSpeedButton.Create(Parent);
 	lSpeedButton.Parent := TWinControl(Parent);
-	lSpeedButton.LuaCtl := TVCLuaControl.Create(lSpeedButton as TComponent,L,nil,'TSpeedButton');
 	CreateTableForKnownType(L,'TSpeedButton',lSpeedButton);
 	InitControl(L,lSpeedButton,Name);
 	Result := 1;

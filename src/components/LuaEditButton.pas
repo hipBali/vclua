@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TEditButton; pti: PTypeInfo = nil); o
 
 type
     TLuaEditButton = class(TEditButton)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomEditButtonFuncs: TLuaVmt;
@@ -48,7 +47,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lEditButton := TLuaEditButton.Create(Parent);
 	lEditButton.Parent := TWinControl(Parent);
-	lEditButton.LuaCtl := TVCLuaControl.Create(lEditButton as TComponent,L,nil,'TCustomEditButton');
 	CreateTableForKnownType(L,'TCustomEditButton',lEditButton);
 	InitControl(L,lEditButton,Name);
 	Result := 1;

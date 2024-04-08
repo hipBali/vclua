@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TBevel; pti: PTypeInfo = nil); overlo
 
 type
     TLuaBevel = class(TBevel)
-        LuaCtl: TVCLuaControl;
     end;
 var
     BevelFuncs: TLuaVmt;
@@ -55,7 +54,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBevel := TLuaBevel.Create(Parent);
 	lBevel.Parent := TWinControl(Parent);
-	lBevel.LuaCtl := TVCLuaControl.Create(lBevel as TComponent,L,nil,'TBevel');
 	CreateTableForKnownType(L,'TBevel',lBevel);
 	InitControl(L,lBevel,Name);
 	Result := 1;

@@ -33,7 +33,6 @@ procedure lua_push(L: Plua_State; const v: TStatusBar; pti: PTypeInfo = nil); ov
 
 type
     TLuaStatusBar = class(TStatusBar)
-        LuaCtl: TVCLuaControl;
     end;
 var
     StatusBarFuncs: TLuaVmt;
@@ -317,7 +316,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStatusBar := TLuaStatusBar.Create(Parent);
 	lStatusBar.Parent := TWinControl(Parent);
-	lStatusBar.LuaCtl := TVCLuaControl.Create(lStatusBar as TComponent,L,nil,'TStatusBar');
 	CreateTableForKnownType(L,'TStatusBar',lStatusBar);
 	InitControl(L,lStatusBar,Name);
 	Result := 1;

@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TTimer; pti: PTypeInfo = nil); overlo
 
 type
     TLuaTimer = class(TTimer)
-        LuaCtl: TVCLuaControl;
     end;
 var
     TimerFuncs: TLuaVmt;
@@ -39,7 +38,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTimer := TLuaTimer.Create(Parent);
 	// := TWinControl(Parent);
-	lTimer.LuaCtl := TVCLuaControl.Create(lTimer as TComponent,L,nil,'TTimer');
 	CreateTableForKnownType(L,'TTimer',lTimer);
 	InitControl(L,lTimer,Name);
 	Result := 1;

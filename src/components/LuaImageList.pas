@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TImageList; pti: PTypeInfo = nil); ov
 
 type
     TLuaImageList = class(TImageList)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomImageListFuncs: TLuaVmt;
@@ -1590,7 +1589,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lImageList := TLuaImageList.Create(Parent);
 	// := TWinControl(Parent);
-	lImageList.LuaCtl := TVCLuaControl.Create(lImageList as TComponent,L,nil,'TCustomImageList');
 	CreateTableForKnownType(L,'TCustomImageList',lImageList);
 	InitControl(L,lImageList,Name);
 	Result := 1;

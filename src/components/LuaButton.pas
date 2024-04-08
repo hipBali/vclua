@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TButton; pti: PTypeInfo = nil); overl
 
 type
     TLuaButton = class(TButton)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomButtonFuncs: TLuaVmt;
@@ -276,7 +275,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lButton := TLuaButton.Create(Parent);
 	lButton.Parent := TWinControl(Parent);
-	lButton.LuaCtl := TVCLuaControl.Create(lButton as TComponent,L,nil,'TCustomButton');
 	CreateTableForKnownType(L,'TCustomButton',lButton);
 	InitControl(L,lButton,Name);
 	Result := 1;

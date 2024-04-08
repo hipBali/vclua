@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo = nil); overlo
 
 type
     TLuaLabel = class(TLabel)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomLabelFuncs: TLuaVmt;
@@ -139,7 +138,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lLabel := TLuaLabel.Create(Parent);
 	lLabel.Parent := TWinControl(Parent);
-	lLabel.LuaCtl := TVCLuaControl.Create(lLabel as TComponent,L,nil,'TCustomLabel');
 	CreateTableForKnownType(L,'TCustomLabel',lLabel);
 	InitControl(L,lLabel,Name);
 	Result := 1;

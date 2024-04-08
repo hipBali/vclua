@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TBasicAction; pti: PTypeInfo = nil); 
 
 type
     TLuaBasicAction = class(TBasicAction)
-        LuaCtl: TVCLuaControl;
     end;
 var
     BasicActionFuncs: TLuaVmt;
@@ -187,7 +186,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBasicAction := TLuaBasicAction.Create(Parent);
 	// := TWinControl(Parent);
-	lBasicAction.LuaCtl := TVCLuaControl.Create(lBasicAction as TComponent,L,nil,'TBasicAction');
 	CreateTableForKnownType(L,'TBasicAction',lBasicAction);
 	InitControl(L,lBasicAction,Name);
 	Result := 1;

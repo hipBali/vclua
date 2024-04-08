@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TTabSheet; pti: PTypeInfo = nil); ove
 
 type
     TLuaTabSheet = class(TTabSheet)
-        LuaCtl: TVCLuaControl;
     end;
 var
     TabSheetFuncs: TLuaVmt;
@@ -26,7 +25,6 @@ procedure lua_push(L: Plua_State; const v: TTabControl; pti: PTypeInfo = nil); o
 
 type
     TLuaTabControl = class(TTabControl)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomTabControlFuncs: TLuaVmt;
@@ -37,7 +35,6 @@ procedure lua_push(L: Plua_State; const v: TPageControl; pti: PTypeInfo = nil); 
 
 type
     TLuaPageControl = class(TPageControl)
-        LuaCtl: TVCLuaControl;
     end;
 var
     PageControlFuncs: TLuaVmt;
@@ -1101,7 +1098,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTabSheet := TLuaTabSheet.Create(Parent);
 	lTabSheet.Parent := TWinControl(Parent);
-	lTabSheet.LuaCtl := TVCLuaControl.Create(lTabSheet as TComponent,L,nil,'TTabSheet');
 	CreateTableForKnownType(L,'TTabSheet',lTabSheet);
 	InitControl(L,lTabSheet,Name);
 	Result := 1;
@@ -1120,7 +1116,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTabControl := TLuaTabControl.Create(Parent);
 	lTabControl.Parent := TWinControl(Parent);
-	lTabControl.LuaCtl := TVCLuaControl.Create(lTabControl as TComponent,L,nil,'TCustomTabControl');
 	CreateTableForKnownType(L,'TCustomTabControl',lTabControl);
 	InitControl(L,lTabControl,Name);
 	Result := 1;
@@ -1139,7 +1134,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPageControl := TLuaPageControl.Create(Parent);
 	lPageControl.Parent := TWinControl(Parent);
-	lPageControl.LuaCtl := TVCLuaControl.Create(lPageControl as TComponent,L,nil,'TPageControl');
 	CreateTableForKnownType(L,'TPageControl',lPageControl);
 	InitControl(L,lPageControl,Name);
 	Result := 1;

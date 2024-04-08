@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TContainedAction; pti: PTypeInfo = ni
 
 type
     TLuaContainedAction = class(TContainedAction)
-        LuaCtl: TVCLuaControl;
     end;
 var
     ContainedActionFuncs: TLuaVmt;
@@ -26,7 +25,6 @@ procedure lua_push(L: Plua_State; const v: TAction; pti: PTypeInfo = nil); overl
 
 type
     TLuaAction = class(TAction)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomActionFuncs: TLuaVmt;
@@ -37,7 +35,6 @@ procedure lua_push(L: Plua_State; const v: TActionList; pti: PTypeInfo = nil); o
 
 type
     TLuaActionList = class(TActionList)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomActionListFuncs: TLuaVmt;
@@ -917,7 +914,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lContainedAction := TLuaContainedAction.Create(Parent);
 	// := TWinControl(Parent);
-	lContainedAction.LuaCtl := TVCLuaControl.Create(lContainedAction as TComponent,L,nil,'TContainedAction');
 	CreateTableForKnownType(L,'TContainedAction',lContainedAction);
 	InitControl(L,lContainedAction,Name);
 	Result := 1;
@@ -936,7 +932,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lAction := TLuaAction.Create(Parent);
 	// := TWinControl(Parent);
-	lAction.LuaCtl := TVCLuaControl.Create(lAction as TComponent,L,nil,'TCustomAction');
 	CreateTableForKnownType(L,'TCustomAction',lAction);
 	InitControl(L,lAction,Name);
 	Result := 1;
@@ -955,7 +950,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lActionList := TLuaActionList.Create(Parent);
 	// := TWinControl(Parent);
-	lActionList.LuaCtl := TVCLuaControl.Create(lActionList as TComponent,L,nil,'TCustomActionList');
 	CreateTableForKnownType(L,'TCustomActionList',lActionList);
 	InitControl(L,lActionList,Name);
 	Result := 1;

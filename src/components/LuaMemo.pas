@@ -15,7 +15,6 @@ procedure lua_push(L: Plua_State; const v: TMemo; pti: PTypeInfo = nil); overloa
 
 type
     TLuaMemo = class(TMemo)
-        LuaCtl: TVCLuaControl;
     end;
 var
     CustomMemoFuncs: TLuaVmt;
@@ -300,7 +299,6 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMemo := TLuaMemo.Create(Parent);
 	lMemo.Parent := TWinControl(Parent);
-	lMemo.LuaCtl := TVCLuaControl.Create(lMemo as TComponent,L,nil,'TCustomMemo');
 	CreateTableForKnownType(L,'TCustomMemo',lMemo);
 	InitControl(L,lMemo,Name);
 	Result := 1;
