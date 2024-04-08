@@ -238,7 +238,7 @@ procedure luaL_checkRecord<PT>(L: Plua_State; i: Integer; LoNames: array of stri
 var
   f:String;
   j:Integer = 0;
-  k:Integer;
+  k,n:Integer;
 begin
   assert(High(LoNames)=High(addrs),'luaL_checkRecord: check names and addresses number and order');
   i := LuaAbsIndex(L, i);
@@ -256,6 +256,7 @@ begin
     if j = Length(LoNames) then Exit;
     // slow path, field #(j-1) in lowercase isn't found
     Dec(j);
+    n := j;
     lua_pushnil(L);
     while (lua_next(L,i)<>0) do begin
       if (lua_type(L,-2)=LUA_TSTRING) then begin
@@ -263,13 +264,15 @@ begin
          for k := j to High(LoNames) do
              if (f=LoNames[k]) then begin
                 luaL_check(L, -1, addrs[k]);
+                Inc(n);
                 Break;
              end;
       end;
       lua_pop(L, 1);
     end;
-  end else
-    LuaTypeError(L, i, pti);
+    if n = Length(LoNames) then Exit;
+  end;
+  LuaTypeError(L, i, pti);
 end;
 procedure luaL_check(L: Plua_State; i: Integer; v: PPoint; pti : PTypeInfo = nil);
 begin
