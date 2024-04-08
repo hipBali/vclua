@@ -33,8 +33,19 @@ type
   end;
 
 
+procedure RegisterLuaRTTIGridsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaPersistent, LuaPropertyGrid;
+
+procedure RegisterLuaRTTIGridsEvents();
+begin
+  eventPtrs.Add('TTIGridCreateCellEditor', @TLuaTIGridCreateCellEditor.Handler);
+  eventPtrs.Add('TTIGridGetObject', @TLuaTIGridGetObject.Handler);
+  eventPtrs.Add('TTIGridGetObjectCount', @TLuaTIGridGetObjectCount.Handler);
+  eventPtrs.Add('TTIGridGetObjectName', @TLuaTIGridGetObjectName.Handler);
+  eventPtrs.Add('TTIGridInitCellEditor', @TLuaTIGridInitCellEditor.Handler);
+end;
 
 procedure TLuaTIGridCreateCellEditor.Handler(GridProp: TTIGridProperty; var NewEditorControl: TControl);
 var

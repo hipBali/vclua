@@ -63,8 +63,25 @@ type
   end;
 
 
+procedure RegisterLuaFormsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaForm;
+
+procedure RegisterLuaFormsEvents();
+begin
+  eventPtrs.Add('TCloseEvent', @TLuaCloseEvent.Handler);
+  eventPtrs.Add('TCloseQueryEvent', @TLuaCloseQueryEvent.Handler);
+  eventPtrs.Add('TDataEvent', @TLuaDataEvent.Handler);
+  eventPtrs.Add('TDropFilesEvent', @TLuaDropFilesEvent.Handler);
+  eventPtrs.Add('TGetHandleEvent', @TLuaGetHandleEvent.Handler);
+  eventPtrs.Add('TIdleEvent', @TLuaIdleEvent.Handler);
+  eventPtrs.Add('TModalDialogFinished', @TLuaModalDialogFinished.Handler);
+  eventPtrs.Add('TOnUserInputEvent', @TLuaOnUserInputEvent.Handler);
+  eventPtrs.Add('TQueryEndSessionEvent', @TLuaQueryEndSessionEvent.Handler);
+  eventPtrs.Add('TScreenControlEvent', @TLuaScreenControlEvent.Handler);
+  eventPtrs.Add('TScreenFormEvent', @TLuaScreenFormEvent.Handler);
+end;
 
 procedure TLuaCloseEvent.Handler(Sender: TObject; var CloseAction: TCloseAction);
 var

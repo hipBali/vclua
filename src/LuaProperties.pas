@@ -313,7 +313,6 @@ end;
 // index is absolute
 procedure SetProperty(L:Plua_State; Index:Integer; Comp:TObject; PInfo:PPropInfo; TempPti: PTypeInfo = nil);
 Var
-  LuaFuncPInfo: PPropInfo;
   tm: TMethod;
   gotValue:boolean = false;
   vo:TObject;
@@ -325,10 +324,16 @@ begin
   case pti^.Kind of
     tkMethod:
       begin
-        if not lua_isfunction(L,index) then
-           LuaTypeError(L, index, pti);
-        LuaError(L,'Method not supported!', PInfo^.Name);
-        //SetMethodProp(Comp, PInfo, tm);
+        TLuaEvent.MaybeFree(GetMethodProp(Comp,PInfo));
+        tm := Default(TMethod);
+        if not lua_isnil(L,index) then begin
+          // yes, we create TLuaEvent and use a method of one of its descendants. Probably they must not have any additional fields
+          tm.Data := Pointer(TLuaEvent.Create(L, index));
+          tm.Code := eventPtrs.Find(pti^.Name);
+          if tm.Code = nil then
+             LuaError(L,'Method type not supported!', pti^.Name);
+        end;
+        SetMethodProp(Comp, PInfo, tm);
       end;
     tkSet:
       begin

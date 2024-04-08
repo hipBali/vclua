@@ -223,8 +223,15 @@ Uses Lua, LuaEvent#REF;
 type
 #DECLS
 
+procedure Register#UNITNAME();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper#IMPLREF;
+
+procedure Register#UNITNAME();
+begin
+#INITMAP
+end;
 
 #DEFS
 end.

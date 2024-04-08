@@ -18,8 +18,16 @@ type
   end;
 
 
+procedure RegisterLuaActnListEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaBasicAction;
+
+procedure RegisterLuaActnListEvents();
+begin
+  eventPtrs.Add('TActionEvent', @TLuaActionEvent.Handler);
+  eventPtrs.Add('THintEvent', @TLuaHintEvent.Handler);
+end;
 
 procedure TLuaActionEvent.Handler(AAction: TBasicAction; var Handled: Boolean);
 var

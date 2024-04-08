@@ -63,8 +63,25 @@ type
   end;
 
 
+procedure RegisterLuaPropEditsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaPersistent, LuaPropEdits;
+
+procedure RegisterLuaPropEditsEvents();
+begin
+  eventPtrs.Add('TGetPropEditProc', @TLuaGetPropEditProc.Handler);
+  eventPtrs.Add('TPropHookComponentRenamed', @TLuaPropHookComponentRenamed.Handler);
+  eventPtrs.Add('TPropHookDeletePersistent', @TLuaPropHookDeletePersistent.Handler);
+  eventPtrs.Add('TPropHookGetCheckboxForBoolean', @TLuaPropHookGetCheckboxForBoolean.Handler);
+  eventPtrs.Add('TPropHookModified', @TLuaPropHookModified.Handler);
+  eventPtrs.Add('TPropHookModifiedWithName', @TLuaPropHookModifiedWithName.Handler);
+  eventPtrs.Add('TPropHookObjectPropertyChanged', @TLuaPropHookObjectPropertyChanged.Handler);
+  eventPtrs.Add('TPropHookPersistentAdded', @TLuaPropHookPersistentAdded.Handler);
+  eventPtrs.Add('TPropHookPersistentDel', @TLuaPropHookPersistentDel.Handler);
+  eventPtrs.Add('TPropHookRenameMethod', @TLuaPropHookRenameMethod.Handler);
+  eventPtrs.Add('TPropHookShowMethod', @TLuaPropHookShowMethod.Handler);
+end;
 
 procedure TLuaGetPropEditProc.Handler(Prop: TPropertyEditor);
 var

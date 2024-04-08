@@ -23,6 +23,7 @@ mainPanel._ = {
 	align='alClient',
 }
 
+local stored
 button._ = {
 	caption='Click Me...',
 	top=200,
@@ -30,7 +31,8 @@ button._ = {
 	OnClick = function(b)
 		VCL.ShowMessage('Hello world!')
 		b.caption = 'Clicked!'
-		b.OnClick = nil
+		-- published events can be read back if they were set by VCLua
+		stored = b.OnClick
 	end,
 	OnMouseUp = function(b, _, _, x, y)
 		local p = {x=x,y=y}
@@ -44,6 +46,7 @@ button._ = {
 		print(b:ClientToParent(p, mainFrm).x, 'mainFrm')
 		-- uncomment to see exception handling
 		-- print(b:ClientToParent(p, bottomPanel).x, 'bottomPanel')
+		b.OnClick = x%2==0 and stored or nil
 	end
 }
 

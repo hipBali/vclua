@@ -88,6 +88,7 @@ begin
      luaL_error(L, PChar(res));
 
   {$i init_map.inc}
+  {$i init_events.inc}
 
   for i := High(metaPtis) downto 0 do begin
       pti := metaPtis[i];

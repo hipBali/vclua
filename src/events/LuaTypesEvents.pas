@@ -13,8 +13,15 @@ type
   end;
 
 
+procedure RegisterLuaTypesEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaTypesEvents();
+begin
+  eventPtrs.Add('TListCallback', @TLuaListCallback.Handler);
+end;
 
 procedure TLuaListCallback.Handler(data,arg:pointer);
 var

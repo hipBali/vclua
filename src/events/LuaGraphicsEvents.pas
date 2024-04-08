@@ -13,8 +13,15 @@ type
   end;
 
 
+procedure RegisterLuaGraphicsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaGraphicsEvents();
+begin
+  eventPtrs.Add('TGetColorStringProc', @TLuaGetColorStringProc.Handler);
+end;
 
 procedure TLuaGetColorStringProc.Handler(const s: AnsiString);
 var

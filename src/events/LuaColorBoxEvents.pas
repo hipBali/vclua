@@ -18,8 +18,16 @@ type
   end;
 
 
+procedure RegisterLuaColorBoxEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaColorBox, LuaStrings;
+
+procedure RegisterLuaColorBoxEvents();
+begin
+  eventPtrs.Add('TGetColorsEvent', @TLuaGetColorsEvent.Handler);
+  eventPtrs.Add('TLBGetColorsEvent', @TLuaLBGetColorsEvent.Handler);
+end;
 
 procedure TLuaGetColorsEvent.Handler(Sender: TCustomColorBox; Items: TStrings);
 var

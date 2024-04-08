@@ -53,8 +53,23 @@ type
   end;
 
 
+procedure RegisterLuaExtCtrlsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaCanvas, LuaControl;
+
+procedure RegisterLuaExtCtrlsEvents();
+begin
+  eventPtrs.Add('TBandDragEvent', @TLuaBandDragEvent.Handler);
+  eventPtrs.Add('TBandInfoEvent', @TLuaBandInfoEvent.Handler);
+  eventPtrs.Add('TBandMoveEvent', @TLuaBandMoveEvent.Handler);
+  eventPtrs.Add('TBandPaintEvent', @TLuaBandPaintEvent.Handler);
+  eventPtrs.Add('TBeforeShowPageEvent', @TLuaBeforeShowPageEvent.Handler);
+  eventPtrs.Add('TCanOffsetEvent', @TLuaCanOffsetEvent.Handler);
+  eventPtrs.Add('TCanResizeEvent', @TLuaCanResizeEvent.Handler);
+  eventPtrs.Add('TCheckGroupClicked', @TLuaCheckGroupClicked.Handler);
+  eventPtrs.Add('TImagePaintBackgroundEvent', @TLuaImagePaintBackgroundEvent.Handler);
+end;
 
 procedure TLuaBandDragEvent.Handler(Sender: TObject; Control: TControl; var Drag: Boolean);
 var

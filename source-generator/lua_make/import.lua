@@ -919,12 +919,14 @@ function table.reverse(t)
   return res
 end
 
+local eventRegs = {}
 for _,kv in ipairs(HashedToSorted(eventSrcs)) do
   local ref = kv.k
   cLog(ref..' events:', "INFO")
   local uname = 'Lua'..ref..'Events'
   table.insert(pasSrc, uname)
-  local refs,implrefs,decls,defs={},{},{},{}
+  table.insert(eventRegs, 'Register'..uname..';\n')
+  local refs,implrefs,decls,defs,initmap={},{},{},{},{}
   for _,kv in ipairs(HashedToSorted(kv.v)) do
     local md = kv.v
     --assert(ref == typeRef[kv.k]) -- allow for several defs for e.g. TGetChildProc
@@ -954,10 +956,11 @@ for _,kv in ipairs(HashedToSorted(eventSrcs)) do
     implrefs[uname] = nil
     local decl = VCLUA_EVENT_HANDLER_DECL:gsub('#PAR',md.ptypelist,1):gsub('#TYP',typ,1)
     table.insert(decls, decl)
+    table.insert(initmap, "  eventPtrs.Add('"..md.name.."', @TLua"..typ..".Handler);")
     for ref,_ in pairs(md.refs) do refs[ref] = true end
   end
   local s = VCLUA_EVENTDEF
-  s = s:gsub('#DEFS',table.concat(defs,'\n'),1)
+  s = s:gsub('#DEFS',table.concat(defs,'\n'),1):gsub('#INITMAP',table.concat(initmap,'\n'),1)
   implrefs[''] = true
   implrefs['System'] = nil
   if eventImplRefs[ref] then implrefs[eventImplRefs[ref]] = true end
@@ -967,8 +970,8 @@ for _,kv in ipairs(HashedToSorted(eventSrcs)) do
   refs['System'] = nil
   if eventRefs[ref] then refs[eventRefs[ref]] = true end
   s = s:gsub('#REF',table.concat(HashedToSorted(refs),', '),1)
-  s = s:gsub('#UNITNAME',uname,1)
-	saveTextToFile(s,out_path.."src/events/"..uname..".pas")
+  s = s:gsub('#UNITNAME',uname)
+  saveTextToFile(s,out_path.."src/events/"..uname..".pas")
 end
 
 local pasSrcStr = table.concat(pasSrc,",\n\t")
@@ -978,6 +981,7 @@ vclinc = vclinc:gsub("#LIBCOUNT",libcount,1)
 saveTextToFile(HDR_INFO .. vclinc,out_path.."src/vcl.inc")
 saveTextToFile(HDR_INFO .. table.concat(luaobject_uses,",\n"),out_path.."src/luaobject_uses.inc")
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(init),out_path.."src/init_map.inc")
+saveTextToFile(HDR_INFO .. "\n" .. table.concat(eventRegs),out_path.."src/init_events.inc")
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(meta_srcs),",\n"),out_path.."src/meta_srcs.inc")
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(api_srcs,"\n"),out_path.."src/api_srcs.inc")
 

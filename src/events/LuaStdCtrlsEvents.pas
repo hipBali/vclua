@@ -28,8 +28,18 @@ type
   end;
 
 
+procedure RegisterLuaStdCtrlsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaStdCtrlsEvents();
+begin
+  eventPtrs.Add('TDrawItemEvent', @TLuaDrawItemEvent.Handler);
+  eventPtrs.Add('TMeasureItemEvent', @TLuaMeasureItemEvent.Handler);
+  eventPtrs.Add('TScrollEvent', @TLuaScrollEvent.Handler);
+  eventPtrs.Add('TSelectionChangeEvent', @TLuaSelectionChangeEvent.Handler);
+end;
 
 procedure TLuaDrawItemEvent.Handler(Control: TWinControl; Index: Integer; ARect: TRect; State: TOwnerDrawState);
 var

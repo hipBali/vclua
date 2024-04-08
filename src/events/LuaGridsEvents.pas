@@ -103,8 +103,33 @@ type
   end;
 
 
+procedure RegisterLuaGridsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaBitmap, LuaImageList;
+
+procedure RegisterLuaGridsEvents();
+begin
+  eventPtrs.Add('TCellProcessEvent', @TLuaCellProcessEvent.Handler);
+  eventPtrs.Add('TGetCellHintEvent', @TLuaGetCellHintEvent.Handler);
+  eventPtrs.Add('TGetCheckboxStateEvent', @TLuaGetCheckboxStateEvent.Handler);
+  eventPtrs.Add('TGetEditEvent', @TLuaGetEditEvent.Handler);
+  eventPtrs.Add('TGridOperationEvent', @TLuaGridOperationEvent.Handler);
+  eventPtrs.Add('THdrEvent', @TLuaHdrEvent.Handler);
+  eventPtrs.Add('THeaderSizingEvent', @TLuaHeaderSizingEvent.Handler);
+  eventPtrs.Add('TOnCompareCells', @TLuaOnCompareCells.Handler);
+  eventPtrs.Add('TOnDrawCell', @TLuaOnDrawCell.Handler);
+  eventPtrs.Add('TOnPrepareCanvasEvent', @TLuaOnPrepareCanvasEvent.Handler);
+  eventPtrs.Add('TOnSelectCellEvent', @TLuaOnSelectCellEvent.Handler);
+  eventPtrs.Add('TOnSelectEvent', @TLuaOnSelectEvent.Handler);
+  eventPtrs.Add('TSelectEditorEvent', @TLuaSelectEditorEvent.Handler);
+  eventPtrs.Add('TSetCheckboxStateEvent', @TLuaSetCheckboxStateEvent.Handler);
+  eventPtrs.Add('TSetEditEvent', @TLuaSetEditEvent.Handler);
+  eventPtrs.Add('TToggledCheckboxEvent', @TLuaToggledCheckboxEvent.Handler);
+  eventPtrs.Add('TUserCheckBoxBitmapEvent', @TLuaUserCheckBoxBitmapEvent.Handler);
+  eventPtrs.Add('TUserCheckBoxImageEvent', @TLuaUserCheckBoxImageEvent.Handler);
+  eventPtrs.Add('TValidateEntryEvent', @TLuaValidateEntryEvent.Handler);
+end;
 
 procedure TLuaCellProcessEvent.Handler(Sender: TObject; aCol, aRow: Integer; processType: TCellProcessType; var aValue: string);
 var

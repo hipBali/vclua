@@ -23,8 +23,17 @@ type
   end;
 
 
+procedure RegisterLuaMenusEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaCanvas, LuaMenu;
+
+procedure RegisterLuaMenusEvents();
+begin
+  eventPtrs.Add('TMenuChangeEvent', @TLuaMenuChangeEvent.Handler);
+  eventPtrs.Add('TMenuDrawItemEvent', @TLuaMenuDrawItemEvent.Handler);
+  eventPtrs.Add('TMenuMeasureItemEvent', @TLuaMenuMeasureItemEvent.Handler);
+end;
 
 procedure TLuaMenuChangeEvent.Handler(Sender: TObject; Source: TMenuItem; Rebuild: Boolean);
 var

@@ -238,8 +238,60 @@ type
   end;
 
 
+procedure RegisterLuaComCtrlsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaHeaderControl, LuaListView, LuaStatusBar, LuaTabControl, LuaToolBar, LuaTreeView;
+
+procedure RegisterLuaComCtrlsEvents();
+begin
+  eventPtrs.Add('TCustomSectionNotifyEvent', @TLuaCustomSectionNotifyEvent.Handler);
+  eventPtrs.Add('TCustomSectionTrackEvent', @TLuaCustomSectionTrackEvent.Handler);
+  eventPtrs.Add('TDrawPanelEvent', @TLuaDrawPanelEvent.Handler);
+  eventPtrs.Add('TDrawTabEvent', @TLuaDrawTabEvent.Handler);
+  eventPtrs.Add('TLVAdvancedCustomDrawEvent', @TLuaLVAdvancedCustomDrawEvent.Handler);
+  eventPtrs.Add('TLVAdvancedCustomDrawItemEvent', @TLuaLVAdvancedCustomDrawItemEvent.Handler);
+  eventPtrs.Add('TLVAdvancedCustomDrawSubItemEvent', @TLuaLVAdvancedCustomDrawSubItemEvent.Handler);
+  eventPtrs.Add('TLVChangeEvent', @TLuaLVChangeEvent.Handler);
+  eventPtrs.Add('TLVCheckedItemEvent', @TLuaLVCheckedItemEvent.Handler);
+  eventPtrs.Add('TLVColumnClickEvent', @TLuaLVColumnClickEvent.Handler);
+  eventPtrs.Add('TLVColumnRClickEvent', @TLuaLVColumnRClickEvent.Handler);
+  eventPtrs.Add('TLVCompareEvent', @TLuaLVCompareEvent.Handler);
+  eventPtrs.Add('TLVCustomDrawEvent', @TLuaLVCustomDrawEvent.Handler);
+  eventPtrs.Add('TLVCustomDrawItemEvent', @TLuaLVCustomDrawItemEvent.Handler);
+  eventPtrs.Add('TLVCustomDrawSubItemEvent', @TLuaLVCustomDrawSubItemEvent.Handler);
+  eventPtrs.Add('TLVDataFindEvent', @TLuaLVDataFindEvent.Handler);
+  eventPtrs.Add('TLVDataHintEvent', @TLuaLVDataHintEvent.Handler);
+  eventPtrs.Add('TLVDataStateChangeEvent', @TLuaLVDataStateChangeEvent.Handler);
+  eventPtrs.Add('TLVDeletedEvent', @TLuaLVDeletedEvent.Handler);
+  eventPtrs.Add('TLVDrawItemEvent', @TLuaLVDrawItemEvent.Handler);
+  eventPtrs.Add('TLVEditedEvent', @TLuaLVEditedEvent.Handler);
+  eventPtrs.Add('TLVEditingEvent', @TLuaLVEditingEvent.Handler);
+  eventPtrs.Add('TLVSelectItemEvent', @TLuaLVSelectItemEvent.Handler);
+  eventPtrs.Add('TSectionDragEvent', @TLuaSectionDragEvent.Handler);
+  eventPtrs.Add('TTabChangingEvent', @TLuaTabChangingEvent.Handler);
+  eventPtrs.Add('TTabGetImageEvent', @TLuaTabGetImageEvent.Handler);
+  eventPtrs.Add('TToolBarOnPaintButton', @TLuaToolBarOnPaintButton.Handler);
+  eventPtrs.Add('TTVAdvancedCustomDrawEvent', @TLuaTVAdvancedCustomDrawEvent.Handler);
+  eventPtrs.Add('TTVAdvancedCustomDrawItemEvent', @TLuaTVAdvancedCustomDrawItemEvent.Handler);
+  eventPtrs.Add('TTVChangedEvent', @TLuaTVChangedEvent.Handler);
+  eventPtrs.Add('TTVChangingEvent', @TLuaTVChangingEvent.Handler);
+  eventPtrs.Add('TTVCollapsingEvent', @TLuaTVCollapsingEvent.Handler);
+  eventPtrs.Add('TTVCompareEvent', @TLuaTVCompareEvent.Handler);
+  eventPtrs.Add('TTVCustomCreateNodeEvent', @TLuaTVCustomCreateNodeEvent.Handler);
+  eventPtrs.Add('TTVCustomDrawArrowEvent', @TLuaTVCustomDrawArrowEvent.Handler);
+  eventPtrs.Add('TTVCustomDrawEvent', @TLuaTVCustomDrawEvent.Handler);
+  eventPtrs.Add('TTVCustomDrawItemEvent', @TLuaTVCustomDrawItemEvent.Handler);
+  eventPtrs.Add('TTVEditedEvent', @TLuaTVEditedEvent.Handler);
+  eventPtrs.Add('TTVEditingEndEvent', @TLuaTVEditingEndEvent.Handler);
+  eventPtrs.Add('TTVEditingEvent', @TLuaTVEditingEvent.Handler);
+  eventPtrs.Add('TTVExpandedEvent', @TLuaTVExpandedEvent.Handler);
+  eventPtrs.Add('TTVExpandingEvent', @TLuaTVExpandingEvent.Handler);
+  eventPtrs.Add('TTVNodeChangedEvent', @TLuaTVNodeChangedEvent.Handler);
+  eventPtrs.Add('TUDChangingEvent', @TLuaUDChangingEvent.Handler);
+  eventPtrs.Add('TUDChangingEventEx', @TLuaUDChangingEventEx.Handler);
+  eventPtrs.Add('TUDClickEvent', @TLuaUDClickEvent.Handler);
+end;
 
 procedure TLuaCustomSectionNotifyEvent.Handler(HeaderControl: TCustomHeaderControl; Section: THeaderSection);
 var

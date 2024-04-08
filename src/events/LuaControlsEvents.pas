@@ -113,8 +113,35 @@ type
   end;
 
 
+procedure RegisterLuaControlsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaDrag;
+
+procedure RegisterLuaControlsEvents();
+begin
+  eventPtrs.Add('TConstrainedResizeEvent', @TLuaConstrainedResizeEvent.Handler);
+  eventPtrs.Add('TContextPopupEvent', @TLuaContextPopupEvent.Handler);
+  eventPtrs.Add('TDockDropEvent', @TLuaDockDropEvent.Handler);
+  eventPtrs.Add('TDockOverEvent', @TLuaDockOverEvent.Handler);
+  eventPtrs.Add('TDragDropEvent', @TLuaDragDropEvent.Handler);
+  eventPtrs.Add('TDragOverEvent', @TLuaDragOverEvent.Handler);
+  eventPtrs.Add('TEndDragEvent', @TLuaEndDragEvent.Handler);
+  eventPtrs.Add('TForEachZoneProc', @TLuaForEachZoneProc.Handler);
+  eventPtrs.Add('TGetChildProc', @TLuaGetChildProc.Handler);
+  eventPtrs.Add('TGetDockCaptionEvent', @TLuaGetDockCaptionEvent.Handler);
+  eventPtrs.Add('TGetSiteInfoEvent', @TLuaGetSiteInfoEvent.Handler);
+  eventPtrs.Add('TKeyEvent', @TLuaKeyEvent.Handler);
+  eventPtrs.Add('TKeyPressEvent', @TLuaKeyPressEvent.Handler);
+  eventPtrs.Add('TMouseEvent', @TLuaMouseEvent.Handler);
+  eventPtrs.Add('TMouseMoveEvent', @TLuaMouseMoveEvent.Handler);
+  eventPtrs.Add('TMouseWheelEvent', @TLuaMouseWheelEvent.Handler);
+  eventPtrs.Add('TMouseWheelUpDownEvent', @TLuaMouseWheelUpDownEvent.Handler);
+  eventPtrs.Add('TStartDockEvent', @TLuaStartDockEvent.Handler);
+  eventPtrs.Add('TStartDragEvent', @TLuaStartDragEvent.Handler);
+  eventPtrs.Add('TUnDockEvent', @TLuaUnDockEvent.Handler);
+  eventPtrs.Add('TUTF8KeyPressEvent', @TLuaUTF8KeyPressEvent.Handler);
+end;
 
 procedure TLuaConstrainedResizeEvent.Handler(Sender: TObject; var MinWidth, MinHeight, MaxWidth, MaxHeight: TConstraintSize);
 var

@@ -13,8 +13,15 @@ type
   end;
 
 
+procedure RegisterLuaLCLTypeEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaLCLTypeEvents();
+begin
+  eventPtrs.Add('TOnShowSelectItemDialogResult', @TLuaOnShowSelectItemDialogResult.Handler);
+end;
 
 procedure TLuaOnShowSelectItemDialogResult.Handler(ASelectedItem: Integer);
 var

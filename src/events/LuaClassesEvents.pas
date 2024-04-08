@@ -43,8 +43,21 @@ type
   end;
 
 
+procedure RegisterLuaClassesEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaClassesEvents();
+begin
+  eventPtrs.Add('TGetChildProc', @TLuaGetChildProc.Handler);
+  eventPtrs.Add('TGetStrProc', @TLuaGetStrProc.Handler);
+  eventPtrs.Add('TNotifyEvent', @TLuaNotifyEvent.Handler);
+  eventPtrs.Add('TReadComponentsProc', @TLuaReadComponentsProc.Handler);
+  eventPtrs.Add('TStringsForEachMethod', @TLuaStringsForEachMethod.Handler);
+  eventPtrs.Add('TStringsForEachMethodEx', @TLuaStringsForEachMethodEx.Handler);
+  eventPtrs.Add('TStringsForEachMethodExObj', @TLuaStringsForEachMethodExObj.Handler);
+end;
 
 procedure TLuaGetChildProc.Handler(Child: TComponent);
 var

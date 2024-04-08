@@ -1,0 +1,29 @@
+(*
+Generated with Lua-fpc parser/generator
+(C) 2018-2024 Hi-Project Ltd.
+*)
+
+RegisterLuaActnListEvents;
+RegisterLuaCheckLstEvents;
+RegisterLuaClassesEvents;
+RegisterLuaColorBoxEvents;
+RegisterLuaComCtrlsEvents;
+RegisterLuaControlsEvents;
+RegisterLuaCustAppEvents;
+RegisterLuaDialogsEvents;
+RegisterLuaEditBtnEvents;
+RegisterLuaExtCtrlsEvents;
+RegisterLuaFPImageEvents;
+RegisterLuaFormsEvents;
+RegisterLuaGraphicsEvents;
+RegisterLuaGridsEvents;
+RegisterLuaImgListEvents;
+RegisterLuaLCLTypeEvents;
+RegisterLuaMenusEvents;
+RegisterLuaObjectInspectorEvents;
+RegisterLuaPropEditsEvents;
+RegisterLuaRTTICtrlsEvents;
+RegisterLuaRTTIGridsEvents;
+RegisterLuaStdCtrlsEvents;
+RegisterLuaTypesEvents;
+RegisterLuaValEditEvents;

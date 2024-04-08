@@ -13,8 +13,15 @@ type
   end;
 
 
+procedure RegisterLuaImgListEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaImageList;
+
+procedure RegisterLuaImgListEvents();
+begin
+  eventPtrs.Add('TCustomImageListGetWidthForPPI', @TLuaCustomImageListGetWidthForPPI.Handler);
+end;
 
 procedure TLuaCustomImageListGetWidthForPPI.Handler(Sender: TCustomImageList; AImageWidth, APPI: Integer; var AResultWidth: Integer);
 var

@@ -13,8 +13,15 @@ type
   end;
 
 
+procedure RegisterLuaFPImageEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaFPImageEvents();
+begin
+  eventPtrs.Add('TFPImgProgressEvent', @TLuaFPImgProgressEvent.Handler);
+end;
 
 procedure TLuaFPImgProgressEvent.Handler(Sender: TObject; Stage: TFPImgProgressStage; PercentDone: Byte; RedrawNow: Boolean; const R: TRect; const Msg: AnsiString; var Continue : Boolean);
 var

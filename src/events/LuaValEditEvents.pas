@@ -18,8 +18,16 @@ type
   end;
 
 
+procedure RegisterLuaValEditEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaStrings;
+
+procedure RegisterLuaValEditEvents();
+begin
+  eventPtrs.Add('TGetPickListEvent', @TLuaGetPickListEvent.Handler);
+  eventPtrs.Add('TOnValidateEvent', @TLuaOnValidateEvent.Handler);
+end;
 
 procedure TLuaGetPickListEvent.Handler(Sender: TObject; const KeyName: string; Values: TStrings);
 var

@@ -38,8 +38,20 @@ type
   end;
 
 
+procedure RegisterLuaEditBtnEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaEditBtnEvents();
+begin
+  eventPtrs.Add('TAcceptDateEvent', @TLuaAcceptDateEvent.Handler);
+  eventPtrs.Add('TAcceptFileNameEvent', @TLuaAcceptFileNameEvent.Handler);
+  eventPtrs.Add('TAcceptTimeEvent', @TLuaAcceptTimeEvent.Handler);
+  eventPtrs.Add('TAcceptValueEvent', @TLuaAcceptValueEvent.Handler);
+  eventPtrs.Add('TCustomDateEvent', @TLuaCustomDateEvent.Handler);
+  eventPtrs.Add('TCustomTimeEvent', @TLuaCustomTimeEvent.Handler);
+end;
 
 procedure TLuaAcceptDateEvent.Handler(Sender : TObject; var ADate : TDateTime; var AcceptDate: Boolean);
 var

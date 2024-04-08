@@ -23,8 +23,17 @@ type
   end;
 
 
+procedure RegisterLuaDialogsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaDialogsEvents();
+begin
+  eventPtrs.Add('TDialogResultEvent', @TLuaDialogResultEvent.Handler);
+  eventPtrs.Add('TInputCloseQueryEvent', @TLuaInputCloseQueryEvent.Handler);
+  eventPtrs.Add('TTaskDlgClickEvent', @TLuaTaskDlgClickEvent.Handler);
+end;
 
 procedure TLuaDialogResultEvent.Handler(sender: TObject; Success: boolean);
 var

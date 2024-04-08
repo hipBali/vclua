@@ -13,8 +13,15 @@ type
   end;
 
 
+procedure RegisterLuaCheckLstEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaCheckLstEvents();
+begin
+  eventPtrs.Add('TCheckListClicked', @TLuaCheckListClicked.Handler);
+end;
 
 procedure TLuaCheckListClicked.Handler(Sender: TObject; Index: integer);
 var

@@ -23,8 +23,17 @@ type
   end;
 
 
+procedure RegisterLuaObjectInspectorEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, LuaPersistent, LuaPropEdits;
+
+procedure RegisterLuaObjectInspectorEvents();
+begin
+  eventPtrs.Add('TAddAvailablePersistentEvent', @TLuaAddAvailablePersistentEvent.Handler);
+  eventPtrs.Add('TOIEditorFilterEvent', @TLuaOIEditorFilterEvent.Handler);
+  eventPtrs.Add('TOnOINodeGetImageEvent', @TLuaOnOINodeGetImageEvent.Handler);
+end;
 
 procedure TLuaAddAvailablePersistentEvent.Handler(APersistent: TPersistent; var Allowed: boolean);
 var

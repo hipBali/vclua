@@ -13,8 +13,15 @@ type
   end;
 
 
+procedure RegisterLuaRTTICtrlsEvents();
+
 implementation
 Uses LuaProxy, LuaObject, LuaHelper;
+
+procedure RegisterLuaRTTICtrlsEvents();
+begin
+  eventPtrs.Add('TBeforeWriteProperty', @TLuaBeforeWriteProperty.Handler);
+end;
 
 procedure TLuaBeforeWriteProperty.Handler(Sender: TObject; var AllowWrite: boolean);
 var
