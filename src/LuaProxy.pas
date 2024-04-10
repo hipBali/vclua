@@ -21,6 +21,23 @@ function lua_toStringCP(L: Plua_State; Index: Integer):string;
 procedure lua_pushStringCP(L: Plua_State; const str:string);
 // --------------------
 
+(*
+How to implement passing callbacks from Lua to FP:
+1) Create Lua registry table with functions as keys and TLuaEvent instances as values
+2) add VCL.Unregister(f) function to force destruction of TLuaEvent instance to avoid leaks
+3) in generator in function inferTypeKindFromLine maintain a table of all procedural typenames
+4) based on that table, for each type:
+-- set VCLUA_FROMLUA[type] = "#TYP(luaL_checkMethod(L,#,TypeInfo(#TYP));"
+-- set VCLUA_TOLUA[type] = "lua_push(L,TMethod(#VAR),TypeInfo(#VAR));"
+5) in this file add luaL_checkMethod(L,i,pti):
+-- f:=lua_tocfunction(L,i)
+-- check if registry has this key. If it does, store value in TMethod.Data, if it doesn't, store TLuaEvent.Create(L,f) in registry table and in TMethod.Data
+-- store eventPtrs[pti^.Name] in TMethod.Code, return TMethod
+6) in this file add lua_push(L,method,pti)
+-- if method.data isn't TLuaEvent, push table {data=ptr,code=ptr,pti=ptr}, unusable ATM in Lua
+-- else get ref from method.data and push its contents
+*)
+
 // compile all users with T+ (typed address operator)
 procedure luaL_check(L: Plua_State; i: Integer; v: PBoolean; pti : PTypeInfo = nil); overload; inline;
 function luaL_checkInt64(L: Plua_State; i: Integer; pti : PTypeInfo):Int64; inline;
