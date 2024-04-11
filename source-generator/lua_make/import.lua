@@ -587,8 +587,7 @@ function createUnitBody(cdef, ref, refs)
 		local outStr = {}
 		if out and #out>0 then
 			for i=1,#out do
-				local rtype = (VCLUA_TOLUA[out[i].type:lower()] or VCLUA_TOLUA_DEFAULT):gsub("#VAR",out[i].name)
-				table.insert(outStr, rtype)
+				table.insert(outStr, TOLUA(out[i].type,out[i].name))
 				retCount = retCount + 1
 			end
 		end
@@ -686,9 +685,8 @@ function createUnitBody(cdef, ref, refs)
       end
       local call = (pi and pi.isEvent and stmts or debug_rename():gsub('#STMTS',stmts,1)):gsub('#CNAME',className):gsub('#MNAME',mName)
       if ret then
-        local rtype = VCLUA_TOLUA[ret] or VCLUA_TOLUA_DEFAULT
         s = s:gsub("#FUNC",call,1)
-        s = s:gsub("#PUSHTOLUA","\n\t"..rtype:gsub('#VAR','ret'),1)
+        s = s:gsub("#PUSHTOLUA","\n\t"..TOLUA(ret,'ret'))
         s = s:gsub("#PUSHOUTS",outStr[1] and "\n\t"..table.concat(outStr,"\n\t") or '')
         s = s:gsub("#RETVAR","\n\tret:"..reto,1)
         s = s:gsub("#RETCOUNT",retCount)
@@ -945,10 +943,7 @@ for _,kv in ipairs(HashedToSorted(eventSrcs)) do
     def = def:gsub('#FROMLUA',fromlua[2] and table.concat(fromlua,'\n  ') or '',1)
     local tolua = {fromlua[2] and 'luaTop := lua_gettop(L) - 1;' or nil}
     for _,v in ipairs(md.vars[1]) do
-      local vtLower = v.type:lower()
-      local arrayType = v.type:match('array%s+of%s+([_%w]+)')
-      local templ = arrayType and VCLUA_PUSHARRAY:gsub('#TYP',arrayType,1) or VCLUA_TOLUA[vtLower] or VCLUA_TOLUA_DEFAULT 
-      table.insert(tolua,(templ:gsub("#VAR",v.name)))
+      table.insert(tolua,TOLUA(v.type,v.name))
     end
     def = def:gsub('#TOLUA',table.concat(tolua,'\n  '),1)
     local typ = md.name:gsub('^T','',1)

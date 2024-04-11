@@ -117,3 +117,10 @@ VCLUA_FROMLUA = {
 	["pointer"] = "#VAR := lua_touserdata(L,#);",
 }
 end
+
+function TOLUA(typ, name)
+  local tLower = typ:lower()
+  local arrayType = typ:match('array%s+of%s+([_%w]+)')
+  local templ = arrayType and VCLUA_PUSHARRAY:gsub('#TYP',arrayType,1) or VCLUA_TOLUA[tLower] or VCLUA_TOLUA_DEFAULT
+  return (templ:gsub("#VAR",name))
+end
