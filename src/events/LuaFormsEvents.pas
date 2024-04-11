@@ -4,7 +4,7 @@ unit LuaFormsEvents;
 
 interface
 
-Uses Lua, LuaEvent, Controls, Forms, LCLType;
+Uses Lua, LuaEvent, Controls, Forms, LCLType, SysUtils;
 
 type
   TLuaCloseEvent = class(TLuaEvent)
@@ -25,6 +25,11 @@ type
   TLuaDropFilesEvent = class(TLuaEvent)
     public
       procedure Handler(Sender: TObject; const FileNames: array of string);
+  end;
+
+  TLuaExceptionEvent = class(TLuaEvent)
+    public
+      procedure Handler(Sender: TObject; E: Exception);
   end;
 
   TLuaGetHandleEvent = class(TLuaEvent)
@@ -66,7 +71,7 @@ type
 procedure RegisterLuaFormsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaForm;
+Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaException, LuaForm;
 
 procedure RegisterLuaFormsEvents();
 begin
@@ -74,6 +79,7 @@ begin
   eventPtrs.Add('TCloseQueryEvent', @TLuaCloseQueryEvent.Handler);
   eventPtrs.Add('TDataEvent', @TLuaDataEvent.Handler);
   eventPtrs.Add('TDropFilesEvent', @TLuaDropFilesEvent.Handler);
+  eventPtrs.Add('TExceptionEvent', @TLuaExceptionEvent.Handler);
   eventPtrs.Add('TGetHandleEvent', @TLuaGetHandleEvent.Handler);
   eventPtrs.Add('TIdleEvent', @TLuaIdleEvent.Handler);
   eventPtrs.Add('TModalDialogFinished', @TLuaModalDialogFinished.Handler);
@@ -129,6 +135,17 @@ begin
   L := ToStack;
   lua_push(L,Sender,TypeInfo(Sender));
   lua_pushArray<string>(L, FileNames);
+  DoCall(L,2);
+end;
+
+procedure TLuaExceptionEvent.Handler(Sender: TObject; E: Exception);
+var
+  L: Plua_State;
+  luaTop, luaNewTop: Integer;
+begin
+  L := ToStack;
+  lua_push(L,Sender,TypeInfo(Sender));
+  lua_push(L,E);
   DoCall(L,2);
 end;
 

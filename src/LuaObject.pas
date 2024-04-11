@@ -6,7 +6,6 @@ interface
 
 uses
   Classes,
-  SysUtils,
   TypInfo,
   LuaVmt,
   Contnrs,

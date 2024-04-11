@@ -127,4 +127,5 @@ TCustomMemoryStream.ClassInfo,
 TStream.ClassInfo,
 TCollection.ClassInfo,
 TCollectionItem.ClassInfo,
+Exception.ClassInfo,
 TPersistent.ClassInfo

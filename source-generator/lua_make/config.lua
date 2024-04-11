@@ -16,6 +16,7 @@ local FPCSOURCE = "/work/tools/lazarus/fpc/3.2.2/source/"
 
 fpcSrc = {
 	["Classes"] 	= FPCSOURCE.."rtl/objpas/classes/classesh.inc",
+	["SysUtils"] 	= FPCSOURCE.."rtl/objpas/sysutils/sysutilh.inc",
 	["StdCtrls"] 	= LAZPATH.."lcl/stdctrls.pp",
 	["ExtCtrls"] 	= LAZPATH.."lcl/extctrls.pp",
 	["ComCtrls"] 	= LAZPATH.."lcl/comctrls.pp",
@@ -74,6 +75,7 @@ toInfer = {
 classes = {
 	------------------------------------------------------------------
 	{ name = "Persistent", src = "TPersistent", ref="Classes", nocreate=true },
+	{ name = "Exception", src = "Exception", fptype = "Exception", ref="SysUtils", nocreate=true },
 	{ unit = "Collection", ref = "Classes",
 		classes = {
 			{ name = "CollectionItem", src = "TCollectionItem", nocreate=true },

@@ -842,12 +842,13 @@ for n,cdef in pairs(classes) do
 	classSource = classSource:gsub("#REF",cdef.ref)
 	-- clear duplicates from implementation uses
 	unitRefs['System'] = nil
+	unitRefs['SysUtils'] = nil
 	for _,r in ipairs(refsplit) do unitRefs[r] = nil end
 	-- prepare table for concat
 	unitRefs[''] = true
 	local unitRefT = HashedToSorted(unitRefs)
 	if cdef.implref then table.insert(unitRefT,cdef.implref) end
-	classSource = classSource:gsub("#IMPLREF",table.concat(unitRefT, ', '))
+	classSource = classSource:gsub((cdef.ref == "SysUtils" and ", SysUtils" or "").."#IMPLREF",table.concat(unitRefT, ', '))
 
 	local intf, body, create, init = {},{},{},{"begin"}
 	-- manual code to include

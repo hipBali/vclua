@@ -6,8 +6,8 @@
 --                                                      --
 -- **************************************************** --
 
--- map of types to Refs
-typeRef = {}
+-- map of types to Refs; auto inference works for types starting with 'T', so add what's needed by hand
+typeRef = {exception="SysUtils"}
 vcluaTypeRef = {}
 
 -- Generic templates

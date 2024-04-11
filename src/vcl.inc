@@ -5,6 +5,7 @@ Generated with Lua-fpc parser/generator
 	
 	// GENERATED SOURCES ***********************
 	LuaPersistent,
+	LuaException,
 	LuaCollection,
 	LuaStream,
 	LuaStrings,

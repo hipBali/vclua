@@ -5,6 +5,8 @@ Generated with Lua-fpc parser/generator
 
   vmts.Add('TPersistent', @PersistentFuncs);
   propSets.Add('TPersistent', @PersistentSets);
+  vmts.Add('Exception', @ExceptionFuncs);
+  propSets.Add('Exception', @ExceptionSets);
   vmts.Add('TCollectionItem', @CollectionItemFuncs);
   propSets.Add('TCollectionItem', @CollectionItemSets);
   vmts.Add('TCollection', @CollectionFuncs);

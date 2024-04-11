@@ -4,6 +4,7 @@ Generated with Lua-fpc parser/generator
 *)
 
 apiPtis.Add('TPersistent', TPersistent.ClassInfo);
+apiPtis.Add('Exception', Exception.ClassInfo);
 apiPtis.Add('TCollectionItem', TCollectionItem.ClassInfo);
 apiPtis.Add('TCollection', TCollection.ClassInfo);
 apiPtis.Add('TStream', TStream.ClassInfo);

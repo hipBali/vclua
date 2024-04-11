@@ -1395,6 +1395,16 @@ begin
 	Result := 0;
 end;
 
+function VCLua_Application_VCLuaSetOnCircularException(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+begin
+	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
+	TLuaEvent.MaybeFree(TLuaCb(lApplication.OnCircularException));
+	lApplication.OnCircularException := TLuaEvent.Factory<TExceptionEvent,TLuaExceptionEvent>(L);
+	Result := 0;
+end;
+
 function VCLua_Application_VCLuaSetShowButtonGlyphs(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
@@ -1706,6 +1716,7 @@ begin
 	TLuaMethodInfo.Create(ApplicationSets, 'OnHint', @VCLua_Application_VCLuaSetOnHint, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(ApplicationSets, 'OnUserInput', @VCLua_Application_VCLuaSetOnUserInput, mfCall, TypeInfo(TOnUserInputEvent));
 	TLuaMethodInfo.Create(ApplicationSets, 'OnDestroy', @VCLua_Application_VCLuaSetOnDestroy, mfCall, TypeInfo(TNotifyEvent));
+	TLuaMethodInfo.Create(ApplicationSets, 'OnCircularException', @VCLua_Application_VCLuaSetOnCircularException, mfCall, TypeInfo(TExceptionEvent));
 	TLuaMethodInfo.Create(ApplicationSets, 'ShowButtonGlyphs', @VCLua_Application_VCLuaSetShowButtonGlyphs, mfCall, TypeInfo(TApplicationShowGlyphs));
 	TLuaMethodInfo.Create(ApplicationSets, 'ShowMenuGlyphs', @VCLua_Application_VCLuaSetShowMenuGlyphs, mfCall, TypeInfo(TApplicationShowGlyphs));
 	TLuaMethodInfo.Create(ApplicationSets, 'ShowHint', @VCLua_Application_VCLuaSetShowHint, mfCall, TypeInfo(Boolean));
