@@ -530,10 +530,11 @@ local function applyFromLuaTempl(templ, varName, varType, vtLower)
 end
 function createUnitBody(cdef, ref, refs)
 	local className = cdef.name
+	local fptype = cdef.fptype or 'T'..className
 	local classBody = {} 
 	local cMethods, cPropSets = {n=0,suf="Funcs"}, {n=0,suf="Sets"}
 	local overLoads = {}
-	local src = cdef.src:sub(2)
+	local src = cdef.src:sub(1,1)=='T' and cdef.src:sub(2) or cdef.src
 	local initSrc = not initedSrcs[src]
 	if not initSrc then cLog("###  skipping init of src "..src, "DEBUG") end
 	local initFmt = "TLuaMethodInfo.Create("..src.."%s, '%s', @%s%s%s);"
@@ -756,7 +757,7 @@ function createUnitBody(cdef, ref, refs)
 		ccreate = ccreate:gsub("l#CNAME.#PARENT","//")
 	end
 	ccreate = ccreate:gsub("#PARENTCLASS", pc):gsub("#PARENT","Parent")
-	ccreate = ccreate:gsub("#CNAME",className):gsub("#CSRC",cdef.src)
+	ccreate = ccreate:gsub("#CNAME",className):gsub("#CSRC",cdef.src):gsub("#FPTYPE",fptype)
 	ccreate = ccreate:gsub("#WCLASS",cdef.wclass or "nil")
 	local init
 	if initSrc then
@@ -769,7 +770,7 @@ function createUnitBody(cdef, ref, refs)
 	end
 	initedSrcs[src] = true
 	
-	return table.concat(classBody,"\n"), ccreate, intface:gsub("#CSRC",src):gsub("#CNAME",className), init
+	return table.concat(classBody,"\n"), ccreate, intface:gsub("#CSRC",src):gsub("#CNAME",className):gsub("#FPTYPE",fptype), init
 end
 
 -- pascal source generator --------------------------
@@ -879,16 +880,17 @@ initedSrcs = {}
 local init = {}
 local function processCdef(cdef)
   local pName = cdef.name
-  table.insert(api_srcs, "apiPtis.Add('T"..pName.."', T"..pName..".ClassInfo);")
+  local fptype = cdef.fptype or 'T'..pName
+  table.insert(api_srcs, "apiPtis.Add('"..fptype.."', "..fptype..".ClassInfo);")
   if cdef.nocreate==nil then
     table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")
     libcount = libcount + 1
   end
-  local src = cdef.src:sub(2)
+  local src = cdef.src:sub(1,1)=='T' and cdef.src:sub(2) or cdef.src
   if not initedSrcs[src] then
     initedSrcs[src] = true
     table.insert(meta_srcs, cdef.src..'.ClassInfo')
-    table.insert(init, (VCLUA_ADD_MAP:gsub("#CSRC", src)))
+    table.insert(init, (VCLUA_ADD_MAP:gsub("#CSRC", src):gsub("#FPTYPE",cdef.src)))
   end
 end
 for n,cdef in pairs(classes) do

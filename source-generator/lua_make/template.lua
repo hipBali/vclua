@@ -28,29 +28,29 @@ end.
 -- 1) user can see from ClassName that the object was user-created, not created somewhere inside LCL
 VCLua_CDEF_INTFCE = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
-procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; const v: #FPTYPE; pti: PTypeInfo = nil); overload; inline;
 
 type
-    TLua#CNAME = class(T#CNAME)
+    TLua#CNAME = class(#FPTYPE)
     end;
 ]]
 
 VCLua_CDEF_INTFCE_CANVAS = [[
 function Create#CNAME(L: Plua_State): Integer; cdecl;
-procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; const v: #FPTYPE; pti: PTypeInfo = nil); overload; inline;
 
 type
-    TLua#CNAME = class(T#CNAME)
+    TLua#CNAME = class(#FPTYPE)
 	  published
 	    property Canvas;
     end;
 ]]
 
 VCLua_CDEF_INTFCE_NOCREATE = [[
-procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; const v: #FPTYPE; pti: PTypeInfo = nil); overload; inline;
 
 type
-    TLua#CNAME = class(T#CNAME)
+    TLua#CNAME = class(#FPTYPE)
     end;
 ]]
 
@@ -111,7 +111,7 @@ VCLua_PROP = [[
 		end;]]
 
 VCLua_CDEF_TOTABLE = [[
-procedure lua_push(L: Plua_State; const v: T#CNAME; pti: PTypeInfo);
+procedure lua_push(L: Plua_State; const v: #FPTYPE; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'#CSRC',v);
 end;
@@ -207,8 +207,8 @@ VCLUA_INIT = [[
 	#CMETHODS]]
 
 VCLUA_ADD_MAP = [[
-  vmts.Add('T#CSRC', @#CSRCFuncs);
-  propSets.Add('T#CSRC', @#CSRCSets);
+  vmts.Add('#FPTYPE', @#CSRCFuncs);
+  propSets.Add('#FPTYPE', @#CSRCSets);
 ]]
 
 VCLUA_EVENTDEF = [[
