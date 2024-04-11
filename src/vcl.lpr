@@ -41,7 +41,7 @@ begin
      luaL_newlibtable(l, vcl_lib);
      luaL_setfuncs(l, vcl_lib, 0);
   {$ELSE}
-     luaL_openlib(L, LUA_VCL_LIBNAME, @vcl_lib, 0);
+     luaL_openlib(L, LUA_VCL_LIBNAME, vcl_lib, 0);
   {$ENDIF}
   // extend library
   lua_pushcfunction(L, @LuaColorToIdent);

@@ -446,7 +446,12 @@ begin
       end;
       Inc(i);
       lua_settop(L, kindex);
+      {$ifndef LUA51}
       lua_geti(L, vindex, i + 1); // allow meta call
+      {$else}
+      lua_pushinteger(L, i + 1);
+      lua_gettable(L, vindex);
+      {$endif}
     until lua_isnil(L, pvindex);
   end else
       LuaError(L, 'Can''t update property from array table, or collection is nil', UpdatedPropName);
