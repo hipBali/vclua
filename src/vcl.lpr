@@ -70,6 +70,8 @@ begin
   lua_setfield(L, -2, 'RichMemo');
   {$ENDIF}
 
+  {$i export_vars.inc}
+
   lua_pushliteral (L, '_COPYRIGHT');
   lua_pushliteral (L, 'Copyright (C) 2006,2024 Hi-Project Ltd.');
   lua_settable (L, -3);

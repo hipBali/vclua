@@ -43,6 +43,7 @@ VCLUA_ES = {
 "TTypeKind",
 "TTypeKinds",
 "TLCLPlatforms",
+"TEventType",
 }
 
 VCLUA_TOLUA_DEFAULT = "lua_push(L,#VAR);"

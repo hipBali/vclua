@@ -20,6 +20,7 @@ var
     ApplicationFuncs: TLuaVmt;
     ApplicationSets: TLuaVmt;
 
+function TheApplication(L: Plua_State): Integer; cdecl;
 
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, ActnList, Classes, Controls, Graphics, LuaActnListEvents, LuaClassesEvents, LuaControl, LuaEvent, LuaFormsEvents, LCLType;
@@ -1597,6 +1598,11 @@ begin
 	lua_push(L,ret);
 end;
 
+function TheApplication(L: Plua_State): Integer; cdecl;
+begin
+	lua_push(L,Application);
+	Result := 1;
+end;
 procedure lua_push(L: Plua_State; const v: TApplication; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TApplication',v);

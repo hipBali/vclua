@@ -257,3 +257,15 @@ begin
   DoCall(L,#IDX);#FROMLUA
 end;
 ]]
+
+VCLUA_VAR = [[
+function The#NAME(L: Plua_State): Integer; cdecl;
+begin
+	#TOLUA
+	Result := 1;
+end;]]
+
+VCLUA_VAR_EXPORT = [[
+  lua_pushcfunction(L, @The#NAME);
+  lua_setfield(L, -2, 'The#NAME');
+]]

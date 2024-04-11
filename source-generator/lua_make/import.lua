@@ -234,7 +234,7 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
   _, pos = line:find('^%s*',pos + 1)
   pos = pos + 1
   local do_exclude
-  if line:find("^set%s+of%s*",pos) then
+  if line:find("^[sS]et%s+of%s*",pos) then
     cLog(string.format("SET FOUND %s LINE:%d", typename, n),"INFO")
     VCLUA_FROMLUA[c] = VCLUA_TOSET
     if VCLUA_ES_CHECK then
@@ -248,10 +248,10 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
       VCLUA_FROMLUA[c] = VCLUA_FROMLUA_FULL
       VCLUA_TOLUA[c] = VCLUA_TOLUA_FULL
     end
-  elseif line:find('^class%s+of[^_%w]',pos) or line:find('^[fF]unction%s*%(',pos) then -- or line:find('^[oO]bject',pos)
+  elseif line:find('^[cC]lass%s+of[^_%w]',pos) or line:find('^[fF]unction%s*%(',pos) then -- or line:find('^[oO]bject',pos)
     do_exclude = 'typekind'
   elseif line:find("^[pP]rocedure%s*%(",pos) then
-    local function pred(s) return s:find("%);") or s:find("%)%s*of%s+[oO]bject;") end
+    local function pred(s) return s:find("%);") or s:find("%)%s*[oO]f%s+[oO]bject;") end
     if not pred(line) then merged, line = concat_until(ref, merged, line, cfile, pred) end
     if line:find("%);") then return merged end
     local md = {method=line,propInfo=true,name=typename,refs={}} -- propInfo for ensuring #md.vars==1
@@ -269,7 +269,7 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
       vcluaTypeRef[c] = 'Lua'..ref..'Events'
     end
   else
-    local _,_,cc = line:find("^array%s+of%s+([_%w]+)",pos)
+    local _,_,cc = line:find("^[aA]rray%s+of%s+([_%w]+)",pos)
     if cc then
       if excludeType[cc:lower()] then do_exclude = cc
       else
@@ -339,8 +339,8 @@ local function processClass(def,cdef,ref)
 			if last then return last end
 		end
 		-- parse class
-		local _,_,c = line:find("([_%w]+)%s*=%s*class%s*%([_%w]+%s*")
-		if not c then _,_,c = line:find("([_%w]+)%s*=%s*class%s*$") end
+		local _,_,c = line:find("([_%w]+)%s*=%s*[cC]lass%s*%([_%w]+%s*")
+		if not c then _,_,c = line:find("([_%w]+)%s*=%s*[cC]lass%s*$") end
 		if c==cdef.src then
 			classTable[cname] = {}
 			cLog(string.format("PARSING %s %s LINE:%d",cname, c,n),"INFO")
@@ -431,7 +431,7 @@ local function processClass(def,cdef,ref)
 	while n <= lines do
 		local line = def[n]
 		local last = processLine(n, line)
-		if (last < 0 and not reparse) or line == 'implementation' then break end
+		if (last < 0 and not reparse) or line:lower() == 'implementation' then break end
 		n = math.abs(last) + 1
 	end
 	return processed
@@ -520,11 +520,12 @@ function processParams(md)
 	end
 end
 
+local globals = {}
 local function getPropTempl(pi)
   return pi.r and (pi.w and VCLua_PROP or VCLua_PROP_READ) or VCLua_PROP_WRITE
 end
 local function applyFromLuaTempl(templ, varName, varType, vtLower)
-  local arrayType = varType:match('array%s+of%s+([_%w]+)')
+  local arrayType = varType:match('[aA]rray%s+of%s+([_%w]+)')
   templ = templ or (arrayType and VCLUA_TOARRAY) or VCLUA_FROMLUA[vtLower] or VCLUA_FROMLUA_DEFAULT
   return templ:gsub('#VAR',varName):gsub('#TYP',arrayType or varType)
 end
@@ -767,6 +768,14 @@ function createUnitBody(cdef, ref, refs)
 		init = table.concat(init,'\n')
 	end
 	initedSrcs[src] = true
+	-- create globals accessors
+	for global,typ in pairs(cdef.globals or {}) do
+		typ = type(typ) == "string" and typ or 'T'..global
+		local def = VCLUA_VAR:gsub('#NAME',global,1):gsub('#TOLUA',TOLUA(typ,global))
+		table.insert(classBody, def)
+		table.insert(globals, (VCLUA_VAR_EXPORT:gsub('#NAME',global)))
+		intface = intface..'\n'..def:match('([^\n]+)')
+	end
 	
 	return table.concat(classBody,"\n"), ccreate, intface:gsub("#CSRC",src):gsub("#CNAME",className):gsub("#FPTYPE",fptype), init
 end
@@ -982,5 +991,6 @@ saveTextToFile(HDR_INFO .. "\n" .. table.concat(init),out_path.."src/init_map.in
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(eventRegs),out_path.."src/init_events.inc")
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(meta_srcs),",\n"),out_path.."src/meta_srcs.inc")
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(api_srcs,"\n"),out_path.."src/api_srcs.inc")
+saveTextToFile(HDR_INFO .. "\n" .. table.concat(globals),out_path.."src/export_vars.inc")
 
 

@@ -52,3 +52,5 @@ ptypedata
 tpersistentselectionlist
 tconfigstorage
 tinstprop
+tbasesingleinstance
+tbasesingleinstanceclass

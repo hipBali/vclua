@@ -21,6 +21,7 @@ fpcSrc = {
 	["ExtCtrls"] 	= LAZPATH.."lcl/extctrls.pp",
 	["ComCtrls"] 	= LAZPATH.."lcl/comctrls.pp",
 	["Controls"] 	= LAZPATH.."lcl/controls.pp",
+	["CustApp"] 	= FPCSOURCE.."packages/fcl-base/src/custapp.pp",
 	["Forms"] 		= LAZPATH.."lcl/forms.pp",
 	["Graphics"] 	= LAZPATH.."lcl/graphics.pp",
 	["ActnList"]	= LAZPATH.."lcl/actnlist.pas",
@@ -71,6 +72,7 @@ toInfer = {
 -- canvas: publish canvas property (usually not needed since public properties are available, just add parent with Canvas to config)
 -- form: use CreateNew instead Create
 -- wclass: item class for collections
+-- globals: table of global vars to export, values are types; if nonstrings, T#NAME is assumed
 
 classes = {
 	------------------------------------------------------------------
@@ -147,7 +149,8 @@ classes = {
 	},
 
 	-- forms
-	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true  },
+	{ name = "CustomApplication", src = "TCustomApplication", ref = "CustApp", implref = "singleinstance", nocreate=true },
+	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true, globals={Application=1} },
 	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", form=true},
 	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms", },
 

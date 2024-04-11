@@ -79,6 +79,8 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TDockZone', @DockZoneSets);
   vmts.Add('TDockTree', @DockTreeFuncs);
   propSets.Add('TDockTree', @DockTreeSets);
+  vmts.Add('TCustomApplication', @CustomApplicationFuncs);
+  propSets.Add('TCustomApplication', @CustomApplicationSets);
   vmts.Add('TApplication', @ApplicationFuncs);
   propSets.Add('TApplication', @ApplicationSets);
   vmts.Add('TCustomForm', @CustomFormFuncs);

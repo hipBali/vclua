@@ -41,6 +41,7 @@ apiPtis.Add('TDragDockObject', TDragDockObject.ClassInfo);
 apiPtis.Add('TDragDockObjectEx', TDragDockObjectEx.ClassInfo);
 apiPtis.Add('TDockZone', TDockZone.ClassInfo);
 apiPtis.Add('TDockTree', TDockTree.ClassInfo);
+apiPtis.Add('TCustomApplication', TCustomApplication.ClassInfo);
 apiPtis.Add('TApplication', TApplication.ClassInfo);
 apiPtis.Add('TForm', TForm.ClassInfo);
 apiPtis.Add('TScrollBox', TScrollBox.ClassInfo);
