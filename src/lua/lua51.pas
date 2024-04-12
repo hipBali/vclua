@@ -52,7 +52,7 @@ const
 *)
 type
   LUA_NUMBER_  = type Double;            // ending underscore is needed in Pascal
-  LUA_INTEGER_ = type Integer;
+  LUA_INTEGER_ = Int64;
 
 (*
 @@ LUA_IDSIZE gives the maximum size for the description of the source
