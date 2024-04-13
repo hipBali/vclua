@@ -68,7 +68,7 @@ function luaL_optbool(L : Plua_State; n: Integer; d: boolean): Boolean;
 
 implementation
 
-Uses Forms;
+Uses Forms, LazUtf8;
 
 function LuaFpGc(L: Plua_State): Integer; cdecl;
 var
@@ -191,7 +191,7 @@ begin
      if not(AppInitialized in Application.Flags) then
         Application.Initialize;
      if (AppInitialized in Application.Flags) then
-         ShowMessage('LUA Error:'+#10#13+err+#10#13+text)
+         ShowMessage('LUA Error:'+#10#13+WinCPToUTF8(err)+#10#13+WinCPToUTF8(text))
      else
         writeln('LUA Error:'+#10#13+err+#10#13+text);
      luaL_error(L, LuaTraceback(L,'VCLua Error'));
@@ -199,7 +199,7 @@ end;
 
 procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
 begin
-  ShowMessage(Format('LCL Error:'+#13+'calling %s.%s got %s:'+#13+err, [className, methodName, text]));
+  ShowMessage(Format('LCL Error:'+#13+'calling %s.%s got %s:'+#13+WinCPToUTF8(err), [className, methodName, text]));
   luaL_error(L, LuaTraceback(L,'LCL Error'));
 end;
 
