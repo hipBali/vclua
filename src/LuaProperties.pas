@@ -346,7 +346,7 @@ begin
           vo := TObject(luaL_checkStringList(L, index));
           gotValue := true;
         end else
-            vo := GetLuaObject(L, index);
+            luaL_check(L, index, @vo, pti);
         SetObjectProp(Comp, PInfo, vo);
         if gotValue then vo.Free;
       end;
