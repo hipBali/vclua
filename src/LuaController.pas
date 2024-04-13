@@ -108,15 +108,15 @@ procedure InitControl(L: Plua_State; luaObj:TObject; var Name:String);
 var
   tindex: Integer;
 begin
-     tindex := lua_gettop(L) - 1;
-     if (tindex>0) and (lua_istable(L,tindex)) and (GetLuaObjectUnsafePop(L,tindex) = nil) then
-        UpdatePropertiesFromLuaTable(L, luaObj.ClassName, tindex + 1, tindex, luaObj);
-     try
-        (luaObj as TComponent).Name := Name;
-     except
-         on E: Exception do
-            LuaError(L, E.ClassName , E.Message );
-     end;
+  try
+     (luaObj as TComponent).Name := Name;
+  except
+      on E: Exception do
+         LuaError(L, E.ClassName, E.Message);
+  end;
+  tindex := lua_gettop(L) - 1;
+  if (tindex>0) and (lua_istable(L,tindex)) and (GetLuaObjectUnsafePop(L,tindex) = nil) then
+     UpdatePropertiesFromLuaTable(L, luaObj.ClassName, tindex + 1, tindex, luaObj);
 end;
 
 function ControlFree(L: Plua_State): Integer; cdecl;
