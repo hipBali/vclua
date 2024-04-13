@@ -39,7 +39,7 @@ print("Image index is:",idx)
 
 local bSave = VCL.ToolButton(tbar,'b1',{Caption="Save",AutoSize=true, Style="tbsButton", Left = tbar.Left})
 VCL.ToolButton(tbar,'s1',{Style="tbsDivider", Left = tbar.Left})
-local bCancel = VCL.ToolButton(tbar,'b2',{ImageIndex=0, AutoSize=true, Style="tbsButton", Left = tbar.Left})
+local bCancel = VCL.ToolButton(tbar,'b2',{ImageIndex=0, AutoSize=true, Style="tbsButton", Left = tbar.Left, Caption=""})
 -- test return of variable parameters
 local a,b,c = bCancel:GetCurrentIcon()
 print(a.classname, b, c)

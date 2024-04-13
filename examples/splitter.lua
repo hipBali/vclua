@@ -23,14 +23,14 @@ local bottomPanel = VCL.Panel(mainFrm,'bottomPanel', {
 	Height=100
 })
 local leftPanel = VCL.Panel(bottomPanel,'leftPanel', {
-	Align='alLeft'
+	Align='alLeft', Caption=''
 })
 local splitterBottom = VCL.Splitter(bottomPanel,'bottomSplitter', {
 	Align = 'alLeft',
 	Left = leftPanel.left + 1
 })
 local rightPanel = VCL.Panel(bottomPanel,'rightPanel', {
-	Align='alClient'
+	Align='alClient', Caption=''
 })
 
 

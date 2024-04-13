@@ -9,7 +9,7 @@ local mainForm = VCL.Form(nil, {
 	caption = 'Drop files example',
 	height=400, width=600, allowdropfiles="true"})
 local memo = VCL.Memo(mainForm,{align = "alClient", })			
-memo.lines:Add("Drop file(s) here!")
+memo.lines={"Drop file(s) here!"}
 	
 mainForm.OnDropFiles = function(sender,f)
 	memo.lines:Clear()
