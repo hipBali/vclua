@@ -589,7 +589,7 @@ var
 	valNeedsFree:Boolean = False;
 begin
 	lListBox := TLuaListBox(GetLuaObjectUnsafe(L, 1));
-	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList,TypeInfo(val));
 	try
 		lListBox.Items := val;
 		Result := 0;

@@ -146,7 +146,7 @@ var
 	valNeedsFree:Boolean = False;
 begin
 	lRadioGroup := TLuaRadioGroup(GetLuaObjectUnsafe(L, 1));
-	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList,TypeInfo(val));
 	try
 		lRadioGroup.Items := val;
 		Result := 0;

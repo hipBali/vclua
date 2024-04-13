@@ -283,9 +283,9 @@ begin
 	CheckArg(L, 5, 6);
 	lCustomApplication := TLuaCustomApplication(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ShortOptions);
-	LongoptsNeedsFree := luaL_checkOrFromTable(L,3,@Longopts,@luaL_checkStringList);
-	OptsNeedsFree := luaL_checkOrFromTable(L,4,@Opts,@luaL_checkStringList);
-	NonOptsNeedsFree := luaL_checkOrFromTable(L,5,@NonOpts,@luaL_checkStringList);
+	LongoptsNeedsFree := luaL_checkOrFromTable(L,3,@Longopts,@luaL_checkStringList,TypeInfo(Longopts));
+	OptsNeedsFree := luaL_checkOrFromTable(L,4,@Opts,@luaL_checkStringList,TypeInfo(Opts));
+	NonOptsNeedsFree := luaL_checkOrFromTable(L,5,@NonOpts,@luaL_checkStringList,TypeInfo(NonOpts));
 	TTrait<Boolean>.luaL_optcheck(L, 6, @AllErrors, False);
 	try
 		ret := lCustomApplication.CheckOptions(ShortOptions,Longopts,Opts,NonOpts,AllErrors);
@@ -316,8 +316,8 @@ begin
 	lCustomApplication := TLuaCustomApplication(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ShortOptions);
 	TTrait<string>.luaL_checkArray(L, 3, @Longopts);
-	OptsNeedsFree := luaL_checkOrFromTable(L,4,@Opts,@luaL_checkStringList);
-	NonOptsNeedsFree := luaL_checkOrFromTable(L,5,@NonOpts,@luaL_checkStringList);
+	OptsNeedsFree := luaL_checkOrFromTable(L,4,@Opts,@luaL_checkStringList,TypeInfo(Opts));
+	NonOptsNeedsFree := luaL_checkOrFromTable(L,5,@NonOpts,@luaL_checkStringList,TypeInfo(NonOpts));
 	TTrait<Boolean>.luaL_optcheck(L, 6, @AllErrors, False);
 	try
 		ret := lCustomApplication.CheckOptions(ShortOptions,Longopts,Opts,NonOpts,AllErrors);
@@ -343,7 +343,7 @@ begin
 	CheckArg(L, 3, 4);
 	lCustomApplication := TLuaCustomApplication(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@ShortOptions);
-	LongoptsNeedsFree := luaL_checkOrFromTable(L,3,@Longopts,@luaL_checkStringList);
+	LongoptsNeedsFree := luaL_checkOrFromTable(L,3,@Longopts,@luaL_checkStringList,TypeInfo(Longopts));
 	TTrait<Boolean>.luaL_optcheck(L, 4, @AllErrors, False);
 	try
 		ret := lCustomApplication.CheckOptions(ShortOptions,Longopts,AllErrors);
@@ -435,7 +435,7 @@ begin
 	lCustomApplication := TLuaCustomApplication(GetLuaObject(L, 1));
 	luaL_check(L,2,@ShortOptions);
 	TTrait<string>.luaL_checkArray(L, 3, @Longopts);
-	NonOptionsNeedsFree := luaL_checkOrFromTable(L,4,@NonOptions,@luaL_checkStringList);
+	NonOptionsNeedsFree := luaL_checkOrFromTable(L,4,@NonOptions,@luaL_checkStringList,TypeInfo(NonOptions));
 	try
 		lCustomApplication.GetNonOptions(ShortOptions,Longopts,NonOptions);
 		Result := 0;
@@ -455,7 +455,7 @@ var
 begin
 	CheckArg(L, 3);
 	lCustomApplication := TLuaCustomApplication(GetLuaObject(L, 1));
-	ListNeedsFree := luaL_checkOrFromTable(L,2,@List,@luaL_checkStringList);
+	ListNeedsFree := luaL_checkOrFromTable(L,2,@List,@luaL_checkStringList,TypeInfo(List));
 	luaL_check(L,3,@NamesOnly);
 	try
 		lCustomApplication.GetEnvironmentList(List,NamesOnly);
@@ -475,7 +475,7 @@ var
 begin
 	CheckArg(L, 2);
 	lCustomApplication := TLuaCustomApplication(GetLuaObject(L, 1));
-	ListNeedsFree := luaL_checkOrFromTable(L,2,@List,@luaL_checkStringList);
+	ListNeedsFree := luaL_checkOrFromTable(L,2,@List,@luaL_checkStringList,TypeInfo(List));
 	try
 		lCustomApplication.GetEnvironmentList(List);
 		Result := 0;

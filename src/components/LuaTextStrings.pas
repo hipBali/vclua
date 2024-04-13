@@ -259,7 +259,7 @@ var
 begin
 	CheckArg(L, 2);
 	lTextStrings := TLuaTextStrings(GetLuaObject(L, 1));
-	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList,TypeInfo(TheStrings));
 	try
 		lTextStrings.AddStrings(TheStrings);
 		Result := 0;

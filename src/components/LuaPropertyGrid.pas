@@ -545,7 +545,7 @@ var
 	valNeedsFree:Boolean = False;
 begin
 	lTICustomGrid := TLuaTICustomGrid(GetLuaObjectUnsafe(L, 1));
-	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList,TypeInfo(val));
 	try
 		lTICustomGrid.HideProperties := val;
 		Result := 0;
@@ -758,7 +758,7 @@ var
 	valNeedsFree:Boolean = False;
 begin
 	lTICustomGrid := TLuaTICustomGrid(GetLuaObjectUnsafe(L, 1));
-	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList,TypeInfo(val));
 	try
 		lTICustomGrid.PropertyOrder := val;
 		Result := 0;
@@ -792,7 +792,7 @@ var
 	valNeedsFree:Boolean = False;
 begin
 	lTICustomGrid := TLuaTICustomGrid(GetLuaObjectUnsafe(L, 1));
-	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList);
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList,TypeInfo(val));
 	try
 		lTICustomGrid.ShowOnlyProperties := val;
 		Result := 0;

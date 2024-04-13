@@ -1641,7 +1641,7 @@ var
 begin
 	CheckArg(L, 2, 3);
 	lTreeView := TLuaTreeView(CheckLuaObjectPop(L, 1));
-	ASelectionNeedsFree := luaL_checkOrFromTable(L,2,@ASelection,@luaL_checkStringList);
+	ASelectionNeedsFree := luaL_checkOrFromTable(L,2,@ASelection,@luaL_checkStringList,TypeInfo(ASelection));
 	TTrait<boolean>.luaL_optcheck(L, 3, @FreeList, True);
 	try
 		lTreeView.ApplyStoredSelection(ASelection,FreeList);

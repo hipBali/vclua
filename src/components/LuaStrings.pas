@@ -191,7 +191,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList,TypeInfo(TheStrings));
 	try
 		lStrings.AddStrings(TheStrings);
 		Result := 0;
@@ -211,7 +211,7 @@ var
 begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList,TypeInfo(TheStrings));
 	luaL_check(L,3,@ClearFirst);
 	try
 		lStrings.AddStrings(TheStrings,ClearFirst);
@@ -267,7 +267,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList,TypeInfo(TheStrings));
 	try
 		lStrings.SetStrings(TheStrings);
 		Result := 0;
@@ -491,7 +491,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList);
+	TheStringsNeedsFree := luaL_checkOrFromTable(L,2,@TheStrings,@luaL_checkStringList,TypeInfo(TheStrings));
 	try
 		ret := lStrings.Equals(TheStrings);
 		Result := 1;
@@ -891,7 +891,7 @@ var
 begin
 	CheckArg(L, 2);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	aListNeedsFree := luaL_checkOrFromTable(L,2,@aList,@luaL_checkStringList);
+	aListNeedsFree := luaL_checkOrFromTable(L,2,@aList,@luaL_checkStringList,TypeInfo(aList));
 	try
 		lStrings.Reverse(aList);
 		Result := 0;
@@ -1001,7 +1001,7 @@ begin
 	CheckArg(L, 3);
 	lStrings := TLuaStrings(GetLuaObject(L, 1));
 	luaL_check(L,2,@fromIndex);
-	aListNeedsFree := luaL_checkOrFromTable(L,3,@aList,@luaL_checkStringList);
+	aListNeedsFree := luaL_checkOrFromTable(L,3,@aList,@luaL_checkStringList,TypeInfo(aList));
 	try
 		lStrings.Slice(fromIndex,aList);
 		Result := 0;

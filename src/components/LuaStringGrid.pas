@@ -701,7 +701,7 @@ begin
 			lua_push(L,ret);
 			Result := 1;
 		end else begin
-			retNeedsFree := luaL_checkOrFromTable(L,3,@ret,@luaL_checkStringList);
+			retNeedsFree := luaL_checkOrFromTable(L,3,@ret,@luaL_checkStringList,TypeInfo(ret));
 			lStringGrid.Cols[index] := ret;
 			Result := 0;
 		end;
@@ -755,7 +755,7 @@ begin
 			lua_push(L,ret);
 			Result := 1;
 		end else begin
-			retNeedsFree := luaL_checkOrFromTable(L,3,@ret,@luaL_checkStringList);
+			retNeedsFree := luaL_checkOrFromTable(L,3,@ret,@luaL_checkStringList,TypeInfo(ret));
 			lStringGrid.Rows[index] := ret;
 			Result := 0;
 		end;

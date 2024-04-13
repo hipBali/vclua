@@ -315,7 +315,7 @@ var
 begin
 	CheckArg(L, 2);
 	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	ListNeedsFree := luaL_checkOrFromTable(L,2,@List,@luaL_checkStringList);
+	ListNeedsFree := luaL_checkOrFromTable(L,2,@List,@luaL_checkStringList,TypeInfo(List));
 	try
 		lGraphic.GetSupportedSourceMimeTypes(List);
 		Result := 0;
