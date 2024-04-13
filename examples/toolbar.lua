@@ -25,9 +25,11 @@ local add_img = function(imgList, fName)
 	-- Bitmap has no method named 'Assign', but CustomBitmap has it
 	SrcBmp:Assign(Picture.Graphic)
 	local idx = imgList:Add(SrcBmp, nil)
+	SrcBmp:Free()
 	Picture:Free()
 	local destBmp = VCL.Bitmap()
 	-- test for passing optional enum, try removing 2nd param
+	-- also this always saves 16x16 since it's default size for ImageList
 	imgList:GetFullBitmap(destBmp, 'gdeDisabled')
 	destBmp:SaveToFile('cancel.bmp')
 	return idx
