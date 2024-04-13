@@ -1,6 +1,6 @@
 -- ***************************************
 -- VCLua canvas example
--- Copyright (C) 2006-2023 Hi-Project Ltd.
+-- Copyright (C) 2006-2024 Hi-Project Ltd.
 -- ***************************************
 VCL = require "vcl.core"
 VCL.Application():Initialize()
