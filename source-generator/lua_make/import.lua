@@ -11,6 +11,7 @@ package.path=package.path..";?.lua;lua_make/?.lua;lua_make/lib/?.lua"
 -- when true generates code which would not compile if some pushed type isn't supported
 -- when false the error detection is deferred to runtime, but no change is needed to add more sources
 checkTypeSupport = arg[1] or false
+doExport = arg[2] or false
 
 require "classdef"
 require "template"
@@ -19,7 +20,7 @@ require "config"
 require "log"
 local file = require "file"
 
-_logLevel = "INFO"
+_logLevel = doExport and "ERROR" or "INFO"
 
 local out_path = "../"
 
@@ -105,11 +106,11 @@ function string:split(sep)
    return fields
 end
 
-local function HashedToSorted(t,comp)
+local function HashedToSorted(t,comp,forceKV)
   local k,v = next(t)
   if not k then return {} end
   local res = {n=0}
-  local tables = type(v) == "table"
+  local tables = type(v) == "table" or forceKV
   if tables then
     for k,v in pairs(t) do
       res.n=res.n+1
@@ -127,7 +128,7 @@ local function HashedToSorted(t,comp)
   return res
 end
 
-local function propertyToProc(decl)
+local function propertyToProc(decl, origLine)
   -- parsing 'property ident([indexing])?: type (read ident)? (write ident)? .* (default;)?
   local propName, indexing, m, typeName
   local canRead, canWrite = false, false
@@ -146,12 +147,13 @@ local function propertyToProc(decl)
   _, n = decl:find('[^_%w][dD]efault%s*;', n + 1)
   local d=n and true
   local method = ("procedure %s(%s:%s)"):format(propName, indexing and (indexing..'; var ret') or 'val', typeName)
+  decl = origLine or decl
   if indexing then
-    return {{method=method, propInfo={r=canRead,w=canWrite,d=d,i=true}}}
+    return {{method=method, propInfo={r=canRead,w=canWrite,d=d,i=true}, decl=decl}}
   else
     local ret = {}
-    if canWrite then ret[1] = {method=method, propInfo={w=true,d=d,pref='VCLuaSet',isEvent=isEvent,tp=typeName}} end
-    if canRead and not isEvent then table.insert(ret, {method=("function %s:%s;"):format(propName, typeName), propInfo={r=true,d=d,pref='VCLuaGet'}}) end
+    if canWrite then ret[1] = {method=method, propInfo={w=true,d=d,pref='VCLuaSet',isEvent=isEvent,tp=typeName}, decl=decl} end
+    if canRead and not isEvent then table.insert(ret, {method=("function %s:%s;"):format(propName, typeName), propInfo={r=true,d=d,pref='VCLuaGet'}, decl=decl}) end
     return ret
   end
 end
@@ -369,9 +371,11 @@ local function processClass(def,cdef,ref)
 				end
 				return n
 			end
+			local origLine
 			if stage=="fill" and line:match('^%s*[_%w]+%s*:%s*[_%w]+%s*;%s*$') then
 				cLog(("transforming public var into property: %s %d %s"):format(cname, n, line), 'WARN')
 				mName = ln[1]
+				origLine = line
 				line = 'property '..line:sub(1,-2)..' read _ write _;'
 				lword = 'property'
 			end
@@ -396,7 +400,7 @@ local function processClass(def,cdef,ref)
 					if isProp then
 						if (isOnlyProp and not mName:find('^On%S')) or classm then ok = false
 						else
-							mds = propertyToProc(line)
+							mds = propertyToProc(line, origLine)
 							if not mds then ok = false end
 						end
 					end
@@ -554,11 +558,13 @@ function createUnitBody(cdef, ref, refs)
 		refs['Controls'] = true
 		refs['Classes'] = true
 	end
-	classDoc[className] = classDoc[className] or {}
-	classDoc[className]["reference"] = cdef.ref
+	if classDoc[className] then
+		cLog('Duplicate class name '..className, "ERROR")
+		os.exit(-1)
+	end
+	classDoc[className] = {fptype = fptype, methods={}}
 	for _,md in pairs(classTable[className]) do
 		-- parse params
-		local method = md.method
 		local pi = md.propInfo
 		local setProp, retProp = '', ''
 		local mName = md.mName
@@ -578,7 +584,9 @@ function createUnitBody(cdef, ref, refs)
 			updRef(refs,t,tl,className,true)
 			refs['LuaEvent'] = true
 		end
+		local returns = {}
 		if reto then
+			returns[1] = 'result'
 			ret = reto:lower()
 			updRef(refs,reto,ret,className)
 			updRef(refs,reto,ret,className,true)
@@ -589,6 +597,7 @@ function createUnitBody(cdef, ref, refs)
 		if out and #out>0 then
 			for i=1,#out do
 				table.insert(outStr, TOLUA(out[i].type,out[i].name))
+				table.insert(returns, out[i].name)
 				retCount = retCount + 1
 			end
 		end
@@ -599,6 +608,7 @@ function createUnitBody(cdef, ref, refs)
 			retProp = table.remove(outStr)
 		end
 		local fParams = table.concat(funcparams or {},",")
+		local useDot = pi and not pi.i
 
     for _,vv in ipairs(vars) do
       local s = pi and not pi.i and VCLua_CDEF_LUAPROP or VCLua_CDEF_LUAFUNC
@@ -616,12 +626,14 @@ function createUnitBody(cdef, ref, refs)
       else
         overLoads[mnLower] = 2
       end
+      local exCall = useDot and ('o.'..finalMethodName) or ('o:'..finalMethodName..'(')
 
       vcluaMethodName = "VCLua_"..className.."_"..vcluaMethodName
 
       s = s:gsub("#FNAME",vcluaMethodName):gsub("#CNAME",className)
 
       local idx = 1
+      local examples, exParamsDef, exParams = {}, {}, {}
       if varlist then
         s = s:gsub("#VARS",pi and pi.isEvent and '' or table.concat(varlist),1)
         -- processing parameters
@@ -645,6 +657,8 @@ function createUnitBody(cdef, ref, refs)
           else
             table.insert(varsFromLua, (applyFromLuaTempl(templ,varName,varType,vtLower):gsub("#",idx)))
           end
+          if not defVars then table.insert(exParamsDef, varName) end
+          table.insert(exParams, varName)
         end
         s = s:gsub("#FREETEMPS",table.concat(freeTemps),1)
         s = s:gsub("#TEMPVARS",table.concat(tempVars),1)
@@ -672,11 +686,34 @@ function createUnitBody(cdef, ref, refs)
         stmts = getPropTempl(pi):gsub('#PAR', '['..fParams..']')
         stmts = stmts:gsub('#TOVCLUA',setProp,1)
         stmts = stmts:gsub('#PUSHOUT',retProp,1):gsub('#IDX',idx,1)
+        if pi.r then examples[1] = 'result = '..exCall..fParams..')' end
+        if pi.w then table.insert(examples, exCall..fParams..',value)') end
       elseif pi and pi.w and pi.isEvent then
         local typ = md.vars[1][1].type
-        local ltyp = (eventAlias[typ:lower()] or typ):gsub('^T','TLua')
-        stmts = VCLua_EVENT_SET:gsub('#LTYP',ltyp):gsub('#ETYP',typ)
+        local ltyp = typ:lower()
+        local luatyp = (eventAlias[ltyp] or typ):gsub('^T','TLua')
+        stmts = VCLua_EVENT_SET:gsub('#LTYP',luatyp):gsub('#ETYP',typ)
+        if eventAlias[ltyp] then ltyp = eventAlias[ltyp]:lower() end
+        local eventmd = eventSrcs[typeRef[ltyp]][ltyp]
+        local outs = {}
+        for _,o in ipairs(eventmd.out or {}) do table.insert(outs,o.name) end
+        outs = next(outs) and ' return '..table.concat(outs,',') or ''
+        examples[1] = exCall..' = function('..table.concat(eventmd.funcparams or {},',')..')'..outs..' end'
       else
+        if pi then examples[1] = pi.r and 'result = '..exCall or exCall..' = value'
+        else
+          local l1 = #exParams
+          local l2 = #exParamsDef
+          if l1 ~= l2 then
+            examples[1] = exCall..table.concat(exParamsDef,',')..')'
+            if l1 ~= l2 + 1 then examples[2] = '...' end
+          end
+          table.insert(examples,exCall..table.concat(exParams,',')..')')
+          if next(returns) then
+            local returns = table.concat(returns, ', ')..' = '
+            for i,e in ipairs(examples) do if e ~= '...' then examples[i] = returns..examples[i] end end
+          end
+        end
         stmts = VCLua_CALL:gsub('#SET',pi and pi.w and ' := val' or '',1)
         stmts = stmts:gsub('#PAR',pi and '' or '('..fParams..')',1)
         stmts = stmts:gsub('#RET',ret and "ret := " or "",1)
@@ -700,15 +737,18 @@ function createUnitBody(cdef, ref, refs)
       end
       addMethod(md.propInfo, finalMethodName, vcluaMethodName)
       table.insert(classBody,s)
-      classDoc[className][finalMethodName] = classDoc[className][finalMethodName] or {} 
-      classDoc[className][finalMethodName]["params"] = fParams:len()>0 and fParams or nil
-      classDoc[className][finalMethodName]["out"] = out
-      classDoc[className][finalMethodName]["return"] = reto
-      classDoc[className][finalMethodName]["reference"] = cdef.ref
-      classDoc[className][finalMethodName]["method"] = method	
+      local prev = classDoc[className].methods[finalMethodName]
+      if prev then
+        for _, e in ipairs(examples) do table.insert(prev.examples,e) end
+        examples = prev.examples
+      end
+      classDoc[className].methods[finalMethodName] = {
+        examples = examples,
+        method = md.decl or md.method,
+      }
     end
-	end
-	
+  end
+
 	-- check implemented methods
 		if cdef.impl then
 			fncs = cdef.impl:split(",")
@@ -775,6 +815,8 @@ function createUnitBody(cdef, ref, refs)
 		table.insert(classBody, def)
 		table.insert(globals, (VCLUA_VAR_EXPORT:gsub('#NAME',global)))
 		intface = intface..'\n'..def:match('([^\n]+)')
+		classDoc[className].globals = classDoc[className].globals or {}
+		classDoc[className].globals[global] = {examples={'result = VCL.The'..global..'()'}, method=global..': '..typ}
 	end
 	
 	return table.concat(classBody,"\n"), ccreate, intface:gsub("#CSRC",src):gsub("#CNAME",className):gsub("#FPTYPE",fptype), init
@@ -993,4 +1035,107 @@ saveTextToFile(HDR_INFO .. "\n" .. table.concat(table.reverse(meta_srcs),",\n"),
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(api_srcs,"\n"),out_path.."src/api_srcs.inc")
 saveTextToFile(HDR_INFO .. "\n" .. table.concat(globals),out_path.."src/export_vars.inc")
 
+
+if not doExport then os.exit() end
+
+-- Lua/Free Pascal code made to look like it looks in Lua/Free Pascal documentations
+htmltemp = [[
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .class {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  td.lua {
+    text-align: justify;
+    font-family: monospace;
+    line-height: 1.25;
+    font-size: 12pt;
+    white-space-collapse: preserve-breaks;
+    text-wrap-mode: nowrap;
+  }
+  td.fp {
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
+    font-size: 12pt;
+    padding-left: 10px;
+  }
+  .method {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+  }
+  tr:hover {background-color: #D6EEEE;}
+  .props {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    padding-left: 20px;
+    width: 100%;
+  }
+  .propsdata {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    padding-left: 40px;
+    width: 100%;
+  }
+</style>
+<H2>VCLua Class Reference</H2>
+<H3>version 0.9.2</H3>
+</head>
+<body>
+<hr>
+
+]]
+
+htmltempend = [[
+
+</body>
+</html>
+]]
+
+
+local VCL = require "vcl.core"
+VCL.TheApplication():Initialize()
+
+local refs = {}
+local docs = {}
+local sortedDocs = HashedToSorted(classDoc)
+
+for _,kv in ipairs(sortedDocs) do
+  -- CLASS
+  local c = kv.k
+  -- print("Class:",c)
+  table.insert(refs, string.format('<a href="#%s"><div class="class"><b><u>%s</u></b></div></a>',c,c))
+  table.insert(docs, string.format('<a id="%s"><div class="class"><b><u>%s</u></b></div></a>',c,c))
+
+  local t = HashedToSorted(VCL.ListProperties(kv.v.fptype),nil,true)
+  if #t>0 then
+    table.insert(docs, '<div class="props"><b><i>Published properties</i></b></div>')
+    for _,kv in ipairs(t) do
+      -- PROPERTIES
+      table.insert(docs, string.format('<div class="propsdata"><i>%s</i> : %s</div>',kv.k,kv.v))
+    end
+  else
+    print("NOPROP",c)
+  end
+
+  -- METHODS
+  for _,tt in ipairs({{typ='globals',header='Global variables'}, {typ='methods',header='Generated'}}) do
+    local t = HashedToSorted(kv.v[tt.typ] or {})
+    if #t>0 then
+      table.insert(docs, '<div class="props"><b><i>'..tt.header..'</i></b></div>')
+      table.insert(docs, '<div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>')
+      for _,kv in ipairs(t) do
+        table.insert(docs, string.format('<tr><td class="lua">%s</td><td class="fp">%s</td></tr>',table.concat(kv.v.examples,'\n'),kv.v.method))
+      end
+      table.insert(docs,'</table></div>')
+    end
+  end
+end
+
+table.insert(refs, '<hr>')
+local html = htmltemp..table.concat(refs,"\n")..table.concat(docs,"\n")..htmltempend
+file.save("vclua_ref.html",html)
 
