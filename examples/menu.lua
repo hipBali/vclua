@@ -162,7 +162,7 @@ local function setupImages()
 		str:LoadFromHex(b,5)
 		img.picture:LoadFromStream(str)
 		str:Free()
-		local toolImg = t:Add(img.picture.bitmap,nil)
+		local toolImg = t:Add(img.picture.Bitmap,nil)
 		img:Free()
 		return toolImg
 	end

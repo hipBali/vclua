@@ -40,7 +40,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaComCtrlsEvents, LuaEvent;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaCanvas, LuaComCtrlsEvents, LuaEvent, LuaStrings;
 
 function VCLua_ListItem_Assign(L: Plua_State): Integer; cdecl;
 var
@@ -148,6 +148,102 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_ListItem_VCLuaSetCaption(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:String;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.Caption := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetCaption', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetCaption(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:String;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.Caption;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetCaption', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaSetChecked(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.Checked := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetChecked', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetChecked(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.Checked;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetChecked', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaSetCut(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.Cut := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetCut', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetCut(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.Cut;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetCut', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ListItem_VCLuaSetData(L: Plua_State): Integer; cdecl;
 var
 	lListItem:TLuaListItem;
@@ -178,6 +274,182 @@ begin
 			CallError(L, 'ListItem', 'GetData', E.ClassName, E.Message);
 	end;
 	lua_pushlightuserdata(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaSetDropTarget(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.DropTarget := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetDropTarget', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetDropTarget(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.DropTarget;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetDropTarget', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaSetFocused(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.Focused := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetFocused', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetFocused(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.Focused;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetFocused', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaGetIndex(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:Integer;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.Index;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaSetImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:TImageIndex;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.ImageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetImageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:TImageIndex;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.ImageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetImageIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaSetLeft(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:Integer;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.Left := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetLeft', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetLeft(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:Integer;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.Left;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetLeft', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaGetListView(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:TCustomListView;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.ListView;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetListView', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_ListItem_VCLuaGetOwner(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:TListItems;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.Owner;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetOwner', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_ListItem_VCLuaSetPosition(L: Plua_State): Integer; cdecl;
@@ -212,6 +484,104 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_ListItem_VCLuaSetSelected(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.Selected := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetSelected', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetSelected(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:Boolean;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.Selected;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetSelected', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaSetStateIndex(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:TImageIndex;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.StateIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetStateIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetStateIndex(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:TImageIndex;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.StateIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetStateIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_ListItem_VCLuaSetSubItems(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:TStrings;
+	valNeedsFree:Boolean = False;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	valNeedsFree := luaL_checkOrFromTable(L,2,@val,@luaL_checkStringList,TypeInfo(val));
+	try
+		lListItem.SubItems := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetSubItems', E.ClassName, E.Message);
+	end;
+	if valNeedsFree then val.Free;
+end;
+
+function VCLua_ListItem_VCLuaGetSubItems(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:TStrings;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.SubItems;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetSubItems', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ListItem_SubItemImages(L: Plua_State): Integer; cdecl;
 var
 	lListItem:TLuaListItem;
@@ -235,6 +605,38 @@ begin
 		on E: Exception do
 			CallError(L, 'ListItem', 'SubItemImages', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_ListItem_VCLuaSetTop(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	val:Integer;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lListItem.Top := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'SetTop', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_ListItem_VCLuaGetTop(L: Plua_State): Integer; cdecl;
+var
+	lListItem:TLuaListItem;
+	ret:Integer;
+begin
+	lListItem := TLuaListItem(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lListItem.Top;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ListItem', 'GetTop', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_ListItems_Add(L: Plua_State): Integer; cdecl;
@@ -1778,12 +2180,37 @@ begin
 	TLuaMethodInfo.Create(ListItemFuncs, 'DisplayRect', @VCLua_ListItem_DisplayRect);
 	TLuaMethodInfo.Create(ListItemFuncs, 'DisplayRectSubItem', @VCLua_ListItem_DisplayRectSubItem);
 	TLuaMethodInfo.Create(ListItemFuncs, 'EditCaption', @VCLua_ListItem_EditCaption);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Caption', @VCLua_ListItem_VCLuaGetCaption, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Checked', @VCLua_ListItem_VCLuaGetChecked, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Cut', @VCLua_ListItem_VCLuaGetCut, mfCall);
 	TLuaMethodInfo.Create(ListItemFuncs, 'Data', @VCLua_ListItem_VCLuaGetData, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'DropTarget', @VCLua_ListItem_VCLuaGetDropTarget, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Focused', @VCLua_ListItem_VCLuaGetFocused, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Index', @VCLua_ListItem_VCLuaGetIndex, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'ImageIndex', @VCLua_ListItem_VCLuaGetImageIndex, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Left', @VCLua_ListItem_VCLuaGetLeft, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'ListView', @VCLua_ListItem_VCLuaGetListView, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Owner', @VCLua_ListItem_VCLuaGetOwner, mfCall);
 	TLuaMethodInfo.Create(ListItemFuncs, 'Position', @VCLua_ListItem_VCLuaGetPosition, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Selected', @VCLua_ListItem_VCLuaGetSelected, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'StateIndex', @VCLua_ListItem_VCLuaGetStateIndex, mfCall);
+	TLuaMethodInfo.Create(ListItemFuncs, 'SubItems', @VCLua_ListItem_VCLuaGetSubItems, mfCall);
 	TLuaMethodInfo.Create(ListItemFuncs, 'SubItemImages', @VCLua_ListItem_SubItemImages);
+	TLuaMethodInfo.Create(ListItemFuncs, 'Top', @VCLua_ListItem_VCLuaGetTop, mfCall);
 	ListItemSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(ListItemSets, 'Caption', @VCLua_ListItem_VCLuaSetCaption, mfCall, TypeInfo(String));
+	TLuaMethodInfo.Create(ListItemSets, 'Checked', @VCLua_ListItem_VCLuaSetChecked, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(ListItemSets, 'Cut', @VCLua_ListItem_VCLuaSetCut, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(ListItemSets, 'Data', @VCLua_ListItem_VCLuaSetData, mfCall, TypeInfo(Pointer));
+	TLuaMethodInfo.Create(ListItemSets, 'DropTarget', @VCLua_ListItem_VCLuaSetDropTarget, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(ListItemSets, 'Focused', @VCLua_ListItem_VCLuaSetFocused, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(ListItemSets, 'ImageIndex', @VCLua_ListItem_VCLuaSetImageIndex, mfCall, TypeInfo(TImageIndex));
+	TLuaMethodInfo.Create(ListItemSets, 'Left', @VCLua_ListItem_VCLuaSetLeft, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(ListItemSets, 'Position', @VCLua_ListItem_VCLuaSetPosition, mfCall, TypeInfo(TPoint));
+	TLuaMethodInfo.Create(ListItemSets, 'Selected', @VCLua_ListItem_VCLuaSetSelected, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(ListItemSets, 'StateIndex', @VCLua_ListItem_VCLuaSetStateIndex, mfCall, TypeInfo(TImageIndex));
+	TLuaMethodInfo.Create(ListItemSets, 'SubItems', @VCLua_ListItem_VCLuaSetSubItems, mfCall, TypeInfo(TStrings));
+	TLuaMethodInfo.Create(ListItemSets, 'Top', @VCLua_ListItem_VCLuaSetTop, mfCall, TypeInfo(Integer));
 	ListItemsFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ListItemsFuncs, 'Add', @VCLua_ListItems_Add);
 	TLuaMethodInfo.Create(ListItemsFuncs, 'AddItem', @VCLua_ListItems_AddItem);

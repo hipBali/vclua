@@ -30,7 +30,7 @@ local frmMain = VCL.Form(nil, 'mainForm',
 		Position="poScreenCenter",
 		Font = {
 			Height = -19,
-            Name = "Courier New",
+			Name = "Courier New",
 			Pitch = "fpFixed",
 		}
 	}

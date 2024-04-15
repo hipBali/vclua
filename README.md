@@ -80,22 +80,19 @@ ___
 ## Compiling vclua library
 ### Prepare source code
 
-go to the src-generator directory
-
-```
+```shell
 cd vclua/source-generator
 ```
-### Patch lazarus source code
-replace lazarus source files (graphics.pp and comctrls.pp) with patched files in ***patch/lcl*** directory or use patch utility
 
+For Windows version you'll need to apply the patch to avoid errors like [this](https://forum.lazarus.freepascal.org/index.php/topic,24135.msg144898.html)
+
+Just replace original file with the provided [file](source-generator/patch/lcl/interfaces/win32/win32object.inc) or do in Git Bash:
+```shell
+patch --binary /f/Work/Dev/lazarus2/lcl/interfaces/win32/win32object.inc patch/win32object.inc.patch
 ```
-sudo patch /usr/share/lazarus/2.2.6/lcl/graphics.pp patch/graphics.patch
-sudo patch /usr/share/lazarus/2.2.6/lcl/comctrls.pp patch/comctrls.patch
-```
-for windows version you'll need apply the ***win32object.inc.patch*** too!
 
 ### Add your components
-If you want add new component source to the generated source codes (see src/components) you must use the source code parser/generator tool. First configure the fpc and lazarus source directories, with editing the file ***lua_make/config.lua***
+If you want to add new component source to the generated source codes (see src/components) you must use the source code parser/generator tool. First configure the fpc and lazarus source directories, with editing the file ***lua_make/config.lua***
 
 ```lua
 -- linux

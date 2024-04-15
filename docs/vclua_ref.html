@@ -3678,10 +3678,13 @@ result = o.WindowState</td><td class="fp">property WindowState: TWindowState rea
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Assign(ASource)</td><td class="fp">procedure Assign(ASource: TPersistent); override;</td></tr>
 <tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear; virtual;</td></tr>
+<tr><td class="lua">result = o.Empty</td><td class="fp">property Empty: Boolean read GetEmpty;</td></tr>
 <tr><td class="lua">result = o:Equals(Obj)</td><td class="fp">function Equals(Obj: TObject): Boolean; override; overload;</td></tr>
 <tr><td class="lua">result = o:GetFileExtensions()</td><td class="fp">class function GetFileExtensions: string; virtual;</td></tr>
 <tr><td class="lua">result = o:GetResourceType()</td><td class="fp">function GetResourceType: TResourceType; virtual;</td></tr>
 <tr><td class="lua">o:GetSupportedSourceMimeTypes(List)</td><td class="fp">procedure GetSupportedSourceMimeTypes(List: TStrings); virtual;</td></tr>
+<tr><td class="lua">o.Height = value
+result = o.Height</td><td class="fp">property Height: Integer read GetHeight write SetHeight;</td></tr>
 <tr><td class="lua">result = o:IsStreamFormatSupported(Stream)</td><td class="fp">class function IsStreamFormatSupported(Stream: TStream): Boolean; virtual;</td></tr>
 <tr><td class="lua">result = o:LazarusResourceTypeValid(AResourceType)</td><td class="fp">function LazarusResourceTypeValid(const AResourceType: string): boolean; virtual;</td></tr>
 <tr><td class="lua">o:LoadFromClipboardFormat(FormatID)</td><td class="fp">procedure LoadFromClipboardFormat(FormatID: TClipboardFormat); virtual;</td></tr>
@@ -3692,12 +3695,21 @@ result = o.WindowState</td><td class="fp">property WindowState: TWindowState rea
 <tr><td class="lua">o:LoadFromResourceID(Instance,ResID)</td><td class="fp">procedure LoadFromResourceID(Instance: THandle; ResID: PtrInt); virtual;</td></tr>
 <tr><td class="lua">o:LoadFromResourceName(Instance,ResName)</td><td class="fp">procedure LoadFromResourceName(Instance: THandle; const ResName: String); virtual;</td></tr>
 <tr><td class="lua">o:LoadFromStream(Stream)</td><td class="fp">procedure LoadFromStream(Stream: TStream); virtual; abstract;</td></tr>
+<tr><td class="lua">result = o.MimeType</td><td class="fp">property MimeType: string read GetMimeType;</td></tr>
+<tr><td class="lua">o.Modified = value
+result = o.Modified</td><td class="fp">property Modified: Boolean read FModified write SetModified;</td></tr>
 <tr><td class="lua">o.OnChange = function(Sender) end</td><td class="fp">property OnChange: TNotifyEvent read FOnChange write FOnChange;</td></tr>
 <tr><td class="lua">o.OnProgress = function(Sender,Stage,PercentDone,RedrawNow,R,Msg,Continue) return Continue end</td><td class="fp">property OnProgress: TProgressEvent read FOnProgress write FOnProgress;</td></tr>
+<tr><td class="lua">o.PaletteModified = value
+result = o.PaletteModified</td><td class="fp">property PaletteModified: Boolean read FPaletteModified write FPaletteModified;</td></tr>
 <tr><td class="lua">o:SaveToClipboardFormat(FormatID)</td><td class="fp">procedure SaveToClipboardFormat(FormatID: TClipboardFormat); virtual;</td></tr>
 <tr><td class="lua">o:SaveToClipboardFormatID(ClipboardType,FormatID)</td><td class="fp">procedure SaveToClipboardFormatID(ClipboardType: TClipboardType; FormatID: TClipboardFormat); virtual;</td></tr>
 <tr><td class="lua">o:SaveToFile(Filename)</td><td class="fp">procedure SaveToFile(const Filename: string); virtual;</td></tr>
 <tr><td class="lua">o:SaveToStream(Stream)</td><td class="fp">procedure SaveToStream(Stream: TStream); virtual; abstract;</td></tr>
+<tr><td class="lua">o.Transparent = value
+result = o.Transparent</td><td class="fp">property Transparent: Boolean read GetTransparent write SetTransparent;</td></tr>
+<tr><td class="lua">o.Width = value
+result = o.Width</td><td class="fp">property Width: Integer read GetWidth write SetWidth;</td></tr>
 </table></div>
 <a id="GraphicControl"><div class="class"><b><u>GraphicControl</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -4459,17 +4471,42 @@ result = o.TopIndex</td><td class="fp">property TopIndex: Integer read GetTopInd
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Assign(ASource)</td><td class="fp">procedure Assign(ASource: TPersistent); override;</td></tr>
+<tr><td class="lua">o.Caption = value
+result = o.Caption</td><td class="fp">property Caption : String read GetCaption write SetCaption;</td></tr>
+<tr><td class="lua">o.Checked = value
+result = o.Checked</td><td class="fp">property Checked : Boolean read GetChecked write SetChecked;</td></tr>
+<tr><td class="lua">o.Cut = value
+result = o.Cut</td><td class="fp">property Cut: Boolean index lisCut read GetState write SetState;</td></tr>
 <tr><td class="lua">o.Data = value
 result = o.Data</td><td class="fp">property Data: Pointer read FData write SetData;</td></tr>
 <tr><td class="lua">o:Delete()</td><td class="fp">procedure Delete;</td></tr>
 <tr><td class="lua">result = o:DisplayRect(Code)</td><td class="fp">function DisplayRect(Code: TDisplayCode): TRect;</td></tr>
 <tr><td class="lua">result = o:DisplayRectSubItem(subItem,Code)</td><td class="fp">function DisplayRectSubItem(subItem: integer;Code: TDisplayCode): TRect;</td></tr>
+<tr><td class="lua">o.DropTarget = value
+result = o.DropTarget</td><td class="fp">property DropTarget: Boolean index lisDropTarget read GetState write SetState;</td></tr>
 <tr><td class="lua">result = o:EditCaption()</td><td class="fp">function EditCaption: Boolean;</td></tr>
+<tr><td class="lua">o.Focused = value
+result = o.Focused</td><td class="fp">property Focused: Boolean index lisFocused read GetState write SetState;</td></tr>
+<tr><td class="lua">o.ImageIndex = value
+result = o.ImageIndex</td><td class="fp">property ImageIndex: TImageIndex read GetImageIndex write SetImageIndex default -1;</td></tr>
+<tr><td class="lua">result = o.Index</td><td class="fp">property Index: Integer read GetIndex;</td></tr>
+<tr><td class="lua">o.Left = value
+result = o.Left</td><td class="fp">property Left: Integer read GetLeft write SetLeft;</td></tr>
+<tr><td class="lua">result = o.ListView</td><td class="fp">property ListView: TCustomListView read GetListView;</td></tr>
 <tr><td class="lua">o:MakeVisible(PartialOK)</td><td class="fp">procedure MakeVisible(PartialOK: Boolean);</td></tr>
+<tr><td class="lua">result = o.Owner</td><td class="fp">property Owner: TListItems read FOwner;</td></tr>
 <tr><td class="lua">o.Position = value
 result = o.Position</td><td class="fp">property Position: TPoint read GetPosition write SetPosition;</td></tr>
+<tr><td class="lua">o.Selected = value
+result = o.Selected</td><td class="fp">property Selected: Boolean index lisSelected read GetState write SetState;</td></tr>
+<tr><td class="lua">o.StateIndex = value
+result = o.StateIndex</td><td class="fp">property StateIndex: TImageIndex read GetStateIndex write SetStateIndex;</td></tr>
 <tr><td class="lua">result = o:SubItemImages(AIndex)
 o:SubItemImages(AIndex,value)</td><td class="fp">property SubItemImages[const AIndex: Integer]: Integer read GetSubItemImages write SetSubItemImages;</td></tr>
+<tr><td class="lua">o.SubItems = value
+result = o.SubItems</td><td class="fp">property SubItems: TStrings read GetSubItems write SetSubItems;</td></tr>
+<tr><td class="lua">o.Top = value
+result = o.Top</td><td class="fp">property Top: Integer read GetTop write SetTop;</td></tr>
 </table></div>
 <a id="ListItems"><div class="class"><b><u>ListItems</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
@@ -5565,18 +5602,34 @@ result = o.Handle</td><td class="fp">property Handle: HPEN read GetHandle write 
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
+<tr><td class="lua">o.Bitmap = value
+result = o.Bitmap</td><td class="fp">property Bitmap: TBitmap read GetBitmap write SetBitmap;</td></tr>
 <tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear; virtual;</td></tr>
+<tr><td class="lua">o.Graphic = value
+result = o.Graphic</td><td class="fp">property Graphic: TGraphic read FGraphic write SetGraphic;</td></tr>
+<tr><td class="lua">result = o.Height</td><td class="fp">property Height: Integer read GetHeight;</td></tr>
+<tr><td class="lua">o.Icon = value
+result = o.Icon</td><td class="fp">property Icon: TIcon read GetIcon write SetIcon;</td></tr>
+<tr><td class="lua">o.Jpeg = value
+result = o.Jpeg</td><td class="fp">property Jpeg: TJpegImage read GetJpeg write SetJpeg;</td></tr>
 <tr><td class="lua">o:LoadFromFile(Filename)</td><td class="fp">procedure LoadFromFile(const Filename: string);</td></tr>
 <tr><td class="lua">o:LoadFromResourceName(Instance,ResName)</td><td class="fp">procedure LoadFromResourceName(Instance: THandle; const ResName: String);</td></tr>
 <tr><td class="lua">o:LoadFromStream(Stream)</td><td class="fp">procedure LoadFromStream(Stream: TStream);</td></tr>
 <tr><td class="lua">o:LoadFromStreamWithFileExt(Stream,FileExt)</td><td class="fp">procedure LoadFromStreamWithFileExt(Stream: TStream; const FileExt: string);</td></tr>
 <tr><td class="lua">o.OnChange = function(Sender) end</td><td class="fp">property OnChange: TNotifyEvent read FOnChange write FOnChange;</td></tr>
 <tr><td class="lua">o.OnProgress = function(Sender,Stage,PercentDone,RedrawNow,R,Msg,Continue) return Continue end</td><td class="fp">property OnProgress: TProgressEvent read FOnProgress write FOnProgress;</td></tr>
+<tr><td class="lua">o.PNG = value
+result = o.PNG</td><td class="fp">property PNG: TPortableNetworkGraphic read GetPNG write SetPNG;</td></tr>
+<tr><td class="lua">o.PNM = value
+result = o.PNM</td><td class="fp">property PNM: TPortableAnyMapGraphic read GetPNM write SetPNM;</td></tr>
+<tr><td class="lua">o.Pixmap = value
+result = o.Pixmap</td><td class="fp">property Pixmap: TPixmap read GetPixmap write SetPixmap;</td></tr>
 <tr><td class="lua">o:SaveToFile(Filename)
 o:SaveToFile(Filename,FileExt)</td><td class="fp">procedure SaveToFile(const Filename: string; const FileExt: string = '');</td></tr>
 <tr><td class="lua">o:SaveToStream(Stream)</td><td class="fp">procedure SaveToStream(Stream: TStream);</td></tr>
 <tr><td class="lua">o:SaveToStreamWithFileExt(Stream,FileExt)</td><td class="fp">procedure SaveToStreamWithFileExt(Stream: TStream; const FileExt: string);</td></tr>
 <tr><td class="lua">result = o:SupportsClipboardFormat(FormatID)</td><td class="fp">class function SupportsClipboardFormat(FormatID: TClipboardFormat): Boolean;</td></tr>
+<tr><td class="lua">result = o.Width</td><td class="fp">property Width: Integer read GetWidth;</td></tr>
 </table></div>
 <a id="PopupMenu"><div class="class"><b><u>PopupMenu</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -7844,10 +7897,112 @@ result = o.Visible</td><td class="fp">property Visible: Boolean read FVisible wr
 <div class="propsdata"><i>Visible</i> : Boolean</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
+<tr><td class="lua">result = o.AbsoluteIndex</td><td class="fp">property AbsoluteIndex: Integer read GetAbsoluteIndex;</td></tr>
+<tr><td class="lua">result = o:AlphaSort()</td><td class="fp">function AlphaSort: Boolean;</td></tr>
+<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
+<tr><td class="lua">result = o:Bottom()</td><td class="fp">function Bottom: integer;</td></tr>
+<tr><td class="lua">result = o:BottomExpanded()</td><td class="fp">function BottomExpanded: integer;</td></tr>
+<tr><td class="lua">o:Collapse(Recurse)</td><td class="fp">procedure Collapse(Recurse: Boolean);</td></tr>
+<tr><td class="lua">o:ConsistencyCheck()</td><td class="fp">procedure ConsistencyCheck;</td></tr>
+<tr><td class="lua">result = o.Count</td><td class="fp">property Count: Integer read GetCount;</td></tr>
+<tr><td class="lua">o.Cut = value
+result = o.Cut</td><td class="fp">property Cut: Boolean read GetCut write SetCut;</td></tr>
 <tr><td class="lua">o.Data = value
 result = o.Data</td><td class="fp">property Data: Pointer read FData write SetData;</td></tr>
+<tr><td class="lua">result = o:DefaultTreeViewSort(Node1,Node2)</td><td class="fp">function DefaultTreeViewSort(Node1, Node2: TTreeNode): Integer;</td></tr>
+<tr><td class="lua">o:Delete()</td><td class="fp">procedure Delete;</td></tr>
+<tr><td class="lua">o:DeleteChildren()</td><td class="fp">procedure DeleteChildren;</td></tr>
+<tr><td class="lua">result = o.Deleting</td><td class="fp">property Deleting: Boolean read GetDeleting;</td></tr>
+<tr><td class="lua">result = o:DisplayExpandSignLeft()</td><td class="fp">function DisplayExpandSignLeft: integer;</td></tr>
+<tr><td class="lua">result = o:DisplayExpandSignRect()</td><td class="fp">function DisplayExpandSignRect: TRect;</td></tr>
+<tr><td class="lua">result = o:DisplayExpandSignRight()</td><td class="fp">function DisplayExpandSignRight: integer;</td></tr>
+<tr><td class="lua">result = o:DisplayIconLeft()</td><td class="fp">function DisplayIconLeft: integer;</td></tr>
+<tr><td class="lua">result = o:DisplayRect(TextOnly)</td><td class="fp">function DisplayRect(TextOnly: Boolean): TRect;</td></tr>
+<tr><td class="lua">result = o:DisplayStateIconLeft()</td><td class="fp">function DisplayStateIconLeft: integer;</td></tr>
+<tr><td class="lua">result = o:DisplayTextLeft()</td><td class="fp">function DisplayTextLeft: integer;</td></tr>
+<tr><td class="lua">result = o:DisplayTextRight()</td><td class="fp">function DisplayTextRight: integer;</td></tr>
+<tr><td class="lua">o.DropTarget = value
+result = o.DropTarget</td><td class="fp">property DropTarget: Boolean read GetDropTarget write SetDropTarget;</td></tr>
+<tr><td class="lua">result = o:EditText()</td><td class="fp">function EditText: Boolean;</td></tr>
+<tr><td class="lua">o:EndEdit(Cancel)</td><td class="fp">procedure EndEdit(Cancel: Boolean);</td></tr>
+<tr><td class="lua">o:Expand(Recurse)</td><td class="fp">procedure Expand(Recurse: Boolean);</td></tr>
+<tr><td class="lua">o:ExpandParents()</td><td class="fp">procedure ExpandParents;</td></tr>
+<tr><td class="lua">o.Expanded = value
+result = o.Expanded</td><td class="fp">property Expanded: Boolean read GetExpanded write SetExpanded;</td></tr>
+<tr><td class="lua">result = o:FindNode(NodeText)</td><td class="fp">function FindNode(const NodeText: string): TTreeNode;</td></tr>
+<tr><td class="lua">o.Focused = value
+result = o.Focused</td><td class="fp">property Focused: Boolean read GetFocused write SetFocused;</td></tr>
+<tr><td class="lua">o:FreeAllNodeData()</td><td class="fp">procedure FreeAllNodeData;</td></tr>
+<tr><td class="lua">result = o:GetFirstChild()</td><td class="fp">function GetFirstChild: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetFirstSibling()</td><td class="fp">function GetFirstSibling: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetFirstVisibleChild()</td><td class="fp">function GetFirstVisibleChild: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetHandle()</td><td class="fp">function GetHandle: THandle;</td></tr>
+<tr><td class="lua">result = o:GetLastChild()</td><td class="fp">function GetLastChild: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetLastSibling()</td><td class="fp">function GetLastSibling: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetLastSubChild()</td><td class="fp">function GetLastSubChild: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetLastVisibleChild()</td><td class="fp">function GetLastVisibleChild: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetNext()</td><td class="fp">function GetNext: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetNextChild(AValue)</td><td class="fp">function GetNextChild(AValue: TTreeNode): TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetNextExpanded()</td><td class="fp">function GetNextExpanded: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetNextMultiSelected()</td><td class="fp">function GetNextMultiSelected: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetNextSibling()</td><td class="fp">function GetNextSibling: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetNextSkipChildren()</td><td class="fp">function GetNextSkipChildren: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetNextVisible()</td><td class="fp">function GetNextVisible: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetNextVisibleSibling()</td><td class="fp">function GetNextVisibleSibling: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetParentNodeOfAbsoluteLevel(TheAbsoluteLevel)</td><td class="fp">function GetParentNodeOfAbsoluteLevel(TheAbsoluteLevel: integer): TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetPrev()</td><td class="fp">function GetPrev: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetPrevChild(AValue)</td><td class="fp">function GetPrevChild(AValue: TTreeNode): TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetPrevExpanded()</td><td class="fp">function GetPrevExpanded: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetPrevMultiSelected()</td><td class="fp">function GetPrevMultiSelected: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetPrevSibling()</td><td class="fp">function GetPrevSibling: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetPrevVisible()</td><td class="fp">function GetPrevVisible: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetPrevVisibleSibling()</td><td class="fp">function GetPrevVisibleSibling: TTreeNode;</td></tr>
+<tr><td class="lua">result = o:GetTextPath()</td><td class="fp">function GetTextPath: string;</td></tr>
+<tr><td class="lua">result = o.Handle</td><td class="fp">property Handle: THandle read GetHandle;</td></tr>
+<tr><td class="lua">result = o:HasAsParent(AValue)</td><td class="fp">function HasAsParent(AValue: TTreeNode): Boolean;</td></tr>
+<tr><td class="lua">o.HasChildren = value
+result = o.HasChildren</td><td class="fp">property HasChildren: Boolean read GetHasChildren write SetHasChildren;</td></tr>
+<tr><td class="lua">o.Height = value
+result = o.Height</td><td class="fp">property Height: integer read GetHeight write SetHeight;</td></tr>
+<tr><td class="lua">o.ImageIndex = value
+result = o.ImageIndex</td><td class="fp">property ImageIndex: TImageIndex read FImageIndex write SetImageIndex default -1;</td></tr>
+<tr><td class="lua">o.Index = value
+result = o.Index</td><td class="fp">property Index: Integer read GetIndex write SetIndex;</td></tr>
+<tr><td class="lua">result = o:IndexOf(AValue)</td><td class="fp">function IndexOf(AValue: TTreeNode): Integer;</td></tr>
+<tr><td class="lua">result = o:IndexOfText(NodeText)</td><td class="fp">function IndexOfText(const NodeText: string): Integer;</td></tr>
+<tr><td class="lua">result = o.IsFullHeightVisible</td><td class="fp">property IsFullHeightVisible: Boolean read IsNodeHeightFullVisible;</td></tr>
+<tr><td class="lua">result = o.IsVisible</td><td class="fp">property IsVisible: Boolean read IsNodeVisible;</td></tr>
 <tr><td class="lua">result = o:Items(ItemIndex)
 o:Items(ItemIndex,value)</td><td class="fp">property Items[ItemIndex: Integer]: TTreeNode read GetItems write SetItems; default;</td></tr>
+<tr><td class="lua">result = o.Level</td><td class="fp">property Level: Integer read GetLevel;</td></tr>
+<tr><td class="lua">o:MakeVisible()</td><td class="fp">procedure MakeVisible;</td></tr>
+<tr><td class="lua">o:MoveTo(Destination,Mode)</td><td class="fp">procedure MoveTo(Destination: TTreeNode; Mode: TNodeAttachMode); virtual;</td></tr>
+<tr><td class="lua">o:MultiSelectGroup()</td><td class="fp">procedure MultiSelectGroup;</td></tr>
+<tr><td class="lua">o.MultiSelected = value
+result = o.MultiSelected</td><td class="fp">property MultiSelected: Boolean read GetMultiSelected write SetMultiSelected;</td></tr>
+<tr><td class="lua">o.NodeEffect = value
+result = o.NodeEffect</td><td class="fp">property NodeEffect: TGraphicsDrawEffect read FNodeEffect write SetImageEffect;</td></tr>
+<tr><td class="lua">o.OverlayIndex = value
+result = o.OverlayIndex</td><td class="fp">property OverlayIndex: Integer read FOverlayIndex write SetOverlayIndex default -1;</td></tr>
+<tr><td class="lua">result = o.Owner</td><td class="fp">property Owner: TTreeNodes read FOwner;</td></tr>
+<tr><td class="lua">result = o.Parent</td><td class="fp">property Parent: TTreeNode read FParent;</td></tr>
+<tr><td class="lua">o.Selected = value
+result = o.Selected</td><td class="fp">property Selected: Boolean read GetSelected write SetSelected;</td></tr>
+<tr><td class="lua">o.SelectedIndex = value
+result = o.SelectedIndex</td><td class="fp">property SelectedIndex: Integer read FSelectedIndex write SetSelectedIndex default -1;</td></tr>
+<tr><td class="lua">o.StateIndex = value
+result = o.StateIndex</td><td class="fp">property StateIndex: Integer read FStateIndex write SetStateIndex default -1;</td></tr>
+<tr><td class="lua">result = o.States</td><td class="fp">property States: TNodeStates read FStates;</td></tr>
+<tr><td class="lua">result = o.SubTreeCount</td><td class="fp">property SubTreeCount: integer read FSubTreeCount;</td></tr>
+<tr><td class="lua">o.Text = value
+result = o.Text</td><td class="fp">property Text: string read FText write SetText;</td></tr>
+<tr><td class="lua">result = o.Top</td><td class="fp">property Top: integer read GetTop;</td></tr>
+<tr><td class="lua">result = o.TreeNodes</td><td class="fp">property TreeNodes: TTreeNodes read GetTreeNodes;</td></tr>
+<tr><td class="lua">result = o.TreeView</td><td class="fp">property TreeView: TCustomTreeView read GetTreeView;</td></tr>
+<tr><td class="lua">o:Update()</td><td class="fp">procedure Update;</td></tr>
+<tr><td class="lua">o.Visible = value
+result = o.Visible</td><td class="fp">property Visible: Boolean read GetVisible write SetVisible default True;</td></tr>
+<tr><td class="lua">o:WriteDebugReport(Prefix,Recurse)</td><td class="fp">procedure WriteDebugReport(const Prefix: string; Recurse: boolean);</td></tr>
 </table></div>
 <a id="TreeNodes"><div class="class"><b><u>TreeNodes</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -7872,6 +8027,7 @@ o:Items(ItemIndex,value)</td><td class="fp">property Items[ItemIndex: Integer]: 
 <tr><td class="lua">o:ClearMultiSelection()
 o:ClearMultiSelection(ClearSelected)</td><td class="fp">procedure ClearMultiSelection(ClearSelected: boolean = false);</td></tr>
 <tr><td class="lua">o:ConsistencyCheck()</td><td class="fp">procedure ConsistencyCheck;</td></tr>
+<tr><td class="lua">result = o.Count</td><td class="fp">property Count: Integer read GetCount;</td></tr>
 <tr><td class="lua">o:Delete(Node)</td><td class="fp">procedure Delete(Node: TTreeNode);</td></tr>
 <tr><td class="lua">o:EndUpdate()</td><td class="fp">procedure EndUpdate;</td></tr>
 <tr><td class="lua">result = o:FindNodeWithData(NodeData)</td><td class="fp">function FindNodeWithData(const NodeData: Pointer): TTreeNode;</td></tr>
@@ -7892,8 +8048,12 @@ o:ClearMultiSelection(ClearSelected)</td><td class="fp">procedure ClearMultiSele
 <tr><td class="lua">result = o:InsertObjectBehind(PrevNode,S,Data)</td><td class="fp">function InsertObjectBehind(PrevNode: TTreeNode; const S: string; Data: Pointer): TTreeNode;</td></tr>
 <tr><td class="lua">result = o:IsMultiSelection()</td><td class="fp">function IsMultiSelection: boolean;</td></tr>
 <tr><td class="lua">result = o:Item(Index)</td><td class="fp">property Item[Index: Integer]: TTreeNode read GetNodeFromIndex; default;</td></tr>
+<tr><td class="lua">o.KeepCollapsedNodes = value
+result = o.KeepCollapsedNodes</td><td class="fp">property KeepCollapsedNodes: boolean read FKeepCollapsedNodes write FKeepCollapsedNodes;</td></tr>
 <tr><td class="lua">o:MultiSelect(Node,ClearWholeSelection)</td><td class="fp">procedure MultiSelect(Node: TTreeNode; ClearWholeSelection: Boolean);</td></tr>
+<tr><td class="lua">result = o.Owner</td><td class="fp">property Owner: TCustomTreeView read FOwner;</td></tr>
 <tr><td class="lua">o:SelectOnlyThis(Node)</td><td class="fp">procedure SelectOnlyThis(Node: TTreeNode);</td></tr>
+<tr><td class="lua">result = o.SelectionCount</td><td class="fp">property SelectionCount: Cardinal read GetSelectionCount;</td></tr>
 <tr><td class="lua">o:SelectionsChanged(ANode,AIsSelected)</td><td class="fp">procedure SelectionsChanged(ANode: TTreeNode; const AIsSelected: Boolean);</td></tr>
 <tr><td class="lua">result = o.TopLvlCount</td><td class="fp">property TopLvlCount: integer read FTopLvlCount;</td></tr>
 <tr><td class="lua">result = o:TopLvlItems(Index)

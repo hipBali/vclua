@@ -379,6 +379,102 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Graphic_VCLuaGetEmpty(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	ret:Boolean;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lGraphic.Empty;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetEmpty', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Graphic_VCLuaSetHeight(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	val:Integer;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lGraphic.Height := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SetHeight', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Graphic_VCLuaGetHeight(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	ret:Integer;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lGraphic.Height;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Graphic_VCLuaSetModified(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	val:Boolean;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lGraphic.Modified := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SetModified', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Graphic_VCLuaGetModified(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	ret:Boolean;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lGraphic.Modified;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetModified', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Graphic_VCLuaGetMimeType(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	ret:string;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lGraphic.MimeType;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetMimeType', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Graphic_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lGraphic:TLuaGraphic;
@@ -397,6 +493,102 @@ begin
 	TLuaEvent.MaybeFree(TLuaCb(lGraphic.OnProgress));
 	lGraphic.OnProgress := TLuaEvent.Factory<TProgressEvent,TLuaFPImgProgressEvent>(L);
 	Result := 0;
+end;
+
+function VCLua_Graphic_VCLuaSetPaletteModified(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	val:Boolean;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lGraphic.PaletteModified := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SetPaletteModified', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Graphic_VCLuaGetPaletteModified(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	ret:Boolean;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lGraphic.PaletteModified;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetPaletteModified', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Graphic_VCLuaSetTransparent(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	val:Boolean;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lGraphic.Transparent := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SetTransparent', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Graphic_VCLuaGetTransparent(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	ret:Boolean;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lGraphic.Transparent;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetTransparent', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Graphic_VCLuaSetWidth(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	val:Integer;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lGraphic.Width := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'SetWidth', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Graphic_VCLuaGetWidth(L: Plua_State): Integer; cdecl;
+var
+	lGraphic:TLuaGraphic;
+	ret:Integer;
+begin
+	lGraphic := TLuaGraphic(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lGraphic.Width;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Graphic', 'GetWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 procedure lua_push(L: Plua_State; const v: TGraphic; pti: PTypeInfo);
@@ -426,7 +618,19 @@ begin
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetResourceType', @VCLua_Graphic_GetResourceType);
 	TLuaMethodInfo.Create(GraphicFuncs, 'GetFileExtensions', @VCLua_Graphic_GetFileExtensions);
 	TLuaMethodInfo.Create(GraphicFuncs, 'IsStreamFormatSupported', @VCLua_Graphic_IsStreamFormatSupported);
+	TLuaMethodInfo.Create(GraphicFuncs, 'Empty', @VCLua_Graphic_VCLuaGetEmpty, mfCall);
+	TLuaMethodInfo.Create(GraphicFuncs, 'Height', @VCLua_Graphic_VCLuaGetHeight, mfCall);
+	TLuaMethodInfo.Create(GraphicFuncs, 'Modified', @VCLua_Graphic_VCLuaGetModified, mfCall);
+	TLuaMethodInfo.Create(GraphicFuncs, 'MimeType', @VCLua_Graphic_VCLuaGetMimeType, mfCall);
+	TLuaMethodInfo.Create(GraphicFuncs, 'PaletteModified', @VCLua_Graphic_VCLuaGetPaletteModified, mfCall);
+	TLuaMethodInfo.Create(GraphicFuncs, 'Transparent', @VCLua_Graphic_VCLuaGetTransparent, mfCall);
+	TLuaMethodInfo.Create(GraphicFuncs, 'Width', @VCLua_Graphic_VCLuaGetWidth, mfCall);
 	GraphicSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(GraphicSets, 'Height', @VCLua_Graphic_VCLuaSetHeight, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(GraphicSets, 'Modified', @VCLua_Graphic_VCLuaSetModified, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(GraphicSets, 'OnChange', @VCLua_Graphic_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(GraphicSets, 'OnProgress', @VCLua_Graphic_VCLuaSetOnProgress, mfCall, TypeInfo(TProgressEvent));
+	TLuaMethodInfo.Create(GraphicSets, 'PaletteModified', @VCLua_Graphic_VCLuaSetPaletteModified, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(GraphicSets, 'Transparent', @VCLua_Graphic_VCLuaSetTransparent, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(GraphicSets, 'Width', @VCLua_Graphic_VCLuaSetWidth, mfCall, TypeInfo(Integer));
 end.
