@@ -3,7 +3,9 @@
 -- Copyright (C) 2006-2024 Hi-Project Ltd.
 -- ***************************************
 VCL = require "vcl.core"
-VCL.Application():Initialize()
+VCL.TheApplication():Initialize()
+VCL.SetErrorReporter(print)
+
 local mainFrm = VCL.Form(nil,'mainForm',{
 	Caption='VCLua Form example',
 	Width=640,

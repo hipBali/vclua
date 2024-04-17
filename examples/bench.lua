@@ -20,7 +20,8 @@ function Set.Diff(list1,list2)
 end
 
 VCL = require "vcl.core"
-VCL.Application():Initialize()
+VCL.TheApplication():Initialize()
+VCL.SetErrorReporter(print)
 
 local frmMain = VCL.Form(nil, 'mainForm',
 	{

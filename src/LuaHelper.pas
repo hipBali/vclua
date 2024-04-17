@@ -17,6 +17,11 @@ const
 function LuaFpGc(L: Plua_State): Integer; cdecl;
 function RunSeparate(L: Plua_State):integer;cdecl;
 
+function DefaultCallbackErrorFunction(L: Plua_State):integer; cdecl;
+function LuaSetErrorReporter(L: Plua_State):integer; cdecl;
+function LuaGetErrorReporter(L: Plua_State):integer; cdecl;
+function LuaSetCallbackErrorFunction(L: Plua_State):integer; cdecl;
+function LuaGetCallbackErrorFunction(L: Plua_State):integer; cdecl;
 function LuaTraceback(L: Plua_State; msg: String): PAnsiChar;
 procedure LuaError(L: Plua_State; text: String; err: String);
 procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
@@ -68,7 +73,7 @@ function luaL_optbool(L : Plua_State; n: Integer; d: boolean): Boolean;
 
 implementation
 
-Uses Forms, LazUtf8;
+Uses Forms, LazUtf8, LuaEvent, StrUtils;
 
 function LuaFpGc(L: Plua_State): Integer; cdecl;
 var
@@ -169,6 +174,56 @@ begin
 end;
 
 // *****************************************************************************
+var
+  errorRep: TLuaEvent = nil;
+function LuaSetErrorReporter(L: Plua_State):integer; cdecl;
+begin
+  errorRep.Free;
+  errorRep:=TLuaEvent.Create(L,1);
+  result:=0;
+end;
+function LuaGetErrorReporter(L: Plua_State):integer; cdecl;
+begin
+  if Assigned(errorRep) then
+     errorRep.ToStack(L)
+  else
+     lua_pushnil(L);
+  result:=1;
+end;
+
+function DefaultCallbackErrorFunction(L: Plua_State):integer; cdecl;
+var
+  e: string;
+  unused: SizeIntArray;
+begin
+  if Assigned(errorRep) and lua_isstring(L, 1) then begin
+     e := lua_tostring(L, 1);
+     if not (FindMatchesBoyerMooreCaseSensitive(e, 'VCLua Error', unused, false) or FindMatchesBoyerMooreCaseSensitive(e, 'LCL Error', unused, false)) then begin
+       errorRep.ToStack(L);
+       lua_pushvalue(L, 1);
+       lua_call(L, 1, 0);
+     end;
+  end;
+  result:=0;
+end;
+
+var
+  cbErrorF: TLuaEvent = nil;
+function LuaSetCallbackErrorFunction(L: Plua_State):integer; cdecl;
+begin
+  cbErrorF.Free;
+  cbErrorF:=TLuaEvent.Create(L,1);
+  result:=0;
+end;
+function LuaGetCallbackErrorFunction(L: Plua_State):integer; cdecl;
+begin
+  if Assigned(cbErrorF) then
+     cbErrorF.ToStack(L)
+  else
+     lua_pushnil(L);
+  result:=1;
+end;
+
 function LuaTraceback(L: Plua_State; msg: String): PAnsiChar;
 begin
   lua_getglobal(L, 'debug');
@@ -185,22 +240,31 @@ begin
   lua_pop(L, 1);
 end;
 
-procedure LuaError(L: Plua_State; text: String; err:String);
+procedure ReportError(L: Plua_State; e: string);
 begin
+  if Assigned(errorRep) then begin
+    errorRep.ToStack(L);
+    lua_pushstring(L, e);
+    lua_pcall(L, 1, 0, 0);
+  end;
+end;
 
-     if not(AppInitialized in Application.Flags) then
-        Application.Initialize;
-     if (AppInitialized in Application.Flags) then
-         ShowMessage('LUA Error:'+#10#13+WinCPToUTF8(err)+#10#13+WinCPToUTF8(text))
-     else
-        writeln('LUA Error:'+#10#13+err+#10#13+text);
-     luaL_error(L, LuaTraceback(L,'VCLua Error'));
+procedure LuaError(L: Plua_State; text: String; err:String);
+var
+  e: string;
+begin
+  e := 'VCLua Error:'+#10+WinCPToUTF8(err)+#10+WinCPToUTF8(text);
+  ReportError(L, e);
+  luaL_error(L, PAnsiChar(e));
 end;
 
 procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
+var
+  e: string;
 begin
-  ShowMessage(Format('LCL Error:'+#13+'calling %s.%s got %s:'+#13+WinCPToUTF8(err), [className, methodName, text]));
-  luaL_error(L, LuaTraceback(L,'LCL Error'));
+  e := Format('LCL Error:'+#10+'calling %s.%s got %s:'+#10+WinCPToUTF8(err), [className, methodName, text]);
+  ReportError(L, e);
+  luaL_error(L, PAnsiChar(e));
 end;
 
 procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo);
@@ -234,9 +298,11 @@ end;
 
 procedure DoCall(L: Plua_State; paramCount:integer);
 begin
-     if (lua_pcall(L, paramCount, LUA_MULTRET, 0) <> 0) then begin
-         LuaError(L,'Error in Lua script!', lua_tostring(L,-1));
-     end;
+  if (lua_pcall(L, paramCount, LUA_MULTRET, 0) <> 0) and Assigned(cbErrorF) then begin
+    cbErrorF.ToStack(L);
+    lua_pushvalue(L, -2);
+    lua_pcall(L, 1, 0, 0);
+  end;
 end;
 
 // ****************************************************************

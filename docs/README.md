@@ -35,11 +35,13 @@ print(statusPanel.visible)
 ```
 ***common methods***
  - `Free`
-	``` lua		p:Free()
+	``` lua	
+	p:Free()
 	p = nil
 	```
  - `is`
-	``` lua		if type(p) == "table" and p.Handle and p:is('TComponent') then ... end
+	``` lua	
+	if type(p) == "table" and p.Handle and p:is('TComponent') then ... end
 	```
  - for TWinControl descendants: `SetFocus`, `BeginUpdateBounds`, `EndUpdateBounds`
 
@@ -50,6 +52,11 @@ First of all load and initialize VCL library
 VCL = require "vcl.core"
 VCL.Application():Initialize()
 -- or VCL.TheApplication():Initialize()
+```
+
+Maybe set error reporting
+```lua
+VCL.SetErrorReporter(print)
 ```
 
 Maybe set automatic codepage conversion
@@ -102,6 +109,16 @@ Only the casing from this reference is supported for generated calls (for proper
   but if you only need to pass that as parameter of to an owning property, just pass the table, a temporary will be created and destroyed at the end of the call, not creating a leak
 * RTTI grids created using VCLua will support `TAnchorSide` editing, and `Control` field will provide choices for the parent and siblings. It's a poor man's alternative for the anchor editor
 
+The following functions provide access to error callbacks
+- `SetErrorReporter`
+   > [!IMPORTANT]
+   > by default no error reporter is set
+- `GetErrorReporter`
+- `SetCallbackErrorFunction`
+   > [!IMPORTANT]
+   > by default callback error function checks if the error doesn't contain `VCLua Error` or `LCL Error` substrings (to avoid duplicate reporting) and calls error reporter
+- `GetCallbackErrorFunction`
+
 The following functions expect the first argument to be a VCLua object or a string with a Free Pascal classname
  - `ListMethods`
 	- returns Lua hash table with generated methods available for the type gotten from the first argument
@@ -116,12 +133,88 @@ The following functions expect the first argument to be a VCLua object or a stri
 	- see [bench.lua](examples/bench.lua)
 	- some param combinations are unsupported
 
+### Error handling
+
+**TLDR**
+Usually good enough is just
+```lua
+VCL.SetErrorReporter(VCL.ShowMessage)
+```
+
+To avoid infinite error loops use
+```lua
+VCL.SetErrorReporter(print)
+```
+
+To cover all the issues use
+```lua
+VCL = require "vcl.core"
+local app = VCL.TheApplication()
+app:Initialize()
+local function printError(s) print(s..'\n'..debug.traceback(nil,2)) end
+app.OnException = function(Sender,E)
+  printError('unhandled exception '..E:ToString())
+  -- somehow mark forms for closing or call mainForm:Close() and pray
+end
+app.OnCircularException = function(Sender,E) print('halting') end
+VCL.SetErrorReporter(printError)
+```
+
+and maybe this if you need to close the form as fast as possible before it hangs
+```lua
+VCL.SetCallbackErrorFunction(function(s)
+  if not (s:match('VCLua Error') or s:match('LCL Error')) then printError(s) end
+  mainForm:Close()
+end)
+```
+
+---
+
+This is a complicated topic since two infrastructures are involved (Lua and Free Pascal). And maybe more, if your Lua script is a plugin for a host application. Error handling in VCLua is only partly customizable via error callbacks. An error callback is a Lua function receiving a string representing an error. It is called using `lua_pcall` and results are ignored.
+
+> [!CAUTION]
+> If an error or an exception propagates unhandled through multiple layers of Lua, Free Pascal, C++, etc. code, Lua environment may no longer be in a completely Ok state, so the best thing you can do when you finally catch the error is to shut down Lua VM gracefully. Lua may have been compiled as C++ which would make Lua errors external exceptions to FPC. If it's compiled as C error propagation won't call Free Pascal destructors while stack is unwound. Read [this](https://sol2.readthedocs.io/en/latest/errors.html#catch-and-crash) for more details. Please also consult LCL docs on how LCL handles exceptions.
+
+Let's consider the following typical scenarios.
+
+#### VCLua errors
+
+These happen inside VCLua, mostly when trying to pass incorrect types to/from Lua. They are reported using a callback set with `SetErrorReporter` (so, not reported by default) and then a Lua error is raised with `luaL_error`. The error string will contain `VCLua Error` substring.
+
+#### Exceptions in FPC, LCL, etc. code
+
+If caught inside VCLua they are treated like VCLua errors but with an `LCL Error` substring.
+Uncaught exceptions can be trapped in `VCL.TheApplication().OnException`. Notice it's `TheApplication()`, not `Application()`. `VCL.TheApplication().OnCircularException` is available too but if execution reaches it LCL will halt the whole program (not just your Lua script). To avoid it make sure your `OnException` never raises. Best thing you can do there is to schedule all the forms for closing and schedule a graceful stop for Lua VM.
+
+#### Lua errors inside LCL event handlers
+
+The above Lua errors would propagate through both Lua and Free Pascal stacks. A Lua error which is either handled in your Lua code or inside VCLua. In your Lua code you may consider using `pcall` on `TCustomForm.ShowModal`, `TApplication.ProcessMessages` and other Free Pascal calls. For LCL event handlers VCLua uses `lua_pcall` itself, reports the error using a callback set with `SetCallbackErrorFunction` and doesn't propagate the error. That means one doesn't really need any `pcall`s inside the event handler.
+
+Consider the following (wrong) example
+```lua
+VCL.SetErrorReporter(VCL.ShowMessage)
+mainForm = VCL.Form(nil, "mainForm")
+grid = VCL.StringGrid(mainForm,"grid")
+grid.OnPrepareCanvas = function(o, aCol, aRow, aState)
+  local c = colors[aRow]
+  if aRow == 1 then
+    o.Canvas.Brush.Color = c ~ 0x1F1F1F
+  else
+    o.Canvas.Brush.Color = c
+  end
+end
+mainForm:ShowModal()
+```
+
+If `colors` is `nil` there will be errors inside `OnPrepareCanvas` callback: either `VCLua Error` when a `nil` value is assigned to `Color`, or a usual Lua error about bit operations with `nil` arguments. Since the error reporting is set to create a messagebox, ***another repaint of the grid would start leading to the same errors*** (infinite loop). If error reporting isn't set, or if `VCL.SetErrorReporter(print)` is used, there would be no infinite loop and the grid will be operable. All Lua errors inside LCL event handlers are reported but not propagated, otherwise a circular exception may happen.
+
 ### Implementation details
 
 Passing of callbacks from Lua to Free Pascal is complicated. A temporary object with a Lua reference is created and the only place it is stored is the callback itself. So measures should be taken to avoid leaks and crashes. The only time when this object is freed is when the property is reset to another callback or to `nil`. When the class instance is `Assign`ed to another, the callbacks are copied as is, no duplicate Lua references are created. So resetting the property on one instance will free the temporary object from both instances leading to a crash.
 So:
-1. To prevent leaks set event properties to `nil` before freeing the object
-1. To avoid crashes set event properties to `nil` before `Assign`ing objects, and reset them after `Assign`
+> [!IMPORTANT]
+> 1. To prevent leaks set event properties to `nil` before freeing the object
+> 1. To avoid crashes set event properties to `nil` before `Assign`ing objects, and reset them after `Assign`
 
 Passing in the other direction (from Free Pascal to Lua, as when one reads an event property) can only return callbacks which were previously set from Lua. `nil` is returned for callbacks set inside LCL, e.g. on creating the object (for example, `TCollectionPropertyEditorForm.CollectionListBox.OnClick`)
 

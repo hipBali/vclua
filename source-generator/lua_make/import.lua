@@ -998,7 +998,7 @@ for _,kv in ipairs(HashedToSorted(eventSrcs)) do
     end
     def = def:gsub('#TOLUA',table.concat(tolua,'\n  '),1)
     local typ = md.name:gsub('^T','',1)
-    def = def:gsub('#PAR',md.ptypelist,1):gsub('#TYP',typ,1)
+    def = def:gsub('#PAR',md.ptypelist,1):gsub('#TYP',typ)
     table.insert(defs, def)
     -- have to do it here, only after all processClass calls
     updRefs(implrefs,md.mtypes,md.name,true)

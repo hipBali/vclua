@@ -3,7 +3,8 @@
 -- Copyright (C) 2006-2024 Hi-Project Ltd.
 -- ***************************************
 VCL = require "vcl.core"
-VCL.Application():Initialize()
+VCL.TheApplication():Initialize()
+VCL.SetErrorReporter(print)
 
 -- VCL.ActionList loader
 local setter = VCL.GetCallable('TAction','ActionList',true)

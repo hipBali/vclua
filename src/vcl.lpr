@@ -44,6 +44,14 @@ begin
      luaL_openlib(L, LUA_VCL_LIBNAME, vcl_lib, 0);
   {$ENDIF}
   // extend library
+  lua_pushcfunction(L, @LuaSetErrorReporter);
+  lua_setfield(L, -2, 'SetErrorReporter');
+  lua_pushcfunction(L, @LuaGetErrorReporter);
+  lua_setfield(L, -2, 'GetErrorReporter');
+  lua_pushcfunction(L, @LuaSetCallbackErrorFunction);
+  lua_setfield(L, -2, 'SetCallbackErrorFunction');
+  lua_pushcfunction(L, @LuaGetCallbackErrorFunction);
+  lua_setfield(L, -2, 'GetCallbackErrorFunction');
   lua_pushcfunction(L, @LuaColorToIdent);
   lua_setfield(L, -2, 'ColorToIdent');
   lua_pushcfunction(L, @LuaListProperties);
@@ -107,6 +115,10 @@ begin
          propSets.GetVmt(ptiCur);
       end;
   end;
+
+  lua_pushcfunction(L, @LuaSetCallbackErrorFunction);
+  lua_pushcfunction(L, @DefaultCallbackErrorFunction);
+  lua_call(L,1,0);
 
   result := 1;
 end;

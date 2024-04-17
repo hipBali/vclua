@@ -18,7 +18,8 @@ type
       constructor Create(aL: Plua_State; index: Integer); overload;
       constructor Create(aL: Plua_State; f: lua_CFunction); overload;
       destructor Destroy; override;
-      function ToStack: Plua_State;
+      function ToStack: Plua_State; overload;
+      procedure ToStack(L: Plua_State); overload; inline;
       class function Factory<ET,LT>(L: Plua_State):ET;
       class procedure MaybeFree(cb: TLuaCb);
   end;
@@ -68,6 +69,10 @@ end;
 function TLuaEvent.ToStack: Plua_State;
 begin
   Result := L;
+  ToStack(L);
+end;
+procedure TLuaEvent.ToStack(L: Plua_State);
+begin
   lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
 end;
 

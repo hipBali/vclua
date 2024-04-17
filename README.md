@@ -62,12 +62,13 @@ Unsupported types:
 1. optional parameters
 1. inheritance (everything generated for the class is available for instances of class descendants)
 1. manual typechecking (`is`)
-1. exceptions are transformed into Lua errors with a messagebox; uncaught exceptions can be trapped in `VCL.TheApplication().OnException`
+1. exceptions are transformed into Lua errors
 
 Unsupported class methods are specified in [exclude](source-generator/exclude). `Reference` property and enumerators are not supported. 
 
 ### Documentation
 [Examples](examples)
+These examples also serve as tests
 
 [Tips, tricks and tools](https://github.com/hipBali/vclua-tools)
 Tools in that repo can serve as complicated examples of using VCLua.
