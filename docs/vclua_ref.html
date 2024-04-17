@@ -577,17 +577,6 @@ result = o.ActionComponent</td><td class="fp">property ActionComponent: TCompone
 <div class="propsdata"><i>Visible</i> : Boolean</div>
 <div class="propsdata"><i>Width</i> : LongInt</div>
 <a id="Bitmap"><div class="class"><b><u>Bitmap</u></b></div></a>
-<div class="props"><b><i>Published properties</i></b></div>
-<div class="propsdata"><i>Empty</i> : Boolean</div>
-<div class="propsdata"><i>Height</i> : LongInt</div>
-<div class="propsdata"><i>MimeType</i> : AnsiString</div>
-<div class="propsdata"><i>Modified</i> : Boolean</div>
-<div class="propsdata"><i>OnChange</i> : NotifyEvent</div>
-<div class="propsdata"><i>OnProgress</i> : FPImgProgressEvent</div>
-<div class="propsdata"><i>Palette</i> : QWord</div>
-<div class="propsdata"><i>PaletteModified</i> : Boolean</div>
-<div class="propsdata"><i>Transparent</i> : Boolean</div>
-<div class="propsdata"><i>Width</i> : LongInt</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">result = o:GetFileExtensions()</td><td class="fp">class function GetFileExtensions: string; override;</td></tr>
@@ -2260,17 +2249,6 @@ result = o.StopOnException</td><td class="fp">Property StopOnException : Boolean
 result = o.Title</td><td class="fp">property Title: string read FTitle write SetTitle;</td></tr>
 </table></div>
 <a id="CustomBitmap"><div class="class"><b><u>CustomBitmap</u></b></div></a>
-<div class="props"><b><i>Published properties</i></b></div>
-<div class="propsdata"><i>Empty</i> : Boolean</div>
-<div class="propsdata"><i>Height</i> : LongInt</div>
-<div class="propsdata"><i>MimeType</i> : AnsiString</div>
-<div class="propsdata"><i>Modified</i> : Boolean</div>
-<div class="propsdata"><i>OnChange</i> : NotifyEvent</div>
-<div class="propsdata"><i>OnProgress</i> : FPImgProgressEvent</div>
-<div class="propsdata"><i>Palette</i> : QWord</div>
-<div class="propsdata"><i>PaletteModified</i> : Boolean</div>
-<div class="propsdata"><i>Transparent</i> : Boolean</div>
-<div class="propsdata"><i>Width</i> : LongInt</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
@@ -3663,17 +3641,6 @@ result = o.ShowInTaskBar</td><td class="fp">property ShowInTaskBar: TShowInTaskb
 result = o.WindowState</td><td class="fp">property WindowState: TWindowState read FWindowState write SetWindowState default wsNormal;</td></tr>
 </table></div>
 <a id="Graphic"><div class="class"><b><u>Graphic</u></b></div></a>
-<div class="props"><b><i>Published properties</i></b></div>
-<div class="propsdata"><i>Empty</i> : Boolean</div>
-<div class="propsdata"><i>Height</i> : LongInt</div>
-<div class="propsdata"><i>MimeType</i> : AnsiString</div>
-<div class="propsdata"><i>Modified</i> : Boolean</div>
-<div class="propsdata"><i>OnChange</i> : NotifyEvent</div>
-<div class="propsdata"><i>OnProgress</i> : FPImgProgressEvent</div>
-<div class="propsdata"><i>Palette</i> : QWord</div>
-<div class="propsdata"><i>PaletteModified</i> : Boolean</div>
-<div class="propsdata"><i>Transparent</i> : Boolean</div>
-<div class="propsdata"><i>Width</i> : LongInt</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Assign(ASource)</td><td class="fp">procedure Assign(ASource: TPersistent); override;</td></tr>
@@ -4453,21 +4420,6 @@ result = o.TopIndex</td><td class="fp">property TopIndex: Integer read GetTopInd
 <tr><td class="lua">o:UnlockSelectionChange()</td><td class="fp">procedure UnlockSelectionChange;</td></tr>
 </table></div>
 <a id="ListItem"><div class="class"><b><u>ListItem</u></b></div></a>
-<div class="props"><b><i>Published properties</i></b></div>
-<div class="propsdata"><i>Caption</i> : AnsiString</div>
-<div class="propsdata"><i>Checked</i> : Boolean</div>
-<div class="propsdata"><i>Cut</i> : Boolean</div>
-<div class="propsdata"><i>DropTarget</i> : Boolean</div>
-<div class="propsdata"><i>Focused</i> : Boolean</div>
-<div class="propsdata"><i>ImageIndex</i> : ImageIndex</div>
-<div class="propsdata"><i>Index</i> : LongInt</div>
-<div class="propsdata"><i>Left</i> : LongInt</div>
-<div class="propsdata"><i>ListView</i> : CustomListView</div>
-<div class="propsdata"><i>Owner</i> : ListItems</div>
-<div class="propsdata"><i>Selected</i> : Boolean</div>
-<div class="propsdata"><i>StateIndex</i> : ImageIndex</div>
-<div class="propsdata"><i>SubItems</i> : Strings</div>
-<div class="propsdata"><i>Top</i> : LongInt</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Assign(ASource)</td><td class="fp">procedure Assign(ASource: TPersistent); override;</td></tr>
@@ -4631,7 +4583,6 @@ o:Item(AIndex,value)</td><td class="fp">property Item[const AIndex: Integer]: TL
 <div class="propsdata"><i>ReadOnly</i> : Boolean</div>
 <div class="propsdata"><i>RowSelect</i> : Boolean</div>
 <div class="propsdata"><i>ScrollBars</i> : ScrollStyle</div>
-<div class="propsdata"><i>Selected</i> : ListItem</div>
 <div class="propsdata"><i>ShowColumnHeaders</i> : Boolean</div>
 <div class="propsdata"><i>ShowHint</i> : Boolean</div>
 <div class="propsdata"><i>SmallImages</i> : CustomImageList</div>
@@ -5587,18 +5538,6 @@ result = o.Handle</td><td class="fp">property Handle: HPEN read GetHandle write 
 <tr><td class="lua">result = o:GetNamePath()</td><td class="fp">function  GetNamePath: string; virtual;  </td></tr>
 </table></div>
 <a id="Picture"><div class="class"><b><u>Picture</u></b></div></a>
-<div class="props"><b><i>Published properties</i></b></div>
-<div class="propsdata"><i>Bitmap</i> : Bitmap</div>
-<div class="propsdata"><i>Graphic</i> : Graphic</div>
-<div class="propsdata"><i>Height</i> : LongInt</div>
-<div class="propsdata"><i>Icon</i> : Icon</div>
-<div class="propsdata"><i>Jpeg</i> : JpegImage</div>
-<div class="propsdata"><i>OnChange</i> : NotifyEvent</div>
-<div class="propsdata"><i>OnProgress</i> : FPImgProgressEvent</div>
-<div class="propsdata"><i>PNG</i> : PortableNetworkGraphic</div>
-<div class="propsdata"><i>PNM</i> : PortableAnyMapGraphic</div>
-<div class="propsdata"><i>Pixmap</i> : Pixmap</div>
-<div class="propsdata"><i>Width</i> : LongInt</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
@@ -6038,17 +5977,6 @@ result = o.Items</td><td class="fp">property Items: TStrings read FItems write S
 <tr><td class="lua">result = o:Rows()</td><td class="fp">function Rows: integer;</td></tr>
 </table></div>
 <a id="RasterImage"><div class="class"><b><u>RasterImage</u></b></div></a>
-<div class="props"><b><i>Published properties</i></b></div>
-<div class="propsdata"><i>Empty</i> : Boolean</div>
-<div class="propsdata"><i>Height</i> : LongInt</div>
-<div class="propsdata"><i>MimeType</i> : AnsiString</div>
-<div class="propsdata"><i>Modified</i> : Boolean</div>
-<div class="propsdata"><i>OnChange</i> : NotifyEvent</div>
-<div class="propsdata"><i>OnProgress</i> : FPImgProgressEvent</div>
-<div class="propsdata"><i>Palette</i> : QWord</div>
-<div class="propsdata"><i>PaletteModified</i> : Boolean</div>
-<div class="propsdata"><i>Transparent</i> : Boolean</div>
-<div class="propsdata"><i>Width</i> : LongInt</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
@@ -7864,37 +7792,6 @@ result = o.ShowIcon</td><td class="fp">property ShowIcon: Boolean read FShowIcon
 result = o.Visible</td><td class="fp">property Visible: Boolean read FVisible write SetVisible default False;</td></tr>
 </table></div>
 <a id="TreeNode"><div class="class"><b><u>TreeNode</u></b></div></a>
-<div class="props"><b><i>Published properties</i></b></div>
-<div class="propsdata"><i>AbsoluteIndex</i> : LongInt</div>
-<div class="propsdata"><i>Count</i> : LongInt</div>
-<div class="propsdata"><i>Cut</i> : Boolean</div>
-<div class="propsdata"><i>Deleting</i> : Boolean</div>
-<div class="propsdata"><i>DropTarget</i> : Boolean</div>
-<div class="propsdata"><i>Expanded</i> : Boolean</div>
-<div class="propsdata"><i>Focused</i> : Boolean</div>
-<div class="propsdata"><i>Handle</i> : QWord</div>
-<div class="propsdata"><i>HasChildren</i> : Boolean</div>
-<div class="propsdata"><i>Height</i> : LongInt</div>
-<div class="propsdata"><i>ImageIndex</i> : ImageIndex</div>
-<div class="propsdata"><i>Index</i> : LongInt</div>
-<div class="propsdata"><i>IsFullHeightVisible</i> : Boolean</div>
-<div class="propsdata"><i>IsVisible</i> : Boolean</div>
-<div class="propsdata"><i>Level</i> : LongInt</div>
-<div class="propsdata"><i>MultiSelected</i> : Boolean</div>
-<div class="propsdata"><i>NodeEffect</i> : GraphicsDrawEffect</div>
-<div class="propsdata"><i>OverlayIndex</i> : LongInt</div>
-<div class="propsdata"><i>Owner</i> : TreeNodes</div>
-<div class="propsdata"><i>Parent</i> : TreeNode</div>
-<div class="propsdata"><i>Selected</i> : Boolean</div>
-<div class="propsdata"><i>SelectedIndex</i> : LongInt</div>
-<div class="propsdata"><i>StateIndex</i> : LongInt</div>
-<div class="propsdata"><i>States</i> : NodeStates</div>
-<div class="propsdata"><i>SubTreeCount</i> : LongInt</div>
-<div class="propsdata"><i>Text</i> : AnsiString</div>
-<div class="propsdata"><i>Top</i> : LongInt</div>
-<div class="propsdata"><i>TreeNodes</i> : TreeNodes</div>
-<div class="propsdata"><i>TreeView</i> : CustomTreeView</div>
-<div class="propsdata"><i>Visible</i> : Boolean</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">result = o.AbsoluteIndex</td><td class="fp">property AbsoluteIndex: Integer read GetAbsoluteIndex;</td></tr>
@@ -8005,11 +7902,6 @@ result = o.Visible</td><td class="fp">property Visible: Boolean read GetVisible 
 <tr><td class="lua">o:WriteDebugReport(Prefix,Recurse)</td><td class="fp">procedure WriteDebugReport(const Prefix: string; Recurse: boolean);</td></tr>
 </table></div>
 <a id="TreeNodes"><div class="class"><b><u>TreeNodes</u></b></div></a>
-<div class="props"><b><i>Published properties</i></b></div>
-<div class="propsdata"><i>Count</i> : LongInt</div>
-<div class="propsdata"><i>KeepCollapsedNodes</i> : Boolean</div>
-<div class="propsdata"><i>Owner</i> : CustomTreeView</div>
-<div class="propsdata"><i>SelectionCount</i> : LongWord</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">result = o:Add(SiblingNode,S)</td><td class="fp">function Add(SiblingNode: TTreeNode; const S: string): TTreeNode;</td></tr>
@@ -8161,7 +8053,6 @@ o:TopLvlItems(Index,value)</td><td class="fp">property TopLvlItems[Index: intege
 <div class="propsdata"><i>RightClickSelect</i> : Boolean</div>
 <div class="propsdata"><i>RowSelect</i> : Boolean</div>
 <div class="propsdata"><i>ScrollBars</i> : ScrollStyle</div>
-<div class="propsdata"><i>Selected</i> : TreeNode</div>
 <div class="propsdata"><i>SelectionColor</i> : GraphicsColor</div>
 <div class="propsdata"><i>SelectionFontColor</i> : GraphicsColor</div>
 <div class="propsdata"><i>SelectionFontColorUsed</i> : Boolean</div>
