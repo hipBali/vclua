@@ -264,16 +264,16 @@ begin
     luaL_checkstack(L, Length(LoNames), 'luaL_checkRecord');
     while j <= High(LoNames) do begin
       lua_pushstring(L, LoNames[j]);
-      Inc(j);
       lua_rawget(L, i);
       if lua_isnil(L, -1) then Break;
-      luaL_check(L, -1, addrs[j-1]);
+      luaL_check(L, -1, addrs[j]);
+      Inc(j);
     end;
     lua_pop(L,j);
     if j = Length(LoNames) then Exit;
-    // slow path, field #(j-1) in lowercase isn't found
-    Dec(j);
+    // slow path, field #j in lowercase isn't found
     n := j;
+    lua_pop(L,1);
     lua_pushnil(L);
     while (lua_next(L,i)<>0) do begin
       if (lua_type(L,-2)=LUA_TSTRING) then begin

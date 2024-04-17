@@ -51,7 +51,6 @@ end
 
 local orig_print=print
 if not show_progress then print = function() end end
-print(table.tovstring(bytype))
 for t,list in pairs(bytype) do
     table.sort(list)
     if one_per_type then list = {list[1]} end
