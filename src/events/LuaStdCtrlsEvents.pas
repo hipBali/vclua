@@ -31,7 +31,7 @@ type
 procedure RegisterLuaStdCtrlsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
 
 procedure RegisterLuaStdCtrlsEvents();
 begin
@@ -66,7 +66,12 @@ begin
   lua_push(L,AHeight);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AHeight);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AHeight,TypeInfo(Integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaScrollEvent.Handler(Sender: TObject; ScrollCode: TScrollCode; var ScrollPos: Integer);
@@ -81,7 +86,12 @@ begin
   lua_push(L,ScrollPos);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ScrollPos);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ScrollPos,TypeInfo(Integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaSelectionChangeEvent.Handler(Sender: TObject; User: boolean);

@@ -100,7 +100,12 @@ begin
   lua_push(L,CloseAction,TypeInfo(CloseAction));
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@CloseAction,TypeInfo(TCloseAction));
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@CloseAction,TypeInfo(TCloseAction),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaCloseQueryEvent.Handler(Sender : TObject; var CanClose: Boolean);
@@ -114,7 +119,12 @@ begin
   lua_push(L,CanClose);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@CanClose);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@CanClose,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaDataEvent.Handler(Data: PtrInt);
@@ -159,7 +169,12 @@ begin
   lua_push(L,Handle);
   DoCall(L,1);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Handle);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Handle,TypeInfo(HWND),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaIdleEvent.Handler(Sender: TObject; var Done: Boolean);
@@ -173,7 +188,12 @@ begin
   lua_push(L,Done);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Done);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Done,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaModalDialogFinished.Handler(Sender: TObject; AResult: Integer);
@@ -208,7 +228,12 @@ begin
   lua_push(L,Cancel);
   DoCall(L,1);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Cancel);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Cancel,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaScreenControlEvent.Handler(Sender: TObject; LastControl: TControl);

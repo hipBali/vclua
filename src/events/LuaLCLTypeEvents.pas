@@ -16,7 +16,7 @@ type
 procedure RegisterLuaLCLTypeEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
 
 procedure RegisterLuaLCLTypeEvents();
 begin

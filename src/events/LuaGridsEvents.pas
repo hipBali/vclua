@@ -106,7 +106,7 @@ type
 procedure RegisterLuaGridsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaBitmap, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, LuaBitmap, LuaImageList, SysUtils;
 
 procedure RegisterLuaGridsEvents();
 begin
@@ -145,7 +145,12 @@ begin
   lua_push(L,aValue);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@aValue);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@aValue,TypeInfo(string),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaGetCellHintEvent.Handler(Sender: TObject; ACol, ARow: Integer; var HintText: String);
@@ -161,7 +166,12 @@ begin
   lua_push(L,HintText);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@HintText);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@HintText,TypeInfo(String),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaGetCheckboxStateEvent.Handler(Sender: TObject; ACol, ARow: Integer; var Value: TCheckboxState);
@@ -177,7 +187,12 @@ begin
   lua_push(L,Value,TypeInfo(Value));
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value,TypeInfo(TCheckboxState));
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value,TypeInfo(TCheckboxState),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaGetEditEvent.Handler(Sender: TObject; ACol, ARow: Integer; var Value: string);
@@ -193,7 +208,12 @@ begin
   lua_push(L,Value);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value,TypeInfo(string),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaGridOperationEvent.Handler(Sender: TObject; IsColumn:Boolean; sIndex, tIndex: Integer);
@@ -249,7 +269,12 @@ begin
   lua_push(L,Result);
   DoCall(L,6);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Result);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Result,TypeInfo(integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaOnDrawCell.Handler(Sender: TObject; aCol, aRow: Integer; aRect: TRect; aState:TGridDrawState);
@@ -292,7 +317,12 @@ begin
   lua_push(L,CanSelect);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@CanSelect);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@CanSelect,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaOnSelectEvent.Handler(Sender: TObject; aCol, aRow: Integer);
@@ -320,7 +350,12 @@ begin
   lua_push(L,Editor,TypeInfo(Editor));
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Editor);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Editor,TypeInfo(TWinControl),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaSetCheckboxStateEvent.Handler(Sender: TObject; ACol, ARow: Integer; const Value: TCheckboxState);
@@ -376,7 +411,12 @@ begin
   lua_push(L,ABitmap);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ABitmap);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ABitmap,TypeInfo(TBitmap),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaUserCheckBoxImageEvent.Handler(Sender: TObject; const aCol, aRow: Integer; const CheckedState: TCheckBoxState; var ImageList: TCustomImageList; var ImageIndex: TImageIndex);
@@ -394,8 +434,13 @@ begin
   lua_push(L,ImageIndex);
   DoCall(L,6);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ImageList);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@ImageIndex);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ImageList,TypeInfo(TCustomImageList),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@ImageIndex,TypeInfo(TImageIndex),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaValidateEntryEvent.Handler(Sender: TObject; aCol, aRow: Integer; const OldValue: string; var NewValue: String);
@@ -412,7 +457,12 @@ begin
   lua_push(L,NewValue);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@NewValue);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@NewValue,TypeInfo(String),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 end.

@@ -13,6 +13,8 @@ const
       ('mrNone','mrOk','mrCancel','mrAbort','mrRetry','mrIgnore','mrYes','mrNo',
        'mrAll','mrNoToAll','mrYesToAll');
 
+type
+  TLuaErrorReport = (lerLuaError, lerException);
 
 function LuaFpGc(L: Plua_State): Integer; cdecl;
 function RunSeparate(L: Plua_State):integer;cdecl;
@@ -22,10 +24,11 @@ function LuaSetErrorReporter(L: Plua_State):integer; cdecl;
 function LuaGetErrorReporter(L: Plua_State):integer; cdecl;
 function LuaSetCallbackErrorFunction(L: Plua_State):integer; cdecl;
 function LuaGetCallbackErrorFunction(L: Plua_State):integer; cdecl;
+procedure ReportEventError(L: Plua_State; e: string);
 function LuaTraceback(L: Plua_State; msg: String): PAnsiChar;
-procedure LuaError(L: Plua_State; text: String; err: String);
+procedure LuaError(L: Plua_State; text: String; err: String; ler: TLuaErrorReport = lerLuaError);
 procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
-procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo);
+procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo; ler: TLuaErrorReport = lerLuaError);
 procedure DoScript(L: Plua_State; fileName: String);
 procedure DoCall(L: Plua_State; paramCount:integer);
 
@@ -240,22 +243,30 @@ begin
   lua_pop(L, 1);
 end;
 
-procedure ReportError(L: Plua_State; e: string);
+procedure ReportError(L: Plua_State; e: string; ev: TLuaEvent); inline;
 begin
-  if Assigned(errorRep) then begin
-    errorRep.ToStack(L);
+  if Assigned(ev) then begin
+    ev.ToStack(L);
     lua_pushstring(L, e);
     lua_pcall(L, 1, 0, 0);
   end;
 end;
 
-procedure LuaError(L: Plua_State; text: String; err:String);
+procedure ReportEventError(L: Plua_State; e: string);
+begin
+  ReportError(L, e, cbErrorF);
+end;
+
+procedure LuaError(L: Plua_State; text: String; err:String; ler: TLuaErrorReport);
 var
   e: string;
 begin
   e := 'VCLua Error:'+#10+WinCPToUTF8(err)+#10+WinCPToUTF8(text);
-  ReportError(L, e);
-  luaL_error(L, PAnsiChar(e));
+  ReportError(L, e, errorRep);
+  if ler = lerLuaError then
+     luaL_error(L, PAnsiChar(e))
+  else
+     raise Exception.Create(e);
 end;
 
 procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
@@ -263,11 +274,11 @@ var
   e: string;
 begin
   e := Format('LCL Error:'+#10+'calling %s.%s got %s:'+#10+WinCPToUTF8(err), [className, methodName, text]);
-  ReportError(L, e);
+  ReportError(L, e, errorRep);
   luaL_error(L, PAnsiChar(e));
 end;
 
-procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo);
+procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo; ler: TLuaErrorReport);
 var t,v:string;
 begin
   index := LuaAbsIndex(L, index);
@@ -281,7 +292,7 @@ begin
   v := lua_tostring(L, -1);
   {$ENDIF}
   lua_pop(L, 1);
-  LuaError(L, 'Wrong type', format('Expected value convertible to ''%s'', got ''%s'' of Lua type ''%s''', [pti^.Name, v, t]));
+  LuaError(L, 'Wrong type', format('Expected value convertible to ''%s'', got ''%s'' of Lua type ''%s''', [pti^.Name, v, t]), ler);
 end;
 
 procedure DoScript(L: Plua_State; fileName: String);
@@ -338,7 +349,7 @@ function CheckLuaObjectPop(L: Plua_State; Index: Integer): TObject;
 begin
   result := GetLuaObjectPop(L, Index);
   if result = nil then
-     LuaError(L, 'Use o:Method, not o.Method','Missing self in method call');
+     LuaError(L, 'Use o:Method, not o.Method','Missing self in method call', lerLuaError);
 end;
 
 function GetLuaUserData(L: Plua_State; Index: Integer): Pointer;

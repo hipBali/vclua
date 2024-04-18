@@ -26,7 +26,7 @@ type
 procedure RegisterLuaObjectInspectorEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaPersistent, LuaPropEdits;
+Uses LuaProxy, LuaObject, LuaHelper, LuaPersistent, LuaPropEdits, SysUtils;
 
 procedure RegisterLuaObjectInspectorEvents();
 begin
@@ -46,7 +46,12 @@ begin
   lua_push(L,Allowed);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Allowed);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Allowed,TypeInfo(boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaOIEditorFilterEvent.Handler(Sender: TObject; aEditor: TPropertyEditor; var aShow: boolean);
@@ -61,7 +66,12 @@ begin
   lua_push(L,aShow);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@aShow);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@aShow,TypeInfo(boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaOnOINodeGetImageEvent.Handler(APersistent: TPersistent; var AImageIndex: integer);
@@ -75,7 +85,12 @@ begin
   lua_push(L,AImageIndex);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AImageIndex);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AImageIndex,TypeInfo(integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 end.

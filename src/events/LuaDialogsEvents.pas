@@ -26,7 +26,7 @@ type
 procedure RegisterLuaDialogsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
 
 procedure RegisterLuaDialogsEvents();
 begin
@@ -58,7 +58,12 @@ begin
   lua_push(L,ACanClose);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACanClose);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACanClose,TypeInfo(boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTaskDlgClickEvent.Handler(Sender: TObject; AModalResult: TModalResult; var ACanClose: Boolean);
@@ -73,7 +78,12 @@ begin
   lua_push(L,ACanClose);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACanClose);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACanClose,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 end.

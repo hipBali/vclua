@@ -258,6 +258,16 @@ begin
 end;
 ]]
 
+VCLUA_EVENT_HANDLER_FROMLUA = [[
+
+  luaNewTop := lua_gettop(L);
+  try
+    #CONCAT
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;]]
+
 VCLUA_VAR = [[
 function The#NAME(L: Plua_State): Integer; cdecl;
 begin

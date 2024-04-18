@@ -16,7 +16,7 @@ type
 procedure RegisterLuaRTTICtrlsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
 
 procedure RegisterLuaRTTICtrlsEvents();
 begin
@@ -34,7 +34,12 @@ begin
   lua_push(L,AllowWrite);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowWrite);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowWrite,TypeInfo(boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 end.

@@ -16,7 +16,7 @@ type
 procedure RegisterLuaImgListEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, LuaImageList, SysUtils;
 
 procedure RegisterLuaImgListEvents();
 begin
@@ -36,7 +36,12 @@ begin
   lua_push(L,AResultWidth);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AResultWidth);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AResultWidth,TypeInfo(Integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 end.

@@ -188,7 +188,7 @@ Uncaught exceptions can be trapped in `VCL.TheApplication().OnException`. Notice
 
 #### Lua errors inside LCL event handlers
 
-The above Lua errors would propagate through both Lua and Free Pascal stacks. A Lua error which is either handled in your Lua code or inside VCLua. In your Lua code you may consider using `pcall` on `TCustomForm.ShowModal`, `TApplication.ProcessMessages` and other Free Pascal calls. For LCL event handlers VCLua uses `lua_pcall` itself, reports the error using a callback set with `SetCallbackErrorFunction` and doesn't propagate the error. That means one doesn't really need any `pcall`s inside the event handler.
+The above Lua errors would propagate through both Lua and Free Pascal stacks. A Lua error can be handled in either your Lua code or inside VCLua. In your Lua code you may consider using `pcall` on `TCustomForm.ShowModal`, `TApplication.ProcessMessages` and other Free Pascal calls. For LCL event handlers VCLua uses `lua_pcall` itself, reports the error using a callback set with `SetCallbackErrorFunction` and doesn't propagate the error. That means one doesn't really need any `pcall`s inside the event handler.
 
 Consider the following (wrong) example
 ```lua
@@ -206,7 +206,7 @@ end
 mainForm:ShowModal()
 ```
 
-If `colors` is `nil` there will be errors inside `OnPrepareCanvas` callback: either `VCLua Error` when a `nil` value is assigned to `Color`, or a usual Lua error about bit operations with `nil` arguments. Since the error reporting is set to create a messagebox, ***another repaint of the grid would start leading to the same errors*** (infinite loop). If error reporting isn't set, or if `VCL.SetErrorReporter(print)` is used, there would be no infinite loop and the grid will be operable. All Lua errors inside LCL event handlers are reported but not propagated, otherwise a circular exception may happen.
+If `colors` is `nil` there will be errors inside `OnPrepareCanvas` callback: either `VCLua Error` when a `nil` value is assigned to `Color`, or a usual Lua error about bit operations with `nil` arguments. Since the error reporting is set to create a messagebox, ***another repaint of the grid would start leading to the same errors*** (infinite loop). If error reporting isn't set, or if `VCL.SetErrorReporter(print)` is used, there would be no infinite loop and the grid will be operable. All Lua errors inside LCL event handlers are reported but not propagated, otherwise a circular exception may happen. Errors from returning values of incorrect types are caught the same way.
 
 ### Implementation details
 

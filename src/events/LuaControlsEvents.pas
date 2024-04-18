@@ -116,7 +116,7 @@ type
 procedure RegisterLuaControlsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaDrag;
+Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaDrag, SysUtils;
 
 procedure RegisterLuaControlsEvents();
 begin
@@ -157,10 +157,15 @@ begin
   lua_push(L,MaxHeight);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@MinWidth);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@MinHeight);
-  if luaTop + 3 <= luaNewTop then luaL_check(L,luaTop + 3,@MaxWidth);
-  if luaTop + 4 <= luaNewTop then luaL_check(L,luaTop + 4,@MaxHeight);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@MinWidth,TypeInfo(TConstraintSize),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@MinHeight,TypeInfo(TConstraintSize),lerException);
+    if luaTop + 3 <= luaNewTop then luaL_check(L,luaTop + 3,@MaxWidth,TypeInfo(TConstraintSize),lerException);
+    if luaTop + 4 <= luaNewTop then luaL_check(L,luaTop + 4,@MaxHeight,TypeInfo(TConstraintSize),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaContextPopupEvent.Handler(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
@@ -175,7 +180,12 @@ begin
   lua_push(L,Handled);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Handled);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Handled,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaDockDropEvent.Handler(Sender: TObject; Source: TDragDockObject; X, Y: Integer);
@@ -206,7 +216,12 @@ begin
   lua_push(L,Accept);
   DoCall(L,6);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Accept);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Accept,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaDragDropEvent.Handler(Sender, Source: TObject; X,Y: Integer);
@@ -237,7 +252,12 @@ begin
   lua_push(L,Accept);
   DoCall(L,6);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Accept);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Accept,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaEndDragEvent.Handler(Sender, Target: TObject; X,Y: Integer);
@@ -285,7 +305,12 @@ begin
   lua_push(L,ACaption);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACaption);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACaption,TypeInfo(String),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaGetSiteInfoEvent.Handler(Sender: TObject; DockClient: TControl; var InfluenceRect: TRect; MousePos: TPoint; var CanDock: Boolean);
@@ -302,8 +327,13 @@ begin
   lua_push(L,CanDock);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@InfluenceRect);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@CanDock);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@InfluenceRect,TypeInfo(TRect),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@CanDock,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaKeyEvent.Handler(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -318,7 +348,12 @@ begin
   lua_push(L,Shift,TypeInfo(Shift));
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Key);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Key,TypeInfo(Word),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaKeyPressEvent.Handler(Sender: TObject; var Key: char);
@@ -332,7 +367,12 @@ begin
   lua_push(L,Key);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Key);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Key,TypeInfo(char),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaMouseEvent.Handler(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -376,7 +416,12 @@ begin
   lua_push(L,Handled);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Handled);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Handled,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaMouseWheelUpDownEvent.Handler(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
@@ -392,7 +437,12 @@ begin
   lua_push(L,Handled);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Handled);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Handled,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaStartDockEvent.Handler(Sender: TObject; var DragObject: TDragDockObject);
@@ -406,7 +456,12 @@ begin
   lua_push(L,DragObject);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DragObject);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DragObject,TypeInfo(TDragDockObject),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaStartDragEvent.Handler(Sender: TObject; var DragObject: TDragObject);
@@ -420,7 +475,12 @@ begin
   lua_push(L,DragObject);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DragObject);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DragObject,TypeInfo(TDragObject),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaUnDockEvent.Handler(Sender: TObject; Client: TControl; NewTarget: TWinControl; var Allow: Boolean);
@@ -436,7 +496,12 @@ begin
   lua_push(L,Allow);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Allow);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Allow,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaUTF8KeyPressEvent.Handler(Sender: TObject; var UTF8Key: TUTF8Char);
@@ -450,7 +515,12 @@ begin
   lua_push(L,UTF8Key);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@UTF8Key);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@UTF8Key,TypeInfo(TUTF8Char),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 end.

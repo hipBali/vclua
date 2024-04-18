@@ -56,7 +56,7 @@ type
 procedure RegisterLuaExtCtrlsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaCanvas, LuaControl;
+Uses LuaProxy, LuaObject, LuaHelper, LuaCanvas, LuaControl, SysUtils;
 
 procedure RegisterLuaExtCtrlsEvents();
 begin
@@ -83,7 +83,12 @@ begin
   lua_push(L,Drag);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Drag);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Drag,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaBandInfoEvent.Handler(Sender: TObject; Control: TControl; var Insets: TRect; var PreferredSize, RowCount: Integer);
@@ -100,9 +105,14 @@ begin
   lua_push(L,RowCount);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Insets);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@PreferredSize);
-  if luaTop + 3 <= luaNewTop then luaL_check(L,luaTop + 3,@RowCount);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Insets,TypeInfo(TRect),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@PreferredSize,TypeInfo(Integer),lerException);
+    if luaTop + 3 <= luaNewTop then luaL_check(L,luaTop + 3,@RowCount,TypeInfo(Integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaBandMoveEvent.Handler(Sender: TObject; Control: TControl; var ARect: TRect);
@@ -117,7 +127,12 @@ begin
   lua_push(L,ARect);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ARect);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ARect,TypeInfo(TRect),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaBandPaintEvent.Handler(Sender: TObject; Control: TControl; ACanvas: TCanvas; var ARect: TRect; var Options: TBandPaintOptions);
@@ -134,8 +149,13 @@ begin
   lua_push(L,Options,TypeInfo(Options));
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ARect);
-  if luaTop + 2 <= luaNewTop then luaL_checkSet(L,luaTop + 2,@Options,TypeInfo(TBandPaintOptions));
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ARect,TypeInfo(TRect),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Options,TypeInfo(TBandPaintOptions),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaBeforeShowPageEvent.Handler(ASender: TObject; ANewPage: TPage; ANewIndex: Integer);
@@ -162,8 +182,13 @@ begin
   lua_push(L,Accept);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@NewOffset);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Accept);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@NewOffset,TypeInfo(Integer),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Accept,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaCanResizeEvent.Handler(Sender: TObject; var NewSize: Integer; var Accept: Boolean);
@@ -178,8 +203,13 @@ begin
   lua_push(L,Accept);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@NewSize);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Accept);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@NewSize,TypeInfo(Integer),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Accept,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaCheckGroupClicked.Handler(Sender: TObject; Index: integer);

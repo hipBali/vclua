@@ -36,7 +36,7 @@ type
 procedure RegisterLuaRTTIGridsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaPersistent, LuaPropertyGrid;
+Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaPersistent, LuaPropertyGrid, SysUtils;
 
 procedure RegisterLuaRTTIGridsEvents();
 begin
@@ -58,7 +58,12 @@ begin
   lua_push(L,NewEditorControl);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@NewEditorControl);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@NewEditorControl,TypeInfo(TControl),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTIGridGetObject.Handler(Sender: TTICustomGrid; Index: integer; var TIObject: TPersistent);
@@ -73,7 +78,12 @@ begin
   lua_push(L,TIObject);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@TIObject);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@TIObject,TypeInfo(TPersistent),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTIGridGetObjectCount.Handler(Sender: TTICustomGrid; ListObject: TObject; var ObjCount: integer);
@@ -88,7 +98,12 @@ begin
   lua_push(L,ObjCount);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ObjCount);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ObjCount,TypeInfo(integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTIGridGetObjectName.Handler(Sender: TObject; Index: integer; TIObject: TPersistent; var ObjName: string);
@@ -104,7 +119,12 @@ begin
   lua_push(L,ObjName);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ObjName);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ObjName,TypeInfo(string),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTIGridInitCellEditor.Handler(GridProp: TTIGridProperty; TheEditorControl: TControl);

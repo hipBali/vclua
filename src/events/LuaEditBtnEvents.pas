@@ -41,7 +41,7 @@ type
 procedure RegisterLuaEditBtnEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
 
 procedure RegisterLuaEditBtnEvents();
 begin
@@ -65,8 +65,13 @@ begin
   lua_push(L,AcceptDate);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ADate);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@AcceptDate);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ADate,TypeInfo(TDateTime),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@AcceptDate,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaAcceptFileNameEvent.Handler(Sender : TObject; Var Value : String);
@@ -80,7 +85,12 @@ begin
   lua_push(L,Value);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value,TypeInfo(String),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaAcceptTimeEvent.Handler(Sender : TObject; var ATime : TDateTime; var AcceptTime: Boolean);
@@ -95,8 +105,13 @@ begin
   lua_push(L,AcceptTime);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ATime);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@AcceptTime);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ATime,TypeInfo(TDateTime),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@AcceptTime,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaAcceptValueEvent.Handler(Sender: TObject; var AValue: Double; var Accept: Boolean);
@@ -111,8 +126,13 @@ begin
   lua_push(L,Accept);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AValue);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Accept);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AValue,TypeInfo(Double),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Accept,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaCustomDateEvent.Handler(Sender : TObject; var ADate : string);
@@ -126,7 +146,12 @@ begin
   lua_push(L,ADate);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ADate);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ADate,TypeInfo(string),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaCustomTimeEvent.Handler(Sender : TObject; var ATime : TDateTime);
@@ -140,7 +165,12 @@ begin
   lua_push(L,ATime);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ATime);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ATime,TypeInfo(TDateTime),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 end.

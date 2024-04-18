@@ -16,7 +16,7 @@ type
 procedure RegisterLuaCheckLstEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
 
 procedure RegisterLuaCheckLstEvents();
 begin

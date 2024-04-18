@@ -241,7 +241,7 @@ type
 procedure RegisterLuaComCtrlsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaHeaderControl, LuaListView, LuaStatusBar, LuaTabControl, LuaToolBar, LuaTreeView;
+Uses LuaProxy, LuaObject, LuaHelper, LuaHeaderControl, LuaListView, LuaStatusBar, LuaTabControl, LuaToolBar, LuaTreeView, SysUtils;
 
 procedure RegisterLuaComCtrlsEvents();
 begin
@@ -355,7 +355,12 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVAdvancedCustomDrawItemEvent.Handler(Sender: TCustomListView; Item: TListItem;  State: TCustomDrawState; Stage: TCustomDrawStage;  var DefaultDraw: Boolean);
@@ -372,7 +377,12 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVAdvancedCustomDrawSubItemEvent.Handler(Sender: TCustomListView; Item: TListItem;  SubItem: Integer; State: TCustomDrawState; Stage: TCustomDrawStage; var DefaultDraw: Boolean);
@@ -390,7 +400,12 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,6);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVChangeEvent.Handler(Sender: TObject; Item: TListItem; Change: TItemChange);
@@ -453,7 +468,12 @@ begin
   lua_push(L,Compare);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Compare);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Compare,TypeInfo(Integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVCustomDrawEvent.Handler(Sender: TCustomListView; const ARect: TRect; var DefaultDraw: Boolean);
@@ -468,7 +488,12 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVCustomDrawItemEvent.Handler(Sender: TCustomListView; Item: TListItem;  State: TCustomDrawState; var DefaultDraw: Boolean);
@@ -484,7 +509,12 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVCustomDrawSubItemEvent.Handler(Sender: TCustomListView; Item: TListItem;  SubItem: Integer; State: TCustomDrawState; var DefaultDraw: Boolean);
@@ -501,7 +531,12 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,5);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVDataFindEvent.Handler(Sender: TObject; AFind: TItemFind; const AFindString: string; const AFindPosition: TPoint; AFindData: Pointer; AStartIndex: Integer; ADirection: TSearchDirection; AWrap: Boolean; var AIndex: Integer);
@@ -522,7 +557,12 @@ begin
   lua_push(L,AIndex);
   DoCall(L,9);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AIndex);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AIndex,TypeInfo(Integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVDataHintEvent.Handler(Sender: TObject; StartIndex, EndIndex: Integer);
@@ -587,7 +627,12 @@ begin
   lua_push(L,AValue);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AValue);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AValue,TypeInfo(string),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVEditingEvent.Handler(Sender: TObject; Item: TListItem; var AllowEdit: Boolean);
@@ -602,7 +647,12 @@ begin
   lua_push(L,AllowEdit);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowEdit);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowEdit,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaLVSelectItemEvent.Handler(Sender: TObject; Item: TListItem; Selected: Boolean);
@@ -630,7 +680,12 @@ begin
   lua_push(L,AllowDrag);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowDrag);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowDrag,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTabChangingEvent.Handler(Sender: TObject; var AllowChange: Boolean);
@@ -644,7 +699,12 @@ begin
   lua_push(L,AllowChange);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTabGetImageEvent.Handler(Sender: TObject; TabIndex: Integer; var ImageIndex: Integer);
@@ -659,7 +719,12 @@ begin
   lua_push(L,ImageIndex);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ImageIndex);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ImageIndex,TypeInfo(Integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaToolBarOnPaintButton.Handler(Sender: TToolButton; State: integer);
@@ -686,7 +751,12 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVAdvancedCustomDrawItemEvent.Handler(Sender: TCustomTreeView; Node: TTreeNode; State: TCustomDrawState; Stage: TCustomDrawStage; var PaintImages, DefaultDraw: Boolean);
@@ -704,8 +774,13 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,6);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@PaintImages);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@PaintImages,TypeInfo(Boolean),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVChangedEvent.Handler(Sender: TObject; Node: TTreeNode);
@@ -731,7 +806,12 @@ begin
   lua_push(L,AllowChange);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVCollapsingEvent.Handler(Sender: TObject; Node: TTreeNode; var AllowCollapse: Boolean);
@@ -746,7 +826,12 @@ begin
   lua_push(L,AllowCollapse);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowCollapse);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowCollapse,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVCompareEvent.Handler(Sender: TObject; Node1, Node2: TTreeNode; var Compare: Integer);
@@ -762,7 +847,12 @@ begin
   lua_push(L,Compare);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Compare);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Compare,TypeInfo(Integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVCustomCreateNodeEvent.Handler(Sender: TCustomTreeView; var ATreeNode: TTreenode);
@@ -776,7 +866,12 @@ begin
   lua_push(L,ATreeNode);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ATreeNode);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ATreeNode,TypeInfo(TTreenode),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVCustomDrawArrowEvent.Handler(Sender: TCustomTreeView; const ARect: TRect; ACollapsed: Boolean);
@@ -803,7 +898,12 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVCustomDrawItemEvent.Handler(Sender: TCustomTreeView; Node: TTreeNode; State: TCustomDrawState; var DefaultDraw: Boolean);
@@ -819,7 +919,12 @@ begin
   lua_push(L,DefaultDraw);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVEditedEvent.Handler(Sender: TObject; Node: TTreeNode; var S: string);
@@ -834,7 +939,12 @@ begin
   lua_push(L,S);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@S);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@S,TypeInfo(string),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVEditingEndEvent.Handler(Sender: TObject; Node: TTreeNode; Cancel: Boolean);
@@ -861,7 +971,12 @@ begin
   lua_push(L,AllowEdit);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowEdit);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowEdit,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVExpandedEvent.Handler(Sender: TObject; Node: TTreeNode);
@@ -887,7 +1002,12 @@ begin
   lua_push(L,AllowExpansion);
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowExpansion);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowExpansion,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaTVNodeChangedEvent.Handler(Sender: TObject; Node: TTreeNode; ChangeReason: TTreeNodeChangeReason);
@@ -913,7 +1033,12 @@ begin
   lua_push(L,AllowChange);
   DoCall(L,2);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaUDChangingEventEx.Handler(Sender: TObject; var AllowChange: Boolean; NewValue: SmallInt; Direction: TUpDownDirection);
@@ -929,7 +1054,12 @@ begin
   lua_push(L,Direction,TypeInfo(Direction));
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaUDClickEvent.Handler(Sender: TObject; Button: TUDBtnType);

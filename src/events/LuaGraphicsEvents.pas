@@ -16,7 +16,7 @@ type
 procedure RegisterLuaGraphicsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
 
 procedure RegisterLuaGraphicsEvents();
 begin

@@ -26,7 +26,7 @@ type
 procedure RegisterLuaMenusEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaCanvas, LuaMenu;
+Uses LuaProxy, LuaObject, LuaHelper, LuaCanvas, LuaMenu, SysUtils;
 
 procedure RegisterLuaMenusEvents();
 begin
@@ -73,8 +73,13 @@ begin
   lua_push(L,AHeight);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AWidth);
-  if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@AHeight);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AWidth,TypeInfo(Integer),lerException);
+    if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@AHeight,TypeInfo(Integer),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 end.

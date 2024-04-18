@@ -21,7 +21,7 @@ type
 procedure RegisterLuaValEditEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, LuaStrings, SysUtils;
 
 procedure RegisterLuaValEditEvents();
 begin

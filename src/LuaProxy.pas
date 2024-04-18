@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, Types, Graphics, TypInfo, LCLType, LuaObject, // for generics to work LuaObject must be used here, not in implementation part
-  Lua;
+  Lua, LuaHelper;
 
 type
   PTUTF8Char = ^TUTF8Char;
@@ -38,36 +38,36 @@ How to implement passing callbacks from Lua to FP:
 *)
 
 // compile all users with T+ (typed address operator)
-procedure luaL_check(L: Plua_State; i: Integer; v: PBoolean; pti : PTypeInfo = nil); overload; inline;
-function luaL_checkInt64(L: Plua_State; i: Integer; pti : PTypeInfo):Int64; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PInt8; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PInt16; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PInt32; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PInt64; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PUInt8; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PUInt16; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PUInt32; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PUInt64; pti : PTypeInfo = nil); overload; inline;
-function luaL_checkDouble(L: Plua_State; i: Integer; pti : PTypeInfo):Double; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil); overload; inline;
-function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo):PChar; inline;
-function luaL_checkCP(L: Plua_State; i: Integer; pti : PTypeInfo):String; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PShortString; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PBoolean; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+function luaL_checkInt64(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):Int64; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt8; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt16; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt32; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt64; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt8; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt16; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt32; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt64; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+function luaL_checkDouble(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):Double; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):PChar; inline;
+function luaL_checkCP(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):String; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PShortString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 // single char, no conversion
-procedure luaL_check(L: Plua_State; i: Integer; v: PChar; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_checkSet(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo);
-function luaL_checkEnum(L: Plua_State; i: Integer; pti : PTypeInfo):Integer; inline;  // Integer as per TypInfo
-procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PPoint; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PSize; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PRect; pti : PTypeInfo = nil); overload; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PTextStyle; pti : PTypeInfo = nil); overload; inline;
-function luaL_checkShortCut(L: Plua_State; i: Integer):TShortCut; inline;
-function luaL_checkColor(L: Plua_State; i: Integer):TColor;
+procedure luaL_check(L: Plua_State; i: Integer; v: PChar; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_checkSet(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError);
+function luaL_checkEnum(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):Integer; inline;  // Integer as per TypInfo
+procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PPoint; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PSize; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PRect; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PTextStyle; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+function luaL_checkShortCut(L: Plua_State; i: Integer; ler: TLuaErrorReport = lerLuaError):TShortCut; inline;
+function luaL_checkColor(L: Plua_State; i: Integer; ler: TLuaErrorReport = lerLuaError):TColor;
 
 // it's out of trait to allow calling luaL_check for different type than T, e.g. for TObject instead of TMenuItem
 procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT); inline;
@@ -113,24 +113,24 @@ procedure lua_pushArray<T>(L: Plua_State; const v:array of T; pti : PTypeInfo = 
 
 implementation
 
-uses LazUtf8, SysUtils, LCLProc, LuaHelper;
+uses LazUtf8, SysUtils, LCLProc;
 
 // check overloads
-procedure luaL_check(L: Plua_State; i: Integer; v: PBoolean; pti : PTypeInfo = nil);
+procedure luaL_check(L: Plua_State; i: Integer; v: PBoolean; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);
 begin
   // CheckArg checks for argument elsewhere, no other check needed
   v^ := lua_toboolean(L, i);
 end;
 
-function luaL_checkInt64(L: Plua_State; i: Integer; pti : PTypeInfo):Int64;
+function luaL_checkInt64(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):Int64;
 {$ifdef LUA51}
 var
   temp:Double;
 begin
-  luaL_check(L, i, @temp, pti);
+  luaL_check(L, i, @temp, pti, ler);
   Result := Trunc(temp);
   if Result <> temp then
-     LuaTypeError(L, i, pti);
+     LuaTypeError(L, i, pti, ler);
 end;
 {$else}
 var
@@ -138,29 +138,29 @@ var
 begin
   Result := lua_tointegerx(L, i, @temp);
   if not temp then
-    LuaTypeError(L, i, pti);
+    LuaTypeError(L, i, pti, ler);
 end;
 {$endif}
-procedure luaL_check(L: Plua_State; i: Integer; v: PInt8; pti : PTypeInfo = nil);   begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PInt16; pti : PTypeInfo = nil);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PInt32; pti : PTypeInfo = nil);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PInt64; pti : PTypeInfo = nil);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PUInt8; pti : PTypeInfo = nil);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PUInt16; pti : PTypeInfo = nil); begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PUInt32; pti : PTypeInfo = nil); begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PUInt64; pti : PTypeInfo = nil); begin v^ := luaL_checkInt64(L, i, TypeInfo(v^)); end;
-function luaL_checkShortCut(L: Plua_State; i: Integer):TShortCut;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt8; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);   begin v^ := luaL_checkInt64(L, i, TypeInfo(v^), ler); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt16; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^), ler); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt32; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^), ler); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PInt64; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^), ler); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt8; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);  begin v^ := luaL_checkInt64(L, i, TypeInfo(v^), ler); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt16; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := luaL_checkInt64(L, i, TypeInfo(v^), ler); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt32; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := luaL_checkInt64(L, i, TypeInfo(v^), ler); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PUInt64; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := luaL_checkInt64(L, i, TypeInfo(v^), ler); end;
+function luaL_checkShortCut(L: Plua_State; i: Integer; ler: TLuaErrorReport = lerLuaError):TShortCut;
 var s: string;
 begin
   if lua_type(L, i) = LUA_TSTRING then begin
-    s := luaL_checkCP(L, i, nil);
+    s := luaL_checkCP(L, i, nil, ler);
     result := TextToShortCut(s);
     if (result = 0) and (s <> '') then
-      LuaTypeError(L, i, TypeInfo(result));
+      LuaTypeError(L, i, TypeInfo(result), ler);
   end else
-    result := luaL_checkInt64(L, i, TypeInfo(result));
+    result := luaL_checkInt64(L, i, TypeInfo(result), ler);
 end;
-function luaL_checkColor(L: Plua_State; i: Integer):TColor;
+function luaL_checkColor(L: Plua_State; i: Integer; ler: TLuaErrorReport = lerLuaError):TColor;
 begin
   if lua_type(L, i) = LUA_TSTRING then
     try
@@ -168,13 +168,13 @@ begin
     except
       // inlining causes compiler exception
       on e: EConvertError do
-         LuaTypeError(L, i, TypeInfo(result));
+         LuaTypeError(L, i, TypeInfo(result), ler);
     end
   else
-    result := luaL_checkInt64(L, i, TypeInfo(result));
+    result := luaL_checkInt64(L, i, TypeInfo(result), ler);
 end;
 
-function luaL_checkDouble(L: Plua_State; i: Integer; pti : PTypeInfo):Double; inline;
+function luaL_checkDouble(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):Double; inline;
 {$ifdef LUA51}
 begin
   result := lua_tonumber(L, i);
@@ -187,70 +187,70 @@ begin
   if not temp then begin
 {$endif}
     if pti = nil then pti := TypeInfo(result);
-    LuaTypeError(L, i, pti);
+    LuaTypeError(L, i, pti, ler);
   end;
 end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil); begin v^ := luaL_checkDouble(L, i, TypeInfo(v^)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil); begin v^ := luaL_checkDouble(L, i, TypeInfo(v^)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := luaL_checkDouble(L, i, TypeInfo(v^), ler); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := luaL_checkDouble(L, i, TypeInfo(v^), ler); end;
 
-function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo):PChar;
+function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):PChar;
 begin
   Result := lua_tostring(L, i);
   if Result = nil then
-    LuaTypeError(L, i, pti);
+    LuaTypeError(L, i, pti, ler);
 end;
-function luaL_checkCP(L: Plua_State; i: Integer; pti : PTypeInfo):String;
+function luaL_checkCP(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):String;
 begin
-  Result := luaL_checkPChar(L, i, pti);
+  Result := luaL_checkPChar(L, i, pti, ler);
   if (is_vclua_utf8_conv) then
     Result := WinCPToUTF8(Result);
 end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil);      begin v^ :=             luaL_checkCP(L, i, TypeInfo(v^)) ; end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PShortString; pti : PTypeInfo = nil); begin v^ := shortstring(luaL_checkCP(L, i, TypeInfo(v^))); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil);       begin v^ :=       PChar(luaL_checkCP(L, i, TypeInfo(v^))); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil);   begin v^ :=   TUTF8Char(luaL_checkCP(L, i, TypeInfo(v^))); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PChar; pti : PTypeInfo = nil);
+procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);      begin v^ :=             luaL_checkCP(L, i, TypeInfo(v^), ler) ; end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PShortString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := shortstring(luaL_checkCP(L, i, TypeInfo(v^), ler)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);       begin v^ :=       PChar(luaL_checkCP(L, i, TypeInfo(v^), ler)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);   begin v^ :=   TUTF8Char(luaL_checkCP(L, i, TypeInfo(v^), ler)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PChar; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);
 var s:String;
 begin
   if pti = nil then pti := TypeInfo(v^);
-  s := luaL_checkPChar(L, i, pti);
+  s := luaL_checkPChar(L, i, pti, ler);
   if Length(s) <> 1 then
-     LuaTypeError(L, i, pti);
+     LuaTypeError(L, i, pti, ler);
   v^ := s[1];
 end;
 
-procedure luaL_checkSet(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo);
+procedure luaL_checkSet(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError);
 begin
   try
-    StringToSet(pti, luaL_checkPChar(L, i, pti), v);
+    StringToSet(pti, luaL_checkPChar(L, i, pti, ler), v);
   except
     on E: Exception do
       // inlining causes internalerror(200602035) if E properties are used
-      LuaError(L, E.ClassName, E.Message);
+      LuaError(L, E.ClassName, E.Message, ler);
   end;
 end;
-function luaL_checkEnum(L: Plua_State; i: Integer; pti : PTypeInfo):Integer;
+function luaL_checkEnum(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):Integer;
 begin
-  Result := GetEnumValue(pti, luaL_checkPChar(L, i, pti));
+  Result := GetEnumValue(pti, luaL_checkPChar(L, i, pti, ler));
   if Result = -1 then
-     LuaTypeError(L, i, pti);
+     LuaTypeError(L, i, pti, ler);
 end;
-procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo);
+procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError);
 begin
   case pti.Kind of
-    tkSet: luaL_checkSet(L, i, v, pti);
+    tkSet: luaL_checkSet(L, i, v, pti, ler);
     tkEnumeration:
       case GetTypeData(pti).OrdType of
-          otSByte,otUByte: PByte(v)^ := luaL_checkEnum(L, i, pti);
-          otSWord,otUWord: PWord(v)^ := luaL_checkEnum(L, i, pti);
-          otSLong,otULong: PCardinal(v)^ := luaL_checkEnum(L, i, pti);
+          otSByte,otUByte: PByte(v)^ := luaL_checkEnum(L, i, pti, ler);
+          otSWord,otUWord: PWord(v)^ := luaL_checkEnum(L, i, pti, ler);
+          otSLong,otULong: PCardinal(v)^ := luaL_checkEnum(L, i, pti, ler);
       end;
   else
-    LuaError(L, 'Don''t know how to get type from Lua stack', pti.name);
+    LuaError(L, 'Don''t know how to get type from Lua stack', pti.name, ler);
   end;
 end;
 
-procedure luaL_checkRecord<PT>(L: Plua_State; i: Integer; LoNames: array of string; addrs: array of PT; pti : PTypeInfo); inline;
+procedure luaL_checkRecord<PT>(L: Plua_State; i: Integer; LoNames: array of string; addrs: array of PT; pti : PTypeInfo; ler: TLuaErrorReport); inline;
 var
   f:String;
   j:Integer = 0;
@@ -265,7 +265,7 @@ begin
       lua_pushstring(L, LoNames[j]);
       lua_rawget(L, i);
       if lua_isnil(L, -1) then Break;
-      luaL_check(L, -1, addrs[j]);
+      luaL_check(L, -1, addrs[j], nil, ler);
       Inc(j);
     end;
     lua_pop(L,j);
@@ -279,7 +279,7 @@ begin
          f := lowercase(lua_tostring(L, -2));
          for k := j to High(LoNames) do
              if (f=LoNames[k]) then begin
-                luaL_check(L, -1, addrs[k]);
+                luaL_check(L, -1, addrs[k], nil, ler);
                 Inc(n);
                 Break;
              end;
@@ -288,21 +288,21 @@ begin
     end;
     if n = Length(LoNames) then Exit;
   end;
-  LuaTypeError(L, i, pti);
+  LuaTypeError(L, i, pti, ler);
 end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PPoint; pti : PTypeInfo = nil);
+procedure luaL_check(L: Plua_State; i: Integer; v: PPoint; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);
 begin
-  luaL_checkRecord<PLongint>(L, i, ['x','y'], [@v^.x, @v^.y], TypeInfo(v^));
+  luaL_checkRecord<PLongint>(L, i, ['x','y'], [@v^.x, @v^.y], TypeInfo(v^), ler);
 end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PSize; pti : PTypeInfo = nil);
+procedure luaL_check(L: Plua_State; i: Integer; v: PSize; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);
 begin
-  luaL_checkRecord<PLongint>(L, i, ['width','height'], [@v^.Width, @v^.Height], TypeInfo(v^));
+  luaL_checkRecord<PLongint>(L, i, ['width','height'], [@v^.Width, @v^.Height], TypeInfo(v^), ler);
 end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PRect; pti : PTypeInfo = nil);
+procedure luaL_check(L: Plua_State; i: Integer; v: PRect; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);
 begin
-  luaL_checkRecord<PLongint>(L, i, ['left','top','right','bottom'], [@v^.Left, @v^.Top, @v^.Right, @v^.Bottom], TypeInfo(v^));
+  luaL_checkRecord<PLongint>(L, i, ['left','top','right','bottom'], [@v^.Left, @v^.Top, @v^.Right, @v^.Bottom], TypeInfo(v^), ler);
 end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PTextStyle; pti : PTypeInfo = nil);
+procedure luaL_check(L: Plua_State; i: Integer; v: PTextStyle; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);
 var f:string;
 begin
   if lua_istable(L, i) then begin
@@ -311,22 +311,22 @@ begin
     while (lua_next(L,i)<>0) do begin
       if (lua_type(L,-2)=LUA_TSTRING) then begin
          f := lowercase(lua_tostring(L, -2));
-         if      (f='singleline') then luaL_check(L, -1, @v^.SingleLine)
-         else if (f='clipping') then luaL_check(L, -1, @v^.Clipping)
-         else if (f='expandtabs') then luaL_check(L, -1, @v^.ExpandTabs)
-         else if (f='showprefix') then luaL_check(L, -1, @v^.ShowPrefix)
-         else if (f='wordbreak') then luaL_check(L, -1, @v^.Wordbreak)
-         else if (f='opaque') then luaL_check(L, -1, @v^.Opaque)
-         else if (f='systemfont') then luaL_check(L, -1, @v^.SystemFont)
-         else if (f='righttoleft') then luaL_check(L, -1, @v^.RightToLeft)
-         else if (f='endellipsis') then luaL_check(L, -1, @v^.EndEllipsis)
-         else if (f='layout') then luaL_check(L, -1, @v^.Layout, TypeInfo(v^.Layout))
-         else if (f='alignment') then luaL_check(L, -1, @v^.Alignment, TypeInfo(v^.Alignment));
+         if      (f='singleline') then luaL_check(L, -1, @v^.SingleLine, nil, ler)
+         else if (f='clipping') then luaL_check(L, -1, @v^.Clipping, nil, ler)
+         else if (f='expandtabs') then luaL_check(L, -1, @v^.ExpandTabs, nil, ler)
+         else if (f='showprefix') then luaL_check(L, -1, @v^.ShowPrefix, nil, ler)
+         else if (f='wordbreak') then luaL_check(L, -1, @v^.Wordbreak, nil, ler)
+         else if (f='opaque') then luaL_check(L, -1, @v^.Opaque, nil, ler)
+         else if (f='systemfont') then luaL_check(L, -1, @v^.SystemFont, nil, ler)
+         else if (f='righttoleft') then luaL_check(L, -1, @v^.RightToLeft, nil, ler)
+         else if (f='endellipsis') then luaL_check(L, -1, @v^.EndEllipsis, nil, ler)
+         else if (f='layout') then luaL_check(L, -1, @v^.Layout, TypeInfo(v^.Layout), ler)
+         else if (f='alignment') then luaL_check(L, -1, @v^.Alignment, TypeInfo(v^.Alignment), ler);
       end;
       lua_pop(L, 1);
     end;
   end else
-    LuaTypeError(L, i, TypeInfo(v^));
+    LuaTypeError(L, i, TypeInfo(v^), ler);
 end;
 
 procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT);
@@ -335,7 +335,7 @@ begin
 end;
 procedure luaL_checkProxyPti<PT>(L: Plua_State; i: Integer; addr: PT; pti : PTypeInfo);
 begin
-  luaL_check(L, i, addr, pti);
+  luaL_check(L, i, addr, pti, lerLuaError);
 end;
 
 class procedure TTrait<T>.luaL_checkArray(L: Plua_State; i: Integer; v: PaoT);

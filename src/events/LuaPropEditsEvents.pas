@@ -66,7 +66,7 @@ type
 procedure RegisterLuaPropEditsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaPersistent, LuaPropEdits;
+Uses LuaProxy, LuaObject, LuaHelper, LuaPersistent, LuaPropEdits, SysUtils;
 
 procedure RegisterLuaPropEditsEvents();
 begin
@@ -113,7 +113,12 @@ begin
   lua_push(L,APersistent);
   DoCall(L,1);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@APersistent);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@APersistent,TypeInfo(TPersistent),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaPropHookGetCheckboxForBoolean.Handler(var Value: Boolean);
@@ -126,7 +131,12 @@ begin
   lua_push(L,Value);
   DoCall(L,1);
   luaNewTop := lua_gettop(L);
-  if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value,TypeInfo(Boolean),lerException);
+  except
+    on E: Exception do
+      ReportEventError(L, E.Message);
+  end;
 end;
 
 procedure TLuaPropHookModified.Handler(Sender: TObject);

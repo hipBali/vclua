@@ -17,17 +17,17 @@ uses
 type
   aopti = array of PTypeInfo;
   PObject = ^TObject;
-  OnNilCheckProc = procedure(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo);
+  OnNilCheckProc = procedure(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo; ler: TLuaErrorReport);
 
 var
   metaPtis: aopti;
   apiPtis: TFPHashList;
 
 function tableToStringList(L : Plua_State): Integer; cdecl;
-procedure luaL_checkStringList(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo = nil); overload; inline;
-function luaL_checkStringList(L: Plua_State; Index: Integer):TStringList; overload;
-function luaL_checkOrFromTable(L: Plua_State; i: Integer; v: PObject; proc: OnNilCheckProc; pti : PTypeInfo = nil):Boolean; inline;
-procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil); overload; inline;
+procedure luaL_checkStringList(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+function luaL_checkStringList(L: Plua_State; Index: Integer; ler: TLuaErrorReport = lerLuaError):TStringList; overload;
+function luaL_checkOrFromTable(L: Plua_State; i: Integer; v: PObject; proc: OnNilCheckProc; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError):Boolean; inline;
+procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);overload;
 procedure lua_pushobject(L: Plua_State; index: Integer; Comp:TObject);
 
@@ -75,12 +75,12 @@ begin
   else Result := TypeInfo(TObject);
 end;
 
-procedure LuaTypeError(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo); overload;
+procedure LuaTypeError(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo; ler: TLuaErrorReport = lerLuaError); overload;
 begin
-  LuaTypeError(L, i, GetPti(pti));
+  LuaTypeError(L, i, GetPti(pti), ler);
 end;
 
-function luaL_checkOrFromTable(L: Plua_State; i: Integer; v: PObject; proc: OnNilCheckProc; pti : PTypeInfo = nil):Boolean;
+function luaL_checkOrFromTable(L: Plua_State; i: Integer; v: PObject; proc: OnNilCheckProc; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError):Boolean;
 begin
   Result := False;
   i := LuaAbsIndex(L, i);
@@ -89,18 +89,18 @@ begin
     Exit;
   end;
   if not lua_istable(L, i) then
-     LuaTypeError(L, i, GetPti(pti));
+     LuaTypeError(L, i, GetPti(pti), ler);
   v^ := GetLuaObjectUnsafe(L, i);
   if v^ = nil then begin
     Result := True;
-    proc(L, i, v, pti);
+    proc(L, i, v, pti, ler);
   end;
   lua_pop(L, 1);
 end;
 
-procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil);
+procedure luaL_check(L: Plua_State; i: Integer; v: PObject; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);
 begin
-  luaL_checkOrFromTable(L, i, v, @LuaTypeError, pti);
+  luaL_checkOrFromTable(L, i, v, @LuaTypeError, pti, ler);
 end;
 
 procedure lua_push(L: Plua_State; const v: TObject; pti: PTypeInfo);
@@ -164,16 +164,17 @@ begin
   result := 1;
 end;
 
-procedure luaL_checkStringList(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo = nil);
+procedure luaL_checkStringList(L: Plua_State; i: Integer; v: PObject; pti: PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);
 begin
-  v^ := TObject(luaL_checkStringList(L, i));
+  v^ := TObject(luaL_checkStringList(L, i, ler));
 end;
 
-function luaL_checkStringList(L: Plua_State; Index: Integer):TStringList;
+function luaL_checkStringList(L: Plua_State; Index: Integer; ler: TLuaErrorReport = lerLuaError):TStringList;
 var
   aos:array of string;
 begin
   index := LuaAbsIndex(L, index);
+  // TODO: add ler: TLuaErrorReport = lerLuaError to generics and test if it compiles, but no reason for it yet
   TTrait<string>.luaL_checkArray(L, index, @aos);
   Result := TStringList.Create;
   Result.SetStrings(aos);

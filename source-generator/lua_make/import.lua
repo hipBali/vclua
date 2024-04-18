@@ -984,15 +984,21 @@ for _,kv in ipairs(HashedToSorted(eventSrcs)) do
     --assert(ref == typeRef[kv.k]) -- allow for several defs for e.g. TGetChildProc
     cLog(md.name, "INFO")
     local def = VCLUA_EVENT_HANDLER:gsub('#IDX',#md.vars[1],1)
-    local fromlua = {'\n  luaNewTop := lua_gettop(L);'}
-    for idx,v in ipairs(md.out) do
-      local vtLower = v.type:lower()
-      local templ = applyFromLuaTempl(nil,v.name,v.type,vtLower)
-      templ = VCLUA_EVENT_RET:gsub('#FROMLUA',templ,1):gsub("#",'luaTop + '..idx)
-      table.insert(fromlua, templ)
+    local tolua = {}
+    if md.out[1] then
+      local fromlua = {}
+      for idx,v in ipairs(md.out) do
+        local vtLower = v.type:lower()
+        -- arrays + exceptions not supported yet
+        local templ = applyFromLuaTempl(VCLUA_FROMLUA_EVENT_FULL,v.name,v.type,vtLower)
+        templ = VCLUA_EVENT_RET:gsub('#FROMLUA',templ,1):gsub("#",'luaTop + '..idx)
+        table.insert(fromlua, templ)
+      end
+      def = def:gsub('#FROMLUA',VCLUA_EVENT_HANDLER_FROMLUA:gsub('#CONCAT',table.concat(fromlua,'\n    '),1),1)
+      tolua[1] = 'luaTop := lua_gettop(L) - 1;'
+    else
+      def = def:gsub('#FROMLUA','',1)
     end
-    def = def:gsub('#FROMLUA',fromlua[2] and table.concat(fromlua,'\n  ') or '',1)
-    local tolua = {fromlua[2] and 'luaTop := lua_gettop(L) - 1;' or nil}
     for _,v in ipairs(md.vars[1]) do
       table.insert(tolua,TOLUA(v.type,v.name))
     end
@@ -1010,14 +1016,15 @@ for _,kv in ipairs(HashedToSorted(eventSrcs)) do
   end
   local s = VCLUA_EVENTDEF
   s = s:gsub('#DEFS',table.concat(defs,'\n'),1):gsub('#INITMAP',table.concat(initmap,'\n'),1)
-  implrefs[''] = true
-  implrefs['System'] = nil
-  if eventImplRefs[ref] then implrefs[eventImplRefs[ref]] = true end
-  s = s:gsub('#IMPLREF',table.concat(HashedToSorted(implrefs),', '),1)
-  s = s:gsub('#DECLS',table.concat(decls,'\n'),1)
   refs[''] = true
   refs['System'] = nil
   if eventRefs[ref] then refs[eventRefs[ref]] = true end
+  implrefs[''] = true
+  implrefs['System'] = nil
+  if not refs['SysUtils'] then implrefs['SysUtils'] = true end
+  if eventImplRefs[ref] then implrefs[eventImplRefs[ref]] = true end
+  s = s:gsub('#IMPLREF',table.concat(HashedToSorted(implrefs),', '),1)
+  s = s:gsub('#DECLS',table.concat(decls,'\n'),1)
   s = s:gsub('#REF',table.concat(HashedToSorted(refs),', '),1)
   s = s:gsub('#UNITNAME',uname)
   saveTextToFile(s,out_path.."src/events/"..uname..".pas")
