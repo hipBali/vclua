@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBitBtn := TLuaBitBtn.Create(Parent);
 	lBitBtn.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TBitBtn',lBitBtn);
 	InitControl(L,lBitBtn,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'BitBtn', E.ClassName, E.Message);
+	end;
 end;
 
 begin

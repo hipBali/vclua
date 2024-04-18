@@ -66,12 +66,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lShape := TLuaShape.Create(Parent);
 	lShape.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TShape',lShape);
 	InitControl(L,lShape,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Shape', E.ClassName, E.Message);
+	end;
 end;
 
 begin

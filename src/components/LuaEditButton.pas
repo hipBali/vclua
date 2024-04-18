@@ -44,12 +44,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lEditButton := TLuaEditButton.Create(Parent);
 	lEditButton.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomEditButton',lEditButton);
 	InitControl(L,lEditButton,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'EditButton', E.ClassName, E.Message);
+	end;
 end;
 
 begin

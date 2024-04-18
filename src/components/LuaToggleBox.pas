@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToggleBox := TLuaToggleBox.Create(Parent);
 	lToggleBox.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TToggleBox',lToggleBox);
 	InitControl(L,lToggleBox,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ToggleBox', E.ClassName, E.Message);
+	end;
 end;
 
 begin

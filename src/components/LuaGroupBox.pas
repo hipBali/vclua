@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lGroupBox := TLuaGroupBox.Create(Parent);
 	lGroupBox.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TGroupBox',lGroupBox);
 	InitControl(L,lGroupBox,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'GroupBox', E.ClassName, E.Message);
+	end;
 end;
 
 begin

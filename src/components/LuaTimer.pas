@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTimer := TLuaTimer.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TTimer',lTimer);
 	InitControl(L,lTimer,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Timer', E.ClassName, E.Message);
+	end;
 end;
 
 begin

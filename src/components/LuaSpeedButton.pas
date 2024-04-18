@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSpeedButton := TLuaSpeedButton.Create(Parent);
 	lSpeedButton.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TSpeedButton',lSpeedButton);
 	InitControl(L,lSpeedButton,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'SpeedButton', E.ClassName, E.Message);
+	end;
 end;
 
 begin

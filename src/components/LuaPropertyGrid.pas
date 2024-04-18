@@ -878,12 +878,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTIPropertyGrid := TLuaTIPropertyGrid.Create(Parent);
 	lTIPropertyGrid.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TTIPropertyGrid',lTIPropertyGrid);
 	InitControl(L,lTIPropertyGrid,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'TIPropertyGrid', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TTIGridProperty; pti: PTypeInfo);
@@ -906,12 +911,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTIGrid := TLuaTIGrid.Create(Parent);
 	lTIGrid.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TTIGrid',lTIGrid);
 	InitControl(L,lTIGrid,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'TIGrid', E.ClassName, E.Message);
+	end;
 end;
 
 begin

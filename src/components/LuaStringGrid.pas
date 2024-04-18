@@ -823,12 +823,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStringGrid := TLuaStringGrid.Create(Parent);
 	lStringGrid.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomStringGrid',lStringGrid);
 	InitControl(L,lStringGrid,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'StringGrid', E.ClassName, E.Message);
+	end;
 end;
 
 begin

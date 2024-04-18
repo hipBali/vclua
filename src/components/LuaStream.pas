@@ -874,9 +874,14 @@ function CreateMemoryStream(L: Plua_State): Integer; cdecl;
 var
 	lMemoryStream:TLuaMemoryStream;
 begin
+	try
 	lMemoryStream := TLuaMemoryStream.Create;
 	CreateTableForKnownType(L,'TMemoryStream',lMemoryStream);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'MemoryStream', E.ClassName, E.Message);
+	end;
 end;
 begin
 	StreamFuncs := TLuaVmt.Create;

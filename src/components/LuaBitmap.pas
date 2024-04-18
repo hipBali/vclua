@@ -367,9 +367,14 @@ function CreateBitmap(L: Plua_State): Integer; cdecl;
 var
 	lBitmap:TLuaBitmap;
 begin
+	try
 	lBitmap := TLuaBitmap.Create;
 	CreateTableForKnownType(L,'TBitmap',lBitmap);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Bitmap', E.ClassName, E.Message);
+	end;
 end;
 begin
 	CustomBitmapFuncs := TLuaVmt.Create;

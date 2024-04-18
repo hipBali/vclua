@@ -1460,12 +1460,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDrawGrid := TLuaDrawGrid.Create(Parent);
 	lDrawGrid.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomDrawGrid',lDrawGrid);
 	InitControl(L,lDrawGrid,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'DrawGrid', E.ClassName, E.Message);
+	end;
 end;
 
 begin

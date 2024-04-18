@@ -258,12 +258,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCheckGroup := TLuaCheckGroup.Create(Parent);
 	lCheckGroup.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomCheckGroup',lCheckGroup);
 	InitControl(L,lCheckGroup,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'CheckGroup', E.ClassName, E.Message);
+	end;
 end;
 
 begin

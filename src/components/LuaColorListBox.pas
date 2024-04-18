@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorListBox := TLuaColorListBox.Create(Parent);
 	lColorListBox.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TColorListBox',lColorListBox);
 	InitControl(L,lColorListBox,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ColorListBox', E.ClassName, E.Message);
+	end;
 end;
 
 begin

@@ -313,12 +313,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStatusBar := TLuaStatusBar.Create(Parent);
 	lStatusBar.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TStatusBar',lStatusBar);
 	InitControl(L,lStatusBar,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'StatusBar', E.ClassName, E.Message);
+	end;
 end;
 
 begin

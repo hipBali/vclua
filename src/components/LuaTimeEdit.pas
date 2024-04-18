@@ -41,12 +41,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTimeEdit := TLuaTimeEdit.Create(Parent);
 	lTimeEdit.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomEditButton',lTimeEdit);
 	InitControl(L,lTimeEdit,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'TimeEdit', E.ClassName, E.Message);
+	end;
 end;
 
 begin

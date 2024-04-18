@@ -364,9 +364,14 @@ function CreateTextStrings(L: Plua_State): Integer; cdecl;
 var
 	lTextStrings:TLuaTextStrings;
 begin
+	try
 	lTextStrings := TLuaTextStrings.Create;
 	CreateTableForKnownType(L,'TTextStrings',lTextStrings);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'TextStrings', E.ClassName, E.Message);
+	end;
 end;
 begin
 	TextStringsFuncs := TLuaVmt.Create;

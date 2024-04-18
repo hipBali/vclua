@@ -911,12 +911,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lContainedAction := TLuaContainedAction.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TContainedAction',lContainedAction);
 	InitControl(L,lContainedAction,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ContainedAction', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TAction; pti: PTypeInfo);
@@ -929,12 +934,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lAction := TLuaAction.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomAction',lAction);
 	InitControl(L,lAction,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Action', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TActionList; pti: PTypeInfo);
@@ -947,12 +957,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lActionList := TLuaActionList.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomActionList',lActionList);
 	InitControl(L,lActionList,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ActionList', E.ClassName, E.Message);
+	end;
 end;
 
 begin

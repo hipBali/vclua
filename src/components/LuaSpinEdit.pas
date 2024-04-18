@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSpinEdit := TLuaSpinEdit.Create(Parent);
 	lSpinEdit.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TSpinEdit',lSpinEdit);
 	InitControl(L,lSpinEdit,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'SpinEdit', E.ClassName, E.Message);
+	end;
 end;
 
 begin

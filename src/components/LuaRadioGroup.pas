@@ -287,12 +287,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lRadioGroup := TLuaRadioGroup.Create(Parent);
 	lRadioGroup.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomRadioGroup',lRadioGroup);
 	InitControl(L,lRadioGroup,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'RadioGroup', E.ClassName, E.Message);
+	end;
 end;
 
 begin

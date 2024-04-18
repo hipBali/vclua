@@ -3317,12 +3317,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lControl := TLuaControl.Create(Parent);
 	lControl.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TControl',lControl);
 	InitControl(L,lControl,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Control', E.ClassName, E.Message);
+	end;
 end;
 
 begin

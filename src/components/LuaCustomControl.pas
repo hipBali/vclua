@@ -76,12 +76,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCustomControl := TLuaCustomControl.Create(Parent);
 	lCustomControl.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomControl',lCustomControl);
 	InitControl(L,lCustomControl,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'CustomControl', E.ClassName, E.Message);
+	end;
 end;
 
 begin

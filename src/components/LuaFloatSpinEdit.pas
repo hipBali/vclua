@@ -315,12 +315,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFloatSpinEdit := TLuaFloatSpinEdit.Create(Parent);
 	lFloatSpinEdit.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomFloatSpinEdit',lFloatSpinEdit);
 	InitControl(L,lFloatSpinEdit,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'FloatSpinEdit', E.ClassName, E.Message);
+	end;
 end;
 
 begin

@@ -646,12 +646,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lEdit := TLuaEdit.Create(Parent);
 	lEdit.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomEdit',lEdit);
 	InitControl(L,lEdit,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Edit', E.ClassName, E.Message);
+	end;
 end;
 
 begin

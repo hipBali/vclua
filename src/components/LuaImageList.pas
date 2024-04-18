@@ -1586,12 +1586,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lImageList := TLuaImageList.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomImageList',lImageList);
 	InitControl(L,lImageList,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ImageList', E.ClassName, E.Message);
+	end;
 end;
 
 begin

@@ -114,12 +114,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lLabeledEdit := TLuaLabeledEdit.Create(Parent);
 	lLabeledEdit.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomLabeledEdit',lLabeledEdit);
 	InitControl(L,lLabeledEdit,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'LabeledEdit', E.ClassName, E.Message);
+	end;
 end;
 
 begin

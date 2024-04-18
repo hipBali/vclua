@@ -1613,12 +1613,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lApplication := TLuaApplication.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TApplication',lApplication);
 	InitControl(L,lApplication,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Application', E.ClassName, E.Message);
+	end;
 end;
 
 begin

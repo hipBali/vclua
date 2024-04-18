@@ -432,12 +432,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lValueListEditor := TLuaValueListEditor.Create(Parent);
 	lValueListEditor.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TValueListEditor',lValueListEditor);
 	InitControl(L,lValueListEditor,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ValueListEditor', E.ClassName, E.Message);
+	end;
 end;
 
 begin

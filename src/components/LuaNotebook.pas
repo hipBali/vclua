@@ -137,12 +137,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lNotebook := TLuaNotebook.Create(Parent);
 	lNotebook.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TNotebook',lNotebook);
 	InitControl(L,lNotebook,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Notebook', E.ClassName, E.Message);
+	end;
 end;
 
 begin

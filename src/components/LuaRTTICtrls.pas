@@ -108,9 +108,14 @@ function CreateAliasStrings(L: Plua_State): Integer; cdecl;
 var
 	lAliasStrings:TLuaAliasStrings;
 begin
+	try
 	lAliasStrings := TLuaAliasStrings.Create;
 	CreateTableForKnownType(L,'TAliasStrings',lAliasStrings);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'AliasStrings', E.ClassName, E.Message);
+	end;
 end;
 begin
 	AliasStringsFuncs := TLuaVmt.Create;

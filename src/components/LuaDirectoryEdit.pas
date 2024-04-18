@@ -41,12 +41,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDirectoryEdit := TLuaDirectoryEdit.Create(Parent);
 	lDirectoryEdit.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomEditButton',lDirectoryEdit);
 	InitControl(L,lDirectoryEdit,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'DirectoryEdit', E.ClassName, E.Message);
+	end;
 end;
 
 begin

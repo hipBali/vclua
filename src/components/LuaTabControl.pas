@@ -1095,12 +1095,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTabSheet := TLuaTabSheet.Create(Parent);
 	lTabSheet.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TTabSheet',lTabSheet);
 	InitControl(L,lTabSheet,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'TabSheet', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TTabControl; pti: PTypeInfo);
@@ -1113,12 +1118,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTabControl := TLuaTabControl.Create(Parent);
 	lTabControl.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomTabControl',lTabControl);
 	InitControl(L,lTabControl,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'TabControl', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TPageControl; pti: PTypeInfo);
@@ -1131,12 +1141,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPageControl := TLuaPageControl.Create(Parent);
 	lPageControl.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TPageControl',lPageControl);
 	InitControl(L,lPageControl,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'PageControl', E.ClassName, E.Message);
+	end;
 end;
 
 begin

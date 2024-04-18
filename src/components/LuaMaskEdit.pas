@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMaskEdit := TLuaMaskEdit.Create(Parent);
 	lMaskEdit.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TMaskEdit',lMaskEdit);
 	InitControl(L,lMaskEdit,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'MaskEdit', E.ClassName, E.Message);
+	end;
 end;
 
 begin

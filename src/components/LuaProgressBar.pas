@@ -322,12 +322,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lProgressBar := TLuaProgressBar.Create(Parent);
 	lProgressBar.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomProgressBar',lProgressBar);
 	InitControl(L,lProgressBar,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ProgressBar', E.ClassName, E.Message);
+	end;
 end;
 
 begin

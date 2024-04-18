@@ -41,12 +41,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCalcEdit := TLuaCalcEdit.Create(Parent);
 	lCalcEdit.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomEditButton',lCalcEdit);
 	InitControl(L,lCalcEdit,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'CalcEdit', E.ClassName, E.Message);
+	end;
 end;
 
 begin

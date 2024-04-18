@@ -282,12 +282,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCheckListBox := TLuaCheckListBox.Create(Parent);
 	lCheckListBox.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomCheckListBox',lCheckListBox);
 	InitControl(L,lCheckListBox,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'CheckListBox', E.ClassName, E.Message);
+	end;
 end;
 
 begin

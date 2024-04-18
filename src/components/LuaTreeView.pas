@@ -4418,12 +4418,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTreeView := TLuaTreeView.Create(Parent);
 	lTreeView.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomTreeView',lTreeView);
 	InitControl(L,lTreeView,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'TreeView', E.ClassName, E.Message);
+	end;
 end;
 
 begin

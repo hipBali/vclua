@@ -60,12 +60,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lGraphicControl := TLuaGraphicControl.Create(Parent);
 	lGraphicControl.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TGraphicControl',lGraphicControl);
 	InitControl(L,lGraphicControl,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'GraphicControl', E.ClassName, E.Message);
+	end;
 end;
 
 begin

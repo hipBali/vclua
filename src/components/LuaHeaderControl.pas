@@ -213,12 +213,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lHeaderControl := TLuaHeaderControl.Create(Parent);
 	lHeaderControl.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomHeaderControl',lHeaderControl);
 	InitControl(L,lHeaderControl,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'HeaderControl', E.ClassName, E.Message);
+	end;
 end;
 
 begin

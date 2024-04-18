@@ -343,12 +343,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSplitter := TLuaSplitter.Create(Parent);
 	lSplitter.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomSplitter',lSplitter);
 	InitControl(L,lSplitter,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Splitter', E.ClassName, E.Message);
+	end;
 end;
 
 begin

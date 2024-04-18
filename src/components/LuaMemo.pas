@@ -296,12 +296,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMemo := TLuaMemo.Create(Parent);
 	lMemo.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomMemo',lMemo);
 	InitControl(L,lMemo,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Memo', E.ClassName, E.Message);
+	end;
 end;
 
 begin

@@ -238,12 +238,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCalendar := TLuaCalendar.Create(Parent);
 	lCalendar.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomCalendar',lCalendar);
 	InitControl(L,lCalendar,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Calendar', E.ClassName, E.Message);
+	end;
 end;
 
 begin

@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lRadioButton := TLuaRadioButton.Create(Parent);
 	lRadioButton.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TRadioButton',lRadioButton);
 	InitControl(L,lRadioButton,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'RadioButton', E.ClassName, E.Message);
+	end;
 end;
 
 begin

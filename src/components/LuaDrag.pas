@@ -1425,9 +1425,14 @@ var
 	Parent:TControl;
 begin
 	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	try
 	lDragObject := TLuaDragObject.Create(Parent);
 	CreateTableForKnownType(L,'TDragObject',lDragObject);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'DragObject', E.ClassName, E.Message);
+	end;
 end;
 procedure lua_push(L: Plua_State; const v: TDragControlObject; pti: PTypeInfo);
 begin
@@ -1439,9 +1444,14 @@ var
 	Parent:TControl;
 begin
 	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	try
 	lDragControlObject := TLuaDragControlObject.Create(Parent);
 	CreateTableForKnownType(L,'TDragControlObject',lDragControlObject);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'DragControlObject', E.ClassName, E.Message);
+	end;
 end;
 procedure lua_push(L: Plua_State; const v: TDragControlObjectEx; pti: PTypeInfo);
 begin
@@ -1453,9 +1463,14 @@ var
 	Parent:TControl;
 begin
 	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	try
 	lDragControlObjectEx := TLuaDragControlObjectEx.Create(Parent);
 	CreateTableForKnownType(L,'TDragControlObjectEx',lDragControlObjectEx);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'DragControlObjectEx', E.ClassName, E.Message);
+	end;
 end;
 procedure lua_push(L: Plua_State; const v: TDragDockObject; pti: PTypeInfo);
 begin
@@ -1467,9 +1482,14 @@ var
 	Parent:TControl;
 begin
 	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	try
 	lDragDockObject := TLuaDragDockObject.Create(Parent);
 	CreateTableForKnownType(L,'TDragDockObject',lDragDockObject);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'DragDockObject', E.ClassName, E.Message);
+	end;
 end;
 procedure lua_push(L: Plua_State; const v: TDragDockObjectEx; pti: PTypeInfo);
 begin
@@ -1481,9 +1501,14 @@ var
 	Parent:TControl;
 begin
 	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	try
 	lDragDockObjectEx := TLuaDragDockObjectEx.Create(Parent);
 	CreateTableForKnownType(L,'TDragDockObjectEx',lDragDockObjectEx);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'DragDockObjectEx', E.ClassName, E.Message);
+	end;
 end;
 procedure lua_push(L: Plua_State; const v: TDockZone; pti: PTypeInfo);
 begin

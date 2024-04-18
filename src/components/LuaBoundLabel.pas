@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBoundLabel := TLuaBoundLabel.Create(Parent);
 	lBoundLabel.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TBoundLabel',lBoundLabel);
 	InitControl(L,lBoundLabel,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'BoundLabel', E.ClassName, E.Message);
+	end;
 end;
 
 begin

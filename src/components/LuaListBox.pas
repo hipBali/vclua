@@ -889,12 +889,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lListBox := TLuaListBox.Create(Parent);
 	lListBox.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomListBox',lListBox);
 	InitControl(L,lListBox,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ListBox', E.ClassName, E.Message);
+	end;
 end;
 
 begin

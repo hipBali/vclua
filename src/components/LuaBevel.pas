@@ -51,12 +51,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBevel := TLuaBevel.Create(Parent);
 	lBevel.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TBevel',lBevel);
 	InitControl(L,lBevel,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Bevel', E.ClassName, E.Message);
+	end;
 end;
 
 begin

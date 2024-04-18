@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPaintBox := TLuaPaintBox.Create(Parent);
 	lPaintBox.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TPaintBox',lPaintBox);
 	InitControl(L,lPaintBox,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'PaintBox', E.ClassName, E.Message);
+	end;
 end;
 
 begin

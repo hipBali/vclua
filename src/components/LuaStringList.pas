@@ -356,9 +356,14 @@ function CreateStringList(L: Plua_State): Integer; cdecl;
 var
 	lStringList:TLuaStringList;
 begin
+	try
 	lStringList := TLuaStringList.Create;
 	CreateTableForKnownType(L,'TStringList',lStringList);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'StringList', E.ClassName, E.Message);
+	end;
 end;
 begin
 	StringListFuncs := TLuaVmt.Create;

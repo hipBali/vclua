@@ -41,12 +41,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFileNameEdit := TLuaFileNameEdit.Create(Parent);
 	lFileNameEdit.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomEditButton',lFileNameEdit);
 	InitControl(L,lFileNameEdit,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'FileNameEdit', E.ClassName, E.Message);
+	end;
 end;
 
 begin

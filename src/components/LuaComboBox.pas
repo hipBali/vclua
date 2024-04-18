@@ -841,12 +841,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lComboBox := TLuaComboBox.Create(Parent);
 	lComboBox.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomComboBox',lComboBox);
 	InitControl(L,lComboBox,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ComboBox', E.ClassName, E.Message);
+	end;
 end;
 
 begin

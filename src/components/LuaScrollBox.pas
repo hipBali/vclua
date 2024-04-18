@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lScrollBox := TLuaScrollBox.Create(Parent);
 	lScrollBox.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TScrollBox',lScrollBox);
 	InitControl(L,lScrollBox,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ScrollBox', E.ClassName, E.Message);
+	end;
 end;
 
 begin

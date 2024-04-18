@@ -122,6 +122,10 @@ VCLua_CDEF_SUFFIX = [[
 	CreateTableForKnownType(L,'#CSRC',l#CNAME);
 	InitControl(L,l#CNAME,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', '#CNAME', E.ClassName, E.Message);
+	end;
 end;
 ]]
 
@@ -132,6 +136,7 @@ var
 	Parent:#PARENTCLASS;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	l#CNAME := TLua#CNAME.Create(Parent);
 ]]..VCLua_CDEF_SUFFIX
@@ -143,6 +148,7 @@ var
 	Parent:#PARENTCLASS;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	l#CNAME := TLua#CNAME.CreateNew(Parent);
 ]]..VCLua_CDEF_SUFFIX
@@ -152,9 +158,14 @@ function Create#CNAME(L: Plua_State): Integer; cdecl;
 var
 	l#CNAME:TLua#CNAME;
 begin
+	try
 	l#CNAME := TLua#CNAME.Create;
 	CreateTableForKnownType(L,'#CSRC',l#CNAME);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', '#CNAME', E.ClassName, E.Message);
+	end;
 end;]]
 
 VCLua_CDEF_FOOTER_BASE = [[
@@ -164,9 +175,14 @@ var
 	Parent:#PARENTCLASS;
 begin
 	luaL_check(L,1,@Parent,TypeInfo(Parent));
+	try
 	l#CNAME := TLua#CNAME.Create(Parent);
 	CreateTableForKnownType(L,'#CSRC',l#CNAME);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', '#CNAME', E.ClassName, E.Message);
+	end;
 end;]]
 
 VCLua_CDEF_FOOTER_WCLASS= [[
@@ -176,6 +192,7 @@ var
 	Parent:#PARENTCLASS;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	l#CNAME := TLua#CNAME.Create(Parent, #WCLASS);
 ]]..VCLua_CDEF_SUFFIX

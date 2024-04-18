@@ -135,12 +135,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lLabel := TLuaLabel.Create(Parent);
 	lLabel.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomLabel',lLabel);
 	InitControl(L,lLabel,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Label', E.ClassName, E.Message);
+	end;
 end;
 
 begin

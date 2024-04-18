@@ -194,12 +194,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lStaticText := TLuaStaticText.Create(Parent);
 	lStaticText.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomStaticText',lStaticText);
 	InitControl(L,lStaticText,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'StaticText', E.ClassName, E.Message);
+	end;
 end;
 
 begin

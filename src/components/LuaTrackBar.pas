@@ -61,12 +61,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTrackBar := TLuaTrackBar.Create(Parent);
 	lTrackBar.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomTrackBar',lTrackBar);
 	InitControl(L,lTrackBar,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'TrackBar', E.ClassName, E.Message);
+	end;
 end;
 
 begin

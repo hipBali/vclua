@@ -607,12 +607,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lTrayIcon := TLuaTrayIcon.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomTrayIcon',lTrayIcon);
 	InitControl(L,lTrayIcon,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'TrayIcon', E.ClassName, E.Message);
+	end;
 end;
 
 begin

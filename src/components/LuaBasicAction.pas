@@ -183,12 +183,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lBasicAction := TLuaBasicAction.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TBasicAction',lBasicAction);
 	InitControl(L,lBasicAction,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'BasicAction', E.ClassName, E.Message);
+	end;
 end;
 
 begin

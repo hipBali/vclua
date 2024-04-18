@@ -1411,12 +1411,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMenu := TLuaMenu.Create(Parent);
 	lMenu.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TMenu',lMenu);
 	InitControl(L,lMenu,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Menu', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TPopupMenu; pti: PTypeInfo);
@@ -1429,12 +1434,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPopupMenu := TLuaPopupMenu.Create(Parent);
 	lPopupMenu.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TPopupMenu',lPopupMenu);
 	InitControl(L,lPopupMenu,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'PopupMenu', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TMenuItem; pti: PTypeInfo);
@@ -1447,12 +1457,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMenuItem := TLuaMenuItem.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TMenuItem',lMenuItem);
 	InitControl(L,lMenuItem,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'MenuItem', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TMainMenu; pti: PTypeInfo);
@@ -1465,12 +1480,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lMainMenu := TLuaMainMenu.Create(Parent);
 	lMainMenu.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TMainMenu',lMainMenu);
 	InitControl(L,lMainMenu,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'MainMenu', E.ClassName, E.Message);
+	end;
 end;
 
 begin

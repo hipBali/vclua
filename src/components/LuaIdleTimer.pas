@@ -162,12 +162,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lIdleTimer := TLuaIdleTimer.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomIdleTimer',lIdleTimer);
 	InitControl(L,lIdleTimer,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'IdleTimer', E.ClassName, E.Message);
+	end;
 end;
 
 begin

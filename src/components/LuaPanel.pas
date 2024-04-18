@@ -226,12 +226,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lPanel := TLuaPanel.Create(Parent);
 	lPanel.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomPanel',lPanel);
 	InitControl(L,lPanel,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Panel', E.ClassName, E.Message);
+	end;
 end;
 
 begin

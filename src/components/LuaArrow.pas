@@ -35,12 +35,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lArrow := TLuaArrow.Create(Parent);
 	lArrow.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TArrow',lArrow);
 	InitControl(L,lArrow,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Arrow', E.ClassName, E.Message);
+	end;
 end;
 
 begin

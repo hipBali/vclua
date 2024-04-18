@@ -386,12 +386,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToolButton := TLuaToolButton.Create(Parent);
 	lToolButton.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TToolButton',lToolButton);
 	InitControl(L,lToolButton,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ToolButton', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TToolBar; pti: PTypeInfo);
@@ -404,12 +409,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lToolBar := TLuaToolBar.Create(Parent);
 	lToolBar.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TToolBar',lToolBar);
 	InitControl(L,lToolBar,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ToolBar', E.ClassName, E.Message);
+	end;
 end;
 
 begin

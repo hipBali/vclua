@@ -486,9 +486,14 @@ function CreatePicture(L: Plua_State): Integer; cdecl;
 var
 	lPicture:TLuaPicture;
 begin
+	try
 	lPicture := TLuaPicture.Create;
 	CreateTableForKnownType(L,'TPicture',lPicture);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'Picture', E.ClassName, E.Message);
+	end;
 end;
 begin
 	PictureFuncs := TLuaVmt.Create;

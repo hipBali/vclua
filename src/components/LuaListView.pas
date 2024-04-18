@@ -2164,12 +2164,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lListView := TLuaListView.Create(Parent);
 	lListView.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomListView',lListView);
 	InitControl(L,lListView,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ListView', E.ClassName, E.Message);
+	end;
 end;
 
 begin

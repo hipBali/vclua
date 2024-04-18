@@ -616,12 +616,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorButton := TLuaColorButton.Create(Parent);
 	lColorButton.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TColorButton',lColorButton);
 	InitControl(L,lColorButton,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ColorButton', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TOpenDialog; pti: PTypeInfo);
@@ -634,12 +639,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lOpenDialog := TLuaOpenDialog.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TOpenDialog',lOpenDialog);
 	InitControl(L,lOpenDialog,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'OpenDialog', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TSaveDialog; pti: PTypeInfo);
@@ -652,12 +662,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSaveDialog := TLuaSaveDialog.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TSaveDialog',lSaveDialog);
 	InitControl(L,lSaveDialog,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'SaveDialog', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TSelectDirectoryDialog; pti: PTypeInfo);
@@ -670,12 +685,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lSelectDirectoryDialog := TLuaSelectDirectoryDialog.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TSelectDirectoryDialog',lSelectDirectoryDialog);
 	InitControl(L,lSelectDirectoryDialog,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'SelectDirectoryDialog', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TColorDialog; pti: PTypeInfo);
@@ -688,12 +708,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lColorDialog := TLuaColorDialog.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TColorDialog',lColorDialog);
 	InitControl(L,lColorDialog,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ColorDialog', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TFontDialog; pti: PTypeInfo);
@@ -706,12 +731,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFontDialog := TLuaFontDialog.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TFontDialog',lFontDialog);
 	InitControl(L,lFontDialog,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'FontDialog', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TFindDialog; pti: PTypeInfo);
@@ -724,12 +754,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFindDialog := TLuaFindDialog.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TFindDialog',lFindDialog);
 	InitControl(L,lFindDialog,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'FindDialog', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TReplaceDialog; pti: PTypeInfo);
@@ -742,12 +777,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lReplaceDialog := TLuaReplaceDialog.Create(Parent);
 	// := TWinControl(Parent);
 	CreateTableForKnownType(L,'TFindDialog',lReplaceDialog);
 	InitControl(L,lReplaceDialog,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'ReplaceDialog', E.ClassName, E.Message);
+	end;
 end;
 
 begin

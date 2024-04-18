@@ -596,12 +596,17 @@ var
 	Parent:TWinControl;
 	Name:String;
 begin
+	try
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCoolBar := TLuaCoolBar.Create(Parent);
 	lCoolBar.Parent := TWinControl(Parent);
 	CreateTableForKnownType(L,'TCustomCoolBar',lCoolBar);
 	InitControl(L,lCoolBar,Name);
 	Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'VCL', 'CoolBar', E.ClassName, E.Message);
+	end;
 end;
 
 begin
