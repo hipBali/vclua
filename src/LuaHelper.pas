@@ -25,7 +25,7 @@ function LuaGetCallbackErrorFunction(L: Plua_State):integer; cdecl;
 function LuaTraceback(L: Plua_State; msg: String): PAnsiChar;
 procedure LuaError(L: Plua_State; text: String; err: String);
 procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
-procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo); inline;
+procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo);
 procedure DoScript(L: Plua_State; fileName: String);
 procedure DoCall(L: Plua_State; paramCount:integer);
 

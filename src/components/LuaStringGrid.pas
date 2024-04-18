@@ -766,25 +766,23 @@ begin
 	if retNeedsFree then ret.Free;
 end;
 
-function VCLua_StringGrid_GridCellsGet(L: Plua_State): Integer; cdecl;
+function VCLua_StringGrid_GetCells(L: Plua_State): Integer; cdecl;
 var
   strGrid:TLuaStringGrid;
   c,r :Integer;
 begin
-  CheckArg(L, 3);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  strGrid := TLuaStringGrid(GetLuaObjectUnsafe(L, 1));
   c := lua_tointeger(L,2);
   r := lua_tointeger(L,3);
-  lua_pushstringCP(L,pchar(strGrid.Cells[c,r]));
+  lua_push(L,strGrid.Cells[c,r]);
   Result := 1;
 end;
-function VCLua_StringGrid_GridCellsSet(L: Plua_State): Integer; cdecl;
+function VCLua_StringGrid_SetCells(L: Plua_State): Integer; cdecl;
 var
   strGrid:TLuaStringGrid;
   c,r :Integer;
 begin
-  CheckArg(L, 4);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  strGrid := TLuaStringGrid(GetLuaObjectUnsafe(L, 1));
   c := lua_tointeger(L,2);
   r := lua_tointeger(L,3);
   strGrid.Cells[c,r] := lua_tostringCP(L,4);
@@ -878,8 +876,8 @@ begin
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'Cols', @VCLua_StringGrid_Cols);
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'Objects', @VCLua_StringGrid_Objects);
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'Rows', @VCLua_StringGrid_Rows);
-	TLuaMethodInfo.Create(CustomStringGridFuncs, 'GetCells', @VCLua_StringGrid_GridCellsGet);
-	TLuaMethodInfo.Create(CustomStringGridFuncs, 'SetCells', @VCLua_StringGrid_GridCellsSet);
+	TLuaMethodInfo.Create(CustomStringGridFuncs, 'GetCells', @VCLua_StringGrid_GetCells);
+	TLuaMethodInfo.Create(CustomStringGridFuncs, 'SetCells', @VCLua_StringGrid_SetCells);
 	TLuaMethodInfo.Create(CustomStringGridFuncs, 'GetSelectedCell', @VCLua_StringGrid_GridGetSelectedCell);
 	CustomStringGridSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomStringGridSets, 'OnCellProcess', @VCLua_StringGrid_VCLuaSetOnCellProcess, mfCall, TypeInfo(TCellProcessEvent));

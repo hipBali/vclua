@@ -16,9 +16,8 @@ type
 function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
 function is_vclua_utf8_conv:boolean; // internal
 
-// String UTF-8 support
-function lua_toStringCP(L: Plua_State; Index: Integer):string;
-procedure lua_pushStringCP(L: Plua_State; const str:string);
+// unchecked faster version of luaL_checkCP
+function lua_toStringCP(L: Plua_State; Index: Integer):string; inline;
 // --------------------
 
 (*
@@ -391,11 +390,14 @@ end;
 // string also catches PChar
 procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil);
 begin
-  lua_pushStringCP(L, v);
+  if (is_vclua_utf8_conv) then
+    lua_pushstring(L,UTF8ToWinCP(v))
+  else
+    lua_pushstring(L,v);
 end;
 procedure lua_push(L: Plua_State; const v:TUTF8Char; pti : PTypeInfo = nil);
 begin
-  lua_pushString(L, v);
+  lua_pushstring(L, v);
 end;
 procedure lua_push(L: Plua_State; v:Char; pti : PTypeInfo = nil);
 begin
@@ -522,14 +524,6 @@ begin
        result := WinCPToUTF8(lua_tostring(L,Index))
      else
        result := lua_tostring(L,Index);
-end;
-
-procedure lua_pushStringCP(L: Plua_State; const str:string);
-begin
-     if (is_vclua_utf8_conv) then
-       lua_pushstring(L,UTF8ToWinCP(str))
-     else
-       lua_pushstring(L,str);
 end;
 
 end.

@@ -6,15 +6,14 @@ var
   strGrid:TLuaStringGrid;
   c,r :Integer;
 begin
-  CheckArg(L, 3);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  strGrid := TLuaStringGrid(GetLuaObjectUnsafe(L, 1));
   c := lua_tointeger(L,2);
   r := lua_tointeger(L,3);
-  lua_pushstringCP(L,pchar(strGrid.Cells[c,r]));
+  lua_push(L,strGrid.Cells[c,r]);
   Result := 1;
 end;]],
 		finalMethodName="GetCells",
-		vcluaMethodName="GridCellsGet",
+		vcluaMethodName="GetCells",
 },
 
 ["SetCells"] = {src = [[
@@ -23,15 +22,14 @@ var
   strGrid:TLuaStringGrid;
   c,r :Integer;
 begin
-  CheckArg(L, 4);
-  strGrid := TLuaStringGrid(GetLuaObject(L, 1));
+  strGrid := TLuaStringGrid(GetLuaObjectUnsafe(L, 1));
   c := lua_tointeger(L,2);
   r := lua_tointeger(L,3);
   strGrid.Cells[c,r] := lua_tostringCP(L,4);
   Result := 0;
 end;]],
 		finalMethodName="SetCells",
-		vcluaMethodName="GridCellsSet",
+		vcluaMethodName="SetCells",
 },
 
 ["GetSelectedCell"] = {src = [[
