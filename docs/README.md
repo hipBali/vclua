@@ -89,53 +89,64 @@ Display your form
 myForm:ShowModal()
 ```
 
-To create a form using the GUI, please consider using [vt-form](https://github.com/hipBali/vclua-tools/vt-form)
+To create a form using the GUI, please consider using [vt-form](https://github.com/hipBali/vclua-tools)
 
 ### Class reference
 
 For each supported class this reference lists all the generated methods for that class only, but these methods are also available for that class descendants. For what these methods do and what these descendants are please consult LCL documentation (for later versions available online [here](https://lazarus-ccr.sourceforge.io/docs/) and [here](https://dsiders.gitlab.io/lazdocsnext)).
 Only the casing from this reference is supported for generated calls (for properties that only matters if they are not published).
-[Class reference](docs/vclua_ref.html)
+[Class reference](vclua_ref.html)
 
 ### Additional functions
 
 * `ColorToIdent`
-  frontend to the [LCL function](https://lazarus-ccr.sourceforge.io/docs/lcl/graphics/colortoident.html), returns either a string or `nil`
+
+   frontend to the [LCL function](https://lazarus-ccr.sourceforge.io/docs/lcl/graphics/colortoident.html), returns either a string or `nil`
 * `MessageDlg`
-  frontend to the first overload of the [LCL function](https://lazarus-ccr.sourceforge.io/docs/lcl/dialogs/messagedlg.html)
-* `ShowMessage` see [here](https://lazarus-ccr.sourceforge.io/docs/lcl/dialogs/showmessage.html)
+
+   frontend to the first overload of the [LCL function](https://lazarus-ccr.sourceforge.io/docs/lcl/dialogs/messagedlg.html)
+* `ShowMessage`
+
+   see [here](https://lazarus-ccr.sourceforge.io/docs/lcl/dialogs/showmessage.html)
 * `AsStringList`
-  `VCL.AsStringList({'one','bla'})` creates a `StringList` with that content
-  but if you only need to pass that as parameter of to an owning property, just pass the table, a temporary will be created and destroyed at the end of the call, not creating a leak
+
+   `VCL.AsStringList({'one','bla'})` creates a `StringList` with that content
+   but if you only need to pass that as parameter of to an owning property, just pass the table, a temporary will be created and destroyed at the  nd of the call, not creating a leak
 * RTTI grids created using VCLua will support `TAnchorSide` editing, and `Control` field will provide choices for the parent and siblings. It's a poor man's alternative for the anchor editor
+* `setCPWin`
+
+   When passed `true` enables automatic conversion between Windows codepage and UTF8 (used inside LCL). Conversion happens on propery access, parameters and results passing. By default it is disabled since it is rarely useful and affects performance.
+
+Some classes have additional methods implemented in [funcdef.lua](../source-generator/lua_make/funcdef.lua)
 
 The following functions provide access to error callbacks
 - `SetErrorReporter`
-   > [!IMPORTANT]
-   > by default no error reporter is set
+> [!IMPORTANT]
+> by default no error reporter is set
 - `GetErrorReporter`
 - `SetCallbackErrorFunction`
-   > [!IMPORTANT]
-   > by default callback error function checks if the error doesn't contain `VCLua Error` or `LCL Error` substrings (to avoid duplicate reporting) and calls error reporter
+> [!IMPORTANT]
+> by default callback error function checks if the error doesn't contain `VCLua Error` or `LCL Error` substrings (to avoid duplicate reporting) and calls error reporter
 - `GetCallbackErrorFunction`
 
 The following functions expect the first argument to be a VCLua object or a string with a Free Pascal classname
  - `ListMethods`
-	- returns Lua hash table with generated methods available for the type gotten from the first argument
-	- for generated properties/public variables, listed method is a getter
-	- `VCL.ListMethods(vclo,true)` modified vclo table inplace and returns it. After this `vclo:<method>(...)` calls are slightly faster but property access becomes a syntactically a call
+   - returns Lua hash table with generated methods available for the type gotten from the first argument
+   - for generated properties/public variables, listed method is a getter
+   - `VCL.ListMethods(vclo,true)` modified vclo table inplace and returns it. After this `vclo:<method>(...)` calls are slightly faster but property access becomes a call syntactically
  - `ListProperties(vclo[,unpublished])`
-	- returns Lua hash table with properties of type gotten from `vclo`
-	- if 2nd param is `false` or `nil`, returned are published properties with types
-	- otherwise returned are gettable unpublished non-array properties with type 'Unknown'
+   - returns Lua hash table with properties of type gotten from `vclo`
+   - if 2nd param is `false` or `nil`, returned are published properties with types
+   - otherwise returned are gettable unpublished non-array properties with type 'Unknown'
  - `GetCallable(vclo,name[,settable,[published]])`
-	- for type gotten from `vclo` returns the callable for `name`, for use in tight loops
-	- see [bench.lua](examples/bench.lua)
-	- some param combinations are unsupported
+   - for type gotten from `vclo` returns the callable for `name`, for use in tight loops
+   - see [bench.lua](../examples/bench.lua)
+   - some param combinations are unsupported
 
 ### Error handling
 
 **TLDR**
+
 Usually good enough is just
 ```lua
 VCL.SetErrorReporter(VCL.ShowMessage)
@@ -170,7 +181,7 @@ end)
 
 ---
 
-This is a complicated topic since two infrastructures are involved (Lua and Free Pascal). And maybe more, if your Lua script is a plugin for a host application. Error handling in VCLua is only partly customizable via error callbacks. An error callback is a Lua function receiving a string representing an error. It is called using `lua_pcall` and results are ignored.
+Error handling is a complicated topic since two infrastructures are involved (Lua and Free Pascal). And maybe more, if your Lua script is a plugin for a host application. Error handling in VCLua is only partly customizable via error callbacks. An error callback is a Lua function receiving a string representing an error. It is called using `lua_pcall` and results are ignored.
 
 > [!CAUTION]
 > If an error or an exception propagates unhandled through multiple layers of Lua, Free Pascal, C++, etc. code, Lua environment may no longer be in a completely Ok state, so the best thing you can do when you finally catch the error is to shut down Lua VM gracefully. Lua may have been compiled as C++ which would make Lua errors external exceptions to FPC. If it's compiled as C error propagation won't call Free Pascal destructors while stack is unwound. Read [this](https://sol2.readthedocs.io/en/latest/errors.html#catch-and-crash) for more details. Please also consult LCL docs on how LCL handles exceptions.
@@ -220,7 +231,7 @@ Passing in the other direction (from Free Pascal to Lua, as when one reads an ev
 
 ---
 
-An idea on how to extend support for passing callbacks e.g. as parameters to methods like `Add<EventName>Handler`, read comment in [LuaProxy](src\LuaProxy.pas)
+An idea on how to extend support for passing callbacks e.g. as parameters to methods like `Add<EventName>Handler`, read comment in [LuaProxy](../src/LuaProxy.pas)
 
 ---
 

@@ -10,7 +10,7 @@ ___
 
 ***Lua 5.1-5.4 and Luajit***
 
-[vclua binaries](https://sourceforge.net/projects/vclua/files/) or from [vt-form](https://github.com/hipBali/vclua-tools/vt-form) distributives (only Luajit/5.4)
+[vclua binaries](https://sourceforge.net/projects/vclua/files/) or from [vt-form](https://github.com/hipBali/vclua-tools) distributives (only Luajit/5.4)
 
 ---
 ## Free Pascal -> Lua generator
