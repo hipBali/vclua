@@ -22,7 +22,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Graphics, LuaBasicAction, LuaClassesEvents, LuaControlsEvents, LuaEvent, LuaFont, LuaMenu, Menus, Types;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Graphics, LuaBasicAction, LuaClassesEvents, LuaComponent, LuaControlsEvents, LuaEvent, LuaFont, LuaMenu, Menus, Types;
 
 function VCLua_Control_VCLuaSetOnConstrainedResize(L: Plua_State): Integer; cdecl;
 var

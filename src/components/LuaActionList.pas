@@ -42,7 +42,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LCLType, LuaActnListEvents, LuaClassesEvents, LuaEvent, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LCLType, LuaActnListEvents, LuaClassesEvents, LuaComponent, LuaEvent, LuaImageList;
 
 function VCLua_ContainedAction_Execute(L: Plua_State): Integer; cdecl;
 var

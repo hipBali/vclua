@@ -5,3 +5,5 @@ Generated with Lua-fpc parser/generator
 
   lua_pushcfunction(L, @TheApplication);
   lua_setfield(L, -2, 'TheApplication');
+  lua_pushcfunction(L, @TheScreen);
+  lua_setfield(L, -2, 'TheScreen');

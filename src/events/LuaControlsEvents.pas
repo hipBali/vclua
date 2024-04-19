@@ -116,7 +116,7 @@ type
 procedure RegisterLuaControlsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaControl, LuaDrag, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, LuaComponent, LuaControl, LuaDrag, SysUtils;
 
 procedure RegisterLuaControlsEvents();
 begin

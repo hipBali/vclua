@@ -382,9 +382,6 @@ local function processClass(def,cdef,ref)
 			local isProp = lword=="property"
 			if (not isOnlyProp and (lword=="procedure" or lword=="function")) or isProp then
 				local mId = (classm and 'class ' or '')..lword.." "..mName
-				if exclude[mId] then
-					cLog(" ** EXCLUDE:"..mId, "DEBUG")
-				else
 					-- test comment
 					line = removeIfdef(line)
 					line = removeInnerComment(line)
@@ -394,10 +391,10 @@ local function processClass(def,cdef,ref)
 					elseif line:find("%(") and not line:find("%)") then
 						n, line = concat_until(ref, n, line, def, function(s) return s:find('%)') end, true)
 					end
-					-- test exclusions
-					local ok=true
+					-- test exclusions only after broken lines are joined!
+					local ok=not exclude[mId]
 					local mds={{method=line}}
-					if isProp then
+					if ok and isProp then
 						if (isOnlyProp and not mName:find('^On%S')) or classm then ok = false
 						else
 							mds = propertyToProc(line, origLine)
@@ -425,8 +422,9 @@ local function processClass(def,cdef,ref)
 							if ok then table.insert(classTable[cname], md)
 							else cLog(" ** EXCLUDED:"..line.." "..reason, "DEBUG") end
 						end
+					else
+						cLog(" ** EXCLUDE:"..mId, "DEBUG")
 					end
-				end
 			end
 		end
 		return n

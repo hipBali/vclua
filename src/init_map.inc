@@ -41,6 +41,8 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TBitmap', @BitmapSets);
   vmts.Add('TBrush', @BrushFuncs);
   propSets.Add('TBrush', @BrushSets);
+  vmts.Add('TComponent', @ComponentFuncs);
+  propSets.Add('TComponent', @ComponentSets);
   vmts.Add('TCustomImageList', @CustomImageListFuncs);
   propSets.Add('TCustomImageList', @CustomImageListSets);
   vmts.Add('TBasicAction', @BasicActionFuncs);
@@ -85,6 +87,10 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TApplication', @ApplicationSets);
   vmts.Add('TCustomForm', @CustomFormFuncs);
   propSets.Add('TCustomForm', @CustomFormSets);
+  vmts.Add('TMonitor', @MonitorFuncs);
+  propSets.Add('TMonitor', @MonitorSets);
+  vmts.Add('TScreen', @ScreenFuncs);
+  propSets.Add('TScreen', @ScreenSets);
   vmts.Add('TScrollBox', @ScrollBoxFuncs);
   propSets.Add('TScrollBox', @ScrollBoxSets);
   vmts.Add('TCustomListBox', @CustomListBoxFuncs);

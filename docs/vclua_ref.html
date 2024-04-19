@@ -72,6 +72,7 @@
 <a href="#ColorDialog"><div class="class"><b><u>ColorDialog</u></b></div></a>
 <a href="#ColorListBox"><div class="class"><b><u>ColorListBox</u></b></div></a>
 <a href="#ComboBox"><div class="class"><b><u>ComboBox</u></b></div></a>
+<a href="#Component"><div class="class"><b><u>Component</u></b></div></a>
 <a href="#ContainedAction"><div class="class"><b><u>ContainedAction</u></b></div></a>
 <a href="#Control"><div class="class"><b><u>Control</u></b></div></a>
 <a href="#CoolBar"><div class="class"><b><u>CoolBar</u></b></div></a>
@@ -122,6 +123,7 @@
 <a href="#MemoryStream"><div class="class"><b><u>MemoryStream</u></b></div></a>
 <a href="#Menu"><div class="class"><b><u>Menu</u></b></div></a>
 <a href="#MenuItem"><div class="class"><b><u>MenuItem</u></b></div></a>
+<a href="#Monitor"><div class="class"><b><u>Monitor</u></b></div></a>
 <a href="#Notebook"><div class="class"><b><u>Notebook</u></b></div></a>
 <a href="#OICustomPropertyGrid"><div class="class"><b><u>OICustomPropertyGrid</u></b></div></a>
 <a href="#OIFavoriteProperties"><div class="class"><b><u>OIFavoriteProperties</u></b></div></a>
@@ -145,6 +147,7 @@
 <a href="#RasterImage"><div class="class"><b><u>RasterImage</u></b></div></a>
 <a href="#ReplaceDialog"><div class="class"><b><u>ReplaceDialog</u></b></div></a>
 <a href="#SaveDialog"><div class="class"><b><u>SaveDialog</u></b></div></a>
+<a href="#Screen"><div class="class"><b><u>Screen</u></b></div></a>
 <a href="#ScrollBox"><div class="class"><b><u>ScrollBox</u></b></div></a>
 <a href="#SelectDirectoryDialog"><div class="class"><b><u>SelectDirectoryDialog</u></b></div></a>
 <a href="#Shape"><div class="class"><b><u>Shape</u></b></div></a>
@@ -1822,6 +1825,39 @@ result = o.SelText</td><td class="fp">property SelText: String read GetSelText w
 result = o.Style</td><td class="fp">property Style: TComboBoxStyle read FStyle write SetStyle default csDropDown;</td></tr>
 <tr><td class="lua">o.TextHint = value
 result = o.TextHint</td><td class="fp">property TextHint: TTranslateString read FTextHint write SetTextHint;</td></tr>
+</table></div>
+<a id="Component"><div class="class"><b><u>Component</u></b></div></a>
+<div class="props"><b><i>Published properties</i></b></div>
+<div class="propsdata"><i>Name</i> : AnsiString</div>
+<div class="propsdata"><i>Tag</i> : Int64</div>
+<div class="props"><b><i>Generated</i></b></div>
+<div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
+<tr><td class="lua">o:BeforeDestruction()</td><td class="fp">procedure BeforeDestruction; override;</td></tr>
+<tr><td class="lua">result = o.ComponentCount</td><td class="fp">property ComponentCount: Integer read GetComponentCount;</td></tr>
+<tr><td class="lua">o.ComponentIndex = value
+result = o.ComponentIndex</td><td class="fp">property ComponentIndex: Integer read GetComponentIndex write SetComponentIndex;</td></tr>
+<tr><td class="lua">result = o.ComponentState</td><td class="fp">property ComponentState: TComponentState read FComponentState;</td></tr>
+<tr><td class="lua">result = o.ComponentStyle</td><td class="fp">property ComponentStyle: TComponentStyle read FComponentStyle;</td></tr>
+<tr><td class="lua">result = o:Components(Index)</td><td class="fp">property Components[Index: Integer]: TComponent read GetComponent;</td></tr>
+<tr><td class="lua">o.DesignInfo = value
+result = o.DesignInfo</td><td class="fp">property DesignInfo: Longint read FDesignInfo write FDesignInfo;</td></tr>
+<tr><td class="lua">o:DestroyComponents()</td><td class="fp">procedure DestroyComponents;</td></tr>
+<tr><td class="lua">o:Destroying()</td><td class="fp">procedure Destroying;</td></tr>
+<tr><td class="lua">result = o:ExecuteAction(Action)</td><td class="fp">function ExecuteAction(Action: TBasicAction): Boolean; dynamic;</td></tr>
+<tr><td class="lua">result = o:FindComponent(AName)</td><td class="fp">function FindComponent(const AName: string): TComponent;</td></tr>
+<tr><td class="lua">o:FreeNotification(AComponent)</td><td class="fp">procedure FreeNotification(AComponent: TComponent);</td></tr>
+<tr><td class="lua">o:FreeOnRelease()</td><td class="fp">procedure FreeOnRelease;</td></tr>
+<tr><td class="lua">result = o:GetNamePath()</td><td class="fp">function GetNamePath: string; override;</td></tr>
+<tr><td class="lua">result = o:GetParentComponent()</td><td class="fp">function GetParentComponent: TComponent; dynamic;</td></tr>
+<tr><td class="lua">result = o:HasParent()</td><td class="fp">function HasParent: Boolean; dynamic;</td></tr>
+<tr><td class="lua">o:InsertComponent(AComponent)</td><td class="fp">procedure InsertComponent(AComponent: TComponent);</td></tr>
+<tr><td class="lua">result = o.Owner</td><td class="fp">property Owner: TComponent read FOwner;</td></tr>
+<tr><td class="lua">o:RemoveComponent(AComponent)</td><td class="fp">procedure RemoveComponent(AComponent: TComponent);</td></tr>
+<tr><td class="lua">o:RemoveFreeNotification(AComponent)</td><td class="fp">procedure RemoveFreeNotification(AComponent: TComponent);</td></tr>
+<tr><td class="lua">o:SetSubComponent(ASubComponent)</td><td class="fp">procedure SetSubComponent(ASubComponent: Boolean);</td></tr>
+<tr><td class="lua">result = o:UpdateAction(Action)</td><td class="fp">function UpdateAction(Action: TBasicAction): Boolean; dynamic;</td></tr>
+<tr><td class="lua">o.VCLComObject = value
+result = o.VCLComObject</td><td class="fp">property VCLComObject: Pointer read FVCLComObject write FVCLComObject;</td></tr>
 </table></div>
 <a id="ContainedAction"><div class="class"><b><u>ContainedAction</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -4996,6 +5032,20 @@ o:UpdateImages(forced)</td><td class="fp">procedure UpdateImages(forced: Boolean
 <tr><td class="lua">result = o:VisibleIndexOf(Item)</td><td class="fp">function VisibleIndexOf(Item: TMenuItem): Integer;</td></tr>
 <tr><td class="lua">o:WriteDebugReport(Prefix)</td><td class="fp">procedure WriteDebugReport(const Prefix: string);</td></tr>
 </table></div>
+<a id="Monitor"><div class="class"><b><u>Monitor</u></b></div></a>
+<div class="props"><b><i>Generated</i></b></div>
+<div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
+<tr><td class="lua">result = o.BoundsRect</td><td class="fp">property BoundsRect: TRect read GetBoundsRect;</td></tr>
+<tr><td class="lua">result = o.Handle</td><td class="fp">property Handle: HMONITOR read FHandle;</td></tr>
+<tr><td class="lua">result = o.Height</td><td class="fp">property Height: Integer read GetHeight;</td></tr>
+<tr><td class="lua">result = o.Left</td><td class="fp">property Left: Integer read GetLeft;</td></tr>
+<tr><td class="lua">result = o.MonitorNum</td><td class="fp">property MonitorNum: Integer read FMonitorNum;</td></tr>
+<tr><td class="lua">result = o.PixelsPerInch</td><td class="fp">property PixelsPerInch: Integer read GetPixelsPerInch;</td></tr>
+<tr><td class="lua">result = o.Primary</td><td class="fp">property Primary: Boolean read GetPrimary;</td></tr>
+<tr><td class="lua">result = o.Top</td><td class="fp">property Top: Integer read GetTop;</td></tr>
+<tr><td class="lua">result = o.Width</td><td class="fp">property Width: Integer read GetWidth;</td></tr>
+<tr><td class="lua">result = o.WorkareaRect</td><td class="fp">property WorkareaRect: TRect read GetWorkareaRect;</td></tr>
+</table></div>
 <a id="Notebook"><div class="class"><b><u>Notebook</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
 <div class="propsdata"><i>Align</i> : Align</div>
@@ -6063,6 +6113,82 @@ result = o.Top</td><td class="fp">property Top: Integer read GetTop write SetTop
 <div class="propsdata"><i>Options</i> : OpenOptions</div>
 <div class="propsdata"><i>Tag</i> : Int64</div>
 <div class="propsdata"><i>Title</i> : TranslateString</div>
+<a id="Screen"><div class="class"><b><u>Screen</u></b></div></a>
+<div class="props"><b><i>Published properties</i></b></div>
+<div class="propsdata"><i>Name</i> : AnsiString</div>
+<div class="propsdata"><i>Tag</i> : Int64</div>
+<div class="props"><b><i>Global variables</i></b></div>
+<div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
+<tr><td class="lua">result = VCL.TheScreen()</td><td class="fp">Screen: TScreen</td></tr>
+</table></div>
+<div class="props"><b><i>Generated</i></b></div>
+<div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
+<tr><td class="lua">result = o.ActiveControl</td><td class="fp">property ActiveControl: TWinControl read FActiveControl;</td></tr>
+<tr><td class="lua">result = o.ActiveCustomForm</td><td class="fp">property ActiveCustomForm: TCustomForm read FActiveCustomForm;</td></tr>
+<tr><td class="lua">result = o.ActiveForm</td><td class="fp">property ActiveForm: TForm read FActiveForm;</td></tr>
+<tr><td class="lua">o:BeginTempCursor(aCursor)</td><td class="fp">procedure BeginTempCursor(const aCursor: TCursor);</td></tr>
+<tr><td class="lua">o:BeginWaitCursor()</td><td class="fp">procedure BeginWaitCursor;</td></tr>
+<tr><td class="lua">o.Cursor = value
+result = o.Cursor</td><td class="fp">property Cursor: TCursor read FCursor write SetCursor;</td></tr>
+<tr><td class="lua">result = o:Cursors(Index)
+o:Cursors(Index,value)</td><td class="fp">property Cursors[Index: Integer]: HCURSOR read GetCursors write SetCursors;</td></tr>
+<tr><td class="lua">result = o:CustomFormBelongsToActiveGroup(AForm)</td><td class="fp">function CustomFormBelongsToActiveGroup(AForm: TCustomForm): Boolean;</td></tr>
+<tr><td class="lua">result = o.CustomFormCount</td><td class="fp">property CustomFormCount: Integer read GetCustomFormCount;</td></tr>
+<tr><td class="lua">result = o:CustomFormIndex(AForm)</td><td class="fp">function CustomFormIndex(AForm: TCustomForm): integer;</td></tr>
+<tr><td class="lua">result = o:CustomFormZIndex(AForm)</td><td class="fp">function CustomFormZIndex(AForm: TCustomForm): integer;</td></tr>
+<tr><td class="lua">result = o.CustomFormZOrderCount</td><td class="fp">property CustomFormZOrderCount: Integer read GetCustomFormZOrderCount;</td></tr>
+<tr><td class="lua">result = o:CustomForms(Index)</td><td class="fp">property CustomForms[Index: Integer]: TCustomForm read GetCustomForms;</td></tr>
+<tr><td class="lua">result = o:CustomFormsZOrdered(Index)</td><td class="fp">property CustomFormsZOrdered[Index: Integer]: TCustomForm read GetCustomFormsZOrdered; </td></tr>
+<tr><td class="lua">result = o.DataModuleCount</td><td class="fp">property DataModuleCount: Integer read GetDataModuleCount;</td></tr>
+<tr><td class="lua">result = o.DesktopHeight</td><td class="fp">property DesktopHeight: Integer read GetDesktopHeight;</td></tr>
+<tr><td class="lua">result = o.DesktopLeft</td><td class="fp">property DesktopLeft: Integer read GetDesktopLeft;</td></tr>
+<tr><td class="lua">result = o.DesktopRect</td><td class="fp">property DesktopRect: TRect read GetDesktopRect;</td></tr>
+<tr><td class="lua">result = o.DesktopTop</td><td class="fp">property DesktopTop: Integer read GetDesktopTop;</td></tr>
+<tr><td class="lua">result = o.DesktopWidth</td><td class="fp">property DesktopWidth: Integer read GetDesktopWidth;</td></tr>
+<tr><td class="lua">o:EndTempCursor(aCursor)</td><td class="fp">procedure EndTempCursor(const aCursor: TCursor);</td></tr>
+<tr><td class="lua">o:EndWaitCursor()</td><td class="fp">procedure EndWaitCursor;</td></tr>
+<tr><td class="lua">result = o:FindForm(FormName)</td><td class="fp">function FindForm(const FormName: string): TCustomForm;</td></tr>
+<tr><td class="lua">result = o:FindNonDesignerForm(FormName)</td><td class="fp">function FindNonDesignerForm(const FormName: string): TCustomForm;</td></tr>
+<tr><td class="lua">result = o.FocusedForm</td><td class="fp">property FocusedForm: TCustomForm read FFocusedForm;</td></tr>
+<tr><td class="lua">result = o.Fonts</td><td class="fp">property Fonts: TStrings read GetFonts;</td></tr>
+<tr><td class="lua">result = o.FormCount</td><td class="fp">property FormCount: Integer read GetFormCount;</td></tr>
+<tr><td class="lua">result = o:FormIndex(AForm)</td><td class="fp">function FormIndex(AForm: TForm): integer;</td></tr>
+<tr><td class="lua">result = o:Forms(Index)</td><td class="fp">property Forms[Index: Integer]: TForm read GetForms;</td></tr>
+<tr><td class="lua">result = o:GetCurrentModalForm()</td><td class="fp">function GetCurrentModalForm: TCustomForm;</td></tr>
+<tr><td class="lua">result = o:GetCurrentModalFormZIndex()</td><td class="fp">function GetCurrentModalFormZIndex: Integer;</td></tr>
+<tr><td class="lua">result = o.Height</td><td class="fp">property Height: Integer read Getheight;</td></tr>
+<tr><td class="lua">o.HintFont = value
+result = o.HintFont</td><td class="fp">property HintFont: TFont read GetHintFont write SetHintFont;</td></tr>
+<tr><td class="lua">o.IconFont = value
+result = o.IconFont</td><td class="fp">property IconFont: TFont read GetIconFont write SetIconFont;</td></tr>
+<tr><td class="lua">o.MenuFont = value
+result = o.MenuFont</td><td class="fp">property MenuFont: TFont read GetMenuFont write SetMenuFont;</td></tr>
+<tr><td class="lua">result = o.MonitorCount</td><td class="fp">property MonitorCount: Integer read GetMonitorCount;</td></tr>
+<tr><td class="lua">result = o:MonitorFromPoint(Point)
+result = o:MonitorFromPoint(Point,MonitorDefault)</td><td class="fp">function MonitorFromPoint(const Point: TPoint; MonitorDefault: TMonitorDefaultTo = mdNearest): TMonitor;</td></tr>
+<tr><td class="lua">result = o:MonitorFromRect(Rect)
+result = o:MonitorFromRect(Rect,MonitorDefault)</td><td class="fp">function MonitorFromRect(const Rect: TRect; MonitorDefault: TMonitorDefaultTo = mdNearest): TMonitor;</td></tr>
+<tr><td class="lua">result = o:MonitorFromWindow(Handle)
+result = o:MonitorFromWindow(Handle,MonitorDefault)</td><td class="fp">function MonitorFromWindow(const Handle: THandle; MonitorDefault: TMonitorDefaultTo = mdNearest): TMonitor;</td></tr>
+<tr><td class="lua">result = o:Monitors(Index)</td><td class="fp">property Monitors[Index: Integer]: TMonitor read GetMonitor;</td></tr>
+<tr><td class="lua">o:MoveFormToFocusFront(ACustomForm)</td><td class="fp">procedure MoveFormToFocusFront(ACustomForm: TCustomForm);</td></tr>
+<tr><td class="lua">o:MoveFormToZFront(ACustomForm)</td><td class="fp">procedure MoveFormToZFront(ACustomForm: TCustomForm);</td></tr>
+<tr><td class="lua">o.OnActiveControlChange = function(Sender) end</td><td class="fp">property OnActiveControlChange: TNotifyEvent read FOnActiveControlChange write FOnActiveControlChange;</td></tr>
+<tr><td class="lua">o.OnActiveFormChange = function(Sender) end</td><td class="fp">property OnActiveFormChange: TNotifyEvent read FOnActiveFormChange write FOnActiveFormChange;</td></tr>
+<tr><td class="lua">result = o.PixelsPerInch</td><td class="fp">property PixelsPerInch: integer read FPixelsPerInch;</td></tr>
+<tr><td class="lua">result = o.PrimaryMonitor</td><td class="fp">property PrimaryMonitor: TMonitor read GetPrimaryMonitor;</td></tr>
+<tr><td class="lua">result = o.RealCursor</td><td class="fp">property RealCursor: TCursor read GetRealCursor;</td></tr>
+<tr><td class="lua">o.SystemFont = value
+result = o.SystemFont</td><td class="fp">property SystemFont: TFont read GetSystemFont write SetSystemFont;</td></tr>
+<tr><td class="lua">o:UpdateMonitors()</td><td class="fp">procedure UpdateMonitors;</td></tr>
+<tr><td class="lua">o:UpdateScreen()</td><td class="fp">procedure UpdateScreen;</td></tr>
+<tr><td class="lua">result = o.Width</td><td class="fp">property Width: Integer read GetWidth;</td></tr>
+<tr><td class="lua">result = o.WorkAreaHeight</td><td class="fp">property WorkAreaHeight: Integer read GetWorkAreaHeight;</td></tr>
+<tr><td class="lua">result = o.WorkAreaLeft</td><td class="fp">property WorkAreaLeft: Integer read GetWorkAreaLeft;</td></tr>
+<tr><td class="lua">result = o.WorkAreaRect</td><td class="fp">property WorkAreaRect: TRect read GetWorkAreaRect;</td></tr>
+<tr><td class="lua">result = o.WorkAreaTop</td><td class="fp">property WorkAreaTop: Integer read GetWorkAreaTop;</td></tr>
+<tr><td class="lua">result = o.WorkAreaWidth</td><td class="fp">property WorkAreaWidth: Integer read GetWorkAreaWidth;</td></tr>
+</table></div>
 <a id="ScrollBox"><div class="class"><b><u>ScrollBox</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
 <div class="propsdata"><i>Align</i> : Align</div>

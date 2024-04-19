@@ -66,7 +66,7 @@ type
 procedure RegisterLuaPropEditsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaPersistent, LuaPropEdits, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, LuaComponent, LuaPersistent, LuaPropEdits, SysUtils;
 
 procedure RegisterLuaPropEditsEvents();
 begin

@@ -52,7 +52,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LuaClassesEvents, LuaEvent, LuaImageList, LuaMenusEvents, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LuaClassesEvents, LuaComponent, LuaEvent, LuaImageList, LuaMenusEvents, LCLType;
 
 function VCLua_Menu_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var

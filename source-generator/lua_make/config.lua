@@ -111,6 +111,7 @@ classes = {
 	},
 	{ name = "Brush", src = "TBrush", ref = "Graphics", implref = "LCLType", base=true, nocreate=true },
 
+	{ name = "Component", src = "TComponent", ref="Classes", nocreate=true },
 	-- imagelist
 	{ name = "ImageList", src = "TCustomImageList", ref = "ImgList, Controls", noparent=true},
 	-- actions
@@ -152,6 +153,8 @@ classes = {
 	{ name = "CustomApplication", src = "TCustomApplication", ref = "CustApp", implref = "singleinstance", nocreate=true },
 	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true, globals={Application=1} },
 	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", form=true},
+	{ name = "Monitor", src = "TMonitor", ref = "Forms", implref = "LCLType", nocreate=true},
+	{ name = "Screen", src = "TScreen", ref = "Forms", implref = "LCLType", nocreate=true, globals={Screen=1}},
 	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms", },
 
 	-- standard controls

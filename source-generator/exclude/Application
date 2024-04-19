@@ -51,7 +51,6 @@ procedure AddOnGetMainFormHandleHandler
 procedure RemoveOnGetMainFormHandleHandler
 procedure RemoveAllHandlersOfObject
 procedure DoBeforeMouseMessage
-function IsShortcut
 procedure CancelHint
 procedure HideHint
 procedure HintMouseMessage

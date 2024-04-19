@@ -22,7 +22,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaClassesEvents, LuaEvent;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaClassesEvents, LuaComponent, LuaEvent;
 
 function VCLua_BasicAction_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var

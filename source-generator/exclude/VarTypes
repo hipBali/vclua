@@ -54,3 +54,6 @@ tconfigstorage
 tinstprop
 tbasesingleinstance
 tbasesingleinstanceclass
+iunknown
+codepointer
+tdatamodule

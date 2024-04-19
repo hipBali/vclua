@@ -39,7 +39,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Forms, Graphics, LuaClassesEvents, LuaEvent, LuaForm, LuaPersistent, Menus;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Forms, Graphics, LuaClassesEvents, LuaComponent, LuaEvent, LuaForm, LuaPersistent, Menus;
 
 function VCLua_PropertyEditorHook_VCLuaSetGetPrivateDirectory(L: Plua_State): Integer; cdecl;
 var
