@@ -382,49 +382,49 @@ local function processClass(def,cdef,ref)
 			local isProp = lword=="property"
 			if (not isOnlyProp and (lword=="procedure" or lword=="function")) or isProp then
 				local mId = (classm and 'class ' or '')..lword.." "..mName
-					-- test comment
-					line = removeIfdef(line)
-					line = removeInnerComment(line)
-					-- join broken lines
-					if isProp and not line:find(";") then
-						n, line = concat_until(ref, n, line, def, function(s) return s:find(';') end, true)
-					elseif line:find("%(") and not line:find("%)") then
-						n, line = concat_until(ref, n, line, def, function(s) return s:find('%)') end, true)
-					end
-					-- test exclusions only after broken lines are joined!
-					local ok=not exclude[mId]
-					local mds={{method=line}}
-					if ok and isProp then
-						if (isOnlyProp and not mName:find('^On%S')) or classm then ok = false
-						else
-							mds = propertyToProc(line, origLine)
-							if not mds then ok = false end
-						end
-					end
-					if ok then
-						for _,md in ipairs(mds) do
-							md.mName=mName
-							local reason
-							if lword=="function" or (isProp and md.propInfo.r and not md.propInfo.i) then
-								local ret = md.method:split(":")
-								md.reto = ret[#ret]:match("%w+")
-								ok = not excludeType[md.reto:lower()]
-								reason = md.reto
-							end
-							processParams(md)
-							for t,_ in pairs(md.mtypes) do
-								if excludeType[t:lower()] then
-									reason = t
-									ok = false
-									break
-								end
-							end
-							if ok then table.insert(classTable[cname], md)
-							else cLog(" ** EXCLUDED:"..line.." "..reason, "DEBUG") end
-						end
+				-- test comment
+				line = removeIfdef(line)
+				line = removeInnerComment(line)
+				-- join broken lines
+				if isProp and not line:find(";") then
+					n, line = concat_until(ref, n, line, def, function(s) return s:find(';') end, true)
+				elseif line:find("%(") and not line:find("%)") then
+					n, line = concat_until(ref, n, line, def, function(s) return s:find('%)') end, true)
+				end
+				-- test exclusions only after broken lines are joined!
+				local ok=not exclude[mId]
+				local mds={{method=line}}
+				if ok and isProp then
+					if (isOnlyProp and not mName:find('^On%S')) or classm then ok = false
 					else
-						cLog(" ** EXCLUDE:"..mId, "DEBUG")
+						mds = propertyToProc(line, origLine)
+						if not mds then ok = false end
 					end
+				end
+				if ok then
+					for _,md in ipairs(mds) do
+						md.mName=mName
+						local reason
+						if lword=="function" or (isProp and md.propInfo.r and not md.propInfo.i) then
+							local ret = md.method:split(":")
+							md.reto = ret[#ret]:match("%w+")
+							ok = not excludeType[md.reto:lower()]
+							reason = md.reto
+						end
+						processParams(md)
+						for t,_ in pairs(md.mtypes) do
+							if excludeType[t:lower()] then
+								reason = t
+								ok = false
+								break
+							end
+						end
+						if ok then table.insert(classTable[cname], md)
+						else cLog(" ** EXCLUDED:"..line.." "..reason, "DEBUG") end
+					end
+				else
+					cLog(" ** EXCLUDE:"..mId, "DEBUG")
+				end
 			end
 		end
 		return n
