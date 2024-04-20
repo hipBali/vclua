@@ -4,7 +4,6 @@
 -- ***************************************
 VCL = require "vcl.core"
 VCL.TheApplication():Initialize()
-VCL.SetErrorReporter(print)
 
 local mainFrm = VCL.Form(nil,'mainFrm')
 

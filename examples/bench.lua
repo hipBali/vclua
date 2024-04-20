@@ -21,7 +21,6 @@ end
 
 VCL = require "vcl.core"
 VCL.TheApplication():Initialize()
-VCL.SetErrorReporter(print)
 
 local frmMain = VCL.Form(nil, 'mainForm',
 	{

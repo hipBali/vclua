@@ -359,7 +359,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -381,7 +381,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -404,7 +404,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -472,7 +472,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Compare,TypeInfo(Integer),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -492,7 +492,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -513,7 +513,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -535,7 +535,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -561,7 +561,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AIndex,TypeInfo(Integer),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -631,7 +631,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AValue,TypeInfo(string),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -651,7 +651,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowEdit,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -684,7 +684,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowDrag,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -703,7 +703,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -723,7 +723,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ImageIndex,TypeInfo(Integer),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -755,7 +755,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -779,7 +779,7 @@ begin
     if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -810,7 +810,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -830,7 +830,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowCollapse,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -851,7 +851,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Compare,TypeInfo(Integer),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -870,7 +870,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ATreeNode,TypeInfo(TTreenode),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -902,7 +902,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -923,7 +923,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@DefaultDraw,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -943,7 +943,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@S,TypeInfo(string),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -975,7 +975,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowEdit,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -1006,7 +1006,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowExpansion,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -1037,7 +1037,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -1058,7 +1058,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AllowChange,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 

@@ -44,7 +44,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Handled,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -64,7 +64,7 @@ begin
     if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@CanShow,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 

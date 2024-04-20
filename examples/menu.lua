@@ -4,7 +4,6 @@
 -- ***************************************
 VCL = require "vcl.core"
 VCL.TheApplication():Initialize()
-VCL.SetErrorReporter(print)
 
 -- VCL.ActionList loader
 local setter = VCL.GetCallable('TAction','ActionList',true)

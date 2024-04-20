@@ -40,7 +40,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@AResultWidth,TypeInfo(Integer),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 

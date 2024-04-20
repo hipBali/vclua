@@ -87,7 +87,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Drag,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -111,7 +111,7 @@ begin
     if luaTop + 3 <= luaNewTop then luaL_check(L,luaTop + 3,@RowCount,TypeInfo(Integer),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -131,7 +131,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ARect,TypeInfo(TRect),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -154,7 +154,7 @@ begin
     if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Options,TypeInfo(TBandPaintOptions),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -187,7 +187,7 @@ begin
     if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Accept,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -208,7 +208,7 @@ begin
     if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@Accept,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 

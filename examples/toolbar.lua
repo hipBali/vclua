@@ -1,6 +1,5 @@
 VCL = require "vcl.core"
 VCL.TheApplication():Initialize()
-VCL.SetErrorReporter(print)
 
 local frm = VCL.Form(nil,'ToolbarEx')
 

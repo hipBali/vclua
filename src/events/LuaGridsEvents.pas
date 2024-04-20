@@ -149,7 +149,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@aValue,TypeInfo(string),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -170,7 +170,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@HintText,TypeInfo(String),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -191,7 +191,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value,TypeInfo(TCheckboxState),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -212,7 +212,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Value,TypeInfo(string),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -273,7 +273,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Result,TypeInfo(integer),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -321,7 +321,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@CanSelect,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -354,7 +354,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@Editor,TypeInfo(TWinControl),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -415,7 +415,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ABitmap,TypeInfo(TBitmap),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -439,7 +439,7 @@ begin
     if luaTop + 2 <= luaNewTop then luaL_check(L,luaTop + 2,@ImageIndex,TypeInfo(TImageIndex),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 
@@ -461,7 +461,7 @@ begin
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@NewValue,TypeInfo(String),lerException);
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;
 end;
 

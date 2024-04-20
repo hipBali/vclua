@@ -8,6 +8,8 @@ uses
 
 const
   HandleStr = 'Handle';
+  VCLC = 'VCLC';
+  VCLE = 'VCLE';
 
   ButtonResult : Array [0..10] of string =
       ('mrNone','mrOk','mrCancel','mrAbort','mrRetry','mrIgnore','mrYes','mrNo',
@@ -24,7 +26,7 @@ function LuaSetErrorReporter(L: Plua_State):integer; cdecl;
 function LuaGetErrorReporter(L: Plua_State):integer; cdecl;
 function LuaSetCallbackErrorFunction(L: Plua_State):integer; cdecl;
 function LuaGetCallbackErrorFunction(L: Plua_State):integer; cdecl;
-procedure ReportEventError(L: Plua_State; e: string);
+procedure ReportError(L: Plua_State; e: string; how: PAnsiChar = VCLC);
 function LuaTraceback(L: Plua_State; msg: String): PAnsiChar;
 procedure LuaError(L: Plua_State; text: String; err: String; ler: TLuaErrorReport = lerLuaError);
 procedure CallError(L: Plua_State; className, methodName: PChar; text, err: String);
@@ -177,20 +179,14 @@ begin
 end;
 
 // *****************************************************************************
-var
-  errorRep: TLuaEvent = nil;
 function LuaSetErrorReporter(L: Plua_State):integer; cdecl;
 begin
-  errorRep.Free;
-  errorRep:=TLuaEvent.Create(L,1);
+  lua_setfield(L, LUA_REGISTRYINDEX, VCLE);
   result:=0;
 end;
 function LuaGetErrorReporter(L: Plua_State):integer; cdecl;
 begin
-  if Assigned(errorRep) then
-     errorRep.ToStack(L)
-  else
-     lua_pushnil(L);
+  luaL_getmetatable(L, VCLE);
   result:=1;
 end;
 
@@ -199,31 +195,25 @@ var
   e: string;
   unused: SizeIntArray;
 begin
-  if Assigned(errorRep) and lua_isstring(L, 1) then begin
+  luaL_getmetatable(L, VCLE);
+  if lua_isfunction(L, 2) and lua_isstring(L, 1) then begin
      e := lua_tostring(L, 1);
      if not (FindMatchesBoyerMooreCaseSensitive(e, 'VCLua Error', unused, false) or FindMatchesBoyerMooreCaseSensitive(e, 'LCL Error', unused, false)) then begin
-       errorRep.ToStack(L);
-       lua_pushvalue(L, 1);
+       lua_insert(L, 1);
        lua_call(L, 1, 0);
      end;
   end;
   result:=0;
 end;
 
-var
-  cbErrorF: TLuaEvent = nil;
 function LuaSetCallbackErrorFunction(L: Plua_State):integer; cdecl;
 begin
-  cbErrorF.Free;
-  cbErrorF:=TLuaEvent.Create(L,1);
+  lua_setfield(L, LUA_REGISTRYINDEX, VCLC);
   result:=0;
 end;
 function LuaGetCallbackErrorFunction(L: Plua_State):integer; cdecl;
 begin
-  if Assigned(cbErrorF) then
-     cbErrorF.ToStack(L)
-  else
-     lua_pushnil(L);
+  luaL_getmetatable(L, VCLC);
   result:=1;
 end;
 
@@ -243,18 +233,13 @@ begin
   lua_pop(L, 1);
 end;
 
-procedure ReportError(L: Plua_State; e: string; ev: TLuaEvent); inline;
+procedure ReportError(L: Plua_State; e: string; how: PAnsiChar);
 begin
-  if Assigned(ev) then begin
-    ev.ToStack(L);
+  luaL_getmetatable(L, how);
+  if lua_isfunction(L, -1) then begin
     lua_pushstring(L, e);
     lua_pcall(L, 1, 0, 0);
   end;
-end;
-
-procedure ReportEventError(L: Plua_State; e: string);
-begin
-  ReportError(L, e, cbErrorF);
 end;
 
 procedure LuaError(L: Plua_State; text: String; err:String; ler: TLuaErrorReport);
@@ -262,7 +247,7 @@ var
   e: string;
 begin
   e := 'VCLua Error:'+#10+WinCPToUTF8(err)+#10+WinCPToUTF8(text);
-  ReportError(L, e, errorRep);
+  ReportError(L, e, VCLE);
   if ler = lerLuaError then
      luaL_error(L, PAnsiChar(e))
   else
@@ -274,7 +259,7 @@ var
   e: string;
 begin
   e := Format('LCL Error:'+#10+'calling %s.%s got %s:'+#10+WinCPToUTF8(err), [className, methodName, text]);
-  ReportError(L, e, errorRep);
+  ReportError(L, e, VCLE);
   luaL_error(L, PAnsiChar(e));
 end;
 
@@ -309,10 +294,12 @@ end;
 
 procedure DoCall(L: Plua_State; paramCount:integer);
 begin
-  if (lua_pcall(L, paramCount, LUA_MULTRET, 0) <> 0) and Assigned(cbErrorF) then begin
-    cbErrorF.ToStack(L);
-    lua_pushvalue(L, -2);
-    lua_pcall(L, 1, 0, 0);
+  if lua_pcall(L, paramCount, LUA_MULTRET, 0) <> 0 then begin
+    luaL_getmetatable(L, VCLC);
+    if lua_isfunction(L, -1) then begin
+      lua_insert(L, -2);
+      lua_pcall(L, 1, 0, 0);
+    end;
   end;
 end;
 

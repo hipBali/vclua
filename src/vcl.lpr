@@ -116,6 +116,9 @@ begin
       end;
   end;
 
+  lua_pushcfunction(L, @LuaSetErrorReporter);
+  lua_getglobal(L, 'print');
+  lua_call(L,1,0);
   lua_pushcfunction(L, @LuaSetCallbackErrorFunction);
   lua_pushcfunction(L, @DefaultCallbackErrorFunction);
   lua_call(L,1,0);

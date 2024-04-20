@@ -54,11 +54,6 @@ VCL.Application():Initialize()
 -- or VCL.TheApplication():Initialize()
 ```
 
-Maybe set error reporting
-```lua
-VCL.SetErrorReporter(print)
-```
-
 Maybe set automatic codepage conversion
 1. if your text data comes from ANSI source
 1. if you write a DLL for a host which isn't unicode-enabled
@@ -122,7 +117,7 @@ Some classes have additional methods implemented in [funcdef.lua](../source-gene
 The following functions provide access to error callbacks
 - `SetErrorReporter`
 > [!IMPORTANT]
-> by default no error reporter is set
+> by default global `print` is used
 - `GetErrorReporter`
 - `SetCallbackErrorFunction`
 > [!IMPORTANT]
@@ -147,17 +142,17 @@ The following functions expect the first argument to be a VCLua object or a stri
 
 **TLDR**
 
-Usually good enough is just
-```lua
-VCL.SetErrorReporter(VCL.ShowMessage)
-```
-
-To avoid infinite error loops use
+The following is done automatically when the lib is loaded
 ```lua
 VCL.SetErrorReporter(print)
 ```
 
-To cover all the issues use
+Easy way for GUI reporting (at risk of infinite error loop)
+```lua
+VCL.SetErrorReporter(VCL.ShowMessage)
+```
+
+To cover all potential issues use this (if you are ***NOT*** using multiple Lua states, e.g. writing a plugin for some host)
 ```lua
 VCL = require "vcl.core"
 local app = VCL.TheApplication()
@@ -190,16 +185,15 @@ Let's consider the following typical scenarios.
 
 #### VCLua errors
 
-These happen inside VCLua, mostly when trying to pass incorrect types to/from Lua. They are reported using a callback set with `SetErrorReporter` (so, not reported by default) and then a Lua error is raised with `luaL_error`. The error string will contain `VCLua Error` substring.
+These happen inside VCLua, mostly when trying to pass incorrect types to/from Lua. They are reported using a callback set with `SetErrorReporter` (by default - printed to console) and then a Lua error is raised with `luaL_error`. The error string will contain `VCLua Error` substring.
 
 #### Exceptions in FPC, LCL, etc. code
 
 If caught inside VCLua they are treated like VCLua errors but with an `LCL Error` substring.
-Uncaught exceptions can be trapped in `VCL.TheApplication().OnException`. Notice it's `TheApplication()`, not `Application()`. `VCL.TheApplication().OnCircularException` is available too but if execution reaches it LCL will halt the whole program (not just your Lua script). To avoid it make sure your `OnException` never raises. Best thing you can do there is to schedule all the forms for closing and schedule a graceful stop for Lua VM.
 
 #### Lua errors inside LCL event handlers
 
-The above Lua errors would propagate through both Lua and Free Pascal stacks. A Lua error can be handled in either your Lua code or inside VCLua. In your Lua code you may consider using `pcall` on `TCustomForm.ShowModal`, `TApplication.ProcessMessages` and other Free Pascal calls. For LCL event handlers VCLua uses `lua_pcall` itself, reports the error using a callback set with `SetCallbackErrorFunction` and doesn't propagate the error. That means one doesn't really need any `pcall`s inside the event handler.
+The above Lua errors would propagate through both Lua and Free Pascal stacks. A Lua error can be handled in either your Lua code or inside VCLua. In your Lua code you may consider using `pcall` on `TCustomForm.ShowModal`, `TApplication.ProcessMessages` and other Free Pascal calls. For LCL event handlers VCLua uses `lua_pcall` itself, reports the error using a callback set with `SetCallbackErrorFunction` and doesn't propagate the error. That means one doesn't really need any `pcall`s inside the event handler. If the event handler returns values of incorrect types such errors are reported the same way.
 
 Consider the following (wrong) example
 ```lua
@@ -217,16 +211,25 @@ end
 mainForm:ShowModal()
 ```
 
-If `colors` is `nil` there will be errors inside `OnPrepareCanvas` callback: either `VCLua Error` when a `nil` value is assigned to `Color`, or a usual Lua error about bit operations with `nil` arguments. Since the error reporting is set to create a messagebox, ***another repaint of the grid would start leading to the same errors*** (infinite loop). If error reporting isn't set, or if `VCL.SetErrorReporter(print)` is used, there would be no infinite loop and the grid will be operable. All Lua errors inside LCL event handlers are reported but not propagated, otherwise a circular exception may happen. Errors from returning values of incorrect types are caught the same way.
+If `colors` is `nil` there will be errors inside `OnPrepareCanvas` callback: either `VCLua Error` when a `nil` value is assigned to `Color`, or a usual Lua error about bit operations with `nil` arguments. Since the error reporting is set to create a messagebox, ***another repaint of the grid would start leading to the same errors*** (infinite loop). If error reporting isn't set, or if `VCL.SetErrorReporter(print)` is used, there would be no infinite loop and the grid will be operable. All Lua errors inside LCL event handlers are reported but not propagated, otherwise a circular exception may happen.
+
+#### Uncaught exceptions
+
+Care was taken to transform all `Exception`s into Lua errors. But additional functions may be written without a try block and access violations (AV) might still happen due to implementation of callbacks (see [below](#implementation-details)). Uncaught exceptions (including some AV) can be trapped in `VCL.TheApplication().OnException`. Notice it's `TheApplication()`, not `Application()`, so a global variable is used. `VCL.TheApplication().OnCircularException` is available too but if the execution reaches it LCL will halt the whole program (not just your Lua script). To avoid it make sure your `OnException` never raises. Best thing you can do there is to schedule all the forms for closing and schedule a graceful stop for all Lua states which used VCLua in this process.
+
+Also note that if you have multiple Lua states using VCLua, only one state will install `OnException`-type handler successfully. If an exception bubbles out of another state, the data from the Exception object might point to that state so using it would be unsafe.
 
 ### Implementation details
 
-Passing of callbacks from Lua to Free Pascal is complicated. A temporary object with a Lua reference is created and the only place it is stored is the callback itself. So measures should be taken to avoid leaks and crashes. The only time when this object is freed is when the property is reset to another callback or to `nil`. When the class instance is `Assign`ed to another, the callbacks are copied as is, no duplicate Lua references are created. So resetting the property on one instance will free the temporary object from both instances leading to a crash.
+Passing of callbacks from Lua to Free Pascal is complicated. A temporary object with a Lua reference is created and the only place it is stored is the callback itself. So measures should be taken to avoid leaks and crashes. The only time when this object is freed is when the property is reset to another callback or to `nil`. When the class instance is `Assign`ed to another, the callbacks are copied as is, no duplicate Lua references are created. So resetting the property on one instance will free the temporary object from both instances leading to a crash. Another way to manifest this bug is to set an event handler on a global variable from two scripts running in the same process (as plugins). The first script will set the handler alright, the second script will try to destroy the Lua reference from the Lua state of the first script, and that leads to AV. Also note that Lua reference creation/destruction isn't threadsafe so make sure you are not setting/removing event handlers concurrently.
 So:
 > [!IMPORTANT]
 > 1. To prevent leaks set event properties to `nil` before freeing the object
 > 1. To avoid crashes set event properties to `nil` before `Assign`ing objects, and reset them after `Assign`
+> 1. To avoid crashes when using global LCL variables like [Application](https://dsiders.gitlab.io/lazdocsnext/lcl/forms/application.html) and [Screen](https://dsiders.gitlab.io/lazdocsnext/lcl/forms/screen.html) set their event handlers only from one Lua state and always set them to `nil` before exiting that state
+> 1. Avoid setting/removing event handlers from different threads of one Lua state, even for different objects and properties
 
+---
 Passing in the other direction (from Free Pascal to Lua, as when one reads an event property) can only return callbacks which were previously set from Lua. `nil` is returned for callbacks set inside LCL, e.g. on creating the object (for example, `TCollectionPropertyEditorForm.CollectionListBox.OnClick`)
 
 ---

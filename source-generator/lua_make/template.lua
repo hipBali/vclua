@@ -282,7 +282,7 @@ VCLUA_EVENT_HANDLER_FROMLUA = [[
     #CONCAT
   except
     on E: Exception do
-      ReportEventError(L, E.Message);
+      ReportError(L, E.Message);
   end;]]
 
 VCLUA_VAR = [[
