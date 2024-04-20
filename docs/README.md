@@ -54,13 +54,6 @@ VCL.Application():Initialize()
 -- or VCL.TheApplication():Initialize()
 ```
 
-Maybe set automatic codepage conversion
-1. if your text data comes from ANSI source
-1. if you write a DLL for a host which isn't unicode-enabled
-``` lua
-VCL.setCPWin(true)
-```
-
 Create your form
 ``` lua
 local myForm = VCL.Form(nil,'myForm',{
@@ -106,11 +99,14 @@ Only the casing from this reference is supported for generated calls (for proper
 * `AsStringList`
 
    `VCL.AsStringList({'one','bla'})` creates a `StringList` with that content
-   but if you only need to pass that as parameter of to an owning property, just pass the table, a temporary will be created and destroyed at the  nd of the call, not creating a leak
+   but if you only need to pass that as parameter of to an owning property, just pass the table, a temporary will be created and destroyed at the end of the call, not creating a leak
 * RTTI grids created using VCLua will support `TAnchorSide` editing, and `Control` field will provide choices for the parent and siblings. It's a poor man's alternative for the anchor editor
-* `setCPWin`
+* `UTF8`
 
-   When passed `true` enables automatic conversion between Windows codepage and UTF8 (used inside LCL). Conversion happens on propery access, parameters and results passing. By default it is disabled since it is rarely useful and affects performance.
+   frontend to [WinCPToUTF8](https://dsiders.gitlab.io/lazdocsnext/lazutils/lazutf8/wincptoutf8.html)
+* `WinCP`
+
+   frontend to [UTF8ToWinCP](https://dsiders.gitlab.io/lazdocsnext/lazutils/lazutf8/utf8towincp.html)
 
 Some classes have additional methods implemented in [funcdef.lua](../source-generator/lua_make/funcdef.lua)
 

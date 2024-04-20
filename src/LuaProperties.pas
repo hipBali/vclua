@@ -374,7 +374,7 @@ begin
     tkFloat:
       SetFloatProp(Comp, PInfo, luaL_checkDouble(L, index, pti));
     tkString, tkLString, tkAString, tkWString:
-      SetStrProp(Comp, PInfo, luaL_checkCP(L, index, pti));
+      SetStrProp(Comp, PInfo, luaL_checkPChar(L, index, pti));
     tkInt64:
       SetInt64Prop(Comp, PInfo, luaL_checkInt64(L, index, pti));
   else

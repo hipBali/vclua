@@ -25,7 +25,7 @@ begin
   strGrid := TLuaStringGrid(GetLuaObjectUnsafe(L, 1));
   c := lua_tointeger(L,2);
   r := lua_tointeger(L,3);
-  strGrid.Cells[c,r] := lua_tostringCP(L,4);
+  strGrid.Cells[c,r] := lua_tostring(L,4);
   Result := 0;
 end;]],
 		finalMethodName="SetCells",

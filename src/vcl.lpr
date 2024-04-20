@@ -67,8 +67,10 @@ begin
   lua_pushcfunction(L, @tableToStringList);
   lua_setfield(L, -2, 'AsStringList');
   // UTF-8 CP
-  lua_pushcfunction(L, @set_vclua_utf8_conv);
-  lua_setfield(L, -2, 'setCPWin');
+  lua_pushcfunction(L, @LuaUTF8);
+  lua_setfield(L, -2, 'UTF8');
+  lua_pushcfunction(L, @LuaWinCP);
+  lua_setfield(L, -2, 'WinCP');
   {$IFDEF EXTENDED}
   lua_pushcfunction(L, @CreateSynEdit);
   lua_setfield(L, -2, 'SynEdit');

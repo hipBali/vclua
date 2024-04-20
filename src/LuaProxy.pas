@@ -12,12 +12,6 @@ type
   PTUTF8Char = ^TUTF8Char;
   PTextStyle = ^TTextStyle;
 
-// UTF8 Codepage conversion
-function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
-function is_vclua_utf8_conv:boolean; // internal
-
-// unchecked faster version of luaL_checkCP
-function lua_toStringCP(L: Plua_State; Index: Integer):string; inline;
 // --------------------
 
 (*
@@ -52,7 +46,6 @@ function luaL_checkDouble(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaE
 procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):PChar; inline;
-function luaL_checkCP(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):String; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PShortString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
@@ -153,7 +146,7 @@ function luaL_checkShortCut(L: Plua_State; i: Integer; ler: TLuaErrorReport = le
 var s: string;
 begin
   if lua_type(L, i) = LUA_TSTRING then begin
-    s := luaL_checkCP(L, i, nil, ler);
+    s := lua_tostring(L, i);
     result := TextToShortCut(s);
     if (result = 0) and (s <> '') then
       LuaTypeError(L, i, TypeInfo(result), ler);
@@ -199,16 +192,10 @@ begin
   if Result = nil then
     LuaTypeError(L, i, pti, ler);
 end;
-function luaL_checkCP(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):String;
-begin
-  Result := luaL_checkPChar(L, i, pti, ler);
-  if (is_vclua_utf8_conv) then
-    Result := WinCPToUTF8(Result);
-end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);      begin v^ :=             luaL_checkCP(L, i, TypeInfo(v^), ler) ; end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PShortString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := shortstring(luaL_checkCP(L, i, TypeInfo(v^), ler)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);       begin v^ :=       PChar(luaL_checkCP(L, i, TypeInfo(v^), ler)); end;
-procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);   begin v^ :=   TUTF8Char(luaL_checkCP(L, i, TypeInfo(v^), ler)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);      begin v^ :=      string(luaL_checkPChar(L, i, TypeInfo(v^), ler)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PShortString; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := shortstring(luaL_checkPChar(L, i, TypeInfo(v^), ler)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PPChar; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);       begin v^ :=       PChar(luaL_checkPChar(L, i, TypeInfo(v^), ler)); end;
+procedure luaL_check(L: Plua_State; i: Integer; v: PTUTF8Char; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);   begin v^ :=   TUTF8Char(luaL_checkPChar(L, i, TypeInfo(v^), ler)); end;
 procedure luaL_check(L: Plua_State; i: Integer; v: PChar; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError);
 var s:String;
 begin
@@ -386,14 +373,10 @@ procedure lua_push(L: Plua_State; v:Double; pti : PTypeInfo = nil);
 begin
   lua_pushnumber(L, v);
 end;
-// these pushes are used in On* event handlers where user strings are passed from LCL to Lua, so need to decode
 // string also catches PChar
 procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil);
 begin
-  if (is_vclua_utf8_conv) then
-    lua_pushstring(L,UTF8ToWinCP(v))
-  else
-    lua_pushstring(L,v);
+  lua_pushstring(L, v);
 end;
 procedure lua_push(L: Plua_State; const v:TUTF8Char; pti : PTypeInfo = nil);
 begin
@@ -498,32 +481,6 @@ begin
     lua_push(L,v[i],pti);
     lua_rawseti(L,top,i+1);
   end;
-end;
-
-// ***********************************************
-// VCLUA UTF-8 Converter
-// ***********************************************
-var _VCLUA_UTF8_CONV:boolean;
-// -----------------------------------------------
-function set_vclua_utf8_conv(L : Plua_State): Integer; cdecl;
-begin
-    CheckArg(L, 1);
-    if (lua_isboolean(L,1)) then
-       _VCLUA_UTF8_CONV := lua_toboolean(L,1);
-    result := 0;
-end;
-
-function is_vclua_utf8_conv:boolean;
-begin
-    result := _VCLUA_UTF8_CONV;
-end;
-
-function lua_toStringCP(L: Plua_State; Index: Integer):string;
-begin
-     if (is_vclua_utf8_conv) then
-       result := WinCPToUTF8(lua_tostring(L,Index))
-     else
-       result := lua_tostring(L,Index);
 end;
 
 end.

@@ -15,7 +15,8 @@ Uses LuaHelper, LuaProxy, Typinfo;
 // ***********************************************
 function LuaShowMessage(L: Plua_State): Integer; cdecl;
 begin
-  ShowMessage(lua_toStringCP(L,-1));
+  CheckArg(L, 1);
+  ShowMessage(luaL_checkPChar(L, 1, TypeInfo(string)));
   Result := 0;
 end;
 
@@ -37,7 +38,7 @@ var
 begin
   CheckArg(L, 3);
   n := lua_gettop(L);
-  Msg := lua_toStringCP(L,1);
+  Msg := lua_tostring(L,1);
   MsgType := TMsgDlgType(GetEnumValue(TypeInfo(TMsgDlgType),lua_tostring(L,2)));
   Mdb := [];
   if lua_istable(L,3) then begin

@@ -20,7 +20,8 @@ type
 
 function LuaFpGc(L: Plua_State): Integer; cdecl;
 function RunSeparate(L: Plua_State):integer;cdecl;
-
+function LuaUTF8(L: Plua_State): Integer; cdecl;
+function LuaWinCP(L: Plua_State): Integer; cdecl;
 function DefaultCallbackErrorFunction(L: Plua_State):integer; cdecl;
 function LuaSetErrorReporter(L: Plua_State):integer; cdecl;
 function LuaGetErrorReporter(L: Plua_State):integer; cdecl;
@@ -78,7 +79,7 @@ function luaL_optbool(L : Plua_State; n: Integer; d: boolean): Boolean;
 
 implementation
 
-Uses Forms, LazUtf8, LuaEvent, StrUtils;
+Uses Forms, LazUtf8, LuaEvent, StrUtils, LuaProxy;
 
 function LuaFpGc(L: Plua_State): Integer; cdecl;
 var
@@ -89,6 +90,20 @@ begin
   //  debugln('freeing ', TObject(p).ClassName);
   TObject(p).Free;
   result := 0;
+end;
+
+function LuaUTF8(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  lua_push(L, WinCPToUTF8(luaL_checkPChar(L, 1, TypeInfo(AnsiString))));
+  result := 1;
+end;
+
+function LuaWinCP(L: Plua_State): Integer; cdecl;
+begin
+  CheckArg(L, 1);
+  lua_push(L, UTF8ToWinCP(luaL_checkPChar(L, 1, TypeInfo(UTF8String))));
+  result := 1;
 end;
 
 // *****************************************************************************
