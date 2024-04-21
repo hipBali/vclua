@@ -40,7 +40,7 @@
   }
 </style>
 <H2>VCLua Class Reference</H2>
-<H3>version 0.10.1</H3>
+<H3>version 0.10.2</H3>
 </head>
 <body>
 <hr>
@@ -925,8 +925,6 @@ result = o.FirstDayOfWeek</td><td class="fp">property FirstDayOfWeek: TCalDayOfW
 <tr><td class="lua">o:GradientFill(ARect,AStart,AStop,ADirection)</td><td class="fp">procedure GradientFill(ARect: TRect; AStart, AStop: TColor; ADirection: TGradientDirection);</td></tr>
 <tr><td class="lua">result = o:HandleAllocated()</td><td class="fp">function HandleAllocated: boolean; virtual;</td></tr>
 <tr><td class="lua">o:Lock()</td><td class="fp">procedure Lock; virtual;</td></tr>
-<tr><td class="lua">o.OnChange = function(Sender) end</td><td class="fp">property OnChange: TNotifyEvent read FOnChange write FOnChange;</td></tr>
-<tr><td class="lua">o.OnChanging = function(Sender) end</td><td class="fp">property OnChanging: TNotifyEvent read FOnChanging write FOnChanging;</td></tr>
 <tr><td class="lua">o:Pie(EllipseX1,EllipseY1,EllipseX2,EllipseY2,StartX,StartY,EndX,EndY)</td><td class="fp">procedure Pie(EllipseX1,EllipseY1,EllipseX2,EllipseY2, StartX,StartY,EndX,EndY: Integer); virtual;</td></tr>
 <tr><td class="lua">result = o:Pixels(X,Y)
 o:Pixels(X,Y,value)</td><td class="fp">property Pixels[X, Y: Integer]: TColor read GetPixel write SetPixel;</td></tr>
@@ -1572,7 +1570,6 @@ result = o.Selected</td><td class="fp">property Selected: TColor read GetSelecte
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Click()</td><td class="fp">procedure Click; override;</td></tr>
-<tr><td class="lua">o.OnColorChanged = function(Sender) end</td><td class="fp">property OnColorChanged: TNotifyEvent read FOnColorChanged write FOnColorChanged;</td></tr>
 </table></div>
 <a id="ColorDialog"><div class="class"><b><u>ColorDialog</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -3304,8 +3301,6 @@ result = o.Message</td><td class="fp">property Message : string read fmessage wr
 <tr><td class="lua">result = o:Execute()</td><td class="fp">function Execute: Boolean; override;</td></tr>
 <tr><td class="lua">o.Left = value
 result = o.Left</td><td class="fp">property Left: Integer read GetLeft write SetLeft;</td></tr>
-<tr><td class="lua">o.OnFind = function(Sender) end</td><td class="fp">property OnFind: TNotifyEvent read FOnFind write FOnFind;</td></tr>
-<tr><td class="lua">o.OnHelpClicked = function(Sender) end</td><td class="fp">property OnHelpClicked: TNotifyEvent read FOnHelpClicked write FOnHelpClicked;</td></tr>
 <tr><td class="lua">o.OnReplace = function(Sender) end</td><td class="fp">property OnReplace: TNotifyEvent read FOnReplace write FOnReplace;</td></tr>
 <tr><td class="lua">o.Position = value
 result = o.Position</td><td class="fp">property Position: TPoint read GetPosition write SetPosition;</td></tr>
@@ -3440,7 +3435,6 @@ result = o.PixelsPerInch</td><td class="fp">property PixelsPerInch: Integer read
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:ApplyClicked()</td><td class="fp">procedure ApplyClicked; virtual;</td></tr>
-<tr><td class="lua">o.OnApplyClicked = function(Sender) end</td><td class="fp">property OnApplyClicked: TNotifyEvent read FOnApplyClicked write FOnApplyClicked;</td></tr>
 </table></div>
 <a id="Form"><div class="class"><b><u>Form</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -3897,12 +3891,6 @@ o:Items(Index,value)</td><td class="fp">property Items[Index: Integer]: TGridCol
 <tr><td class="lua">o:Click()</td><td class="fp">procedure Click; override;</td></tr>
 <tr><td class="lua">o:DblClick()</td><td class="fp">procedure DblClick; override;</td></tr>
 <tr><td class="lua">result = o:GetSectionAt(P)</td><td class="fp">function GetSectionAt(P: TPoint): Integer;</td></tr>
-<tr><td class="lua">o.OnSectionClick = function(HeaderControl,Section) end</td><td class="fp">property OnSectionClick: TCustomSectionNotifyEvent read FOnSectionClick write FOnSectionClick;</td></tr>
-<tr><td class="lua">o.OnSectionDrag = function(Sender,FromSection,ToSection,AllowDrag) return AllowDrag end</td><td class="fp">property OnSectionDrag: TSectionDragEvent read FOnSectionDrag write FOnSectionDrag;</td></tr>
-<tr><td class="lua">o.OnSectionEndDrag = function(Sender) end</td><td class="fp">property OnSectionEndDrag: TNotifyEvent read FOnSectionEndDrag write FOnSectionEndDrag;</td></tr>
-<tr><td class="lua">o.OnSectionResize = function(HeaderControl,Section) end</td><td class="fp">property OnSectionResize: TCustomSectionNotifyEvent read FOnSectionResize write FOnSectionResize;</td></tr>
-<tr><td class="lua">o.OnSectionSeparatorDblClick = function(HeaderControl,Section) end</td><td class="fp">property OnSectionSeparatorDblClick: TCustomSectionNotifyEvent read FOnSectionSeparatorDblClick write FOnSectionSeparatorDblClick;</td></tr>
-<tr><td class="lua">o.OnSectionTrack = function(HeaderControl,Section,Width,State) end</td><td class="fp">property OnSectionTrack: TCustomSectionTrackEvent read FOnSectionTrack write FOnSectionTrack;</td></tr>
 <tr><td class="lua">o:Paint()</td><td class="fp">procedure Paint; override;</td></tr>
 <tr><td class="lua">o:PaintSection(Index)</td><td class="fp">procedure PaintSection(Index: Integer); virtual;</td></tr>
 <tr><td class="lua">result = o:SectionFromOriginalIndex(OriginalIndex)</td><td class="fp">property SectionFromOriginalIndex[OriginalIndex: Integer]: THeaderSection read GetSectionFromOriginalIndex;</td></tr>
@@ -4902,8 +4890,6 @@ result = o.FCompStyle</td><td class="fp">FCompStyle: LongInt;</td></tr>
 <tr><td class="lua">o:HandleNeeded()</td><td class="fp">procedure HandleNeeded;</td></tr>
 <tr><td class="lua">result = o:IsRightToLeft()</td><td class="fp">function IsRightToLeft: Boolean; virtual;</td></tr>
 <tr><td class="lua">o.OnChange = function(Sender,Source,Rebuild) end</td><td class="fp">property OnChange: TMenuChangeEvent read FOnChange write FOnChange;</td></tr>
-<tr><td class="lua">o.OnDrawItem = function(Sender,ACanvas,ARect,AState) end</td><td class="fp">property OnDrawItem: TMenuDrawItemEvent read FOnDrawItem write FOnDrawItem;</td></tr>
-<tr><td class="lua">o.OnMeasureItem = function(Sender,ACanvas,AWidth,AHeight) return AWidth,AHeight end</td><td class="fp">property OnMeasureItem: TMenuMeasureItemEvent read FOnMeasureItem write FOnMeasureItem;</td></tr>
 <tr><td class="lua">o.Parent = value
 result = o.Parent</td><td class="fp">property Parent: TComponent read FParent write SetParent;</td></tr>
 <tr><td class="lua">o.ShortcutHandled = value
@@ -4982,9 +4968,6 @@ result = o.MenuIndex</td><td class="fp">property MenuIndex: Integer read GetMenu
 <tr><td class="lua">result = o.MergedItems</td><td class="fp">property MergedItems: TMergedMenuItems read GetMergedItems;</td></tr>
 <tr><td class="lua">result = o.MergedParent</td><td class="fp">property MergedParent: TMenuItem read GetMergedParent;</td></tr>
 <tr><td class="lua">result = o.MergedWith</td><td class="fp">property MergedWith: TMenuItem read FMergedWith;</td></tr>
-<tr><td class="lua">o.OnClick = function(Sender) end</td><td class="fp">property OnClick: TNotifyEvent read FOnClick write FOnClick;</td></tr>
-<tr><td class="lua">o.OnDrawItem = function(Sender,ACanvas,ARect,AState) end</td><td class="fp">property OnDrawItem: TMenuDrawItemEvent read FOnDrawItem write FOnDrawItem;</td></tr>
-<tr><td class="lua">o.OnMeasureItem = function(Sender,ACanvas,AWidth,AHeight) return AWidth,AHeight end</td><td class="fp">property OnMeasureItem: TMenuMeasureItemEvent read FOnMeasureItem write FOnMeasureItem;</td></tr>
 <tr><td class="lua">result = o.Parent</td><td class="fp">property Parent: TMenuItem read GetParent;</td></tr>
 <tr><td class="lua">o:RecreateHandle()</td><td class="fp">procedure RecreateHandle; virtual;</td></tr>
 <tr><td class="lua">o:Remove(Item)</td><td class="fp">procedure Remove(Item: TMenuItem);</td></tr>
@@ -5274,8 +5257,6 @@ result = o.WidgetSets</td><td class="fp">property WidgetSets: TLCLPlatforms read
 <tr><td class="lua">o:DoFolderChange()</td><td class="fp">procedure DoFolderChange; virtual;</td></tr>
 <tr><td class="lua">o:DoSelectionChange()</td><td class="fp">procedure DoSelectionChange; virtual;</td></tr>
 <tr><td class="lua">o:IntfSetOption(AOption,AValue)</td><td class="fp">procedure IntfSetOption(const AOption: TOpenOption; const AValue: Boolean);</td></tr>
-<tr><td class="lua">o.OnFolderChange = function(Sender) end</td><td class="fp">property OnFolderChange: TNotifyEvent read FOnFolderChange write FOnFolderChange;</td></tr>
-<tr><td class="lua">o.OnSelectionChange = function(Sender) end</td><td class="fp">property OnSelectionChange: TNotifyEvent read FOnSelectionChange write FOnSelectionChange;</td></tr>
 </table></div>
 <a id="PageControl"><div class="class"><b><u>PageControl</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -5600,8 +5581,6 @@ o:SaveToFile(Filename,FileExt)</td><td class="fp">procedure SaveToFile(const Fil
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Close()</td><td class="fp">procedure Close;</td></tr>
-<tr><td class="lua">o.OnClose = function(Sender) end</td><td class="fp">property OnClose: TNotifyEvent read FOnClose write FOnClose;</td></tr>
-<tr><td class="lua">o.OnPopup = function(Sender) end</td><td class="fp">property OnPopup: TNotifyEvent read FOnPopup write FOnPopup;</td></tr>
 <tr><td class="lua">o:PopUp()</td><td class="fp">procedure PopUp;</td></tr>
 <tr><td class="lua">o:PopUp2(X,Y)</td><td class="fp">procedure PopUp(X, Y: Integer); virtual;</td></tr>
 <tr><td class="lua">o.PopupComponent = value
@@ -5623,7 +5602,6 @@ result = o.PopupComponent</td><td class="fp">property PopupComponent: TComponent
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Hide()</td><td class="fp">procedure Hide;</td></tr>
-<tr><td class="lua">o.OnClose = function(Sender,CloseAction) return CloseAction end</td><td class="fp">property OnClose: TCloseEvent read GetOnClose write SetOnClose;</td></tr>
 <tr><td class="lua">o:Show()</td><td class="fp">procedure Show;</td></tr>
 <tr><td class="lua">o:ShowAtPos(x,y)</td><td class="fp">procedure ShowAtPos(x: Integer; y: Integer);</td></tr>
 <tr><td class="lua">o.vNotifierForm = value
@@ -6039,8 +6017,6 @@ result = o.TransparentMode</td><td class="fp">property TransparentMode: TTranspa
 <tr><td class="lua">result = o:Execute()</td><td class="fp">function Execute: Boolean; override;</td></tr>
 <tr><td class="lua">o.Left = value
 result = o.Left</td><td class="fp">property Left: Integer read GetLeft write SetLeft;</td></tr>
-<tr><td class="lua">o.OnFind = function(Sender) end</td><td class="fp">property OnFind: TNotifyEvent read FOnFind write FOnFind;</td></tr>
-<tr><td class="lua">o.OnHelpClicked = function(Sender) end</td><td class="fp">property OnHelpClicked: TNotifyEvent read FOnHelpClicked write FOnHelpClicked;</td></tr>
 <tr><td class="lua">o.OnReplace = function(Sender) end</td><td class="fp">property OnReplace: TNotifyEvent read FOnReplace write FOnReplace;</td></tr>
 <tr><td class="lua">o.Position = value
 result = o.Position</td><td class="fp">property Position: TPoint read GetPosition write SetPosition;</td></tr>
@@ -6643,8 +6619,6 @@ result = o.Transparent</td><td class="fp">property Transparent: Boolean read Get
 <tr><td class="lua">result = o:ExecuteAction(ExeAction)</td><td class="fp">function ExecuteAction(ExeAction: TBasicAction): Boolean; override;</td></tr>
 <tr><td class="lua">result = o:GetPanelIndexAt(X,Y)</td><td class="fp">function GetPanelIndexAt(X, Y: Integer): Integer;</td></tr>
 <tr><td class="lua">o:InvalidatePanel(PanelIndex,PanelParts)</td><td class="fp">procedure InvalidatePanel(PanelIndex: integer; PanelParts: TPanelParts); virtual;</td></tr>
-<tr><td class="lua">o.OnDrawPanel = function(StatusBar,Panel,Rect) end</td><td class="fp">property OnDrawPanel: TDrawPanelEvent read FOnDrawPanel write FOnDrawPanel;</td></tr>
-<tr><td class="lua">o.OnHint = function(Sender) end</td><td class="fp">property OnHint: TNotifyEvent read FOnHint write FOnHint;</td></tr>
 <tr><td class="lua">result = o:SizeGripEnabled()</td><td class="fp">function SizeGripEnabled: Boolean;</td></tr>
 <tr><td class="lua">result = o:UpdatingStatusBar()</td><td class="fp">function UpdatingStatusBar: boolean;</td></tr>
 </table></div>
@@ -7632,8 +7606,6 @@ result = o.Text</td><td class="fp">property Text: string read FText write SetTex
 <tr><td class="lua">result = o:CanFocus()</td><td class="fp">function CanFocus: Boolean; override;</td></tr>
 <tr><td class="lua">o:EndUpdate()</td><td class="fp">procedure EndUpdate; override;</td></tr>
 <tr><td class="lua">o:FlipChildren(AllLevels)</td><td class="fp">procedure FlipChildren(AllLevels: Boolean); override;</td></tr>
-<tr><td class="lua">o.OnPaint = function(Sender) end</td><td class="fp">property OnPaint: TNotifyEvent read FOnPaint write FOnPaint;</td></tr>
-<tr><td class="lua">o.OnPaintButton = function(Sender,State) end</td><td class="fp">property OnPaintButton: TToolBarOnPaintButton read FOnPaintButton write FOnPaintButton;</td></tr>
 <tr><td class="lua">result = o.RowCount</td><td class="fp">property RowCount: Integer read FRowCount;</td></tr>
 <tr><td class="lua">o:SetButtonSize(NewButtonWidth,NewButtonHeight)</td><td class="fp">procedure SetButtonSize(NewButtonWidth, NewButtonHeight: integer);</td></tr>
 </table></div>
@@ -7701,7 +7673,6 @@ result = o.Text</td><td class="fp">property Text: string read FText write SetTex
 <tr><td class="lua">ImageList, TheIndex, TheEffect = o:GetCurrentIcon()</td><td class="fp">procedure GetCurrentIcon(var ImageList: TCustomImageList; var TheIndex: integer; var TheEffect: TGraphicsDrawEffect); virtual;</td></tr>
 <tr><td class="lua">ImageList, TheIndex, TheEffect = o:GetCurrentIcon2(ImageList,TheIndex,TheEffect)</td><td class="fp">procedure GetCurrentIcon(var ImageList: TCustomImageList; var TheIndex: integer; var TheEffect: TGraphicsDrawEffect); virtual;</td></tr>
 <tr><td class="lua">result = o.Index</td><td class="fp">property Index: Integer read GetIndex;</td></tr>
-<tr><td class="lua">o.OnArrowClick = function(Sender) end</td><td class="fp">property OnArrowClick: TNotifyEvent read FOnArrowClick write FOnArrowClick;</td></tr>
 <tr><td class="lua">result = o:PointInArrow(X,Y)</td><td class="fp">function PointInArrow(const X, Y: Integer): Boolean;</td></tr>
 </table></div>
 <a id="TrackBar"><div class="class"><b><u>TrackBar</u></b></div></a>
@@ -7781,7 +7752,6 @@ result = o.Text</td><td class="fp">property Text: string read FText write SetTex
 <div class="propsdata"><i>Width</i> : LongInt</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">o.OnChange = function(Sender) end</td><td class="fp">property OnChange: TNotifyEvent read FOnChange write FOnChange;</td></tr>
 <tr><td class="lua">o:SetTick(Value)</td><td class="fp">procedure SetTick(Value: Integer);</td></tr>
 </table></div>
 <a id="TrayIcon"><div class="class"><b><u>TrayIcon</u></b></div></a>
@@ -8452,10 +8422,6 @@ o:Keys(Index,value)</td><td class="fp">property Keys[Index: Integer]: string rea
 ...
 o:LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines)</td><td class="fp">procedure LoadFromCSVStream(AStream: TStream; ADelimiter: Char=','; UseTitles: boolean=true; FromLine: Integer=0; SkipEmptyLines: Boolean=true); override;</td></tr>
 <tr><td class="lua">o:MoveColRow(IsColumn,FromIndex,ToIndex)</td><td class="fp">procedure MoveColRow(IsColumn: Boolean; FromIndex, ToIndex: Integer);</td></tr>
-<tr><td class="lua">o.OnGetPickList = function(Sender,KeyName,Values) end</td><td class="fp">property OnGetPickList: TGetPickListEvent read FOnGetPickList write FOnGetPickList;</td></tr>
-<tr><td class="lua">o.OnStringsChange = function(Sender) end</td><td class="fp">property OnStringsChange: TNotifyEvent read FOnStringsChange write FOnStringsChange;</td></tr>
-<tr><td class="lua">o.OnStringsChanging = function(Sender) end</td><td class="fp">property OnStringsChanging: TNotifyEvent read FOnStringsChanging write FOnStringsChanging;</td></tr>
-<tr><td class="lua">o.OnValidate = function(Sender,ACol,ARow,KeyName,KeyValue) end</td><td class="fp">property OnValidate: TOnValidateEvent read FOnValidate write FOnValidate;</td></tr>
 <tr><td class="lua">result = o:RestoreCurrentRow()</td><td class="fp">function RestoreCurrentRow: Boolean;</td></tr>
 <tr><td class="lua">o:Sort(Index,IndxFrom,IndxTo)</td><td class="fp">procedure Sort(Index, IndxFrom, IndxTo: Integer);</td></tr>
 <tr><td class="lua">o:Sort2()

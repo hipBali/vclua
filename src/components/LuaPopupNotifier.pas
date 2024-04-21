@@ -22,7 +22,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Forms, LuaEvent, LuaFormsEvents;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 function VCLua_PopupNotifier_VCLuaSetvNotifierForm(L: Plua_State): Integer; cdecl;
 var
@@ -105,16 +105,6 @@ begin
 	end;
 end;
 
-function VCLua_PopupNotifier_VCLuaSetOnClose(L: Plua_State): Integer; cdecl;
-var
-	lPopupNotifier:TLuaPopupNotifier;
-begin
-	lPopupNotifier := TLuaPopupNotifier(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lPopupNotifier.OnClose));
-	lPopupNotifier.OnClose := TLuaEvent.Factory<TCloseEvent,TLuaCloseEvent>(L);
-	Result := 0;
-end;
-
 procedure lua_push(L: Plua_State; const v: TPopupNotifier; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TPopupNotifier',v);
@@ -146,5 +136,4 @@ begin
 	TLuaMethodInfo.Create(PopupNotifierFuncs, 'ShowAtPos', @VCLua_PopupNotifier_ShowAtPos);
 	PopupNotifierSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(PopupNotifierSets, 'vNotifierForm', @VCLua_PopupNotifier_VCLuaSetvNotifierForm, mfCall, TypeInfo(TNotifierForm));
-	TLuaMethodInfo.Create(PopupNotifierSets, 'OnClose', @VCLua_PopupNotifier_VCLuaSetOnClose, mfCall, TypeInfo(TCloseEvent));
 end.

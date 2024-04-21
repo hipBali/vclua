@@ -92,7 +92,7 @@ begin
   lua_pushliteral (L, 'VCLua');
   lua_settable (L, -3);
   lua_pushliteral (L, '_VERSION');
-  lua_pushliteral (L, '0.10.1');
+  lua_pushliteral (L, '0.10.2');
   lua_settable (L, -3);
 
   res := CheckOrderOfPushObject(metaPtis);

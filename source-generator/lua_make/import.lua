@@ -36,7 +36,7 @@ local proc = {
 			stage="parse"
 		end,
 	["published"] = function()
-			stage="fillprop"
+			stage="parse"
 		end,
 	["protected"] = function()
 			stage="fillprop"
@@ -1122,7 +1122,7 @@ htmltemp = [[
   }
 </style>
 <H2>VCLua Class Reference</H2>
-<H3>version 0.10.1</H3>
+<H3>version 0.10.2</H3>
 </head>
 <body>
 <hr>

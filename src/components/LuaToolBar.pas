@@ -32,7 +32,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, GraphType, ImgList, LuaClassesEvents, LuaComCtrlsEvents, LuaEvent, LuaImageList;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, GraphType, ImgList, LuaImageList;
 
 function VCLua_ToolButton_CheckMenuDropdown(L: Plua_State): Integer; cdecl;
 var
@@ -161,16 +161,6 @@ begin
 			CallError(L, 'ToolButton', 'PointInArrow', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-end;
-
-function VCLua_ToolButton_VCLuaSetOnArrowClick(L: Plua_State): Integer; cdecl;
-var
-	lToolButton:TLuaToolButton;
-begin
-	lToolButton := TLuaToolButton(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lToolButton.OnArrowClick));
-	lToolButton.OnArrowClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
-	Result := 0;
 end;
 
 function VCLua_ToolBar_EndUpdate(L: Plua_State): Integer; cdecl;
@@ -308,26 +298,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_ToolBar_VCLuaSetOnPaintButton(L: Plua_State): Integer; cdecl;
-var
-	lToolBar:TLuaToolBar;
-begin
-	lToolBar := TLuaToolBar(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lToolBar.OnPaintButton));
-	lToolBar.OnPaintButton := TLuaEvent.Factory<TToolBarOnPaintButton,TLuaToolBarOnPaintButton>(L);
-	Result := 0;
-end;
-
-function VCLua_ToolBar_VCLuaSetOnPaint(L: Plua_State): Integer; cdecl;
-var
-	lToolBar:TLuaToolBar;
-begin
-	lToolBar := TLuaToolBar(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lToolBar.OnPaint));
-	lToolBar.OnPaint := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
-	Result := 0;
-end;
-
 procedure lua_push(L: Plua_State; const v: TToolButton; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TToolButton',v);
@@ -384,7 +354,7 @@ begin
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'Index', @VCLua_ToolButton_VCLuaGetIndex, mfCall);
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'PointInArrow', @VCLua_ToolButton_PointInArrow);
 	ToolButtonSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ToolButtonSets, 'OnArrowClick', @VCLua_ToolButton_VCLuaSetOnArrowClick, mfCall, TypeInfo(TNotifyEvent));
+	
 	ToolBarFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ToolBarFuncs, 'EndUpdate', @VCLua_ToolBar_EndUpdate);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'FlipChildren', @VCLua_ToolBar_FlipChildren);
@@ -395,6 +365,5 @@ begin
 	TLuaMethodInfo.Create(ToolBarFuncs, 'RowCount', @VCLua_ToolBar_VCLuaGetRowCount, mfCall);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'ButtonDropWidth', @VCLua_ToolBar_VCLuaGetButtonDropWidth, mfCall);
 	ToolBarSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ToolBarSets, 'OnPaintButton', @VCLua_ToolBar_VCLuaSetOnPaintButton, mfCall, TypeInfo(TToolBarOnPaintButton));
-	TLuaMethodInfo.Create(ToolBarSets, 'OnPaint', @VCLua_ToolBar_VCLuaSetOnPaint, mfCall, TypeInfo(TNotifyEvent));
+	
 end.

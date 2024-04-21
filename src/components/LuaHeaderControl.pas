@@ -22,7 +22,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaComCtrlsEvents, LuaEvent;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
 function VCLua_HeaderControl_SectionFromOriginalIndex(L: Plua_State): Integer; cdecl;
 var
@@ -143,66 +143,6 @@ begin
 	end;
 end;
 
-function VCLua_HeaderControl_VCLuaSetOnSectionDrag(L: Plua_State): Integer; cdecl;
-var
-	lHeaderControl:TLuaHeaderControl;
-begin
-	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionDrag));
-	lHeaderControl.OnSectionDrag := TLuaEvent.Factory<TSectionDragEvent,TLuaSectionDragEvent>(L);
-	Result := 0;
-end;
-
-function VCLua_HeaderControl_VCLuaSetOnSectionEndDrag(L: Plua_State): Integer; cdecl;
-var
-	lHeaderControl:TLuaHeaderControl;
-begin
-	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionEndDrag));
-	lHeaderControl.OnSectionEndDrag := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
-	Result := 0;
-end;
-
-function VCLua_HeaderControl_VCLuaSetOnSectionClick(L: Plua_State): Integer; cdecl;
-var
-	lHeaderControl:TLuaHeaderControl;
-begin
-	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionClick));
-	lHeaderControl.OnSectionClick := TLuaEvent.Factory<TCustomSectionNotifyEvent,TLuaCustomSectionNotifyEvent>(L);
-	Result := 0;
-end;
-
-function VCLua_HeaderControl_VCLuaSetOnSectionResize(L: Plua_State): Integer; cdecl;
-var
-	lHeaderControl:TLuaHeaderControl;
-begin
-	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionResize));
-	lHeaderControl.OnSectionResize := TLuaEvent.Factory<TCustomSectionNotifyEvent,TLuaCustomSectionNotifyEvent>(L);
-	Result := 0;
-end;
-
-function VCLua_HeaderControl_VCLuaSetOnSectionTrack(L: Plua_State): Integer; cdecl;
-var
-	lHeaderControl:TLuaHeaderControl;
-begin
-	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionTrack));
-	lHeaderControl.OnSectionTrack := TLuaEvent.Factory<TCustomSectionTrackEvent,TLuaCustomSectionTrackEvent>(L);
-	Result := 0;
-end;
-
-function VCLua_HeaderControl_VCLuaSetOnSectionSeparatorDblClick(L: Plua_State): Integer; cdecl;
-var
-	lHeaderControl:TLuaHeaderControl;
-begin
-	lHeaderControl := TLuaHeaderControl(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lHeaderControl.OnSectionSeparatorDblClick));
-	lHeaderControl.OnSectionSeparatorDblClick := TLuaEvent.Factory<TCustomSectionNotifyEvent,TLuaCustomSectionNotifyEvent>(L);
-	Result := 0;
-end;
-
 procedure lua_push(L: Plua_State; const v: THeaderControl; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomHeaderControl',v);
@@ -236,10 +176,5 @@ begin
 	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'PaintSection', @VCLua_HeaderControl_PaintSection);
 	TLuaMethodInfo.Create(CustomHeaderControlFuncs, 'ChangeScale', @VCLua_HeaderControl_ChangeScale);
 	CustomHeaderControlSets := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionDrag', @VCLua_HeaderControl_VCLuaSetOnSectionDrag, mfCall, TypeInfo(TSectionDragEvent));
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionEndDrag', @VCLua_HeaderControl_VCLuaSetOnSectionEndDrag, mfCall, TypeInfo(TNotifyEvent));
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionClick', @VCLua_HeaderControl_VCLuaSetOnSectionClick, mfCall, TypeInfo(TCustomSectionNotifyEvent));
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionResize', @VCLua_HeaderControl_VCLuaSetOnSectionResize, mfCall, TypeInfo(TCustomSectionNotifyEvent));
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionTrack', @VCLua_HeaderControl_VCLuaSetOnSectionTrack, mfCall, TypeInfo(TCustomSectionTrackEvent));
-	TLuaMethodInfo.Create(CustomHeaderControlSets, 'OnSectionSeparatorDblClick', @VCLua_HeaderControl_VCLuaSetOnSectionSeparatorDblClick, mfCall, TypeInfo(TCustomSectionNotifyEvent));
+	
 end.

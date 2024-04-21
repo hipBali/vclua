@@ -21,7 +21,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, GraphType, LuaClassesEvents, LuaEvent;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, GraphType;
 
 function VCLua_Canvas_Lock(L: Plua_State): Integer; cdecl;
 var
@@ -1163,26 +1163,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_Canvas_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
-var
-	lCanvas:TLuaCanvas;
-begin
-	lCanvas := TLuaCanvas(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lCanvas.OnChange));
-	lCanvas.OnChange := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
-	Result := 0;
-end;
-
-function VCLua_Canvas_VCLuaSetOnChanging(L: Plua_State): Integer; cdecl;
-var
-	lCanvas:TLuaCanvas;
-begin
-	lCanvas := TLuaCanvas(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lCanvas.OnChanging));
-	lCanvas.OnChanging := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
-	Result := 0;
-end;
-
 function VCLua_Canvas_SetPixel(L: Plua_State): Integer; cdecl;
 var
 	lCanvas:TLuaCanvas;
@@ -1262,6 +1242,4 @@ begin
 	TLuaMethodInfo.Create(CanvasFuncs, 'SetPixel', @VCLua_Canvas_SetPixel);
 	CanvasSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CanvasSets, 'TextStyle', @VCLua_Canvas_VCLuaSetTextStyle, mfCall, TypeInfo(TTextStyle));
-	TLuaMethodInfo.Create(CanvasSets, 'OnChange', @VCLua_Canvas_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
-	TLuaMethodInfo.Create(CanvasSets, 'OnChanging', @VCLua_Canvas_VCLuaSetOnChanging, mfCall, TypeInfo(TNotifyEvent));
 end.
