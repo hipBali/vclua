@@ -125,7 +125,12 @@ var
 begin
   CheckArg(L, 1);
   o := GetLuaObject(L, 1);
-  o.Free;
+  try
+     o.Free;
+  except
+      on E: Exception do
+         CallError(L, 'Object', 'Free', E.ClassName, E.Message);
+  end;
   LuaSetTableClear(L, 1);
   Result := 0;
 end;
