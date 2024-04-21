@@ -119,3 +119,7 @@ end;
 },
 
 }
+
+keepOverrides = {
+  ["TRasterImage procedure LoadFromStream"] = 1,
+}

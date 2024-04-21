@@ -42,23 +42,6 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaDrawGrid, LuaEvent, LuaGridsEvents, LuaStrings;
 
-function VCLua_GridColumn_Assign(L: Plua_State): Integer; cdecl;
-var
-	lGridColumn:TLuaGridColumn;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lGridColumn := TLuaGridColumn(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lGridColumn.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'GridColumn', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_GridColumn_FillDefaultFont(L: Plua_State): Integer; cdecl;
 var
 	lGridColumn:TLuaGridColumn;
@@ -838,7 +821,6 @@ end;
 
 begin
 	GridColumnFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(GridColumnFuncs, 'Assign', @VCLua_GridColumn_Assign);
 	TLuaMethodInfo.Create(GridColumnFuncs, 'FillDefaultFont', @VCLua_GridColumn_FillDefaultFont);
 	TLuaMethodInfo.Create(GridColumnFuncs, 'FixDesignFontsPPI', @VCLua_GridColumn_FixDesignFontsPPI);
 	TLuaMethodInfo.Create(GridColumnFuncs, 'ScaleFontsPPI', @VCLua_GridColumn_ScaleFontsPPI);

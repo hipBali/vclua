@@ -23,23 +23,6 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LCLType, LuaClassesEvents, LuaEvent, LuaFPImageEvents;
 
-function VCLua_Graphic_Assign(L: Plua_State): Integer; cdecl;
-var
-	lGraphic:TLuaGraphic;
-	ASource:TPersistent;
-begin
-	CheckArg(L, 2);
-	lGraphic := TLuaGraphic(GetLuaObject(L, 1));
-	luaL_check(L,2,@ASource);
-	try
-		lGraphic.Assign(ASource);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Graphic', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Graphic_Clear(L: Plua_State): Integer; cdecl;
 var
 	lGraphic:TLuaGraphic;
@@ -598,7 +581,6 @@ end;
 
 begin
 	GraphicFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(GraphicFuncs, 'Assign', @VCLua_Graphic_Assign);
 	TLuaMethodInfo.Create(GraphicFuncs, 'Clear', @VCLua_Graphic_Clear);
 	TLuaMethodInfo.Create(GraphicFuncs, 'Equals', @VCLua_Graphic_Equals);
 	TLuaMethodInfo.Create(GraphicFuncs, 'LazarusResourceTypeValid', @VCLua_Graphic_LazarusResourceTypeValid);

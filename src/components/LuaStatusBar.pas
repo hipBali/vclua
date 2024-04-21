@@ -42,23 +42,6 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaClassesEvents, LuaComCtrlsEvents, LuaEvent;
 
-function VCLua_StatusPanel_Assign(L: Plua_State): Integer; cdecl;
-var
-	lStatusPanel:TLuaStatusPanel;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lStatusPanel := TLuaStatusPanel(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lStatusPanel.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'StatusPanel', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_StatusPanel_StatusBar(L: Plua_State): Integer; cdecl;
 var
 	lStatusPanel:TLuaStatusPanel;
@@ -328,7 +311,6 @@ end;
 
 begin
 	StatusPanelFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(StatusPanelFuncs, 'Assign', @VCLua_StatusPanel_Assign);
 	TLuaMethodInfo.Create(StatusPanelFuncs, 'StatusBar', @VCLua_StatusPanel_StatusBar);
 	StatusPanelSets := TLuaVmt.Create;
 	

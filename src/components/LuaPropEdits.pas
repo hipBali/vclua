@@ -1827,38 +1827,6 @@ begin
 	Result := 0;
 end;
 
-function VCLua_CollectionPropertyEditor_GetAttributes(L: Plua_State): Integer; cdecl;
-var
-	lCollectionPropertyEditor:TLuaCollectionPropertyEditor;
-	ret:TPropertyAttributes;
-begin
-	CheckArg(L, 1);
-	lCollectionPropertyEditor := TLuaCollectionPropertyEditor(GetLuaObject(L, 1));
-	try
-		ret := lCollectionPropertyEditor.GetAttributes();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'CollectionPropertyEditor', 'GetAttributes', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret,TypeInfo(ret));
-end;
-
-function VCLua_CollectionPropertyEditor_Edit(L: Plua_State): Integer; cdecl;
-var
-	lCollectionPropertyEditor:TLuaCollectionPropertyEditor;
-begin
-	CheckArg(L, 1);
-	lCollectionPropertyEditor := TLuaCollectionPropertyEditor(GetLuaObject(L, 1));
-	try
-		lCollectionPropertyEditor.Edit();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CollectionPropertyEditor', 'Edit', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_CollectionPropertyEditor_ShowCollectionEditor(L: Plua_State): Integer; cdecl;
 var
 	lCollectionPropertyEditor:TLuaCollectionPropertyEditor;
@@ -2003,8 +1971,6 @@ begin
 	TLuaMethodInfo.Create(PropertyEditorSets, 'FirstValue', @VCLua_PropertyEditor_VCLuaSetFirstValue, mfCall, TypeInfo(ansistring));
 	TLuaMethodInfo.Create(PropertyEditorSets, 'OnSubPropertiesChanged', @VCLua_PropertyEditor_VCLuaSetOnSubPropertiesChanged, mfCall, TypeInfo(TNotifyEvent));
 	CollectionPropertyEditorFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CollectionPropertyEditorFuncs, 'GetAttributes', @VCLua_CollectionPropertyEditor_GetAttributes);
-	TLuaMethodInfo.Create(CollectionPropertyEditorFuncs, 'Edit', @VCLua_CollectionPropertyEditor_Edit);
 	TLuaMethodInfo.Create(CollectionPropertyEditorFuncs, 'ShowCollectionEditor', @VCLua_CollectionPropertyEditor_ShowCollectionEditor);
 	CollectionPropertyEditorSets := TLuaVmt.Create;
 	

@@ -155,23 +155,6 @@ begin
 	end;
 end;
 
-function VCLua_Component_GetNamePath(L: Plua_State): Integer; cdecl;
-var
-	lComponent:TLuaComponent;
-	ret:string;
-begin
-	CheckArg(L, 1);
-	lComponent := TLuaComponent(GetLuaObject(L, 1));
-	try
-		ret := lComponent.GetNamePath();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'Component', 'GetNamePath', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
 function VCLua_Component_GetParentComponent(L: Plua_State): Integer; cdecl;
 var
 	lComponent:TLuaComponent;
@@ -470,7 +453,6 @@ begin
 	TLuaMethodInfo.Create(ComponentFuncs, 'FreeNotification', @VCLua_Component_FreeNotification);
 	TLuaMethodInfo.Create(ComponentFuncs, 'RemoveFreeNotification', @VCLua_Component_RemoveFreeNotification);
 	TLuaMethodInfo.Create(ComponentFuncs, 'FreeOnRelease', @VCLua_Component_FreeOnRelease);
-	TLuaMethodInfo.Create(ComponentFuncs, 'GetNamePath', @VCLua_Component_GetNamePath);
 	TLuaMethodInfo.Create(ComponentFuncs, 'GetParentComponent', @VCLua_Component_GetParentComponent);
 	TLuaMethodInfo.Create(ComponentFuncs, 'HasParent', @VCLua_Component_HasParent);
 	TLuaMethodInfo.Create(ComponentFuncs, 'InsertComponent', @VCLua_Component_InsertComponent);

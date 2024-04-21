@@ -39,68 +39,6 @@ begin
 	end;
 end;
 
-function VCLua_Button_ExecuteDefaultAction(L: Plua_State): Integer; cdecl;
-var
-	lButton:TLuaButton;
-begin
-	CheckArg(L, 1);
-	lButton := TLuaButton(GetLuaObject(L, 1));
-	try
-		lButton.ExecuteDefaultAction();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Button', 'ExecuteDefaultAction', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_Button_ExecuteCancelAction(L: Plua_State): Integer; cdecl;
-var
-	lButton:TLuaButton;
-begin
-	CheckArg(L, 1);
-	lButton := TLuaButton(GetLuaObject(L, 1));
-	try
-		lButton.ExecuteCancelAction();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Button', 'ExecuteCancelAction', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_Button_ActiveDefaultControlChanged(L: Plua_State): Integer; cdecl;
-var
-	lButton:TLuaButton;
-	NewControl:TControl;
-begin
-	CheckArg(L, 2);
-	lButton := TLuaButton(GetLuaObject(L, 1));
-	luaL_check(L,2,@NewControl);
-	try
-		lButton.ActiveDefaultControlChanged(NewControl);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Button', 'ActiveDefaultControlChanged', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_Button_UpdateRolesForForm(L: Plua_State): Integer; cdecl;
-var
-	lButton:TLuaButton;
-begin
-	CheckArg(L, 1);
-	lButton := TLuaButton(GetLuaObject(L, 1));
-	try
-		lButton.UpdateRolesForForm();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Button', 'UpdateRolesForForm', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Button_UseRightToLeftAlignment(L: Plua_State): Integer; cdecl;
 var
 	lButton:TLuaButton;
@@ -288,10 +226,6 @@ end;
 begin
 	CustomButtonFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomButtonFuncs, 'Click', @VCLua_Button_Click);
-	TLuaMethodInfo.Create(CustomButtonFuncs, 'ExecuteDefaultAction', @VCLua_Button_ExecuteDefaultAction);
-	TLuaMethodInfo.Create(CustomButtonFuncs, 'ExecuteCancelAction', @VCLua_Button_ExecuteCancelAction);
-	TLuaMethodInfo.Create(CustomButtonFuncs, 'ActiveDefaultControlChanged', @VCLua_Button_ActiveDefaultControlChanged);
-	TLuaMethodInfo.Create(CustomButtonFuncs, 'UpdateRolesForForm', @VCLua_Button_UpdateRolesForForm);
 	TLuaMethodInfo.Create(CustomButtonFuncs, 'UseRightToLeftAlignment', @VCLua_Button_UseRightToLeftAlignment);
 	TLuaMethodInfo.Create(CustomButtonFuncs, 'Active', @VCLua_Button_VCLuaGetActive, mfCall);
 	TLuaMethodInfo.Create(CustomButtonFuncs, 'Default', @VCLua_Button_VCLuaGetDefault, mfCall);

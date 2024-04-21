@@ -42,23 +42,6 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaCanvas, LuaComCtrlsEvents, LuaEvent, LuaStrings;
 
-function VCLua_ListItem_Assign(L: Plua_State): Integer; cdecl;
-var
-	lListItem:TLuaListItem;
-	ASource:TPersistent;
-begin
-	CheckArg(L, 2);
-	lListItem := TLuaListItem(GetLuaObject(L, 1));
-	luaL_check(L,2,@ASource);
-	try
-		lListItem.Assign(ASource);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ListItem', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_ListItem_Delete(L: Plua_State): Integer; cdecl;
 var
 	lListItem:TLuaListItem;
@@ -1288,21 +1271,6 @@ begin
 	end;
 end;
 
-function VCLua_ListView_Repaint(L: Plua_State): Integer; cdecl;
-var
-	lListView:TLuaListView;
-begin
-	CheckArg(L, 1);
-	lListView := TLuaListView(GetLuaObject(L, 1));
-	try
-		lListView.Repaint();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ListView', 'Repaint', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_ListView_FindCaption(L: Plua_State): Integer; cdecl;
 var
 	lListView:TLuaListView;
@@ -2179,7 +2147,6 @@ end;
 
 begin
 	ListItemFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ListItemFuncs, 'Assign', @VCLua_ListItem_Assign);
 	TLuaMethodInfo.Create(ListItemFuncs, 'Delete', @VCLua_ListItem_Delete);
 	TLuaMethodInfo.Create(ListItemFuncs, 'MakeVisible', @VCLua_ListItem_MakeVisible);
 	TLuaMethodInfo.Create(ListItemFuncs, 'DisplayRect', @VCLua_ListItem_DisplayRect);
@@ -2244,7 +2211,6 @@ begin
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'BeginUpdate', @VCLua_ListView_BeginUpdate);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'Clear', @VCLua_ListView_Clear);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'EndUpdate', @VCLua_ListView_EndUpdate);
-	TLuaMethodInfo.Create(CustomListViewFuncs, 'Repaint', @VCLua_ListView_Repaint);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'FindCaption', @VCLua_ListView_FindCaption);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'FindData', @VCLua_ListView_FindData);
 	TLuaMethodInfo.Create(CustomListViewFuncs, 'GetItemAt', @VCLua_ListView_GetItemAt);

@@ -314,6 +314,7 @@ end
 local excludeFuncs = loadMap("exclude/AnyClass")
 local initedSrcs = {}
 local parsedRefs = {}
+local ancestry = {}
 -- parser ------------------------------------------
 local function processClass(def,cdef,ref)
 	local processed
@@ -341,8 +342,12 @@ local function processClass(def,cdef,ref)
 			if last then return last end
 		end
 		-- parse class
-		local _,_,c = line:find("([_%w]+)%s*=%s*[cC]lass%s*%([_%w]+%s*")
-		if not c then _,_,c = line:find("([_%w]+)%s*=%s*[cC]lass%s*$") end
+		local _,_,c,cp = line:find("([_%w]+)%s*=%s*[cC]lass%s*%(([_%w]+)%s*")
+		if not c then _,_,c = line:find("([_%w]+)%s*=%s*[cC]lass%s*$")
+		elseif reparse then
+			if ancestry[c] and ancestry[c].ref ~= ref then cLog('Duplicate class '..ref..'.'..c..' collides with '..ancestry[c].ref, 'ERROR') end
+			ancestry[c] = {ref = ref, parent = cp}
+		end
 		if c==cdef.src then
 			classTable[cname] = {}
 			cLog(string.format("PARSING %s %s LINE:%d",cname, c,n),"INFO")
@@ -419,11 +424,35 @@ local function processClass(def,cdef,ref)
 								break
 							end
 						end
+						-- test overrides; some might need to be kept to preserve order of overloads
+						if ok and line:match('[^_%w][oO]verride%s*;') and not keepOverrides[cdef.src..' '..mId] then
+							local parent = cdef.src
+							local lmName = mName:lower()
+							while ancestry[parent] and ok do
+								parent = ancestry[parent].parent
+								local vclName = parent:sub(1,1) == 'T' and parent:sub(2) or parent
+								local parentTable = classTable[vclName]
+								if parentTable then
+									local parentMd
+									for _, mdp in ipairs(parentTable) do
+										if mdp.mName:lower() == lmName and mdp.sig == md.sig then
+											parentMd = mdp
+											break
+										end
+									end
+									if parentMd then
+										ok = false
+										reason = parent
+									end
+								end
+							end
+							if ok then cLog('Override source not found '..cdef.src..' '..line, 'DEBUG') end
+						end
 						if ok then table.insert(classTable[cname], md)
 						else cLog(" ** EXCLUDED:"..line.." "..reason, "DEBUG") end
 					end
 				else
-					cLog(" ** EXCLUDE:"..mId, "DEBUG")
+					cLog(" ** EXCLUDE:"..cname..'.'..mId, "DEBUG")
 				end
 			end
 		end
@@ -443,6 +472,7 @@ function processParams(md)
 	md.vars={{}}
 	md.mtypes,md.pushTypes={},{}
 	local s = md.method
+	md.sig={}
 	if s:find("%(") then
 		md.vars[2] = {}
 		md.varlist={}
@@ -509,9 +539,11 @@ function processParams(md)
 				table.insert(md.vars[2], {name=varName, type=varType, value=def})
 			end
 			table.insert(md.funcparams, varName)
+			table.insert(md.sig, varType:lower())
 			table.insert(md.varlist, "\n\t"..varName..":"..varType..";")
 		end
 	end
+	md.sig = table.concat(md.sig,'-')
 	if md.vars[2] then
 		if #md.vars[2] == #md.vars[1] then
 			md.vars[2] = nil
@@ -848,7 +880,6 @@ for n,cdef in pairs(classes) do
 	else
 		cLog(ref.." use previous","INFO")
 	end
-	classTable = {}
 	classData = {}
 	local unitRefs = {}
 	

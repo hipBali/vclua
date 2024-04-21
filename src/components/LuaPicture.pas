@@ -185,23 +185,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_Picture_Assign(L: Plua_State): Integer; cdecl;
-var
-	lPicture:TLuaPicture;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lPicture := TLuaPicture(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lPicture.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Picture', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Picture_VCLuaSetBitmap(L: Plua_State): Integer; cdecl;
 var
 	lPicture:TLuaPicture;
@@ -506,7 +489,6 @@ begin
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStream', @VCLua_Picture_SaveToStream);
 	TLuaMethodInfo.Create(PictureFuncs, 'SaveToStreamWithFileExt', @VCLua_Picture_SaveToStreamWithFileExt);
 	TLuaMethodInfo.Create(PictureFuncs, 'SupportsClipboardFormat', @VCLua_Picture_SupportsClipboardFormat);
-	TLuaMethodInfo.Create(PictureFuncs, 'Assign', @VCLua_Picture_Assign);
 	TLuaMethodInfo.Create(PictureFuncs, 'Bitmap', @VCLua_Picture_VCLuaGetBitmap, mfCall);
 	TLuaMethodInfo.Create(PictureFuncs, 'Icon', @VCLua_Picture_VCLuaGetIcon, mfCall);
 	TLuaMethodInfo.Create(PictureFuncs, 'Jpeg', @VCLua_Picture_VCLuaGetJpeg, mfCall);

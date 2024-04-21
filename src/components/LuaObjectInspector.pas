@@ -831,29 +831,6 @@ begin
 	end;
 end;
 
-function VCLua_OICustomPropertyGrid_SetBounds(L: Plua_State): Integer; cdecl;
-var
-	lOICustomPropertyGrid:TLuaOICustomPropertyGrid;
-	aLeft:integer;
-	aTop:integer;
-	aWidth:integer;
-	aHeight:integer;
-begin
-	CheckArg(L, 5);
-	lOICustomPropertyGrid := TLuaOICustomPropertyGrid(GetLuaObject(L, 1));
-	luaL_check(L,2,@aLeft);
-	luaL_check(L,3,@aTop);
-	luaL_check(L,4,@aWidth);
-	luaL_check(L,5,@aHeight);
-	try
-		lOICustomPropertyGrid.SetBounds(aLeft,aTop,aWidth,aHeight);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'OICustomPropertyGrid', 'SetBounds', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_OICustomPropertyGrid_SetCurrentRowValue(L: Plua_State): Integer; cdecl;
 var
 	lOICustomPropertyGrid:TLuaOICustomPropertyGrid;
@@ -2103,7 +2080,6 @@ begin
 	TLuaMethodInfo.Create(OICustomPropertyGridFuncs, 'RefreshPropertyValues', @VCLua_OICustomPropertyGrid_RefreshPropertyValues);
 	TLuaMethodInfo.Create(OICustomPropertyGridFuncs, 'ScrollToActiveItem', @VCLua_OICustomPropertyGrid_ScrollToActiveItem);
 	TLuaMethodInfo.Create(OICustomPropertyGridFuncs, 'ScrollToItem', @VCLua_OICustomPropertyGrid_ScrollToItem);
-	TLuaMethodInfo.Create(OICustomPropertyGridFuncs, 'SetBounds', @VCLua_OICustomPropertyGrid_SetBounds);
 	TLuaMethodInfo.Create(OICustomPropertyGridFuncs, 'SetCurrentRowValue', @VCLua_OICustomPropertyGrid_SetCurrentRowValue);
 	TLuaMethodInfo.Create(OICustomPropertyGridFuncs, 'SetItemIndexAndFocus', @VCLua_OICustomPropertyGrid_SetItemIndexAndFocus);
 	TLuaMethodInfo.Create(OICustomPropertyGridFuncs, 'BackgroundColor', @VCLua_OICustomPropertyGrid_VCLuaGetBackgroundColor, mfCall);

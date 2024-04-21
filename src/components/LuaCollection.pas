@@ -32,23 +32,6 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LuaPersistent;
 
-function VCLua_CollectionItem_GetNamePath(L: Plua_State): Integer; cdecl;
-var
-	lCollectionItem:TLuaCollectionItem;
-	ret:string;
-begin
-	CheckArg(L, 1);
-	lCollectionItem := TLuaCollectionItem(GetLuaObject(L, 1));
-	try
-		ret := lCollectionItem.GetNamePath();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'CollectionItem', 'GetNamePath', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
 function VCLua_CollectionItem_VCLuaSetCollection(L: Plua_State): Integer; cdecl;
 var
 	lCollectionItem:TLuaCollectionItem;
@@ -195,23 +178,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_Collection_Assign(L: Plua_State): Integer; cdecl;
-var
-	lCollection:TLuaCollection;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lCollection := TLuaCollection(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lCollection.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Collection', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Collection_BeginUpdate(L: Plua_State): Integer; cdecl;
 var
 	lCollection:TLuaCollection;
@@ -272,23 +238,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Collection', 'Delete', E.ClassName, E.Message);
 	end;
-end;
-
-function VCLua_Collection_GetNamePath(L: Plua_State): Integer; cdecl;
-var
-	lCollection:TLuaCollection;
-	ret:string;
-begin
-	CheckArg(L, 1);
-	lCollection := TLuaCollection(GetLuaObject(L, 1));
-	try
-		ret := lCollection.GetNamePath();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'Collection', 'GetNamePath', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
 end;
 
 function VCLua_Collection_Insert(L: Plua_State): Integer; cdecl;
@@ -420,7 +369,6 @@ end;
 
 begin
 	CollectionItemFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CollectionItemFuncs, 'GetNamePath', @VCLua_CollectionItem_GetNamePath);
 	TLuaMethodInfo.Create(CollectionItemFuncs, 'Collection', @VCLua_CollectionItem_VCLuaGetCollection, mfCall);
 	TLuaMethodInfo.Create(CollectionItemFuncs, 'ID', @VCLua_CollectionItem_VCLuaGetID, mfCall);
 	TLuaMethodInfo.Create(CollectionItemFuncs, 'Index', @VCLua_CollectionItem_VCLuaGetIndex, mfCall);
@@ -432,12 +380,10 @@ begin
 	CollectionFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CollectionFuncs, 'Owner', @VCLua_Collection_Owner);
 	TLuaMethodInfo.Create(CollectionFuncs, 'Add', @VCLua_Collection_Add);
-	TLuaMethodInfo.Create(CollectionFuncs, 'Assign', @VCLua_Collection_Assign);
 	TLuaMethodInfo.Create(CollectionFuncs, 'BeginUpdate', @VCLua_Collection_BeginUpdate);
 	TLuaMethodInfo.Create(CollectionFuncs, 'Clear', @VCLua_Collection_Clear);
 	TLuaMethodInfo.Create(CollectionFuncs, 'EndUpdate', @VCLua_Collection_EndUpdate);
 	TLuaMethodInfo.Create(CollectionFuncs, 'Delete', @VCLua_Collection_Delete);
-	TLuaMethodInfo.Create(CollectionFuncs, 'GetNamePath', @VCLua_Collection_GetNamePath);
 	TLuaMethodInfo.Create(CollectionFuncs, 'Insert', @VCLua_Collection_Insert);
 	TLuaMethodInfo.Create(CollectionFuncs, 'FindItemID', @VCLua_Collection_FindItemID);
 	TLuaMethodInfo.Create(CollectionFuncs, 'Exchange', @VCLua_Collection_Exchange);

@@ -217,7 +217,6 @@ result = o.DisableIfNoHandler</td><td class="fp">property DisableIfNoHandler: Bo
 <tr><td class="lua">result, HintStr = o:DoHint2(HintStr)</td><td class="fp">function DoHint(var HintStr: string): Boolean; virtual;</td></tr>
 <tr><td class="lua">o.Enabled = value
 result = o.Enabled</td><td class="fp">property Enabled: Boolean read FEnabled write SetEnabled default True;</td></tr>
-<tr><td class="lua">result = o:Execute()</td><td class="fp">function Execute: Boolean; override;</td></tr>
 <tr><td class="lua">o.GroupIndex = value
 result = o.GroupIndex</td><td class="fp">property GroupIndex: Integer read FGroupIndex write SetGroupIndex default 0;</td></tr>
 <tr><td class="lua">o.HelpContext = value
@@ -307,7 +306,6 @@ result = o.Flags</td><td class="fp">property Flags: TApplicationFlags read FFlag
 <tr><td class="lua">result = o:GetControlAtMouse()</td><td class="fp">function GetControlAtMouse: TControl;</td></tr>
 <tr><td class="lua">o.Handle = value
 result = o.Handle</td><td class="fp">property Handle: THandle read GetHandle write SetHandle; platform;</td></tr>
-<tr><td class="lua">o:HandleException(Sender)</td><td class="fp">procedure HandleException(Sender: TObject); override;</td></tr>
 <tr><td class="lua">o:HandleMessage()</td><td class="fp">procedure HandleMessage;</td></tr>
 <tr><td class="lua">o.Hint = value
 result = o.Hint</td><td class="fp">property Hint: string read FHint write SetHint;</td></tr>
@@ -326,7 +324,6 @@ result = o.HintShortPause</td><td class="fp">property HintShortPause: Integer re
 <tr><td class="lua">o.Icon = value
 result = o.Icon</td><td class="fp">property Icon: TIcon read FIcon write SetIcon;</td></tr>
 <tr><td class="lua">o:Idle(Wait)</td><td class="fp">procedure Idle(Wait: Boolean);</td></tr>
-<tr><td class="lua">o:Initialize()</td><td class="fp">procedure Initialize; override;</td></tr>
 <tr><td class="lua">result = o:IsWaiting()</td><td class="fp">function IsWaiting: boolean;</td></tr>
 <tr><td class="lua">o.LayoutAdjustmentPolicy = value
 result = o.LayoutAdjustmentPolicy</td><td class="fp">property LayoutAdjustmentPolicy: TLayoutAdjustmentPolicy read FLayoutAdjustmentPolicy write FLayoutAdjustmentPolicy;</td></tr>
@@ -384,7 +381,6 @@ result = o.ShowMenuGlyphs</td><td class="fp">property ShowMenuGlyphs: TApplicati
 <tr><td class="lua">result = o:SmallIconHandle()</td><td class="fp">function SmallIconHandle: HIcon;</td></tr>
 <tr><td class="lua">o.TaskBarBehavior = value
 result = o.TaskBarBehavior</td><td class="fp">property TaskBarBehavior: TTaskBarBehavior read FTaskBarBehavior write SetTaskBarBehavior;</td></tr>
-<tr><td class="lua">o:Terminate()</td><td class="fp">procedure Terminate; override;</td></tr>
 <tr><td class="lua">o.Title = value
 result = o.Title</td><td class="fp">property Title: String read GetTitle write SetTitle;</td></tr>
 <tr><td class="lua">o.UpdateFormatSettings = value
@@ -580,12 +576,6 @@ result = o.ActionComponent</td><td class="fp">property ActionComponent: TCompone
 <div class="propsdata"><i>Visible</i> : Boolean</div>
 <div class="propsdata"><i>Width</i> : LongInt</div>
 <a id="Bitmap"><div class="class"><b><u>Bitmap</u></b></div></a>
-<div class="props"><b><i>Generated</i></b></div>
-<div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">result = o:GetFileExtensions()</td><td class="fp">class function GetFileExtensions: string; override;</td></tr>
-<tr><td class="lua">result = o:GetResourceType()</td><td class="fp">function GetResourceType: TResourceType; override;</td></tr>
-<tr><td class="lua">o:LoadFromStream(AStream,ASize)</td><td class="fp">procedure LoadFromStream(AStream: TStream; ASize: Cardinal); override;</td></tr>
-</table></div>
 <a id="BoundLabel"><div class="class"><b><u>BoundLabel</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
 <div class="propsdata"><i>AnchorSideBottom</i> : AnchorSide</div>
@@ -712,19 +702,15 @@ result = o.Handle</td><td class="fp">property Handle: HBRUSH read GetHandle writ
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">result = o.Active</td><td class="fp">property Active: boolean read FActive stored false;</td></tr>
-<tr><td class="lua">o:ActiveDefaultControlChanged(NewControl)</td><td class="fp">procedure ActiveDefaultControlChanged(NewControl: TControl); override;</td></tr>
 <tr><td class="lua">o.Cancel = value
 result = o.Cancel</td><td class="fp">property Cancel: Boolean read FCancel write SetCancel default false;</td></tr>
 <tr><td class="lua">o:Click()</td><td class="fp">procedure Click; override;</td></tr>
 <tr><td class="lua">o.Default = value
 result = o.Default</td><td class="fp">property Default: Boolean read FDefault write SetDefault default false;</td></tr>
-<tr><td class="lua">o:ExecuteCancelAction()</td><td class="fp">procedure ExecuteCancelAction; override;</td></tr>
-<tr><td class="lua">o:ExecuteDefaultAction()</td><td class="fp">procedure ExecuteDefaultAction; override;</td></tr>
 <tr><td class="lua">o.ModalResult = value
 result = o.ModalResult</td><td class="fp">property ModalResult: TModalResult read FModalResult write SetModalResult default mrNone;</td></tr>
 <tr><td class="lua">result = o.ShortCut</td><td class="fp">property ShortCut: TShortcut read FShortCut;</td></tr>
 <tr><td class="lua">result = o.ShortCutKey2</td><td class="fp">property ShortCutKey2: TShortcut read FShortCutKey2;</td></tr>
-<tr><td class="lua">o:UpdateRolesForForm()</td><td class="fp">procedure UpdateRolesForForm; override;</td></tr>
 <tr><td class="lua">result = o:UseRightToLeftAlignment()</td><td class="fp">function UseRightToLeftAlignment: Boolean; override;</td></tr>
 </table></div>
 <a id="CalcEdit"><div class="class"><b><u>CalcEdit</u></b></div></a>
@@ -1248,7 +1234,6 @@ o:State(AIndex,value)</td><td class="fp">property State[AIndex: Integer]: TCheck
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">result = o:Add()</td><td class="fp">function Add: TCollectionItem;</td></tr>
-<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
 <tr><td class="lua">o:BeginUpdate()</td><td class="fp">procedure BeginUpdate; virtual;</td></tr>
 <tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear;</td></tr>
 <tr><td class="lua">result = o.Count</td><td class="fp">property Count: Integer read GetCount;</td></tr>
@@ -1256,7 +1241,6 @@ o:State(AIndex,value)</td><td class="fp">property State[AIndex: Integer]: TCheck
 <tr><td class="lua">o:EndUpdate()</td><td class="fp">procedure EndUpdate; virtual;</td></tr>
 <tr><td class="lua">o:Exchange(Index1,index2)</td><td class="fp">procedure Exchange(Const Index1, index2: integer);</td></tr>
 <tr><td class="lua">result = o:FindItemID(ID)</td><td class="fp">function FindItemID(ID: Integer): TCollectionItem;</td></tr>
-<tr><td class="lua">result = o:GetNamePath()</td><td class="fp">function GetNamePath: string; override;</td></tr>
 <tr><td class="lua">result = o:Insert(Index)</td><td class="fp">function Insert(Index: Integer): TCollectionItem;</td></tr>
 <tr><td class="lua">result = o:Items(Index)
 o:Items(Index,value)</td><td class="fp">property Items[Index: Integer]: TCollectionItem read GetItem write SetItem;</td></tr>
@@ -1270,7 +1254,6 @@ o:Items(Index,value)</td><td class="fp">property Items[Index: Integer]: TCollect
 result = o.Collection</td><td class="fp">property Collection: TCollection read FCollection write SetCollection;</td></tr>
 <tr><td class="lua">o.DisplayName = value
 result = o.DisplayName</td><td class="fp">property DisplayName: string read GetDisplayName write SetDisplayName;</td></tr>
-<tr><td class="lua">result = o:GetNamePath()</td><td class="fp">function GetNamePath: string; override;</td></tr>
 <tr><td class="lua">result = o.ID</td><td class="fp">property ID: Integer read FID;</td></tr>
 <tr><td class="lua">o.Index = value
 result = o.Index</td><td class="fp">property Index: Integer read GetIndex write SetIndex;</td></tr>
@@ -1278,8 +1261,6 @@ result = o.Index</td><td class="fp">property Index: Integer read GetIndex write 
 <a id="CollectionPropertyEditor"><div class="class"><b><u>CollectionPropertyEditor</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">o:Edit()</td><td class="fp">procedure Edit; override;</td></tr>
-<tr><td class="lua">result = o:GetAttributes()</td><td class="fp">function GetAttributes: TPropertyAttributes; override;</td></tr>
 <tr><td class="lua">result = o:ShowCollectionEditor(ACollection,OwnerPersistent,PropName)</td><td class="fp">class function ShowCollectionEditor(ACollection: TCollection;  OwnerPersistent: TPersistent; const PropName: String): TCustomForm; virtual;</td></tr>
 </table></div>
 <a id="CollectionPropertyEditorForm"><div class="class"><b><u>CollectionPropertyEditorForm</u></b></div></a>
@@ -1847,7 +1828,6 @@ result = o.DesignInfo</td><td class="fp">property DesignInfo: Longint read FDesi
 <tr><td class="lua">result = o:FindComponent(AName)</td><td class="fp">function FindComponent(const AName: string): TComponent;</td></tr>
 <tr><td class="lua">o:FreeNotification(AComponent)</td><td class="fp">procedure FreeNotification(AComponent: TComponent);</td></tr>
 <tr><td class="lua">o:FreeOnRelease()</td><td class="fp">procedure FreeOnRelease;</td></tr>
-<tr><td class="lua">result = o:GetNamePath()</td><td class="fp">function GetNamePath: string; override;</td></tr>
 <tr><td class="lua">result = o:GetParentComponent()</td><td class="fp">function GetParentComponent: TComponent; dynamic;</td></tr>
 <tr><td class="lua">result = o:HasParent()</td><td class="fp">function HasParent: Boolean; dynamic;</td></tr>
 <tr><td class="lua">o:InsertComponent(AComponent)</td><td class="fp">procedure InsertComponent(AComponent: TComponent);</td></tr>
@@ -1868,12 +1848,8 @@ result = o.VCLComObject</td><td class="fp">property VCLComObject: Pointer read F
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o.ActionList = value
 result = o.ActionList</td><td class="fp">property ActionList: TCustomActionList read FActionList write SetActionList;</td></tr>
-<tr><td class="lua">result = o:Execute()</td><td class="fp">function Execute: Boolean; override;</td></tr>
-<tr><td class="lua">result = o:GetParentComponent()</td><td class="fp">function GetParentComponent: TComponent; override;</td></tr>
-<tr><td class="lua">result = o:HasParent()</td><td class="fp">function HasParent: Boolean; override;</td></tr>
 <tr><td class="lua">o.Index = value
 result = o.Index</td><td class="fp">property Index: Integer read GetIndex write SetIndex stored False;</td></tr>
-<tr><td class="lua">result = o:Update()</td><td class="fp">function Update: Boolean; override;</td></tr>
 </table></div>
 <a id="Control"><div class="class"><b><u>Control</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -2287,21 +2263,13 @@ result = o.Title</td><td class="fp">property Title: string read FTitle write Set
 <a id="CustomBitmap"><div class="class"><b><u>CustomBitmap</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
-<tr><td class="lua">result = o:BitmapHandleAllocated()</td><td class="fp">function BitmapHandleAllocated: boolean; override;</td></tr>
-<tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear; override;</td></tr>
-<tr><td class="lua">o:FreeImage()</td><td class="fp">procedure FreeImage; override;</td></tr>
 <tr><td class="lua">o.Handle = value
 result = o.Handle</td><td class="fp">property Handle: HBITMAP read GetBitmapHandle write SetBitmapHandle; </td></tr>
 <tr><td class="lua">o.HandleType = value
 result = o.HandleType</td><td class="fp">property HandleType: TBitmapHandleType read GetHandleType write SetHandleType;</td></tr>
-<tr><td class="lua">result = o:LazarusResourceTypeValid(ResourceType)</td><td class="fp">function LazarusResourceTypeValid(const ResourceType: string): Boolean; override;</td></tr>
-<tr><td class="lua">result = o:MaskHandleAllocated()</td><td class="fp">function MaskHandleAllocated: boolean; override;</td></tr>
 <tr><td class="lua">o.Monochrome = value
 result = o.Monochrome</td><td class="fp">property Monochrome: Boolean read GetMonochrome write SetMonochrome;</td></tr>
-<tr><td class="lua">result = o:PaletteAllocated()</td><td class="fp">function PaletteAllocated: boolean; override;</td></tr>
 <tr><td class="lua">result = o:ReleaseHandle()</td><td class="fp">function ReleaseHandle: HBITMAP;</td></tr>
-<tr><td class="lua">o:SetHandles(ABitmap,AMask)</td><td class="fp">procedure SetHandles(ABitmap, AMask: HBITMAP); override;</td></tr>
 <tr><td class="lua">o:SetSize(AWidth,AHeight)</td><td class="fp">procedure SetSize(AWidth, AHeight: integer); override;</td></tr>
 </table></div>
 <a id="CustomControl"><div class="class"><b><u>CustomControl</u></b></div></a>
@@ -2358,7 +2326,6 @@ result = o.Canvas</td><td class="fp">property Canvas: TCanvas read FCanvas write
 <tr><td class="lua">result = o:ClearRows()</td><td class="fp">function ClearRows: Boolean;</td></tr>
 <tr><td class="lua">o:ClearSelections()</td><td class="fp">procedure ClearSelections;</td></tr>
 <tr><td class="lua">result = o.CursorState</td><td class="fp">property CursorState: TGridCursorState read FCursorState;</td></tr>
-<tr><td class="lua">o:EditingDone()</td><td class="fp">procedure EditingDone; override;</td></tr>
 <tr><td class="lua">result = o:EditorByStyle(Style)</td><td class="fp">function  EditorByStyle(Style: TColumnButtonStyle): TWinControl; virtual;</td></tr>
 <tr><td class="lua">Key = o:EditorKeyDown(Sender,Shift)</td><td class="fp">procedure EditorKeyDown(Sender: TObject; var Key:Word; Shift:TShiftState);</td></tr>
 <tr><td class="lua">Key = o:EditorKeyDown2(Sender,Key,Shift)</td><td class="fp">procedure EditorKeyDown(Sender: TObject; var Key:Word; Shift:TShiftState);</td></tr>
@@ -2371,11 +2338,9 @@ result = o.Canvas</td><td class="fp">property Canvas: TCanvas read FCanvas write
 <tr><td class="lua">UTF8Key = o:EditorUTF8KeyPress2(Sender,UTF8Key)</td><td class="fp">procedure EditorUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);</td></tr>
 <tr><td class="lua">o:EndUpdate()
 o:EndUpdate(aRefresh)</td><td class="fp">procedure EndUpdate(aRefresh: boolean = true);</td></tr>
-<tr><td class="lua">o:FixDesignFontsPPI(ADesignTimePPI)</td><td class="fp">procedure FixDesignFontsPPI(const ADesignTimePPI: Integer); override;</td></tr>
 <tr><td class="lua">result = o:Focused()</td><td class="fp">function  Focused: Boolean; override;</td></tr>
 <tr><td class="lua">result = o:HasMultiSelection()</td><td class="fp">function  HasMultiSelection: Boolean;</td></tr>
 <tr><td class="lua">o:HideSortArrow()</td><td class="fp">procedure HideSortArrow;</td></tr>
-<tr><td class="lua">o:Invalidate()</td><td class="fp">procedure Invalidate; override;</td></tr>
 <tr><td class="lua">o:InvalidateCell(aCol,aRow)</td><td class="fp">procedure InvalidateCell(aCol, aRow: Integer); overload;</td></tr>
 <tr><td class="lua">o:InvalidateCol(ACol)</td><td class="fp">procedure InvalidateCol(ACol: Integer);</td></tr>
 <tr><td class="lua">o:InvalidateRange(aRange)</td><td class="fp">procedure InvalidateRange(const aRange: TRect);</td></tr>
@@ -2407,7 +2372,6 @@ o:EndUpdate(aRefresh)</td><td class="fp">procedure EndUpdate(aRefresh: boolean =
 <tr><td class="lua">o.OnValidateEntry = function(Sender,aCol,aRow,OldValue,NewValue) return NewValue end</td><td class="fp">property OnValidateEntry: TValidateEntryEvent read FOnValidateEntry write FOnValidateEntry;</td></tr>
 <tr><td class="lua">o:SaveToFile(FileName)</td><td class="fp">procedure SaveToFile(FileName: string); virtual;</td></tr>
 <tr><td class="lua">o:SaveToStream(AStream)</td><td class="fp">procedure SaveToStream(AStream: TStream); virtual;</td></tr>
-<tr><td class="lua">o:ScaleFontsPPI(AToPPI,AProportion)</td><td class="fp">procedure ScaleFontsPPI(const AToPPI: Integer; const AProportion: Double); override;</td></tr>
 <tr><td class="lua">result = o:SelectedRange(AIndex)</td><td class="fp">property SelectedRange[AIndex: Integer]: TGridRect read GetSelectedRange;</td></tr>
 <tr><td class="lua">result = o.SelectedRangeCount</td><td class="fp">property SelectedRangeCount: Integer read GetSelectedRangeCount;</td></tr>
 <tr><td class="lua">o:SetFocus()</td><td class="fp">procedure SetFocus; override;</td></tr>
@@ -2419,11 +2383,8 @@ result = o.SortOrder</td><td class="fp">property SortOrder: TSortOrder read FSor
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">result = o.Memory</td><td class="fp">property Memory: Pointer read FMemory;</td></tr>
-<tr><td class="lua">result, Buffer = o:Read(Count)</td><td class="fp">function Read(var Buffer; Count: LongInt): LongInt; override;</td></tr>
-<tr><td class="lua">result, Buffer = o:Read2(Buffer,Count)</td><td class="fp">function Read(var Buffer; Count: LongInt): LongInt; override;</td></tr>
 <tr><td class="lua">o:SaveToFile(FileName)</td><td class="fp">procedure SaveToFile(const FileName: string);</td></tr>
 <tr><td class="lua">o:SaveToStream(Stream)</td><td class="fp">procedure SaveToStream(Stream: TStream);</td></tr>
-<tr><td class="lua">result = o:Seek(Offset,Origin)</td><td class="fp">function Seek(const Offset: Int64; Origin: TSeekOrigin): Int64; override;</td></tr>
 </table></div>
 <a id="CustomPropertiesGrid"><div class="class"><b><u>CustomPropertiesGrid</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -3584,8 +3545,6 @@ result = o.AlphaBlend</td><td class="fp">property AlphaBlend: Boolean read FAlph
 <tr><td class="lua">o.AlphaBlendValue = value
 result = o.AlphaBlendValue</td><td class="fp">property AlphaBlendValue: Byte read FAlphaBlendValue write SetAlphaBlendValue;</td></tr>
 <tr><td class="lua">o:AutoScale()</td><td class="fp">procedure AutoScale; </td></tr>
-<tr><td class="lua">result = o:AutoSizeDelayedHandle()</td><td class="fp">function AutoSizeDelayedHandle: Boolean; override;</td></tr>
-<tr><td class="lua">o:BeforeDestruction()</td><td class="fp">procedure BeforeDestruction; override;</td></tr>
 <tr><td class="lua">result = o:BigIconHandle()</td><td class="fp">function BigIconHandle: HICON;</td></tr>
 <tr><td class="lua">o.BorderStyle = value
 result = o.BorderStyle</td><td class="fp">property BorderStyle: TFormBorderStyle read FFormBorderStyle write SetFormBorderStyle default bsSizeable;</td></tr>
@@ -3600,24 +3559,16 @@ result = o.DefaultControl</td><td class="fp">property DefaultControl: TControl r
 result = o.DefaultMonitor</td><td class="fp">property DefaultMonitor: TDefaultMonitor read FDefaultMonitor write FDefaultMonitor default dmActiveForm;</td></tr>
 <tr><td class="lua">o:DefocusControl(Control,Removing)</td><td class="fp">procedure DefocusControl(Control: TWinControl; Removing: Boolean);</td></tr>
 <tr><td class="lua">o:DestroyWnd()</td><td class="fp">procedure DestroyWnd; override;</td></tr>
-<tr><td class="lua">o:Dock(NewDockSite,ARect)</td><td class="fp">procedure Dock(NewDockSite: TWinControl; ARect: TRect); override;</td></tr>
 <tr><td class="lua">result = o.EffectiveShowInTaskBar</td><td class="fp">property EffectiveShowInTaskBar: TShowInTaskBar read GetEffectiveShowInTaskBar;</td></tr>
 <tr><td class="lua">o:EnsureVisible()
 o:EnsureVisible(AMoveToTop)</td><td class="fp">procedure EnsureVisible(AMoveToTop: Boolean = True);</td></tr>
 <tr><td class="lua">o:FocusControl(WinControl)</td><td class="fp">procedure FocusControl(WinControl: TWinControl);</td></tr>
-<tr><td class="lua">result = o:FormIsUpdating()</td><td class="fp">function FormIsUpdating: boolean; override;</td></tr>
 <tr><td class="lua">result = o.FormState</td><td class="fp">property FormState: TFormState read FFormState;</td></tr>
 <tr><td class="lua">o.FormStyle = value
 result = o.FormStyle</td><td class="fp">property FormStyle: TFormStyle read FFormStyle write SetFormStyle default fsNormal;</td></tr>
 <tr><td class="lua">result = o:GetControlClassDefaultSize()</td><td class="fp">class function GetControlClassDefaultSize: TSize; override;</td></tr>
 <tr><td class="lua">result = o:GetFormImage()</td><td class="fp">function GetFormImage: TBitmap;</td></tr>
 <tr><td class="lua">result = o:GetMDIChildren(AIndex)</td><td class="fp">function GetMDIChildren(AIndex: Integer): TCustomForm; virtual;</td></tr>
-<tr><td class="lua">PreferredWidth, PreferredHeight = o:GetPreferredSize()
-...
-PreferredWidth, PreferredHeight = o:GetPreferredSize(Raw,WithThemeSpace)</td><td class="fp">procedure GetPreferredSize(var PreferredWidth, PreferredHeight: integer; Raw: boolean = false; WithThemeSpace: boolean = true); override;</td></tr>
-<tr><td class="lua">PreferredWidth, PreferredHeight = o:GetPreferredSize2(PreferredWidth,PreferredHeight)
-...
-PreferredWidth, PreferredHeight = o:GetPreferredSize2(PreferredWidth,PreferredHeight,Raw,WithThemeSpace)</td><td class="fp">procedure GetPreferredSize(var PreferredWidth, PreferredHeight: integer; Raw: boolean = false; WithThemeSpace: boolean = true); override;</td></tr>
 <tr><td class="lua">result = o:GetRealPopupParent()</td><td class="fp">function GetRealPopupParent: TCustomForm;</td></tr>
 <tr><td class="lua">result = o:GetRolesForControl(AControl)</td><td class="fp">function GetRolesForControl(AControl: TControl): TControlRolesForForm;</td></tr>
 <tr><td class="lua">o.HelpFile = value
@@ -3679,7 +3630,6 @@ result = o.WindowState</td><td class="fp">property WindowState: TWindowState rea
 <a id="Graphic"><div class="class"><b><u>Graphic</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">o:Assign(ASource)</td><td class="fp">procedure Assign(ASource: TPersistent); override;</td></tr>
 <tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear; virtual;</td></tr>
 <tr><td class="lua">result = o.Empty</td><td class="fp">property Empty: Boolean read GetEmpty;</td></tr>
 <tr><td class="lua">result = o:Equals(Obj)</td><td class="fp">function Equals(Obj: TObject): Boolean; override; overload;</td></tr>
@@ -3758,7 +3708,6 @@ result = o.Width</td><td class="fp">property Width: Integer read GetWidth write 
 <div class="propsdata"><i>Width</i> : LongInt</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
 <tr><td class="lua">result = o.DefaultWidth</td><td class="fp">property DefaultWidth: Integer read GetDefaultWidth;</td></tr>
 <tr><td class="lua">o:FillDefaultFont()</td><td class="fp">procedure FillDefaultFont;</td></tr>
 <tr><td class="lua">o:FixDesignFontsPPI(ADesignTimePPI)</td><td class="fp">procedure FixDesignFontsPPI(const ADesignTimePPI: Integer); virtual;</td></tr>
@@ -4031,7 +3980,6 @@ result = o.AntialiasingMode</td><td class="fp">property AntialiasingMode: TAntia
 <tr><td class="lua">o.Center = value
 result = o.Center</td><td class="fp">property Center: Boolean read FCenter write SetCenter default False;</td></tr>
 <tr><td class="lua">result = o:DestRect()</td><td class="fp">function DestRect: TRect; virtual;</td></tr>
-<tr><td class="lua">o:Invalidate()</td><td class="fp">procedure Invalidate; override;</td></tr>
 <tr><td class="lua">o.KeepOriginXWhenClipped = value
 result = o.KeepOriginXWhenClipped</td><td class="fp">property KeepOriginXWhenClipped: Boolean read FKeepOriginXWhenClipped write SetKeepOriginX default False;</td></tr>
 <tr><td class="lua">o.KeepOriginYWhenClipped = value
@@ -4233,7 +4181,6 @@ result = o.Width</td><td class="fp">property Width: Integer read FWidth write Se
 <tr><td class="lua">result, FontHeight, NeededWidth, NeededHeight = o:CalcFittingFontHeight(TheText,MaxWidth,MaxHeight)</td><td class="fp">function CalcFittingFontHeight(const TheText: string; MaxWidth, MaxHeight: Integer; out FontHeight, NeededWidth, NeededHeight: Integer): Boolean;</td></tr>
 <tr><td class="lua">result = o:ColorIsStored()</td><td class="fp">function ColorIsStored: boolean; override;</td></tr>
 <tr><td class="lua">o:Paint()</td><td class="fp">procedure Paint; override;</td></tr>
-<tr><td class="lua">o:SetBounds(aLeft,aTop,aWidth,aHeight)</td><td class="fp">procedure SetBounds(aLeft, aTop, aWidth, aHeight: integer); override;</td></tr>
 </table></div>
 <a id="LabeledEdit"><div class="class"><b><u>LabeledEdit</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -4458,7 +4405,6 @@ result = o.TopIndex</td><td class="fp">property TopIndex: Integer read GetTopInd
 <a id="ListItem"><div class="class"><b><u>ListItem</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">o:Assign(ASource)</td><td class="fp">procedure Assign(ASource: TPersistent); override;</td></tr>
 <tr><td class="lua">o.Caption = value
 result = o.Caption</td><td class="fp">property Caption : String read GetCaption write SetCaption;</td></tr>
 <tr><td class="lua">o.Checked = value
@@ -4704,7 +4650,6 @@ result = o.MultiSelect</td><td class="fp">property MultiSelect: Boolean index Or
 result = o.OwnerData</td><td class="fp">property OwnerData: Boolean read FOwnerData write SetOwnerData default False;</td></tr>
 <tr><td class="lua">o.ReadOnly = value
 result = o.ReadOnly</td><td class="fp">property ReadOnly: Boolean index Ord(lvpReadOnly) read GetProperty write SetProperty default False;</td></tr>
-<tr><td class="lua">o:Repaint()</td><td class="fp">procedure Repaint; override;</td></tr>
 <tr><td class="lua">o.RowSelect = value
 result = o.RowSelect</td><td class="fp">property RowSelect: Boolean index Ord(lvpRowSelect) read GetProperty write SetProperty default False;</td></tr>
 <tr><td class="lua">result = o.SelCount</td><td class="fp">property SelCount: Integer read GetSelCount;</td></tr>
@@ -4912,7 +4857,6 @@ result = o.WordWrap</td><td class="fp">property WordWrap: Boolean read FWordWrap
 <tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear;</td></tr>
 <tr><td class="lua">o:LoadFromFile(FileName)</td><td class="fp">procedure LoadFromFile(const FileName: string);</td></tr>
 <tr><td class="lua">o:LoadFromStream(Stream)</td><td class="fp">procedure LoadFromStream(Stream: TStream);</td></tr>
-<tr><td class="lua">result = o:Write(Buffer,Count)</td><td class="fp">function Write(const Buffer; Count: LongInt): LongInt; override;</td></tr>
 </table></div>
 <a id="Menu"><div class="class"><b><u>Menu</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -5201,7 +5145,6 @@ result = o.RowSpacing</td><td class="fp">property RowSpacing: integer read FRowS
 <tr><td class="lua">o:SaveChanges()</td><td class="fp">procedure SaveChanges;</td></tr>
 <tr><td class="lua">o:ScrollToActiveItem()</td><td class="fp">procedure ScrollToActiveItem;</td></tr>
 <tr><td class="lua">o:ScrollToItem(NewIndex)</td><td class="fp">procedure ScrollToItem(NewIndex: Integer);</td></tr>
-<tr><td class="lua">o:SetBounds(aLeft,aTop,aWidth,aHeight)</td><td class="fp">procedure SetBounds(aLeft, aTop, aWidth, aHeight: integer); override;</td></tr>
 <tr><td class="lua">o:SetCurrentRowValue(NewValue)</td><td class="fp">procedure SetCurrentRowValue(const NewValue: string);</td></tr>
 <tr><td class="lua">o:SetItemIndexAndFocus(NewItemIndex)
 o:SetItemIndexAndFocus(NewItemIndex,WasValueClick)</td><td class="fp">procedure SetItemIndexAndFocus(NewItemIndex: integer; WasValueClick: Boolean = False);</td></tr>
@@ -5590,7 +5533,6 @@ result = o.Handle</td><td class="fp">property Handle: HPEN read GetHandle write 
 <a id="Picture"><div class="class"><b><u>Picture</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
 <tr><td class="lua">o.Bitmap = value
 result = o.Bitmap</td><td class="fp">property Bitmap: TBitmap read GetBitmap write SetBitmap;</td></tr>
 <tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear; virtual;</td></tr>
@@ -6029,21 +5971,17 @@ result = o.Items</td><td class="fp">property Items: TStrings read FItems write S
 <a id="RasterImage"><div class="class"><b><u>RasterImage</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
 <tr><td class="lua">o:BeginUpdate()
 o:BeginUpdate(ACanvasOnly)</td><td class="fp">procedure BeginUpdate(ACanvasOnly: Boolean = False);</td></tr>
 <tr><td class="lua">o.BitmapHandle = value
 result = o.BitmapHandle</td><td class="fp">property BitmapHandle: HBITMAP read GetBitmapHandle write SetBitmapHandle;</td></tr>
 <tr><td class="lua">result = o:BitmapHandleAllocated()</td><td class="fp">function BitmapHandleAllocated: boolean; virtual; abstract;</td></tr>
 <tr><td class="lua">result = o.Canvas</td><td class="fp">property Canvas: TCanvas read GetCanvas;</td></tr>
-<tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear; override;</td></tr>
 <tr><td class="lua">o:EndUpdate()
 o:EndUpdate(AStreamIsValid)</td><td class="fp">procedure EndUpdate(AStreamIsValid: Boolean = False);</td></tr>
 <tr><td class="lua">o:FreeImage()</td><td class="fp">procedure FreeImage; virtual;</td></tr>
 <tr><td class="lua">AWidth, AHeight = o:GetSize()</td><td class="fp">procedure GetSize(out AWidth, AHeight: Integer);</td></tr>
-<tr><td class="lua">o:GetSupportedSourceMimeTypes(List)</td><td class="fp">procedure GetSupportedSourceMimeTypes(List: TStrings); override;</td></tr>
 <tr><td class="lua">result = o:HandleAllocated()</td><td class="fp">function HandleAllocated: boolean;</td></tr>
-<tr><td class="lua">o:LoadFromMimeStream(AStream,AMimeType)</td><td class="fp">procedure LoadFromMimeStream(AStream: TStream; const AMimeType: string); override;</td></tr>
 <tr><td class="lua">o:LoadFromStream(AStream)</td><td class="fp">procedure LoadFromStream(AStream: TStream); overload; override;</td></tr>
 <tr><td class="lua">o:LoadFromStream2(AStream,ASize)</td><td class="fp">procedure LoadFromStream(AStream: TStream; ASize: Cardinal); overload; virtual;</td></tr>
 <tr><td class="lua">o:Mask(ATransparentColor)</td><td class="fp">procedure Mask(ATransparentColor: TColor);</td></tr>
@@ -6057,7 +5995,6 @@ result = o.Masked</td><td class="fp">property Masked: Boolean read GetMasked wri
 result = o.PixelFormat</td><td class="fp">property PixelFormat: TPixelFormat read GetPixelFormat write SetPixelFormat default pfDevice;</td></tr>
 <tr><td class="lua">result = o:ReleaseBitmapHandle()</td><td class="fp">function ReleaseBitmapHandle: HBITMAP;</td></tr>
 <tr><td class="lua">result = o:ReleaseMaskHandle()</td><td class="fp">function ReleaseMaskHandle: HBITMAP;</td></tr>
-<tr><td class="lua">o:SaveToStream(AStream)</td><td class="fp">procedure SaveToStream(AStream: TStream); override;</td></tr>
 <tr><td class="lua">result = o:ScanLine(Row)</td><td class="fp">property ScanLine[Row: Integer]: Pointer read GetScanLine; platform; </td></tr>
 <tr><td class="lua">o:SetHandles(ABitmap,AMask)</td><td class="fp">procedure SetHandles(ABitmap, AMask: HBITMAP); virtual; abstract; </td></tr>
 <tr><td class="lua">o.TransparentColor = value
@@ -6706,7 +6643,6 @@ result = o.Transparent</td><td class="fp">property Transparent: Boolean read Get
 <div class="propsdata"><i>Width</i> : LongInt</div>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
 <tr><td class="lua">result = o:StatusBar()</td><td class="fp">function StatusBar: TStatusBar;</td></tr>
 </table></div>
 <a id="StatusPanels"><div class="class"><b><u>StatusPanels</u></b></div></a>
@@ -6930,17 +6866,11 @@ o:SaveToCSVStream(AStream,ADelimiter,WriteTitles,VisibleColumnsOnly)</td><td cla
 <a id="StringList"><div class="class"><b><u>StringList</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">result = o:Add(S)</td><td class="fp">function Add(const S: string): Integer; override;</td></tr>
 <tr><td class="lua">o.CaseSensitive = value
 result = o.CaseSensitive</td><td class="fp">property CaseSensitive: Boolean read FCaseSensitive write SetCaseSensitive;</td></tr>
-<tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear; override;</td></tr>
-<tr><td class="lua">o:Delete(Index)</td><td class="fp">procedure Delete(Index: Integer); override;</td></tr>
 <tr><td class="lua">o.Duplicates = value
 result = o.Duplicates</td><td class="fp">property Duplicates: TDuplicates read FDuplicates write FDuplicates;</td></tr>
-<tr><td class="lua">o:Exchange(Index1,Index2)</td><td class="fp">procedure Exchange(Index1, Index2: Integer); override;</td></tr>
 <tr><td class="lua">result, Index = o:Find(S)</td><td class="fp">function Find(const S: string; Out Index: Integer): Boolean; virtual;</td></tr>
-<tr><td class="lua">result = o:IndexOf(S)</td><td class="fp">function IndexOf(const S: string): Integer; override;</td></tr>
-<tr><td class="lua">o:Insert(Index,S)</td><td class="fp">procedure Insert(Index: Integer; const S: string); override;</td></tr>
 <tr><td class="lua">o.OnChange = function(Sender) end</td><td class="fp">property OnChange: TNotifyEvent read FOnChange write FOnChange;</td></tr>
 <tr><td class="lua">o.OnChanging = function(Sender) end</td><td class="fp">property OnChanging: TNotifyEvent read FOnChanging write FOnChanging;</td></tr>
 <tr><td class="lua">o.OwnsObjects = value
@@ -6969,7 +6899,6 @@ result = o.Sorted</td><td class="fp">property Sorted: Boolean read GetSorted wri
 <tr><td class="lua">o.AlwaysQuote = value
 result = o.AlwaysQuote</td><td class="fp">property AlwaysQuote: Boolean read FAlwaysQuote write FAlwaysQuote;</td></tr>
 <tr><td class="lua">o:Append(S)</td><td class="fp">procedure Append(const S: string);</td></tr>
-<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
 <tr><td class="lua">o:BeginUpdate()</td><td class="fp">procedure BeginUpdate;</td></tr>
 <tr><td class="lua">o.Capacity = value
 result = o.Capacity</td><td class="fp">property Capacity: Integer read GetCapacity write SetCapacity;</td></tr>
@@ -7436,24 +7365,11 @@ result = o.PageControl</td><td class="fp">property PageControl: TPageControl rea
 <a id="TextStrings"><div class="class"><b><u>TextStrings</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
-<tr><td class="lua">result = o:Add(S)</td><td class="fp">function Add(const S: string): Integer; override;</td></tr>
-<tr><td class="lua">result = o:AddObject(S,AObject)</td><td class="fp">function AddObject(const S: string; AObject: TObject): Integer; override;</td></tr>
-<tr><td class="lua">o:AddStrings(TheStrings)</td><td class="fp">procedure AddStrings(TheStrings: TStrings); override;</td></tr>
 <tr><td class="lua">o:BeginUpdate()</td><td class="fp">procedure BeginUpdate;</td></tr>
-<tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear; override;</td></tr>
-<tr><td class="lua">o:Delete(Index)</td><td class="fp">procedure Delete(Index: Integer); override;</td></tr>
 <tr><td class="lua">o:EndUpdate()</td><td class="fp">procedure EndUpdate;</td></tr>
-<tr><td class="lua">o:Exchange(Index1,Index2)</td><td class="fp">procedure Exchange(Index1, Index2: Integer); override;</td></tr>
-<tr><td class="lua">result = o:GetText()</td><td class="fp">function GetText: PChar; override;</td></tr>
-<tr><td class="lua">result = o:IndexOf(S)</td><td class="fp">function IndexOf(const S: string): Integer; override;</td></tr>
-<tr><td class="lua">o:Insert(Index,S)</td><td class="fp">procedure Insert(Index: Integer; const S: string); override;</td></tr>
-<tr><td class="lua">o:LoadFromFile(FileName)</td><td class="fp">procedure LoadFromFile(const FileName: string); override;</td></tr>
 <tr><td class="lua">o:MakeTextBufferUnique()</td><td class="fp">procedure MakeTextBufferUnique;</td></tr>
-<tr><td class="lua">o:Move(CurIndex,NewIndex)</td><td class="fp">procedure Move(CurIndex, NewIndex: Integer); override;</td></tr>
 <tr><td class="lua">o.OnChange = function(Sender) end</td><td class="fp">property OnChange: TNotifyEvent read FOnChange write FOnChange;</td></tr>
 <tr><td class="lua">o.OnChanging = function(Sender) end</td><td class="fp">property OnChanging: TNotifyEvent read FOnChanging write FOnChanging;</td></tr>
-<tr><td class="lua">o:SaveToFile(FileName)</td><td class="fp">procedure SaveToFile(const FileName: string); override;</td></tr>
-<tr><td class="lua">o:SetText(TheText)</td><td class="fp">procedure SetText(TheText: PChar); override;</td></tr>
 <tr><td class="lua">o.Text = value
 result = o.Text</td><td class="fp">property Text: string read FText write SetTextStr;</td></tr>
 </table></div>
@@ -7768,12 +7684,6 @@ result = o.Text</td><td class="fp">property Text: string read FText write SetTex
 <tr><td class="lua">o:Click()</td><td class="fp">procedure Click; override;</td></tr>
 <tr><td class="lua">ImageList, TheIndex, TheEffect = o:GetCurrentIcon()</td><td class="fp">procedure GetCurrentIcon(var ImageList: TCustomImageList; var TheIndex: integer; var TheEffect: TGraphicsDrawEffect); virtual;</td></tr>
 <tr><td class="lua">ImageList, TheIndex, TheEffect = o:GetCurrentIcon2(ImageList,TheIndex,TheEffect)</td><td class="fp">procedure GetCurrentIcon(var ImageList: TCustomImageList; var TheIndex: integer; var TheEffect: TGraphicsDrawEffect); virtual;</td></tr>
-<tr><td class="lua">PreferredWidth, PreferredHeight = o:GetPreferredSize()
-...
-PreferredWidth, PreferredHeight = o:GetPreferredSize(Raw,WithThemeSpace)</td><td class="fp">procedure GetPreferredSize(var PreferredWidth, PreferredHeight: integer; Raw: boolean = false; WithThemeSpace: boolean = true); override;</td></tr>
-<tr><td class="lua">PreferredWidth, PreferredHeight = o:GetPreferredSize2(PreferredWidth,PreferredHeight)
-...
-PreferredWidth, PreferredHeight = o:GetPreferredSize2(PreferredWidth,PreferredHeight,Raw,WithThemeSpace)</td><td class="fp">procedure GetPreferredSize(var PreferredWidth, PreferredHeight: integer; Raw: boolean = false; WithThemeSpace: boolean = true); override;</td></tr>
 <tr><td class="lua">result = o.Index</td><td class="fp">property Index: Integer read GetIndex;</td></tr>
 <tr><td class="lua">o.OnArrowClick = function(Sender) end</td><td class="fp">property OnArrowClick: TNotifyEvent read FOnArrowClick write FOnArrowClick;</td></tr>
 <tr><td class="lua">result = o:PointInArrow(X,Y)</td><td class="fp">function PointInArrow(const X, Y: Integer): Boolean;</td></tr>
@@ -7922,7 +7832,6 @@ result = o.Visible</td><td class="fp">property Visible: Boolean read FVisible wr
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">result = o.AbsoluteIndex</td><td class="fp">property AbsoluteIndex: Integer read GetAbsoluteIndex;</td></tr>
 <tr><td class="lua">result = o:AlphaSort()</td><td class="fp">function AlphaSort: Boolean;</td></tr>
-<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
 <tr><td class="lua">result = o:Bottom()</td><td class="fp">function Bottom: integer;</td></tr>
 <tr><td class="lua">result = o:BottomExpanded()</td><td class="fp">function BottomExpanded: integer;</td></tr>
 <tr><td class="lua">o:Collapse(Recurse)</td><td class="fp">procedure Collapse(Recurse: Boolean);</td></tr>
@@ -8039,7 +7948,6 @@ result = o.Visible</td><td class="fp">property Visible: Boolean read GetVisible 
 <tr><td class="lua">result = o:AddNode(Node,Relative,S,Ptr,Method)</td><td class="fp">function AddNode(Node: TTreeNode; Relative: TTreeNode; const S: string; Ptr: Pointer; Method: TNodeAttachMode): TTreeNode;</td></tr>
 <tr><td class="lua">result = o:AddObject(SiblingNode,S,Data)</td><td class="fp">function AddObject(SiblingNode: TTreeNode; const S: string; Data: Pointer): TTreeNode;</td></tr>
 <tr><td class="lua">result = o:AddObjectFirst(SiblingNode,S,Data)</td><td class="fp">function AddObjectFirst(SiblingNode: TTreeNode; const S: string; Data: Pointer): TTreeNode;</td></tr>
-<tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
 <tr><td class="lua">o:BeginUpdate()</td><td class="fp">procedure BeginUpdate;</td></tr>
 <tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear;</td></tr>
 <tr><td class="lua">o:ClearMultiSelection()
@@ -8242,7 +8150,6 @@ result = o.ImagesWidth</td><td class="fp">property ImagesWidth: Integer read FIm
 result = o.InsertMarkNode</td><td class="fp">property InsertMarkNode: TTreeNode read FInsertMarkNode write SetInsertMarkNode;</td></tr>
 <tr><td class="lua">o.InsertMarkType = value
 result = o.InsertMarkType</td><td class="fp">property InsertMarkType: TTreeViewInsertMarkType read FInsertMarkType write SetInsertMarkType;</td></tr>
-<tr><td class="lua">o:Invalidate()</td><td class="fp">procedure Invalidate; override;</td></tr>
 <tr><td class="lua">result = o:IsEditing()</td><td class="fp">function IsEditing: Boolean;</td></tr>
 <tr><td class="lua">o.Items = value
 result = o.Items</td><td class="fp">property Items: TTreeNodes read FTreeNodes write SetTreeNodes;</td></tr>

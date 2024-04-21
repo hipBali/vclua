@@ -776,23 +776,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_TreeNode_Assign(L: Plua_State): Integer; cdecl;
-var
-	lTreeNode:TLuaTreeNode;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lTreeNode.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeNode', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_TreeNode_Collapse(L: Plua_State): Integer; cdecl;
 var
 	lTreeNode:TLuaTreeNode;
@@ -2300,23 +2283,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_TreeNodes_Assign(L: Plua_State): Integer; cdecl;
-var
-	lTreeNodes:TLuaTreeNodes;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lTreeNodes.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeNodes', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_TreeNodes_BeginUpdate(L: Plua_State): Integer; cdecl;
 var
 	lTreeNodes:TLuaTreeNodes;
@@ -3062,21 +3028,6 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'SetInsertMarkAt', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_TreeView_Invalidate(L: Plua_State): Integer; cdecl;
-var
-	lTreeView:TLuaTreeView;
-begin
-	CheckArg(L, 1);
-	lTreeView := TLuaTreeView(GetLuaObject(L, 1));
-	try
-		lTreeView.Invalidate();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'TreeView', 'Invalidate', E.ClassName, E.Message);
 	end;
 end;
 
@@ -4475,7 +4426,6 @@ begin
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'HasAsParent', @VCLua_TreeNode_HasAsParent);
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'IndexOf', @VCLua_TreeNode_IndexOf);
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'IndexOfText', @VCLua_TreeNode_IndexOfText);
-	TLuaMethodInfo.Create(TreeNodeFuncs, 'Assign', @VCLua_TreeNode_Assign);
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'Collapse', @VCLua_TreeNode_Collapse);
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'ConsistencyCheck', @VCLua_TreeNode_ConsistencyCheck);
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'Delete', @VCLua_TreeNode_Delete);
@@ -4565,7 +4515,6 @@ begin
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'InsertObject', @VCLua_TreeNodes_InsertObject);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'InsertObjectBehind', @VCLua_TreeNodes_InsertObjectBehind);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'IsMultiSelection', @VCLua_TreeNodes_IsMultiSelection);
-	TLuaMethodInfo.Create(TreeNodesFuncs, 'Assign', @VCLua_TreeNodes_Assign);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'BeginUpdate', @VCLua_TreeNodes_BeginUpdate);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'Clear', @VCLua_TreeNodes_Clear);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'ClearMultiSelection', @VCLua_TreeNodes_ClearMultiSelection);
@@ -4597,7 +4546,6 @@ begin
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'GetInsertMarkAt', @VCLua_TreeView_GetInsertMarkAt);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'SetInsertMark', @VCLua_TreeView_SetInsertMark);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'SetInsertMarkAt', @VCLua_TreeView_SetInsertMarkAt);
-	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'Invalidate', @VCLua_TreeView_Invalidate);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'IsEditing', @VCLua_TreeView_IsEditing);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'BeginUpdate', @VCLua_TreeView_BeginUpdate);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'EndUpdate', @VCLua_TreeView_EndUpdate);

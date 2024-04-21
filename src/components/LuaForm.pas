@@ -39,21 +39,6 @@ begin
 	end;
 end;
 
-function VCLua_Form_BeforeDestruction(L: Plua_State): Integer; cdecl;
-var
-	lForm:TLuaForm;
-begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
-	try
-		lForm.BeforeDestruction();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Form', 'BeforeDestruction', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Form_GetControlClassDefaultSize(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
@@ -188,23 +173,6 @@ begin
 	end;
 end;
 
-function VCLua_Form_FormIsUpdating(L: Plua_State): Integer; cdecl;
-var
-	lForm:TLuaForm;
-	ret:boolean;
-begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
-	try
-		ret := lForm.FormIsUpdating();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'Form', 'FormIsUpdating', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
 function VCLua_Form_GetFormImage(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
@@ -324,71 +292,6 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'MakeFullyVisible', E.ClassName, E.Message);
 	end;
-end;
-
-function VCLua_Form_AutoSizeDelayedHandle(L: Plua_State): Integer; cdecl;
-var
-	lForm:TLuaForm;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
-	try
-		ret := lForm.AutoSizeDelayedHandle();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'Form', 'AutoSizeDelayedHandle', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_Form_GetPreferredSize(L: Plua_State): Integer; cdecl;
-var
-	lForm:TLuaForm;
-	PreferredWidth:integer;
-	PreferredHeight:integer;
-	Raw:boolean;
-	WithThemeSpace:boolean;
-begin
-	CheckArg(L, 1, 3);
-	lForm := TLuaForm(CheckLuaObjectPop(L, 1));
-	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
-	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
-	try
-		lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
-		Result := 2;
-	except
-		on E: Exception do
-			CallError(L, 'Form', 'GetPreferredSize', E.ClassName, E.Message);
-	end;
-	lua_push(L,PreferredWidth);
-	lua_push(L,PreferredHeight);
-end;
-
-function VCLua_Form_GetPreferredSize2(L: Plua_State): Integer; cdecl;
-var
-	lForm:TLuaForm;
-	PreferredWidth:integer;
-	PreferredHeight:integer;
-	Raw:boolean;
-	WithThemeSpace:boolean;
-begin
-	CheckArg(L, 3, 5);
-	lForm := TLuaForm(CheckLuaObjectPop(L, 1));
-	luaL_check(L,2,@PreferredWidth);
-	luaL_check(L,3,@PreferredHeight);
-	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
-	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
-	try
-		lForm.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
-		Result := 2;
-	except
-		on E: Exception do
-			CallError(L, 'Form', 'GetPreferredSize', E.ClassName, E.Message);
-	end;
-	lua_push(L,PreferredWidth);
-	lua_push(L,PreferredHeight);
 end;
 
 function VCLua_Form_Release(L: Plua_State): Integer; cdecl;
@@ -611,25 +514,6 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'Form', 'AutoScale', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_Form_Dock(L: Plua_State): Integer; cdecl;
-var
-	lForm:TLuaForm;
-	NewDockSite:TWinControl;
-	ARect:TRect;
-begin
-	CheckArg(L, 3);
-	lForm := TLuaForm(GetLuaObject(L, 1));
-	luaL_check(L,2,@NewDockSite);
-	luaL_check(L,3,@ARect);
-	try
-		lForm.Dock(NewDockSite,ARect);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Form', 'Dock', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1589,7 +1473,6 @@ end;
 begin
 	CustomFormFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomFormFuncs, 'AfterConstruction', @VCLua_Form_AfterConstruction);
-	TLuaMethodInfo.Create(CustomFormFuncs, 'BeforeDestruction', @VCLua_Form_BeforeDestruction);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'GetControlClassDefaultSize', @VCLua_Form_GetControlClassDefaultSize);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'BigIconHandle', @VCLua_Form_BigIconHandle);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Close', @VCLua_Form_Close);
@@ -1598,7 +1481,6 @@ begin
 	TLuaMethodInfo.Create(CustomFormFuncs, 'DestroyWnd', @VCLua_Form_DestroyWnd);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'EnsureVisible', @VCLua_Form_EnsureVisible);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'FocusControl', @VCLua_Form_FocusControl);
-	TLuaMethodInfo.Create(CustomFormFuncs, 'FormIsUpdating', @VCLua_Form_FormIsUpdating);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'GetFormImage', @VCLua_Form_GetFormImage);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'GetRolesForControl', @VCLua_Form_GetRolesForControl);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'GetRealPopupParent', @VCLua_Form_GetRealPopupParent);
@@ -1606,9 +1488,6 @@ begin
 	TLuaMethodInfo.Create(CustomFormFuncs, 'IntfDropFiles', @VCLua_Form_IntfDropFiles);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'IntfHelp', @VCLua_Form_IntfHelp);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'MakeFullyVisible', @VCLua_Form_MakeFullyVisible);
-	TLuaMethodInfo.Create(CustomFormFuncs, 'AutoSizeDelayedHandle', @VCLua_Form_AutoSizeDelayedHandle);
-	TLuaMethodInfo.Create(CustomFormFuncs, 'GetPreferredSize', @VCLua_Form_GetPreferredSize);
-	TLuaMethodInfo.Create(CustomFormFuncs, 'GetPreferredSize2', @VCLua_Form_GetPreferredSize2);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Release', @VCLua_Form_Release);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'CanFocus', @VCLua_Form_CanFocus);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'SetFocus', @VCLua_Form_SetFocus);
@@ -1622,7 +1501,6 @@ begin
 	TLuaMethodInfo.Create(CustomFormFuncs, 'GetMDIChildren', @VCLua_Form_GetMDIChildren);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'MDIChildCount', @VCLua_Form_MDIChildCount);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'AutoScale', @VCLua_Form_AutoScale);
-	TLuaMethodInfo.Create(CustomFormFuncs, 'Dock', @VCLua_Form_Dock);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'UpdateDockCaption', @VCLua_Form_UpdateDockCaption);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Active', @VCLua_Form_VCLuaGetActive, mfCall);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'ActiveControl', @VCLua_Form_VCLuaGetActiveControl, mfCall);

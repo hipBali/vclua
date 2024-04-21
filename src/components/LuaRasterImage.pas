@@ -23,38 +23,6 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LuaCanvas, LCLType;
 
-function VCLua_RasterImage_Assign(L: Plua_State): Integer; cdecl;
-var
-	lRasterImage:TLuaRasterImage;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lRasterImage.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'RasterImage', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_RasterImage_Clear(L: Plua_State): Integer; cdecl;
-var
-	lRasterImage:TLuaRasterImage;
-begin
-	CheckArg(L, 1);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	try
-		lRasterImage.Clear();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'RasterImage', 'Clear', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_RasterImage_BeginUpdate(L: Plua_State): Integer; cdecl;
 var
 	lRasterImage:TLuaRasterImage;
@@ -189,61 +157,6 @@ begin
 		on E: Exception do
 			CallError(L, 'RasterImage', 'LoadFromStream', E.ClassName, E.Message);
 	end;
-end;
-
-function VCLua_RasterImage_LoadFromMimeStream(L: Plua_State): Integer; cdecl;
-var
-	lRasterImage:TLuaRasterImage;
-	AStream:TStream;
-	AMimeType:string;
-begin
-	CheckArg(L, 3);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	luaL_check(L,2,@AStream);
-	luaL_check(L,3,@AMimeType);
-	try
-		lRasterImage.LoadFromMimeStream(AStream,AMimeType);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'RasterImage', 'LoadFromMimeStream', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_RasterImage_SaveToStream(L: Plua_State): Integer; cdecl;
-var
-	lRasterImage:TLuaRasterImage;
-	AStream:TStream;
-begin
-	CheckArg(L, 2);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	luaL_check(L,2,@AStream);
-	try
-		lRasterImage.SaveToStream(AStream);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'RasterImage', 'SaveToStream', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_RasterImage_GetSupportedSourceMimeTypes(L: Plua_State): Integer; cdecl;
-var
-	lRasterImage:TLuaRasterImage;
-	List:TStrings;
-	ListNeedsFree:Boolean = False;
-begin
-	CheckArg(L, 2);
-	lRasterImage := TLuaRasterImage(GetLuaObject(L, 1));
-	ListNeedsFree := luaL_checkOrFromTable(L,2,@List,@luaL_checkStringList,TypeInfo(List));
-	try
-		lRasterImage.GetSupportedSourceMimeTypes(List);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'RasterImage', 'GetSupportedSourceMimeTypes', E.ClassName, E.Message);
-	end;
-	if ListNeedsFree then List.Free;
 end;
 
 function VCLua_RasterImage_GetSize(L: Plua_State): Integer; cdecl;
@@ -586,8 +499,6 @@ end;
 
 begin
 	RasterImageFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(RasterImageFuncs, 'Assign', @VCLua_RasterImage_Assign);
-	TLuaMethodInfo.Create(RasterImageFuncs, 'Clear', @VCLua_RasterImage_Clear);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'BeginUpdate', @VCLua_RasterImage_BeginUpdate);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'EndUpdate', @VCLua_RasterImage_EndUpdate);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'FreeImage', @VCLua_RasterImage_FreeImage);
@@ -596,9 +507,6 @@ begin
 	TLuaMethodInfo.Create(RasterImageFuncs, 'PaletteAllocated', @VCLua_RasterImage_PaletteAllocated);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'LoadFromStream', @VCLua_RasterImage_LoadFromStream);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'LoadFromStream2', @VCLua_RasterImage_LoadFromStream2);
-	TLuaMethodInfo.Create(RasterImageFuncs, 'LoadFromMimeStream', @VCLua_RasterImage_LoadFromMimeStream);
-	TLuaMethodInfo.Create(RasterImageFuncs, 'SaveToStream', @VCLua_RasterImage_SaveToStream);
-	TLuaMethodInfo.Create(RasterImageFuncs, 'GetSupportedSourceMimeTypes', @VCLua_RasterImage_GetSupportedSourceMimeTypes);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'GetSize', @VCLua_RasterImage_GetSize);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'Mask', @VCLua_RasterImage_Mask);
 	TLuaMethodInfo.Create(RasterImageFuncs, 'SetHandles', @VCLua_RasterImage_SetHandles);

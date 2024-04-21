@@ -102,29 +102,6 @@ begin
 	end;
 end;
 
-function VCLua_Label_SetBounds(L: Plua_State): Integer; cdecl;
-var
-	lLabel:TLuaLabel;
-	aLeft:integer;
-	aTop:integer;
-	aWidth:integer;
-	aHeight:integer;
-begin
-	CheckArg(L, 5);
-	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	luaL_check(L,2,@aLeft);
-	luaL_check(L,3,@aTop);
-	luaL_check(L,4,@aWidth);
-	luaL_check(L,5,@aHeight);
-	try
-		lLabel.SetBounds(aLeft,aTop,aWidth,aHeight);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Label', 'SetBounds', E.ClassName, E.Message);
-	end;
-end;
-
 procedure lua_push(L: Plua_State; const v: TLabel; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomLabel',v);
@@ -154,7 +131,6 @@ begin
 	TLuaMethodInfo.Create(CustomLabelFuncs, 'ColorIsStored', @VCLua_Label_ColorIsStored);
 	TLuaMethodInfo.Create(CustomLabelFuncs, 'AdjustFontForOptimalFill', @VCLua_Label_AdjustFontForOptimalFill);
 	TLuaMethodInfo.Create(CustomLabelFuncs, 'Paint', @VCLua_Label_Paint);
-	TLuaMethodInfo.Create(CustomLabelFuncs, 'SetBounds', @VCLua_Label_SetBounds);
 	CustomLabelSets := TLuaVmt.Create;
 	
 end.

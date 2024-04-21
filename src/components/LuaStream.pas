@@ -646,70 +646,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_CustomMemoryStream_Read(L: Plua_State): Integer; cdecl;
-var
-	lCustomMemoryStream:TLuaCustomMemoryStream;
-	Buffer:Pointer;
-	Count:LongInt;
-	ret:LongInt;
-begin
-	CheckArg(L, 2);
-	lCustomMemoryStream := TLuaCustomMemoryStream(GetLuaObject(L, 1));
-	luaL_check(L,2,@Count);
-	try
-		ret := lCustomMemoryStream.Read(Buffer,Count);
-		Result := 2;
-	except
-		on E: Exception do
-			CallError(L, 'CustomMemoryStream', 'Read', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-	lua_pushlightuserdata(L,Buffer);
-end;
-
-function VCLua_CustomMemoryStream_Read2(L: Plua_State): Integer; cdecl;
-var
-	lCustomMemoryStream:TLuaCustomMemoryStream;
-	Buffer:Pointer;
-	Count:LongInt;
-	ret:LongInt;
-begin
-	CheckArg(L, 3);
-	lCustomMemoryStream := TLuaCustomMemoryStream(GetLuaObject(L, 1));
-	Buffer := lua_touserdata(L,2);
-	luaL_check(L,3,@Count);
-	try
-		ret := lCustomMemoryStream.Read(Buffer,Count);
-		Result := 2;
-	except
-		on E: Exception do
-			CallError(L, 'CustomMemoryStream', 'Read', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-	lua_pushlightuserdata(L,Buffer);
-end;
-
-function VCLua_CustomMemoryStream_Seek(L: Plua_State): Integer; cdecl;
-var
-	lCustomMemoryStream:TLuaCustomMemoryStream;
-	Offset:Int64;
-	Origin:TSeekOrigin;
-	ret:Int64;
-begin
-	CheckArg(L, 3);
-	lCustomMemoryStream := TLuaCustomMemoryStream(GetLuaObject(L, 1));
-	luaL_check(L,2,@Offset);
-	luaL_check(L,3,@Origin,TypeInfo(TSeekOrigin));
-	try
-		ret := lCustomMemoryStream.Seek(Offset,Origin);
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'CustomMemoryStream', 'Seek', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
 function VCLua_CustomMemoryStream_SaveToStream(L: Plua_State): Integer; cdecl;
 var
 	lCustomMemoryStream:TLuaCustomMemoryStream;
@@ -809,27 +745,6 @@ begin
 	end;
 end;
 
-function VCLua_MemoryStream_Write(L: Plua_State): Integer; cdecl;
-var
-	lMemoryStream:TLuaMemoryStream;
-	Buffer:Pointer;
-	Count:LongInt;
-	ret:LongInt;
-begin
-	CheckArg(L, 3);
-	lMemoryStream := TLuaMemoryStream(GetLuaObject(L, 1));
-	Buffer := lua_touserdata(L,2);
-	luaL_check(L,3,@Count);
-	try
-		ret := lMemoryStream.Write(Buffer,Count);
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'MemoryStream', 'Write', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
 function VCLua_MemoryStream_LoadFromHex(L: Plua_State): Integer; cdecl;
 var
   lMemoryStream:TLuaMemoryStream;
@@ -920,9 +835,6 @@ begin
 	TLuaMethodInfo.Create(StreamSets, 'Position', @VCLua_Stream_VCLuaSetPosition, mfCall, TypeInfo(Int64));
 	TLuaMethodInfo.Create(StreamSets, 'Size', @VCLua_Stream_VCLuaSetSize, mfCall, TypeInfo(Int64));
 	CustomMemoryStreamFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomMemoryStreamFuncs, 'Read', @VCLua_CustomMemoryStream_Read);
-	TLuaMethodInfo.Create(CustomMemoryStreamFuncs, 'Read2', @VCLua_CustomMemoryStream_Read2);
-	TLuaMethodInfo.Create(CustomMemoryStreamFuncs, 'Seek', @VCLua_CustomMemoryStream_Seek);
 	TLuaMethodInfo.Create(CustomMemoryStreamFuncs, 'SaveToStream', @VCLua_CustomMemoryStream_SaveToStream);
 	TLuaMethodInfo.Create(CustomMemoryStreamFuncs, 'SaveToFile', @VCLua_CustomMemoryStream_SaveToFile);
 	TLuaMethodInfo.Create(CustomMemoryStreamFuncs, 'Memory', @VCLua_CustomMemoryStream_VCLuaGetMemory, mfCall);
@@ -932,7 +844,6 @@ begin
 	TLuaMethodInfo.Create(MemoryStreamFuncs, 'Clear', @VCLua_MemoryStream_Clear);
 	TLuaMethodInfo.Create(MemoryStreamFuncs, 'LoadFromStream', @VCLua_MemoryStream_LoadFromStream);
 	TLuaMethodInfo.Create(MemoryStreamFuncs, 'LoadFromFile', @VCLua_MemoryStream_LoadFromFile);
-	TLuaMethodInfo.Create(MemoryStreamFuncs, 'Write', @VCLua_MemoryStream_Write);
 	TLuaMethodInfo.Create(MemoryStreamFuncs, 'LoadFromHex', @VCLua_MemoryStream_LoadFromHex);
 	MemoryStreamSets := TLuaVmt.Create;
 	

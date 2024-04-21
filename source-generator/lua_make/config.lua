@@ -103,7 +103,7 @@ classes = {
 	{ name = "Canvas", src = "TCanvas", ref = "Graphics", base=true, nocreate=true, impl = "SetPixel", },
 	{ name = "Picture", src = "TPicture", ref = "Graphics", nv=true, noparent=true },
 	{ name = "RasterImage", src = "TRasterImage", ref = "Graphics", implref = "LCLType", base=true, nocreate=true },
-	{ unit = "Bitmap", ref = "Graphics",
+	{ unit = "Bitmap", ref = "Graphics", implref = "LCLType",
 		classes = {
 			{ name = "CustomBitmap", src = "TCustomBitmap", nv=true, noparent=true, nocreate=true },
 			{ name = "Bitmap", src = "TBitmap", nv=true, noparent=true },

@@ -161,23 +161,6 @@ begin
 	end;
 end;
 
-function VCLua_Application_HandleException(L: Plua_State): Integer; cdecl;
-var
-	lApplication:TLuaApplication;
-	Sender:TObject;
-begin
-	CheckArg(L, 2);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	luaL_check(L,2,@Sender);
-	try
-		lApplication.HandleException(Sender);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Application', 'HandleException', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Application_HandleMessage(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
@@ -242,21 +225,6 @@ begin
 			CallError(L, 'Application', 'IsWaiting', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-end;
-
-function VCLua_Application_Initialize(L: Plua_State): Integer; cdecl;
-var
-	lApplication:TLuaApplication;
-begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	try
-		lApplication.Initialize();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Application', 'Initialize', E.ClassName, E.Message);
-	end;
 end;
 
 function VCLua_Application_Minimize(L: Plua_State): Integer; cdecl;
@@ -382,21 +350,6 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'Application', 'Run', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_Application_Terminate(L: Plua_State): Integer; cdecl;
-var
-	lApplication:TLuaApplication;
-begin
-	CheckArg(L, 1);
-	lApplication := TLuaApplication(GetLuaObject(L, 1));
-	try
-		lApplication.Terminate();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Application', 'Terminate', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1636,12 +1589,10 @@ begin
 	TLuaMethodInfo.Create(ApplicationFuncs, 'BringToFront', @VCLua_Application_BringToFront);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'UpdateMainForm', @VCLua_Application_UpdateMainForm);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'ReleaseComponent', @VCLua_Application_ReleaseComponent);
-	TLuaMethodInfo.Create(ApplicationFuncs, 'HandleException', @VCLua_Application_HandleException);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'HandleMessage', @VCLua_Application_HandleMessage);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'RemoveStayOnTop', @VCLua_Application_RemoveStayOnTop);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'RestoreStayOnTop', @VCLua_Application_RestoreStayOnTop);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'IsWaiting', @VCLua_Application_IsWaiting);
-	TLuaMethodInfo.Create(ApplicationFuncs, 'Initialize', @VCLua_Application_Initialize);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'Minimize', @VCLua_Application_Minimize);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'ModalStarted', @VCLua_Application_ModalStarted);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'ModalFinished', @VCLua_Application_ModalFinished);
@@ -1650,7 +1601,6 @@ begin
 	TLuaMethodInfo.Create(ApplicationFuncs, 'ProcessMessages', @VCLua_Application_ProcessMessages);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'Idle', @VCLua_Application_Idle);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'Run', @VCLua_Application_Run);
-	TLuaMethodInfo.Create(ApplicationFuncs, 'Terminate', @VCLua_Application_Terminate);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'Active', @VCLua_Application_VCLuaGetActive, mfCall);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'ApplicationType', @VCLua_Application_VCLuaGetApplicationType, mfCall);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'BidiMode', @VCLua_Application_VCLuaGetBidiMode, mfCall);

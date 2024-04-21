@@ -42,75 +42,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LCLType, LuaActnListEvents, LuaClassesEvents, LuaComponent, LuaEvent, LuaImageList;
-
-function VCLua_ContainedAction_Execute(L: Plua_State): Integer; cdecl;
-var
-	lContainedAction:TLuaContainedAction;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
-	try
-		ret := lContainedAction.Execute();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'ContainedAction', 'Execute', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_ContainedAction_GetParentComponent(L: Plua_State): Integer; cdecl;
-var
-	lContainedAction:TLuaContainedAction;
-	ret:TComponent;
-begin
-	CheckArg(L, 1);
-	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
-	try
-		ret := lContainedAction.GetParentComponent();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'ContainedAction', 'GetParentComponent', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret,TypeInfo(ret));
-end;
-
-function VCLua_ContainedAction_HasParent(L: Plua_State): Integer; cdecl;
-var
-	lContainedAction:TLuaContainedAction;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
-	try
-		ret := lContainedAction.HasParent();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'ContainedAction', 'HasParent', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_ContainedAction_Update(L: Plua_State): Integer; cdecl;
-var
-	lContainedAction:TLuaContainedAction;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lContainedAction := TLuaContainedAction(GetLuaObject(L, 1));
-	try
-		ret := lContainedAction.Update();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'ContainedAction', 'Update', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LCLType, LuaActnListEvents, LuaClassesEvents, LuaEvent, LuaImageList;
 
 function VCLua_ContainedAction_VCLuaSetActionList(L: Plua_State): Integer; cdecl;
 var
@@ -213,23 +145,6 @@ begin
 	end;
 	lua_push(L,ret);
 	lua_push(L,HintStr);
-end;
-
-function VCLua_Action_Execute(L: Plua_State): Integer; cdecl;
-var
-	lAction:TLuaAction;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lAction := TLuaAction(GetLuaObject(L, 1));
-	try
-		ret := lAction.Execute();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'Action', 'Execute', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
 end;
 
 function VCLua_Action_VCLuaSetAutoCheck(L: Plua_State): Integer; cdecl;
@@ -972,10 +887,6 @@ end;
 
 begin
 	ContainedActionFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ContainedActionFuncs, 'Execute', @VCLua_ContainedAction_Execute);
-	TLuaMethodInfo.Create(ContainedActionFuncs, 'GetParentComponent', @VCLua_ContainedAction_GetParentComponent);
-	TLuaMethodInfo.Create(ContainedActionFuncs, 'HasParent', @VCLua_ContainedAction_HasParent);
-	TLuaMethodInfo.Create(ContainedActionFuncs, 'Update', @VCLua_ContainedAction_Update);
 	TLuaMethodInfo.Create(ContainedActionFuncs, 'ActionList', @VCLua_ContainedAction_VCLuaGetActionList, mfCall);
 	TLuaMethodInfo.Create(ContainedActionFuncs, 'Index', @VCLua_ContainedAction_VCLuaGetIndex, mfCall);
 	ContainedActionSets := TLuaVmt.Create;
@@ -984,7 +895,6 @@ begin
 	CustomActionFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomActionFuncs, 'DoHint', @VCLua_Action_DoHint);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'DoHint2', @VCLua_Action_DoHint2);
-	TLuaMethodInfo.Create(CustomActionFuncs, 'Execute', @VCLua_Action_Execute);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'AutoCheck', @VCLua_Action_VCLuaGetAutoCheck, mfCall);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'Caption', @VCLua_Action_VCLuaGetCaption, mfCall);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'Checked', @VCLua_Action_VCLuaGetChecked, mfCall);

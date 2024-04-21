@@ -126,54 +126,6 @@ begin
 	lua_push(L,TheEffect,TypeInfo(TheEffect));
 end;
 
-function VCLua_ToolButton_GetPreferredSize(L: Plua_State): Integer; cdecl;
-var
-	lToolButton:TLuaToolButton;
-	PreferredWidth:integer;
-	PreferredHeight:integer;
-	Raw:boolean;
-	WithThemeSpace:boolean;
-begin
-	CheckArg(L, 1, 3);
-	lToolButton := TLuaToolButton(CheckLuaObjectPop(L, 1));
-	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
-	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
-	try
-		lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
-		Result := 2;
-	except
-		on E: Exception do
-			CallError(L, 'ToolButton', 'GetPreferredSize', E.ClassName, E.Message);
-	end;
-	lua_push(L,PreferredWidth);
-	lua_push(L,PreferredHeight);
-end;
-
-function VCLua_ToolButton_GetPreferredSize2(L: Plua_State): Integer; cdecl;
-var
-	lToolButton:TLuaToolButton;
-	PreferredWidth:integer;
-	PreferredHeight:integer;
-	Raw:boolean;
-	WithThemeSpace:boolean;
-begin
-	CheckArg(L, 3, 5);
-	lToolButton := TLuaToolButton(CheckLuaObjectPop(L, 1));
-	luaL_check(L,2,@PreferredWidth);
-	luaL_check(L,3,@PreferredHeight);
-	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
-	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
-	try
-		lToolButton.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
-		Result := 2;
-	except
-		on E: Exception do
-			CallError(L, 'ToolButton', 'GetPreferredSize', E.ClassName, E.Message);
-	end;
-	lua_push(L,PreferredWidth);
-	lua_push(L,PreferredHeight);
-end;
-
 function VCLua_ToolButton_VCLuaGetIndex(L: Plua_State): Integer; cdecl;
 var
 	lToolButton:TLuaToolButton;
@@ -429,8 +381,6 @@ begin
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'ArrowClick', @VCLua_ToolButton_ArrowClick);
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetCurrentIcon', @VCLua_ToolButton_GetCurrentIcon);
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetCurrentIcon2', @VCLua_ToolButton_GetCurrentIcon2);
-	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetPreferredSize', @VCLua_ToolButton_GetPreferredSize);
-	TLuaMethodInfo.Create(ToolButtonFuncs, 'GetPreferredSize2', @VCLua_ToolButton_GetPreferredSize2);
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'Index', @VCLua_ToolButton_VCLuaGetIndex, mfCall);
 	TLuaMethodInfo.Create(ToolButtonFuncs, 'PointInArrow', @VCLua_ToolButton_PointInArrow);
 	ToolButtonSets := TLuaVmt.Create;

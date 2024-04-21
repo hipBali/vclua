@@ -57,21 +57,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_Image_Invalidate(L: Plua_State): Integer; cdecl;
-var
-	lImage:TLuaImage;
-begin
-	CheckArg(L, 1);
-	lImage := TLuaImage(GetLuaObject(L, 1));
-	try
-		lImage.Invalidate();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Image', 'Invalidate', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Image_VCLuaSetAntialiasingMode(L: Plua_State): Integer; cdecl;
 var
 	lImage:TLuaImage;
@@ -439,7 +424,6 @@ begin
 	CustomImageFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomImageFuncs, 'Canvas', @VCLua_Image_VCLuaGetCanvas, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'DestRect', @VCLua_Image_DestRect);
-	TLuaMethodInfo.Create(CustomImageFuncs, 'Invalidate', @VCLua_Image_Invalidate);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'AntialiasingMode', @VCLua_Image_VCLuaGetAntialiasingMode, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'Center', @VCLua_Image_VCLuaGetCenter, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'KeepOriginXWhenClipped', @VCLua_Image_VCLuaGetKeepOriginXWhenClipped, mfCall);

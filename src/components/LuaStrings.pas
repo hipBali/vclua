@@ -384,23 +384,6 @@ begin
 	end;
 end;
 
-function VCLua_Strings_Assign(L: Plua_State): Integer; cdecl;
-var
-	lStrings:TLuaStrings;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lStrings := TLuaStrings(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lStrings.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Strings', 'Assign', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Strings_BeginUpdate(L: Plua_State): Integer; cdecl;
 var
 	lStrings:TLuaStrings;
@@ -1753,7 +1736,6 @@ begin
 	TLuaMethodInfo.Create(StringsFuncs, 'AddDelimitedText', @VCLua_Strings_AddDelimitedText);
 	TLuaMethodInfo.Create(StringsFuncs, 'AddDelimitedtext2', @VCLua_Strings_AddDelimitedtext2);
 	TLuaMethodInfo.Create(StringsFuncs, 'Append', @VCLua_Strings_Append);
-	TLuaMethodInfo.Create(StringsFuncs, 'Assign', @VCLua_Strings_Assign);
 	TLuaMethodInfo.Create(StringsFuncs, 'BeginUpdate', @VCLua_Strings_BeginUpdate);
 	TLuaMethodInfo.Create(StringsFuncs, 'Clear', @VCLua_Strings_Clear);
 	TLuaMethodInfo.Create(StringsFuncs, 'Delete', @VCLua_Strings_Delete);

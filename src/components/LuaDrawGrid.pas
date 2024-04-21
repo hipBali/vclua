@@ -193,36 +193,6 @@ begin
 	Result := 0;
 end;
 
-function VCLua_CustomGrid_Invalidate(L: Plua_State): Integer; cdecl;
-var
-	lCustomGrid:TLuaCustomGrid;
-begin
-	CheckArg(L, 1);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	try
-		lCustomGrid.Invalidate();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CustomGrid', 'Invalidate', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_CustomGrid_EditingDone(L: Plua_State): Integer; cdecl;
-var
-	lCustomGrid:TLuaCustomGrid;
-begin
-	CheckArg(L, 1);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	try
-		lCustomGrid.EditingDone();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CustomGrid', 'EditingDone', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_CustomGrid_AdjustInnerCellRect(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
@@ -630,23 +600,6 @@ begin
 	end;
 end;
 
-function VCLua_CustomGrid_FixDesignFontsPPI(L: Plua_State): Integer; cdecl;
-var
-	lCustomGrid:TLuaCustomGrid;
-	ADesignTimePPI:Integer;
-begin
-	CheckArg(L, 2);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	luaL_check(L,2,@ADesignTimePPI);
-	try
-		lCustomGrid.FixDesignFontsPPI(ADesignTimePPI);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CustomGrid', 'FixDesignFontsPPI', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_CustomGrid_Focused(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
@@ -976,25 +929,6 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'SaveToStream', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_CustomGrid_ScaleFontsPPI(L: Plua_State): Integer; cdecl;
-var
-	lCustomGrid:TLuaCustomGrid;
-	AToPPI:Integer;
-	AProportion:Double;
-begin
-	CheckArg(L, 3);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	luaL_check(L,2,@AToPPI);
-	luaL_check(L,3,@AProportion);
-	try
-		lCustomGrid.ScaleFontsPPI(AToPPI,AProportion);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CustomGrid', 'ScaleFontsPPI', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1475,8 +1409,6 @@ end;
 
 begin
 	CustomGridFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomGridFuncs, 'Invalidate', @VCLua_CustomGrid_Invalidate);
-	TLuaMethodInfo.Create(CustomGridFuncs, 'EditingDone', @VCLua_CustomGrid_EditingDone);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'AdjustInnerCellRect', @VCLua_CustomGrid_AdjustInnerCellRect);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'AdjustInnerCellRect2', @VCLua_CustomGrid_AdjustInnerCellRect2);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'AutoAdjustColumns', @VCLua_CustomGrid_AutoAdjustColumns);
@@ -1499,7 +1431,6 @@ begin
 	TLuaMethodInfo.Create(CustomGridFuncs, 'EditorKeyUp2', @VCLua_CustomGrid_EditorKeyUp2);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'EditorTextChanged', @VCLua_CustomGrid_EditorTextChanged);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'EndUpdate', @VCLua_CustomGrid_EndUpdate);
-	TLuaMethodInfo.Create(CustomGridFuncs, 'FixDesignFontsPPI', @VCLua_CustomGrid_FixDesignFontsPPI);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'Focused', @VCLua_CustomGrid_Focused);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'HasMultiSelection', @VCLua_CustomGrid_HasMultiSelection);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'HideSortArrow', @VCLua_CustomGrid_HideSortArrow);
@@ -1518,7 +1449,6 @@ begin
 	TLuaMethodInfo.Create(CustomGridFuncs, 'MouseToGridZone', @VCLua_CustomGrid_MouseToGridZone);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SaveToFile', @VCLua_CustomGrid_SaveToFile);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SaveToStream', @VCLua_CustomGrid_SaveToStream);
-	TLuaMethodInfo.Create(CustomGridFuncs, 'ScaleFontsPPI', @VCLua_CustomGrid_ScaleFontsPPI);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SetFocus', @VCLua_CustomGrid_SetFocus);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'CursorState', @VCLua_CustomGrid_VCLuaGetCursorState, mfCall);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SelectedRange', @VCLua_CustomGrid_SelectedRange);
