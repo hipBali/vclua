@@ -2138,6 +2138,23 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Control_RemoveAllHandlersOfObject(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	AnObject:TObject;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@AnObject);
+	try
+		lControl.RemoveAllHandlersOfObject(AnObject);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'RemoveAllHandlersOfObject', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_Control_VCLuaSetAccessibleName(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
@@ -3420,6 +3437,7 @@ begin
 	TLuaMethodInfo.Create(ControlFuncs, 'InitiateAction', @VCLua_Control_InitiateAction);
 	TLuaMethodInfo.Create(ControlFuncs, 'ShowHelp', @VCLua_Control_ShowHelp);
 	TLuaMethodInfo.Create(ControlFuncs, 'HasHelp', @VCLua_Control_HasHelp);
+	TLuaMethodInfo.Create(ControlFuncs, 'RemoveAllHandlersOfObject', @VCLua_Control_RemoveAllHandlersOfObject);
 	TLuaMethodInfo.Create(ControlFuncs, 'AccessibleName', @VCLua_Control_VCLuaGetAccessibleName, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'AccessibleDescription', @VCLua_Control_VCLuaGetAccessibleDescription, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'AccessibleValue', @VCLua_Control_VCLuaGetAccessibleValue, mfCall);

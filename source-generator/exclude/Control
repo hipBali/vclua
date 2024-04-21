@@ -6,7 +6,6 @@ procedure WriteAutoSizeReasons
 procedure WriteLayoutDebugReport
 procedure AutoAdjustLayout
 function Perform
-procedure RemoveAllHandlersOfObject
 procedure AddHandlerOnResize
 procedure RemoveHandlerOnResize
 procedure AddHandlerOnChangeBounds

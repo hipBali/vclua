@@ -2040,6 +2040,7 @@ result = o:ParentToClient(Point,AParent)</td><td class="fp">function  ParentToCl
 result = o.PopupMenu</td><td class="fp">property PopupMenu: TPopupmenu read GetPopupmenu write SetPopupMenu;</td></tr>
 <tr><td class="lua">result = o.ReadBounds</td><td class="fp">property ReadBounds: TRect read FReadBounds;</td></tr>
 <tr><td class="lua">o:Refresh()</td><td class="fp">procedure Refresh;</td></tr>
+<tr><td class="lua">o:RemoveAllHandlersOfObject(AnObject)</td><td class="fp">procedure RemoveAllHandlersOfObject(AnObject: TObject); override;</td></tr>
 <tr><td class="lua">o:Repaint()</td><td class="fp">procedure Repaint; virtual;</td></tr>
 <tr><td class="lua">result = o:ReplaceDockedControl(Control,NewDockSite,DropControl,ControlSide)</td><td class="fp">function ReplaceDockedControl(Control: TControl; NewDockSite: TWinControl; DropControl: TControl; ControlSide: TAlign): Boolean;</td></tr>
 <tr><td class="lua">result = o:Scale96ToFont(ASize)</td><td class="fp">function Scale96ToFont(const ASize: Integer): Integer;</td></tr>
@@ -3047,7 +3048,6 @@ result = o.PasswordChar</td><td class="fp">property PasswordChar: Char read FPas
 <tr><td class="lua">o:PasteFromClipboard()</td><td class="fp">procedure PasteFromClipboard; virtual;</td></tr>
 <tr><td class="lua">o.ReadOnly = value
 result = o.ReadOnly</td><td class="fp">property ReadOnly: Boolean read GetReadOnly write SetReadOnly default false;</td></tr>
-<tr><td class="lua">o:RemoveAllHandlersOfObject(AnObject)</td><td class="fp">procedure RemoveAllHandlersOfObject(AnObject: TObject); override;</td></tr>
 <tr><td class="lua">o.SelLength = value
 result = o.SelLength</td><td class="fp">property SelLength: integer read GetSelLength write SetSelLength;</td></tr>
 <tr><td class="lua">o.SelStart = value

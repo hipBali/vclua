@@ -11,8 +11,8 @@
 -- local FPCSOURCE = "/usr/share/fpcsrc/3.2.2/"
 
 -- windows
-local LAZPATH = "/work/tools/lazarus/"
-local FPCSOURCE = "/work/tools/lazarus/fpc/3.2.2/source/"
+local LAZPATH = "f:/Work/Dev/lazarus2/"
+local FPCSOURCE = LAZPATH.."fpc/3.2.2/source/"
 
 fpcSrc = {
 	["Classes"] 	= FPCSOURCE.."rtl/objpas/classes/classesh.inc",

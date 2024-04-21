@@ -129,23 +129,6 @@ begin
 	end;
 end;
 
-function VCLua_Edit_RemoveAllHandlersOfObject(L: Plua_State): Integer; cdecl;
-var
-	lEdit:TLuaEdit;
-	AnObject:TObject;
-begin
-	CheckArg(L, 2);
-	lEdit := TLuaEdit(GetLuaObject(L, 1));
-	luaL_check(L,2,@AnObject);
-	try
-		lEdit.RemoveAllHandlersOfObject(AnObject);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Edit', 'RemoveAllHandlersOfObject', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Edit_VCLuaSetAlignment(L: Plua_State): Integer; cdecl;
 var
 	lEdit:TLuaEdit;
@@ -668,7 +651,6 @@ begin
 	TLuaMethodInfo.Create(CustomEditFuncs, 'CutToClipboard', @VCLua_Edit_CutToClipboard);
 	TLuaMethodInfo.Create(CustomEditFuncs, 'PasteFromClipboard', @VCLua_Edit_PasteFromClipboard);
 	TLuaMethodInfo.Create(CustomEditFuncs, 'Undo', @VCLua_Edit_Undo);
-	TLuaMethodInfo.Create(CustomEditFuncs, 'RemoveAllHandlersOfObject', @VCLua_Edit_RemoveAllHandlersOfObject);
 	TLuaMethodInfo.Create(CustomEditFuncs, 'Alignment', @VCLua_Edit_VCLuaGetAlignment, mfCall);
 	TLuaMethodInfo.Create(CustomEditFuncs, 'CanUndo', @VCLua_Edit_VCLuaGetCanUndo, mfCall);
 	TLuaMethodInfo.Create(CustomEditFuncs, 'CaretPos', @VCLua_Edit_VCLuaGetCaretPos, mfCall);
