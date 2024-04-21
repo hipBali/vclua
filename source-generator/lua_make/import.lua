@@ -448,6 +448,10 @@ local function processClass(def,cdef,ref)
 							end
 							if ok then cLog('Override source not found '..cdef.src..' '..line, 'DEBUG') end
 						end
+						if ok and line:match('[^_%w][dD]eprecated[^_%w]') then
+							ok = false
+							reason = 'deprecated'
+						end
 						if ok then table.insert(classTable[cname], md)
 						else cLog(" ** EXCLUDED:"..line.." "..reason, "DEBUG") end
 					end
@@ -1118,7 +1122,7 @@ htmltemp = [[
   }
 </style>
 <H2>VCLua Class Reference</H2>
-<H3>version 0.9.2</H3>
+<H3>version 0.10.0</H3>
 </head>
 <body>
 <hr>

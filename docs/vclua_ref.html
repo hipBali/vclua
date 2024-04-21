@@ -40,7 +40,7 @@
   }
 </style>
 <H2>VCLua Class Reference</H2>
-<H3>version 0.9.2</H3>
+<H3>version 0.10.0</H3>
 </head>
 <body>
 <hr>
@@ -630,8 +630,6 @@ result = o.ActionComponent</td><td class="fp">property ActionComponent: TCompone
 <tr><td class="lua">o.Bitmap = value
 result = o.Bitmap</td><td class="fp">property Bitmap: TCustomBitmap read FBitmap write SetBitmap;</td></tr>
 <tr><td class="lua">result = o:EqualsBrush(ABrush)</td><td class="fp">function EqualsBrush(ABrush: TBrush): boolean;</td></tr>
-<tr><td class="lua">o.Handle = value
-result = o.Handle</td><td class="fp">property Handle: HBRUSH read GetHandle write SetHandle; deprecated; </td></tr>
 </table></div>
 <a id="Button"><div class="class"><b><u>Button</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -1778,8 +1776,6 @@ result = o.CharCase</td><td class="fp">property CharCase: TEditCharCase read FCh
 result = o.DropDownCount</td><td class="fp">property DropDownCount: Integer read FDropDownCount write SetDropDownCount default 8;</td></tr>
 <tr><td class="lua">o.DroppedDown = value
 result = o.DroppedDown</td><td class="fp">property DroppedDown: Boolean read GetDroppedDown write SetDroppedDown;</td></tr>
-<tr><td class="lua">o.DroppingDown = value
-result = o.DroppingDown</td><td class="fp">property DroppingDown: Boolean read FDroppingDown write FDroppingDown; deprecated 'Will be removed in 2.2';</td></tr>
 <tr><td class="lua">result = o.EmulatedTextHintStatus</td><td class="fp">property EmulatedTextHintStatus: TEmulatedTextHintStatus read FEmulatedTextHintStatus;</td></tr>
 <tr><td class="lua">o:IntfGetItems()</td><td class="fp">procedure IntfGetItems;</td></tr>
 <tr><td class="lua">o.ItemIndex = value
@@ -2005,7 +2001,6 @@ result = o.LRDockWidth</td><td class="fp">property LRDockWidth: Integer read Get
 result = o:ManualDock(NewDockSite,DropControl,ControlSide,KeepDockSiteSize)</td><td class="fp">function ManualDock(NewDockSite: TWinControl; DropControl: TControl = nil; ControlSide: TAlign = alNone; KeepDockSiteSize: Boolean = true): Boolean; virtual;</td></tr>
 <tr><td class="lua">result = o:ManualFloat(TheScreenRect)
 result = o:ManualFloat(TheScreenRect,KeepDockSiteSize)</td><td class="fp">function ManualFloat(TheScreenRect: TRect; KeepDockSiteSize: Boolean = true): Boolean; virtual;</td></tr>
-<tr><td class="lua">result = o.MouseEntered</td><td class="fp">property MouseEntered: Boolean read FMouseInClient; deprecated 'use MouseInClient instead';</td></tr>
 <tr><td class="lua">result = o.MouseInClient</td><td class="fp">property MouseInClient: Boolean read FMouseInClient;</td></tr>
 <tr><td class="lua">o.OnChangeBounds = function(Sender) end</td><td class="fp">property OnChangeBounds: TNotifyEvent read FOnChangeBounds write FOnChangeBounds;</td></tr>
 <tr><td class="lua">o.OnClick = function(Sender) end</td><td class="fp">property OnClick: TNotifyEvent read FOnClick write FOnClick;</td></tr>
@@ -2360,7 +2355,6 @@ o:EndUpdate(aRefresh)</td><td class="fp">procedure EndUpdate(aRefresh: boolean =
 <tr><td class="lua">o.OnCheckboxToggled = function(Sender,aCol,aRow,aState) end</td><td class="fp">property OnCheckboxToggled: TToggledCheckboxEvent read FOnCheckboxToggled write FOnCheckboxToggled;</td></tr>
 <tr><td class="lua">o.OnCompareCells = function(Sender,ACol,ARow,BCol,BRow,Result) return Result end</td><td class="fp">property OnCompareCells: TOnCompareCells read FOnCompareCells write FOnCompareCells;</td></tr>
 <tr><td class="lua">o.OnDrawCell = function(Sender,aCol,aRow,aRect,aState) end</td><td class="fp">property OnDrawCell: TOnDrawCell read FOnDrawCell write FOnDrawCell;</td></tr>
-<tr><td class="lua">o.OnEditButtonClick = function(Sender) end</td><td class="fp">property OnEditButtonClick: TNotifyEvent read FOnEditButtonClick write FOnEditButtonClick; deprecated;</td></tr>
 <tr><td class="lua">o.OnGetCellHint = function(Sender,ACol,ARow,HintText) return HintText end</td><td class="fp">property OnGetCellHint : TGetCellHintEvent read FOnGetCellHint write FOnGetCellHint;</td></tr>
 <tr><td class="lua">o.OnPickListSelect = function(Sender) end</td><td class="fp">property OnPickListSelect: TNotifyEvent read FOnPickListSelect write FOnPickListSelect;</td></tr>
 <tr><td class="lua">o.OnPrepareCanvas = function(Sender,aCol,aRow,aState) end</td><td class="fp">property OnPrepareCanvas: TOnPrepareCanvasEvent read FOnPrepareCanvas write FOnPrepareCanvas;</td></tr>
@@ -5517,8 +5511,6 @@ result = o.FullRepaint</td><td class="fp">property FullRepaint: Boolean read FFu
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:Assign(Source)</td><td class="fp">procedure Assign(Source: TPersistent); override;</td></tr>
 <tr><td class="lua">result = o:GetPattern()</td><td class="fp">function GetPattern: TPenPattern;</td></tr>
-<tr><td class="lua">o.Handle = value
-result = o.Handle</td><td class="fp">property Handle: HPEN read GetHandle write SetHandle; deprecated;</td></tr>
 <tr><td class="lua">o:SetPattern(APattern)</td><td class="fp">procedure SetPattern(APattern: TPenPattern); reintroduce;</td></tr>
 </table></div>
 <a id="Persistent"><div class="class"><b><u>Persistent</u></b></div></a>

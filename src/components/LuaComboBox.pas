@@ -270,38 +270,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_ComboBox_VCLuaSetDroppingDown(L: Plua_State): Integer; cdecl;
-var
-	lComboBox:TLuaComboBox;
-	val:Boolean;
-begin
-	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
-	luaL_check(L,2,@val);
-	try
-		lComboBox.DroppingDown := val;
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ComboBox', 'SetDroppingDown', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_ComboBox_VCLuaGetDroppingDown(L: Plua_State): Integer; cdecl;
-var
-	lComboBox:TLuaComboBox;
-	ret:Boolean;
-begin
-	lComboBox := TLuaComboBox(GetLuaObjectUnsafe(L, 1));
-	try
-		ret := lComboBox.DroppingDown;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'ComboBox', 'GetDroppingDown', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
 function VCLua_ComboBox_SelectAll(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
@@ -864,7 +832,6 @@ begin
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'ClearSelection', @VCLua_ComboBox_ClearSelection);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'CharCase', @VCLua_ComboBox_VCLuaGetCharCase, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'DroppedDown', @VCLua_ComboBox_VCLuaGetDroppedDown, mfCall);
-	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'DroppingDown', @VCLua_ComboBox_VCLuaGetDroppingDown, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'SelectAll', @VCLua_ComboBox_SelectAll);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AutoComplete', @VCLua_ComboBox_VCLuaGetAutoComplete, mfCall);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AutoCompleteText', @VCLua_ComboBox_VCLuaGetAutoCompleteText, mfCall);
@@ -893,7 +860,6 @@ begin
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'OnSelect', @VCLua_ComboBox_VCLuaSetOnSelect, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'CharCase', @VCLua_ComboBox_VCLuaSetCharCase, mfCall, TypeInfo(TEditCharCase));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'DroppedDown', @VCLua_ComboBox_VCLuaSetDroppedDown, mfCall, TypeInfo(Boolean));
-	TLuaMethodInfo.Create(CustomComboBoxSets, 'DroppingDown', @VCLua_ComboBox_VCLuaSetDroppingDown, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'AutoComplete', @VCLua_ComboBox_VCLuaSetAutoComplete, mfCall, TypeInfo(boolean));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'AutoCompleteText', @VCLua_ComboBox_VCLuaSetAutoCompleteText, mfCall, TypeInfo(TComboBoxAutoCompleteText));
 	TLuaMethodInfo.Create(CustomComboBoxSets, 'AutoDropDown', @VCLua_ComboBox_VCLuaSetAutoDropDown, mfCall, TypeInfo(Boolean));

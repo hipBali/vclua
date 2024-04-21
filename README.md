@@ -1,7 +1,7 @@
 # vclua
 Gui library for lua
 
-Version 0.9.2
+Version 0.10.0
 
 Made with *Lazarus version 2.2.6*
 ___
@@ -165,3 +165,4 @@ copy core.dll my_lua_libs/vcl/core.dll
 ```
 lua lua_make/import.lua true true
 ```
+This uses the installed library to get published properties.

@@ -2845,22 +2845,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_Control_VCLuaGetMouseEntered(L: Plua_State): Integer; cdecl;
-var
-	lControl:TLuaControl;
-	ret:Boolean;
-begin
-	lControl := TLuaControl(GetLuaObjectUnsafe(L, 1));
-	try
-		ret := lControl.MouseEntered;
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'Control', 'GetMouseEntered', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
 function VCLua_Control_VCLuaGetMouseInClient(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
@@ -3460,7 +3444,6 @@ begin
 	TLuaMethodInfo.Create(ControlFuncs, 'Enabled', @VCLua_Control_VCLuaGetEnabled, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'Font', @VCLua_Control_VCLuaGetFont, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'IsControl', @VCLua_Control_VCLuaGetIsControl, mfCall);
-	TLuaMethodInfo.Create(ControlFuncs, 'MouseEntered', @VCLua_Control_VCLuaGetMouseEntered, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'MouseInClient', @VCLua_Control_VCLuaGetMouseInClient, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'Parent', @VCLua_Control_VCLuaGetParent, mfCall);
 	TLuaMethodInfo.Create(ControlFuncs, 'PopupMenu', @VCLua_Control_VCLuaGetPopupMenu, mfCall);

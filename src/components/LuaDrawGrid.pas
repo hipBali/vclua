@@ -93,16 +93,6 @@ begin
 	Result := 0;
 end;
 
-function VCLua_CustomGrid_VCLuaSetOnEditButtonClick(L: Plua_State): Integer; cdecl;
-var
-	lCustomGrid:TLuaCustomGrid;
-begin
-	lCustomGrid := TLuaCustomGrid(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lCustomGrid.OnEditButtonClick));
-	lCustomGrid.OnEditButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
-	Result := 0;
-end;
-
 function VCLua_CustomGrid_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
 var
 	lCustomGrid:TLuaCustomGrid;
@@ -1462,7 +1452,6 @@ begin
 	TLuaMethodInfo.Create(CustomGridSets, 'OnCompareCells', @VCLua_CustomGrid_VCLuaSetOnCompareCells, mfCall, TypeInfo(TOnCompareCells));
 	TLuaMethodInfo.Create(CustomGridSets, 'OnPrepareCanvas', @VCLua_CustomGrid_VCLuaSetOnPrepareCanvas, mfCall, TypeInfo(TOnPrepareCanvasEvent));
 	TLuaMethodInfo.Create(CustomGridSets, 'OnDrawCell', @VCLua_CustomGrid_VCLuaSetOnDrawCell, mfCall, TypeInfo(TOnDrawCell));
-	TLuaMethodInfo.Create(CustomGridSets, 'OnEditButtonClick', @VCLua_CustomGrid_VCLuaSetOnEditButtonClick, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(CustomGridSets, 'OnButtonClick', @VCLua_CustomGrid_VCLuaSetOnButtonClick, mfCall, TypeInfo(TOnSelectEvent));
 	TLuaMethodInfo.Create(CustomGridSets, 'OnPickListSelect', @VCLua_CustomGrid_VCLuaSetOnPickListSelect, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(CustomGridSets, 'OnSelection', @VCLua_CustomGrid_VCLuaSetOnSelection, mfCall, TypeInfo(TOnSelectEvent));
