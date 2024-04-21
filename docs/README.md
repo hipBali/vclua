@@ -43,7 +43,6 @@ print(statusPanel.visible)
 	``` lua	
 	if type(p) == "table" and p.Handle and p:is('TComponent') then ... end
 	```
- - for TWinControl descendants: `SetFocus`, `BeginUpdateBounds`, `EndUpdateBounds`
  - `Handle` field contains object pointer as Lua light userdata. This shadows `Handle` properties of some LCL classes like `TFont`. To access this property you can use [`GetCallable`](#additional-functions)
 
 ### Creating application

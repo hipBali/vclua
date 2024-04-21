@@ -69,6 +69,15 @@ var
     DockZoneFuncs: TLuaVmt;
     DockZoneSets: TLuaVmt;
 
+procedure lua_push(L: Plua_State; const v: TDockManager; pti: PTypeInfo = nil); overload; inline;
+
+type
+    TLuaDockManager = class(TDockManager)
+    end;
+var
+    DockManagerFuncs: TLuaVmt;
+    DockManagerSets: TLuaVmt;
+
 procedure lua_push(L: Plua_State; const v: TDockTree; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -80,7 +89,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LuaControl;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LuaControl, LuaWinControl;
 
 function VCLua_DragObject_HideDragImage(L: Plua_State): Integer; cdecl;
 var
@@ -1109,34 +1118,295 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_DockTree_BeginUpdate(L: Plua_State): Integer; cdecl;
+function VCLua_DockManager_BeginUpdate(L: Plua_State): Integer; cdecl;
 var
-	lDockTree:TLuaDockTree;
+	lDockManager:TLuaDockManager;
 begin
 	CheckArg(L, 1);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
 	try
-		lDockTree.BeginUpdate();
+		lDockManager.BeginUpdate();
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockTree', 'BeginUpdate', E.ClassName, E.Message);
+			CallError(L, 'DockManager', 'BeginUpdate', E.ClassName, E.Message);
 	end;
 end;
 
-function VCLua_DockTree_EndUpdate(L: Plua_State): Integer; cdecl;
+function VCLua_DockManager_EndUpdate(L: Plua_State): Integer; cdecl;
 var
-	lDockTree:TLuaDockTree;
+	lDockManager:TLuaDockManager;
 begin
 	CheckArg(L, 1);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
 	try
-		lDockTree.EndUpdate();
+		lDockManager.EndUpdate();
 		Result := 0;
 	except
 		on E: Exception do
-			CallError(L, 'DockTree', 'EndUpdate', E.ClassName, E.Message);
+			CallError(L, 'DockManager', 'EndUpdate', E.ClassName, E.Message);
 	end;
+end;
+
+function VCLua_DockManager_GetControlBounds(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Control:TControl;
+	AControlBounds:TRect;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Control);
+	try
+		lDockManager.GetControlBounds(Control,AControlBounds);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'GetControlBounds', E.ClassName, E.Message);
+	end;
+	lua_push(L,AControlBounds);
+end;
+
+function VCLua_DockManager_GetDockEdge(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	ADockObject:TDragDockObject;
+	ret:boolean;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@ADockObject);
+	try
+		ret := lDockManager.GetDockEdge(ADockObject);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'GetDockEdge', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_DockManager_InsertControl(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	ADockObject:TDragDockObject;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@ADockObject);
+	try
+		lDockManager.InsertControl(ADockObject);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'InsertControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockManager_InsertControl2(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Control:TControl;
+	InsertAt:TAlign;
+	DropCtl:TControl;
+begin
+	CheckArg(L, 4);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Control);
+	luaL_check(L,3,@InsertAt,TypeInfo(TAlign));
+	luaL_check(L,4,@DropCtl);
+	try
+		lDockManager.InsertControl(Control,InsertAt,DropCtl);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'InsertControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockManager_LoadFromStream(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Stream:TStream;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Stream);
+	try
+		lDockManager.LoadFromStream(Stream);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'LoadFromStream', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockManager_PositionDockRect(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	ADockObject:TDragDockObject;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@ADockObject);
+	try
+		lDockManager.PositionDockRect(ADockObject);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'PositionDockRect', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockManager_PositionDockRect2(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Client:TControl;
+	DropCtl:TControl;
+	DropAlign:TAlign;
+	DockRect:TRect;
+begin
+	CheckArg(L, 4);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Client);
+	luaL_check(L,3,@DropCtl);
+	luaL_check(L,4,@DropAlign,TypeInfo(TAlign));
+	try
+		lDockManager.PositionDockRect(Client,DropCtl,DropAlign,DockRect);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'PositionDockRect', E.ClassName, E.Message);
+	end;
+	lua_push(L,DockRect);
+end;
+
+function VCLua_DockManager_PositionDockRect3(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Client:TControl;
+	DropCtl:TControl;
+	DropAlign:TAlign;
+	DockRect:TRect;
+begin
+	CheckArg(L, 5);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Client);
+	luaL_check(L,3,@DropCtl);
+	luaL_check(L,4,@DropAlign,TypeInfo(TAlign));
+	luaL_check(L,5,@DockRect);
+	try
+		lDockManager.PositionDockRect(Client,DropCtl,DropAlign,DockRect);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'PositionDockRect', E.ClassName, E.Message);
+	end;
+	lua_push(L,DockRect);
+end;
+
+function VCLua_DockManager_RemoveControl(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Control:TControl;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Control);
+	try
+		lDockManager.RemoveControl(Control);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'RemoveControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockManager_ResetBounds(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Force:Boolean;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Force);
+	try
+		lDockManager.ResetBounds(Force);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'ResetBounds', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockManager_SaveToStream(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Stream:TStream;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Stream);
+	try
+		lDockManager.SaveToStream(Stream);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'SaveToStream', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockManager_SetReplacingControl(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Control:TControl;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Control);
+	try
+		lDockManager.SetReplacingControl(Control);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'SetReplacingControl', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_DockManager_AutoFreeByControl(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	try
+		ret := lDockManager.AutoFreeByControl();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'AutoFreeByControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_DockManager_IsEnabledControl(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	Control:TControl;
+	ret:Boolean;
+begin
+	CheckArg(L, 2);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	luaL_check(L,2,@Control);
+	try
+		ret := lDockManager.IsEnabledControl(Control);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'IsEnabledControl', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 function VCLua_DockTree_AdjustDockRect(L: Plua_State): Integer; cdecl;
@@ -1176,178 +1446,6 @@ begin
 			CallError(L, 'DockTree', 'AdjustDockRect', E.ClassName, E.Message);
 	end;
 	lua_push(L,ARect);
-end;
-
-function VCLua_DockTree_GetControlBounds(L: Plua_State): Integer; cdecl;
-var
-	lDockTree:TLuaDockTree;
-	AControl:TControl;
-	ControlBounds:TRect;
-begin
-	CheckArg(L, 2);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
-	luaL_check(L,2,@AControl);
-	try
-		lDockTree.GetControlBounds(AControl,ControlBounds);
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'DockTree', 'GetControlBounds', E.ClassName, E.Message);
-	end;
-	lua_push(L,ControlBounds);
-end;
-
-function VCLua_DockTree_InsertControl(L: Plua_State): Integer; cdecl;
-var
-	lDockTree:TLuaDockTree;
-	AControl:TControl;
-	InsertAt:TAlign;
-	DropControl:TControl;
-begin
-	CheckArg(L, 4);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
-	luaL_check(L,2,@AControl);
-	luaL_check(L,3,@InsertAt,TypeInfo(TAlign));
-	luaL_check(L,4,@DropControl);
-	try
-		lDockTree.InsertControl(AControl,InsertAt,DropControl);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'DockTree', 'InsertControl', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_DockTree_LoadFromStream(L: Plua_State): Integer; cdecl;
-var
-	lDockTree:TLuaDockTree;
-	SrcStream:TStream;
-begin
-	CheckArg(L, 2);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
-	luaL_check(L,2,@SrcStream);
-	try
-		lDockTree.LoadFromStream(SrcStream);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'DockTree', 'LoadFromStream', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_DockTree_PositionDockRect(L: Plua_State): Integer; cdecl;
-var
-	lDockTree:TLuaDockTree;
-	AClient:TControl;
-	DropCtl:TControl;
-	DropAlign:TAlign;
-	DockRect:TRect;
-begin
-	CheckArg(L, 4);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
-	luaL_check(L,2,@AClient);
-	luaL_check(L,3,@DropCtl);
-	luaL_check(L,4,@DropAlign,TypeInfo(TAlign));
-	try
-		lDockTree.PositionDockRect(AClient,DropCtl,DropAlign,DockRect);
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'DockTree', 'PositionDockRect', E.ClassName, E.Message);
-	end;
-	lua_push(L,DockRect);
-end;
-
-function VCLua_DockTree_PositionDockRect2(L: Plua_State): Integer; cdecl;
-var
-	lDockTree:TLuaDockTree;
-	AClient:TControl;
-	DropCtl:TControl;
-	DropAlign:TAlign;
-	DockRect:TRect;
-begin
-	CheckArg(L, 5);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
-	luaL_check(L,2,@AClient);
-	luaL_check(L,3,@DropCtl);
-	luaL_check(L,4,@DropAlign,TypeInfo(TAlign));
-	luaL_check(L,5,@DockRect);
-	try
-		lDockTree.PositionDockRect(AClient,DropCtl,DropAlign,DockRect);
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'DockTree', 'PositionDockRect', E.ClassName, E.Message);
-	end;
-	lua_push(L,DockRect);
-end;
-
-function VCLua_DockTree_RemoveControl(L: Plua_State): Integer; cdecl;
-var
-	lDockTree:TLuaDockTree;
-	AControl:TControl;
-begin
-	CheckArg(L, 2);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
-	luaL_check(L,2,@AControl);
-	try
-		lDockTree.RemoveControl(AControl);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'DockTree', 'RemoveControl', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_DockTree_SaveToStream(L: Plua_State): Integer; cdecl;
-var
-	lDockTree:TLuaDockTree;
-	DestStream:TStream;
-begin
-	CheckArg(L, 2);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
-	luaL_check(L,2,@DestStream);
-	try
-		lDockTree.SaveToStream(DestStream);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'DockTree', 'SaveToStream', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_DockTree_SetReplacingControl(L: Plua_State): Integer; cdecl;
-var
-	lDockTree:TLuaDockTree;
-	AControl:TControl;
-begin
-	CheckArg(L, 2);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
-	luaL_check(L,2,@AControl);
-	try
-		lDockTree.SetReplacingControl(AControl);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'DockTree', 'SetReplacingControl', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_DockTree_ResetBounds(L: Plua_State): Integer; cdecl;
-var
-	lDockTree:TLuaDockTree;
-	Force:Boolean;
-begin
-	CheckArg(L, 2);
-	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
-	luaL_check(L,2,@Force);
-	try
-		lDockTree.ResetBounds(Force);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'DockTree', 'ResetBounds', E.ClassName, E.Message);
-	end;
 end;
 
 function VCLua_DockTree_DumpLayout(L: Plua_State): Integer; cdecl;
@@ -1396,7 +1494,7 @@ begin
 		on E: Exception do
 			CallError(L, 'DockTree', 'GetDockSite', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_DockTree_VCLuaGetRootZone(L: Plua_State): Integer; cdecl;
@@ -1515,6 +1613,11 @@ begin
 	CreateTableForKnownType(L,'TDockZone',v);
 end;
 
+procedure lua_push(L: Plua_State; const v: TDockManager; pti: PTypeInfo);
+begin
+	CreateTableForKnownType(L,'TDockManager',v);
+end;
+
 procedure lua_push(L: Plua_State; const v: TDockTree; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TDockTree',v);
@@ -1602,20 +1705,28 @@ begin
 	TLuaMethodInfo.Create(DockZoneSets, 'Orientation', @VCLua_DockZone_VCLuaSetOrientation, mfCall, TypeInfo(TDockOrientation));
 	TLuaMethodInfo.Create(DockZoneSets, 'Top', @VCLua_DockZone_VCLuaSetTop, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(DockZoneSets, 'Width', @VCLua_DockZone_VCLuaSetWidth, mfCall, TypeInfo(Integer));
+	DockManagerFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(DockManagerFuncs, 'BeginUpdate', @VCLua_DockManager_BeginUpdate);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'EndUpdate', @VCLua_DockManager_EndUpdate);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'GetControlBounds', @VCLua_DockManager_GetControlBounds);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'GetDockEdge', @VCLua_DockManager_GetDockEdge);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'InsertControl', @VCLua_DockManager_InsertControl);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'InsertControl2', @VCLua_DockManager_InsertControl2);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'LoadFromStream', @VCLua_DockManager_LoadFromStream);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'PositionDockRect', @VCLua_DockManager_PositionDockRect);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'PositionDockRect2', @VCLua_DockManager_PositionDockRect2);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'PositionDockRect3', @VCLua_DockManager_PositionDockRect3);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'RemoveControl', @VCLua_DockManager_RemoveControl);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'ResetBounds', @VCLua_DockManager_ResetBounds);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'SaveToStream', @VCLua_DockManager_SaveToStream);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'SetReplacingControl', @VCLua_DockManager_SetReplacingControl);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'AutoFreeByControl', @VCLua_DockManager_AutoFreeByControl);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'IsEnabledControl', @VCLua_DockManager_IsEnabledControl);
+	DockManagerSets := TLuaVmt.Create;
+	
 	DockTreeFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(DockTreeFuncs, 'BeginUpdate', @VCLua_DockTree_BeginUpdate);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'EndUpdate', @VCLua_DockTree_EndUpdate);
 	TLuaMethodInfo.Create(DockTreeFuncs, 'AdjustDockRect', @VCLua_DockTree_AdjustDockRect);
 	TLuaMethodInfo.Create(DockTreeFuncs, 'AdjustDockRect2', @VCLua_DockTree_AdjustDockRect2);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'GetControlBounds', @VCLua_DockTree_GetControlBounds);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'InsertControl', @VCLua_DockTree_InsertControl);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'LoadFromStream', @VCLua_DockTree_LoadFromStream);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'PositionDockRect', @VCLua_DockTree_PositionDockRect);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'PositionDockRect2', @VCLua_DockTree_PositionDockRect2);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'RemoveControl', @VCLua_DockTree_RemoveControl);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'SaveToStream', @VCLua_DockTree_SaveToStream);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'SetReplacingControl', @VCLua_DockTree_SetReplacingControl);
-	TLuaMethodInfo.Create(DockTreeFuncs, 'ResetBounds', @VCLua_DockTree_ResetBounds);
 	TLuaMethodInfo.Create(DockTreeFuncs, 'DumpLayout', @VCLua_DockTree_DumpLayout);
 	TLuaMethodInfo.Create(DockTreeFuncs, 'DockSite', @VCLua_DockTree_VCLuaGetDockSite, mfCall);
 	TLuaMethodInfo.Create(DockTreeFuncs, 'RootZone', @VCLua_DockTree_VCLuaGetRootZone, mfCall);

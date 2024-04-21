@@ -31,7 +31,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LCLType, LuaClassesEvents, LuaEvent, LuaGridsEvents;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LCLType, LuaClassesEvents, LuaEvent, LuaGridsEvents, LuaWinControl;
 
 function VCLua_CustomGrid_VCLuaSetOnAfterSelection(L: Plua_State): Integer; cdecl;
 var
@@ -385,7 +385,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EditorByStyle', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_CustomGrid_EditorKeyDown(L: Plua_State): Integer; cdecl;
@@ -588,23 +588,6 @@ begin
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'EndUpdate', E.ClassName, E.Message);
 	end;
-end;
-
-function VCLua_CustomGrid_Focused(L: Plua_State): Integer; cdecl;
-var
-	lCustomGrid:TLuaCustomGrid;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	try
-		ret := lCustomGrid.Focused();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'CustomGrid', 'Focused', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
 end;
 
 function VCLua_CustomGrid_HasMultiSelection(L: Plua_State): Integer; cdecl;
@@ -919,21 +902,6 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'CustomGrid', 'SaveToStream', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_CustomGrid_SetFocus(L: Plua_State): Integer; cdecl;
-var
-	lCustomGrid:TLuaCustomGrid;
-begin
-	CheckArg(L, 1);
-	lCustomGrid := TLuaCustomGrid(GetLuaObject(L, 1));
-	try
-		lCustomGrid.SetFocus();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CustomGrid', 'SetFocus', E.ClassName, E.Message);
 	end;
 end;
 
@@ -1421,7 +1389,6 @@ begin
 	TLuaMethodInfo.Create(CustomGridFuncs, 'EditorKeyUp2', @VCLua_CustomGrid_EditorKeyUp2);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'EditorTextChanged', @VCLua_CustomGrid_EditorTextChanged);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'EndUpdate', @VCLua_CustomGrid_EndUpdate);
-	TLuaMethodInfo.Create(CustomGridFuncs, 'Focused', @VCLua_CustomGrid_Focused);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'HasMultiSelection', @VCLua_CustomGrid_HasMultiSelection);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'HideSortArrow', @VCLua_CustomGrid_HideSortArrow);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'InvalidateCell', @VCLua_CustomGrid_InvalidateCell);
@@ -1439,7 +1406,6 @@ begin
 	TLuaMethodInfo.Create(CustomGridFuncs, 'MouseToGridZone', @VCLua_CustomGrid_MouseToGridZone);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SaveToFile', @VCLua_CustomGrid_SaveToFile);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SaveToStream', @VCLua_CustomGrid_SaveToStream);
-	TLuaMethodInfo.Create(CustomGridFuncs, 'SetFocus', @VCLua_CustomGrid_SetFocus);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'CursorState', @VCLua_CustomGrid_VCLuaGetCursorState, mfCall);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SelectedRange', @VCLua_CustomGrid_SelectedRange);
 	TLuaMethodInfo.Create(CustomGridFuncs, 'SelectedRangeCount', @VCLua_CustomGrid_VCLuaGetSelectedRangeCount, mfCall);

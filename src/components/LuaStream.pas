@@ -40,7 +40,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Controls, LuaComponent;
 
 function VCLua_Stream_Read(L: Plua_State): Integer; cdecl;
 var
@@ -243,7 +243,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Stream', 'ReadComponent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Stream_ReadComponentRes(L: Plua_State): Integer; cdecl;
@@ -262,7 +262,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Stream', 'ReadComponentRes', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Stream_WriteComponent(L: Plua_State): Integer; cdecl;

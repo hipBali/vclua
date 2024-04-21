@@ -99,7 +99,7 @@ var
   luaTop, luaNewTop: Integer;
 begin
   L := ToStack;
-  lua_push(L,AComponent,TypeInfo(AComponent));
+  lua_push(L,AComponent);
   DoCall(L,1);
 end;
 

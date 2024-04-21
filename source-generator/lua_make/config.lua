@@ -84,7 +84,7 @@ classes = {
 			{ name = "Collection", src = "TCollection", base=true, nocreate=true },
 		}
 	},
-	{ unit = "Stream", ref = "Classes",
+	{ unit = "Stream", ref = "Classes", implref = "LuaComponent",
 		classes = {
 			{ name = "Stream", src = "TStream", base=true, nocreate=true },
 			{ name = "CustomMemoryStream", src = "TCustomMemoryStream", base=true, nocreate=true },
@@ -134,9 +134,11 @@ classes = {
 	},
 
 	-- controls
-	{ name = "Control", src = "TControl", ref = "Controls"},
-	{ name = "GraphicControl", src = "TGraphicControl", ref = "Controls"},
-	{ name = "CustomControl", src = "TCustomControl", ref = "Controls"},
+	{ name = "ControlChildSizing", src = "TControlChildSizing", ref = "Controls", implref = "LuaWinControl", noparent=true},
+	{ name = "Control", src = "TControl", ref = "Controls", nocreate=true},
+	{ name = "WinControl", src = "TWinControl", ref = "Controls", implref = "LuaDrag", nocreate=true},
+	{ name = "GraphicControl", src = "TGraphicControl", ref = "Controls", nocreate=true},
+	{ name = "CustomControl", src = "TCustomControl", ref = "Controls", nocreate=true},
 	{ unit = "Drag", ref = "Controls",
 		classes = {
 			{ name = "DragObject", src = "TDragObject", parentclass='TControl', base=true},
@@ -145,6 +147,7 @@ classes = {
 			{ name = "DragDockObject", src = "TDragDockObject", parentclass='TControl', base=true},
 			{ name = "DragDockObjectEx", src = "TDragDockObjectEx", parentclass='TControl', base=true},
 			{ name = "DockZone", src = "TDockZone", nocreate=true},
+			{ name = "DockManager", src = "TDockManager", nocreate=true},
 			{ name = "DockTree", src = "TDockTree", nocreate=true},
 		}
 	},
@@ -152,8 +155,8 @@ classes = {
 	-- forms
 	{ name = "CustomApplication", src = "TCustomApplication", ref = "CustApp", implref = "singleinstance", nocreate=true },
 	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true, globals={Application=1} },
-	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", form=true},
 	{ name = "Monitor", src = "TMonitor", ref = "Forms", implref = "LCLType", nocreate=true},
+	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", form=true},
 	{ name = "Screen", src = "TScreen", ref = "Forms", implref = "LCLType", nocreate=true, globals={Screen=1}},
 	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms", },
 

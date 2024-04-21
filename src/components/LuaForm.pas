@@ -22,7 +22,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaBitmap, LuaClassesEvents, LuaControl, LuaEvent, LuaFormsEvents, LuaMenu, Menus, Types, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaBitmap, LuaClassesEvents, LuaControl, LuaEvent, LuaFormsEvents, LuaMenu, LuaMonitor, LuaWinControl, Menus, Types, LCLType;
 
 function VCLua_Form_AfterConstruction(L: Plua_State): Integer; cdecl;
 var
@@ -309,38 +309,6 @@ begin
 	end;
 end;
 
-function VCLua_Form_CanFocus(L: Plua_State): Integer; cdecl;
-var
-	lForm:TLuaForm;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
-	try
-		ret := lForm.CanFocus();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'Form', 'CanFocus', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
-function VCLua_Form_SetFocus(L: Plua_State): Integer; cdecl;
-var
-	lForm:TLuaForm;
-begin
-	CheckArg(L, 1);
-	lForm := TLuaForm(GetLuaObject(L, 1));
-	try
-		lForm.SetFocus();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Form', 'SetFocus', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Form_SetFocusedControl(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
@@ -517,23 +485,6 @@ begin
 	end;
 end;
 
-function VCLua_Form_UpdateDockCaption(L: Plua_State): Integer; cdecl;
-var
-	lForm:TLuaForm;
-	Exclude:TControl;
-begin
-	CheckArg(L, 2);
-	lForm := TLuaForm(GetLuaObject(L, 1));
-	luaL_check(L,2,@Exclude);
-	try
-		lForm.UpdateDockCaption(Exclude);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Form', 'UpdateDockCaption', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Form_VCLuaGetActive(L: Plua_State): Integer; cdecl;
 var
 	lForm:TLuaForm;
@@ -579,7 +530,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'GetActiveControl', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Form_VCLuaSetActiveDefaultControl(L: Plua_State): Integer; cdecl;
@@ -1094,7 +1045,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'GetMonitor', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Form_VCLuaGetLastActiveControl(L: Plua_State): Integer; cdecl;
@@ -1110,7 +1061,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Form', 'GetLastActiveControl', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Form_VCLuaSetPopupMode(L: Plua_State): Integer; cdecl;
@@ -1489,8 +1440,6 @@ begin
 	TLuaMethodInfo.Create(CustomFormFuncs, 'IntfHelp', @VCLua_Form_IntfHelp);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'MakeFullyVisible', @VCLua_Form_MakeFullyVisible);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Release', @VCLua_Form_Release);
-	TLuaMethodInfo.Create(CustomFormFuncs, 'CanFocus', @VCLua_Form_CanFocus);
-	TLuaMethodInfo.Create(CustomFormFuncs, 'SetFocus', @VCLua_Form_SetFocus);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'SetFocusedControl', @VCLua_Form_SetFocusedControl);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'SetRestoredBounds', @VCLua_Form_SetRestoredBounds);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Show', @VCLua_Form_Show);
@@ -1501,7 +1450,6 @@ begin
 	TLuaMethodInfo.Create(CustomFormFuncs, 'GetMDIChildren', @VCLua_Form_GetMDIChildren);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'MDIChildCount', @VCLua_Form_MDIChildCount);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'AutoScale', @VCLua_Form_AutoScale);
-	TLuaMethodInfo.Create(CustomFormFuncs, 'UpdateDockCaption', @VCLua_Form_UpdateDockCaption);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Active', @VCLua_Form_VCLuaGetActive, mfCall);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'ActiveControl', @VCLua_Form_VCLuaGetActiveControl, mfCall);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'ActiveDefaultControl', @VCLua_Form_VCLuaGetActiveDefaultControl, mfCall);

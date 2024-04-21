@@ -10,7 +10,6 @@ interface
 
 Uses Lua, LuaController, TypInfo, LuaVmt, Controls;
 
-function CreateCustomControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TCustomControl; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -69,24 +68,6 @@ end;
 procedure lua_push(L: Plua_State; const v: TCustomControl; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomControl',v);
-end;
-function CreateCustomControl(L: Plua_State): Integer; cdecl;
-var
-	lCustomControl:TLuaCustomControl;
-	Parent:TWinControl;
-	Name:String;
-begin
-	try
-	GetControlParents(L,TWinControl(Parent),Name);
-	lCustomControl := TLuaCustomControl.Create(Parent);
-	lCustomControl.Parent := TWinControl(Parent);
-	CreateTableForKnownType(L,'TCustomControl',lCustomControl);
-	InitControl(L,lCustomControl,Name);
-	Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'VCL', 'CustomControl', E.ClassName, E.Message);
-	end;
 end;
 
 begin

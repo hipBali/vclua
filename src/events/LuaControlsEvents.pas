@@ -116,7 +116,7 @@ type
 procedure RegisterLuaControlsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaComponent, LuaControl, LuaDrag, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, LuaComponent, LuaControl, LuaDrag, LuaWinControl, SysUtils;
 
 procedure RegisterLuaControlsEvents();
 begin
@@ -289,7 +289,7 @@ var
   luaTop, luaNewTop: Integer;
 begin
   L := ToStack;
-  lua_push(L,Child,TypeInfo(Child));
+  lua_push(L,Child);
   DoCall(L,1);
 end;
 
@@ -492,7 +492,7 @@ begin
   luaTop := lua_gettop(L) - 1;
   lua_push(L,Sender,TypeInfo(Sender));
   lua_push(L,Client);
-  lua_push(L,NewTarget,TypeInfo(NewTarget));
+  lua_push(L,NewTarget);
   lua_push(L,Allow);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);

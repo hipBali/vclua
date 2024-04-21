@@ -22,7 +22,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaWinControl;
 
 function VCLua_StaticText_VCLuaSetAlignment(L: Plua_State): Integer; cdecl;
 var
@@ -117,7 +117,7 @@ begin
 		on E: Exception do
 			CallError(L, 'StaticText', 'GetFocusControl', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_StaticText_VCLuaSetShowAccelChar(L: Plua_State): Integer; cdecl;

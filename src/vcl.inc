@@ -24,14 +24,16 @@ Generated with Lua-fpc parser/generator
 	LuaBasicAction,
 	LuaActionList,
 	LuaMenu,
+	LuaControlChildSizing,
 	LuaControl,
+	LuaWinControl,
 	LuaGraphicControl,
 	LuaCustomControl,
 	LuaDrag,
 	LuaCustomApplication,
 	LuaApplication,
-	LuaForm,
 	LuaMonitor,
+	LuaForm,
 	LuaScreen,
 	LuaScrollBox,
 	LuaListBox,
@@ -127,7 +129,7 @@ Generated with Lua-fpc parser/generator
 		LUA_VCL_LIBNAME = 'vcl';
 
 	var
-	vcl_lib : array[0..95] of lual_reg = (
+	vcl_lib : array[0..93] of lual_reg = (
 		(name:'MemoryStream'; func:@CreateMemoryStream),
 		(name:'StringList'; func:@CreateStringList),
 		(name:'TextStrings'; func:@CreateTextStrings),
@@ -142,9 +144,7 @@ Generated with Lua-fpc parser/generator
 		(name:'PopupMenu'; func:@CreatePopupMenu),
 		(name:'MenuItem'; func:@CreateMenuItem),
 		(name:'MainMenu'; func:@CreateMainMenu),
-		(name:'Control'; func:@CreateControl),
-		(name:'GraphicControl'; func:@CreateGraphicControl),
-		(name:'CustomControl'; func:@CreateCustomControl),
+		(name:'ControlChildSizing'; func:@CreateControlChildSizing),
 		(name:'DragObject'; func:@CreateDragObject),
 		(name:'DragControlObject'; func:@CreateDragControlObject),
 		(name:'DragControlObjectEx'; func:@CreateDragControlObjectEx),

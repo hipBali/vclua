@@ -22,7 +22,7 @@ var
 function TheScreen(L: Plua_State): Integer; cdecl;
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaClassesEvents, LuaEvent, LuaFont, LuaForm, LuaMonitor, LuaStrings, LCLType;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaClassesEvents, LuaEvent, LuaFont, LuaForm, LuaMonitor, LuaStrings, LuaWinControl, LCLType;
 
 function VCLua_Screen_CustomFormIndex(L: Plua_State): Integer; cdecl;
 var
@@ -254,7 +254,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'MonitorFromPoint', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_MonitorFromRect(L: Plua_State): Integer; cdecl;
@@ -275,7 +275,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'MonitorFromRect', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_MonitorFromWindow(L: Plua_State): Integer; cdecl;
@@ -296,7 +296,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'MonitorFromWindow', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_BeginTempCursor(L: Plua_State): Integer; cdecl;
@@ -376,7 +376,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'GetActiveControl', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_VCLuaGetActiveCustomForm(L: Plua_State): Integer; cdecl;
@@ -888,7 +888,7 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		ret := lScreen.Monitors[Index];
-		lua_push(L,ret,TypeInfo(ret));
+		lua_push(L,ret);
 		Result := 1;
 	except
 		on E: Exception do
@@ -925,7 +925,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'GetPrimaryMonitor', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_VCLuaGetWidth(L: Plua_State): Integer; cdecl;

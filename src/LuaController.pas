@@ -17,12 +17,6 @@ procedure SetDefaultMetatable(L: Plua_State; absindex: Integer);
 procedure CreateTableForKnownType(L: Plua_State; TypeName:String; Sender:TObject);inline;
 procedure SetAsMainForm(aForm:TForm);
 
-// default methods
-function ControlFree(L: Plua_State): Integer; cdecl;
-function ControlFocus(L: Plua_State): Integer; cdecl;
-function ControlBeginUpdateBounds(L: Plua_State): Integer; cdecl;
-function ControlEndUpdateBounds(L: Plua_State): Integer; cdecl;
-
 implementation
 
 Uses TypInfo,
@@ -49,6 +43,22 @@ begin
     lua_push(L, InheritsFrom(o.ClassInfo, luaL_checkPChar(L, 2, TypeInfo(shortstring))));
 end;
 
+function ControlFree(L: Plua_State): Integer; cdecl;
+var
+  o: TObject;
+begin
+  CheckArg(L, 1);
+  o := GetLuaObject(L, 1);
+  try
+     o.Free;
+  except
+      on E: Exception do
+         CallError(L, 'Object', 'Free', E.ClassName, E.Message);
+  end;
+  LuaSetTableClear(L, 1);
+  Result := 0;
+end;
+
 procedure PushDefaultMethods(L: Plua_State; Sender: TObject);
 var
   index: Integer;
@@ -59,11 +69,6 @@ begin
   lua_setfield(L, index, HandleStr);
   LuaSetTableFunctionAbs(L, index, 'Free', @ControlFree);
   LuaSetTableFunctionAbs(L, index, 'is', @LuaIs);
-  if Sender is TWinControl then begin
-     LuaSetTableFunctionAbs(L, index, 'SetFocus', @ControlFocus);
-     LuaSetTableFunctionAbs(L, index, 'EndUpdateBounds', @ControlEndUpdateBounds);
-     LuaSetTableFunctionAbs(L, index, 'BeginUpdateBounds', @ControlBeginUpdateBounds);
-  end;
 end;
 
 procedure SetDefaultMetatable(L: Plua_State; absindex: Integer);
@@ -117,52 +122,6 @@ begin
   tindex := lua_gettop(L) - 1;
   if (tindex>0) and (lua_istable(L,tindex)) and (GetLuaObjectUnsafePop(L,tindex) = nil) then
      UpdatePropertiesFromLuaTable(L, luaObj.ClassName, tindex + 1, tindex, luaObj);
-end;
-
-function ControlFree(L: Plua_State): Integer; cdecl;
-var
-  o: TObject;
-begin
-  CheckArg(L, 1);
-  o := GetLuaObject(L, 1);
-  try
-     o.Free;
-  except
-      on E: Exception do
-         CallError(L, 'Object', 'Free', E.ClassName, E.Message);
-  end;
-  LuaSetTableClear(L, 1);
-  Result := 0;
-end;
-
-function ControlFocus(L: Plua_State): Integer; cdecl;
-var
-  lC: TWinControl;
-begin
-  CheckArg(L, 1);
-  lC := TWincontrol(GetLuaObject(L, 1));
-  lC.Setfocus;
-  Result := 0;
-end;
-
-function ControlBeginUpdateBounds(L: Plua_State): Integer; cdecl;
-var
-  lC: TWinControl;
-begin
-  CheckArg(L, 1);
-  lC := TWincontrol(GetLuaObject(L, 1));
-  lC.BeginUpdateBounds;
-  Result := 0;
-end;
-
-function ControlEndUpdateBounds(L: Plua_State): Integer; cdecl;
-var
-  lC: TWinControl;
-begin
-  CheckArg(L, 1);
-  lC := TWincontrol(GetLuaObject(L, 1));
-  lC.EndUpdateBounds;
-  Result := 0;
 end;
 
 procedure SetAsMainForm(aForm:TForm);

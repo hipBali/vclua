@@ -40,7 +40,7 @@
   }
 </style>
 <H2>VCLua Class Reference</H2>
-<H3>version 0.10.0</H3>
+<H3>version 0.10.1</H3>
 </head>
 <body>
 <hr>
@@ -75,6 +75,7 @@
 <a href="#Component"><div class="class"><b><u>Component</u></b></div></a>
 <a href="#ContainedAction"><div class="class"><b><u>ContainedAction</u></b></div></a>
 <a href="#Control"><div class="class"><b><u>Control</u></b></div></a>
+<a href="#ControlChildSizing"><div class="class"><b><u>ControlChildSizing</u></b></div></a>
 <a href="#CoolBar"><div class="class"><b><u>CoolBar</u></b></div></a>
 <a href="#CustomApplication"><div class="class"><b><u>CustomApplication</u></b></div></a>
 <a href="#CustomBitmap"><div class="class"><b><u>CustomBitmap</u></b></div></a>
@@ -85,6 +86,7 @@
 <a href="#DateEdit"><div class="class"><b><u>DateEdit</u></b></div></a>
 <a href="#DateTimePicker"><div class="class"><b><u>DateTimePicker</u></b></div></a>
 <a href="#DirectoryEdit"><div class="class"><b><u>DirectoryEdit</u></b></div></a>
+<a href="#DockManager"><div class="class"><b><u>DockManager</u></b></div></a>
 <a href="#DockTree"><div class="class"><b><u>DockTree</u></b></div></a>
 <a href="#DockZone"><div class="class"><b><u>DockZone</u></b></div></a>
 <a href="#DragControlObject"><div class="class"><b><u>DragControlObject</u></b></div></a>
@@ -181,6 +183,7 @@
 <a href="#TreeView"><div class="class"><b><u>TreeView</u></b></div></a>
 <a href="#UpDown"><div class="class"><b><u>UpDown</u></b></div></a>
 <a href="#ValueListEditor"><div class="class"><b><u>ValueListEditor</u></b></div></a>
+<a href="#WinControl"><div class="class"><b><u>WinControl</u></b></div></a>
 <hr><a id="Action"><div class="class"><b><u>Action</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
 <div class="propsdata"><i>AutoCheck</i> : Boolean</div>
@@ -1121,7 +1124,6 @@ o:Checked(Index,value)</td><td class="fp">property Checked[Index: integer]: bool
 result = o.ColumnLayout</td><td class="fp">property ColumnLayout: TColumnLayout read FColumnLayout write SetColumnLayout default clHorizontalThenVertical;</td></tr>
 <tr><td class="lua">o.Columns = value
 result = o.Columns</td><td class="fp">property Columns: integer read FColumns write SetColumns default 1;</td></tr>
-<tr><td class="lua">o:FlipChildren(AllLevels)</td><td class="fp">procedure FlipChildren(AllLevels: Boolean); override;</td></tr>
 <tr><td class="lua">o.Items = value
 result = o.Items</td><td class="fp">property Items: TStrings read FItems write SetItems;</td></tr>
 <tr><td class="lua">o.OnItemClick = function(Sender,Index) end</td><td class="fp">property OnItemClick: TCheckGroupClicked read FOnItemClick write FOnItemClick;</td></tr>
@@ -2080,6 +2082,26 @@ result = o.UndockWidth</td><td class="fp">property UndockWidth: Integer read Get
 <tr><td class="lua">o.Visible = value
 result = o.Visible</td><td class="fp">property Visible: Boolean read FVisible write SetVisible stored IsVisibleStored default True;</td></tr>
 </table></div>
+<a id="ControlChildSizing"><div class="class"><b><u>ControlChildSizing</u></b></div></a>
+<div class="props"><b><i>Published properties</i></b></div>
+<div class="propsdata"><i>ControlsPerLine</i> : LongInt</div>
+<div class="propsdata"><i>EnlargeHorizontal</i> : ChildControlResizeStyle</div>
+<div class="propsdata"><i>EnlargeVertical</i> : ChildControlResizeStyle</div>
+<div class="propsdata"><i>HorizontalSpacing</i> : LongInt</div>
+<div class="propsdata"><i>Layout</i> : ControlChildrenLayout</div>
+<div class="propsdata"><i>LeftRightSpacing</i> : LongInt</div>
+<div class="propsdata"><i>ShrinkHorizontal</i> : ChildControlResizeStyle</div>
+<div class="propsdata"><i>ShrinkVertical</i> : ChildControlResizeStyle</div>
+<div class="propsdata"><i>TopBottomSpacing</i> : LongInt</div>
+<div class="propsdata"><i>VerticalSpacing</i> : LongInt</div>
+<div class="props"><b><i>Generated</i></b></div>
+<div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
+<tr><td class="lua">o:AssignTo(Dest)</td><td class="fp">procedure AssignTo(Dest: TPersistent); override;</td></tr>
+<tr><td class="lua">result = o.Control</td><td class="fp">property Control: TWinControl read FControl;</td></tr>
+<tr><td class="lua">result = o:IsEqual(Sizing)</td><td class="fp">function IsEqual(Sizing: TControlChildSizing): boolean;</td></tr>
+<tr><td class="lua">o.OnChange = function(Sender) end</td><td class="fp">property OnChange: TNotifyEvent read FOnChange write FOnChange;</td></tr>
+<tr><td class="lua">o:SetGridSpacing(Spacing)</td><td class="fp">procedure SetGridSpacing(Spacing: integer);</td></tr>
+</table></div>
 <a id="CoolBar"><div class="class"><b><u>CoolBar</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
 <div class="propsdata"><i>Align</i> : Align</div>
@@ -2334,7 +2356,6 @@ result = o.Canvas</td><td class="fp">property Canvas: TCanvas read FCanvas write
 <tr><td class="lua">UTF8Key = o:EditorUTF8KeyPress2(Sender,UTF8Key)</td><td class="fp">procedure EditorUTF8KeyPress(Sender: TObject; var UTF8Key: TUTF8Char);</td></tr>
 <tr><td class="lua">o:EndUpdate()
 o:EndUpdate(aRefresh)</td><td class="fp">procedure EndUpdate(aRefresh: boolean = true);</td></tr>
-<tr><td class="lua">result = o:Focused()</td><td class="fp">function  Focused: Boolean; override;</td></tr>
 <tr><td class="lua">result = o:HasMultiSelection()</td><td class="fp">function  HasMultiSelection: Boolean;</td></tr>
 <tr><td class="lua">o:HideSortArrow()</td><td class="fp">procedure HideSortArrow;</td></tr>
 <tr><td class="lua">o:InvalidateCell(aCol,aRow)</td><td class="fp">procedure InvalidateCell(aCol, aRow: Integer); overload;</td></tr>
@@ -2369,7 +2390,6 @@ o:EndUpdate(aRefresh)</td><td class="fp">procedure EndUpdate(aRefresh: boolean =
 <tr><td class="lua">o:SaveToStream(AStream)</td><td class="fp">procedure SaveToStream(AStream: TStream); virtual;</td></tr>
 <tr><td class="lua">result = o:SelectedRange(AIndex)</td><td class="fp">property SelectedRange[AIndex: Integer]: TGridRect read GetSelectedRange;</td></tr>
 <tr><td class="lua">result = o.SelectedRangeCount</td><td class="fp">property SelectedRangeCount: Integer read GetSelectedRangeCount;</td></tr>
-<tr><td class="lua">o:SetFocus()</td><td class="fp">procedure SetFocus; override;</td></tr>
 <tr><td class="lua">result = o.SortColumn</td><td class="fp">property SortColumn: Integer read FSortColumn;</td></tr>
 <tr><td class="lua">o.SortOrder = value
 result = o.SortOrder</td><td class="fp">property SortOrder: TSortOrder read FSortOrder write FSortOrder;</td></tr>
@@ -2682,26 +2702,35 @@ result = o.TIObject</td><td class="fp">property TIObject: TPersistent read GetTI
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o.OnButtonClick = function(Sender) end</td><td class="fp">property OnButtonClick: TNotifyEvent read GetOnButtonClick write SetOnButtonClick;</td></tr>
 </table></div>
+<a id="DockManager"><div class="class"><b><u>DockManager</u></b></div></a>
+<div class="props"><b><i>Generated</i></b></div>
+<div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
+<tr><td class="lua">result = o:AutoFreeByControl()</td><td class="fp">function AutoFreeByControl: Boolean; virtual;</td></tr>
+<tr><td class="lua">o:BeginUpdate()</td><td class="fp">procedure BeginUpdate; virtual;</td></tr>
+<tr><td class="lua">o:EndUpdate()</td><td class="fp">procedure EndUpdate; virtual;</td></tr>
+<tr><td class="lua">AControlBounds = o:GetControlBounds(Control)</td><td class="fp">procedure GetControlBounds(Control: TControl; out AControlBounds: TRect); virtual; abstract;</td></tr>
+<tr><td class="lua">result = o:GetDockEdge(ADockObject)</td><td class="fp">function GetDockEdge(ADockObject: TDragDockObject): boolean; virtual;</td></tr>
+<tr><td class="lua">o:InsertControl(ADockObject)</td><td class="fp">procedure InsertControl(ADockObject: TDragDockObject); virtual; overload;</td></tr>
+<tr><td class="lua">o:InsertControl2(Control,InsertAt,DropCtl)</td><td class="fp">procedure InsertControl(Control: TControl; InsertAt: TAlign; DropCtl: TControl); virtual; abstract; overload;</td></tr>
+<tr><td class="lua">result = o:IsEnabledControl(Control)</td><td class="fp">function IsEnabledControl(Control: TControl):Boolean; virtual;</td></tr>
+<tr><td class="lua">o:LoadFromStream(Stream)</td><td class="fp">procedure LoadFromStream(Stream: TStream); virtual; abstract;</td></tr>
+<tr><td class="lua">o:PositionDockRect(ADockObject)</td><td class="fp">procedure PositionDockRect(ADockObject: TDragDockObject); virtual; overload;</td></tr>
+<tr><td class="lua">DockRect = o:PositionDockRect2(Client,DropCtl,DropAlign)</td><td class="fp">procedure PositionDockRect(Client, DropCtl: TControl; DropAlign: TAlign; var DockRect: TRect); virtual; abstract; overload;</td></tr>
+<tr><td class="lua">DockRect = o:PositionDockRect3(Client,DropCtl,DropAlign,DockRect)</td><td class="fp">procedure PositionDockRect(Client, DropCtl: TControl; DropAlign: TAlign; var DockRect: TRect); virtual; abstract; overload;</td></tr>
+<tr><td class="lua">o:RemoveControl(Control)</td><td class="fp">procedure RemoveControl(Control: TControl); virtual; abstract;</td></tr>
+<tr><td class="lua">o:ResetBounds(Force)</td><td class="fp">procedure ResetBounds(Force: Boolean); virtual; abstract;</td></tr>
+<tr><td class="lua">o:SaveToStream(Stream)</td><td class="fp">procedure SaveToStream(Stream: TStream); virtual; abstract;</td></tr>
+<tr><td class="lua">o:SetReplacingControl(Control)</td><td class="fp">procedure SetReplacingControl(Control: TControl); virtual;</td></tr>
+</table></div>
 <a id="DockTree"><div class="class"><b><u>DockTree</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">ARect = o:AdjustDockRect(AControl)</td><td class="fp">procedure AdjustDockRect(AControl: TControl; var ARect: TRect); virtual;</td></tr>
 <tr><td class="lua">ARect = o:AdjustDockRect2(AControl,ARect)</td><td class="fp">procedure AdjustDockRect(AControl: TControl; var ARect: TRect); virtual;</td></tr>
-<tr><td class="lua">o:BeginUpdate()</td><td class="fp">procedure BeginUpdate; override;</td></tr>
 <tr><td class="lua">o.DockSite = value
 result = o.DockSite</td><td class="fp">property DockSite: TWinControl read FDockSite write SetDockSite;</td></tr>
 <tr><td class="lua">o:DumpLayout(FileName)</td><td class="fp">procedure DumpLayout(FileName: String); virtual;</td></tr>
-<tr><td class="lua">o:EndUpdate()</td><td class="fp">procedure EndUpdate; override;</td></tr>
-<tr><td class="lua">ControlBounds = o:GetControlBounds(AControl)</td><td class="fp">procedure GetControlBounds(AControl: TControl; out ControlBounds: TRect); override;</td></tr>
-<tr><td class="lua">o:InsertControl(AControl,InsertAt,DropControl)</td><td class="fp">procedure InsertControl(AControl: TControl; InsertAt: TAlign; DropControl: TControl); override;</td></tr>
-<tr><td class="lua">o:LoadFromStream(SrcStream)</td><td class="fp">procedure LoadFromStream(SrcStream: TStream); override;</td></tr>
-<tr><td class="lua">DockRect = o:PositionDockRect(AClient,DropCtl,DropAlign)</td><td class="fp">procedure PositionDockRect(AClient, DropCtl: TControl; DropAlign: TAlign; var DockRect: TRect); override;</td></tr>
-<tr><td class="lua">DockRect = o:PositionDockRect2(AClient,DropCtl,DropAlign,DockRect)</td><td class="fp">procedure PositionDockRect(AClient, DropCtl: TControl; DropAlign: TAlign; var DockRect: TRect); override;</td></tr>
-<tr><td class="lua">o:RemoveControl(AControl)</td><td class="fp">procedure RemoveControl(AControl: TControl); override;</td></tr>
-<tr><td class="lua">o:ResetBounds(Force)</td><td class="fp">procedure ResetBounds(Force: Boolean); override;</td></tr>
 <tr><td class="lua">result = o.RootZone</td><td class="fp">property RootZone: TDockZone read FRootZone;</td></tr>
-<tr><td class="lua">o:SaveToStream(DestStream)</td><td class="fp">procedure SaveToStream(DestStream: TStream); override;</td></tr>
-<tr><td class="lua">o:SetReplacingControl(AControl)</td><td class="fp">procedure SetReplacingControl(AControl: TControl); override;</td></tr>
 </table></div>
 <a id="DockZone"><div class="class"><b><u>DockZone</u></b></div></a>
 <div class="props"><b><i>Generated</i></b></div>
@@ -3542,7 +3571,6 @@ result = o.AlphaBlendValue</td><td class="fp">property AlphaBlendValue: Byte rea
 <tr><td class="lua">result = o:BigIconHandle()</td><td class="fp">function BigIconHandle: HICON;</td></tr>
 <tr><td class="lua">o.BorderStyle = value
 result = o.BorderStyle</td><td class="fp">property BorderStyle: TFormBorderStyle read FFormBorderStyle write SetFormBorderStyle default bsSizeable;</td></tr>
-<tr><td class="lua">result = o:CanFocus()</td><td class="fp">function CanFocus: Boolean; override;</td></tr>
 <tr><td class="lua">o.CancelControl = value
 result = o.CancelControl</td><td class="fp">property CancelControl: TControl read FCancelControl write SetCancelControl;</td></tr>
 <tr><td class="lua">o:Close()</td><td class="fp">procedure Close;</td></tr>
@@ -3607,7 +3635,6 @@ result = o.Position</td><td class="fp">property Position: TPosition read FPositi
 <tr><td class="lua">result = o.RestoredLeft</td><td class="fp">property RestoredLeft: integer read FRestoredLeft;</td></tr>
 <tr><td class="lua">result = o.RestoredTop</td><td class="fp">property RestoredTop: integer read FRestoredTop;</td></tr>
 <tr><td class="lua">result = o.RestoredWidth</td><td class="fp">property RestoredWidth: integer read FRestoredWidth;</td></tr>
-<tr><td class="lua">o:SetFocus()</td><td class="fp">procedure SetFocus; override;</td></tr>
 <tr><td class="lua">result = o:SetFocusedControl(Control)</td><td class="fp">function SetFocusedControl(Control: TWinControl): Boolean ; virtual;</td></tr>
 <tr><td class="lua">o:SetRestoredBounds(ALeft,ATop,AWidth,AHeight)
 o:SetRestoredBounds(ALeft,ATop,AWidth,AHeight,ADefaultPosition)</td><td class="fp">procedure SetRestoredBounds(ALeft, ATop, AWidth, AHeight: integer; const ADefaultPosition: Boolean = False);</td></tr>
@@ -3617,7 +3644,6 @@ result = o.ShowInTaskBar</td><td class="fp">property ShowInTaskBar: TShowInTaskb
 <tr><td class="lua">result = o:ShowModal()</td><td class="fp">function ShowModal: Integer; virtual;</td></tr>
 <tr><td class="lua">o:ShowOnTop()</td><td class="fp">procedure ShowOnTop;</td></tr>
 <tr><td class="lua">result = o:SmallIconHandle()</td><td class="fp">function SmallIconHandle: HICON;</td></tr>
-<tr><td class="lua">o:UpdateDockCaption(Exclude)</td><td class="fp">procedure UpdateDockCaption(Exclude: TControl); override;</td></tr>
 <tr><td class="lua">o.WindowState = value
 result = o.WindowState</td><td class="fp">property WindowState: TWindowState read FWindowState write SetWindowState default wsNormal;</td></tr>
 </table></div>
@@ -4835,7 +4861,6 @@ result = o.HorzScrollBar</td><td class="fp">property HorzScrollBar: TMemoScrollB
 result = o.Lines</td><td class="fp">property Lines: TStrings read FLines write SetLines;</td></tr>
 <tr><td class="lua">o.ScrollBars = value
 result = o.ScrollBars</td><td class="fp">property ScrollBars: TScrollStyle read FScrollBars write SetScrollBars default ssNone;</td></tr>
-<tr><td class="lua">o:ScrollBy(DeltaX,DeltaY)</td><td class="fp">procedure ScrollBy(DeltaX, DeltaY: Integer); override;</td></tr>
 <tr><td class="lua">o.VertScrollBar = value
 result = o.VertScrollBar</td><td class="fp">property VertScrollBar: TMemoScrollBar read FVertScrollBar write FVertScrollBar;</td></tr>
 <tr><td class="lua">o.WantReturns = value
@@ -5949,7 +5974,6 @@ result = o.AutoFill</td><td class="fp">property AutoFill: Boolean read FAutoFill
 result = o.ColumnLayout</td><td class="fp">property ColumnLayout: TColumnLayout read FColumnLayout write SetColumnLayout default clHorizontalThenVertical;</td></tr>
 <tr><td class="lua">o.Columns = value
 result = o.Columns</td><td class="fp">property Columns: integer read FColumns write SetColumns default 1;</td></tr>
-<tr><td class="lua">o:FlipChildren(AllLevels)</td><td class="fp">procedure FlipChildren(AllLevels: Boolean); override;</td></tr>
 <tr><td class="lua">o.ItemIndex = value
 result = o.ItemIndex</td><td class="fp">property ItemIndex: integer read GetItemIndex write SetItemIndex default -1;</td></tr>
 <tr><td class="lua">o.Items = value
@@ -8438,6 +8462,130 @@ o:LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines)</td><t
 o:Sort2(ACol)</td><td class="fp">procedure Sort(ACol: TVleSortCol = colKey);</td></tr>
 <tr><td class="lua">result = o:Values(Key)
 o:Values(Key,value)</td><td class="fp">property Values[const Key: string]: string read GetValue write SetValue;</td></tr>
+</table></div>
+<a id="WinControl"><div class="class"><b><u>WinControl</u></b></div></a>
+<div class="props"><b><i>Published properties</i></b></div>
+<div class="propsdata"><i>AnchorSideBottom</i> : AnchorSide</div>
+<div class="propsdata"><i>AnchorSideLeft</i> : AnchorSide</div>
+<div class="propsdata"><i>AnchorSideRight</i> : AnchorSide</div>
+<div class="propsdata"><i>AnchorSideTop</i> : AnchorSide</div>
+<div class="propsdata"><i>Cursor</i> : Cursor</div>
+<div class="propsdata"><i>Height</i> : LongInt</div>
+<div class="propsdata"><i>HelpContext</i> : HelpContext</div>
+<div class="propsdata"><i>HelpKeyword</i> : AnsiString</div>
+<div class="propsdata"><i>HelpType</i> : HelpType</div>
+<div class="propsdata"><i>Hint</i> : TranslateString</div>
+<div class="propsdata"><i>Left</i> : LongInt</div>
+<div class="propsdata"><i>Name</i> : AnsiString</div>
+<div class="propsdata"><i>Tag</i> : Int64</div>
+<div class="propsdata"><i>Top</i> : LongInt</div>
+<div class="propsdata"><i>Width</i> : LongInt</div>
+<div class="props"><b><i>Generated</i></b></div>
+<div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
+<tr><td class="lua">o:AddControl()</td><td class="fp">procedure AddControl; virtual; </td></tr>
+<tr><td class="lua">o:AutoAdjustLayout(AMode,AFromPPI,AToPPI,AOldFormWidth,ANewFormWidth)</td><td class="fp">procedure AutoAdjustLayout(AMode: TLayoutAdjustmentPolicy; const AFromPPI, AToPPI, AOldFormWidth, ANewFormWidth: Integer); override;</td></tr>
+<tr><td class="lua">o:BeginUpdateBounds()</td><td class="fp">procedure BeginUpdateBounds; </td></tr>
+<tr><td class="lua">o.BorderWidth = value
+result = o.BorderWidth</td><td class="fp">property BorderWidth: TBorderWidth read FBorderWidth write SetBorderWidth default 0;</td></tr>
+<tr><td class="lua">result = o.BoundsLockCount</td><td class="fp">property BoundsLockCount: integer read FBoundsLockCount;</td></tr>
+<tr><td class="lua">ToAllMessage = o:BroadCast()</td><td class="fp">procedure BroadCast(var ToAllMessage);</td></tr>
+<tr><td class="lua">ToAllMessage = o:BroadCast2(ToAllMessage)</td><td class="fp">procedure BroadCast(var ToAllMessage);</td></tr>
+<tr><td class="lua">result = o.Brush</td><td class="fp">property Brush: TBrush read GetBrush;</td></tr>
+<tr><td class="lua">result = o:BrushCreated()</td><td class="fp">function BrushCreated: Boolean;</td></tr>
+<tr><td class="lua">result = o.CachedClientHeight</td><td class="fp">property CachedClientHeight: integer read FClientHeight;</td></tr>
+<tr><td class="lua">result = o.CachedClientWidth</td><td class="fp">property CachedClientWidth: integer read FClientWidth;</td></tr>
+<tr><td class="lua">result = o:CanFocus()</td><td class="fp">function CanFocus: Boolean; virtual;</td></tr>
+<tr><td class="lua">result = o:CanSetFocus()</td><td class="fp">function CanSetFocus: Boolean; virtual;</td></tr>
+<tr><td class="lua">o.ChildSizing = value
+result = o.ChildSizing</td><td class="fp">property ChildSizing: TControlChildSizing read FChildSizing write SetChildSizing;</td></tr>
+<tr><td class="lua">result = o:ClientRectNeedsInterfaceUpdate()</td><td class="fp">function ClientRectNeedsInterfaceUpdate: boolean;</td></tr>
+<tr><td class="lua">result = o:ContainsControl(Control)</td><td class="fp">function  ContainsControl(Control: TControl): Boolean;</td></tr>
+<tr><td class="lua">result = o:ControlAtPos(Pos,AllowDisabled)</td><td class="fp">function ControlAtPos(const Pos: TPoint; AllowDisabled: Boolean): TControl;</td></tr>
+<tr><td class="lua">result = o:ControlAtPos2(Pos,AllowDisabled,AllowWinControls)</td><td class="fp">function ControlAtPos(const Pos: TPoint; AllowDisabled, AllowWinControls: Boolean): TControl;</td></tr>
+<tr><td class="lua">result = o:ControlAtPos3(Pos,Flags)</td><td class="fp">function ControlAtPos(const Pos: TPoint; Flags: TControlAtPosFlags): TControl; virtual;</td></tr>
+<tr><td class="lua">result = o.ControlCount</td><td class="fp">property ControlCount: Integer read GetControlCount;</td></tr>
+<tr><td class="lua">result = o:Controls(Index)</td><td class="fp">property Controls[Index: Integer]: TControl read GetControl;</td></tr>
+<tr><td class="lua">result = o:CreateParentedControl(AParentWindow)</td><td class="fp">class function CreateParentedControl(AParentWindow: HWND): TWinControl;</td></tr>
+<tr><td class="lua">o.DefWndProc = value
+result = o.DefWndProc</td><td class="fp">property DefWndProc: Pointer read FDefWndProc write FDefWndPRoc;</td></tr>
+<tr><td class="lua">AMessage = o:DefaultHandler()</td><td class="fp">procedure DefaultHandler(var AMessage); override;</td></tr>
+<tr><td class="lua">AMessage = o:DefaultHandler2(AMessage)</td><td class="fp">procedure DefaultHandler(var AMessage); override;</td></tr>
+<tr><td class="lua">o.DesignerDeleting = value</td><td class="fp">property DesignerDeleting: Boolean write SetDesignerDeleting;</td></tr>
+<tr><td class="lua">o:DisableAlign()</td><td class="fp">procedure DisableAlign;</td></tr>
+<tr><td class="lua">o:DoAdjustClientRectChange()
+o:DoAdjustClientRectChange(InvalidateRect)</td><td class="fp">procedure DoAdjustClientRectChange(const InvalidateRect: Boolean = True);</td></tr>
+<tr><td class="lua">result = o.DockClientCount</td><td class="fp">property DockClientCount: Integer read GetDockClientCount;</td></tr>
+<tr><td class="lua">result = o:DockClients(Index)</td><td class="fp">property DockClients[Index: Integer]: TControl read GetDockClients;</td></tr>
+<tr><td class="lua">o:DockDrop(DragDockObject,X,Y)</td><td class="fp">procedure DockDrop(DragDockObject: TDragDockObject; X, Y: Integer); virtual;</td></tr>
+<tr><td class="lua">o.DockManager = value
+result = o.DockManager</td><td class="fp">property DockManager: TDockManager read FDockManager write SetDockManager;</td></tr>
+<tr><td class="lua">o.DockSite = value
+result = o.DockSite</td><td class="fp">property DockSite: Boolean read FDockSite write SetDockSite default False;</td></tr>
+<tr><td class="lua">o.DoubleBuffered = value
+result = o.DoubleBuffered</td><td class="fp">property DoubleBuffered: Boolean read FDoubleBuffered write SetDoubleBuffered stored DoubleBufferedIsStored;</td></tr>
+<tr><td class="lua">o:EnableAlign()</td><td class="fp">procedure EnableAlign;</td></tr>
+<tr><td class="lua">o:EndUpdateBounds()</td><td class="fp">procedure EndUpdateBounds;   </td></tr>
+<tr><td class="lua">result = o:FindChildControl(ControlName)</td><td class="fp">function FindChildControl(const ControlName: String): TControl;</td></tr>
+<tr><td class="lua">o:FixDesignFontsPPIWithChildren(ADesignTimePPI)</td><td class="fp">procedure FixDesignFontsPPIWithChildren(const ADesignTimePPI: Integer);</td></tr>
+<tr><td class="lua">o:FlipChildren(AllLevels)</td><td class="fp">procedure FlipChildren(AllLevels: Boolean); virtual;</td></tr>
+<tr><td class="lua">result = o:Focused()</td><td class="fp">function Focused: Boolean; virtual;</td></tr>
+<tr><td class="lua">result = o:GetControlIndex(AControl)</td><td class="fp">function GetControlIndex(AControl: TControl): integer;</td></tr>
+<tr><td class="lua">result = o:GetDockCaption(AControl)</td><td class="fp">function GetDockCaption(AControl: TControl): String; virtual;</td></tr>
+<tr><td class="lua">o:GetTabOrderList(List)</td><td class="fp">procedure GetTabOrderList(List: TFPList); virtual;</td></tr>
+<tr><td class="lua">o.Handle = value
+result = o.Handle</td><td class="fp">property Handle: HWND read GetHandle write SetHandle;</td></tr>
+<tr><td class="lua">result = o:HandleAllocated()</td><td class="fp">function HandleAllocated: Boolean;</td></tr>
+<tr><td class="lua">o:HandleNeeded()</td><td class="fp">procedure HandleNeeded;</td></tr>
+<tr><td class="lua">o:InsertControl(AControl)</td><td class="fp">procedure InsertControl(AControl: TControl);</td></tr>
+<tr><td class="lua">o:InsertControl2(AControl,Index)</td><td class="fp">procedure InsertControl(AControl: TControl; Index: integer); virtual;</td></tr>
+<tr><td class="lua">result = o:IntfGetDropFilesTarget()</td><td class="fp">function IntfGetDropFilesTarget: TWinControl; virtual;</td></tr>
+<tr><td class="lua">result, UTF8Key = o:IntfUTF8KeyPress(RepeatCount,SystemKey)</td><td class="fp">function IntfUTF8KeyPress(var UTF8Key: TUTF8Char; RepeatCount: integer; SystemKey: boolean): boolean; virtual;</td></tr>
+<tr><td class="lua">result, UTF8Key = o:IntfUTF8KeyPress2(UTF8Key,RepeatCount,SystemKey)</td><td class="fp">function IntfUTF8KeyPress(var UTF8Key: TUTF8Char; RepeatCount: integer; SystemKey: boolean): boolean; virtual;</td></tr>
+<tr><td class="lua">o:InvalidateClientRectCache(WithChildControls)</td><td class="fp">procedure InvalidateClientRectCache(WithChildControls: boolean);</td></tr>
+<tr><td class="lua">result = o.IsFlipped</td><td class="fp">property IsFlipped: Boolean read FFlipped;</td></tr>
+<tr><td class="lua">result = o.IsResizing</td><td class="fp">property IsResizing: Boolean read GetIsResizing;</td></tr>
+<tr><td class="lua">result = o.IsSpecialSubControl</td><td class="fp">property IsSpecialSubControl: Boolean read GetIsSpecialSubControl;</td></tr>
+<tr><td class="lua">o:LockRealizeBounds()</td><td class="fp">procedure LockRealizeBounds; </td></tr>
+<tr><td class="lua">o:NotifyControls(Msg)</td><td class="fp">procedure NotifyControls(Msg: Word);</td></tr>
+<tr><td class="lua">o.OnDockDrop = function(Sender,Source,X,Y) end</td><td class="fp">property OnDockDrop: TDockDropEvent read FOnDockDrop write FOnDockDrop;</td></tr>
+<tr><td class="lua">o.OnDockOver = function(Sender,Source,X,Y,State,Accept) return Accept end</td><td class="fp">property OnDockOver: TDockOverEvent read FOnDockOver write FOnDockOver;</td></tr>
+<tr><td class="lua">o.OnEnter = function(Sender) end</td><td class="fp">property OnEnter: TNotifyEvent read FOnEnter write FOnEnter;</td></tr>
+<tr><td class="lua">o.OnExit = function(Sender) end</td><td class="fp">property OnExit: TNotifyEvent read FOnExit write FOnExit;</td></tr>
+<tr><td class="lua">o.OnGetDockCaption = function(Sender,AControl,ACaption) return ACaption end</td><td class="fp">property OnGetDockCaption: TGetDockCaptionEvent read FOnGetDockCaption write FOnGetDockCaption;</td></tr>
+<tr><td class="lua">o.OnGetSiteInfo = function(Sender,DockClient,InfluenceRect,MousePos,CanDock) return InfluenceRect,CanDock end</td><td class="fp">property OnGetSiteInfo: TGetSiteInfoEvent read FOnGetSiteInfo write FOnGetSiteInfo;</td></tr>
+<tr><td class="lua">o.OnKeyDown = function(Sender,Key,Shift) return Key end</td><td class="fp">property OnKeyDown: TKeyEvent read FOnKeyDown write FOnKeyDown;</td></tr>
+<tr><td class="lua">o.OnKeyPress = function(Sender,Key) return Key end</td><td class="fp">property OnKeyPress: TKeyPressEvent read FOnKeyPress write FOnKeyPress;</td></tr>
+<tr><td class="lua">o.OnKeyUp = function(Sender,Key,Shift) return Key end</td><td class="fp">property OnKeyUp: TKeyEvent read FOnKeyUp write FOnKeyUp;</td></tr>
+<tr><td class="lua">o.OnUTF8KeyPress = function(Sender,UTF8Key) return UTF8Key end</td><td class="fp">property OnUTF8KeyPress: TUTF8KeyPressEvent read FOnUTF8KeyPress write FOnUTF8KeyPress;</td></tr>
+<tr><td class="lua">o.OnUnDock = function(Sender,Client,NewTarget,Allow) return Allow end</td><td class="fp">property OnUnDock: TUnDockEvent read FOnUnDock write FOnUnDock;</td></tr>
+<tr><td class="lua">o:PaintTo(ACanvas,X,Y)</td><td class="fp">procedure PaintTo(ACanvas: TCanvas; X, Y: Integer); overload;</td></tr>
+<tr><td class="lua">o.ParentDoubleBuffered = value
+result = o.ParentDoubleBuffered</td><td class="fp">property ParentDoubleBuffered: Boolean read FParentDoubleBuffered write SetParentDoubleBuffered default True;</td></tr>
+<tr><td class="lua">o.ParentWindow = value
+result = o.ParentWindow</td><td class="fp">property ParentWindow: HWND read FParentWindow write SetParentWindow;</td></tr>
+<tr><td class="lua">result = o:PerformTab(ForwardTab)</td><td class="fp">function PerformTab(ForwardTab: boolean): boolean; virtual;</td></tr>
+<tr><td class="lua">o:ReAlign()</td><td class="fp">procedure ReAlign; </td></tr>
+<tr><td class="lua">o:RemoveControl(AControl)</td><td class="fp">procedure RemoveControl(AControl: TControl); virtual;</td></tr>
+<tr><td class="lua">o:ScaleBy(Multiplier,Divider)</td><td class="fp">procedure ScaleBy(Multiplier, Divider: Integer);</td></tr>
+<tr><td class="lua">o:ScrollBy(DeltaX,DeltaY)</td><td class="fp">procedure ScrollBy_WS(DeltaX, DeltaY: Integer);</td></tr>
+<tr><td class="lua">o:ScrollBy2(DeltaX,DeltaY)</td><td class="fp">procedure ScrollBy(DeltaX, DeltaY: Integer); virtual;</td></tr>
+<tr><td class="lua">o:SelectNext(CurControl,GoForward,CheckTabStop)</td><td class="fp">procedure SelectNext(CurControl: TWinControl; GoForward, CheckTabStop: Boolean);</td></tr>
+<tr><td class="lua">o:SetControlIndex(AControl,NewIndex)</td><td class="fp">procedure SetControlIndex(AControl: TControl; NewIndex: integer);</td></tr>
+<tr><td class="lua">o:SetFocus()</td><td class="fp">procedure SetFocus; virtual;</td></tr>
+<tr><td class="lua">o:SetShape(AShape)</td><td class="fp">procedure SetShape(AShape: TBitmap); overload;</td></tr>
+<tr><td class="lua">o:SetShape2(AShape)</td><td class="fp">procedure SetShape(AShape: TRegion); overload;</td></tr>
+<tr><td class="lua">result = o.Showing</td><td class="fp">property Showing: Boolean read FShowing; </td></tr>
+<tr><td class="lua">o.TabOrder = value
+result = o.TabOrder</td><td class="fp">property TabOrder: TTabOrder read GetTabOrder write SetTabOrder default -1;</td></tr>
+<tr><td class="lua">o.TabStop = value
+result = o.TabStop</td><td class="fp">property TabStop: Boolean read FTabStop write SetTabStop default false;</td></tr>
+<tr><td class="lua">o:UnlockRealizeBounds()</td><td class="fp">procedure UnlockRealizeBounds; </td></tr>
+<tr><td class="lua">o:UpdateDockCaption()
+o:UpdateDockCaption(Exclude)</td><td class="fp">procedure UpdateDockCaption(Exclude: TControl = nil); virtual;</td></tr>
+<tr><td class="lua">o.UseDockManager = value
+result = o.UseDockManager</td><td class="fp">property UseDockManager: Boolean read FUseDockManager write SetUseDockManager default False;</td></tr>
+<tr><td class="lua">result = o.VisibleDockClientCount</td><td class="fp">property VisibleDockClientCount: Integer read GetVisibleDockClientCount;</td></tr>
+<tr><td class="lua">o:WriteLayoutDebugReport(Prefix)</td><td class="fp">procedure WriteLayoutDebugReport(const Prefix: string); override;</td></tr>
 </table></div>
 </body>
 </html>

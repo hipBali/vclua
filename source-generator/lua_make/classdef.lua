@@ -65,8 +65,6 @@ VCLUA_TOLUA = {
 	["tcustomcolorbox"] = VCLUA_TOLUA_FULL,
 
 	["tobject"] = VCLUA_TOLUA_FULL,
-	["tcomponent"] = VCLUA_TOLUA_FULL,
-	["twincontrol"] = VCLUA_TOLUA_FULL,
 	["tpage"] = VCLUA_TOLUA_FULL,
 	["tlistcolumn"] = VCLUA_TOLUA_FULL,
 	["theadersection"] = VCLUA_TOLUA_FULL,
@@ -80,9 +78,9 @@ VCLUA_TOLUA = {
 	["tsizeconstraints"] = VCLUA_TOLUA_FULL,
 	["tleftright"] = VCLUA_TOLUA_FULL,
 	["tshortcutlist"] = VCLUA_TOLUA_FULL,
-	["tmonitor"] = VCLUA_TOLUA_FULL,
 	["tcustomcolorlistbox"] = VCLUA_TOLUA_FULL,
 	["tnotifierform"] = VCLUA_TOLUA_FULL,
+	["twindowmagnetoptions"] = VCLUA_TOLUA_FULL,
 }
 
 VCLUA_FROMLUA_DEFAULT = "luaL_check(L,#,@#VAR);"

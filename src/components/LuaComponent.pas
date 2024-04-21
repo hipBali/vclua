@@ -103,7 +103,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Component', 'FindComponent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Component_FreeNotification(L: Plua_State): Integer; cdecl;
@@ -169,7 +169,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Component', 'GetParentComponent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Component_HasParent(L: Plua_State): Integer; cdecl;
@@ -270,7 +270,7 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		ret := lComponent.Components[Index];
-		lua_push(L,ret,TypeInfo(ret));
+		lua_push(L,ret);
 		Result := 1;
 	except
 		on E: Exception do
@@ -403,7 +403,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Component', 'GetOwner', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Component_VCLuaSetVCLComObject(L: Plua_State): Integer; cdecl;

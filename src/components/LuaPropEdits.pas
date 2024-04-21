@@ -157,7 +157,7 @@ begin
 		on E: Exception do
 			CallError(L, 'PropertyEditorHook', 'GetComponent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_PropertyEditorHook_GetComponentName(L: Plua_State): Integer; cdecl;

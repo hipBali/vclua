@@ -106,7 +106,7 @@ type
 procedure RegisterLuaGridsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaBitmap, LuaImageList, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, LuaBitmap, LuaImageList, LuaWinControl, SysUtils;
 
 procedure RegisterLuaGridsEvents();
 begin
@@ -347,7 +347,7 @@ begin
   lua_push(L,Sender,TypeInfo(Sender));
   lua_push(L,aCol);
   lua_push(L,aRow);
-  lua_push(L,Editor,TypeInfo(Editor));
+  lua_push(L,Editor);
   DoCall(L,4);
   luaNewTop := lua_gettop(L);
   try

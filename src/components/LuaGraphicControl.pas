@@ -10,7 +10,6 @@ interface
 
 Uses Lua, LuaController, TypInfo, LuaVmt, Controls;
 
-function CreateGraphicControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TGraphicControl; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -53,24 +52,6 @@ end;
 procedure lua_push(L: Plua_State; const v: TGraphicControl; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TGraphicControl',v);
-end;
-function CreateGraphicControl(L: Plua_State): Integer; cdecl;
-var
-	lGraphicControl:TLuaGraphicControl;
-	Parent:TWinControl;
-	Name:String;
-begin
-	try
-	GetControlParents(L,TWinControl(Parent),Name);
-	lGraphicControl := TLuaGraphicControl.Create(Parent);
-	lGraphicControl.Parent := TWinControl(Parent);
-	CreateTableForKnownType(L,'TGraphicControl',lGraphicControl);
-	InitControl(L,lGraphicControl,Name);
-	Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'VCL', 'GraphicControl', E.ClassName, E.Message);
-	end;
 end;
 
 begin

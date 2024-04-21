@@ -65,7 +65,7 @@ var
   luaTop, luaNewTop: Integer;
 begin
   L := ToStack;
-  lua_push(L,Child,TypeInfo(Child));
+  lua_push(L,Child);
   DoCall(L,1);
 end;
 
@@ -95,7 +95,7 @@ var
   luaTop, luaNewTop: Integer;
 begin
   L := ToStack;
-  lua_push(L,Component,TypeInfo(Component));
+  lua_push(L,Component);
   DoCall(L,1);
 end;
 

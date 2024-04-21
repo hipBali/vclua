@@ -24,23 +24,6 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaEvent, LuaExtCtrlsEvents, LuaStrings;
 
-function VCLua_CheckGroup_FlipChildren(L: Plua_State): Integer; cdecl;
-var
-	lCheckGroup:TLuaCheckGroup;
-	AllLevels:Boolean;
-begin
-	CheckArg(L, 2);
-	lCheckGroup := TLuaCheckGroup(GetLuaObject(L, 1));
-	luaL_check(L,2,@AllLevels);
-	try
-		lCheckGroup.FlipChildren(AllLevels);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CheckGroup', 'FlipChildren', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_CheckGroup_Rows(L: Plua_State): Integer; cdecl;
 var
 	lCheckGroup:TLuaCheckGroup;
@@ -273,7 +256,6 @@ end;
 
 begin
 	CustomCheckGroupFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'FlipChildren', @VCLua_CheckGroup_FlipChildren);
 	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'Rows', @VCLua_CheckGroup_Rows);
 	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'AutoFill', @VCLua_CheckGroup_VCLuaGetAutoFill, mfCall);
 	TLuaMethodInfo.Create(CustomCheckGroupFuncs, 'Items', @VCLua_CheckGroup_VCLuaGetItems, mfCall);

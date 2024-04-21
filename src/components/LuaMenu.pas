@@ -300,7 +300,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Menu', 'GetParent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Menu_VCLuaSetShortcutHandled(L: Plua_State): Integer; cdecl;
@@ -418,7 +418,7 @@ begin
 		on E: Exception do
 			CallError(L, 'PopupMenu', 'GetPopupComponent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_PopupMenu_VCLuaGetPopupPoint(L: Plua_State): Integer; cdecl;
@@ -573,7 +573,7 @@ begin
 		on E: Exception do
 			CallError(L, 'MenuItem', 'GetParentComponent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_MenuItem_GetParentMenu(L: Plua_State): Integer; cdecl;

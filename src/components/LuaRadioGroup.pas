@@ -41,23 +41,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_RadioGroup_FlipChildren(L: Plua_State): Integer; cdecl;
-var
-	lRadioGroup:TLuaRadioGroup;
-	AllLevels:Boolean;
-begin
-	CheckArg(L, 2);
-	lRadioGroup := TLuaRadioGroup(GetLuaObject(L, 1));
-	luaL_check(L,2,@AllLevels);
-	try
-		lRadioGroup.FlipChildren(AllLevels);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'RadioGroup', 'FlipChildren', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_RadioGroup_Rows(L: Plua_State): Integer; cdecl;
 var
 	lRadioGroup:TLuaRadioGroup;
@@ -303,7 +286,6 @@ end;
 begin
 	CustomRadioGroupFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomRadioGroupFuncs, 'CanModify', @VCLua_RadioGroup_CanModify);
-	TLuaMethodInfo.Create(CustomRadioGroupFuncs, 'FlipChildren', @VCLua_RadioGroup_FlipChildren);
 	TLuaMethodInfo.Create(CustomRadioGroupFuncs, 'Rows', @VCLua_RadioGroup_Rows);
 	TLuaMethodInfo.Create(CustomRadioGroupFuncs, 'AutoFill', @VCLua_RadioGroup_VCLuaGetAutoFill, mfCall);
 	TLuaMethodInfo.Create(CustomRadioGroupFuncs, 'ItemIndex', @VCLua_RadioGroup_VCLuaGetItemIndex, mfCall);

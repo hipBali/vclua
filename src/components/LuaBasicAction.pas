@@ -150,7 +150,7 @@ begin
 		on E: Exception do
 			CallError(L, 'BasicAction', 'GetActionComponent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_BasicAction_VCLuaSetOnExecute(L: Plua_State): Integer; cdecl;

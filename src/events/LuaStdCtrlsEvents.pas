@@ -31,7 +31,7 @@ type
 procedure RegisterLuaStdCtrlsEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, LuaWinControl, SysUtils;
 
 procedure RegisterLuaStdCtrlsEvents();
 begin
@@ -47,7 +47,7 @@ var
   luaTop, luaNewTop: Integer;
 begin
   L := ToStack;
-  lua_push(L,Control,TypeInfo(Control));
+  lua_push(L,Control);
   lua_push(L,Index);
   lua_push(L,ARect);
   lua_push(L,State,TypeInfo(State));
@@ -61,7 +61,7 @@ var
 begin
   L := ToStack;
   luaTop := lua_gettop(L) - 1;
-  lua_push(L,Control,TypeInfo(Control));
+  lua_push(L,Control);
   lua_push(L,Index);
   lua_push(L,AHeight);
   DoCall(L,3);

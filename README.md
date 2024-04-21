@@ -1,7 +1,7 @@
 # vclua
 Gui library for lua
 
-Version 0.10.0
+Version 0.10.1
 
 Made with *Lazarus version 2.2.6*
 ___
@@ -46,7 +46,7 @@ Unsupported types:
 1. event functions
 1. procedural types for method parameters
 1. class references
-1. objects
+1. `object` variables
 1. [list](source-generator/exclude/VarTypes)
 
 #### Language features

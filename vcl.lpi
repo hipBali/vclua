@@ -31,11 +31,11 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="10"/>
-      <BuildNr Value="1"/>
+      <RevisionNr Value="1"/>
       <Language Value="0809"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPreRelease="True"/>
-      <StringTable Comments="Under development" CompanyName="Hi-Project Ltd." FileDescription="VCLua" InternalName="VCLua" LegalCopyright="(C) 2006-2024 Hi-Project Ltd." ProductName="VCLua" ProductVersion="0.10.0"/>
+      <StringTable Comments="Under development" CompanyName="Hi-Project Ltd." FileDescription="VCLua" InternalName="VCLua" LegalCopyright="(C) 2006-2024 Hi-Project Ltd." ProductName="VCLua" ProductVersion="0.10.1"/>
     </VersionInfo>
     <BuildModes Count="5">
       <Item1 Name="Default" Default="True"/>

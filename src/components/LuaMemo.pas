@@ -41,25 +41,6 @@ begin
 	end;
 end;
 
-function VCLua_Memo_ScrollBy(L: Plua_State): Integer; cdecl;
-var
-	lMemo:TLuaMemo;
-	DeltaX:Integer;
-	DeltaY:Integer;
-begin
-	CheckArg(L, 3);
-	lMemo := TLuaMemo(GetLuaObject(L, 1));
-	luaL_check(L,2,@DeltaX);
-	luaL_check(L,3,@DeltaY);
-	try
-		lMemo.ScrollBy(DeltaX,DeltaY);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Memo', 'ScrollBy', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_Memo_VCLuaSetLines(L: Plua_State): Integer; cdecl;
 var
 	lMemo:TLuaMemo;
@@ -312,7 +293,6 @@ end;
 begin
 	CustomMemoFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomMemoFuncs, 'Append', @VCLua_Memo_Append);
-	TLuaMethodInfo.Create(CustomMemoFuncs, 'ScrollBy', @VCLua_Memo_ScrollBy);
 	TLuaMethodInfo.Create(CustomMemoFuncs, 'Lines', @VCLua_Memo_VCLuaGetLines, mfCall);
 	TLuaMethodInfo.Create(CustomMemoFuncs, 'HorzScrollBar', @VCLua_Memo_VCLuaGetHorzScrollBar, mfCall);
 	TLuaMethodInfo.Create(CustomMemoFuncs, 'VertScrollBar', @VCLua_Memo_VCLuaGetVertScrollBar, mfCall);

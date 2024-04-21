@@ -50,7 +50,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Grids, LuaClassesEvents, LuaEvent, LuaGridsEvents, LuaPersistent, LuaPropEdits, LuaRTTICtrls, LuaRTTIGridsEvents, LuaStrings, PropEdits, RTTICtrls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Grids, LuaClassesEvents, LuaEvent, LuaGridsEvents, LuaPersistent, LuaPropEdits, LuaRTTICtrls, LuaRTTIGridsEvents, LuaStrings, LuaWinControl, PropEdits, RTTICtrls;
 
 
 function VCLua_TIGridProperty_GetEditorControl(L: Plua_State): Integer; cdecl;
@@ -67,7 +67,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TIGridProperty', 'GetEditorControl', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_TIGridProperty_GetButtonEditorControl(L: Plua_State): Integer; cdecl;
@@ -84,7 +84,7 @@ begin
 		on E: Exception do
 			CallError(L, 'TIGridProperty', 'GetButtonEditorControl', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_TIGridProperty_PropName(L: Plua_State): Integer; cdecl;

@@ -10,7 +10,6 @@ interface
 
 Uses Lua, LuaController, TypInfo, LuaVmt, Controls;
 
-function CreateControl(L: Plua_State): Integer; cdecl;
 procedure lua_push(L: Plua_State; const v: TControl; pti: PTypeInfo = nil); overload; inline;
 
 type
@@ -1500,7 +1499,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetParentComponent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_IsParentOf(L: Plua_State): Integer; cdecl;
@@ -1555,7 +1554,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'FindSubComponent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_IsVisible(L: Plua_State): Integer; cdecl;
@@ -2937,7 +2936,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetParent', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_VCLuaSetPopupMenu(L: Plua_State): Integer; cdecl;
@@ -3113,7 +3112,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Control', 'GetHostDockSite', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Control_VCLuaSetLRDockWidth(L: Plua_State): Integer; cdecl;
@@ -3311,24 +3310,6 @@ end;
 procedure lua_push(L: Plua_State; const v: TControl; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TControl',v);
-end;
-function CreateControl(L: Plua_State): Integer; cdecl;
-var
-	lControl:TLuaControl;
-	Parent:TWinControl;
-	Name:String;
-begin
-	try
-	GetControlParents(L,TWinControl(Parent),Name);
-	lControl := TLuaControl.Create(Parent);
-	lControl.Parent := TWinControl(Parent);
-	CreateTableForKnownType(L,'TControl',lControl);
-	InitControl(L,lControl,Name);
-	Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'VCL', 'Control', E.ClassName, E.Message);
-	end;
 end;
 
 begin
