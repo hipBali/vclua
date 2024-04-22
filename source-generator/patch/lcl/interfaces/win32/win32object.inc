@@ -78,7 +78,7 @@ begin
   if FAppHandle <> 0 then
   begin
     {$ifdef RedirectDestroyMessages}
-    SetWindowLong(FAppHandle, GWL_WNDPROC, PtrInt(@DestroyWindowProc));
+    SetWindowLongPtrW(FAppHandle, GWL_WNDPROC, PtrInt(@DestroyWindowProc));
     {$endif}
     DestroyWindow(FAppHandle);
   end;
@@ -107,6 +107,7 @@ const
   Win32ClassesToInit: array[0..5] of DWord = (ICC_DATE_CLASSES,
     ICC_UPDOWN_CLASS, ICC_TAB_CLASSES, ICC_PROGRESS_CLASS, ICC_BAR_CLASSES,
     ICC_PAGESCROLLER_CLASS);
+  Done: boolean = False;
 var
   ICC: TINITCOMMONCONTROLSEX;
   Handle: HWND;
@@ -114,6 +115,9 @@ var
   AIcon: HICON;
   i: integer;
 begin
+  if Done then
+    exit;
+  Done := True;
   if not WinRegister then
   begin
     DebugLn('Trace:Win32Object.Init - Register Failed');
@@ -398,6 +402,7 @@ begin
     end else
     if retVal = WAIT_OBJECT_0 + FWaitHandleCount then
     begin
+      AMessage := Default(TMsg);
       while PeekMessage(AMessage, HWnd(nil), 0, 0, PM_REMOVE) do
       begin
         if AMessage.message = WM_QUIT then
@@ -559,6 +564,22 @@ begin
     RecreateWnd(Application.MainForm);
 end;
 
+procedure TWin32WidgetSet.AppSetupMainForm(AMainForm: TObject);
+var
+  // AMainForm is guaranteed to be a TCustomForm
+  MainForm: TCustomForm absolute AMainForm;
+begin
+  //Handle CmdShow parameter when invoked from a shortcut.
+  case System.CmdShow of
+    SW_SHOWNORMAL: ; //don't alter WindowState
+    SW_SHOWMINNOACTIVE,
+    SW_SHOWMINIMIZED,
+    SW_MINIMIZE: MainForm.WindowState := wsMinimized;
+    SW_SHOWMAXIMIZED: MainForm.WindowState := wsMaximized;
+    SW_SHOWFULLSCREEN: MainForm.WindowState := wsFullScreen;
+  end;
+end;
+
 function TWin32WidgetSet.LCLPlatform: TLCLPlatform;
 begin
   Result:= lpWin32;
@@ -652,6 +673,7 @@ procedure TWin32WidgetSet.UpdateMDIClientBounds;
   var
     I: Integer;
   begin
+    Result := Rect(0, 0, 0, 0);
     Windows.GetClientRect(Application.MainFormHandle, Result);
     for I := 0 to Application.MainForm.ControlCount - 1 do
       if Application.MainForm.Controls[I].Visible then
@@ -802,6 +824,7 @@ end;
  ------------------------------------------------------------------------------}
 var
   IntSetPixel : function (DC:HDC; X, Y:longint; cl:Windows.COLORREF):Windows.COLORREF; stdcall = nil;
+  IntSendMessage : function(HandleWnd: HWND; Msg: Cardinal; WParam: WParam; LParam: LParam): LResult; stdcall = nil;
 
 function VistaSetPixel(DC:HDC; X,Y:longint; cl:Windows.COLORREF):Windows.COLORREF; stdcall;
 var
