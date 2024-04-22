@@ -341,8 +341,7 @@ classes = {
 		classes = {
 			{ name = "TIPropertyGrid", src = "TTIPropertyGrid" },
 			{ name = "TIGridProperty", src = "TTIGridProperty", nocreate=true },
-			{ name = "TICustomGrid", src = "TTICustomGrid", nocreate=true },
-			{ name = "TIGrid", src = "TTIGrid" },
+			{ name = "TIGrid", src = "TTICustomGrid" },
 		},
 	},
 }	

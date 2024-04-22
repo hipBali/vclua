@@ -295,5 +295,3 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TTIGridProperty', @TIGridPropertySets);
   vmts.Add('TTICustomGrid', @TICustomGridFuncs);
   propSets.Add('TTICustomGrid', @TICustomGridSets);
-  vmts.Add('TTIGrid', @TIGridFuncs);
-  propSets.Add('TTIGrid', @TIGridSets);

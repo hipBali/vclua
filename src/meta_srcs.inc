@@ -3,7 +3,6 @@ Generated with Lua-fpc parser/generator
 (C) 2018-2024 Hi-Project Ltd.
 *)
 
-TTIGrid.ClassInfo,
 TTICustomGrid.ClassInfo,
 TTIGridProperty.ClassInfo,
 TTIPropertyGrid.ClassInfo,

@@ -148,5 +148,4 @@ apiPtis.Add('TCustomPropertiesGrid', TCustomPropertiesGrid.ClassInfo);
 apiPtis.Add('TAliasStrings', TAliasStrings.ClassInfo);
 apiPtis.Add('TTIPropertyGrid', TTIPropertyGrid.ClassInfo);
 apiPtis.Add('TTIGridProperty', TTIGridProperty.ClassInfo);
-apiPtis.Add('TTICustomGrid', TTICustomGrid.ClassInfo);
 apiPtis.Add('TTIGrid', TTIGrid.ClassInfo);
