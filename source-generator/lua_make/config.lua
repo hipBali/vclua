@@ -245,7 +245,7 @@ classes = {
 	{ name = "BitBtn", src = "TCustomBitBtn", ref = "Buttons" },
 	{ name = "SpeedButton", src = "TCustomSpeedButton", ref = "Buttons" },
 	-- maskedit
-	{ name = "MaskEdit", src = "TMaskEdit", ref = "MaskEdit" },
+	{ name = "MaskEdit", src = "TCustomMaskEdit", ref = "MaskEdit" },
 	-- checklistbox
 	{ name = "CheckListBox", src = "TCustomCheckListBox", ref = "CheckLst"},
 
