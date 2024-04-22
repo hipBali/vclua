@@ -37,6 +37,7 @@ fpcSrc = {
 	["Spin"] 	= LAZPATH.."lcl/spin.pp",
 	["Arrow"] 	= LAZPATH.."lcl/arrow.pp",
 	["Calendar"] 	= LAZPATH.."lcl/calendar.pp",
+	["GroupedEdit"]	= LAZPATH.."lcl/groupededit.pp",
 	["EditBtn"] 	= LAZPATH.."lcl/editbtn.pas",
 	["FileCtrl"] 	= LAZPATH.."lcl/filectrl.pas",
 	["Dialogs"] 	= LAZPATH.."lcl/dialogs.pp",
@@ -262,12 +263,13 @@ classes = {
 	-- calendar
 	{ name = "Calendar", src = "TCustomCalendar", ref = "Calendar" },
 	-- editbtn
+	{ name = "CustomAbstractGroupedEdit", src = "TCustomAbstractGroupedEdit", ref = "GroupedEdit", nocreate=true },
 	{ name = "EditButton", src = "TCustomEditButton", ref = "EditBtn" },
-	{ name = "FileNameEdit", src = "TCustomEditButton", ref = "EditBtn" },
-	{ name = "DirectoryEdit", src = "TCustomEditButton", ref = "EditBtn" },
-	{ name = "DateEdit", src = "TCustomEditButton", ref = "EditBtn" },
-	{ name = "TimeEdit", src = "TCustomEditButton", ref = "EditBtn" },
-	{ name = "CalcEdit", src = "TCustomEditButton", ref = "EditBtn" },
+	{ name = "FileNameEdit", src = "TFileNameEdit", ref = "EditBtn" },
+	{ name = "DirectoryEdit", src = "TDirectoryEdit", ref = "EditBtn" },
+	{ name = "DateEdit", src = "TDateEdit", ref = "EditBtn" },
+	{ name = "TimeEdit", src = "TTimeEdit", ref = "EditBtn" },
+	{ name = "CalcEdit", src = "TCalcEdit", ref = "EditBtn" },
 	-- filectrl
 	
 	-- grids

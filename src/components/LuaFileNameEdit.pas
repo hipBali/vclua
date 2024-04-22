@@ -16,24 +16,48 @@ procedure lua_push(L: Plua_State; const v: TFileNameEdit; pti: PTypeInfo = nil);
 type
     TLuaFileNameEdit = class(TFileNameEdit)
     end;
+var
+    FileNameEditFuncs: TLuaVmt;
+    FileNameEditSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaStrings;
 
-function VCLua_FileNameEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
+function VCLua_FileNameEdit_RunDialog(L: Plua_State): Integer; cdecl;
 var
 	lFileNameEdit:TLuaFileNameEdit;
 begin
+	CheckArg(L, 1);
+	lFileNameEdit := TLuaFileNameEdit(GetLuaObject(L, 1));
+	try
+		lFileNameEdit.RunDialog();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'FileNameEdit', 'RunDialog', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_FileNameEdit_VCLuaGetDialogFiles(L: Plua_State): Integer; cdecl;
+var
+	lFileNameEdit:TLuaFileNameEdit;
+	ret:TStrings;
+begin
 	lFileNameEdit := TLuaFileNameEdit(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lFileNameEdit.OnButtonClick));
-	lFileNameEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
-	Result := 0;
+	try
+		ret := lFileNameEdit.DialogFiles;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'FileNameEdit', 'GetDialogFiles', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
 end;
 
 procedure lua_push(L: Plua_State; const v: TFileNameEdit; pti: PTypeInfo);
 begin
-	CreateTableForKnownType(L,'TCustomEditButton',v);
+	CreateTableForKnownType(L,'TFileNameEdit',v);
 end;
 function CreateFileNameEdit(L: Plua_State): Integer; cdecl;
 var
@@ -45,7 +69,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lFileNameEdit := TLuaFileNameEdit.Create(Parent);
 	lFileNameEdit.Parent := TWinControl(Parent);
-	CreateTableForKnownType(L,'TCustomEditButton',lFileNameEdit);
+	CreateTableForKnownType(L,'TFileNameEdit',lFileNameEdit);
 	InitControl(L,lFileNameEdit,Name);
 	Result := 1;
 	except
@@ -55,4 +79,9 @@ begin
 end;
 
 begin
+	FileNameEditFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(FileNameEditFuncs, 'RunDialog', @VCLua_FileNameEdit_RunDialog);
+	TLuaMethodInfo.Create(FileNameEditFuncs, 'DialogFiles', @VCLua_FileNameEdit_VCLuaGetDialogFiles, mfCall);
+	FileNameEditSets := TLuaVmt.Create;
+	
 end.

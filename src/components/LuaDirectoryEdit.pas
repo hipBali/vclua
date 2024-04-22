@@ -16,24 +16,32 @@ procedure lua_push(L: Plua_State; const v: TDirectoryEdit; pti: PTypeInfo = nil)
 type
     TLuaDirectoryEdit = class(TDirectoryEdit)
     end;
+var
+    DirectoryEditFuncs: TLuaVmt;
+    DirectoryEditSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
-function VCLua_DirectoryEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
+function VCLua_DirectoryEdit_RunDialog(L: Plua_State): Integer; cdecl;
 var
 	lDirectoryEdit:TLuaDirectoryEdit;
 begin
-	lDirectoryEdit := TLuaDirectoryEdit(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lDirectoryEdit.OnButtonClick));
-	lDirectoryEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
-	Result := 0;
+	CheckArg(L, 1);
+	lDirectoryEdit := TLuaDirectoryEdit(GetLuaObject(L, 1));
+	try
+		lDirectoryEdit.RunDialog();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'DirectoryEdit', 'RunDialog', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TDirectoryEdit; pti: PTypeInfo);
 begin
-	CreateTableForKnownType(L,'TCustomEditButton',v);
+	CreateTableForKnownType(L,'TDirectoryEdit',v);
 end;
 function CreateDirectoryEdit(L: Plua_State): Integer; cdecl;
 var
@@ -45,7 +53,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lDirectoryEdit := TLuaDirectoryEdit.Create(Parent);
 	lDirectoryEdit.Parent := TWinControl(Parent);
-	CreateTableForKnownType(L,'TCustomEditButton',lDirectoryEdit);
+	CreateTableForKnownType(L,'TDirectoryEdit',lDirectoryEdit);
 	InitControl(L,lDirectoryEdit,Name);
 	Result := 1;
 	except
@@ -55,4 +63,8 @@ begin
 end;
 
 begin
+	DirectoryEditFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(DirectoryEditFuncs, 'RunDialog', @VCLua_DirectoryEdit_RunDialog);
+	DirectoryEditSets := TLuaVmt.Create;
+	
 end.

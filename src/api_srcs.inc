@@ -110,6 +110,7 @@ apiPtis.Add('TFloatSpinEdit', TFloatSpinEdit.ClassInfo);
 apiPtis.Add('TSpinEdit', TSpinEdit.ClassInfo);
 apiPtis.Add('TArrow', TArrow.ClassInfo);
 apiPtis.Add('TCalendar', TCalendar.ClassInfo);
+apiPtis.Add('TCustomAbstractGroupedEdit', TCustomAbstractGroupedEdit.ClassInfo);
 apiPtis.Add('TEditButton', TEditButton.ClassInfo);
 apiPtis.Add('TFileNameEdit', TFileNameEdit.ClassInfo);
 apiPtis.Add('TDirectoryEdit', TDirectoryEdit.ClassInfo);

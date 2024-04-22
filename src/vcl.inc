@@ -83,6 +83,7 @@ Generated with Lua-fpc parser/generator
 	LuaSpinEdit,
 	LuaArrow,
 	LuaCalendar,
+	LuaCustomAbstractGroupedEdit,
 	LuaEditButton,
 	LuaFileNameEdit,
 	LuaDirectoryEdit,

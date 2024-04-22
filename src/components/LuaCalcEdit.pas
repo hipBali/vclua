@@ -16,24 +16,32 @@ procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo = nil); ove
 type
     TLuaCalcEdit = class(TCalcEdit)
     end;
+var
+    CalcEditFuncs: TLuaVmt;
+    CalcEditSets: TLuaVmt;
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls;
 
-function VCLua_CalcEdit_VCLuaSetOnButtonClick(L: Plua_State): Integer; cdecl;
+function VCLua_CalcEdit_RunDialog(L: Plua_State): Integer; cdecl;
 var
 	lCalcEdit:TLuaCalcEdit;
 begin
-	lCalcEdit := TLuaCalcEdit(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lCalcEdit.OnButtonClick));
-	lCalcEdit.OnButtonClick := TLuaEvent.Factory<TNotifyEvent,TLuaNotifyEvent>(L);
-	Result := 0;
+	CheckArg(L, 1);
+	lCalcEdit := TLuaCalcEdit(GetLuaObject(L, 1));
+	try
+		lCalcEdit.RunDialog();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CalcEdit', 'RunDialog', E.ClassName, E.Message);
+	end;
 end;
 
 procedure lua_push(L: Plua_State; const v: TCalcEdit; pti: PTypeInfo);
 begin
-	CreateTableForKnownType(L,'TCustomEditButton',v);
+	CreateTableForKnownType(L,'TCalcEdit',v);
 end;
 function CreateCalcEdit(L: Plua_State): Integer; cdecl;
 var
@@ -45,7 +53,7 @@ begin
 	GetControlParents(L,TWinControl(Parent),Name);
 	lCalcEdit := TLuaCalcEdit.Create(Parent);
 	lCalcEdit.Parent := TWinControl(Parent);
-	CreateTableForKnownType(L,'TCustomEditButton',lCalcEdit);
+	CreateTableForKnownType(L,'TCalcEdit',lCalcEdit);
 	InitControl(L,lCalcEdit,Name);
 	Result := 1;
 	except
@@ -55,4 +63,8 @@ begin
 end;
 
 begin
+	CalcEditFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CalcEditFuncs, 'RunDialog', @VCLua_CalcEdit_RunDialog);
+	CalcEditSets := TLuaVmt.Create;
+	
 end.
