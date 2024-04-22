@@ -124,6 +124,8 @@ apiPtis.Add('TGridColumns', TGridColumns.ClassInfo);
 apiPtis.Add('TStringGrid', TStringGrid.ClassInfo);
 apiPtis.Add('TValueListEditor', TValueListEditor.ClassInfo);
 apiPtis.Add('TColorButton', TColorButton.ClassInfo);
+apiPtis.Add('TCommonDialog', TCommonDialog.ClassInfo);
+apiPtis.Add('TFileDialog', TFileDialog.ClassInfo);
 apiPtis.Add('TOpenDialog', TOpenDialog.ClassInfo);
 apiPtis.Add('TSaveDialog', TSaveDialog.ClassInfo);
 apiPtis.Add('TSelectDirectoryDialog', TSelectDirectoryDialog.ClassInfo);

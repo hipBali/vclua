@@ -245,6 +245,10 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TValueListEditor', @ValueListEditorSets);
   vmts.Add('TColorButton', @ColorButtonFuncs);
   propSets.Add('TColorButton', @ColorButtonSets);
+  vmts.Add('TCommonDialog', @CommonDialogFuncs);
+  propSets.Add('TCommonDialog', @CommonDialogSets);
+  vmts.Add('TFileDialog', @FileDialogFuncs);
+  propSets.Add('TFileDialog', @FileDialogSets);
   vmts.Add('TOpenDialog', @OpenDialogFuncs);
   propSets.Add('TOpenDialog', @OpenDialogSets);
   vmts.Add('TSaveDialog', @SaveDialogFuncs);
@@ -257,6 +261,8 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TFontDialog', @FontDialogSets);
   vmts.Add('TFindDialog', @FindDialogFuncs);
   propSets.Add('TFindDialog', @FindDialogSets);
+  vmts.Add('TReplaceDialog', @ReplaceDialogFuncs);
+  propSets.Add('TReplaceDialog', @ReplaceDialogSets);
   vmts.Add('TCustomColorBox', @CustomColorBoxFuncs);
   propSets.Add('TCustomColorBox', @CustomColorBoxSets);
   vmts.Add('TColorListBox', @ColorListBoxFuncs);

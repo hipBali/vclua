@@ -52,20 +52,6 @@ end;]],
 		vcluaMethodName="GridGetSelectedCell",
 },
 
-["DialogExecute"] = {src = [[
-function #FNAME(L: Plua_State): Integer; cdecl;
-var
-  d: TCommonDialog;
-begin
-  d := TCommonDialog(GetLuaObject(L, 1));
-  lua_pushboolean(L, d.Execute);
-  Result := 1;
-end;
-]],
-		finalMethodName="Execute",
-		vcluaMethodName="DoExecute",
-},
-
 ["SetPixel"] = {src = [[
 function #FNAME(L: Plua_State): Integer; cdecl;
 var
