@@ -1,4 +1,0 @@
-procedure AddHandlerOnChange
-procedure AddHandlerOnCheckBoxChange
-procedure RemoveHandlerOnChange
-procedure RemoveHandlerOnCheckBoxChange

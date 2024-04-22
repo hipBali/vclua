@@ -207,8 +207,8 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TCustomCheckListBox', @CustomCheckListBoxSets);
   vmts.Add('TPopupNotifier', @PopupNotifierFuncs);
   propSets.Add('TPopupNotifier', @PopupNotifierSets);
-  vmts.Add('TDateTimePicker', @DateTimePickerFuncs);
-  propSets.Add('TDateTimePicker', @DateTimePickerSets);
+  vmts.Add('TCustomDateTimePicker', @CustomDateTimePickerFuncs);
+  propSets.Add('TCustomDateTimePicker', @CustomDateTimePickerSets);
   vmts.Add('TCustomFloatSpinEdit', @CustomFloatSpinEditFuncs);
   propSets.Add('TCustomFloatSpinEdit', @CustomFloatSpinEditSets);
   vmts.Add('TSpinEdit', @SpinEditFuncs);

@@ -253,7 +253,7 @@ classes = {
 	-- popupnotifier
 	{ name = "PopupNotifier", src = "TPopupNotifier", ref = "PopupNotifier", noparent=true, },
 	-- datetimepicker
-	{ name = "DateTimePicker", src = "TDateTimePicker", ref = "DateTimePicker" },
+	{ name = "DateTimePicker", src = "TCustomDateTimePicker", ref = "DateTimePicker" },
 	-- spin
 	{ name = "FloatSpinEdit", src = "TCustomFloatSpinEdit", ref = "Spin" },
 	{ name = "SpinEdit", src = "TSpinEdit", ref = "Spin" },
