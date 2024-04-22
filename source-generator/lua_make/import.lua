@@ -106,6 +106,10 @@ function string:split(sep)
    return fields
 end
 
+local function vclName(fptype)
+  return fptype:sub(1,1) == 'T' and fptype:sub(2) or fptype
+end
+
 local function HashedToSorted(t,comp,forceKV)
   local k,v = next(t)
   if not k then return {} end
@@ -430,8 +434,7 @@ local function processClass(def,cdef,ref)
 							local lmName = mName:lower()
 							while ancestry[parent] and ok do
 								parent = ancestry[parent].parent
-								local vclName = parent:sub(1,1) == 'T' and parent:sub(2) or parent
-								local parentTable = classTable[vclName]
+								local parentTable = classTable[vclName(parent)]
 								if parentTable then
 									local parentMd
 									for _, mdp in ipairs(parentTable) do
@@ -573,7 +576,7 @@ function createUnitBody(cdef, ref, refs)
 	local classBody = {} 
 	local cMethods, cPropSets = {n=0,suf="Funcs"}, {n=0,suf="Sets"}
 	local overLoads = {}
-	local src = cdef.src:sub(1,1)=='T' and cdef.src:sub(2) or cdef.src
+	local src = vclName(cdef.src)
 	local initSrc = not initedSrcs[src]
 	if not initSrc then cLog("###  skipping init of src "..src, "DEBUG") end
 	local initFmt = "TLuaMethodInfo.Create("..src.."%s, '%s', @%s%s%s);"
@@ -969,7 +972,7 @@ local function processCdef(cdef)
     table.insert(luaLibs, "(name:'"..pName.."'; func:@Create"..pName.."),")
     libcount = libcount + 1
   end
-  local src = cdef.src:sub(1,1)=='T' and cdef.src:sub(2) or cdef.src
+  local src = vclName(cdef.src)
   if not initedSrcs[src] then
     initedSrcs[src] = true
     table.insert(meta_srcs, cdef.src..'.ClassInfo')
