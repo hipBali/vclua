@@ -1,9 +1,14 @@
 Visual Controls For LUA (VCLua)
 
-version 0.10.0 (beta)
+version 0.10.3 (beta)
 luaversion 5.1-5.4
-date 2024-04-21
+date 2024-04-22
 ---------------------
+
+Rework hierarchy of half of exported classes to add more methods
+	- fix exception propagation from TObject.Free and TWinControl methods
+	- prevent generation of more types of unneeded method
+	- StrinGrid: fix GetSelectedCell return type
 
 Rewritten 95% of the project to support LCL almost fully and automatically
 	- replaced setWinCP with UTF8 and WinCP functions

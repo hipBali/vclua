@@ -1,7 +1,7 @@
 # vclua
 Gui library for lua
 
-Version 0.10.2
+Version 0.10.3
 
 Made with *Lazarus version 2.2.6*
 ___

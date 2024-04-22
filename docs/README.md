@@ -44,6 +44,7 @@ print(statusPanel.visible)
 	if type(p) == "table" and p.Handle and p:is('TComponent') then ... end
 	```
  - `Handle` field contains object pointer as Lua light userdata. This shadows `Handle` properties of some LCL classes like `TFont`. To access this property you can use [`GetCallable`](#additional-functions)
+ - `ClassName` property of `TObject` is also readable (any casing can be used unlike for other items in this list)
 
 ### Creating application
 
