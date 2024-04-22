@@ -56,7 +56,6 @@ VCLUA_TOLUA = {
 	-- if src ~= "T"..cdef.name
 	["tcustomimagelist"] = VCLUA_TOLUA_FULL,
 	["tcustompage"] = VCLUA_TOLUA_FULL,
-	["tcustomform"] = VCLUA_TOLUA_FULL,
 	["tcustomlistview"] = VCLUA_TOLUA_FULL,
 	["tcustomactionlist"] = VCLUA_TOLUA_FULL,
 	["tcustomtreeview"] = VCLUA_TOLUA_FULL,

@@ -1847,7 +1847,7 @@ begin
 		on E: Exception do
 			CallError(L, 'CollectionPropertyEditor', 'ShowCollectionEditor', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 procedure lua_push(L: Plua_State; const v: TPropertyEditorHook; pti: PTypeInfo);

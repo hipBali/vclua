@@ -129,7 +129,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'GetCurrentModalForm', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_GetCurrentModalFormZIndex(L: Plua_State): Integer; cdecl;
@@ -184,7 +184,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'FindNonDesignerForm', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_FindForm(L: Plua_State): Integer; cdecl;
@@ -203,7 +203,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'FindForm', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_UpdateMonitors(L: Plua_State): Integer; cdecl;
@@ -392,7 +392,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'GetActiveCustomForm', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_VCLuaGetActiveForm(L: Plua_State): Integer; cdecl;
@@ -511,7 +511,7 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		ret := lScreen.CustomForms[Index];
-		lua_push(L,ret,TypeInfo(ret));
+		lua_push(L,ret);
 		Result := 1;
 	except
 		on E: Exception do
@@ -546,7 +546,7 @@ begin
 	luaL_check(L,2,@Index);
 	try
 		ret := lScreen.CustomFormsZOrdered[Index];
-		lua_push(L,ret,TypeInfo(ret));
+		lua_push(L,ret);
 		Result := 1;
 	except
 		on E: Exception do
@@ -647,7 +647,7 @@ begin
 		on E: Exception do
 			CallError(L, 'Screen', 'GetFocusedForm', E.ClassName, E.Message);
 	end;
-	lua_push(L,ret,TypeInfo(ret));
+	lua_push(L,ret);
 end;
 
 function VCLua_Screen_VCLuaGetFormCount(L: Plua_State): Integer; cdecl;

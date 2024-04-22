@@ -254,7 +254,7 @@ var
 begin
   L := ToStack;
   lua_push(L,Sender,TypeInfo(Sender));
-  lua_push(L,Form,TypeInfo(Form));
+  lua_push(L,Form);
   DoCall(L,2);
 end;
 

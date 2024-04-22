@@ -158,9 +158,14 @@ classes = {
 	{ name = "CustomApplication", src = "TCustomApplication", ref = "CustApp", implref = "singleinstance", nocreate=true },
 	{ name = "Application", src = "TApplication", ref = "Forms", implref = "LCLType", noparent=true, globals={Application=1} },
 	{ name = "Monitor", src = "TMonitor", ref = "Forms", implref = "LCLType", nocreate=true},
-	{ name = "Form", src = "TCustomForm", ref = "Forms", implref = "LCLType", form=true},
+	{ name = "ScrollBox", src = "TScrollingWinControl", ref = "Forms", },
+	{ unit = "Form", ref = "Forms", implref = "LCLType",
+		classes = {
+			{ name = "CustomForm", src = "TCustomForm", nocreate=true },
+			{ name = "Form", src = "TForm", form=true },
+		},
+	},
 	{ name = "Screen", src = "TScreen", ref = "Forms", implref = "LCLType", nocreate=true, globals={Screen=1}},
-	{ name = "ScrollBox", src = "TScrollBox", ref = "Forms", },
 
 	-- standard controls
 	{ name = "ListBox", src = "TCustomListBox", ref = "StdCtrls" },

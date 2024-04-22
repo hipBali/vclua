@@ -95,12 +95,14 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TApplication', @ApplicationSets);
   vmts.Add('TMonitor', @MonitorFuncs);
   propSets.Add('TMonitor', @MonitorSets);
+  vmts.Add('TScrollingWinControl', @ScrollingWinControlFuncs);
+  propSets.Add('TScrollingWinControl', @ScrollingWinControlSets);
   vmts.Add('TCustomForm', @CustomFormFuncs);
   propSets.Add('TCustomForm', @CustomFormSets);
+  vmts.Add('TForm', @FormFuncs);
+  propSets.Add('TForm', @FormSets);
   vmts.Add('TScreen', @ScreenFuncs);
   propSets.Add('TScreen', @ScreenSets);
-  vmts.Add('TScrollBox', @ScrollBoxFuncs);
-  propSets.Add('TScrollBox', @ScrollBoxSets);
   vmts.Add('TCustomListBox', @CustomListBoxFuncs);
   propSets.Add('TCustomListBox', @CustomListBoxSets);
   vmts.Add('TCustomComboBox', @CustomComboBoxFuncs);
