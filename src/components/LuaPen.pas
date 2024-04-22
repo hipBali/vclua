@@ -21,24 +21,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes;
-
-function VCLua_Pen_Assign(L: Plua_State): Integer; cdecl;
-var
-	lPen:TLuaPen;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lPen := TLuaPen(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lPen.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Pen', 'Assign', E.ClassName, E.Message);
-	end;
-end;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils;
 
 function VCLua_Pen_GetPattern(L: Plua_State): Integer; cdecl;
 var
@@ -81,7 +64,6 @@ end;
 
 begin
 	PenFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(PenFuncs, 'Assign', @VCLua_Pen_Assign);
 	TLuaMethodInfo.Create(PenFuncs, 'GetPattern', @VCLua_Pen_GetPattern);
 	TLuaMethodInfo.Create(PenFuncs, 'SetPattern', @VCLua_Pen_SetPattern);
 	PenSets := TLuaVmt.Create;

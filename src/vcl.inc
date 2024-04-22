@@ -5,6 +5,7 @@ Generated with Lua-fpc parser/generator
 	
 	// GENERATED SOURCES ***********************
 	LuaPersistent,
+	LuaFPCustomFont,
 	LuaException,
 	LuaCollection,
 	LuaStream,

@@ -21,24 +21,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LuaBitmap;
-
-function VCLua_Brush_Assign(L: Plua_State): Integer; cdecl;
-var
-	lBrush:TLuaBrush;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lBrush := TLuaBrush(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lBrush.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Brush', 'Assign', E.ClassName, E.Message);
-	end;
-end;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LuaBitmap;
 
 function VCLua_Brush_EqualsBrush(L: Plua_State): Integer; cdecl;
 var
@@ -98,7 +81,6 @@ end;
 
 begin
 	BrushFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(BrushFuncs, 'Assign', @VCLua_Brush_Assign);
 	TLuaMethodInfo.Create(BrushFuncs, 'EqualsBrush', @VCLua_Brush_EqualsBrush);
 	TLuaMethodInfo.Create(BrushFuncs, 'Bitmap', @VCLua_Brush_VCLuaGetBitmap, mfCall);
 	BrushSets := TLuaVmt.Create;

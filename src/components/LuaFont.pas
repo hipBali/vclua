@@ -21,24 +21,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, LCLType;
-
-function VCLua_Font_Assign(L: Plua_State): Integer; cdecl;
-var
-	lFont:TLuaFont;
-	Source:TPersistent;
-begin
-	CheckArg(L, 2);
-	lFont := TLuaFont(GetLuaObject(L, 1));
-	luaL_check(L,2,@Source);
-	try
-		lFont.Assign(Source);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'Font', 'Assign', E.ClassName, E.Message);
-	end;
-end;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, LCLType;
 
 function VCLua_Font_BeginUpdate(L: Plua_State): Integer; cdecl;
 var
@@ -225,7 +208,6 @@ end;
 
 begin
 	FontFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(FontFuncs, 'Assign', @VCLua_Font_Assign);
 	TLuaMethodInfo.Create(FontFuncs, 'BeginUpdate', @VCLua_Font_BeginUpdate);
 	TLuaMethodInfo.Create(FontFuncs, 'EndUpdate', @VCLua_Font_EndUpdate);
 	TLuaMethodInfo.Create(FontFuncs, 'HandleAllocated', @VCLua_Font_HandleAllocated);

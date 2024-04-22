@@ -135,4 +135,5 @@ TStream.ClassInfo,
 TCollection.ClassInfo,
 TCollectionItem.ClassInfo,
 Exception.ClassInfo,
+TFPCustomFont.ClassInfo,
 TPersistent.ClassInfo

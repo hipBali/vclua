@@ -23,6 +23,7 @@ fpcSrc = {
 	["Controls"] 	= LAZPATH.."lcl/controls.pp",
 	["CustApp"] 	= FPCSOURCE.."packages/fcl-base/src/custapp.pp",
 	["Forms"] 		= LAZPATH.."lcl/forms.pp",
+	["FPCanvas"] 	= FPCSOURCE.."packages/fcl-image/src/fpcanvas.pp",
 	["Graphics"] 	= LAZPATH.."lcl/graphics.pp",
 	["ActnList"]	= LAZPATH.."lcl/actnlist.pas",
 	["ImgList"] 	= LAZPATH.."lcl/imglist.pp",
@@ -77,6 +78,7 @@ toInfer = {
 classes = {
 	------------------------------------------------------------------
 	{ name = "Persistent", src = "TPersistent", ref="Classes", nocreate=true },
+	{ name = "FPCustomFont", src = "TFPCustomFont", ref = "FPCanvas", base=true, nocreate=true },
 	{ name = "Exception", src = "Exception", fptype = "Exception", ref="SysUtils", nocreate=true },
 	{ unit = "Collection", ref = "Classes",
 		classes = {
