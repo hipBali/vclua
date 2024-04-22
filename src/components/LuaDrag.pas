@@ -1171,7 +1171,7 @@ function VCLua_DockManager_GetDockEdge(L: Plua_State): Integer; cdecl;
 var
 	lDockManager:TLuaDockManager;
 	ADockObject:TDragDockObject;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 2);
 	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
@@ -1409,6 +1409,23 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_DockManager_CanBeDoubleDocked(L: Plua_State): Integer; cdecl;
+var
+	lDockManager:TLuaDockManager;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lDockManager := TLuaDockManager(GetLuaObject(L, 1));
+	try
+		ret := lDockManager.CanBeDoubleDocked();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'DockManager', 'CanBeDoubleDocked', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_DockTree_AdjustDockRect(L: Plua_State): Integer; cdecl;
 var
 	lDockTree:TLuaDockTree;
@@ -1451,7 +1468,7 @@ end;
 function VCLua_DockTree_DumpLayout(L: Plua_State): Integer; cdecl;
 var
 	lDockTree:TLuaDockTree;
-	FileName:String;
+	FileName:string;
 begin
 	CheckArg(L, 2);
 	lDockTree := TLuaDockTree(GetLuaObject(L, 1));
@@ -1722,6 +1739,7 @@ begin
 	TLuaMethodInfo.Create(DockManagerFuncs, 'SetReplacingControl', @VCLua_DockManager_SetReplacingControl);
 	TLuaMethodInfo.Create(DockManagerFuncs, 'AutoFreeByControl', @VCLua_DockManager_AutoFreeByControl);
 	TLuaMethodInfo.Create(DockManagerFuncs, 'IsEnabledControl', @VCLua_DockManager_IsEnabledControl);
+	TLuaMethodInfo.Create(DockManagerFuncs, 'CanBeDoubleDocked', @VCLua_DockManager_CanBeDoubleDocked);
 	DockManagerSets := TLuaVmt.Create;
 	
 	DockTreeFuncs := TLuaVmt.Create;

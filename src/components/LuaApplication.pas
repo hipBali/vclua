@@ -61,6 +61,25 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Application_GetControlAtPos(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+	P:TPoint;
+	ret:TControl;
+begin
+	CheckArg(L, 2);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	luaL_check(L,2,@P);
+	try
+		ret := lApplication.GetControlAtPos(P);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'GetControlAtPos', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Application_ControlDestroyed(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
@@ -176,6 +195,23 @@ begin
 	end;
 end;
 
+function VCLua_Application_HelpShowTableOfContents(L: Plua_State): Integer; cdecl;
+var
+	lApplication:TLuaApplication;
+	ret:Boolean;
+begin
+	CheckArg(L, 1);
+	lApplication := TLuaApplication(GetLuaObject(L, 1));
+	try
+		ret := lApplication.HelpShowTableOfContents();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Application', 'HelpShowTableOfContents', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Application_RemoveStayOnTop(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
@@ -213,7 +249,7 @@ end;
 function VCLua_Application_IsWaiting(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lApplication := TLuaApplication(GetLuaObject(L, 1));
@@ -356,7 +392,7 @@ end;
 function VCLua_Application_VCLuaGetActive(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
-	ret:boolean;
+	ret:Boolean;
 begin
 	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
@@ -436,7 +472,7 @@ end;
 function VCLua_Application_VCLuaSetCaptureExceptions(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
-	val:boolean;
+	val:Boolean;
 begin
 	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
@@ -452,7 +488,7 @@ end;
 function VCLua_Application_VCLuaGetCaptureExceptions(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
-	ret:boolean;
+	ret:Boolean;
 begin
 	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
@@ -564,7 +600,7 @@ end;
 function VCLua_Application_VCLuaSetFindGlobalComponentEnabled(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
-	val:boolean;
+	val:Boolean;
 begin
 	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
@@ -580,7 +616,7 @@ end;
 function VCLua_Application_VCLuaGetFindGlobalComponentEnabled(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
-	ret:boolean;
+	ret:Boolean;
 begin
 	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
@@ -1490,7 +1526,7 @@ end;
 function VCLua_Application_VCLuaSetTitle(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
-	val:String;
+	val:string;
 begin
 	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
@@ -1506,7 +1542,7 @@ end;
 function VCLua_Application_VCLuaGetTitle(L: Plua_State): Integer; cdecl;
 var
 	lApplication:TLuaApplication;
-	ret:String;
+	ret:string;
 begin
 	lApplication := TLuaApplication(GetLuaObjectUnsafe(L, 1));
 	try
@@ -1583,6 +1619,7 @@ begin
 	ApplicationFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ApplicationFuncs, 'ActivateHint', @VCLua_Application_ActivateHint);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'GetControlAtMouse', @VCLua_Application_GetControlAtMouse);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'GetControlAtPos', @VCLua_Application_GetControlAtPos);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'ControlDestroyed', @VCLua_Application_ControlDestroyed);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'BigIconHandle', @VCLua_Application_BigIconHandle);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'SmallIconHandle', @VCLua_Application_SmallIconHandle);
@@ -1590,6 +1627,7 @@ begin
 	TLuaMethodInfo.Create(ApplicationFuncs, 'UpdateMainForm', @VCLua_Application_UpdateMainForm);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'ReleaseComponent', @VCLua_Application_ReleaseComponent);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'HandleMessage', @VCLua_Application_HandleMessage);
+	TLuaMethodInfo.Create(ApplicationFuncs, 'HelpShowTableOfContents', @VCLua_Application_HelpShowTableOfContents);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'RemoveStayOnTop', @VCLua_Application_RemoveStayOnTop);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'RestoreStayOnTop', @VCLua_Application_RestoreStayOnTop);
 	TLuaMethodInfo.Create(ApplicationFuncs, 'IsWaiting', @VCLua_Application_IsWaiting);
@@ -1638,11 +1676,11 @@ begin
 	ApplicationSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ApplicationSets, 'ApplicationType', @VCLua_Application_VCLuaSetApplicationType, mfCall, TypeInfo(TApplicationType));
 	TLuaMethodInfo.Create(ApplicationSets, 'BidiMode', @VCLua_Application_VCLuaSetBidiMode, mfCall, TypeInfo(TBiDiMode));
-	TLuaMethodInfo.Create(ApplicationSets, 'CaptureExceptions', @VCLua_Application_VCLuaSetCaptureExceptions, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(ApplicationSets, 'CaptureExceptions', @VCLua_Application_VCLuaSetCaptureExceptions, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(ApplicationSets, 'DoubleBuffered', @VCLua_Application_VCLuaSetDoubleBuffered, mfCall, TypeInfo(TApplicationDoubleBuffered));
 	TLuaMethodInfo.Create(ApplicationSets, 'ExtendedKeysSupport', @VCLua_Application_VCLuaSetExtendedKeysSupport, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(ApplicationSets, 'ExceptionDialog', @VCLua_Application_VCLuaSetExceptionDialog, mfCall, TypeInfo(TApplicationExceptionDlg));
-	TLuaMethodInfo.Create(ApplicationSets, 'FindGlobalComponentEnabled', @VCLua_Application_VCLuaSetFindGlobalComponentEnabled, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(ApplicationSets, 'FindGlobalComponentEnabled', @VCLua_Application_VCLuaSetFindGlobalComponentEnabled, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(ApplicationSets, 'Flags', @VCLua_Application_VCLuaSetFlags, mfCall, TypeInfo(TApplicationFlags));
 	TLuaMethodInfo.Create(ApplicationSets, 'Handle', @VCLua_Application_VCLuaSetHandle, mfCall, TypeInfo(THandle));
 	TLuaMethodInfo.Create(ApplicationSets, 'Hint', @VCLua_Application_VCLuaSetHint, mfCall, TypeInfo(string));
@@ -1682,6 +1720,6 @@ begin
 	TLuaMethodInfo.Create(ApplicationSets, 'ShowMenuGlyphs', @VCLua_Application_VCLuaSetShowMenuGlyphs, mfCall, TypeInfo(TApplicationShowGlyphs));
 	TLuaMethodInfo.Create(ApplicationSets, 'ShowHint', @VCLua_Application_VCLuaSetShowHint, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(ApplicationSets, 'ShowMainForm', @VCLua_Application_VCLuaSetShowMainForm, mfCall, TypeInfo(Boolean));
-	TLuaMethodInfo.Create(ApplicationSets, 'Title', @VCLua_Application_VCLuaSetTitle, mfCall, TypeInfo(String));
+	TLuaMethodInfo.Create(ApplicationSets, 'Title', @VCLua_Application_VCLuaSetTitle, mfCall, TypeInfo(string));
 	TLuaMethodInfo.Create(ApplicationSets, 'Scaled', @VCLua_Application_VCLuaSetScaled, mfCall, TypeInfo(Boolean));
 end.

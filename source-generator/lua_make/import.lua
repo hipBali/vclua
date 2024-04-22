@@ -1126,7 +1126,7 @@ htmltemp = [[
   }
 </style>
 <H2>VCLua Class Reference</H2>
-<H3>version 0.10.3</H3>
+<H3>version 1.0.0</H3>
 </head>
 <body>
 <hr>

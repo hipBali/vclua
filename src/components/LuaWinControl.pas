@@ -78,7 +78,7 @@ end;
 function VCLua_WinControl_VCLuaGetBoundsLockCount(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
-	ret:integer;
+	ret:Integer;
 begin
 	lWinControl := TLuaWinControl(GetLuaObjectUnsafe(L, 1));
 	try
@@ -110,7 +110,7 @@ end;
 function VCLua_WinControl_VCLuaGetCachedClientHeight(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
-	ret:integer;
+	ret:Integer;
 begin
 	lWinControl := TLuaWinControl(GetLuaObjectUnsafe(L, 1));
 	try
@@ -126,7 +126,7 @@ end;
 function VCLua_WinControl_VCLuaGetCachedClientWidth(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
-	ret:integer;
+	ret:Integer;
 begin
 	lWinControl := TLuaWinControl(GetLuaObjectUnsafe(L, 1));
 	try
@@ -911,7 +911,7 @@ end;
 function VCLua_WinControl_InvalidateClientRectCache(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
-	WithChildControls:boolean;
+	WithChildControls:Boolean;
 begin
 	CheckArg(L, 2);
 	lWinControl := TLuaWinControl(GetLuaObject(L, 1));
@@ -928,7 +928,7 @@ end;
 function VCLua_WinControl_ClientRectNeedsInterfaceUpdate(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lWinControl := TLuaWinControl(GetLuaObject(L, 1));
@@ -1162,7 +1162,7 @@ function VCLua_WinControl_GetControlIndex(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
 	AControl:TControl;
-	ret:integer;
+	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lWinControl := TLuaWinControl(GetLuaObject(L, 1));
@@ -1181,7 +1181,7 @@ function VCLua_WinControl_SetControlIndex(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
 	AControl:TControl;
-	NewIndex:integer;
+	NewIndex:Integer;
 begin
 	CheckArg(L, 3);
 	lWinControl := TLuaWinControl(GetLuaObject(L, 1));
@@ -1216,8 +1216,8 @@ end;
 function VCLua_WinControl_PerformTab(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
-	ForwardTab:boolean;
-	ret:boolean;
+	ForwardTab:Boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 2);
 	lWinControl := TLuaWinControl(GetLuaObject(L, 1));
@@ -1235,7 +1235,7 @@ end;
 function VCLua_WinControl_FindChildControl(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
-	ControlName:String;
+	ControlName:string;
 	ret:TControl;
 begin
 	CheckArg(L, 2);
@@ -1395,7 +1395,7 @@ function VCLua_WinControl_InsertControl2(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
 	AControl:TControl;
-	Index:integer;
+	Index:Integer;
 begin
 	CheckArg(L, 3);
 	lWinControl := TLuaWinControl(GetLuaObject(L, 1));
@@ -1482,7 +1482,7 @@ function VCLua_WinControl_GetDockCaption(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
 	AControl:TControl;
-	ret:String;
+	ret:string;
 begin
 	CheckArg(L, 2);
 	lWinControl := TLuaWinControl(GetLuaObject(L, 1));
@@ -1584,9 +1584,9 @@ function VCLua_WinControl_IntfUTF8KeyPress(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
 	UTF8Key:TUTF8Char;
-	RepeatCount:integer;
-	SystemKey:boolean;
-	ret:boolean;
+	RepeatCount:Integer;
+	SystemKey:Boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 3);
 	lWinControl := TLuaWinControl(GetLuaObject(L, 1));
@@ -1607,9 +1607,9 @@ function VCLua_WinControl_IntfUTF8KeyPress2(L: Plua_State): Integer; cdecl;
 var
 	lWinControl:TLuaWinControl;
 	UTF8Key:TUTF8Char;
-	RepeatCount:integer;
-	SystemKey:boolean;
-	ret:boolean;
+	RepeatCount:Integer;
+	SystemKey:Boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 4);
 	lWinControl := TLuaWinControl(GetLuaObject(L, 1));

@@ -37,6 +37,11 @@ type
       procedure Handler(Sender : TObject; var ATime : TDateTime);
   end;
 
+  TLuaDateRangeCheckEvent = class(TLuaEvent)
+    public
+      procedure Handler(Sender : TObject; var ADate : TDateTime);
+  end;
+
 
 procedure RegisterLuaEditBtnEvents();
 
@@ -51,6 +56,7 @@ begin
   eventPtrs.Add('TAcceptValueEvent', @TLuaAcceptValueEvent.Handler);
   eventPtrs.Add('TCustomDateEvent', @TLuaCustomDateEvent.Handler);
   eventPtrs.Add('TCustomTimeEvent', @TLuaCustomTimeEvent.Handler);
+  eventPtrs.Add('TDateRangeCheckEvent', @TLuaDateRangeCheckEvent.Handler);
 end;
 
 procedure TLuaAcceptDateEvent.Handler(Sender : TObject; var ADate : TDateTime; var AcceptDate: Boolean);
@@ -167,6 +173,25 @@ begin
   luaNewTop := lua_gettop(L);
   try
     if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ATime,TypeInfo(TDateTime),lerException);
+  except
+    on E: Exception do
+      ReportError(L, E.Message);
+  end;
+end;
+
+procedure TLuaDateRangeCheckEvent.Handler(Sender : TObject; var ADate : TDateTime);
+var
+  L: Plua_State;
+  luaTop, luaNewTop: Integer;
+begin
+  L := ToStack;
+  luaTop := lua_gettop(L) - 1;
+  lua_push(L,Sender,TypeInfo(Sender));
+  lua_push(L,ADate);
+  DoCall(L,2);
+  luaNewTop := lua_gettop(L);
+  try
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ADate,TypeInfo(TDateTime),lerException);
   except
     on E: Exception do
       ReportError(L, E.Message);

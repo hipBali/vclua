@@ -77,6 +77,23 @@ begin
 	end;
 end;
 
+function VCLua_BitBtn_LoadGlyphFromResource(L: Plua_State): Integer; cdecl;
+var
+	lBitBtn:TLuaBitBtn;
+	idButton:TButtonImage;
+begin
+	CheckArg(L, 2);
+	lBitBtn := TLuaBitBtn(GetLuaObject(L, 1));
+	luaL_check(L,2,@idButton);
+	try
+		lBitBtn.LoadGlyphFromResource(idButton);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'BitBtn', 'LoadGlyphFromResource', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_BitBtn_CanShowGlyph(L: Plua_State): Integer; cdecl;
 var
 	lBitBtn:TLuaBitBtn;
@@ -124,6 +141,38 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'BitBtn', 'GetDefaultCaption', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_BitBtn_VCLuaSetDisabledImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lBitBtn:TLuaBitBtn;
+	val:TImageIndex;
+begin
+	lBitBtn := TLuaBitBtn(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lBitBtn.DisabledImageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'BitBtn', 'SetDisabledImageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_BitBtn_VCLuaGetDisabledImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lBitBtn:TLuaBitBtn;
+	ret:TImageIndex;
+begin
+	lBitBtn := TLuaBitBtn(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lBitBtn.DisabledImageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'BitBtn', 'GetDisabledImageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -188,6 +237,38 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'BitBtn', 'GetNumGlyphs', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_BitBtn_VCLuaSetHotImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lBitBtn:TLuaBitBtn;
+	val:TImageIndex;
+begin
+	lBitBtn := TLuaBitBtn(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lBitBtn.HotImageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'BitBtn', 'SetHotImageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_BitBtn_VCLuaGetHotImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lBitBtn:TLuaBitBtn;
+	ret:TImageIndex;
+begin
+	lBitBtn := TLuaBitBtn(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lBitBtn.HotImageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'BitBtn', 'GetHotImageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -384,6 +465,38 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_BitBtn_VCLuaSetPressedImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lBitBtn:TLuaBitBtn;
+	val:TImageIndex;
+begin
+	lBitBtn := TLuaBitBtn(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lBitBtn.PressedImageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'BitBtn', 'SetPressedImageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_BitBtn_VCLuaGetPressedImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lBitBtn:TLuaBitBtn;
+	ret:TImageIndex;
+begin
+	lBitBtn := TLuaBitBtn(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lBitBtn.PressedImageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'BitBtn', 'GetPressedImageIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_BitBtn_VCLuaSetSpacing(L: Plua_State): Integer; cdecl;
 var
 	lBitBtn:TLuaBitBtn;
@@ -476,28 +589,35 @@ begin
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'LoadGlyphFromResourceName', @VCLua_BitBtn_LoadGlyphFromResourceName);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'LoadGlyphFromLazarusResource', @VCLua_BitBtn_LoadGlyphFromLazarusResource);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'LoadGlyphFromStock', @VCLua_BitBtn_LoadGlyphFromStock);
+	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'LoadGlyphFromResource', @VCLua_BitBtn_LoadGlyphFromResource);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'CanShowGlyph', @VCLua_BitBtn_CanShowGlyph);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'DefaultCaption', @VCLua_BitBtn_VCLuaGetDefaultCaption, mfCall);
+	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'DisabledImageIndex', @VCLua_BitBtn_VCLuaGetDisabledImageIndex, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'Glyph', @VCLua_BitBtn_VCLuaGetGlyph, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'NumGlyphs', @VCLua_BitBtn_VCLuaGetNumGlyphs, mfCall);
+	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'HotImageIndex', @VCLua_BitBtn_VCLuaGetHotImageIndex, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'Images', @VCLua_BitBtn_VCLuaGetImages, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'ImageIndex', @VCLua_BitBtn_VCLuaGetImageIndex, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'ImageWidth', @VCLua_BitBtn_VCLuaGetImageWidth, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'Kind', @VCLua_BitBtn_VCLuaGetKind, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'Layout', @VCLua_BitBtn_VCLuaGetLayout, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'Margin', @VCLua_BitBtn_VCLuaGetMargin, mfCall);
+	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'PressedImageIndex', @VCLua_BitBtn_VCLuaGetPressedImageIndex, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'Spacing', @VCLua_BitBtn_VCLuaGetSpacing, mfCall);
 	TLuaMethodInfo.Create(CustomBitBtnFuncs, 'GlyphShowMode', @VCLua_BitBtn_VCLuaGetGlyphShowMode, mfCall);
 	CustomBitBtnSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'DefaultCaption', @VCLua_BitBtn_VCLuaSetDefaultCaption, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomBitBtnSets, 'DisabledImageIndex', @VCLua_BitBtn_VCLuaSetDisabledImageIndex, mfCall, TypeInfo(TImageIndex));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'Glyph', @VCLua_BitBtn_VCLuaSetGlyph, mfCall, TypeInfo(TBitmap));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'NumGlyphs', @VCLua_BitBtn_VCLuaSetNumGlyphs, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomBitBtnSets, 'HotImageIndex', @VCLua_BitBtn_VCLuaSetHotImageIndex, mfCall, TypeInfo(TImageIndex));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'Images', @VCLua_BitBtn_VCLuaSetImages, mfCall, TypeInfo(TCustomImageList));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'ImageIndex', @VCLua_BitBtn_VCLuaSetImageIndex, mfCall, TypeInfo(TImageIndex));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'ImageWidth', @VCLua_BitBtn_VCLuaSetImageWidth, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'Kind', @VCLua_BitBtn_VCLuaSetKind, mfCall, TypeInfo(TBitBtnKind));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'Layout', @VCLua_BitBtn_VCLuaSetLayout, mfCall, TypeInfo(TButtonLayout));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'Margin', @VCLua_BitBtn_VCLuaSetMargin, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CustomBitBtnSets, 'PressedImageIndex', @VCLua_BitBtn_VCLuaSetPressedImageIndex, mfCall, TypeInfo(TImageIndex));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'Spacing', @VCLua_BitBtn_VCLuaSetSpacing, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(CustomBitBtnSets, 'GlyphShowMode', @VCLua_BitBtn_VCLuaSetGlyphShowMode, mfCall, TypeInfo(TGlyphShowMode));
 end.

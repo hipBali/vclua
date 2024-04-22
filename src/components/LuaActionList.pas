@@ -243,6 +243,38 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Action_VCLuaSetGrayed(L: Plua_State): Integer; cdecl;
+var
+	lAction:TLuaAction;
+	val:Boolean;
+begin
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lAction.Grayed := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Action', 'SetGrayed', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Action_VCLuaGetGrayed(L: Plua_State): Integer; cdecl;
+var
+	lAction:TLuaAction;
+	ret:Boolean;
+begin
+	lAction := TLuaAction(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lAction.Grayed;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Action', 'GetGrayed', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Action_VCLuaSetDisableIfNoHandler(L: Plua_State): Integer; cdecl;
 var
 	lAction:TLuaAction;
@@ -898,6 +930,7 @@ begin
 	TLuaMethodInfo.Create(CustomActionFuncs, 'AutoCheck', @VCLua_Action_VCLuaGetAutoCheck, mfCall);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'Caption', @VCLua_Action_VCLuaGetCaption, mfCall);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'Checked', @VCLua_Action_VCLuaGetChecked, mfCall);
+	TLuaMethodInfo.Create(CustomActionFuncs, 'Grayed', @VCLua_Action_VCLuaGetGrayed, mfCall);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'DisableIfNoHandler', @VCLua_Action_VCLuaGetDisableIfNoHandler, mfCall);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'Enabled', @VCLua_Action_VCLuaGetEnabled, mfCall);
 	TLuaMethodInfo.Create(CustomActionFuncs, 'GroupIndex', @VCLua_Action_VCLuaGetGroupIndex, mfCall);
@@ -913,6 +946,7 @@ begin
 	TLuaMethodInfo.Create(CustomActionSets, 'AutoCheck', @VCLua_Action_VCLuaSetAutoCheck, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomActionSets, 'Caption', @VCLua_Action_VCLuaSetCaption, mfCall, TypeInfo(TTranslateString));
 	TLuaMethodInfo.Create(CustomActionSets, 'Checked', @VCLua_Action_VCLuaSetChecked, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomActionSets, 'Grayed', @VCLua_Action_VCLuaSetGrayed, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomActionSets, 'DisableIfNoHandler', @VCLua_Action_VCLuaSetDisableIfNoHandler, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomActionSets, 'Enabled', @VCLua_Action_VCLuaSetEnabled, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomActionSets, 'GroupIndex', @VCLua_Action_VCLuaSetGroupIndex, mfCall, TypeInfo(Integer));

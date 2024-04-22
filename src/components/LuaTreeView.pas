@@ -325,12 +325,14 @@ end;
 function VCLua_TreeNode_GetFirstVisibleChild(L: Plua_State): Integer; cdecl;
 var
 	lTreeNode:TLuaTreeNode;
+	aEnabledOnly:boolean;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	CheckArg(L, 1, 2);
+	lTreeNode := TLuaTreeNode(CheckLuaObjectPop(L, 1));
+	TTrait<boolean>.luaL_optcheck(L, 2, @aEnabledOnly, false);
 	try
-		ret := lTreeNode.GetFirstVisibleChild();
+		ret := lTreeNode.GetFirstVisibleChild(aEnabledOnly);
 		Result := 1;
 	except
 		on E: Exception do
@@ -410,12 +412,14 @@ end;
 function VCLua_TreeNode_GetLastVisibleChild(L: Plua_State): Integer; cdecl;
 var
 	lTreeNode:TLuaTreeNode;
+	aEnabledOnly:boolean;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	CheckArg(L, 1, 2);
+	lTreeNode := TLuaTreeNode(CheckLuaObjectPop(L, 1));
+	TTrait<boolean>.luaL_optcheck(L, 2, @aEnabledOnly, false);
 	try
-		ret := lTreeNode.GetLastVisibleChild();
+		ret := lTreeNode.GetLastVisibleChild(aEnabledOnly);
 		Result := 1;
 	except
 		on E: Exception do
@@ -463,12 +467,14 @@ end;
 function VCLua_TreeNode_GetNextExpanded(L: Plua_State): Integer; cdecl;
 var
 	lTreeNode:TLuaTreeNode;
+	aEnabledOnly:boolean;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	CheckArg(L, 1, 2);
+	lTreeNode := TLuaTreeNode(CheckLuaObjectPop(L, 1));
+	TTrait<boolean>.luaL_optcheck(L, 2, @aEnabledOnly, false);
 	try
-		ret := lTreeNode.GetNextExpanded();
+		ret := lTreeNode.GetNextExpanded(aEnabledOnly);
 		Result := 1;
 	except
 		on E: Exception do
@@ -531,12 +537,14 @@ end;
 function VCLua_TreeNode_GetNextVisible(L: Plua_State): Integer; cdecl;
 var
 	lTreeNode:TLuaTreeNode;
+	aEnabledOnly:boolean;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	CheckArg(L, 1, 2);
+	lTreeNode := TLuaTreeNode(CheckLuaObjectPop(L, 1));
+	TTrait<boolean>.luaL_optcheck(L, 2, @aEnabledOnly, false);
 	try
-		ret := lTreeNode.GetNextVisible();
+		ret := lTreeNode.GetNextVisible(aEnabledOnly);
 		Result := 1;
 	except
 		on E: Exception do
@@ -548,12 +556,14 @@ end;
 function VCLua_TreeNode_GetNextVisibleSibling(L: Plua_State): Integer; cdecl;
 var
 	lTreeNode:TLuaTreeNode;
+	aEnabledOnly:boolean;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	CheckArg(L, 1, 2);
+	lTreeNode := TLuaTreeNode(CheckLuaObjectPop(L, 1));
+	TTrait<boolean>.luaL_optcheck(L, 2, @aEnabledOnly, false);
 	try
-		ret := lTreeNode.GetNextVisibleSibling();
+		ret := lTreeNode.GetNextVisibleSibling(aEnabledOnly);
 		Result := 1;
 	except
 		on E: Exception do
@@ -620,12 +630,14 @@ end;
 function VCLua_TreeNode_GetPrevExpanded(L: Plua_State): Integer; cdecl;
 var
 	lTreeNode:TLuaTreeNode;
+	aEnabledOnly:boolean;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	CheckArg(L, 1, 2);
+	lTreeNode := TLuaTreeNode(CheckLuaObjectPop(L, 1));
+	TTrait<boolean>.luaL_optcheck(L, 2, @aEnabledOnly, false);
 	try
-		ret := lTreeNode.GetPrevExpanded();
+		ret := lTreeNode.GetPrevExpanded(aEnabledOnly);
 		Result := 1;
 	except
 		on E: Exception do
@@ -671,12 +683,14 @@ end;
 function VCLua_TreeNode_GetPrevVisible(L: Plua_State): Integer; cdecl;
 var
 	lTreeNode:TLuaTreeNode;
+	aEnabledOnly:boolean;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	CheckArg(L, 1, 2);
+	lTreeNode := TLuaTreeNode(CheckLuaObjectPop(L, 1));
+	TTrait<boolean>.luaL_optcheck(L, 2, @aEnabledOnly, false);
 	try
-		ret := lTreeNode.GetPrevVisible();
+		ret := lTreeNode.GetPrevVisible(aEnabledOnly);
 		Result := 1;
 	except
 		on E: Exception do
@@ -688,12 +702,14 @@ end;
 function VCLua_TreeNode_GetPrevVisibleSibling(L: Plua_State): Integer; cdecl;
 var
 	lTreeNode:TLuaTreeNode;
+	aEnabledOnly:boolean;
 	ret:TTreeNode;
 begin
-	CheckArg(L, 1);
-	lTreeNode := TLuaTreeNode(GetLuaObject(L, 1));
+	CheckArg(L, 1, 2);
+	lTreeNode := TLuaTreeNode(CheckLuaObjectPop(L, 1));
+	TTrait<boolean>.luaL_optcheck(L, 2, @aEnabledOnly, false);
 	try
-		ret := lTreeNode.GetPrevVisibleSibling();
+		ret := lTreeNode.GetPrevVisibleSibling(aEnabledOnly);
 		Result := 1;
 	except
 		on E: Exception do
@@ -1778,6 +1794,38 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_TreeNode_VCLuaSetEnabled(L: Plua_State): Integer; cdecl;
+var
+	lTreeNode:TLuaTreeNode;
+	val:Boolean;
+begin
+	lTreeNode := TLuaTreeNode(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTreeNode.Enabled := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNode', 'SetEnabled', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TreeNode_VCLuaGetEnabled(L: Plua_State): Integer; cdecl;
+var
+	lTreeNode:TLuaTreeNode;
+	ret:Boolean;
+begin
+	lTreeNode := TLuaTreeNode(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lTreeNode.Enabled;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNode', 'GetEnabled', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_TreeNodes_Add(L: Plua_State): Integer; cdecl;
 var
 	lTreeNodes:TLuaTreeNodes;
@@ -2091,6 +2139,23 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_TreeNodes_GetFirstVisibleEnabledNode(L: Plua_State): Integer; cdecl;
+var
+	lTreeNodes:TLuaTreeNodes;
+	ret:TTreeNode;
+begin
+	CheckArg(L, 1);
+	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
+	try
+		ret := lTreeNodes.GetFirstVisibleEnabledNode();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'GetFirstVisibleEnabledNode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_TreeNodes_GetLastExpandedSubNode(L: Plua_State): Integer; cdecl;
 var
 	lTreeNodes:TLuaTreeNodes;
@@ -2155,6 +2220,23 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'TreeNodes', 'GetLastVisibleNode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TreeNodes_GetLastVisibleEnabledNode(L: Plua_State): Integer; cdecl;
+var
+	lTreeNodes:TLuaTreeNodes;
+	ret:TTreeNode;
+begin
+	CheckArg(L, 1);
+	lTreeNodes := TLuaTreeNodes(GetLuaObject(L, 1));
+	try
+		ret := lTreeNodes.GetLastVisibleEnabledNode();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TreeNodes', 'GetLastVisibleEnabledNode', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -3448,6 +3530,74 @@ begin
 	end;
 end;
 
+function VCLua_TreeView_MoveLeft(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+	ASelect:Boolean;
+begin
+	CheckArg(L, 1, 2);
+	lTreeView := TLuaTreeView(CheckLuaObjectPop(L, 1));
+	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
+	try
+		lTreeView.MoveLeft(ASelect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MoveLeft', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TreeView_MoveRight(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+	ASelect:Boolean;
+begin
+	CheckArg(L, 1, 2);
+	lTreeView := TLuaTreeView(CheckLuaObjectPop(L, 1));
+	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
+	try
+		lTreeView.MoveRight(ASelect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MoveRight', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TreeView_MoveExpand(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+	ASelect:Boolean;
+begin
+	CheckArg(L, 1, 2);
+	lTreeView := TLuaTreeView(CheckLuaObjectPop(L, 1));
+	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
+	try
+		lTreeView.MoveExpand(ASelect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MoveExpand', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TreeView_MoveCollapse(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+	ASelect:Boolean;
+begin
+	CheckArg(L, 1, 2);
+	lTreeView := TLuaTreeView(CheckLuaObjectPop(L, 1));
+	TTrait<Boolean>.luaL_optcheck(L, 2, @ASelect, False);
+	try
+		lTreeView.MoveCollapse(ASelect);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'MoveCollapse', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_TreeView_MoveHome(L: Plua_State): Integer; cdecl;
 var
 	lTreeView:TLuaTreeView;
@@ -3670,6 +3820,38 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'TreeView', 'GetExpandSignSize', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_TreeView_VCLuaSetExpandSignWidth(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+	val:integer;
+begin
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lTreeView.ExpandSignWidth := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'SetExpandSignWidth', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_TreeView_VCLuaGetExpandSignWidth(L: Plua_State): Integer; cdecl;
+var
+	lTreeView:TLuaTreeView;
+	ret:integer;
+begin
+	lTreeView := TLuaTreeView(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lTreeView.ExpandSignWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TreeView', 'GetExpandSignWidth', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -4471,6 +4653,7 @@ begin
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'TreeNodes', @VCLua_TreeNode_VCLuaGetTreeNodes, mfCall);
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'TreeView', @VCLua_TreeNode_VCLuaGetTreeView, mfCall);
 	TLuaMethodInfo.Create(TreeNodeFuncs, 'Visible', @VCLua_TreeNode_VCLuaGetVisible, mfCall);
+	TLuaMethodInfo.Create(TreeNodeFuncs, 'Enabled', @VCLua_TreeNode_VCLuaGetEnabled, mfCall);
 	TreeNodeSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(TreeNodeSets, 'Cut', @VCLua_TreeNode_VCLuaSetCut, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(TreeNodeSets, 'Data', @VCLua_TreeNode_VCLuaSetData, mfCall, TypeInfo(Pointer));
@@ -4489,6 +4672,7 @@ begin
 	TLuaMethodInfo.Create(TreeNodeSets, 'StateIndex', @VCLua_TreeNode_VCLuaSetStateIndex, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(TreeNodeSets, 'Text', @VCLua_TreeNode_VCLuaSetText, mfCall, TypeInfo(string));
 	TLuaMethodInfo.Create(TreeNodeSets, 'Visible', @VCLua_TreeNode_VCLuaSetVisible, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(TreeNodeSets, 'Enabled', @VCLua_TreeNode_VCLuaSetEnabled, mfCall, TypeInfo(Boolean));
 	TreeNodesFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'Add', @VCLua_TreeNodes_Add);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'AddChild', @VCLua_TreeNodes_AddChild);
@@ -4505,10 +4689,12 @@ begin
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'FindTopLvlNode', @VCLua_TreeNodes_FindTopLvlNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetFirstNode', @VCLua_TreeNodes_GetFirstNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetFirstVisibleNode', @VCLua_TreeNodes_GetFirstVisibleNode);
+	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetFirstVisibleEnabledNode', @VCLua_TreeNodes_GetFirstVisibleEnabledNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetLastExpandedSubNode', @VCLua_TreeNodes_GetLastExpandedSubNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetLastNode', @VCLua_TreeNodes_GetLastNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetLastSubNode', @VCLua_TreeNodes_GetLastSubNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetLastVisibleNode', @VCLua_TreeNodes_GetLastVisibleNode);
+	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetLastVisibleEnabledNode', @VCLua_TreeNodes_GetLastVisibleEnabledNode);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'GetSelections', @VCLua_TreeNodes_GetSelections);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'Insert', @VCLua_TreeNodes_Insert);
 	TLuaMethodInfo.Create(TreeNodesFuncs, 'InsertBehind', @VCLua_TreeNodes_InsertBehind);
@@ -4571,6 +4757,10 @@ begin
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MoveToPrevNode', @VCLua_TreeView_MoveToPrevNode);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MovePageDown', @VCLua_TreeView_MovePageDown);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MovePageUp', @VCLua_TreeView_MovePageUp);
+	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MoveLeft', @VCLua_TreeView_MoveLeft);
+	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MoveRight', @VCLua_TreeView_MoveRight);
+	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MoveExpand', @VCLua_TreeView_MoveExpand);
+	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MoveCollapse', @VCLua_TreeView_MoveCollapse);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MoveHome', @VCLua_TreeView_MoveHome);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'MoveEnd', @VCLua_TreeView_MoveEnd);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'BackgroundColor', @VCLua_TreeView_VCLuaGetBackgroundColor, mfCall);
@@ -4579,6 +4769,7 @@ begin
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'DropTarget', @VCLua_TreeView_VCLuaGetDropTarget, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ExpandSignColor', @VCLua_TreeView_VCLuaGetExpandSignColor, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ExpandSignSize', @VCLua_TreeView_VCLuaGetExpandSignSize, mfCall);
+	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ExpandSignWidth', @VCLua_TreeView_VCLuaGetExpandSignWidth, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ExpandSignType', @VCLua_TreeView_VCLuaGetExpandSignType, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'Images', @VCLua_TreeView_VCLuaGetImages, mfCall);
 	TLuaMethodInfo.Create(CustomTreeViewFuncs, 'ImagesWidth', @VCLua_TreeView_VCLuaGetImagesWidth, mfCall);
@@ -4631,6 +4822,7 @@ begin
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'DropTarget', @VCLua_TreeView_VCLuaSetDropTarget, mfCall, TypeInfo(TTreeNode));
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignColor', @VCLua_TreeView_VCLuaSetExpandSignColor, mfCall, TypeInfo(TColor));
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignSize', @VCLua_TreeView_VCLuaSetExpandSignSize, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignWidth', @VCLua_TreeView_VCLuaSetExpandSignWidth, mfCall, TypeInfo(integer));
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'ExpandSignType', @VCLua_TreeView_VCLuaSetExpandSignType, mfCall, TypeInfo(TTreeViewExpandSignType));
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'Images', @VCLua_TreeView_VCLuaSetImages, mfCall, TypeInfo(TCustomImageList));
 	TLuaMethodInfo.Create(CustomTreeViewSets, 'ImagesWidth', @VCLua_TreeView_VCLuaSetImagesWidth, mfCall, TypeInfo(Integer));

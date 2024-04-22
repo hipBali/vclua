@@ -655,7 +655,7 @@ end;
 function VCLua_Control_AutoSizeDelayed(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -785,14 +785,14 @@ var
 	Side:TAnchorKind;
 	Space:TSpacingSize;
 	Sibling:TControl;
-	FreeCompositeSide:boolean;
+	FreeCompositeSide:Boolean;
 begin
 	CheckArg(L, 4, 5);
 	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@Side,TypeInfo(TAnchorKind));
 	luaL_check(L,3,@Space);
 	luaL_check(L,4,@Sibling);
-	TTrait<boolean>.luaL_optcheck(L, 5, @FreeCompositeSide, true);
+	TTrait<Boolean>.luaL_optcheck(L, 5, @FreeCompositeSide, true);
 	try
 		lControl.AnchorToCompanion(Side,Space,Sibling,FreeCompositeSide);
 		Result := 0;
@@ -860,7 +860,7 @@ end;
 function VCLua_Control_AnchoredControlCount(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	ret:integer;
+	ret:Integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -877,7 +877,7 @@ end;
 function VCLua_Control_AnchoredControls(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	Index:integer;
+	Index:Integer;
 	ret:TControl;
 begin
 	CheckArg(L, 2);
@@ -896,10 +896,10 @@ end;
 function VCLua_Control_SetBounds(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	aLeft:integer;
-	aTop:integer;
-	aWidth:integer;
-	aHeight:integer;
+	aLeft:Integer;
+	aTop:Integer;
+	aWidth:Integer;
+	aHeight:Integer;
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -919,10 +919,10 @@ end;
 function VCLua_Control_SetInitialBounds(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	aLeft:integer;
-	aTop:integer;
-	aWidth:integer;
-	aHeight:integer;
+	aLeft:Integer;
+	aTop:Integer;
+	aWidth:Integer;
+	aHeight:Integer;
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -942,10 +942,10 @@ end;
 function VCLua_Control_SetBoundsKeepBase(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	aLeft:integer;
-	aTop:integer;
-	aWidth:integer;
-	aHeight:integer;
+	aLeft:Integer;
+	aTop:Integer;
+	aWidth:Integer;
+	aHeight:Integer;
 begin
 	CheckArg(L, 5);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -965,15 +965,15 @@ end;
 function VCLua_Control_GetPreferredSize(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	PreferredWidth:integer;
-	PreferredHeight:integer;
-	Raw:boolean;
-	WithThemeSpace:boolean;
+	PreferredWidth:Integer;
+	PreferredHeight:Integer;
+	Raw:Boolean;
+	WithThemeSpace:Boolean;
 begin
 	CheckArg(L, 1, 3);
 	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
-	TTrait<boolean>.luaL_optcheck(L, 2, @Raw, false);
-	TTrait<boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
+	TTrait<Boolean>.luaL_optcheck(L, 2, @Raw, false);
+	TTrait<Boolean>.luaL_optcheck(L, 3, @WithThemeSpace, true);
 	try
 		lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 		Result := 2;
@@ -988,17 +988,17 @@ end;
 function VCLua_Control_GetPreferredSize2(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	PreferredWidth:integer;
-	PreferredHeight:integer;
-	Raw:boolean;
-	WithThemeSpace:boolean;
+	PreferredWidth:Integer;
+	PreferredHeight:Integer;
+	Raw:Boolean;
+	WithThemeSpace:Boolean;
 begin
 	CheckArg(L, 3, 5);
 	lControl := TLuaControl(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@PreferredWidth);
 	luaL_check(L,3,@PreferredHeight);
-	TTrait<boolean>.luaL_optcheck(L, 4, @Raw, false);
-	TTrait<boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
+	TTrait<Boolean>.luaL_optcheck(L, 4, @Raw, false);
+	TTrait<Boolean>.luaL_optcheck(L, 5, @WithThemeSpace, true);
 	try
 		lControl.GetPreferredSize(PreferredWidth,PreferredHeight,Raw,WithThemeSpace);
 		Result := 2;
@@ -1030,7 +1030,7 @@ end;
 function VCLua_Control_GetDefaultWidth(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	ret:integer;
+	ret:Integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -1047,7 +1047,7 @@ end;
 function VCLua_Control_GetDefaultHeight(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	ret:integer;
+	ret:Integer;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -1118,7 +1118,7 @@ function VCLua_Control_GetSidePosition(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 	Side:TAnchorKind;
-	ret:integer;
+	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -1215,9 +1215,9 @@ end;
 function VCLua_Control_UpdateBaseBounds(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	StoreBounds:boolean;
-	StoreParentClientSize:boolean;
-	UseLoadedValues:boolean;
+	StoreBounds:Boolean;
+	StoreParentClientSize:Boolean;
+	UseLoadedValues:Boolean;
 begin
 	CheckArg(L, 4);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -1506,7 +1506,7 @@ function VCLua_Control_IsParentOf(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
 	AControl:TControl;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 2);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -1645,7 +1645,7 @@ end;
 function VCLua_Control_FormIsUpdating(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -1662,7 +1662,7 @@ end;
 function VCLua_Control_IsProcessingPaintMsg(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -1910,6 +1910,25 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_Control_ClientToScreen2(L: Plua_State): Integer; cdecl;
+var
+	lControl:TLuaControl;
+	ARect:TRect;
+	ret:TRect;
+begin
+	CheckArg(L, 2);
+	lControl := TLuaControl(GetLuaObject(L, 1));
+	luaL_check(L,2,@ARect);
+	try
+		ret := lControl.ClientToScreen(ARect);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Control', 'ClientToScreen', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Control_ScreenToControl(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
@@ -1993,7 +2012,7 @@ end;
 function VCLua_Control_GetChildrenRect(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	Scrolled:boolean;
+	Scrolled:Boolean;
 	ret:TRect;
 begin
 	CheckArg(L, 2);
@@ -2042,7 +2061,7 @@ end;
 function VCLua_Control_HandleObjectShouldBeVisible(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -2059,7 +2078,7 @@ end;
 function VCLua_Control_ParentDestroyingHandle(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -2076,7 +2095,7 @@ end;
 function VCLua_Control_ParentHandlesAllocated(L: Plua_State): Integer; cdecl;
 var
 	lControl:TLuaControl;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lControl := TLuaControl(GetLuaObject(L, 1));
@@ -3405,6 +3424,7 @@ begin
 	TLuaMethodInfo.Create(ControlFuncs, 'SetTextBuf', @VCLua_Control_SetTextBuf);
 	TLuaMethodInfo.Create(ControlFuncs, 'ScreenToClient', @VCLua_Control_ScreenToClient);
 	TLuaMethodInfo.Create(ControlFuncs, 'ClientToScreen', @VCLua_Control_ClientToScreen);
+	TLuaMethodInfo.Create(ControlFuncs, 'ClientToScreen2', @VCLua_Control_ClientToScreen2);
 	TLuaMethodInfo.Create(ControlFuncs, 'ScreenToControl', @VCLua_Control_ScreenToControl);
 	TLuaMethodInfo.Create(ControlFuncs, 'ControlToScreen', @VCLua_Control_ControlToScreen);
 	TLuaMethodInfo.Create(ControlFuncs, 'ClientToParent', @VCLua_Control_ClientToParent);

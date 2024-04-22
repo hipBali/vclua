@@ -158,7 +158,7 @@ end;
 function VCLua_CommonDialog_Execute(L: Plua_State): Integer; cdecl;
 var
 	lCommonDialog:TLuaCommonDialog;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lCommonDialog := TLuaCommonDialog(GetLuaObject(L, 1));
@@ -207,7 +207,7 @@ end;
 function VCLua_CommonDialog_VCLuaSetUserChoice(L: Plua_State): Integer; cdecl;
 var
 	lCommonDialog:TLuaCommonDialog;
-	val:integer;
+	val:Integer;
 begin
 	lCommonDialog := TLuaCommonDialog(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
@@ -223,7 +223,7 @@ end;
 function VCLua_CommonDialog_VCLuaGetUserChoice(L: Plua_State): Integer; cdecl;
 var
 	lCommonDialog:TLuaCommonDialog;
-	ret:integer;
+	ret:Integer;
 begin
 	lCommonDialog := TLuaCommonDialog(GetLuaObjectUnsafe(L, 1));
 	try
@@ -319,7 +319,7 @@ end;
 function VCLua_CommonDialog_HandleAllocated(L: Plua_State): Integer; cdecl;
 var
 	lCommonDialog:TLuaCommonDialog;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lCommonDialog := TLuaCommonDialog(GetLuaObject(L, 1));
@@ -336,7 +336,7 @@ end;
 function VCLua_CommonDialog_VCLuaSetWidth(L: Plua_State): Integer; cdecl;
 var
 	lCommonDialog:TLuaCommonDialog;
-	val:integer;
+	val:Integer;
 begin
 	lCommonDialog := TLuaCommonDialog(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
@@ -352,7 +352,7 @@ end;
 function VCLua_CommonDialog_VCLuaGetWidth(L: Plua_State): Integer; cdecl;
 var
 	lCommonDialog:TLuaCommonDialog;
-	ret:integer;
+	ret:Integer;
 begin
 	lCommonDialog := TLuaCommonDialog(GetLuaObjectUnsafe(L, 1));
 	try
@@ -368,7 +368,7 @@ end;
 function VCLua_CommonDialog_VCLuaSetHeight(L: Plua_State): Integer; cdecl;
 var
 	lCommonDialog:TLuaCommonDialog;
-	val:integer;
+	val:Integer;
 begin
 	lCommonDialog := TLuaCommonDialog(GetLuaObjectUnsafe(L, 1));
 	luaL_check(L,2,@val);
@@ -384,7 +384,7 @@ end;
 function VCLua_CommonDialog_VCLuaGetHeight(L: Plua_State): Integer; cdecl;
 var
 	lCommonDialog:TLuaCommonDialog;
-	ret:integer;
+	ret:Integer;
 begin
 	lCommonDialog := TLuaCommonDialog(GetLuaObjectUnsafe(L, 1));
 	try
@@ -484,7 +484,7 @@ var
 	lFileDialog:TLuaFileDialog;
 	aFilter:string;
 	aMask:string;
-	ret:integer;
+	ret:Integer;
 begin
 	CheckArg(L, 3);
 	lFileDialog := TLuaFileDialog(GetLuaObject(L, 1));
@@ -504,13 +504,13 @@ function VCLua_FileDialog_ExtractAllFilterMasks(L: Plua_State): Integer; cdecl;
 var
 	lFileDialog:TLuaFileDialog;
 	aFilter:string;
-	SkipAllFilesMask:boolean;
+	SkipAllFilesMask:Boolean;
 	ret:string;
 begin
 	CheckArg(L, 2, 3);
 	lFileDialog := TLuaFileDialog(CheckLuaObjectPop(L, 1));
 	luaL_check(L,2,@aFilter);
-	TTrait<boolean>.luaL_optcheck(L, 3, @SkipAllFilesMask, true);
+	TTrait<Boolean>.luaL_optcheck(L, 3, @SkipAllFilesMask, true);
 	try
 		ret := lFileDialog.ExtractAllFilterMasks(aFilter,SkipAllFilesMask);
 		Result := 1;
@@ -926,9 +926,9 @@ begin
 	TLuaMethodInfo.Create(CommonDialogSets, 'OnDialogResult', @VCLua_CommonDialog_VCLuaSetOnDialogResult, mfCall, TypeInfo(TDialogResultEvent));
 	TLuaMethodInfo.Create(CommonDialogSets, 'FCompStyle', @VCLua_CommonDialog_VCLuaSetFCompStyle, mfCall, TypeInfo(LongInt));
 	TLuaMethodInfo.Create(CommonDialogSets, 'Handle', @VCLua_CommonDialog_VCLuaSetHandle, mfCall, TypeInfo(THandle));
-	TLuaMethodInfo.Create(CommonDialogSets, 'UserChoice', @VCLua_CommonDialog_VCLuaSetUserChoice, mfCall, TypeInfo(integer));
-	TLuaMethodInfo.Create(CommonDialogSets, 'Width', @VCLua_CommonDialog_VCLuaSetWidth, mfCall, TypeInfo(integer));
-	TLuaMethodInfo.Create(CommonDialogSets, 'Height', @VCLua_CommonDialog_VCLuaSetHeight, mfCall, TypeInfo(integer));
+	TLuaMethodInfo.Create(CommonDialogSets, 'UserChoice', @VCLua_CommonDialog_VCLuaSetUserChoice, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CommonDialogSets, 'Width', @VCLua_CommonDialog_VCLuaSetWidth, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CommonDialogSets, 'Height', @VCLua_CommonDialog_VCLuaSetHeight, mfCall, TypeInfo(Integer));
 	FileDialogFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(FileDialogFuncs, 'DoTypeChange', @VCLua_FileDialog_DoTypeChange);
 	TLuaMethodInfo.Create(FileDialogFuncs, 'Files', @VCLua_FileDialog_VCLuaGetFiles, mfCall);

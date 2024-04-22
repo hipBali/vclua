@@ -1,9 +1,9 @@
 # vclua
 Gui library for lua
 
-Version 0.10.3
+Version 1.0.0
 
-Made with *Lazarus version 2.2.6*
+Made with *Lazarus version 3.2*
 ___
 
 **Binary releases at sourceforge (win32, win64, linux)**
@@ -97,14 +97,14 @@ If you want to add new component source to the generated source codes (see src/c
 
 ```lua
 -- linux
-local LAZPATH = "/usr/share/lazarus/2.2.6/"
+local LAZPATH = "/usr/share/lazarus/3.2/"
 local FPCSOURCE = "/usr/share/fpcsrc/3.2.2/"
 ```
 
 ```lua
 -- windows
-local LAZPATH = "/lazarus/"
-local FPCSOURCE = "/lazarus/fpc/3.2.2/source/"
+local LAZPATH = "f:/Work/Dev/lazarus3/"
+local FPCSOURCE = LAZPATH.."fpc/3.2.2/source/"
 ```
 
 run the fpc source parser/generator tool

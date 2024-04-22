@@ -1129,23 +1129,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_PropertyEditor_HasStoredFunction(L: Plua_State): Integer; cdecl;
-var
-	lPropertyEditor:TLuaPropertyEditor;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lPropertyEditor := TLuaPropertyEditor(GetLuaObject(L, 1));
-	try
-		ret := lPropertyEditor.HasStoredFunction();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'PropertyEditor', 'HasStoredFunction', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
 function VCLua_PropertyEditor_GetDefaultValue(L: Plua_State): Integer; cdecl;
 var
 	lPropertyEditor:TLuaPropertyEditor;
@@ -1930,7 +1913,6 @@ begin
 	TLuaMethodInfo.Create(PropertyEditorFuncs, 'GetValue', @VCLua_PropertyEditor_GetValue);
 	TLuaMethodInfo.Create(PropertyEditorFuncs, 'GetHint', @VCLua_PropertyEditor_GetHint);
 	TLuaMethodInfo.Create(PropertyEditorFuncs, 'HasDefaultValue', @VCLua_PropertyEditor_HasDefaultValue);
-	TLuaMethodInfo.Create(PropertyEditorFuncs, 'HasStoredFunction', @VCLua_PropertyEditor_HasStoredFunction);
 	TLuaMethodInfo.Create(PropertyEditorFuncs, 'GetDefaultValue', @VCLua_PropertyEditor_GetDefaultValue);
 	TLuaMethodInfo.Create(PropertyEditorFuncs, 'CallStoredFunction', @VCLua_PropertyEditor_CallStoredFunction);
 	TLuaMethodInfo.Create(PropertyEditorFuncs, 'GetVisualValue', @VCLua_PropertyEditor_GetVisualValue);

@@ -47,7 +47,7 @@ function VCLua_FloatSpinEdit_ValueToStr(L: Plua_State): Integer; cdecl;
 var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
 	AValue:Double;
-	ret:String;
+	ret:string;
 begin
 	CheckArg(L, 2);
 	lFloatSpinEdit := TLuaFloatSpinEdit(GetLuaObject(L, 1));
@@ -65,7 +65,7 @@ end;
 function VCLua_FloatSpinEdit_StrToValue(L: Plua_State): Integer; cdecl;
 var
 	lFloatSpinEdit:TLuaFloatSpinEdit;
-	S:String;
+	S:string;
 	ret:Double;
 begin
 	CheckArg(L, 2);

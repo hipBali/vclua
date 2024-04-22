@@ -9,12 +9,12 @@ Uses Lua, LuaEvent, Forms;
 type
   TLuaDialogResultEvent = class(TLuaEvent)
     public
-      procedure Handler(sender: TObject; Success: boolean);
+      procedure Handler(Sender: TObject; Success: Boolean);
   end;
 
   TLuaInputCloseQueryEvent = class(TLuaEvent)
     public
-      procedure Handler(Sender: TObject; const AValues: array of string; var ACanClose: boolean);
+      procedure Handler(Sender: TObject; const AValues: array of string; var ACanClose: Boolean);
   end;
 
   TLuaTaskDlgClickEvent = class(TLuaEvent)
@@ -35,18 +35,18 @@ begin
   eventPtrs.Add('TTaskDlgClickEvent', @TLuaTaskDlgClickEvent.Handler);
 end;
 
-procedure TLuaDialogResultEvent.Handler(sender: TObject; Success: boolean);
+procedure TLuaDialogResultEvent.Handler(Sender: TObject; Success: Boolean);
 var
   L: Plua_State;
   luaTop, luaNewTop: Integer;
 begin
   L := ToStack;
-  lua_push(L,sender,TypeInfo(sender));
+  lua_push(L,Sender,TypeInfo(Sender));
   lua_push(L,Success);
   DoCall(L,2);
 end;
 
-procedure TLuaInputCloseQueryEvent.Handler(Sender: TObject; const AValues: array of string; var ACanClose: boolean);
+procedure TLuaInputCloseQueryEvent.Handler(Sender: TObject; const AValues: array of string; var ACanClose: Boolean);
 var
   L: Plua_State;
   luaTop, luaNewTop: Integer;
@@ -59,7 +59,7 @@ begin
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
   try
-    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACanClose,TypeInfo(boolean),lerException);
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACanClose,TypeInfo(Boolean),lerException);
   except
     on E: Exception do
       ReportError(L, E.Message);

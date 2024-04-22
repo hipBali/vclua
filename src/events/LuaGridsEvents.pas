@@ -32,6 +32,11 @@ type
       procedure Handler(Sender: TObject; IsColumn:Boolean; sIndex, tIndex: Integer);
   end;
 
+  TLuaGridScrollerDoScroll = class(TLuaEvent)
+    public
+      procedure Handler(Dir: TPoint);
+  end;
+
   TLuaHdrEvent = class(TLuaEvent)
     public
       procedure Handler(Sender: TObject; IsColumn: Boolean; Index: Integer);
@@ -115,6 +120,7 @@ begin
   eventPtrs.Add('TGetCheckboxStateEvent', @TLuaGetCheckboxStateEvent.Handler);
   eventPtrs.Add('TGetEditEvent', @TLuaGetEditEvent.Handler);
   eventPtrs.Add('TGridOperationEvent', @TLuaGridOperationEvent.Handler);
+  eventPtrs.Add('TGridScrollerDoScroll', @TLuaGridScrollerDoScroll.Handler);
   eventPtrs.Add('THdrEvent', @TLuaHdrEvent.Handler);
   eventPtrs.Add('THeaderSizingEvent', @TLuaHeaderSizingEvent.Handler);
   eventPtrs.Add('TOnCompareCells', @TLuaOnCompareCells.Handler);
@@ -227,6 +233,16 @@ begin
   lua_push(L,sIndex);
   lua_push(L,tIndex);
   DoCall(L,4);
+end;
+
+procedure TLuaGridScrollerDoScroll.Handler(Dir: TPoint);
+var
+  L: Plua_State;
+  luaTop, luaNewTop: Integer;
+begin
+  L := ToStack;
+  lua_push(L,Dir);
+  DoCall(L,1);
 end;
 
 procedure TLuaHdrEvent.Handler(Sender: TObject; IsColumn: Boolean; Index: Integer);

@@ -1,9 +1,11 @@
 Visual Controls For LUA (VCLua)
 
-version 0.10.3 (beta)
+version 1.0.0 (beta)
 luaversion 5.1-5.4
 date 2024-04-22
 ---------------------
+
+Port to LCL 3.2
 
 Rework hierarchy of half of exported classes to add more methods
 	- fix exception propagation from TObject.Free and TWinControl methods

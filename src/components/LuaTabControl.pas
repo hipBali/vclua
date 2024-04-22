@@ -60,7 +60,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, ImgList, LuaClassesEvents, LuaComCtrlsEvents, LuaEvent, LuaImageList, LuaStrings;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaCanvas, LuaClassesEvents, LuaComCtrlsEvents, LuaEvent, LuaImageList, LuaStrings;
 
 function VCLua_CustomPage_CanTab(L: Plua_State): Integer; cdecl;
 var
@@ -1228,6 +1228,22 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_TabControl_VCLuaGetCanvas(L: Plua_State): Integer; cdecl;
+var
+	lTabControl:TLuaTabControl;
+	ret:TCanvas;
+begin
+	lTabControl := TLuaTabControl(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lTabControl.Canvas;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'TabControl', 'GetCanvas', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_TabControl_VCLuaGetDisplayRect(L: Plua_State): Integer; cdecl;
 var
 	lTabControl:TLuaTabControl;
@@ -1625,6 +1641,7 @@ begin
 	TLuaMethodInfo.Create(TabControlFuncs, 'BeginUpdate', @VCLua_TabControl_BeginUpdate);
 	TLuaMethodInfo.Create(TabControlFuncs, 'EndUpdate', @VCLua_TabControl_EndUpdate);
 	TLuaMethodInfo.Create(TabControlFuncs, 'IsUpdating', @VCLua_TabControl_IsUpdating);
+	TLuaMethodInfo.Create(TabControlFuncs, 'Canvas', @VCLua_TabControl_VCLuaGetCanvas, mfCall);
 	TLuaMethodInfo.Create(TabControlFuncs, 'DisplayRect', @VCLua_TabControl_VCLuaGetDisplayRect, mfCall);
 	TabControlSets := TLuaVmt.Create;
 	

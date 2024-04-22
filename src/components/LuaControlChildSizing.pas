@@ -45,7 +45,7 @@ function VCLua_ControlChildSizing_IsEqual(L: Plua_State): Integer; cdecl;
 var
 	lControlChildSizing:TLuaControlChildSizing;
 	Sizing:TControlChildSizing;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 2);
 	lControlChildSizing := TLuaControlChildSizing(GetLuaObject(L, 1));
@@ -63,7 +63,7 @@ end;
 function VCLua_ControlChildSizing_SetGridSpacing(L: Plua_State): Integer; cdecl;
 var
 	lControlChildSizing:TLuaControlChildSizing;
-	Spacing:integer;
+	Spacing:Integer;
 begin
 	CheckArg(L, 2);
 	lControlChildSizing := TLuaControlChildSizing(GetLuaObject(L, 1));

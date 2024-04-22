@@ -188,6 +188,70 @@ begin
 	lua_push(L,ret,TypeInfo(ret));
 end;
 
+function VCLua_Calendar_VCLuaSetMaxDate(L: Plua_State): Integer; cdecl;
+var
+	lCalendar:TLuaCalendar;
+	val:TDateTime;
+begin
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCalendar.MaxDate := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Calendar', 'SetMaxDate', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Calendar_VCLuaGetMaxDate(L: Plua_State): Integer; cdecl;
+var
+	lCalendar:TLuaCalendar;
+	ret:TDateTime;
+begin
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lCalendar.MaxDate;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Calendar', 'GetMaxDate', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Calendar_VCLuaSetMinDate(L: Plua_State): Integer; cdecl;
+var
+	lCalendar:TLuaCalendar;
+	val:TDateTime;
+begin
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCalendar.MinDate := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Calendar', 'SetMinDate', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Calendar_VCLuaGetMinDate(L: Plua_State): Integer; cdecl;
+var
+	lCalendar:TLuaCalendar;
+	ret:TDateTime;
+begin
+	lCalendar := TLuaCalendar(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lCalendar.MinDate;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Calendar', 'GetMinDate', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_Calendar_VCLuaSetOnChange(L: Plua_State): Integer; cdecl;
 var
 	lCalendar:TLuaCalendar;
@@ -259,11 +323,15 @@ begin
 	TLuaMethodInfo.Create(CustomCalendarFuncs, 'DateTime', @VCLua_Calendar_VCLuaGetDateTime, mfCall);
 	TLuaMethodInfo.Create(CustomCalendarFuncs, 'DisplaySettings', @VCLua_Calendar_VCLuaGetDisplaySettings, mfCall);
 	TLuaMethodInfo.Create(CustomCalendarFuncs, 'FirstDayOfWeek', @VCLua_Calendar_VCLuaGetFirstDayOfWeek, mfCall);
+	TLuaMethodInfo.Create(CustomCalendarFuncs, 'MaxDate', @VCLua_Calendar_VCLuaGetMaxDate, mfCall);
+	TLuaMethodInfo.Create(CustomCalendarFuncs, 'MinDate', @VCLua_Calendar_VCLuaGetMinDate, mfCall);
 	CustomCalendarSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomCalendarSets, 'Date', @VCLua_Calendar_VCLuaSetDate, mfCall, TypeInfo(String));
 	TLuaMethodInfo.Create(CustomCalendarSets, 'DateTime', @VCLua_Calendar_VCLuaSetDateTime, mfCall, TypeInfo(TDateTime));
 	TLuaMethodInfo.Create(CustomCalendarSets, 'DisplaySettings', @VCLua_Calendar_VCLuaSetDisplaySettings, mfCall, TypeInfo(TDisplaySettings));
 	TLuaMethodInfo.Create(CustomCalendarSets, 'FirstDayOfWeek', @VCLua_Calendar_VCLuaSetFirstDayOfWeek, mfCall, TypeInfo(TCalDayOfWeek));
+	TLuaMethodInfo.Create(CustomCalendarSets, 'MaxDate', @VCLua_Calendar_VCLuaSetMaxDate, mfCall, TypeInfo(TDateTime));
+	TLuaMethodInfo.Create(CustomCalendarSets, 'MinDate', @VCLua_Calendar_VCLuaSetMinDate, mfCall, TypeInfo(TDateTime));
 	TLuaMethodInfo.Create(CustomCalendarSets, 'OnChange', @VCLua_Calendar_VCLuaSetOnChange, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(CustomCalendarSets, 'OnDayChanged', @VCLua_Calendar_VCLuaSetOnDayChanged, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(CustomCalendarSets, 'OnMonthChanged', @VCLua_Calendar_VCLuaSetOnMonthChanged, mfCall, TypeInfo(TNotifyEvent));

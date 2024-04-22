@@ -53,23 +53,6 @@ begin
 	lua_push(L,NeededHeight);
 end;
 
-function VCLua_Label_ColorIsStored(L: Plua_State): Integer; cdecl;
-var
-	lLabel:TLuaLabel;
-	ret:boolean;
-begin
-	CheckArg(L, 1);
-	lLabel := TLuaLabel(GetLuaObject(L, 1));
-	try
-		ret := lLabel.ColorIsStored();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'Label', 'ColorIsStored', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
-end;
-
 function VCLua_Label_AdjustFontForOptimalFill(L: Plua_State): Integer; cdecl;
 var
 	lLabel:TLuaLabel;
@@ -128,7 +111,6 @@ end;
 begin
 	CustomLabelFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomLabelFuncs, 'CalcFittingFontHeight', @VCLua_Label_CalcFittingFontHeight);
-	TLuaMethodInfo.Create(CustomLabelFuncs, 'ColorIsStored', @VCLua_Label_ColorIsStored);
 	TLuaMethodInfo.Create(CustomLabelFuncs, 'AdjustFontForOptimalFill', @VCLua_Label_AdjustFontForOptimalFill);
 	TLuaMethodInfo.Create(CustomLabelFuncs, 'Paint', @VCLua_Label_Paint);
 	CustomLabelSets := TLuaVmt.Create;

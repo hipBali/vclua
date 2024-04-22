@@ -54,7 +54,7 @@ type
 
   TLuaGetDockCaptionEvent = class(TLuaEvent)
     public
-      procedure Handler(Sender: TObject; AControl: TControl; var ACaption: String);
+      procedure Handler(Sender: TObject; AControl: TControl; var ACaption: string);
   end;
 
   TLuaGetSiteInfoEvent = class(TLuaEvent)
@@ -293,7 +293,7 @@ begin
   DoCall(L,1);
 end;
 
-procedure TLuaGetDockCaptionEvent.Handler(Sender: TObject; AControl: TControl; var ACaption: String);
+procedure TLuaGetDockCaptionEvent.Handler(Sender: TObject; AControl: TControl; var ACaption: string);
 var
   L: Plua_State;
   luaTop, luaNewTop: Integer;
@@ -306,7 +306,7 @@ begin
   DoCall(L,3);
   luaNewTop := lua_gettop(L);
   try
-    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACaption,TypeInfo(String),lerException);
+    if luaTop + 1 <= luaNewTop then luaL_check(L,luaTop + 1,@ACaption,TypeInfo(string),lerException);
   except
     on E: Exception do
       ReportError(L, E.Message);

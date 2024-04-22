@@ -15,7 +15,7 @@ procedure RemoveHandlerOnVisibleChanging
 procedure AddHandlerOnVisibleChanged
 procedure RemoveHandlerOnVisibleChanged
 procedure AddHandlerOnEnabledChanged
-procedure RemoveHandlerOnEnableChanging
+procedure RemoveHandlerOnEnabledChanged
 procedure AddHandlerOnKeyDown
 procedure RemoveHandlerOnKeyDown
 procedure AddHandlerOnBeforeDestruction
@@ -26,3 +26,5 @@ function UseRightToLeftScrollBar
 function IsRightToLeft
 procedure AddHandlerOnMouseWheel
 procedure RemoveHandlerOnMouseWheel
+procedure AddHandlerOnEnabledChanging
+procedure RemoveHandlerOnEnabledChanging

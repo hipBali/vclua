@@ -128,6 +128,25 @@ begin
 	end;
 end;
 
+function VCLua_ComboBox_MatchListItem(L: Plua_State): Integer; cdecl;
+var
+	lComboBox:TLuaComboBox;
+	AValue:TCaption;
+	ret:Integer;
+begin
+	CheckArg(L, 2);
+	lComboBox := TLuaComboBox(GetLuaObject(L, 1));
+	luaL_check(L,2,@AValue);
+	try
+		ret := lComboBox.MatchListItem(AValue);
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'ComboBox', 'MatchListItem', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_ComboBox_AddHistoryItem(L: Plua_State): Integer; cdecl;
 var
 	lComboBox:TLuaComboBox;
@@ -826,6 +845,7 @@ begin
 	CustomComboBoxFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'IntfGetItems', @VCLua_ComboBox_IntfGetItems);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddItem', @VCLua_ComboBox_AddItem);
+	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'MatchListItem', @VCLua_ComboBox_MatchListItem);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddHistoryItem', @VCLua_ComboBox_AddHistoryItem);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'AddHistoryItem2', @VCLua_ComboBox_AddHistoryItem2);
 	TLuaMethodInfo.Create(CustomComboBoxFuncs, 'Clear', @VCLua_ComboBox_Clear);

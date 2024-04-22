@@ -22,7 +22,7 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaCanvas, LuaClassesEvents, LuaEvent, LuaExtCtrlsEvents, LuaPicture;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, ImgList, LuaCanvas, LuaClassesEvents, LuaEvent, LuaExtCtrlsEvents, LuaImageList, LuaPicture;
 
 function VCLua_Image_VCLuaGetCanvas(L: Plua_State): Integer; cdecl;
 var
@@ -53,6 +53,22 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'Image', 'DestRect', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Image_VCLuaGetHasGraphic(L: Plua_State): Integer; cdecl;
+var
+	lImage:TLuaImage;
+	ret:Boolean;
+begin
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lImage.HasGraphic;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Image', 'GetHasGraphic', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -183,6 +199,102 @@ begin
 			CallError(L, 'Image', 'GetKeepOriginYWhenClipped', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
+end;
+
+function VCLua_Image_VCLuaSetImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lImage:TLuaImage;
+	val:Integer;
+begin
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImage.ImageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Image', 'SetImageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Image_VCLuaGetImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lImage:TLuaImage;
+	ret:Integer;
+begin
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lImage.ImageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Image', 'GetImageIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Image_VCLuaSetImageWidth(L: Plua_State): Integer; cdecl;
+var
+	lImage:TLuaImage;
+	val:Integer;
+begin
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImage.ImageWidth := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Image', 'SetImageWidth', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Image_VCLuaGetImageWidth(L: Plua_State): Integer; cdecl;
+var
+	lImage:TLuaImage;
+	ret:Integer;
+begin
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lImage.ImageWidth;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Image', 'GetImageWidth', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_Image_VCLuaSetImages(L: Plua_State): Integer; cdecl;
+var
+	lImage:TLuaImage;
+	val:TCustomImageList;
+begin
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lImage.Images := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Image', 'SetImages', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Image_VCLuaGetImages(L: Plua_State): Integer; cdecl;
+var
+	lImage:TLuaImage;
+	ret:TCustomImageList;
+begin
+	lImage := TLuaImage(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lImage.Images;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'Image', 'GetImages', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
 end;
 
 function VCLua_Image_VCLuaSetPicture(L: Plua_State): Integer; cdecl;
@@ -424,10 +536,14 @@ begin
 	CustomImageFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomImageFuncs, 'Canvas', @VCLua_Image_VCLuaGetCanvas, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'DestRect', @VCLua_Image_DestRect);
+	TLuaMethodInfo.Create(CustomImageFuncs, 'HasGraphic', @VCLua_Image_VCLuaGetHasGraphic, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'AntialiasingMode', @VCLua_Image_VCLuaGetAntialiasingMode, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'Center', @VCLua_Image_VCLuaGetCenter, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'KeepOriginXWhenClipped', @VCLua_Image_VCLuaGetKeepOriginXWhenClipped, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'KeepOriginYWhenClipped', @VCLua_Image_VCLuaGetKeepOriginYWhenClipped, mfCall);
+	TLuaMethodInfo.Create(CustomImageFuncs, 'ImageIndex', @VCLua_Image_VCLuaGetImageIndex, mfCall);
+	TLuaMethodInfo.Create(CustomImageFuncs, 'ImageWidth', @VCLua_Image_VCLuaGetImageWidth, mfCall);
+	TLuaMethodInfo.Create(CustomImageFuncs, 'Images', @VCLua_Image_VCLuaGetImages, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'Picture', @VCLua_Image_VCLuaGetPicture, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'Stretch', @VCLua_Image_VCLuaGetStretch, mfCall);
 	TLuaMethodInfo.Create(CustomImageFuncs, 'StretchOutEnabled', @VCLua_Image_VCLuaGetStretchOutEnabled, mfCall);
@@ -439,6 +555,9 @@ begin
 	TLuaMethodInfo.Create(CustomImageSets, 'Center', @VCLua_Image_VCLuaSetCenter, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomImageSets, 'KeepOriginXWhenClipped', @VCLua_Image_VCLuaSetKeepOriginXWhenClipped, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomImageSets, 'KeepOriginYWhenClipped', @VCLua_Image_VCLuaSetKeepOriginYWhenClipped, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomImageSets, 'ImageIndex', @VCLua_Image_VCLuaSetImageIndex, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomImageSets, 'ImageWidth', @VCLua_Image_VCLuaSetImageWidth, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomImageSets, 'Images', @VCLua_Image_VCLuaSetImages, mfCall, TypeInfo(TCustomImageList));
 	TLuaMethodInfo.Create(CustomImageSets, 'Picture', @VCLua_Image_VCLuaSetPicture, mfCall, TypeInfo(TPicture));
 	TLuaMethodInfo.Create(CustomImageSets, 'Stretch', @VCLua_Image_VCLuaSetStretch, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomImageSets, 'StretchOutEnabled', @VCLua_Image_VCLuaSetStretchOutEnabled, mfCall, TypeInfo(Boolean));

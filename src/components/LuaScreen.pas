@@ -28,7 +28,7 @@ function VCLua_Screen_CustomFormIndex(L: Plua_State): Integer; cdecl;
 var
 	lScreen:TLuaScreen;
 	AForm:TCustomForm;
-	ret:integer;
+	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lScreen := TLuaScreen(GetLuaObject(L, 1));
@@ -47,7 +47,7 @@ function VCLua_Screen_FormIndex(L: Plua_State): Integer; cdecl;
 var
 	lScreen:TLuaScreen;
 	AForm:TForm;
-	ret:integer;
+	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lScreen := TLuaScreen(GetLuaObject(L, 1));
@@ -66,7 +66,7 @@ function VCLua_Screen_CustomFormZIndex(L: Plua_State): Integer; cdecl;
 var
 	lScreen:TLuaScreen;
 	AForm:TCustomForm;
-	ret:integer;
+	ret:Integer;
 begin
 	CheckArg(L, 2);
 	lScreen := TLuaScreen(GetLuaObject(L, 1));
@@ -112,6 +112,23 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'Screen', 'MoveFormToZFront', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Screen_NewFormWasCreated(L: Plua_State): Integer; cdecl;
+var
+	lScreen:TLuaScreen;
+	AForm:TCustomForm;
+begin
+	CheckArg(L, 2);
+	lScreen := TLuaScreen(GetLuaObject(L, 1));
+	luaL_check(L,2,@AForm);
+	try
+		lScreen.NewFormWasCreated(AForm);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Screen', 'NewFormWasCreated', E.ClassName, E.Message);
 	end;
 end;
 
@@ -360,6 +377,36 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'Screen', 'EndWaitCursor', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Screen_BeginScreenCursor(L: Plua_State): Integer; cdecl;
+var
+	lScreen:TLuaScreen;
+begin
+	CheckArg(L, 1);
+	lScreen := TLuaScreen(GetLuaObject(L, 1));
+	try
+		lScreen.BeginScreenCursor();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Screen', 'BeginScreenCursor', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_Screen_EndScreenCursor(L: Plua_State): Integer; cdecl;
+var
+	lScreen:TLuaScreen;
+begin
+	CheckArg(L, 1);
+	lScreen := TLuaScreen(GetLuaObject(L, 1));
+	try
+		lScreen.EndScreenCursor();
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'Screen', 'EndScreenCursor', E.ClassName, E.Message);
 	end;
 end;
 
@@ -899,7 +946,7 @@ end;
 function VCLua_Screen_VCLuaGetPixelsPerInch(L: Plua_State): Integer; cdecl;
 var
 	lScreen:TLuaScreen;
-	ret:integer;
+	ret:Integer;
 begin
 	lScreen := TLuaScreen(GetLuaObjectUnsafe(L, 1));
 	try
@@ -1061,6 +1108,7 @@ begin
 	TLuaMethodInfo.Create(ScreenFuncs, 'CustomFormZIndex', @VCLua_Screen_CustomFormZIndex);
 	TLuaMethodInfo.Create(ScreenFuncs, 'MoveFormToFocusFront', @VCLua_Screen_MoveFormToFocusFront);
 	TLuaMethodInfo.Create(ScreenFuncs, 'MoveFormToZFront', @VCLua_Screen_MoveFormToZFront);
+	TLuaMethodInfo.Create(ScreenFuncs, 'NewFormWasCreated', @VCLua_Screen_NewFormWasCreated);
 	TLuaMethodInfo.Create(ScreenFuncs, 'GetCurrentModalForm', @VCLua_Screen_GetCurrentModalForm);
 	TLuaMethodInfo.Create(ScreenFuncs, 'GetCurrentModalFormZIndex', @VCLua_Screen_GetCurrentModalFormZIndex);
 	TLuaMethodInfo.Create(ScreenFuncs, 'CustomFormBelongsToActiveGroup', @VCLua_Screen_CustomFormBelongsToActiveGroup);
@@ -1075,6 +1123,8 @@ begin
 	TLuaMethodInfo.Create(ScreenFuncs, 'EndTempCursor', @VCLua_Screen_EndTempCursor);
 	TLuaMethodInfo.Create(ScreenFuncs, 'BeginWaitCursor', @VCLua_Screen_BeginWaitCursor);
 	TLuaMethodInfo.Create(ScreenFuncs, 'EndWaitCursor', @VCLua_Screen_EndWaitCursor);
+	TLuaMethodInfo.Create(ScreenFuncs, 'BeginScreenCursor', @VCLua_Screen_BeginScreenCursor);
+	TLuaMethodInfo.Create(ScreenFuncs, 'EndScreenCursor', @VCLua_Screen_EndScreenCursor);
 	TLuaMethodInfo.Create(ScreenFuncs, 'ActiveControl', @VCLua_Screen_VCLuaGetActiveControl, mfCall);
 	TLuaMethodInfo.Create(ScreenFuncs, 'ActiveCustomForm', @VCLua_Screen_VCLuaGetActiveCustomForm, mfCall);
 	TLuaMethodInfo.Create(ScreenFuncs, 'ActiveForm', @VCLua_Screen_VCLuaGetActiveForm, mfCall);

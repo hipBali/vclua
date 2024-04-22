@@ -4,7 +4,7 @@ unit LuaObjectInspectorEvents;
 
 interface
 
-Uses Lua, LuaEvent, Classes, PropEdits;
+Uses Lua, LuaEvent, Classes, LCLType, PropEdits;
 
 type
   TLuaAddAvailablePersistentEvent = class(TLuaEvent)
@@ -15,6 +15,11 @@ type
   TLuaOIEditorFilterEvent = class(TLuaEvent)
     public
       procedure Handler(Sender: TObject; aEditor: TPropertyEditor; var aShow: boolean);
+  end;
+
+  TLuaOnForwardKeyToOI = class(TLuaEvent)
+    public
+      procedure Handler(Sender: TObject; Key: TUTF8Char);
   end;
 
   TLuaOnOINodeGetImageEvent = class(TLuaEvent)
@@ -32,6 +37,7 @@ procedure RegisterLuaObjectInspectorEvents();
 begin
   eventPtrs.Add('TAddAvailablePersistentEvent', @TLuaAddAvailablePersistentEvent.Handler);
   eventPtrs.Add('TOIEditorFilterEvent', @TLuaOIEditorFilterEvent.Handler);
+  eventPtrs.Add('TOnForwardKeyToOI', @TLuaOnForwardKeyToOI.Handler);
   eventPtrs.Add('TOnOINodeGetImageEvent', @TLuaOnOINodeGetImageEvent.Handler);
 end;
 
@@ -72,6 +78,17 @@ begin
     on E: Exception do
       ReportError(L, E.Message);
   end;
+end;
+
+procedure TLuaOnForwardKeyToOI.Handler(Sender: TObject; Key: TUTF8Char);
+var
+  L: Plua_State;
+  luaTop, luaNewTop: Integer;
+begin
+  L := ToStack;
+  lua_push(L,Sender,TypeInfo(Sender));
+  lua_push(L,Key);
+  DoCall(L,2);
 end;
 
 procedure TLuaOnOINodeGetImageEvent.Handler(APersistent: TPersistent; var AImageIndex: integer);

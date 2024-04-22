@@ -83,7 +83,7 @@ end;
 function VCLua_CustomForm_CloseQuery(L: Plua_State): Integer; cdecl;
 var
 	lCustomForm:TLuaCustomForm;
-	ret:boolean;
+	ret:Boolean;
 begin
 	CheckArg(L, 1);
 	lCustomForm := TLuaCustomForm(GetLuaObject(L, 1));
@@ -236,11 +236,11 @@ end;
 function VCLua_CustomForm_IntfDropFiles(L: Plua_State): Integer; cdecl;
 var
 	lCustomForm:TLuaCustomForm;
-	FileNames:array of String;
+	FileNames:array of string;
 begin
 	CheckArg(L, 2);
 	lCustomForm := TLuaCustomForm(GetLuaObject(L, 1));
-	TTrait<String>.luaL_checkArray(L, 2, @FileNames);
+	TTrait<string>.luaL_checkArray(L, 2, @FileNames);
 	try
 		lCustomForm.IntfDropFiles(FileNames);
 		Result := 0;
@@ -276,7 +276,7 @@ begin
 	CheckArg(L, 1, 3);
 	lCustomForm := TLuaCustomForm(CheckLuaObjectPop(L, 1));
 	TTrait<TMonitor>.luaL_optcheck(L, 2, @AMonitor, nil);
-	TTrait<Boolean>.luaL_optcheck(L, 3, @UseWorkarea, False);
+	TTrait<Boolean>.luaL_optcheck(L, 3, @UseWorkarea, True);
 	try
 		lCustomForm.MakeFullyVisible(AMonitor,UseWorkarea);
 		Result := 0;
@@ -323,10 +323,10 @@ end;
 function VCLua_CustomForm_SetRestoredBounds(L: Plua_State): Integer; cdecl;
 var
 	lCustomForm:TLuaCustomForm;
-	ALeft:integer;
-	ATop:integer;
-	AWidth:integer;
-	AHeight:integer;
+	ALeft:Integer;
+	ATop:Integer;
+	AWidth:Integer;
+	AHeight:Integer;
 	ADefaultPosition:Boolean;
 begin
 	CheckArg(L, 5, 6);
@@ -1120,6 +1120,102 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_CustomForm_VCLuaSetSnapOptions(L: Plua_State): Integer; cdecl;
+var
+	lCustomForm:TLuaCustomForm;
+	val:TWindowMagnetOptions;
+begin
+	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCustomForm.SnapOptions := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CustomForm', 'SetSnapOptions', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CustomForm_VCLuaGetSnapOptions(L: Plua_State): Integer; cdecl;
+var
+	lCustomForm:TLuaCustomForm;
+	ret:TWindowMagnetOptions;
+begin
+	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lCustomForm.SnapOptions;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CustomForm', 'GetSnapOptions', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
+function VCLua_CustomForm_VCLuaSetScreenSnap(L: Plua_State): Integer; cdecl;
+var
+	lCustomForm:TLuaCustomForm;
+	val:boolean;
+begin
+	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCustomForm.ScreenSnap := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CustomForm', 'SetScreenSnap', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CustomForm_VCLuaGetScreenSnap(L: Plua_State): Integer; cdecl;
+var
+	lCustomForm:TLuaCustomForm;
+	ret:boolean;
+begin
+	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lCustomForm.ScreenSnap;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CustomForm', 'GetScreenSnap', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_CustomForm_VCLuaSetSnapBuffer(L: Plua_State): Integer; cdecl;
+var
+	lCustomForm:TLuaCustomForm;
+	val:integer;
+begin
+	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lCustomForm.SnapBuffer := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CustomForm', 'SetSnapBuffer', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CustomForm_VCLuaGetSnapBuffer(L: Plua_State): Integer; cdecl;
+var
+	lCustomForm:TLuaCustomForm;
+	ret:integer;
+begin
+	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lCustomForm.SnapBuffer;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CustomForm', 'GetSnapBuffer', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_CustomForm_VCLuaSetOnActivate(L: Plua_State): Integer; cdecl;
 var
 	lCustomForm:TLuaCustomForm;
@@ -1265,7 +1361,7 @@ end;
 function VCLua_CustomForm_VCLuaGetRestoredLeft(L: Plua_State): Integer; cdecl;
 var
 	lCustomForm:TLuaCustomForm;
-	ret:integer;
+	ret:Integer;
 begin
 	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
 	try
@@ -1281,7 +1377,7 @@ end;
 function VCLua_CustomForm_VCLuaGetRestoredTop(L: Plua_State): Integer; cdecl;
 var
 	lCustomForm:TLuaCustomForm;
-	ret:integer;
+	ret:Integer;
 begin
 	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
 	try
@@ -1297,7 +1393,7 @@ end;
 function VCLua_CustomForm_VCLuaGetRestoredWidth(L: Plua_State): Integer; cdecl;
 var
 	lCustomForm:TLuaCustomForm;
-	ret:integer;
+	ret:Integer;
 begin
 	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
 	try
@@ -1313,7 +1409,7 @@ end;
 function VCLua_CustomForm_VCLuaGetRestoredHeight(L: Plua_State): Integer; cdecl;
 var
 	lCustomForm:TLuaCustomForm;
-	ret:integer;
+	ret:Integer;
 begin
 	lCustomForm := TLuaCustomForm(GetLuaObjectUnsafe(L, 1));
 	try
@@ -1544,6 +1640,9 @@ begin
 	TLuaMethodInfo.Create(CustomFormFuncs, 'LastActiveControl', @VCLua_CustomForm_VCLuaGetLastActiveControl, mfCall);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'PopupMode', @VCLua_CustomForm_VCLuaGetPopupMode, mfCall);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'PopupParent', @VCLua_CustomForm_VCLuaGetPopupParent, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'SnapOptions', @VCLua_CustomForm_VCLuaGetSnapOptions, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'ScreenSnap', @VCLua_CustomForm_VCLuaGetScreenSnap, mfCall);
+	TLuaMethodInfo.Create(CustomFormFuncs, 'SnapBuffer', @VCLua_CustomForm_VCLuaGetSnapBuffer, mfCall);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'Position', @VCLua_CustomForm_VCLuaGetPosition, mfCall);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'RestoredLeft', @VCLua_CustomForm_VCLuaGetRestoredLeft, mfCall);
 	TLuaMethodInfo.Create(CustomFormFuncs, 'RestoredTop', @VCLua_CustomForm_VCLuaGetRestoredTop, mfCall);
@@ -1569,6 +1668,9 @@ begin
 	TLuaMethodInfo.Create(CustomFormSets, 'ModalResult', @VCLua_CustomForm_VCLuaSetModalResult, mfCall, TypeInfo(TModalResult));
 	TLuaMethodInfo.Create(CustomFormSets, 'PopupMode', @VCLua_CustomForm_VCLuaSetPopupMode, mfCall, TypeInfo(TPopupMode));
 	TLuaMethodInfo.Create(CustomFormSets, 'PopupParent', @VCLua_CustomForm_VCLuaSetPopupParent, mfCall, TypeInfo(TCustomForm));
+	TLuaMethodInfo.Create(CustomFormSets, 'SnapOptions', @VCLua_CustomForm_VCLuaSetSnapOptions, mfCall, TypeInfo(TWindowMagnetOptions));
+	TLuaMethodInfo.Create(CustomFormSets, 'ScreenSnap', @VCLua_CustomForm_VCLuaSetScreenSnap, mfCall, TypeInfo(boolean));
+	TLuaMethodInfo.Create(CustomFormSets, 'SnapBuffer', @VCLua_CustomForm_VCLuaSetSnapBuffer, mfCall, TypeInfo(integer));
 	TLuaMethodInfo.Create(CustomFormSets, 'OnActivate', @VCLua_CustomForm_VCLuaSetOnActivate, mfCall, TypeInfo(TNotifyEvent));
 	TLuaMethodInfo.Create(CustomFormSets, 'OnClose', @VCLua_CustomForm_VCLuaSetOnClose, mfCall, TypeInfo(TCloseEvent));
 	TLuaMethodInfo.Create(CustomFormSets, 'OnCloseQuery', @VCLua_CustomForm_VCLuaSetOnCloseQuery, mfCall, TypeInfo(TCloseQueryEvent));

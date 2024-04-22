@@ -86,6 +86,38 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_MaskEdit_VCLuaSetValidationErrorMode(L: Plua_State): Integer; cdecl;
+var
+	lMaskEdit:TLuaMaskEdit;
+	val:TMaskEditValidationErrorMode;
+begin
+	lMaskEdit := TLuaMaskEdit(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TMaskEditValidationErrorMode));
+	try
+		lMaskEdit.ValidationErrorMode := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'MaskEdit', 'SetValidationErrorMode', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_MaskEdit_VCLuaGetValidationErrorMode(L: Plua_State): Integer; cdecl;
+var
+	lMaskEdit:TLuaMaskEdit;
+	ret:TMaskEditValidationErrorMode;
+begin
+	lMaskEdit := TLuaMaskEdit(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lMaskEdit.ValidationErrorMode;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'MaskEdit', 'GetValidationErrorMode', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
 function VCLua_MaskEdit_VCLuaSetModified(L: Plua_State): Integer; cdecl;
 var
 	lMaskEdit:TLuaMaskEdit;
@@ -156,9 +188,11 @@ begin
 	TLuaMethodInfo.Create(CustomMaskEditFuncs, 'Clear', @VCLua_MaskEdit_Clear);
 	TLuaMethodInfo.Create(CustomMaskEditFuncs, 'ValidateEdit', @VCLua_MaskEdit_ValidateEdit);
 	TLuaMethodInfo.Create(CustomMaskEditFuncs, 'EnableSets', @VCLua_MaskEdit_VCLuaGetEnableSets, mfCall);
+	TLuaMethodInfo.Create(CustomMaskEditFuncs, 'ValidationErrorMode', @VCLua_MaskEdit_VCLuaGetValidationErrorMode, mfCall);
 	TLuaMethodInfo.Create(CustomMaskEditFuncs, 'Modified', @VCLua_MaskEdit_VCLuaGetModified, mfCall);
 	CustomMaskEditSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomMaskEditSets, 'EnableSets', @VCLua_MaskEdit_VCLuaSetEnableSets, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomMaskEditSets, 'ValidationErrorMode', @VCLua_MaskEdit_VCLuaSetValidationErrorMode, mfCall, TypeInfo(TMaskEditValidationErrorMode));
 	TLuaMethodInfo.Create(CustomMaskEditSets, 'Modified', @VCLua_MaskEdit_VCLuaSetModified, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomMaskEditSets, 'OnValidationError', @VCLua_MaskEdit_VCLuaSetOnValidationError, mfCall, TypeInfo(TNotifyEvent));
 end.

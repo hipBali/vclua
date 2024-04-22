@@ -22,7 +22,24 @@ var
 
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaCheckLstEvents, LuaClassesEvents, LuaEvent, StdCtrls;
+Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, Graphics, LuaClassesEvents, LuaEvent, StdCtrls;
+
+function VCLua_CheckListBox_CalculateStandardItemHeight(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	ret:Integer;
+begin
+	CheckArg(L, 1);
+	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
+	try
+		ret := lCheckListBox.CalculateStandardItemHeight();
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'CalculateStandardItemHeight', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
 
 function VCLua_CheckListBox_Toggle(L: Plua_State): Integer; cdecl;
 var
@@ -163,6 +180,70 @@ begin
 	end;
 end;
 
+function VCLua_CheckListBox_VCLuaSetHeaderBackgroundColor(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	val:TColor;
+begin
+	lCheckListBox := TLuaCheckListBox(GetLuaObjectUnsafe(L, 1));
+	val := luaL_checkColor(L,2);
+	try
+		lCheckListBox.HeaderBackgroundColor := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'SetHeaderBackgroundColor', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckListBox_VCLuaGetHeaderBackgroundColor(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	ret:TColor;
+begin
+	lCheckListBox := TLuaCheckListBox(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lCheckListBox.HeaderBackgroundColor;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'GetHeaderBackgroundColor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_CheckListBox_VCLuaSetHeaderColor(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	val:TColor;
+begin
+	lCheckListBox := TLuaCheckListBox(GetLuaObjectUnsafe(L, 1));
+	val := luaL_checkColor(L,2);
+	try
+		lCheckListBox.HeaderColor := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'SetHeaderColor', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_CheckListBox_VCLuaGetHeaderColor(L: Plua_State): Integer; cdecl;
+var
+	lCheckListBox:TLuaCheckListBox;
+	ret:TColor;
+begin
+	lCheckListBox := TLuaCheckListBox(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lCheckListBox.HeaderColor;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'CheckListBox', 'GetHeaderColor', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_CheckListBox_ItemEnabled(L: Plua_State): Integer; cdecl;
 var
 	lCheckListBox:TLuaCheckListBox;
@@ -223,16 +304,6 @@ begin
 	Result := 0;
 end;
 
-function VCLua_CheckListBox_VCLuaSetOnItemClick(L: Plua_State): Integer; cdecl;
-var
-	lCheckListBox:TLuaCheckListBox;
-begin
-	lCheckListBox := TLuaCheckListBox(GetLuaObjectUnsafe(L, 1));
-	TLuaEvent.MaybeFree(TLuaCb(lCheckListBox.OnItemClick));
-	lCheckListBox.OnItemClick := TLuaEvent.Factory<TCheckListClicked,TLuaCheckListClicked>(L);
-	Result := 0;
-end;
-
 procedure lua_push(L: Plua_State; const v: TCheckListBox; pti: PTypeInfo);
 begin
 	CreateTableForKnownType(L,'TCustomCheckListBox',v);
@@ -258,16 +329,20 @@ end;
 
 begin
 	CustomCheckListBoxFuncs := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'CalculateStandardItemHeight', @VCLua_CheckListBox_CalculateStandardItemHeight);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Toggle', @VCLua_CheckListBox_Toggle);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'CheckAll', @VCLua_CheckListBox_CheckAll);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Exchange', @VCLua_CheckListBox_Exchange);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'AllowGrayed', @VCLua_CheckListBox_VCLuaGetAllowGrayed, mfCall);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Checked', @VCLua_CheckListBox_Checked);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Header', @VCLua_CheckListBox_Header);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'HeaderBackgroundColor', @VCLua_CheckListBox_VCLuaGetHeaderBackgroundColor, mfCall);
+	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'HeaderColor', @VCLua_CheckListBox_VCLuaGetHeaderColor, mfCall);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'ItemEnabled', @VCLua_CheckListBox_ItemEnabled);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'State', @VCLua_CheckListBox_State);
 	CustomCheckListBoxSets := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'AllowGrayed', @VCLua_CheckListBox_VCLuaSetAllowGrayed, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'HeaderBackgroundColor', @VCLua_CheckListBox_VCLuaSetHeaderBackgroundColor, mfCall, TypeInfo(TColor));
+	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'HeaderColor', @VCLua_CheckListBox_VCLuaSetHeaderColor, mfCall, TypeInfo(TColor));
 	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'OnClickCheck', @VCLua_CheckListBox_VCLuaSetOnClickCheck, mfCall, TypeInfo(TNotifyEvent));
-	TLuaMethodInfo.Create(CustomCheckListBoxSets, 'OnItemClick', @VCLua_CheckListBox_VCLuaSetOnItemClick, mfCall, TypeInfo(TCheckListClicked));
 end.

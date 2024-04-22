@@ -92,6 +92,38 @@ begin
 	end;
 end;
 
+function VCLua_SpeedButton_VCLuaSetAlignment(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	val:TAlignment;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val,TypeInfo(TAlignment));
+	try
+		lSpeedButton.Alignment := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'SetAlignment', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_SpeedButton_VCLuaGetAlignment(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	ret:TAlignment;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lSpeedButton.Alignment;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'GetAlignment', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret,TypeInfo(ret));
+end;
+
 function VCLua_SpeedButton_VCLuaSetAllowAllUp(L: Plua_State): Integer; cdecl;
 var
 	lSpeedButton:TLuaSpeedButton;
@@ -120,6 +152,38 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'SpeedButton', 'GetAllowAllUp', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_SpeedButton_VCLuaSetDisabledImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	val:TImageIndex;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lSpeedButton.DisabledImageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'SetDisabledImageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_SpeedButton_VCLuaGetDisabledImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	ret:TImageIndex;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lSpeedButton.DisabledImageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'GetDisabledImageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -248,6 +312,38 @@ begin
 	except
 		on E: Exception do
 			CallError(L, 'SpeedButton', 'GetGroupIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_SpeedButton_VCLuaSetHotImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	val:TImageIndex;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lSpeedButton.HotImageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'SetHotImageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_SpeedButton_VCLuaGetHotImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	ret:TImageIndex;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lSpeedButton.HotImageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'GetHotImageIndex', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
 end;
@@ -444,6 +540,70 @@ begin
 	lua_push(L,ret);
 end;
 
+function VCLua_SpeedButton_VCLuaSetPressedImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	val:TImageIndex;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lSpeedButton.PressedImageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'SetPressedImageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_SpeedButton_VCLuaGetPressedImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	ret:TImageIndex;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lSpeedButton.PressedImageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'GetPressedImageIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
+function VCLua_SpeedButton_VCLuaSetSelectedImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	val:TImageIndex;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	luaL_check(L,2,@val);
+	try
+		lSpeedButton.SelectedImageIndex := val;
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'SetSelectedImageIndex', E.ClassName, E.Message);
+	end;
+end;
+
+function VCLua_SpeedButton_VCLuaGetSelectedImageIndex(L: Plua_State): Integer; cdecl;
+var
+	lSpeedButton:TLuaSpeedButton;
+	ret:TImageIndex;
+begin
+	lSpeedButton := TLuaSpeedButton(GetLuaObjectUnsafe(L, 1));
+	try
+		ret := lSpeedButton.SelectedImageIndex;
+		Result := 1;
+	except
+		on E: Exception do
+			CallError(L, 'SpeedButton', 'GetSelectedImageIndex', E.ClassName, E.Message);
+	end;
+	lua_push(L,ret);
+end;
+
 function VCLua_SpeedButton_VCLuaSetShowAccelChar(L: Plua_State): Integer; cdecl;
 var
 	lSpeedButton:TLuaSpeedButton;
@@ -601,33 +761,43 @@ begin
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Click', @VCLua_SpeedButton_Click);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'LoadGlyphFromResourceName', @VCLua_SpeedButton_LoadGlyphFromResourceName);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'LoadGlyphFromLazarusResource', @VCLua_SpeedButton_LoadGlyphFromLazarusResource);
+	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Alignment', @VCLua_SpeedButton_VCLuaGetAlignment, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'AllowAllUp', @VCLua_SpeedButton_VCLuaGetAllowAllUp, mfCall);
+	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'DisabledImageIndex', @VCLua_SpeedButton_VCLuaGetDisabledImageIndex, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Down', @VCLua_SpeedButton_VCLuaGetDown, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Flat', @VCLua_SpeedButton_VCLuaGetFlat, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Glyph', @VCLua_SpeedButton_VCLuaGetGlyph, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'GroupIndex', @VCLua_SpeedButton_VCLuaGetGroupIndex, mfCall);
+	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'HotImageIndex', @VCLua_SpeedButton_VCLuaGetHotImageIndex, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Images', @VCLua_SpeedButton_VCLuaGetImages, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'ImageIndex', @VCLua_SpeedButton_VCLuaGetImageIndex, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'ImageWidth', @VCLua_SpeedButton_VCLuaGetImageWidth, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Layout', @VCLua_SpeedButton_VCLuaGetLayout, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Margin', @VCLua_SpeedButton_VCLuaGetMargin, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'NumGlyphs', @VCLua_SpeedButton_VCLuaGetNumGlyphs, mfCall);
+	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'PressedImageIndex', @VCLua_SpeedButton_VCLuaGetPressedImageIndex, mfCall);
+	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'SelectedImageIndex', @VCLua_SpeedButton_VCLuaGetSelectedImageIndex, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'ShowAccelChar', @VCLua_SpeedButton_VCLuaGetShowAccelChar, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'ShowCaption', @VCLua_SpeedButton_VCLuaGetShowCaption, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Spacing', @VCLua_SpeedButton_VCLuaGetSpacing, mfCall);
 	TLuaMethodInfo.Create(CustomSpeedButtonFuncs, 'Transparent', @VCLua_SpeedButton_VCLuaGetTransparent, mfCall);
 	CustomSpeedButtonSets := TLuaVmt.Create;
+	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'Alignment', @VCLua_SpeedButton_VCLuaSetAlignment, mfCall, TypeInfo(TAlignment));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'AllowAllUp', @VCLua_SpeedButton_VCLuaSetAllowAllUp, mfCall, TypeInfo(Boolean));
+	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'DisabledImageIndex', @VCLua_SpeedButton_VCLuaSetDisabledImageIndex, mfCall, TypeInfo(TImageIndex));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'Down', @VCLua_SpeedButton_VCLuaSetDown, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'Flat', @VCLua_SpeedButton_VCLuaSetFlat, mfCall, TypeInfo(Boolean));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'Glyph', @VCLua_SpeedButton_VCLuaSetGlyph, mfCall, TypeInfo(TBitmap));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'GroupIndex', @VCLua_SpeedButton_VCLuaSetGroupIndex, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'HotImageIndex', @VCLua_SpeedButton_VCLuaSetHotImageIndex, mfCall, TypeInfo(TImageIndex));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'Images', @VCLua_SpeedButton_VCLuaSetImages, mfCall, TypeInfo(TCustomImageList));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'ImageIndex', @VCLua_SpeedButton_VCLuaSetImageIndex, mfCall, TypeInfo(TImageIndex));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'ImageWidth', @VCLua_SpeedButton_VCLuaSetImageWidth, mfCall, TypeInfo(Integer));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'Layout', @VCLua_SpeedButton_VCLuaSetLayout, mfCall, TypeInfo(TButtonLayout));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'Margin', @VCLua_SpeedButton_VCLuaSetMargin, mfCall, TypeInfo(integer));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'NumGlyphs', @VCLua_SpeedButton_VCLuaSetNumGlyphs, mfCall, TypeInfo(Integer));
+	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'PressedImageIndex', @VCLua_SpeedButton_VCLuaSetPressedImageIndex, mfCall, TypeInfo(TImageIndex));
+	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'SelectedImageIndex', @VCLua_SpeedButton_VCLuaSetSelectedImageIndex, mfCall, TypeInfo(TImageIndex));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'ShowAccelChar', @VCLua_SpeedButton_VCLuaSetShowAccelChar, mfCall, TypeInfo(boolean));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'ShowCaption', @VCLua_SpeedButton_VCLuaSetShowCaption, mfCall, TypeInfo(boolean));
 	TLuaMethodInfo.Create(CustomSpeedButtonSets, 'Spacing', @VCLua_SpeedButton_VCLuaSetSpacing, mfCall, TypeInfo(integer));

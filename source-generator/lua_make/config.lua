@@ -7,11 +7,11 @@
 -- **************************************************** --
 
 -- linux
--- local LAZPATH = "/usr/share/lazarus/2.2.6/"
+-- local LAZPATH = "/usr/share/lazarus/3.2/"
 -- local FPCSOURCE = "/usr/share/fpcsrc/3.2.2/"
 
 -- windows
-local LAZPATH = "f:/Work/Dev/lazarus2/"
+local LAZPATH = "f:/Work/Dev/lazarus3/"
 local FPCSOURCE = LAZPATH.."fpc/3.2.2/source/"
 
 fpcSrc = {
