@@ -60,6 +60,7 @@ VCLUA_TOLUA = {
 	["tcustomtreeview"] = VCLUA_TOLUA_FULL,
 	["tcustomheadercontrol"] = VCLUA_TOLUA_FULL,
 	["tcustomcolorbox"] = VCLUA_TOLUA_FULL,
+	["tcustomspeedbutton"] = VCLUA_TOLUA_FULL,
 
 	["tobject"] = VCLUA_TOLUA_FULL,
 	["tpage"] = VCLUA_TOLUA_FULL,

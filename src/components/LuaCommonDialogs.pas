@@ -91,20 +91,6 @@ type
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaClassesEvents, LuaEvent;
 
-function VCLua_ColorButton_Click(L: Plua_State): Integer; cdecl;
-var
-	lColorButton:TLuaColorButton;
-begin
-	CheckArg(L, 1);
-	lColorButton := TLuaColorButton(GetLuaObject(L, 1));
-	try
-		lColorButton.Click();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ColorButton', 'Click', E.ClassName, E.Message);
-	end;
-end;
 
 function VCLua_OpenDialog_DoCanClose(L: Plua_State): Integer; cdecl;
 var
@@ -712,7 +698,7 @@ end;
 
 begin
 	ColorButtonFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ColorButtonFuncs, 'Click', @VCLua_ColorButton_Click);
+	
 	ColorButtonSets := TLuaVmt.Create;
 	
 	OpenDialogFuncs := TLuaVmt.Create;

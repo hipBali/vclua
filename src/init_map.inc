@@ -197,10 +197,10 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TListItems', @ListItemsSets);
   vmts.Add('TCustomListView', @CustomListViewFuncs);
   propSets.Add('TCustomListView', @CustomListViewSets);
-  vmts.Add('TBitBtn', @BitBtnFuncs);
-  propSets.Add('TBitBtn', @BitBtnSets);
-  vmts.Add('TSpeedButton', @SpeedButtonFuncs);
-  propSets.Add('TSpeedButton', @SpeedButtonSets);
+  vmts.Add('TCustomBitBtn', @CustomBitBtnFuncs);
+  propSets.Add('TCustomBitBtn', @CustomBitBtnSets);
+  vmts.Add('TCustomSpeedButton', @CustomSpeedButtonFuncs);
+  propSets.Add('TCustomSpeedButton', @CustomSpeedButtonSets);
   vmts.Add('TMaskEdit', @MaskEditFuncs);
   propSets.Add('TMaskEdit', @MaskEditSets);
   vmts.Add('TCustomCheckListBox', @CustomCheckListBoxFuncs);
