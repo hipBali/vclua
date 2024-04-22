@@ -265,8 +265,8 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TReplaceDialog', @ReplaceDialogSets);
   vmts.Add('TCustomColorBox', @CustomColorBoxFuncs);
   propSets.Add('TCustomColorBox', @CustomColorBoxSets);
-  vmts.Add('TColorListBox', @ColorListBoxFuncs);
-  propSets.Add('TColorListBox', @ColorListBoxSets);
+  vmts.Add('TCustomColorListBox', @CustomColorListBoxFuncs);
+  propSets.Add('TCustomColorListBox', @CustomColorListBoxSets);
   vmts.Add('TCollectionPropertyEditorForm', @CollectionPropertyEditorFormFuncs);
   propSets.Add('TCollectionPropertyEditorForm', @CollectionPropertyEditorFormSets);
   vmts.Add('TPropertyEditorHook', @PropertyEditorHookFuncs);

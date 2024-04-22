@@ -60,6 +60,7 @@ VCLUA_TOLUA = {
 	["tcustomtreeview"] = VCLUA_TOLUA_FULL,
 	["tcustomheadercontrol"] = VCLUA_TOLUA_FULL,
 	["tcustomcolorbox"] = VCLUA_TOLUA_FULL,
+	["tcustomcolorlistbox"] = VCLUA_TOLUA_FULL,
 	["tcustomspeedbutton"] = VCLUA_TOLUA_FULL,
 
 	["tobject"] = VCLUA_TOLUA_FULL,
@@ -76,7 +77,6 @@ VCLUA_TOLUA = {
 	["tsizeconstraints"] = VCLUA_TOLUA_FULL,
 	["tleftright"] = VCLUA_TOLUA_FULL,
 	["tshortcutlist"] = VCLUA_TOLUA_FULL,
-	["tcustomcolorlistbox"] = VCLUA_TOLUA_FULL,
 	["tnotifierform"] = VCLUA_TOLUA_FULL,
 	["twindowmagnetoptions"] = VCLUA_TOLUA_FULL,
 }

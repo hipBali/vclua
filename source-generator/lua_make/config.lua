@@ -307,7 +307,7 @@ classes = {
 	},
 	-- colorbox
 	{ name = "ColorBox", src = "TCustomColorBox", ref = "ColorBox" },
-	{ name = "ColorListBox", src = "TColorListBox", ref = "ColorBox" },
+	{ name = "ColorListBox", src = "TCustomColorListBox", ref = "ColorBox" },
 
 	--RTTI
 	{ name = "CollectionPropertyEditorForm", src = "TCollectionPropertyEditorForm", ref = "CollectionPropEditForm", nocreate=true },

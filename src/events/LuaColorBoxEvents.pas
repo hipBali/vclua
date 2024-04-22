@@ -21,7 +21,7 @@ type
 procedure RegisterLuaColorBoxEvents();
 
 implementation
-Uses LuaProxy, LuaObject, LuaHelper, LuaColorBox, LuaStrings, SysUtils;
+Uses LuaProxy, LuaObject, LuaHelper, LuaColorBox, LuaColorListBox, LuaStrings, SysUtils;
 
 procedure RegisterLuaColorBoxEvents();
 begin
