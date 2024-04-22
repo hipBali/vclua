@@ -36,16 +36,11 @@ end;]],
 function #FNAME(L: Plua_State): Integer; cdecl;
 var
   strGrid:TLuaStringGrid;
-  c,r :Integer;
-  Rect : TRect;
 begin
   CheckArg(L, 1);
   strGrid := TLuaStringGrid(GetLuaObject(L, 1));
-  c := strGrid.Selection.TopLeft.x;
-  r := strGrid.Selection.TopLeft.y;
-  Rect := strGrid.CellRect(c,r);
-  lua_pushnumber(L,c);
-  lua_pushnumber(L,r);
+  lua_push(L,strGrid.Selection.TopLeft.x);
+  lua_push(L,strGrid.Selection.TopLeft.y);
   Result := 2;
 end;]],
 		finalMethodName="GetSelectedCell",
