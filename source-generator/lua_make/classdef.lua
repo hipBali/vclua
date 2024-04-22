@@ -55,12 +55,10 @@ VCLUA_TOLUA = {
 
 	-- if src ~= "T"..cdef.name
 	["tcustomimagelist"] = VCLUA_TOLUA_FULL,
-	["tcustompage"] = VCLUA_TOLUA_FULL,
 	["tcustomlistview"] = VCLUA_TOLUA_FULL,
 	["tcustomactionlist"] = VCLUA_TOLUA_FULL,
 	["tcustomtreeview"] = VCLUA_TOLUA_FULL,
 	["tcustomheadercontrol"] = VCLUA_TOLUA_FULL,
-	["tcustomtabcontrol"] = VCLUA_TOLUA_FULL,
 	["tcustomcolorbox"] = VCLUA_TOLUA_FULL,
 
 	["tobject"] = VCLUA_TOLUA_FULL,

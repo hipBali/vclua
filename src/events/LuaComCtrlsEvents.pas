@@ -335,7 +335,7 @@ var
   luaTop, luaNewTop: Integer;
 begin
   L := ToStack;
-  lua_push(L,Control,TypeInfo(Control));
+  lua_push(L,Control);
   lua_push(L,TabIndex);
   lua_push(L,Rect);
   lua_push(L,AActive);

@@ -219,8 +219,10 @@ classes = {
 	
 	{ unit = "TabControl", ref = "ComCtrls",
 		classes = {
+			{ name = "CustomPage", src = "TCustomPage", nocreate=true },
 			{ name = "TabSheet", src = "TTabSheet" },
-			{ name = "TabControl", src = "TCustomTabControl" },
+			{ name = "CustomTabControl", src = "TCustomTabControl", nocreate=true },
+			{ name = "TabControl", src = "TTabControl" },
 			{ name = "PageControl", src = "TPageControl" },
 		},
 	},

@@ -173,10 +173,14 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TCustomCoolBar', @CustomCoolBarSets);
   vmts.Add('TUpDown', @UpDownFuncs);
   propSets.Add('TUpDown', @UpDownSets);
+  vmts.Add('TCustomPage', @CustomPageFuncs);
+  propSets.Add('TCustomPage', @CustomPageSets);
   vmts.Add('TTabSheet', @TabSheetFuncs);
   propSets.Add('TTabSheet', @TabSheetSets);
   vmts.Add('TCustomTabControl', @CustomTabControlFuncs);
   propSets.Add('TCustomTabControl', @CustomTabControlSets);
+  vmts.Add('TTabControl', @TabControlFuncs);
+  propSets.Add('TTabControl', @TabControlSets);
   vmts.Add('TPageControl', @PageControlFuncs);
   propSets.Add('TPageControl', @PageControlSets);
   vmts.Add('TCustomHeaderControl', @CustomHeaderControlFuncs);
