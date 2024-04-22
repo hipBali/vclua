@@ -354,6 +354,7 @@ local function processClass(def,cdef,ref)
 		end
 		if c==cdef.src then
 			classTable[cname] = {}
+			classTable[vclName(cdef.src)] = classTable[cname] -- updating one will update the other
 			cLog(string.format("PARSING %s %s LINE:%d",cname, c,n),"INFO")
 			stage="fill"
 			processed = true

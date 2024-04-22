@@ -58,40 +58,6 @@ begin
 	end;
 end;
 
-function VCLua_ValueListEditor_DeleteRow(L: Plua_State): Integer; cdecl;
-var
-	lValueListEditor:TLuaValueListEditor;
-	Index:Integer;
-begin
-	CheckArg(L, 2);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	luaL_check(L,2,@Index);
-	try
-		lValueListEditor.DeleteRow(Index);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ValueListEditor', 'DeleteRow', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_ValueListEditor_DeleteCol(L: Plua_State): Integer; cdecl;
-var
-	lValueListEditor:TLuaValueListEditor;
-	Index:Integer;
-begin
-	CheckArg(L, 2);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	luaL_check(L,2,@Index);
-	try
-		lValueListEditor.DeleteCol(Index);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ValueListEditor', 'DeleteCol', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_ValueListEditor_FindRow(L: Plua_State): Integer; cdecl;
 var
 	lValueListEditor:TLuaValueListEditor;
@@ -174,27 +140,6 @@ begin
 	end;
 end;
 
-function VCLua_ValueListEditor_ExchangeColRow(L: Plua_State): Integer; cdecl;
-var
-	lValueListEditor:TLuaValueListEditor;
-	IsColumn:Boolean;
-	index:Integer;
-	WithIndex:Integer;
-begin
-	CheckArg(L, 4);
-	lValueListEditor := TLuaValueListEditor(GetLuaObject(L, 1));
-	luaL_check(L,2,@IsColumn);
-	luaL_check(L,3,@index);
-	luaL_check(L,4,@WithIndex);
-	try
-		lValueListEditor.ExchangeColRow(IsColumn,index,WithIndex);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ValueListEditor', 'ExchangeColRow', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_ValueListEditor_IsEmptyRow(L: Plua_State): Integer; cdecl;
 var
 	lValueListEditor:TLuaValueListEditor;
@@ -229,31 +174,6 @@ begin
 			CallError(L, 'ValueListEditor', 'IsEmptyRow', E.ClassName, E.Message);
 	end;
 	lua_push(L,ret);
-end;
-
-function VCLua_ValueListEditor_LoadFromCSVStream(L: Plua_State): Integer; cdecl;
-var
-	lValueListEditor:TLuaValueListEditor;
-	AStream:TStream;
-	ADelimiter:Char;
-	UseTitles:boolean;
-	FromLine:Integer;
-	SkipEmptyLines:Boolean;
-begin
-	CheckArg(L, 2, 6);
-	lValueListEditor := TLuaValueListEditor(CheckLuaObjectPop(L, 1));
-	luaL_check(L,2,@AStream);
-	TTrait<Char>.luaL_optcheck(L, 3, @ADelimiter, ',');
-	TTrait<boolean>.luaL_optcheck(L, 4, @UseTitles, true);
-	TTrait<Integer>.luaL_optcheck(L, 5, @FromLine, 0);
-	TTrait<Boolean>.luaL_optcheck(L, 6, @SkipEmptyLines, true);
-	try
-		lValueListEditor.LoadFromCSVStream(AStream,ADelimiter,UseTitles,FromLine,SkipEmptyLines);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ValueListEditor', 'LoadFromCSVStream', E.ClassName, E.Message);
-	end;
 end;
 
 function VCLua_ValueListEditor_MoveColRow(L: Plua_State): Integer; cdecl;
@@ -409,16 +329,12 @@ begin
 	ValueListEditorFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Clear', @VCLua_ValueListEditor_Clear);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'DeleteColRow', @VCLua_ValueListEditor_DeleteColRow);
-	TLuaMethodInfo.Create(ValueListEditorFuncs, 'DeleteRow', @VCLua_ValueListEditor_DeleteRow);
-	TLuaMethodInfo.Create(ValueListEditorFuncs, 'DeleteCol', @VCLua_ValueListEditor_DeleteCol);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'FindRow', @VCLua_ValueListEditor_FindRow);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'InsertColRow', @VCLua_ValueListEditor_InsertColRow);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'InsertRow', @VCLua_ValueListEditor_InsertRow);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'InsertRowWithValues', @VCLua_ValueListEditor_InsertRowWithValues);
-	TLuaMethodInfo.Create(ValueListEditorFuncs, 'ExchangeColRow', @VCLua_ValueListEditor_ExchangeColRow);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'IsEmptyRow', @VCLua_ValueListEditor_IsEmptyRow);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'IsEmptyRow2', @VCLua_ValueListEditor_IsEmptyRow2);
-	TLuaMethodInfo.Create(ValueListEditorFuncs, 'LoadFromCSVStream', @VCLua_ValueListEditor_LoadFromCSVStream);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'MoveColRow', @VCLua_ValueListEditor_MoveColRow);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'RestoreCurrentRow', @VCLua_ValueListEditor_RestoreCurrentRow);
 	TLuaMethodInfo.Create(ValueListEditorFuncs, 'Sort', @VCLua_ValueListEditor_Sort);

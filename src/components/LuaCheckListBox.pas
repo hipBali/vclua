@@ -24,45 +24,6 @@ var
 implementation
 Uses LuaProxy, LuaObject, LuaHelper, SysUtils, Classes, Controls, LuaCheckLstEvents, LuaClassesEvents, LuaEvent, StdCtrls;
 
-function VCLua_CheckListBox_MeasureItem(L: Plua_State): Integer; cdecl;
-var
-	lCheckListBox:TLuaCheckListBox;
-	Index:Integer;
-	TheHeight:Integer;
-begin
-	CheckArg(L, 2);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
-	luaL_check(L,2,@Index);
-	try
-		lCheckListBox.MeasureItem(Index,TheHeight);
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'CheckListBox', 'MeasureItem', E.ClassName, E.Message);
-	end;
-	lua_push(L,TheHeight);
-end;
-
-function VCLua_CheckListBox_MeasureItem2(L: Plua_State): Integer; cdecl;
-var
-	lCheckListBox:TLuaCheckListBox;
-	Index:Integer;
-	TheHeight:Integer;
-begin
-	CheckArg(L, 3);
-	lCheckListBox := TLuaCheckListBox(GetLuaObject(L, 1));
-	luaL_check(L,2,@Index);
-	luaL_check(L,3,@TheHeight);
-	try
-		lCheckListBox.MeasureItem(Index,TheHeight);
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'CheckListBox', 'MeasureItem', E.ClassName, E.Message);
-	end;
-	lua_push(L,TheHeight);
-end;
-
 function VCLua_CheckListBox_Toggle(L: Plua_State): Integer; cdecl;
 var
 	lCheckListBox:TLuaCheckListBox;
@@ -297,8 +258,6 @@ end;
 
 begin
 	CustomCheckListBoxFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'MeasureItem', @VCLua_CheckListBox_MeasureItem);
-	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'MeasureItem2', @VCLua_CheckListBox_MeasureItem2);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Toggle', @VCLua_CheckListBox_Toggle);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'CheckAll', @VCLua_CheckListBox_CheckAll);
 	TLuaMethodInfo.Create(CustomCheckListBoxFuncs, 'Exchange', @VCLua_CheckListBox_Exchange);
