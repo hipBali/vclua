@@ -32,6 +32,7 @@
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="10"/>
       <RevisionNr Value="3"/>
+      <BuildNr Value="1"/>
       <Language Value="0809"/>
       <CharSet Value="04B0"/>
       <Attributes pvaPreRelease="True"/>
@@ -253,7 +254,7 @@
         <ShowHints Value="False"/>
         <ShowAll Value="True"/>
       </Verbosity>
-      <CustomOptions Value="-dLUA54"/>
+      <CustomOptions Value="-dLUA53"/>
     </Other>
   </CompilerOptions>
 </CONFIG>

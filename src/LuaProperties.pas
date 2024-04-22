@@ -466,9 +466,12 @@ begin
   if (PInfo = nil) or (not lua_checkstack(L, 2)) then Exit(false);
   if (PInfo^.PropType^.Kind = tkClass) and IsUnusualTable(L, vindex) and not InheritsFrom(PInfo^.PropType, 'TStrings', @TempPti) then
     UpdatePropertiesFromLuaTable(L, PropName, GetObjectProp(o, PInfo), vindex)
-  else begin
+  else try
     SetProperty(L, vindex, o, PInfo, TempPti);
-  end;
+    except
+      on E: Exception do
+         CallError(L, 'VCL', 'SetPublishedProperty', E.ClassName, E.Message);
+    end;
   result := true;
 end;
 
