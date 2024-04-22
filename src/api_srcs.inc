@@ -83,6 +83,7 @@ apiPtis.Add('TProgressBar', TProgressBar.ClassInfo);
 apiPtis.Add('TStatusPanel', TStatusPanel.ClassInfo);
 apiPtis.Add('TStatusPanels', TStatusPanels.ClassInfo);
 apiPtis.Add('TStatusBar', TStatusBar.ClassInfo);
+apiPtis.Add('TToolWindow', TToolWindow.ClassInfo);
 apiPtis.Add('TToolButton', TToolButton.ClassInfo);
 apiPtis.Add('TToolBar', TToolBar.ClassInfo);
 apiPtis.Add('TCoolBar', TCoolBar.ClassInfo);

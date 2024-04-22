@@ -39,55 +39,6 @@ begin
 	end;
 end;
 
-function VCLua_CoolBar_EndUpdate(L: Plua_State): Integer; cdecl;
-var
-	lCoolBar:TLuaCoolBar;
-begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	try
-		lCoolBar.EndUpdate();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CoolBar', 'EndUpdate', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_CoolBar_Invalidate(L: Plua_State): Integer; cdecl;
-var
-	lCoolBar:TLuaCoolBar;
-begin
-	CheckArg(L, 1);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	try
-		lCoolBar.Invalidate();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CoolBar', 'Invalidate', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_CoolBar_InsertControl(L: Plua_State): Integer; cdecl;
-var
-	lCoolBar:TLuaCoolBar;
-	AControl:TControl;
-	Index:integer;
-begin
-	CheckArg(L, 3);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	luaL_check(L,2,@AControl);
-	luaL_check(L,3,@Index);
-	try
-		lCoolBar.InsertControl(AControl,Index);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CoolBar', 'InsertControl', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_CoolBar_MouseToBandPos(L: Plua_State): Integer; cdecl;
 var
 	lCoolBar:TLuaCoolBar;
@@ -109,23 +60,6 @@ begin
 	end;
 	lua_push(L,ABand);
 	lua_push(L,AGrabber);
-end;
-
-function VCLua_CoolBar_RemoveControl(L: Plua_State): Integer; cdecl;
-var
-	lCoolBar:TLuaCoolBar;
-	AControl:TControl;
-begin
-	CheckArg(L, 2);
-	lCoolBar := TLuaCoolBar(GetLuaObject(L, 1));
-	luaL_check(L,2,@AControl);
-	try
-		lCoolBar.RemoveControl(AControl);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'CoolBar', 'RemoveControl', E.ClassName, E.Message);
-	end;
 end;
 
 function VCLua_CoolBar_VCLuaSetBandBorderStyle(L: Plua_State): Integer; cdecl;
@@ -612,11 +546,7 @@ end;
 begin
 	CustomCoolBarFuncs := TLuaVmt.Create;
 	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'AutosizeBands', @VCLua_CoolBar_AutosizeBands);
-	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'EndUpdate', @VCLua_CoolBar_EndUpdate);
-	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'Invalidate', @VCLua_CoolBar_Invalidate);
-	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'InsertControl', @VCLua_CoolBar_InsertControl);
 	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'MouseToBandPos', @VCLua_CoolBar_MouseToBandPos);
-	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'RemoveControl', @VCLua_CoolBar_RemoveControl);
 	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'BandBorderStyle', @VCLua_CoolBar_VCLuaGetBandBorderStyle, mfCall);
 	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'BandMaximize', @VCLua_CoolBar_VCLuaGetBandMaximize, mfCall);
 	TLuaMethodInfo.Create(CustomCoolBarFuncs, 'Bitmap', @VCLua_CoolBar_VCLuaGetBitmap, mfCall);

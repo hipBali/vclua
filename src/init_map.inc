@@ -163,6 +163,8 @@ Generated with Lua-fpc parser/generator
   propSets.Add('TStatusPanels', @StatusPanelsSets);
   vmts.Add('TStatusBar', @StatusBarFuncs);
   propSets.Add('TStatusBar', @StatusBarSets);
+  vmts.Add('TToolWindow', @ToolWindowFuncs);
+  propSets.Add('TToolWindow', @ToolWindowSets);
   vmts.Add('TToolButton', @ToolButtonFuncs);
   propSets.Add('TToolButton', @ToolButtonSets);
   vmts.Add('TToolBar', @ToolBarFuncs);

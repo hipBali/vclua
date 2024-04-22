@@ -163,38 +163,6 @@ begin
 	lua_push(L,ret);
 end;
 
-function VCLua_ToolBar_EndUpdate(L: Plua_State): Integer; cdecl;
-var
-	lToolBar:TLuaToolBar;
-begin
-	CheckArg(L, 1);
-	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
-	try
-		lToolBar.EndUpdate();
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ToolBar', 'EndUpdate', E.ClassName, E.Message);
-	end;
-end;
-
-function VCLua_ToolBar_FlipChildren(L: Plua_State): Integer; cdecl;
-var
-	lToolBar:TLuaToolBar;
-	AllLevels:Boolean;
-begin
-	CheckArg(L, 2);
-	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
-	luaL_check(L,2,@AllLevels);
-	try
-		lToolBar.FlipChildren(AllLevels);
-		Result := 0;
-	except
-		on E: Exception do
-			CallError(L, 'ToolBar', 'FlipChildren', E.ClassName, E.Message);
-	end;
-end;
-
 function VCLua_ToolBar_SetButtonSize(L: Plua_State): Integer; cdecl;
 var
 	lToolBar:TLuaToolBar;
@@ -212,23 +180,6 @@ begin
 		on E: Exception do
 			CallError(L, 'ToolBar', 'SetButtonSize', E.ClassName, E.Message);
 	end;
-end;
-
-function VCLua_ToolBar_CanFocus(L: Plua_State): Integer; cdecl;
-var
-	lToolBar:TLuaToolBar;
-	ret:Boolean;
-begin
-	CheckArg(L, 1);
-	lToolBar := TLuaToolBar(GetLuaObject(L, 1));
-	try
-		ret := lToolBar.CanFocus();
-		Result := 1;
-	except
-		on E: Exception do
-			CallError(L, 'ToolBar', 'CanFocus', E.ClassName, E.Message);
-	end;
-	lua_push(L,ret);
 end;
 
 function VCLua_ToolBar_VCLuaGetButtonCount(L: Plua_State): Integer; cdecl;
@@ -356,10 +307,7 @@ begin
 	ToolButtonSets := TLuaVmt.Create;
 	
 	ToolBarFuncs := TLuaVmt.Create;
-	TLuaMethodInfo.Create(ToolBarFuncs, 'EndUpdate', @VCLua_ToolBar_EndUpdate);
-	TLuaMethodInfo.Create(ToolBarFuncs, 'FlipChildren', @VCLua_ToolBar_FlipChildren);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'SetButtonSize', @VCLua_ToolBar_SetButtonSize);
-	TLuaMethodInfo.Create(ToolBarFuncs, 'CanFocus', @VCLua_ToolBar_CanFocus);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'ButtonCount', @VCLua_ToolBar_VCLuaGetButtonCount, mfCall);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'Buttons', @VCLua_ToolBar_Buttons);
 	TLuaMethodInfo.Create(ToolBarFuncs, 'RowCount', @VCLua_ToolBar_VCLuaGetRowCount, mfCall);

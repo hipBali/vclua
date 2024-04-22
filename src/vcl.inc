@@ -65,6 +65,7 @@ Generated with Lua-fpc parser/generator
 	LuaTrackBar,
 	LuaProgressBar,
 	LuaStatusBar,
+	LuaToolWindow,
 	LuaToolBar,
 	LuaCoolBar,
 	LuaUpDown,

@@ -19,6 +19,7 @@ fpcSrc = {
 	["SysUtils"] 	= FPCSOURCE.."rtl/objpas/sysutils/sysutilh.inc",
 	["StdCtrls"] 	= LAZPATH.."lcl/stdctrls.pp",
 	["ExtCtrls"] 	= LAZPATH.."lcl/extctrls.pp",
+	["Toolwin"] 	= LAZPATH.."lcl/toolwin.pp",
 	["ComCtrls"] 	= LAZPATH.."lcl/comctrls.pp",
 	["Controls"] 	= LAZPATH.."lcl/controls.pp",
 	["CustApp"] 	= FPCSOURCE.."packages/fcl-base/src/custapp.pp",
@@ -206,6 +207,7 @@ classes = {
 		}
 	},
 	
+	{ name = "ToolWindow", src = "TToolWindow", ref = "Toolwin", nocreate=true },
 	{ unit = "ToolBar", ref = "ComCtrls",
 		classes = {
 			{ name = "ToolButton", src = "TToolButton" },
