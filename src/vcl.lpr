@@ -17,6 +17,7 @@ uses
   LuaDialogs in 'LuaDialogs.pas',
   AnchorSidePropertyEditor,
   LuaVmt,
+  FileInfo,
   {$IFDEF EXTENDED}
   LuaRichMemo in 'addons/LuaRichMemo.pas',
   LuaSynEdit in 'addons/LuaSynEdit.pas',
@@ -30,6 +31,7 @@ var res:string;
   pti,ptiCur: PTypeInfo;
   i,j:integer;
   cur,curSets:PLuaVmt;
+  verInfo: TFileVersionInfo;
 begin
   luaL_newmetatable(L, 'VCLO');
   i := lua_gettop(L);
@@ -82,18 +84,24 @@ begin
 
   {$i export_vars.inc}
 
-  lua_pushliteral (L, '_COPYRIGHT');
-  lua_pushliteral (L, 'Copyright (C) 2006,2024 Hi-Project Ltd.');
-  lua_settable (L, -3);
-  lua_pushliteral (L, '_DESCRIPTION');
-  lua_pushliteral (L, 'VCLua Visual Controls for LUA ('+ LUA_VERSION_MAJOR + '.' + LUA_VERSION_MINOR + ')' );
-  lua_settable (L, -3);
-  lua_pushliteral (L, '_NAME');
-  lua_pushliteral (L, 'VCLua');
-  lua_settable (L, -3);
-  lua_pushliteral (L, '_VERSION');
-  lua_pushliteral (L, '1.0.0');
-  lua_settable (L, -3);
+  verInfo:=TFileVersionInfo.Create(nil);
+  try
+  verInfo.ReadFileInfo;
+  lua_pushliteral(L, '_COPYRIGHT');
+  lua_pushstring(L, verInfo.VersionStrings.Values['LegalCopyright']);
+  lua_rawset(L, -3);
+  lua_pushliteral(L, '_DESCRIPTION');
+  lua_pushliteral(L, 'VCLua Visual Controls for LUA ('+ LUA_VERSION_MAJOR + '.' + LUA_VERSION_MINOR + ')' );
+  lua_rawset(L, -3);
+  lua_pushliteral(L, '_NAME');
+  lua_pushstring(L, verInfo.VersionStrings.Values['ProductName']);
+  lua_rawset(L, -3);
+  lua_pushliteral(L, '_VERSION');
+  lua_pushstring(L, verInfo.VersionStrings.Values['FileVersion']);
+  lua_rawset(L, -3);
+  finally
+    verInfo.Free;
+  end;
 
   res := CheckOrderOfPushObject(metaPtis);
   if not res.IsEmpty then
