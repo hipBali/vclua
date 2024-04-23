@@ -469,6 +469,8 @@ begin
   else try
     SetProperty(L, vindex, o, PInfo, TempPti);
     except
+      on E: EExternalException do
+         raise;
       on E: Exception do
          CallError(L, 'VCL', 'SetPublishedProperty', E.ClassName, E.Message);
     end;
