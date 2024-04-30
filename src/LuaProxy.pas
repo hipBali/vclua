@@ -43,6 +43,9 @@ procedure luaL_check(L: Plua_State; i: Integer; v: PUInt16; pti : PTypeInfo = ni
 procedure luaL_check(L: Plua_State; i: Integer; v: PUInt32; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PUInt64; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 function luaL_checkDouble(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):Double; inline;
+{$ifdef FPC_HAS_TYPE_EXTENDED}
+procedure luaL_check(L: Plua_State; i: Integer; v: PExtended; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
+{$endif}
 procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); overload; inline;
 function luaL_checkPChar(L: Plua_State; i: Integer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError):PChar; inline;
@@ -87,7 +90,7 @@ type
 procedure lua_push(L: Plua_State; v:Boolean; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:Int64  ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:QWord  ; pti : PTypeInfo = nil); overload; inline;
-procedure lua_push(L: Plua_State; v:Double ; pti : PTypeInfo = nil); overload; inline;
+procedure lua_push(L: Plua_State; v:Extended; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; v:Char   ; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:String; pti : PTypeInfo = nil); overload; inline;
 procedure lua_push(L: Plua_State; const v:TUTF8Char; pti : PTypeInfo = nil); overload; inline;
@@ -183,6 +186,9 @@ begin
     LuaTypeError(L, i, pti, ler);
   end;
 end;
+{$ifdef FPC_HAS_TYPE_EXTENDED}
+procedure luaL_check(L: Plua_State; i: Integer; v: PExtended; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := luaL_checkDouble(L, i, TypeInfo(v^), ler); end;
+{$endif}
 procedure luaL_check(L: Plua_State; i: Integer; v: PDouble; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := luaL_checkDouble(L, i, TypeInfo(v^), ler); end;
 procedure luaL_check(L: Plua_State; i: Integer; v: PSingle; pti : PTypeInfo = nil; ler: TLuaErrorReport = lerLuaError); begin v^ := luaL_checkDouble(L, i, TypeInfo(v^), ler); end;
 
@@ -369,7 +375,7 @@ procedure lua_push(L: Plua_State; v:QWord; pti : PTypeInfo = nil);
 begin
   lua_pushinteger(L, v);
 end;
-procedure lua_push(L: Plua_State; v:Double; pti : PTypeInfo = nil);
+procedure lua_push(L: Plua_State; v:Extended; pti : PTypeInfo = nil);
 begin
   lua_pushnumber(L, v);
 end;
