@@ -955,21 +955,21 @@ result = o.MinDate</td><td class="fp">property MinDate: TDateTime read FMinDate 
 <div class="props"><b><i>Generated</i></b></div>
 <div style="padding-left: 40px"><table class="method"><tr><th>Lua examples</th><th>FP declaration</th></tr>
 <tr><td class="lua">o:AngleArc(X,Y,Radius,StartAngle,SweepAngle)</td><td class="fp">procedure AngleArc(X, Y: Integer; Radius: Longword; StartAngle, SweepAngle: Single);</td></tr>
-<tr><td class="lua">o:Arc(ALeft,ATop,ARight,ABottom,Angle16Deg,Angle16DegLength)</td><td class="fp">procedure Arc(ALeft, ATop, ARight, ABottom, Angle16Deg, Angle16DegLength: Integer); virtual; </td></tr>
-<tr><td class="lua">o:Arc2(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY)</td><td class="fp">procedure Arc(ALeft, ATop, ARight, ABottom, SX, SY, EX, EY: Integer); virtual; </td></tr>
+<tr><td class="lua">o:Arc(ALeft,ATop,ARight,ABottom,Angle16Deg,Angle16DegLength)</td><td class="fp">procedure Arc(ALeft, ATop, ARight, ABottom, Angle16Deg, Angle16DegLength: Integer); virtual;  </td></tr>
+<tr><td class="lua">o:Arc2(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY)</td><td class="fp">procedure Arc(ALeft, ATop, ARight, ABottom, SX, SY, EX, EY: Integer); virtual;  </td></tr>
 <tr><td class="lua">o:ArcTo(ALeft,ATop,ARight,ABottom,SX,SY,EX,EY)</td><td class="fp">procedure ArcTo(ALeft, ATop, ARight, ABottom, SX, SY, EX, EY: Integer); virtual; </td></tr>
 <tr><td class="lua">o:BrushCopy(ADestRect,ABitmap,ASourceRect,ATransparentColor)</td><td class="fp">procedure BrushCopy(ADestRect: TRect; ABitmap: TBitmap; ASourceRect: TRect; ATransparentColor: TColor); virtual;</td></tr>
 <tr><td class="lua">o:Changed()</td><td class="fp">procedure Changed; virtual;</td></tr>
 <tr><td class="lua">o:Changing()</td><td class="fp">procedure Changing; virtual;</td></tr>
 <tr><td class="lua">o:Chord(x1,y1,x2,y2,Angle16Deg,Angle16DegLength)</td><td class="fp">procedure Chord(x1, y1, x2, y2, Angle16Deg, Angle16DegLength: Integer); virtual;  reintroduce; </td></tr>
-<tr><td class="lua">o:Chord2(x1,y1,x2,y2,SX,SY,EX,EY)</td><td class="fp">procedure Chord(x1, y1, x2, y2, SX, SY, EX, EY: Integer); virtual; </td></tr>
+<tr><td class="lua">o:Chord2(x1,y1,x2,y2,SX,SY,EX,EY)</td><td class="fp">procedure Chord(x1, y1, x2, y2, SX, SY, EX, EY: Integer); virtual;  </td></tr>
 <tr><td class="lua">o:CopyRect(Dest,SrcCanvas,Source)</td><td class="fp">procedure CopyRect(const Dest: TRect; SrcCanvas: TCanvas; const Source: TRect); virtual; reintroduce;</td></tr>
 <tr><td class="lua">o:Draw(X,Y,SrcGraphic)</td><td class="fp">procedure Draw(X,Y: Integer; SrcGraphic: TGraphic); virtual; reintroduce;</td></tr>
 <tr><td class="lua">o:DrawFocusRect(ARect)</td><td class="fp">procedure DrawFocusRect(const ARect: TRect); virtual;</td></tr>
-<tr><td class="lua">o:Ellipse(ARect)</td><td class="fp">procedure Ellipse(const ARect: TRect); </td></tr>
-<tr><td class="lua">o:Ellipse2(x1,y1,x2,y2)</td><td class="fp">procedure Ellipse(x1, y1, x2, y2: Integer); virtual; </td></tr>
-<tr><td class="lua">o:FillRect(ARect)</td><td class="fp">procedure FillRect(const ARect: TRect); virtual; </td></tr>
-<tr><td class="lua">o:FillRect2(X1,Y1,X2,Y2)</td><td class="fp">procedure FillRect(X1,Y1,X2,Y2: Integer); </td></tr>
+<tr><td class="lua">o:Ellipse(ARect)</td><td class="fp">procedure Ellipse(const ARect: TRect);  </td></tr>
+<tr><td class="lua">o:Ellipse2(x1,y1,x2,y2)</td><td class="fp">procedure Ellipse(x1, y1, x2, y2: Integer); virtual;  </td></tr>
+<tr><td class="lua">o:FillRect(ARect)</td><td class="fp">procedure FillRect(const ARect: TRect); virtual;  </td></tr>
+<tr><td class="lua">o:FillRect2(X1,Y1,X2,Y2)</td><td class="fp">procedure FillRect(X1,Y1,X2,Y2: Integer);  </td></tr>
 <tr><td class="lua">o:FloodFill(X,Y,FillColor,FillStyle)</td><td class="fp">procedure FloodFill(X, Y: Integer; FillColor: TColor; FillStyle: TFillStyle); virtual;  reintroduce; </td></tr>
 <tr><td class="lua">o:Frame(ARect)</td><td class="fp">procedure Frame(const ARect: TRect); virtual; </td></tr>
 <tr><td class="lua">o:Frame2(X1,Y1,X2,Y2)</td><td class="fp">procedure Frame(X1,Y1,X2,Y2: Integer);     </td></tr>
@@ -991,13 +991,13 @@ o:PolyBezier(Points,Filled,Continuous)</td><td class="fp">procedure PolyBezier(c
 <tr><td class="lua">o:Polygon(Points,Winding)
 ...
 o:Polygon(Points,Winding,StartIndex,NumPts)</td><td class="fp">procedure Polygon(const Points: array of TPoint; Winding: Boolean; StartIndex: Integer = 0; NumPts: Integer = -1);</td></tr>
-<tr><td class="lua">o:Polygon2(Points)</td><td class="fp">procedure Polygon(const Points: array of TPoint); </td></tr>
+<tr><td class="lua">o:Polygon2(Points)</td><td class="fp">procedure Polygon(const Points: array of TPoint);  </td></tr>
 <tr><td class="lua">o:Polyline(Points,StartIndex)
 o:Polyline(Points,StartIndex,NumPts)</td><td class="fp">procedure Polyline(const Points: array of TPoint; StartIndex: Integer; NumPts: Integer = -1);</td></tr>
-<tr><td class="lua">o:Polyline2(Points)</td><td class="fp">procedure Polyline(const Points: array of TPoint); </td></tr>
+<tr><td class="lua">o:Polyline2(Points)</td><td class="fp">procedure Polyline(const Points: array of TPoint);  </td></tr>
 <tr><td class="lua">o:RadialPie(x1,y1,x2,y2,StartAngle16Deg,Angle16DegLength)</td><td class="fp">procedure RadialPie(x1, y1, x2, y2, StartAngle16Deg, Angle16DegLength: Integer); virtual;  reintroduce; </td></tr>
-<tr><td class="lua">o:Rectangle(X1,Y1,X2,Y2)</td><td class="fp">procedure Rectangle(X1,Y1,X2,Y2: Integer); virtual; </td></tr>
-<tr><td class="lua">o:Rectangle2(ARect)</td><td class="fp">procedure Rectangle(const ARect: TRect); </td></tr>
+<tr><td class="lua">o:Rectangle(X1,Y1,X2,Y2)</td><td class="fp">procedure Rectangle(X1,Y1,X2,Y2: Integer); virtual;  </td></tr>
+<tr><td class="lua">o:Rectangle2(ARect)</td><td class="fp">procedure Rectangle(const ARect: TRect);  </td></tr>
 <tr><td class="lua">o:Refresh()</td><td class="fp">procedure Refresh; virtual;</td></tr>
 <tr><td class="lua">o:RestoreHandleState()</td><td class="fp">procedure RestoreHandleState; virtual;</td></tr>
 <tr><td class="lua">o:RoundRect(X1,Y1,X2,Y2,RX,RY)</td><td class="fp">procedure RoundRect(X1, Y1, X2, Y2: Integer; RX,RY: Integer); virtual;</td></tr>
@@ -1005,13 +1005,13 @@ o:Polyline(Points,StartIndex,NumPts)</td><td class="fp">procedure Polyline(const
 <tr><td class="lua">o:SaveHandleState()</td><td class="fp">procedure SaveHandleState; virtual;</td></tr>
 <tr><td class="lua">o:StretchDraw(DestRect,SrcGraphic)</td><td class="fp">procedure StretchDraw(const DestRect: TRect; SrcGraphic: TGraphic); virtual; reintroduce;</td></tr>
 <tr><td class="lua">result = o:TextFitInfo(Text,MaxWidth)</td><td class="fp">function TextFitInfo(const Text: string; MaxWidth: Integer): Integer;</td></tr>
-<tr><td class="lua">result = o:TextHeight(Text)</td><td class="fp">function TextHeight(const Text: string): Integer; virtual; </td></tr>
-<tr><td class="lua">o:TextOut(X,Y,Text)</td><td class="fp">procedure TextOut(X,Y: Integer; const Text: String); virtual; </td></tr>
+<tr><td class="lua">result = o:TextHeight(Text)</td><td class="fp">function TextHeight(const Text: string): Integer; virtual;  </td></tr>
+<tr><td class="lua">o:TextOut(X,Y,Text)</td><td class="fp">procedure TextOut(X,Y: Integer; const Text: String); virtual;  </td></tr>
 <tr><td class="lua">o:TextRect(ARect,X,Y,Text)</td><td class="fp">procedure TextRect(const ARect: TRect; X, Y: integer; const Text: string);</td></tr>
 <tr><td class="lua">o:TextRect2(ARect,X,Y,Text,Style)</td><td class="fp">procedure TextRect(ARect: TRect; X, Y: integer; const Text: string; const Style: TTextStyle); virtual;</td></tr>
 <tr><td class="lua">o.TextStyle = value
 result = o.TextStyle</td><td class="fp">property TextStyle: TTextStyle read FTextStyle write FTextStyle;</td></tr>
-<tr><td class="lua">result = o:TextWidth(Text)</td><td class="fp">function TextWidth(const Text: string): Integer; virtual; </td></tr>
+<tr><td class="lua">result = o:TextWidth(Text)</td><td class="fp">function TextWidth(const Text: string): Integer; virtual;  </td></tr>
 <tr><td class="lua">result = o:TryLock()</td><td class="fp">function TryLock: Boolean;</td></tr>
 <tr><td class="lua">o:Unlock()</td><td class="fp">procedure Unlock; virtual;</td></tr>
 </table></div>
@@ -2037,7 +2037,7 @@ result = o:ClientToParent(Point,AParent)</td><td class="fp">function  ClientToPa
 <tr><td class="lua">o.ClientWidth = value
 result = o.ClientWidth</td><td class="fp">property ClientWidth: Integer read GetClientWidth write SetClientWidth stored IsClientWidthStored;</td></tr>
 <tr><td class="lua">o.Color = value
-result = o.Color</td><td class="fp">property Color: TColor read FColor write SetColor stored ColorIsStored default ;</td></tr>
+result = o.Color</td><td class="fp">property Color: TColor read FColor write SetColor stored ColorIsStored default  clWindow ;</td></tr>
 <tr><td class="lua">o.Constraints = value
 result = o.Constraints</td><td class="fp">property Constraints: TSizeConstraints read FConstraints write SetConstraints;</td></tr>
 <tr><td class="lua">result = o.ControlOrigin</td><td class="fp">property ControlOrigin: TPoint read GetControlOrigin;</td></tr>
@@ -2046,7 +2046,7 @@ result = o.ControlState</td><td class="fp">property ControlState: TControlState 
 <tr><td class="lua">o.ControlStyle = value
 result = o.ControlStyle</td><td class="fp">property ControlStyle: TControlStyle read FControlStyle write FControlStyle;</td></tr>
 <tr><td class="lua">result = o:ControlToScreen(APoint)</td><td class="fp">function  ControlToScreen(const APoint: TPoint): TPoint;</td></tr>
-<tr><td class="lua">o:DisableAutoSizing()</td><td class="fp">procedure DisableAutoSizing;</td></tr>
+<tr><td class="lua">o:DisableAutoSizing()</td><td class="fp">procedure DisableAutoSizing ;</td></tr>
 <tr><td class="lua">o:Dock(NewDockSite,ARect)</td><td class="fp">procedure Dock(NewDockSite: TWinControl; ARect: TRect); virtual;</td></tr>
 <tr><td class="lua">o.DockOrientation = value
 result = o.DockOrientation</td><td class="fp">property DockOrientation: TDockOrientation read FDockOrientation write FDockOrientation;</td></tr>
@@ -2054,7 +2054,7 @@ result = o.DockOrientation</td><td class="fp">property DockOrientation: TDockOri
 <tr><td class="lua">o:DragDrop(Source,X,Y)</td><td class="fp">procedure DragDrop(Source: TObject; X,Y: Integer); virtual;</td></tr>
 <tr><td class="lua">result = o:Dragging()</td><td class="fp">function Dragging: Boolean;</td></tr>
 <tr><td class="lua">o:EditingDone()</td><td class="fp">procedure EditingDone; virtual;</td></tr>
-<tr><td class="lua">o:EnableAutoSizing()</td><td class="fp">procedure EnableAutoSizing;</td></tr>
+<tr><td class="lua">o:EnableAutoSizing()</td><td class="fp">procedure EnableAutoSizing ;</td></tr>
 <tr><td class="lua">o.Enabled = value
 result = o.Enabled</td><td class="fp">property Enabled: Boolean read GetEnabled write SetEnabled stored IsEnabledStored default True;</td></tr>
 <tr><td class="lua">o:EndDrag(Drop)</td><td class="fp">procedure EndDrag(Drop: Boolean);</td></tr>
@@ -2353,7 +2353,7 @@ result = o.CharCase</td><td class="fp">property CharCase: TEditCharCase read Get
 <tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear;</td></tr>
 <tr><td class="lua">o:ClearSelection()</td><td class="fp">procedure ClearSelection; virtual;</td></tr>
 <tr><td class="lua">o.Color = value
-result = o.Color</td><td class="fp">property Color: TColor read GetColor write SetColor stored True default ;</td></tr>
+result = o.Color</td><td class="fp">property Color: TColor read GetColor write SetColor stored True default  clWindow ;</td></tr>
 <tr><td class="lua">o:CopyToClipboard()</td><td class="fp">procedure CopyToClipboard; virtual;</td></tr>
 <tr><td class="lua">o:CutToClipboard()</td><td class="fp">procedure CutToClipboard; virtual;</td></tr>
 <tr><td class="lua">o.EchoMode = value
@@ -5298,6 +5298,7 @@ result = o.WordWrap</td><td class="fp">property WordWrap: Boolean read FWordWrap
 <tr><td class="lua">o:Clear()</td><td class="fp">procedure Clear;</td></tr>
 <tr><td class="lua">o:LoadFromFile(FileName)</td><td class="fp">procedure LoadFromFile(const FileName: string);</td></tr>
 <tr><td class="lua">o:LoadFromStream(Stream)</td><td class="fp">procedure LoadFromStream(Stream: TStream);</td></tr>
+<tr><td class="lua">o:SetSize(NewSize)</td><td class="fp">procedure SetSize( const NewSize: Int64 ); override;</td></tr>
 </table></div>
 <a id="Menu"><div class="class"><b><u>Menu</u></b></div></a>
 <div class="props"><b><i>Published properties</i></b></div>
@@ -7362,7 +7363,7 @@ result = o.Sorted</td><td class="fp">property Sorted: Boolean read GetSorted wri
 <tr><td class="lua">o:AddDelimitedText(S,ADelimiter,AStrictDelimiter)</td><td class="fp">procedure AddDelimitedText(const S: String; ADelimiter: char; AStrictDelimiter: Boolean); overload;</td></tr>
 <tr><td class="lua">o:AddDelimitedtext2(S)</td><td class="fp">procedure AddDelimitedtext(const S: String); overload;</td></tr>
 <tr><td class="lua">result = o:AddObject(S,AObject)</td><td class="fp">function AddObject(const S: string; AObject: TObject): Integer; virtual; overload;</td></tr>
-<tr><td class="lua">result = o:AddPair(AName,AValue)</td><td class="fp">function AddPair(const AName, AValue: string): TStrings; overload; </td></tr>
+<tr><td class="lua">result = o:AddPair(AName,AValue)</td><td class="fp">function AddPair(const AName, AValue: string): TStrings; overload;  </td></tr>
 <tr><td class="lua">result = o:AddPair2(AName,AValue,AObject)</td><td class="fp">function AddPair(const AName, AValue: string; AObject: TObject): TStrings; overload;</td></tr>
 <tr><td class="lua">o:AddStrings(TheStrings)</td><td class="fp">procedure AddStrings(TheStrings: TStrings); overload; virtual;</td></tr>
 <tr><td class="lua">o:AddStrings2(TheStrings,ClearFirst)</td><td class="fp">procedure AddStrings(TheStrings: TStrings; ClearFirst : Boolean); overload;</td></tr>

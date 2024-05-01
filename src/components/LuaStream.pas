@@ -745,6 +745,23 @@ begin
 	end;
 end;
 
+function VCLua_MemoryStream_SetSize(L: Plua_State): Integer; cdecl;
+var
+	lMemoryStream:TLuaMemoryStream;
+	NewSize:Int64;
+begin
+	CheckArg(L, 2);
+	lMemoryStream := TLuaMemoryStream(GetLuaObject(L, 1));
+	luaL_check(L,2,@NewSize);
+	try
+		lMemoryStream.SetSize(NewSize);
+		Result := 0;
+	except
+		on E: Exception do
+			CallError(L, 'MemoryStream', 'SetSize', E.ClassName, E.Message);
+	end;
+end;
+
 function VCLua_MemoryStream_LoadFromHex(L: Plua_State): Integer; cdecl;
 var
   lMemoryStream:TLuaMemoryStream;
@@ -844,6 +861,7 @@ begin
 	TLuaMethodInfo.Create(MemoryStreamFuncs, 'Clear', @VCLua_MemoryStream_Clear);
 	TLuaMethodInfo.Create(MemoryStreamFuncs, 'LoadFromStream', @VCLua_MemoryStream_LoadFromStream);
 	TLuaMethodInfo.Create(MemoryStreamFuncs, 'LoadFromFile', @VCLua_MemoryStream_LoadFromFile);
+	TLuaMethodInfo.Create(MemoryStreamFuncs, 'SetSize', @VCLua_MemoryStream_SetSize);
 	TLuaMethodInfo.Create(MemoryStreamFuncs, 'LoadFromHex', @VCLua_MemoryStream_LoadFromHex);
 	MemoryStreamSets := TLuaVmt.Create;
 	

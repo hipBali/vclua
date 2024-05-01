@@ -12,6 +12,7 @@ package.path=package.path..";?.lua;lua_make/?.lua;lua_make/lib/?.lua"
 -- when false the error detection is deferred to runtime, but no change is needed to add more sources
 checkTypeSupport = arg[1] or false
 doExport = (arg[2] and arg[2]:lower() ~= "false") or false
+definesFile = arg[3]
 
 require "classdef"
 require "template"
@@ -75,6 +76,8 @@ local function loadMap( filename)
         return t
     end
 end
+
+local defines = definesFile and loadMap(definesFile) or {}
 
 function saveTextToFile(txt, fileName)
 	local file, errorString = io.open(fileName, "w+b")
@@ -166,19 +169,36 @@ function removeInnerComment(l)
 	return (l:gsub('{[^}]*}',' '))
 end
 
-function removeIfdef(str)
-	local stru = str:upper()
-	local s1,_ = stru:find("%{$IFDEF%s*%w+%}%w+")
-	local _,l2 = stru:find("%{$ENDIF%}")
-	local s2 = stru:find("%{$IFDEF")
-	if s2 and stru:find("DEBUG") then
-		return str:sub(1,s2-1)..str:sub(l2+1)
+local function thenPart(ifTyp, ident)
+	if ifTyp == 'ifdef' then return defines[ident]
+	else return not defines[ident]
 	end
-	if s1 and l2 then
-		return str:sub(1,s1-1)..str:sub(l2+1)
+end
+
+function removeIfdefs(str, res)
+	local lstr = str:lower()
+	res = res or {}
+	local s1, pos, ifTyp = lstr:find('{$(ifn*def)%s+')
+	if not s1 then
+		table.insert(res, str)
+		return table.concat(res, ' ')
+	end
+	local _, pos, ident = lstr:find('^([_%w]+)%s*}', pos + 1)
+	local tp = thenPart(ifTyp, ident)
+	table.insert(res, str:sub(1, s1 - 1))
+	local else1, else2 = lstr:find('{$else[^}]*}', pos + 1)
+	-- since multiline ifdefs are handled, end1 and end2 must be not nils
+	local end1, end2 = lstr:find('{$end[^}]*}', pos + 1)
+	local haveElse = else1 and else1 < end1 -- this else isn't from next ifdef
+	local part = (tp and str:sub(pos + 1, (haveElse and else1 or end1) - 1)) or haveElse and str:sub(else2 + 1, end1 - 1)
+	if part then
+		if part:match('{$if') then error("nested ifdef "..str) end
+		table.insert(res, part)
+		cLog("added "..part.." of "..str, 'DEBUG')
 	else
-		return str
+		cLog("nothing added from ifdef in "..str, 'DEBUG')
 	end
+	return removeIfdefs(str:sub(end2 + 1), res)
 end
 
 local function updRef(refs, tp, tl, className, pushed)
@@ -328,9 +348,24 @@ local function processClass(def,cdef,ref)
 	local reparse = cdef.reparse or not parsedRefs[ref]
 	if reparse then cLog('Reparsing '..ref, 'DEBUG') end
 	parsedRefs[ref] = true
+	local inIfdef
 
-	local processLine
-	processLine = function(n, line)
+	local function raise(err, n, line)
+		error(string.format("%s at %s:%d: %s", err, ref, n, line))
+	end
+	-- doesn't support nested ifdefs!!
+	local function handleMultilineIfdefs(n, lline)
+		local _, pos, ifTyp = lline:find('^{$(ifn*def)%s+')
+		if not ifTyp then return end
+		local ident = lline:match('^([_%w]+)%s*}%s*$', pos + 1)
+		if not ident then
+			if not lline:match('{$endif') then raise("unsupported multiline ifdef", n, line) end
+			return
+		end
+		inIfdef = thenPart(ifTyp, ident) and "handle" or "skip"
+	end
+
+	local function processLine(n, line)
 		n, line = skip_multiline(n, line, def, ref)
 		-- multiline comment doesn't start on or before 'line'
 		-- find classdef
@@ -365,6 +400,20 @@ local function processClass(def,cdef,ref)
 		end
 		local isOnlyProp = stage=="fillprop"
 		if (stage=="fill" or isOnlyProp) and classTable[cname] then
+			local lline = line:lower()
+			if inIfdef then
+				if lline:match('{$else') then inIfdef = inIfdef == "skip" and "handle" or "skip" end
+				if lline:match('{$if') then raise("nested ifs in multiline ifdef not supported", n, line) end
+				if lline:match('{$endif[%s_%w]*}%s*$') then inIfdef = nil -- e.g. {$endif cpu16}
+				elseif lline:match('{$endif[%s_%w]*}%s*%S') then raise('unsupported multiline endif with useful data after it', n, line)
+				end
+				if inIfdef == "skip" or not inIfdef then
+					cLog('skipping '..line, 'DEBUG')
+					return n
+				end
+			else
+				handleMultilineIfdefs(n, lline)
+			end
 			local classm = lword=='class'
 			local mName = ln[2]
 			if classm then
@@ -373,7 +422,7 @@ local function processClass(def,cdef,ref)
 			end
 			-- just skip for now, to handle broken lines
 			if lword=='constructor' then
-				line = removeIfdef(line)
+				line = removeIfdefs(line)
 				line = removeInnerComment(line)
 				-- join broken lines
 				if line:find("%(") and not line:find("%)") then
@@ -393,7 +442,7 @@ local function processClass(def,cdef,ref)
 			if (not isOnlyProp and (lword=="procedure" or lword=="function")) or isProp then
 				local mId = (classm and 'class ' or '')..lword.." "..mName
 				-- test comment
-				line = removeIfdef(line)
+				line = removeIfdefs(line)
 				line = removeInnerComment(line)
 				-- join broken lines
 				if isProp and not line:find(";") then

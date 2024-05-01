@@ -2,7 +2,6 @@ function GetAccessibleObject
 function CreateAccessibleObject
 function GetSelectedChildAccessibleObject
 function GetChildAccessibleObjectAtPos
-procedure WriteAutoSizeReasons
 procedure WriteLayoutDebugReport
 procedure AutoAdjustLayout
 function Perform

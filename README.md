@@ -63,6 +63,7 @@ Unsupported types:
 1. inheritance (everything generated for the class is available for instances of class descendants)
 1. manual typechecking (`is`)
 1. exceptions are transformed into Lua errors
+1. within class declaration: non-nested `{$ifdef` and `{$ifndef` with possible `{$else`
 
 Unsupported class methods are specified in [exclude](source-generator/exclude). `Reference` property and enumerators are not supported. 
 
@@ -110,7 +111,7 @@ local FPCSOURCE = LAZPATH.."fpc/3.2.2/source/"
 run the fpc source parser/generator tool
 
 ```
-lua lua_make/import.lua true
+lua lua_make/import.lua true false EnabledDefinesWin64
 ```
 
 ### Set Lua version
@@ -163,6 +164,6 @@ copy core.dll my_lua_libs/vcl/core.dll
 ### Maybe create docs
 
 ```
-lua lua_make/import.lua true true
+lua lua_make/import.lua true true EnabledDefinesWin64
 ```
 This uses the installed library to get published properties.
