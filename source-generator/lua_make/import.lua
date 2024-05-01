@@ -11,7 +11,7 @@ package.path=package.path..";?.lua;lua_make/?.lua;lua_make/lib/?.lua"
 -- when true generates code which would not compile if some pushed type isn't supported
 -- when false the error detection is deferred to runtime, but no change is needed to add more sources
 checkTypeSupport = arg[1] or false
-doExport = arg[2] or false
+doExport = (arg[2] and arg[2]:lower() ~= "false") or false
 
 require "classdef"
 require "template"
