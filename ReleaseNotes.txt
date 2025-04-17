@@ -1,9 +1,15 @@
 Visual Controls For LUA (VCLua)
 
-version 1.0.0 (beta)
+version 1.0.0
 luaversion 5.1-5.4
-date 2024-04-22
+date 2024-05-01
 ---------------------
+
+Bugfix release
+	- various fixes for error handling when using with Lua compiled as C++
+	- fix support of type Extended
+	- generator: support non-nested ifdefs within class declaration
+	- added Memo example
 
 Port to LCL 3.2
 
