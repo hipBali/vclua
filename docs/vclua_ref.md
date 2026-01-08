@@ -1,5 +1,5 @@
-# VCLua reference (Markdown)
-> Converted from `vclua_ref.html` with preserved anchors (e.g. `#Action`).
+# VCLua reference
+> Converted from `vclua_ref.html` 
 
 ---
 
