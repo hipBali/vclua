@@ -66,8 +66,8 @@ function luaL_checkShortCut(L: Plua_State; i: Integer; ler: TLuaErrorReport = le
 function luaL_checkColor(L: Plua_State; i: Integer; ler: TLuaErrorReport = lerLuaError):TColor;
 
 // it's out of trait to allow calling luaL_check for different type than T, e.g. for TObject instead of TMenuItem
-procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT); inline;
-procedure luaL_checkProxyPti<PT>(L: Plua_State; i: Integer; addr: PT; pti : PTypeInfo); inline;
+procedure luaL_checkProxy(L: Plua_State; i: Integer; addr: Pointer; pti : PTypeInfo); inline;
+procedure luaL_checkProxyPti(L: Plua_State; i: Integer; addr: Pointer; pti : PTypeInfo); inline;
 type
   // this type must nor be instantiated for enums or it won't compile
   TTrait<T> = class
@@ -231,13 +231,62 @@ end;
 procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError);
 begin
   case pti.Kind of
-    tkSet: luaL_checkSet(L, i, v, pti, ler);
+    tkSet:
+      luaL_checkSet(L, i, v, pti, ler);
+
     tkEnumeration:
       case GetTypeData(pti).OrdType of
           otSByte,otUByte: PByte(v)^ := luaL_checkEnum(L, i, pti, ler);
           otSWord,otUWord: PWord(v)^ := luaL_checkEnum(L, i, pti, ler);
           otSLong,otULong: PCardinal(v)^ := luaL_checkEnum(L, i, pti, ler);
       end;
+
+    tkBool:
+      case GetTypeData(pti).OrdType of
+          otSByte,otUByte: PByte(v)^ := Ord(lua_toboolean(L, i));
+          otSWord,otUWord: PWord(v)^ := Ord(lua_toboolean(L, i));
+          otSLong,otULong: PCardinal(v)^ := Ord(lua_toboolean(L, i));
+      end;
+
+    tkInteger:
+      case GetTypeData(pti).OrdType of
+          otSByte: PShortInt(v)^ := luaL_checkInt64(L, i, pti, ler);
+          otUByte: PByte(v)^ := luaL_checkInt64(L, i, pti, ler);
+          otSWord: PSmallInt(v)^ := luaL_checkInt64(L, i, pti, ler);
+          otUWord: PWord(v)^ := luaL_checkInt64(L, i, pti, ler);
+          otSLong: PLongInt(v)^ := luaL_checkInt64(L, i, pti, ler);
+          otULong: PLongWord(v)^ := luaL_checkInt64(L, i, pti, ler);
+      end;
+
+    tkInt64:
+      PInt64(v)^ := luaL_checkInt64(L, i, pti, ler);
+
+    tkQWord:
+      PUInt64(v)^ := luaL_checkInt64(L, i, pti, ler);
+
+    tkFloat:
+      case GetTypeData(pti).FloatType of
+          ftSingle: PSingle(v)^ := luaL_checkDouble(L, i, pti, ler);
+          ftDouble: PDouble(v)^ := luaL_checkDouble(L, i, pti, ler);
+          {$ifdef FPC_HAS_TYPE_EXTENDED}
+          ftExtended: PExtended(v)^ := luaL_checkDouble(L, i, pti, ler);
+          {$endif}
+      else
+          LuaError(L, 'Unsupported float type from Lua stack', pti.name, ler);
+      end;
+
+    tkChar:
+      PChar(v)^ := string(luaL_checkPChar(L, i, pti, ler))[1];
+
+    tkSString:
+      PShortString(v)^ := ShortString(luaL_checkPChar(L, i, pti, ler));
+
+    tkLString, tkAString:
+      PString(v)^ := String(luaL_checkPChar(L, i, pti, ler));
+
+    tkClass:
+      PObject(v)^ := GetLuaObjectUnsafe(L, i);
+
   else
     LuaError(L, 'Don''t know how to get type from Lua stack', pti.name, ler);
   end;
@@ -322,11 +371,11 @@ begin
     LuaTypeError(L, i, TypeInfo(v^), ler);
 end;
 
-procedure luaL_checkProxy<PT>(L: Plua_State; i: Integer; addr: PT);
+procedure luaL_checkProxy(L: Plua_State; i: Integer; addr: Pointer; pti : PTypeInfo);
 begin
-  luaL_check(L, i, addr);
+  luaL_check(L, i, addr, pti, lerLuaError);
 end;
-procedure luaL_checkProxyPti<PT>(L: Plua_State; i: Integer; addr: PT; pti : PTypeInfo);
+procedure luaL_checkProxyPti(L: Plua_State; i: Integer; addr: Pointer; pti : PTypeInfo);
 begin
   luaL_check(L, i, addr, pti, lerLuaError);
 end;
@@ -340,7 +389,7 @@ begin
     luaL_checkstack(L, len, 'luaL_checkArray');
     for j := 1 to len do begin
       lua_rawgeti(L, i, j);
-      luaL_checkProxy<PT>(L, -1, @v^[j-1]);
+      luaL_checkProxy(L, -1, @v^[j-1], TypeInfo(T));
     end;
     lua_pop(L, len);
   end else
@@ -350,14 +399,14 @@ end;
 class procedure TTrait<T>.luaL_optcheck(L: Plua_State; i: Integer; v: PT; const dflt: T);
 begin
   if not lua_isnoneornil(L, i) then
-     luaL_checkProxy<PT>(L, i, v)
+     luaL_checkProxy(L, i, v, TypeInfo(T))
   else
      v^ := dflt;
 end;
 class procedure TTraitPti<T>.luaL_optcheck(L: Plua_State; i: Integer; v: PT; const dflt: T; pti : PTypeInfo);
 begin
   if not lua_isnoneornil(L, i) then
-     luaL_checkProxyPti<PT>(L, i, v, pti)
+     luaL_checkProxyPti(L, i, v, pti)
   else
      v^ := dflt;
 end;
