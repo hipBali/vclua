@@ -103,7 +103,7 @@ const
 {$IFDEF MSWINDOWS}
    LUA_LIB_NAME = 'lua54.dll';
 {$ELSE}
-   LUA_LIB_NAME = 'liblua54.so';
+   LUA_LIB_NAME = 'liblua5.4.so';
 {$ENDIF}
 
 const
@@ -155,7 +155,11 @@ type
    lua_Number   = Double;
    Plua_Number  = ^lua_Number;
 
+   {$IFDEF LINUX}
+   size_t = NativeUInt;
+   {$ELSE}
    size_t = Cardinal;
+   {$ENDIF}
    Psize_t = ^size_t;
 
    Plua_State = Pointer;
@@ -272,8 +276,8 @@ function lua_compare(L: Plua_State; idx1, idx2, op: Integer): LongBool; cdecl;
 procedure lua_pushnil(L: Plua_State); cdecl;
 procedure lua_pushnumber(L: Plua_State; n: lua_Number); cdecl;
 procedure lua_pushinteger(L: Plua_State; n: lua_Integer); cdecl;
-procedure lua_pushlstring(L: Plua_State; const s: PAnsiChar; len: size_t); cdecl;
-procedure lua_pushstring(L: Plua_State; const s: PAnsiChar); cdecl; overload;
+function lua_pushlstring(L: Plua_State; const s: PAnsiChar; len: size_t): PAnsiChar; cdecl;
+function lua_pushstring(L: Plua_State; const s: PAnsiChar): PAnsiChar; cdecl; overload;
 procedure lua_pushstring(L: Plua_State; const s: AnsiString); inline; overload; // added for Pascal
 function lua_pushvfstring(L: Plua_State; const fmt: PAnsiChar; argp: Pointer): PAnsiChar; cdecl;
 function lua_pushfstring(L: Plua_State; const fmt: PAnsiChar): PAnsiChar; cdecl; varargs;
@@ -599,8 +603,8 @@ function lua_topointer(L: Plua_State; idx: Integer): Pointer; cdecl; external LU
 procedure lua_pushnil(L: Plua_State); cdecl; external LUA_LIB_NAME;
 procedure lua_pushnumber(L: Plua_State; n: lua_Number); cdecl; external LUA_LIB_NAME;
 procedure lua_pushinteger(L: Plua_State; n: lua_Integer); cdecl; external LUA_LIB_NAME;
-procedure lua_pushlstring(L: Plua_State; const s: PAnsiChar; len: size_t); cdecl; external LUA_LIB_NAME;
-procedure lua_pushstring(L: Plua_State; const s: PAnsiChar); cdecl; external LUA_LIB_NAME;
+function lua_pushlstring(L: Plua_State; const s: PAnsiChar; len: size_t): PAnsiChar; cdecl; external LUA_LIB_NAME;
+function lua_pushstring(L: Plua_State; const s: PAnsiChar): PAnsiChar; cdecl; external LUA_LIB_NAME;
 
 procedure lua_pushstring(L: Plua_State; const s: AnsiString);
 begin
@@ -752,7 +756,7 @@ end;
 
 procedure lua_pushliteral(L: Plua_State; s: PAnsiChar);
 begin
-   lua_pushlstring(L, s, Length(s));
+   lua_pushstring(L, s);
 end;
 
 procedure lua_pushglobaltable(L: Plua_State);
