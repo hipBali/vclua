@@ -229,6 +229,8 @@ begin
      LuaTypeError(L, i, pti, ler);
 end;
 procedure luaL_check(L: Plua_State; i: Integer; v: Pointer; pti : PTypeInfo; ler: TLuaErrorReport = lerLuaError);
+var
+  tn: string;
 begin
   case pti.Kind of
     tkSet:
@@ -287,8 +289,23 @@ begin
     tkClass:
       PObject(v)^ := GetLuaObjectUnsafe(L, i);
 
+    tkRecord:
+      begin
+        tn := LowerCase(String(pti^.Name));
+        if tn = 'tpoint' then
+          luaL_check(L, i, PPoint(v), pti, ler)
+        else if tn = 'trect' then
+          luaL_check(L, i, PRect(v), pti, ler)
+        else if tn = 'tsize' then
+          luaL_check(L, i, PSize(v), pti, ler)
+        else if tn = 'ttextstyle' then
+          luaL_check(L, i, PTextStyle(v), pti, ler)
+        else
+          LuaError(L, 'Don''t know how to get record type from Lua stack', pti^.Name, ler);
+      end;
+
   else
-    LuaError(L, 'Don''t know how to get type from Lua stack', pti.name, ler);
+    LuaError(L, 'Don''t know how to get type from Lua stack', pti^.Name, ler);
   end;
 end;
 
