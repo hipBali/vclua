@@ -205,19 +205,36 @@ begin
   result:=1;
 end;
 
+function LuaRaise(L: Plua_State; const Msg: String): Integer;
+var
+  e: AnsiString;
+begin
+  // Raise a real Lua error with Lua source location.
+  // Do not print here: the normal Lua runner will print uncaught errors,
+  // and DoCall() will forward callback errors to VCLC.
+  e := AnsiString(Msg);
+  luaL_where(L, 1);
+  lua_pushstring(L, PAnsiChar(e));
+  lua_concat(L, 2);
+  Result := lua_error(L);
+end;
+
 function DefaultCallbackErrorFunction(L: Plua_State):integer; cdecl;
 var
   e: string;
-  unused: SizeIntArray;
+  base: Integer;
 begin
+  // Called from DoCall() when an event/callback failed inside lua_pcall.
+  // There is no outer Lua interpreter error printer in that case, so forward
+  // the error message to the configured VCLua callback reporter.
+  base := lua_gettop(L);
   luaL_getmetatable(L, VCLE);
-  if lua_isfunction(L, 2) and lua_isstring(L, 1) then begin
+  if lua_isfunction(L, -1) and lua_isstring(L, 1) then begin
      e := lua_tostring(L, 1);
-     if not (FindMatchesBoyerMooreCaseSensitive(e, 'VCLua Error', unused, false) or FindMatchesBoyerMooreCaseSensitive(e, 'LCL Error', unused, false)) then begin
-       lua_insert(L, 1);
-       lua_call(L, 1, 0);
-     end;
-  end;
+     lua_pushstring(L, e);
+     lua_pcall(L, 1, 0, 0);
+  end else
+     lua_settop(L, base);
   result:=0;
 end;
 
@@ -233,9 +250,14 @@ begin
 end;
 
 function LuaTraceback(L: Plua_State; msg: String): PAnsiChar;
+var
+  base: Integer;
 begin
+  // Backward-compatible helper. It returns a pointer owned by Lua stack.
+  // Keep the stack balanced even if debug.traceback is unavailable.
+  base := lua_gettop(L);
   lua_getglobal(L, 'debug');
-  result := '';
+  result := PAnsiChar(AnsiString(msg));
   if lua_istable(L, -1) then begin
      lua_getfield(L, -1, 'traceback');
      if lua_isfunction(L, -1) then begin
@@ -243,18 +265,21 @@ begin
         lua_call(L, 1, 1);
         result := lua_tostring(L, -1);
      end;
-     lua_pop(L, 1);
   end;
-  lua_pop(L, 1);
+  lua_settop(L, base);
 end;
 
 procedure ReportError(L: Plua_State; e: string; how: PAnsiChar);
+var
+  base: Integer;
 begin
+  base := lua_gettop(L);
   luaL_getmetatable(L, how);
   if lua_isfunction(L, -1) then begin
     lua_pushstring(L, e);
     lua_pcall(L, 1, 0, 0);
   end;
+  lua_settop(L, base);
 end;
 
 procedure LuaError(L: Plua_State; text: String; err:String; ler: TLuaErrorReport);
@@ -262,9 +287,8 @@ var
   e: string;
 begin
   e := 'VCLua Error:'+#10+WinCPToUTF8(err)+#10+WinCPToUTF8(text);
-  ReportError(L, e, VCLE);
   if ler = lerLuaError then
-     luaL_error(L, PAnsiChar(e))
+     LuaRaise(L, e)
   else
      raise Exception.Create(e);
 end;
@@ -274,8 +298,7 @@ var
   e: string;
 begin
   e := Format('LCL Error:'+#10+'calling %s.%s got %s:'+#10+WinCPToUTF8(err), [className, methodName, text]);
-  ReportError(L, e, VCLE);
-  luaL_error(L, PAnsiChar(e));
+  LuaRaise(L, e);
 end;
 
 procedure LuaTypeError(L: Plua_State; index: Integer; pti: PTypeInfo; ler: TLuaErrorReport);
