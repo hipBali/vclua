@@ -7,7 +7,14 @@
 -- **************************************************** --
 
 -- map of types to Refs; auto inference works for types starting with 'T', so add what's needed by hand
-typeRef = {exception="SysUtils"}
+typeRef = {
+  exception="SysUtils",
+  wparam="LCLType",
+  lparam="LCLType",
+  lresult="LCLType",
+  tthemeservices="Themes",
+  tthemeoption="Themes",
+}
 vcluaTypeRef = {}
 
 -- Generic templates
@@ -31,6 +38,22 @@ VCLUA_OPT_INLINE_FROMLUA_LIST = {
   tgraphicscolor = 1,
 }
 
+VCLUA_FROMLUA_VARIANT = [[
+if lua_isnumber(L, #) then
+  #VAR := lua_tointeger(L, #)
+else if lua_isboolean(L, #) then begin
+  if lua_toboolean(L, #) then
+    #VAR := True
+  else
+    #VAR := False;
+end else
+  #VAR := lua_tostring(L, #);
+]]
+
+VCLUA_FROMLUA_WPARAM = "#VAR := WParam(lua_tointeger(L,#));"
+VCLUA_FROMLUA_LPARAM = "#VAR := LParam(lua_tointeger(L,#));"
+VCLUA_TOLUA_LRESULT = "lua_pushinteger(L, Lua_Integer(#VAR));"
+
 VCLUA_FROMLUA_TEMP_MAP = {
   tstrings = "luaL_checkStringList",
   tstringlist = "luaL_checkStringList",
@@ -51,6 +74,8 @@ VCLUA_TOLUA_DEFAULT = "lua_push(L,#VAR);"
 
 VCLUA_TOLUA = {
 	["pointer"] = "lua_pushlightuserdata(L,#VAR);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
+	["pchar"] = "lua_pushstring(L,#VAR);",
+	["lresult"] = VCLUA_TOLUA_LRESULT,
 	["tshortcut"] = "lua_pushShortCut(L,#VAR);",
 
 	-- if src ~= "T"..cdef.name
@@ -86,6 +111,10 @@ VCLUA_OPT = "TTrait<#TYP>.luaL_optcheck(L, #, @#VAR, #DEF);"
 
 VCLUA_FROMLUA = {
 	["pointer"] = "#VAR := lua_touserdata(L,#);",
+	["variant"] = VCLUA_FROMLUA_VARIANT,
+	["wparam"] = VCLUA_FROMLUA_WPARAM,
+	["lparam"] = VCLUA_FROMLUA_LPARAM,
+	["tthemeoption"] = VCLUA_FROMLUA_FULL,
 	["tborderstyle"] = VCLUA_FROMLUA_FULL,
 	["tleftright"] = VCLUA_FROMLUA_FULL,
 	["tshortcut"] = "#VAR := luaL_checkShortCut(L,#);",
@@ -106,6 +135,8 @@ VCLUA_TOLUA_DEFAULT = VCLUA_TOLUA_FULL
 
 VCLUA_TOLUA = {
 	["pointer"] = "lua_pushlightuserdata(L,#VAR);", -- the only example is Application.CreateForm which returns untyped parameter which should be pushed as our object
+	["pchar"] = "lua_pushstring(L,#VAR);",
+	["lresult"] = VCLUA_TOLUA_LRESULT,
 }
 
 VCLUA_FROMLUA_DEFAULT = VCLUA_FROMLUA_FULL
@@ -113,6 +144,10 @@ VCLUA_OPT = VCLUA_OPT_DEFAULT
 
 VCLUA_FROMLUA = {
 	["pointer"] = "#VAR := lua_touserdata(L,#);",
+	["variant"] = VCLUA_FROMLUA_VARIANT,
+	["wparam"] = VCLUA_FROMLUA_WPARAM,
+	["lparam"] = VCLUA_FROMLUA_LPARAM,
+	["tthemeoption"] = VCLUA_FROMLUA_FULL,
 }
 end
 

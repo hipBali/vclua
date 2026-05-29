@@ -78,6 +78,7 @@ local function loadMap( filename)
 end
 
 local defines = definesFile and loadMap(definesFile) or {}
+local linuxTarget = defines['linux'] or defines['LINUX']
 
 function saveTextToFile(txt, fileName)
 	local file, errorString = io.open(fileName, "w+b")
@@ -133,6 +134,71 @@ local function HashedToSorted(t,comp,forceKV)
   comp = comp or tables and function(l,r) return l.k<r.k end or nil
   table.sort(res,comp)
   return res
+end
+
+
+-- Case-insensitive Pascal uses-list helpers.
+-- FPC/Pascal unit names are effectively case-insensitive, while Lua table keys
+-- are not. Without this, Linux generation may emit e.g. "LCLType, lcltype".
+local canonicalUseName = {
+  typinfo = "TypInfo",
+  lmessages = "LMessages",
+  lcltype = "LCLType",
+  lclintf = "LCLIntf",
+  lclproc = "LCLProc",
+  sysutils = "SysUtils",
+}
+
+local function canonicalUse(name)
+  return canonicalUseName[name:lower()] or name
+end
+
+local function uniqueUses(list)
+  local seen, out = {}, {}
+  for _, u in ipairs(list or {}) do
+    if type(u) == "string" then
+      -- Some config fields may contain comma-separated refs as one string.
+      for part in u:gmatch("[^,]+") do
+        local name = part:trim()
+        if name ~= "" then
+          name = canonicalUse(name)
+          local key = name:lower()
+          if not seen[key] then
+            seen[key] = true
+            table.insert(out, name)
+          end
+        end
+      end
+    else
+      table.insert(out, u)
+    end
+  end
+  return out
+end
+
+local function hasUse(list, name)
+  local lname = name:lower()
+  for _, u in ipairs(list or {}) do
+    if type(u) == "string" and u:trim():lower() == lname then
+      return true
+    end
+  end
+  return false
+end
+
+local function removeUse(refs, name)
+  local lname = name:lower()
+  for k,_ in pairs(refs or {}) do
+    if type(k) == "string" and k:trim():lower() == lname then
+      refs[k] = nil
+    end
+  end
+end
+
+local function usesSuffix(list)
+  local t = uniqueUses(list)
+  if #t == 0 then return "" end
+  return ", "..table.concat(t, ", ")
 end
 
 local function propertyToProc(decl, origLine)
@@ -244,12 +310,38 @@ local function concat_until(ref, n, line, def, pred, rm_inner)
 end
 local eventSrcs = {}
 local eventAlias = {}
-local excludeType = loadMap("exclude/VarTypes")
+local excludeType = loadMap("exclude/VarTypes") or {}
+
+local function normTypeName(t)
+  if not t then return "" end
+  t = tostring(t):trim():lower()
+  t = t:gsub("^const%s+", "")
+  t = t:gsub("^var%s+", "")
+  t = t:gsub("^out%s+", "")
+  t = t:gsub("%s*=.*$", "")
+  t = t:gsub("%s+", " ")
+  return t
+end
+
+local function normalizeExcludeTypes(src)
+  local normalized = {}
+  for k,v in pairs(src or {}) do
+    local nk = normTypeName(k)
+    if nk ~= "" then normalized[nk] = v or 1 end
+  end
+  return normalized
+end
+
+excludeType = normalizeExcludeTypes(excludeType)
+
+local function isExcludedType(t)
+  return excludeType[normTypeName(t)] ~= nil
+end
 local function inferTypeKindFromLine(n, line, cfile, ref)
   local _, pos, typename = line:find("^%s*(T[_%w]+)%s*=%s*")
   if not pos then return end
   local c = typename:lower()
-  if excludeType[c] then return n end
+  if isExcludedType(typename) then return n end
   --cLog('Set typeRef '..ref..' to '..typename, 'INFO')
   typeRef[c] = ref
   local merged = n
@@ -283,7 +375,7 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
     local md = {method=line,propInfo=true,name=typename,refs={}} -- propInfo for ensuring #md.vars==1
     processParams(md)
     for _,t in ipairs(HashedToSorted(md.mtypes)) do
-      if excludeType[t:lower()] then
+      if isExcludedType(t) then
         do_exclude = t
         break
       end
@@ -297,7 +389,7 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
   else
     local _,_,cc = line:find("^[aA]rray%s+of%s+([_%w]+)",pos)
     if cc then
-      if excludeType[cc:lower()] then do_exclude = cc
+      if isExcludedType(cc) then do_exclude = cc
       else
         cLog(string.format("ARRAY FOUND %s LINE:%d", typename, n),"INFO")
         VCLUA_FROMLUA[c] = VCLUA_TOARRAY:gsub("#TYP",cc,1)
@@ -307,7 +399,7 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
       local _,_,alias = line:find('^([_%w]+);$',pos)
       if alias then
         local lalias = alias:lower()
-        if excludeType[lalias] then do_exclude = alias
+        if isExcludedType(alias) then do_exclude = alias
         elseif VCLUA_FROMLUA[lalias] or VCLUA_TOLUA[lalias] or (VCLUA_ES_CHECK and VCLUA_ES_CHECK[lalias]) then
           VCLUA_FROMLUA[c] = VCLUA_FROMLUA[lalias]
           VCLUA_TOLUA[c] = VCLUA_TOLUA[lalias]
@@ -329,7 +421,7 @@ local function inferTypeKindFromLine(n, line, cfile, ref)
     end
   end
   if do_exclude then
-    excludeType[c] = 1
+    excludeType[normTypeName(c)] = 1
     if do_exclude ~= 'typekind' then cLog(" ** EXCLUDED:"..line.." "..do_exclude, "DEBUG") end
   end
   return merged
@@ -344,6 +436,13 @@ local function processClass(def,cdef,ref)
 	local processed
 	local cname = cdef.name
 	local exclude = loadMap("exclude/"..cname) or {}
+	-- Linux/FPC: a few TStrings methods/properties need hand-written bridges or
+	-- produce ambiguous overload calls. Exclude them from the generic wrapper.
+	if cname == "Strings" then
+		exclude["procedure Fill"] = 1
+		exclude["procedure ForEach"] = 1
+		exclude["property StringsAdapter"] = 1
+	end
 	for k, v in pairs(excludeFuncs) do exclude[k] = v end
 	local reparse = cdef.reparse or not parsedRefs[ref]
 	if reparse then cLog('Reparsing '..ref, 'DEBUG') end
@@ -467,12 +566,12 @@ local function processClass(def,cdef,ref)
 						if lword=="function" or (isProp and md.propInfo.r and not md.propInfo.i) then
 							local ret = md.method:split(":")
 							md.reto = ret[#ret]:match("%w+")
-							ok = not excludeType[md.reto:lower()]
+							ok = not isExcludedType(md.reto)
 							reason = md.reto
 						end
 						processParams(md)
 						for t,_ in pairs(md.mtypes) do
-							if excludeType[t:lower()] then
+							if isExcludedType(t) then
 								reason = t
 								ok = false
 								break
@@ -578,6 +677,15 @@ function processParams(md)
 				def=pp[2]
 			end
 			varType = pp[1]
+
+			-- Linux/FPC: generated local variables with the same name as their type
+			-- are invalid/ambiguous in Pascal, e.g. "WParam: WParam;".
+			-- Rename only the local variable; funcparams/varlist will then use the
+			-- renamed identifier while the type stays untouched.
+			if normTypeName(varName) == normTypeName(varType) then
+				varName = 'a'..varName
+			end
+
 			md.mtypes[varType] = true
 
 			-- should passed back?
@@ -928,7 +1036,7 @@ end
 local fpcSrcPrev
 local createMap = {}
 for n,cdef in pairs(classes) do
-	local refsplit = cdef.ref:split(",")
+	local refsplit = uniqueUses(cdef.ref:split(","))
 	local ref = refsplit[1]
 	if fpcSrc[ref] ~= fpcSrcPrev then
 		cLog(ref.." "..fpcSrc[ref],"INFO")
@@ -974,16 +1082,24 @@ for n,cdef in pairs(classes) do
 	local classSource = HDR_INFO .. VCLua_CLASSDEF
 	classSource = classSource:gsub("#CNAME",className)
 
-	classSource = classSource:gsub("#REF",cdef.ref)
-	-- clear duplicates from implementation uses
-	unitRefs['System'] = nil
-	unitRefs['SysUtils'] = nil
-	for _,r in ipairs(refsplit) do unitRefs[r] = nil end
+	classSource = classSource:gsub("#REF", table.concat(refsplit, ", "))
+	-- clear duplicates from implementation uses, case-insensitively
+	removeUse(unitRefs, 'System')
+	removeUse(unitRefs, 'SysUtils')
+	for _,r in ipairs(refsplit) do removeUse(unitRefs, r) end
 	-- prepare table for concat
 	unitRefs[''] = true
-	local unitRefT = HashedToSorted(unitRefs)
-	if cdef.implref then table.insert(unitRefT,cdef.implref) end
-	classSource = classSource:gsub((cdef.ref == "SysUtils" and ", SysUtils" or "").."#IMPLREF",table.concat(unitRefT, ', '))
+	local unitRefT = uniqueUses(HashedToSorted(unitRefs))
+	if linuxTarget then
+		table.insert(unitRefT, 'LuaLinuxPushFixes')
+		unitRefT = uniqueUses(unitRefT)
+	end
+	if cdef.implref then
+		for _,r in ipairs(cdef.implref:split(',')) do table.insert(unitRefT, r) end
+		unitRefT = uniqueUses(unitRefT)
+	end
+	local implRefSuffix = usesSuffix(unitRefT)
+	classSource = classSource:gsub((hasUse(refsplit, "SysUtils") and ", SysUtils" or "").."#IMPLREF", implRefSuffix)
 
 	local intf, body, create, init = {},{},{},{"begin"}
 	-- manual code to include
@@ -1047,7 +1163,7 @@ for n,cdef in pairs(classes) do
 	table.insert(pasSrc, lName)
 end
 pasRefs['Classes'] = nil
-local luaobject_uses = HashedToSorted(pasRefs)
+local luaobject_uses = uniqueUses(HashedToSorted(pasRefs))
 
 function table.reverse(t)
   local res, len = {}, #t
@@ -1056,6 +1172,12 @@ function table.reverse(t)
   end
   return res
 end
+
+local eventExtraRefs = {
+  classes = { "TypInfo" },
+  controls = { "LMessages" },
+  grids = { "Laz2_XMLCfg" },
+}
 
 local eventRegs = {}
 for _,kv in ipairs(HashedToSorted(eventSrcs)) do
@@ -1102,16 +1224,20 @@ for _,kv in ipairs(HashedToSorted(eventSrcs)) do
   end
   local s = VCLUA_EVENTDEF
   s = s:gsub('#DEFS',table.concat(defs,'\n'),1):gsub('#INITMAP',table.concat(initmap,'\n'),1)
+  for _, extraRef in ipairs(eventExtraRefs[ref:lower()] or {}) do
+    refs[extraRef] = true
+  end
   refs[''] = true
-  refs['System'] = nil
+  removeUse(refs, 'System')
   if eventRefs[ref] then refs[eventRefs[ref]] = true end
   implrefs[''] = true
-  implrefs['System'] = nil
-  if not refs['SysUtils'] then implrefs['SysUtils'] = true end
+  removeUse(implrefs, 'System')
+  if not hasUse(uniqueUses(HashedToSorted(refs)), 'SysUtils') then implrefs['SysUtils'] = true end
   if eventImplRefs[ref] then implrefs[eventImplRefs[ref]] = true end
-  s = s:gsub('#IMPLREF',table.concat(HashedToSorted(implrefs),', '),1)
+  if linuxTarget then implrefs['LuaLinuxPushFixes'] = true end
+  s = s:gsub('#IMPLREF', usesSuffix(HashedToSorted(implrefs)), 1)
   s = s:gsub('#DECLS',table.concat(decls,'\n'),1)
-  s = s:gsub('#REF',table.concat(HashedToSorted(refs),', '),1)
+  s = s:gsub('#REF', usesSuffix(HashedToSorted(refs)), 1)
   s = s:gsub('#UNITNAME',uname)
   saveTextToFile(s,out_path.."src/events/"..uname..".pas")
 end

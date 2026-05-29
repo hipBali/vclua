@@ -7,12 +7,12 @@
 -- **************************************************** --
 
 -- linux
--- local LAZPATH = "/usr/share/lazarus/3.2/"
--- local FPCSOURCE = "/usr/share/fpcsrc/3.2.2/"
+local LAZPATH = "/home/bjd/lazarus-src/"
+local FPCSOURCE = "/usr/share/fpcsrc/3.2.2/"
 
 -- windows
-local LAZPATH = "f:/Work/Dev/lazarus3/"
-local FPCSOURCE = LAZPATH.."fpc/3.2.2/source/"
+LAZPATH = "/Tools/lazarus/"
+FPCSOURCE = LAZPATH.."fpc/3.2.2/source/"
 
 fpcSrc = {
 	["Classes"] 	= FPCSOURCE.."rtl/objpas/classes/classesh.inc",
@@ -33,7 +33,7 @@ fpcSrc = {
 	["MaskEdit"] 	= LAZPATH.."lcl/maskedit.pp",
 	["CheckLst"] 	= LAZPATH.."lcl/checklst.pas",
 	["PopupNotifier"] 	= LAZPATH.."lcl/popupnotifier.pas",
-	["DateTimePicker"] 	= LAZPATH.."/components/datetimectrls/datetimepicker.pas",
+	["DateTimePicker"] 	= LAZPATH.."components/datetimectrls/datetimepicker.pas",
 	["Spin"] 	= LAZPATH.."lcl/spin.pp",
 	["Arrow"] 	= LAZPATH.."lcl/arrow.pp",
 	["Calendar"] 	= LAZPATH.."lcl/calendar.pp",
@@ -45,7 +45,7 @@ fpcSrc = {
 	["ColorBox"] 	= LAZPATH.."lcl/colorbox.pas",
 	["IniFiles"] 	= FPCSOURCE.."packages/fcl-base/src/inifiles.pp",
 	["ValEdit"] 	= LAZPATH.."lcl/valedit.pas",
-	["TextStrings"] 	= LAZPATH.."/components/lazutils/textstrings.pas",
+	["TextStrings"] 	= LAZPATH.."components/lazutils/textstrings.pas",
 
 	["CollectionPropEditForm"]	= LAZPATH.."components/ideintf/collectionpropeditform.pas",
 	["PropEdits"]			= LAZPATH.."components/ideintf/propedits.pp",
