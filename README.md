@@ -174,10 +174,19 @@ This uses the installed library to get published properties.
 
 VCLua now includes a lightweight visual form editor for building LCL/VCL-style forms directly in Lua.
 
+The editor source is located under:
+
+```text
+examples/vclua/editor
+```
+
+The VCLua library must be available either in the Lua module path or in the local vcl directory.
+
 The editor is started with:
 
 ```bash
-lua5.4 vcl/editor/main.lua
+cd examples
+lua5.4 form_editor.lua
 ```
 
 The editor uses a separate toolbox window and a real editable form window. The toolbox contains the component tree, component palette and property editor, while the edited form is a normal standalone VCLua form.
