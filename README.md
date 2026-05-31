@@ -3,7 +3,7 @@ Gui library for lua
 
 Version 1.0.0
 
-Made with *Lazarus version 3.2*
+Made with *Lazarus version 3.2-4.6*
 ___
 
 **Binary releases at sourceforge (win32, win64, linux)**
@@ -167,3 +167,111 @@ copy core.dll my_lua_libs/vcl/core.dll
 lua lua_make/import.lua true true EnabledDefinesWin64
 ```
 This uses the installed library to get published properties.
+
+
+
+## VCLua Form Editor
+
+VCLua now includes a lightweight visual form editor for building LCL/VCL-style forms directly in Lua.
+
+The editor is started with:
+
+```bash
+lua5.4 vcl/editor/main.lua
+```
+
+The editor uses a separate toolbox window and a real editable form window. The toolbox contains the component tree, component palette and property editor, while the edited form is a normal standalone VCLua form.
+
+### Main features
+
+* Visual form editing with a component tree
+* Component palette with categorized controls
+* Property editing through `TIPropertyGrid`
+* Drag/resize support on the edited form
+* Grid display and snap-to-grid support
+* Tree order based component creation order
+* Automatic `TabOrder` handling
+* Copy / cut / paste / duplicate / delete
+* Container support, for example `Panel` and `GroupBox`
+* `Items` / `Lines` support for controls such as `RadioGroup`, `ComboBox`, `ListBox` and `Memo`
+* Save/load using `.vclform` designer files
+* Lua module export
+* JSON export
+
+### File types
+
+The editor uses three different file types:
+
+```text
+*.vclform   Designer source file
+*.lua       Generated VCLua runtime module
+*.json      Optional JSON export
+```
+
+The `.vclform` file is the editable designer format. It stores the form model, component tree, property values, collections and designer options.
+
+Lua export generates a reusable runtime module. The generated file is intended to be overwritten when the design changes, so application logic and event handlers should be kept in a separate file.
+
+Example usage of an exported form:
+
+```lua
+local VCL = require "vcl.core"
+local myform = require "myform"
+
+local ui = myform.create(nil)
+
+ui.Button1.OnClick = function(sender)
+  ui.Label1.Caption = "Clicked"
+end
+
+ui.Form1:ShowModal()
+```
+
+### Export style
+
+Generated Lua code uses the VCLua property table syntax:
+
+```lua
+Button1._ = {
+  Caption = "Button1",
+  Left = 24,
+  Top = 24,
+  Width = 90,
+  Height = 28,
+}
+```
+
+Nested properties are exported as nested Lua tables:
+
+```lua
+Label1._ = {
+  Font = {
+    Size = 12,
+    Color = "clBlue",
+  },
+}
+```
+
+String collections are exported as Lua arrays:
+
+```lua
+RadioGroup1._ = {
+  Items = {
+    "Option A",
+    "Option B",
+    "Option C",
+  },
+}
+```
+
+The exported module returns a table containing all named controls:
+
+```lua
+ui.Form1
+ui.Button1
+ui.Edit1
+ui.byName.Button1
+```
+
+This keeps generated layout code separate from hand-written event and application logic.
+
