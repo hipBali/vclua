@@ -106,6 +106,16 @@ M.classes = {
     container = true,
   },
 
+  Splitter = {
+    category = "Containers", icon = "Splitter",
+    defaults = { Left = 24, Top = 24, Width = 5, Height = 5, Align = "alTop" },
+    special = "splitter",
+    noDesignerMove = true,
+    noDesignerResize = true,
+    noSelectionFrame = true,
+    inheritColor = false,
+  },
+
   StringGrid = {
     category = "Lists / Data", icon = "StringGrid",
     defaults = { Left = 24, Top = 24, Width = 220, Height = 120, ColCount = 3, RowCount = 4 },
@@ -179,7 +189,7 @@ M.categories = {
   },
   {
     name = "Containers", title = "Containers", icon = "Panel",
-    items = { "Panel", "GroupBox", "ScrollBox", "RadioGroup" },
+    items = { "Panel", "GroupBox", "ScrollBox", "RadioGroup", "Splitter" },
   },
   {
     name = "Lists / Data", title = "Lists / Data", icon = "ListView",
@@ -196,7 +206,7 @@ M.order = {
   "Label", "StaticText", "Edit", "SpinEdit", "FloatSpinEdit", "DateEdit", "TimeEdit",
   "CheckBox", "RadioButton", "RadioGroup",
   "Memo", "ComboBox", "ListBox", "StringGrid", "TreeView", "ListView",
-  "Panel", "GroupBox", "ScrollBox",
+  "Panel", "GroupBox", "ScrollBox", "Splitter",
   "ProgressBar", "TrackBar", "Shape", "Image", "PaintBox",
 }
 

@@ -596,6 +596,136 @@ local function currentParentNode()
   return root
 end
 
+local function isSplitterClass(className)
+  return tostring(className or ""):lower() == "splitter"
+end
+
+local function splitterAlignFromReference(refNode)
+  local align = refNode and refNode.props and refNode.props.Align
+  if align == "alTop" or align == "alBottom" or align == "alLeft" or align == "alRight" then
+    return align
+  end
+  return "alTop"
+end
+
+local function num(v, fallback)
+  local n = tonumber(v)
+  if n == nil then return fallback or 0 end
+  return n
+end
+
+local function nodeRuntimeRect(node)
+  local obj = node and runtime and runtime.getObject and runtime.getObject(node)
+  if obj then
+    return {
+      left = num(obj.Left, 0),
+      top = num(obj.Top, 0),
+      width = num(obj.Width, 0),
+      height = num(obj.Height, 0),
+    }
+  end
+
+  local props = node and node.props or {}
+  return {
+    left = num(props.Left, 0),
+    top = num(props.Top, 0),
+    width = num(props.Width, 0),
+    height = num(props.Height, 0),
+  }
+end
+
+local function configureSplitterNode(node, refNode)
+  node.props = node.props or {}
+
+  local align = splitterAlignFromReference(refNode)
+  local r = nodeRuntimeRect(refNode)
+
+  node.props.Align = align
+
+  -- Designer-side placement: a Splitter belongs on the boundary after the
+  -- selected sibling. For vertical stacking this is the sibling bottom edge;
+  -- for horizontal stacking this is the sibling right edge.
+  if align == "alLeft" or align == "alRight" then
+    node.props.Left = r.left + r.width
+    node.props.Top = r.top
+    node.props.Width = tonumber(node.props.Width) or 5
+    node.props.Height = r.height > 0 and r.height or nil
+  else
+    node.props.Left = r.left
+    node.props.Top = r.top + r.height
+    node.props.Width = r.width > 0 and r.width or nil
+    node.props.Height = tonumber(node.props.Height) or 5
+  end
+end
+
+local function nodeIndexInParent(parent, node)
+  if not parent or not parent.items then return nil end
+  for i, child in ipairs(parent.items) do
+    if child == node then return i end
+  end
+  return nil
+end
+
+local function moveNodeInParent(parent, node, newIndex)
+  if not parent or not parent.items or not node then return end
+  local oldIndex = nodeIndexInParent(parent, node)
+  if not oldIndex then return end
+
+  table.remove(parent.items, oldIndex)
+  if newIndex > oldIndex then newIndex = newIndex - 1 end
+  if newIndex < 1 then newIndex = 1 end
+  if newIndex > #parent.items + 1 then newIndex = #parent.items + 1 end
+  table.insert(parent.items, newIndex, node)
+end
+
+local function isBoundaryAlign(align)
+  return align == "alTop" or align == "alBottom" or align == "alLeft" or align == "alRight"
+end
+
+local function prepareSplitterNode(node, boundaryNode)
+  node.props = node.props or {}
+
+  -- Splitter is layout-controlled. Its visual position is determined by
+  -- sibling order + Align + neighbouring panel size, not by Left/Top.
+  node.props.Left = nil
+  node.props.Top = nil
+
+  local align = boundaryNode and boundaryNode.props and boundaryNode.props.Align
+  if not isBoundaryAlign(align) then
+    align = node.props.Align
+  end
+  if not isBoundaryAlign(align) then
+    align = "alTop"
+  end
+
+  node.props.Align = align
+  if align == "alTop" or align == "alBottom" then
+    node.props.Height = tonumber(node.props.Height) or 5
+    node.props.Width = nil
+  else
+    node.props.Width = tonumber(node.props.Width) or 5
+    node.props.Height = nil
+  end
+end
+
+local function splitterInsertParentAndIndex(defaultParent)
+  local root = model.getRoot(project)
+
+  -- Splitter insertion is sibling-based. If a normal/control/container node
+  -- is selected, insert the splitter immediately after that node, into the
+  -- same parent. This places it on the boundary controlled by the previous
+  -- sibling, which is how LCL Align splitters are meant to be used.
+  if selectedNode and selectedNode ~= root then
+    local parent = model.findParent(project, selectedNode)
+    local idx = nodeIndexInParent(parent, selectedNode)
+    if parent and idx then
+      return parent, idx + 1, selectedNode
+    end
+  end
+
+  return defaultParent or currentParentNode(), nil, nil
+end
+
 function addComponentAt(className, parent, left, top)
   className = tostring(className or "")
   if className == "" then return nil end
@@ -603,21 +733,55 @@ function addComponentAt(className, parent, left, top)
     VCL.ShowMessage("This VCLua build does not expose: " .. className)
     return nil
   end
-  parent = parent or currentParentNode()
+
+  local root = model.getRoot(project)
+  local insertAfter = nil
+  local splitter = isSplitterClass(className)
+
+  if splitter and selectedNode and selectedNode ~= root then
+    -- Splitters should be inserted between sibling controls.
+    -- If a control is selected, add the Splitter to the selected control's
+    -- parent and move it directly after the selected control in the tree.
+    insertAfter = selectedNode
+    parent = model.findParent(project, selectedNode) or root
+    left, top = nil, nil
+  else
+    parent = parent or currentParentNode()
+  end
+
   local node = model.addChild(parent, className)
-  model.applyThemeToNewNode(project, parent, node)
-  node.props = node.props or {}
-  if left ~= nil then node.props.Left = math.max(0, math.floor(tonumber(left) or 0)) end
-  if top ~= nil then node.props.Top = math.max(0, math.floor(tonumber(top) or 0)) end
-  if clampNodeIntoParent then clampNodeIntoParent(node) end
+
+  if splitter then
+    configureSplitterNode(node, insertAfter)
+    if insertAfter then
+      local moved, err = model.moveNodeAfter(project, node, insertAfter)
+      if not moved and err ~= "same node" then
+        setStatus("Splitter reorder failed: " .. tostring(err))
+      end
+    end
+  else
+    model.applyThemeToNewNode(project, parent, node)
+    node.props = node.props or {}
+    if left ~= nil then node.props.Left = math.max(0, math.floor(tonumber(left) or 0)) end
+    if top ~= nil then node.props.Top = math.max(0, math.floor(tonumber(top) or 0)) end
+    if clampNodeIntoParent then clampNodeIntoParent(node) end
+  end
 
   if inspector and inspector.commitPendingEdit then inspector.commitPendingEdit() end
-  runtime.addLiveNode(parent, node)
-  syncTabOrders()
-  tree.rebuild(project)
-  selectNode(node)
-  pcall(function() app:ProcessMessages() end)
-  pcall(function() runtime.refreshNode(node) end)
+
+  if splitter and insertAfter then
+    -- Splitter align order is sensitive to LCL child order, so rebuild this
+    -- small structural change instead of only adding a live subtree.
+    rebuildAll(node)
+  else
+    runtime.addLiveNode(parent, node)
+    syncTabOrders()
+    tree.rebuild(project)
+    selectNode(node)
+    pcall(function() app:ProcessMessages() end)
+    pcall(function() runtime.refreshNode(node) end)
+  end
+
   setStatus("Added: " .. tostring(node.name or node.class))
   return node
 end
