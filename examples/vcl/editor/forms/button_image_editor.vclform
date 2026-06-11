@@ -1,0 +1,420 @@
+-- VCLua form designer file
+
+return {
+  designer = {
+    grid = {
+      backgroundColor = "clBtnFace",
+      color = 10526880,
+      majorColor = 6316128,
+      majorEvery = 5,
+      shape = "dot",
+      size = 8,
+      snap = false,
+      visible = true,
+    },
+    selection = {
+      moveColor = "clHighlight",
+      resizeColor = "clRed",
+      thickness = 2,
+    },
+  },
+  forms = {
+    {
+      class = "Form",
+      collections = {
+      },
+      events = {
+      },
+      items = {
+        {
+          class = "GroupBox",
+          collections = {
+          },
+          events = {
+          },
+          items = {
+            {
+              class = "Label",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "GlyphFileLabel",
+              props = {
+                Caption = "Glyph file:",
+                Height = 20,
+                Left = 12,
+                Top = 24,
+                Width = 70,
+              },
+            },
+            {
+              class = "Edit",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "GlyphFileEdit",
+              props = {
+                Height = 26,
+                Left = 84,
+                ReadOnly = true,
+                TabOrder = 0,
+                Top = 22,
+                Width = 190,
+              },
+            },
+            {
+              class = "Button",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "LoadGlyphButton",
+              props = {
+                Caption = "Load...",
+                Height = 28,
+                Left = 282,
+                TabOrder = 1,
+                Top = 21,
+                Width = 80,
+              },
+            },
+            {
+              class = "Button",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "ClearGlyphButton",
+              props = {
+                Caption = "Clear",
+                Height = 24,
+                Left = 282,
+                TabOrder = 2,
+                Top = 51,
+                Width = 80,
+              },
+            },
+          },
+          name = "GlyphGroup",
+          props = {
+            Caption = "Glyph",
+            Height = 100,
+            Left = 12,
+            TabOrder = 0,
+            Top = 9,
+            Width = 392,
+          },
+        },
+        {
+          class = "GroupBox",
+          collections = {
+          },
+          events = {
+          },
+          items = {
+            {
+              class = "Label",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "ImagesLabel",
+              props = {
+                Caption = "Images:",
+                Height = 20,
+                Left = 12,
+                Top = 26,
+                Width = 70,
+              },
+            },
+            {
+              class = "ComboBox",
+              collections = {
+                Items = {
+                },
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "ImagesCombo",
+              props = {
+                Height = 28,
+                Left = 84,
+                Style = "csDropDownList",
+                TabOrder = 0,
+                Top = 23,
+                Width = 190,
+              },
+            },
+            {
+              class = "Label",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "ImageIndexLabel",
+              props = {
+                Caption = "ImageIndex:",
+                Height = 20,
+                Left = 12,
+                Top = 60,
+                Width = 80,
+                Visible = false
+              },
+            },
+            {
+              class = "SpinEdit",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "ImageIndexEdit",
+              props = {
+                Height = 26,
+                Left = 96,
+                MinValue = -1,
+                TabOrder = 1,
+                Top = 57,
+                Value = -1,
+                Width = 46,
+                Enabled = false,
+                Visible = false
+              },
+            },
+            {
+              class = "Label",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "DisabledIndexLabel",
+              props = {
+                Caption = "Disabled:",
+                Height = 20,
+                Left = 154,
+                Top = 60,
+                Width = 64,
+                Visible = false
+              },
+            },
+            {
+              class = "SpinEdit",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "DisabledIndexEdit",
+              props = {
+                Height = 26,
+                Left = 220,
+                MinValue = -1,
+                TabOrder = 2,
+                Top = 57,
+                Value = -1,
+                Width = 46,
+                Enabled = false,
+                Visible = false
+              },
+            },
+            {
+              class = "Label",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "HotIndexLabel",
+              props = {
+                Caption = "Hot:",
+                Height = 20,
+                Left = 280,
+                Top = 60,
+                Width = 36,
+                Visible = false
+              },
+            },
+            {
+              class = "SpinEdit",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "HotIndexEdit",
+              props = {
+                Height = 26,
+                Left = 318,
+                MinValue = -1,
+                TabOrder = 3,
+                Top = 57,
+                Value = -1,
+                Width = 46,
+                Enabled = false,
+                Visible = false
+              },
+            },
+            {
+              class = "Label",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "PressedIndexLabel",
+              props = {
+                Caption = "Pressed:",
+                Height = 20,
+                Left = 12,
+                Top = 92,
+                Width = 70,
+                Visible = false
+              },
+            },
+            {
+              class = "SpinEdit",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "PressedIndexEdit",
+              props = {
+                Height = 26,
+                Left = 96,
+                MinValue = -1,
+                TabOrder = 4,
+                Top = 89,
+                Value = -1,
+                Width = 46,
+                Enabled = false,
+                Visible = false
+              },
+            },
+            {
+              class = "Label",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "SelectedIndexLabel",
+              props = {
+                Caption = "Selected:",
+                Height = 20,
+                Left = 154,
+                Top = 92,
+                Width = 64,
+                Visible = false
+              },
+            },
+            {
+              class = "SpinEdit",
+              collections = {
+              },
+              events = {
+              },
+              items = {
+              },
+              name = "SelectedIndexEdit",
+              props = {
+                Height = 26,
+                Left = 220,
+                MinValue = -1,
+                TabOrder = 5,
+                Top = 89,
+                Value = -1,
+                Width = 46,
+                Enabled = false,
+                Visible = false
+              },
+            },
+          },
+          name = "ImageListGroup",
+          props = {
+            Caption = "ImageList",
+            Height = 72,
+            Left = 14,
+            TabOrder = 1,
+            Top = 115,
+            Width = 392,
+          },
+        },
+        {
+          class = "Button",
+          collections = {
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "ApplyButton",
+          props = {
+            Caption = "Apply",
+            Default = true,
+            Height = 28,
+            Left = 222,
+            TabOrder = 2,
+            Top = 190,
+            Width = 80,
+          },
+        },
+        {
+          class = "Button",
+          collections = {
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "CloseButton",
+          props = {
+            Cancel = true,
+            Caption = "Close",
+            Height = 28,
+            Left = 320,
+            TabOrder = 3,
+            Top = 190,
+            Width = 80,
+          },
+        },
+      },
+      name = "ButtonImageEditorDialog",
+      props = {
+        BorderStyle = "bsDialog",
+        Caption = "Button image editor",
+        Height = 222,
+        Left = 528,
+        Position = "poScreenCenter",
+        Top = 301,
+        Width = 416,
+      },
+    },
+  },
+  version = 1,
+}

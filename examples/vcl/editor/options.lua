@@ -4,7 +4,7 @@
 -- ***************************************
 -- Dialog for designer/grid settings.
 
-local util = require "vcl.editor.util"
+local util = require "util"
 
 local M = {}
 
@@ -49,7 +49,7 @@ local function fillCombo(combo, items, value)
   local foundIndex = nil
   for i, item in ipairs(items or {}) do
     addComboItem(combo, item)
-    if tostring(item) == text then foundIndex = i - 1 end -- Lazarus ItemIndex is zero based !!!!
+    if tostring(item) == text then foundIndex = i - 1 end
   end
   pcall(function() combo.Text = text end)
   if foundIndex then pcall(function() combo.ItemIndex = foundIndex end) end
@@ -109,13 +109,15 @@ end
 function M.show(project, applyCallback)
   project.designer = project.designer or {}
   project.designer.grid = project.designer.grid or {}
+  project.designer.selection = project.designer.selection or {}
   local grid = project.designer.grid
+  local selection = project.designer.selection
 
   local f = VCL.Form()
   f._ = {
     Caption = "Designer options",
     Width = 455,
-    Height = 372,
+    Height = 440,
     Position = "poScreenCenter",
     BorderStyle = "bsDialog",
   }
@@ -152,6 +154,16 @@ function M.show(project, applyCallback)
   local btnBgColor = makeButton(f, "btnBgColor", "Pick...", 300, y, 70)
   y = y + 34
 
+  makeLabel(f, "lblMoveFrame", "Move frame", 20, y)
+  local edMoveFrame = makeEdit(f, "edMoveFrame", util.colorToString(selection.moveColor or "clHighlight"), 150, y, 140)
+  local btnMoveFrame = makeButton(f, "btnMoveFrame", "Pick...", 300, y, 70)
+  y = y + 32
+
+  makeLabel(f, "lblResizeFrame", "Resize frame", 20, y)
+  local edResizeFrame = makeEdit(f, "edResizeFrame", util.colorToString(selection.resizeColor or "clRed"), 150, y, 140)
+  local btnResizeFrame = makeButton(f, "btnResizeFrame", "Pick...", 300, y, 70)
+  y = y + 34
+
   local info = VCL.Label(f, "lblInfo")
   info._ = {
     Left = 20,
@@ -162,14 +174,14 @@ function M.show(project, applyCallback)
   }
   y = y + 48
 
-  local btnApply = VCL.Button(f, "btnApplyOptions")
-  btnApply._ = { Left = 100, Top = y, Width = 80, Height = 28, Caption = "Apply" }
+  local btnApply = makeButton(f, "btnApplyOptions", "Apply", 100, y, 80)
+  btnApply.Height = 28
 
-  local btnOK = VCL.Button(f, "btnOKOptions")
-  btnOK._ = { Left = 190, Top = y, Width = 80, Height = 28, Caption = "OK" }
+  local btnOK = makeButton(f, "btnOKOptions", "OK", 190, y, 80)
+  btnOK.Height = 28
 
-  local btnCancel = VCL.Button(f, "btnCancelOptions")
-  btnCancel._ = { Left = 280, Top = y, Width = 80, Height = 28, Caption = "Cancel" }
+  local btnCancel = makeButton(f, "btnCancelOptions", "Cancel", 280, y, 80)
+  btnCancel.Height = 28
 
   local function apply()
     grid.visible = cbVisible.Checked and true or false
@@ -180,12 +192,16 @@ function M.show(project, applyCallback)
     grid.majorEvery = normalizeSize(comboValue(cmbMajorEvery, grid.majorEvery or 5), grid.majorEvery or 5)
     grid.majorColor = util.parseColor(edMajorColor.Text, grid.majorColor or 0x00606060)
     grid.backgroundColor = util.parseColor(edBg.Text, grid.backgroundColor or "clBtnFace")
+    selection.moveColor = util.parseColor(edMoveFrame.Text, selection.moveColor or "clHighlight")
+    selection.resizeColor = util.parseColor(edResizeFrame.Text, selection.resizeColor or "clRed")
     if applyCallback then applyCallback() end
   end
 
   btnGridColor.OnClick = function() pickColor(f, edColor) end
   btnMajorColor.OnClick = function() pickColor(f, edMajorColor) end
   btnBgColor.OnClick = function() pickColor(f, edBg) end
+  btnMoveFrame.OnClick = function() pickColor(f, edMoveFrame) end
+  btnResizeFrame.OnClick = function() pickColor(f, edResizeFrame) end
 
   btnApply.OnClick = function() apply() end
   btnOK.OnClick = function()

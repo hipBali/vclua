@@ -162,13 +162,106 @@ local function getPropFromRow(sender)
   return elem, pp, propName, propValue, path, vclo
 end
 
+local function editorPropertyPath(editor)
+  if not editor then return "" end
+
+  local path = nil
+  pcall(function() path = editor:GetPropertyPath() end)
+  if path and tostring(path) ~= "" then return tostring(path) end
+
+  pcall(function() path = editor.PropertyPath end)
+  if path and tostring(path) ~= "" then return tostring(path) end
+
+  pcall(function() path = editor.PropertyName end)
+  if path and tostring(path) ~= "" then return tostring(path) end
+
+  return ""
+end
+
+local function shouldHideEditor(editor)
+  -- Hides properties owned by special editors.
+  local path = editorPropertyPath(editor)
+
+  if selectedNode and selectedNode.class == "Form" then
+    if path == "Icon" or path:match("%.Icon$") or path:match("^Icon%.") or path:match("%.Icon%.")
+      or path == "IconFile" or path:match("%.IconFile$") then
+      return true
+    end
+  end
+
+  if selectedNode and selectedNode.class == "Image" then
+    if path == "Picture" or path:match("%.Picture$") or path:match("^Picture%.") or path:match("%.Picture%.")
+      or path == "PictureFile" or path:match("%.PictureFile$")
+      or path == "ImageFile" or path:match("%.ImageFile$") then
+      return true
+    end
+  end
+
+  if selectedNode and selectedNode.class == "ToolBar" then
+    if path == "Images" or path == "DisabledImages" or path == "HotImages"
+      or path:match("%.Images$") or path:match("%.DisabledImages$") or path:match("%.HotImages$") then
+      return true
+    end
+  end
+
+  if selectedNode and selectedNode.class == "PageControl" then
+    if path == "Images" or path:match("%.Images$") then
+      return true
+    end
+  end
+
+
+  if selectedNode and selectedNode.class == "TreeView" then
+    if path == "Images" or path == "StateImages"
+      or path:match("%.Images$") or path:match("%.StateImages$") then
+      return true
+    end
+  end
+
+
+  if selectedNode and selectedNode.class == "ListView" then
+    if path == "SmallImages" or path == "LargeImages" or path == "StateImages"
+      or path:match("%.SmallImages$") or path:match("%.LargeImages$") or path:match("%.StateImages$") then
+      return true
+    end
+  end
+
+  if selectedNode and (selectedNode.class == "MainMenu" or selectedNode.class == "PopupMenu") then
+    if path == "Images" or path:match("%.Images$")
+      or path == "MenuItems" or path:match("%.MenuItems$") or path:match("^MenuItems%.") or path:match("%.MenuItems%.") then
+      return true
+    end
+  end
+
+
+  if selectedNode and selectedNode.class == "ActionList" then
+    if path == "Actions" or path:match("%.Actions$") or path:match("^Actions%.") or path:match("%.Actions%.") then
+      return true
+    end
+  end
+
+  if selectedNode and (selectedNode.class == "SpeedButton" or selectedNode.class == "BitBtn"
+      or selectedNode.class == "EditButton") then
+    if path == "Glyph" or path:match("%.Glyph$") or path:match("^Glyph%.") or path:match("%.Glyph%.")
+      or path == "GlyphFile" or path:match("%.GlyphFile$") then
+      return true
+    end
+    if path == "Images" or path:match("%.Images$") then
+      return true
+    end
+  end
+
+  return false
+end
+
 function M.init(aPropGrid, cb)
   propGrid = aPropGrid
   callbacks = cb or {}
   setFilter(propGrid)
 
   propGrid.OnEditorFilter = function(sender, editor, show)
-    return true
+    if shouldHideEditor(editor) then return false end
+    return show
   end
 
   propGrid.OnModified = function(sender)

@@ -4,7 +4,7 @@
 -- ***************************************
 -- Minimal form-editor model.
 
-local registry = require "vcl.editor.registry"
+local registry = require "registry"
 
 local M = {}
 
@@ -229,7 +229,6 @@ function M.duplicateNode(project, target)
   table.insert(parent.items, insertAt, copy)
   return copy
 end
-
 
 
 function M.copyNode(source)

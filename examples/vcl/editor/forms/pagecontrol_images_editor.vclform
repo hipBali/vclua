@@ -1,0 +1,111 @@
+-- VCLua form designer file
+
+return {
+  designer = {
+    grid = {
+      backgroundColor = "clBtnFace",
+      color = 10526880,
+      majorColor = 6316128,
+      majorEvery = 5,
+      shape = "dot",
+      size = 8,
+      snap = false,
+      visible = true,
+    },
+    selection = {
+      moveColor = "clHighlight",
+      resizeColor = "clRed",
+      thickness = 2,
+    },
+  },
+  forms = {
+    {
+      class = "Form",
+      collections = {},
+      events = {},
+      items = {
+        {
+          class = "Label",
+          collections = {},
+          events = {},
+          items = {},
+          name = "ImagesLabel",
+          props = {
+            Caption = "Images:",
+            Height = 20,
+            Left = 12,
+            Top = 18,
+            Width = 105,
+          },
+        },
+        {
+          class = "ComboBox",
+          collections = {},
+          events = {},
+          items = {},
+          name = "ImagesCombo",
+          props = {
+            Height = 28,
+            Left = 122,
+            Style = "csDropDownList",
+            TabOrder = 0,
+            Top = 14,
+            Width = 190,
+          },
+        },
+        {
+          class = "Label",
+          collections = {},
+          events = {},
+          items = {},
+          name = "InfoLabel",
+          props = {
+            Caption = "Select the ImageList used by TabSheet.ImageIndex.",
+            Height = 38,
+            Left = 12,
+            Top = 58,
+            Width = 395,
+          },
+        },
+        {
+          class = "Button",
+          collections = {},
+          events = {},
+          items = {},
+          name = "OkButton",
+          props = {
+            Caption = "OK",
+            Height = 28,
+            Left = 324,
+            TabOrder = 1,
+            Top = 14,
+            Width = 86,
+          },
+        },
+        {
+          class = "Button",
+          collections = {},
+          events = {},
+          items = {},
+          name = "CancelButton",
+          props = {
+            Caption = "Cancel",
+            Height = 28,
+            Left = 324,
+            TabOrder = 2,
+            Top = 50,
+            Width = 86,
+          },
+        },
+      },
+      name = "PageControlImagesEditorDialog",
+      props = {
+        BorderStyle = "bsDialog",
+        Caption = "PageControl Images",
+        Height = 145,
+        Position = "poScreenCenter",
+        Width = 430,
+      },
+    },
+  },
+}

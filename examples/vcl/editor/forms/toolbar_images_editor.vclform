@@ -1,0 +1,190 @@
+-- VCLua form designer file
+
+return {
+  designer = {
+    grid = {
+      backgroundColor = "clBtnFace",
+      color = 10526880,
+      majorColor = 6316128,
+      majorEvery = 5,
+      shape = "dot",
+      size = 8,
+      snap = false,
+      visible = true,
+    },
+    selection = {
+      moveColor = "clHighlight",
+      resizeColor = "clRed",
+      thickness = 2,
+    },
+  },
+  forms = {
+    {
+      class = "Form",
+      collections = {
+      },
+      events = {
+      },
+      items = {
+        {
+          class = "Label",
+          collections = {
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "ImagesLabel",
+          props = {
+            Caption = "Images:",
+            Height = 20,
+            Left = 12,
+            Top = 18,
+            Width = 105,
+          },
+        },
+        {
+          class = "ComboBox",
+          collections = {
+            Items = {
+            },
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "ImagesCombo",
+          props = {
+            Height = 28,
+            Left = 122,
+            Style = "csDropDownList",
+            TabOrder = 0,
+            Top = 14,
+            Width = 190,
+          },
+        },
+        {
+          class = "Label",
+          collections = {
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "DisabledImagesLabel",
+          props = {
+            Caption = "DisabledImages:",
+            Height = 20,
+            Left = 12,
+            Top = 54,
+            Width = 105,
+          },
+        },
+        {
+          class = "ComboBox",
+          collections = {
+            Items = {
+            },
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "DisabledImagesCombo",
+          props = {
+            Height = 28,
+            Left = 122,
+            Style = "csDropDownList",
+            TabOrder = 1,
+            Top = 50,
+            Width = 190,
+          },
+        },
+        {
+          class = "Label",
+          collections = {
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "HotImagesLabel",
+          props = {
+            Caption = "HotImages:",
+            Height = 20,
+            Left = 12,
+            Top = 90,
+            Width = 105,
+          },
+        },
+        {
+          class = "ComboBox",
+          collections = {
+            Items = {
+            },
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "HotImagesCombo",
+          props = {
+            Height = 28,
+            Left = 122,
+            Style = "csDropDownList",
+            TabOrder = 2,
+            Top = 86,
+            Width = 190,
+          },
+        },
+        {
+          class = "Button",
+          collections = {
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "OkButton",
+          props = {
+            Caption = "OK",
+            Height = 28,
+            Left = 324,
+            TabOrder = 3,
+            Top = 14,
+            Width = 86,
+          },
+        },
+        {
+          class = "Button",
+          collections = {
+          },
+          events = {
+          },
+          items = {
+          },
+          name = "CancelButton",
+          props = {
+            Caption = "Cancel",
+            Height = 28,
+            Left = 324,
+            TabOrder = 4,
+            Top = 50,
+            Width = 86,
+          },
+        },
+      },
+      name = "ToolBarImagesEditorDialog",
+      props = {
+        BorderStyle = "bsDialog",
+        Caption = "ToolBar ImageLists",
+        Height = 126,
+        Left = 521,
+        Position = "poScreenCenter",
+        Top = 343,
+        Width = 422,
+      },
+    },
+  },
+  version = 1,
+}

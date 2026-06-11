@@ -1,0 +1,310 @@
+-- VCLua form designer file
+
+return {
+  designer = {
+    grid = {
+      backgroundColor = "clBtnFace",
+      color = 10526880,
+      majorColor = 6316128,
+      majorEvery = 5,
+      shape = "dot",
+      size = 8,
+      snap = false,
+      visible = true,
+    },
+    selection = {
+      moveColor = "clHighlight",
+      resizeColor = "clRed",
+      thickness = 2,
+    },
+  },
+  forms = {
+    {
+      class = "Form",
+      collections = {},
+      events = {},
+      items = {
+        {
+          class = "ActionList",
+          collections = {},
+          events = {},
+          items = {},
+          name = "MainActions",
+          props = {
+            Actions = {
+              { Name = "fileNew", Caption = "New...", Hint = "Create a new empty form", ShortCut = "Ctrl+N", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "fileOpen", Caption = "Open...", Hint = "Open a form model", ShortCut = "Ctrl+O", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "fileSave", Caption = "Save...", Hint = "Save the form model", ShortCut = "Ctrl+S", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "fileExport", Caption = "Export...", Hint = "Export Lua module, JSON model, and support files", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "fileExit", Caption = "Exit", Hint = "Exit the form editor", ShortCut = "Ctrl+Q", ImageIndex = -1, Enabled = true, Checked = false },
+
+              { Name = "editRename", Caption = "Rename", Hint = "Rename selected component", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "editCopy", Caption = "Copy", Hint = "Copy selected component", ShortCut = "Ctrl+C", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "editCut", Caption = "Cut", Hint = "Cut selected component", ShortCut = "Ctrl+X", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "editPaste", Caption = "Paste", Hint = "Paste component", ShortCut = "Ctrl+V", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "editDuplicate", Caption = "Duplicate", Hint = "Duplicate selected component", ShortCut = "Ctrl+D", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "editDelete", Caption = "Delete", Hint = "Delete selected component", ShortCut = "Del", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "editCenter", Caption = "Center in parent", Hint = "Center selected component in its parent", ShortCut = "Ctrl+E", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "editFix", Caption = "Fix layout", Hint = "Repair selected layout", ShortCut = "Ctrl+Shift+R", ImageIndex = -1, Enabled = true, Checked = false },
+
+              { Name = "viewShowForm", Caption = "Show / focus edited form", Hint = "Show the edited form", ShortCut = "F5", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "viewProps", Caption = "Show properties", Hint = "Switch to the Properties tab", ShortCut = "F4", ImageIndex = -1, Enabled = true, Checked = false },
+
+              { Name = "gridSize", Caption = "Next grid size", Hint = "Select the next grid size", ShortCut = "Alt+G", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "gridSnap", Caption = "Snap to grid", Hint = "Toggle snap to grid", ShortCut = "Ctrl+G", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "gridShow", Caption = "Show grid", Hint = "Toggle design grid visibility", ShortCut = "Ctrl+Shift+G", ImageIndex = -1, Enabled = true, Checked = true },
+              { Name = "gridOptions", Caption = "Options...", Hint = "Open editor options", ImageIndex = -1, Enabled = true, Checked = false },
+
+              { Name = "helpShortcuts", Caption = "Help", Hint = "Open editor help", ShortCut = "F1", ImageIndex = -1, Enabled = true, Checked = false },
+              { Name = "helpAbout", Caption = "About", Hint = "About VCLua Form Editor", ImageIndex = -1, Enabled = true, Checked = false },
+            },
+          },
+        },
+        {
+          class = "MainMenu",
+          collections = {},
+          events = {},
+          items = {},
+          name = "MainMenu",
+          props = {
+            MenuItems = {
+              {
+                Name = "miFile", Caption = "&File", Enabled = true, Checked = false, ImageIndex = -1,
+                Items = {
+                  { Name = "miFileNew", Action = "fileNew", Caption = "New...", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miFileOpen", Action = "fileOpen", Caption = "Open...", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miFileSave", Action = "fileSave", Caption = "Save...", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miFileSep1", Caption = "-", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miFileExport", Action = "fileExport", Caption = "Export...", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miFileSep2", Caption = "-", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miFileExit", Action = "fileExit", Caption = "Exit", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                },
+              },
+              {
+                Name = "miEdit", Caption = "&Edit", Enabled = true, Checked = false, ImageIndex = -1,
+                Items = {
+                  { Name = "miEditRename", Action = "editRename", Caption = "Rename", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditSep1", Caption = "-", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditCopy", Action = "editCopy", Caption = "Copy", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditCut", Action = "editCut", Caption = "Cut", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditPaste", Action = "editPaste", Caption = "Paste", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditDuplicate", Action = "editDuplicate", Caption = "Duplicate", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditSep2", Caption = "-", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditDelete", Action = "editDelete", Caption = "Delete", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditSep3", Caption = "-", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditCenter", Action = "editCenter", Caption = "Center in parent", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miEditFix", Action = "editFix", Caption = "Fix layout", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                },
+              },
+              {
+                Name = "miView", Caption = "&View", Enabled = true, Checked = false, ImageIndex = -1,
+                Items = {
+                  { Name = "miViewShowForm", Action = "viewShowForm", Caption = "Show / focus edited form", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miViewProps", Action = "viewProps", Caption = "Show properties", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                },
+              },
+              {
+                Name = "miGrid", Caption = "&Grid", Enabled = true, Checked = false, ImageIndex = -1,
+                Items = {
+                  { Name = "miGridSize", Action = "gridSize", Caption = "Next grid size", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miGridSnap", Action = "gridSnap", Caption = "Snap to grid", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miGridShow", Action = "gridShow", Caption = "Show grid", Enabled = true, Checked = true, ImageIndex = -1, Items = {} },
+                  { Name = "miGridSep1", Caption = "-", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miGridOptions", Action = "gridOptions", Caption = "Options...", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                },
+              },
+              {
+                Name = "miHelp", Caption = "&Help", RightJustify = true, Enabled = true, Checked = false, ImageIndex = -1,
+                Items = {
+                  { Name = "miHelpShortcuts", Action = "helpShortcuts", Caption = "Help", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miHelpSep1", Caption = "-", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                  { Name = "miHelpAbout", Action = "helpAbout", Caption = "About", Enabled = true, Checked = false, ImageIndex = -1, Items = {} },
+                },
+              },
+            },
+          },
+        },
+        {
+          class = "Panel",
+          collections = {},
+          events = {},
+          items = {
+            {
+              class = "Panel",
+              collections = {},
+              events = {},
+              items = {
+                {
+                  class = "Label",
+                  collections = {},
+                  events = {},
+                  items = {},
+                  name = "TreeTitle",
+                  props = {
+                    Align = "alTop",
+                    Caption = "Object Tree",
+                    Height = 20,
+                    Top = 0,
+                  },
+                },
+                {
+                  class = "TreeView",
+                  collections = {},
+                  events = {},
+                  items = {},
+                  name = "ObjectTree",
+                  props = {
+                    Align = "alClient",
+                    TabOrder = 0,
+                  },
+                },
+              },
+              name = "TreePanel",
+              props = {
+                Align = "alTop",
+                Caption = "",
+                Height = 250,
+                TabOrder = 0,
+                Top = 0,
+              },
+            },
+            {
+              class = "Splitter",
+              collections = {},
+              events = {},
+              items = {},
+              name = "TreeEditorSplitter",
+              props = {
+                Align = "alTop",
+                Height = 5,
+                TabOrder = 1,
+                Top = 250,
+              },
+            },
+            {
+              class = "PageControl",
+              collections = {},
+              events = {},
+              items = {
+                {
+                  class = "TabSheet",
+                  collections = {},
+                  events = {},
+                  items = {
+                    {
+                      class = "Edit",
+                      collections = {},
+                      events = {},
+                      items = {},
+                      name = "PaletteSearch",
+                      props = {
+                        Align = "alTop",
+                        Height = 26,
+                        TabOrder = 0,
+                        Text = "",
+                        Top = 0,
+                      },
+                    },
+                    {
+                      class = "TreeView",
+                      collections = {},
+                      events = {},
+                      items = {},
+                      name = "PaletteTree",
+                      props = {
+                        Align = "alClient",
+                        TabOrder = 1,
+                      },
+                    },
+                  },
+                  name = "ComponentsTab",
+                  props = {
+                    Caption = "Components",
+                    ImageIndex = -1,
+                  },
+                },
+                {
+                  class = "TabSheet",
+                  collections = {},
+                  events = {},
+                  items = {
+                    {
+                      class = "TIPropertyGrid",
+                      collections = {},
+                      events = {},
+                      items = {},
+                      name = "PropertyGrid",
+                      props = {
+                        Align = "alClient",
+                        TabOrder = 0,
+                      },
+                    },
+                  },
+                  name = "PropertiesTab",
+                  props = {
+                    Caption = "Properties",
+                    ImageIndex = -1,
+                  },
+                },
+              },
+              name = "EditorTabs",
+              props = {
+                Align = "alClient",
+                TabOrder = 2,
+              },
+            },
+            {
+              class = "Panel",
+              collections = {},
+              events = {},
+              items = {
+                {
+                  class = "Label",
+                  collections = {},
+                  events = {},
+                  items = {},
+                  name = "StatusLabel",
+                  props = {
+                    Align = "alClient",
+                    BorderSpacing = {
+                      Left = 6,
+                      Right = 6,
+                    },
+                    Caption = "Ready",
+                    Layout = "tlCenter",
+                  },
+                },
+              },
+              name = "StatusPanel",
+              props = {
+                Align = "alBottom",
+                BevelOuter = "bvNone",
+                Caption = "",
+                Height = 28,
+                TabOrder = 3,
+              },
+            },
+          },
+          name = "BodyPanel",
+          props = {
+            Align = "alClient",
+            BevelOuter = "bvNone",
+            Caption = "",
+            TabOrder = 0,
+          },
+        },
+      },
+      name = "EditorMainForm",
+      props = {
+        BorderStyle = "bsSizeable",
+        Caption = "VCLua Form Editor",
+        Height = 760,
+        Left = 586,
+        Position = "poDesigned",
+        Top = 36,
+        Width = 390,
+      },
+    },
+  },
+  version = 1,
+}

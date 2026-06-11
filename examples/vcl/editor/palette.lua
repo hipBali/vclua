@@ -14,6 +14,9 @@ local debugCallback = nil
 local paletteHandle = nil
 local lastClickIndex = nil
 local lastClickTime = 0
+local lastClickX = 0
+local lastClickY = 0
+local dblClickCandidate = false
 local paletteDragging = false
 
 local function safeAdd(parentTreeNode, text)
@@ -36,6 +39,7 @@ function M.init(aTree, addCallback, opts)
   pcall(function() tree.DragMode = 'dmAutomatic' end)
   tree.OnStartDrag = function(sender, dragObject)
     paletteDragging = true
+    dblClickCandidate = false
     if debugCallback then debugCallback('palette start drag') end
   end
   tree.OnEndDrag = function(sender, target, x, y)
@@ -43,11 +47,26 @@ function M.init(aTree, addCallback, opts)
     paletteDragging = false
   end
   tree.OnMouseDown = function(sender, button, shift, x, y)
-    local tn = sender.Selected
-    if tn and classByIndex[tn.AbsoluteIndex] then
-      paletteDragging = true
-      if debugCallback then debugCallback('palette mouse down: '..tostring(classByIndex[tn.AbsoluteIndex])) end
-    end
+    local tn = nil
+    pcall(function() tn = sender:GetNodeAt(x, y) end)
+    tn = tn or sender.Selected
+    local idx = tn and tn.AbsoluteIndex or nil
+    local className = idx and classByIndex[idx] or nil
+    local now = os.clock()
+
+    -- Resets palette click state.
+    dblClickCandidate = className ~= nil
+      and idx == lastClickIndex
+      and (now - lastClickTime) <= 0.45
+      and math.abs((x or 0) - (lastClickX or 0)) <= 4
+      and math.abs((y or 0) - (lastClickY or 0)) <= 4
+
+    lastClickIndex = idx
+    lastClickTime = now
+    lastClickX = x or 0
+    lastClickY = y or 0
+
+    if className and debugCallback then debugCallback('palette mouse down: '..tostring(className)) end
   end
   tree.OnMouseUp = function(sender, button, shift, x, y)
     paletteDragging = false
@@ -57,10 +76,15 @@ function M.init(aTree, addCallback, opts)
   debugCallback = opts.onDebug
 
   tree.OnClick = function(sender)
-    -- selection is handled by the TreeView itself; do not add here
+    -- Leaves selection handling to the TreeView.
   end
 
   tree.OnDblClick = function(sender)
+    if paletteDragging or not dblClickCandidate then
+      dblClickCandidate = false
+      return
+    end
+    dblClickCandidate = false
     local tn = sender.Selected
     if not tn then return end
     local className = classByIndex[tn.AbsoluteIndex]

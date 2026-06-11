@@ -79,12 +79,20 @@ M.classes = {
 
   SpeedButton = {
     category = "Common", icon = "Button",
-    defaults = { Left = 24, Top = 24, Width = 90, Height = 28, Caption = "$name" },
+    defaults = {
+      Left = 24, Top = 24, Width = 90, Height = 28, Caption = "$name",
+      ImageIndex = -1, DisabledImageIndex = -1, HotImageIndex = -1,
+      PressedImageIndex = -1, SelectedImageIndex = -1,
+    },
   },
 
   BitBtn = {
     category = "Common", icon = "BitBtn",
-    defaults = { Left = 24, Top = 24, Width = 90, Height = 32, Caption = "$name" },
+    defaults = {
+      Left = 24, Top = 24, Width = 90, Height = 32, Caption = "$name",
+      ImageIndex = -1, DisabledImageIndex = -1, HotImageIndex = -1,
+      PressedImageIndex = -1,
+    },
   },
 
   ToggleBox = {
@@ -175,6 +183,129 @@ M.classes = {
     category = "Common", icon = "Edit",
     defaults = { Left = 24, Top = 24, Width = 100, Height = 28 },
   },
+
+
+  EditButton = {
+    category = "Common", icon = "Edit",
+    defaults = { Left = 24, Top = 24, Width = 160, Height = 28, Text = "" },
+  },
+
+  FileNameEdit = {
+    category = "Common", icon = "Edit",
+    defaults = { Left = 24, Top = 24, Width = 200, Height = 28, Text = "" },
+  },
+
+  DirectoryEdit = {
+    category = "Common", icon = "Edit",
+    defaults = { Left = 24, Top = 24, Width = 200, Height = 28, Text = "" },
+  },
+
+  CalcEdit = {
+    category = "Common", icon = "Edit",
+    defaults = { Left = 24, Top = 24, Width = 120, Height = 28, Value = 0 },
+  },
+
+  LabeledEdit = {
+    category = "Common", icon = "Edit",
+    defaults = { Left = 24, Top = 24, Width = 160, Height = 44, Text = "", EditLabel = { Caption = "$name" } },
+  },
+
+  MaskEdit = {
+    category = "Common", icon = "Edit",
+    defaults = { Left = 24, Top = 24, Width = 140, Height = 28, Text = "" },
+  },
+
+  ColorButton = {
+    category = "Common", icon = "Button",
+    defaults = { Left = 24, Top = 24, Width = 100, Height = 28, Caption = "$name" },
+  },
+
+  CheckGroup = {
+    category = "Lists / Data", icon = "CheckBox",
+    defaults = { Left = 24, Top = 24, Width = 160, Height = 90, Caption = "$name" },
+    originalDragFallback = true,
+    collections = { Items = "strings" },
+  },
+
+  CheckListBox = {
+    category = "Lists / Data", icon = "ListBox",
+    defaults = { Left = 24, Top = 24, Width = 160, Height = 100 },
+    collections = { Items = "strings" },
+  },
+
+  ValueListEditor = {
+    category = "Lists / Data", icon = "StringGrid",
+    defaults = { Left = 24, Top = 24, Width = 220, Height = 120 },
+  },
+
+  Bevel = {
+    category = "Visual", icon = "Shape",
+    defaults = { Left = 24, Top = 24, Width = 120, Height = 24 },
+    inheritColor = false,
+  },
+
+  StatusBar = {
+    category = "Visual", icon = "Panel",
+    defaults = { Left = 24, Top = 24, Width = 240, Height = 24 },
+  },
+
+  PageControl = {
+    category = "Containers", icon = "PageControl",
+    defaults = { Left = 24, Top = 24, Width = 240, Height = 150 },
+    container = true,
+    pageControl = true,
+  },
+
+  TabSheet = {
+    category = "Containers", icon = "TabSheet",
+    defaults = { Left = 0, Top = 0, Width = 220, Height = 120, Caption = "$name", ImageIndex = -1 },
+    container = true,
+    tabSheet = true,
+  },
+
+  ToolBar = {
+    category = "Containers", icon = "ToolBar",
+    defaults = { Left = 24, Top = 24, Width = 240, Height = 30, ShowCaptions = true },
+    container = true,
+    toolBar = true,
+  },
+
+  ToolButton = {
+    category = "Containers", icon = "ToolButton",
+    defaults = { Left = 0, Top = 0, Width = 60, Height = 24, Caption = "$name", ImageIndex = -1 },
+    toolButton = true,
+    noDesignerMove = true,
+    noDesignerResize = true,
+  },
+
+  MainMenu = {
+    category = "Non-visual", icon = "MainMenu",
+    defaults = {},
+    nonVisual = true,
+    menu = true,
+  },
+
+  PopupMenu = {
+    category = "Non-visual", icon = "PopupMenu",
+    defaults = {},
+    nonVisual = true,
+    menu = true,
+  },
+
+  ImageList = {
+    category = "Non-visual", icon = "ImageList",
+    defaults = { Width = 16, Height = 16 },
+    nonVisual = true,
+    imageList = true,
+    imageListFiles = true,
+  },
+
+  ActionList = {
+    category = "Non-visual", icon = "ActionList",
+    defaults = {},
+    nonVisual = true,
+    actionList = true,
+  },
 }
 
 
@@ -184,30 +315,38 @@ M.categories = {
     items = {
       "Button", "SpeedButton", "BitBtn", "ToggleBox",
       "Label", "StaticText", "Edit", "SpinEdit", "FloatSpinEdit",
-      "DateEdit", "TimeEdit", "CheckBox", "RadioButton", "ComboBox", "Memo",
+      "DateEdit", "TimeEdit", "EditButton", "FileNameEdit", "DirectoryEdit",
+      "CalcEdit", "LabeledEdit", "MaskEdit", "ColorButton",
+      "CheckBox", "RadioButton", "ComboBox", "Memo",
     },
   },
   {
     name = "Containers", title = "Containers", icon = "Panel",
-    items = { "Panel", "GroupBox", "ScrollBox", "RadioGroup", "Splitter" },
+    items = { "Panel", "GroupBox", "ScrollBox", "RadioGroup", "PageControl", "TabSheet", "ToolBar", "ToolButton", "Splitter" },
   },
   {
     name = "Lists / Data", title = "Lists / Data", icon = "ListView",
-    items = { "ListBox", "TreeView", "ListView", "StringGrid" },
+    items = { "ListBox", "CheckListBox", "CheckGroup", "TreeView", "ListView", "StringGrid", "ValueListEditor" },
   },
   {
     name = "Visual", title = "Visual", icon = "Image",
-    items = { "ProgressBar", "TrackBar", "Shape", "Image", "PaintBox" },
+    items = { "ProgressBar", "TrackBar", "Shape", "Bevel", "Image", "PaintBox", "StatusBar" },
+  },
+  {
+    name = "Non-visual", title = "Non-visual", icon = "ImageList",
+    items = { "ImageList", "ActionList", "MainMenu", "PopupMenu" },
   },
 }
 
 M.order = {
   "Button", "SpeedButton", "BitBtn", "ToggleBox",
   "Label", "StaticText", "Edit", "SpinEdit", "FloatSpinEdit", "DateEdit", "TimeEdit",
+  "EditButton", "FileNameEdit", "DirectoryEdit", "CalcEdit", "LabeledEdit", "MaskEdit", "ColorButton",
   "CheckBox", "RadioButton", "RadioGroup",
-  "Memo", "ComboBox", "ListBox", "StringGrid", "TreeView", "ListView",
-  "Panel", "GroupBox", "ScrollBox", "Splitter",
+  "Memo", "ComboBox", "ListBox", "CheckListBox", "CheckGroup", "StringGrid", "ValueListEditor", "TreeView", "ListView",
+  "Panel", "GroupBox", "ScrollBox", "PageControl", "TabSheet", "ToolBar", "ToolButton", "Splitter",
   "ProgressBar", "TrackBar", "Shape", "Image", "PaintBox",
+  "ImageList", "ActionList", "MainMenu", "PopupMenu",
 }
 
 function M.get(className)
@@ -228,9 +367,11 @@ end
 
 local inheritColorClasses = {
   Label = true, StaticText = true, Edit = true, Memo = true,
-  CheckBox = true, RadioButton = true, RadioGroup = true,
-  ComboBox = true, ListBox = true, TreeView = true, ListView = true, StringGrid = true,
-  Panel = true, GroupBox = true, ScrollBox = true,
+  SpinEdit = true, FloatSpinEdit = true, DateEdit = true, TimeEdit = true,
+  EditButton = true, FileNameEdit = true, DirectoryEdit = true, CalcEdit = true, LabeledEdit = true, MaskEdit = true,
+  CheckBox = true, RadioButton = true, RadioGroup = true, CheckGroup = true, CheckListBox = true,
+  ComboBox = true, ListBox = true, TreeView = true, ListView = true, StringGrid = true, ValueListEditor = true,
+  Panel = true, GroupBox = true, ScrollBox = true, PageControl = true, TabSheet = true, ToolBar = true, StatusBar = true,
 }
 
 function M.inheritsThemeColor(className)
@@ -259,12 +400,86 @@ function M.isContainer(className)
   return def and def.container and true or false
 end
 
+function M.isPageControl(className)
+  local def = M.classes[className]
+  return def and def.pageControl and true or false
+end
+
+function M.isTabSheet(className)
+  local def = M.classes[className]
+  return def and def.tabSheet and true or false
+end
+
+function M.isToolBar(className)
+  local def = M.classes[className]
+  return def and def.toolBar and true or false
+end
+
+function M.isToolButton(className)
+  local def = M.classes[className]
+  return def and def.toolButton and true or false
+end
+
+function M.isNonVisual(className)
+  local def = M.classes[className]
+  return def and def.nonVisual and true or false
+end
+
+function M.isImageList(className)
+  local def = M.classes[className]
+  return def and def.imageList and true or false
+end
+
+function M.isActionList(className)
+  local def = M.classes[className]
+  return def and def.actionList and true or false
+end
+
+function M.componentRefProps(className)
+  local refs = {}
+  local def = M.classes[className]
+
+  if not (def and def.nonVisual) then
+    refs.PopupMenu = "PopupMenu"
+  end
+  if className == "Form" then
+    refs.Menu = "MainMenu"
+  elseif className == "ToolBar" then
+    refs.Images = "ImageList"
+    refs.DisabledImages = "ImageList"
+    refs.HotImages = "ImageList"
+  elseif className == "SpeedButton" or className == "BitBtn" then
+    refs.Images = "ImageList"
+  elseif className == "PageControl" then
+    refs.Images = "ImageList"
+  elseif className == "TreeView" then
+    refs.Images = "ImageList"
+    refs.StateImages = "ImageList"
+  elseif className == "ListView" then
+    refs.SmallImages = "ImageList"
+    refs.LargeImages = "ImageList"
+    refs.StateImages = "ImageList"
+  elseif className == "MainMenu" or className == "PopupMenu" then
+    refs.Images = "ImageList"
+  elseif className == "ActionList" then
+    refs.Images = "ImageList"
+  end
+
+  return next(refs) and refs or nil
+end
+
+function M.imageListFilesProperty(className)
+  local def = M.classes[className]
+  return def and def.imageListFiles and "Images" or nil
+end
+
 function M.isTabOrderable(className)
   local def = M.classes[className]
   if def and def.tabOrderable ~= nil then return def.tabOrderable and true or false end
   local no = {
-    Label = true, StaticText = true, Shape = true, Image = true, PaintBox = true,
-    ProgressBar = true, TrackBar = true, Form = true,
+    Label = true, StaticText = true, SpeedButton = true, Shape = true, Image = true, PaintBox = true, Bevel = true,
+    ProgressBar = true, TrackBar = true, StatusBar = true, Splitter = true, ToolButton = true,
+    ImageList = true, ActionList = true, MainMenu = true, PopupMenu = true, Form = true,
   }
   return not no[className]
 end

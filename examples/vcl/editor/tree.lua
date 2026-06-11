@@ -11,7 +11,9 @@ local nodeByIndex = {}
 local treeNodeByModel = {}
 local onSelect = nil
 local onDrop = nil
+local onDblClick = nil
 local iconIndexFor = nil
+local dragSourceTreeNode = nil
 
 local function setIcon(tn, modelNode)
   if not tn or not iconIndexFor or not modelNode then return end
@@ -42,38 +44,72 @@ function M.init(aTree, selectCallback, dropCallback, opts)
   onSelect = selectCallback
   onDrop = dropCallback
   opts = opts or {}
+  onDblClick = opts.onDblClick
   iconIndexFor = opts.iconIndexFor
 
   pcall(function() tree.DragMode = "dmAutomatic" end)
+
+  local function isOwnTreeSource(sender, source)
+    if not source then return false end
+    if source == tree or source == sender then return true end
+    local ok, same = pcall(function() return source.Handle == tree.Handle end)
+    return ok and same or false
+  end
+
+  local function modelNodeFromTreeNode(tn)
+    if not tn then return nil end
+    return nodeByIndex[tn.AbsoluteIndex]
+  end
+
+  local function sourceTreeNode(sender, source)
+    -- Returns the tree node currently being dragged.
+    if dragSourceTreeNode then return dragSourceTreeNode end
+    if source then
+      local ok, selected = pcall(function() return source.Selected end)
+      if ok and selected then return selected end
+    end
+    local ok, selected = pcall(function() return sender.Selected end)
+    if ok then return selected end
+    return nil
+  end
+
+  tree.OnMouseDown = function(sender, button, shift, x, y)
+    dragSourceTreeNode = sender:GetNodeAt(x, y)
+  end
+
   tree.OnClick = function(sender)
     local tn = sender.Selected
     if tn and onSelect then
-      onSelect(nodeByIndex[tn.AbsoluteIndex])
+      onSelect(modelNodeFromTreeNode(tn))
+    end
+  end
+
+  tree.OnDblClick = function(sender)
+    local tn = sender.Selected
+    if tn and onDblClick then
+      onDblClick(modelNodeFromTreeNode(tn))
     end
   end
 
   tree.OnDragOver = function(sender, source, x, y, state)
-    if not onDrop or not source then return false end
-    local ok, same = pcall(function() return source.Handle == tree.Handle end)
-    if not ok or not same then return false end
-    local srcTreeNode = source.Selected
+    if not onDrop or not isOwnTreeSource(sender, source) then return false end
+    local srcTreeNode = sourceTreeNode(sender, source)
     local dstTreeNode = sender:GetNodeAt(x, y)
     if not srcTreeNode or not dstTreeNode then return false end
-    local srcNode = nodeByIndex[srcTreeNode.AbsoluteIndex]
-    local dstNode = nodeByIndex[dstTreeNode.AbsoluteIndex]
+    local srcNode = modelNodeFromTreeNode(srcTreeNode)
+    local dstNode = modelNodeFromTreeNode(dstTreeNode)
     if not srcNode or not dstNode then return false end
     return onDrop("can", srcNode, dstNode) and true or false
   end
 
   tree.OnDragDrop = function(sender, source, x, y)
-    if not onDrop or not source then return end
-    local ok, same = pcall(function() return source.Handle == tree.Handle end)
-    if not ok or not same then return end
-    local srcTreeNode = source.Selected
+    if not onDrop or not isOwnTreeSource(sender, source) then return end
+    local srcTreeNode = sourceTreeNode(sender, source)
     local dstTreeNode = sender:GetNodeAt(x, y)
+    dragSourceTreeNode = nil
     if not srcTreeNode or not dstTreeNode then return end
-    local srcNode = nodeByIndex[srcTreeNode.AbsoluteIndex]
-    local dstNode = nodeByIndex[dstTreeNode.AbsoluteIndex]
+    local srcNode = modelNodeFromTreeNode(srcTreeNode)
+    local dstNode = modelNodeFromTreeNode(dstTreeNode)
     if srcNode and dstNode then
       onDrop("drop", srcNode, dstNode)
     end
